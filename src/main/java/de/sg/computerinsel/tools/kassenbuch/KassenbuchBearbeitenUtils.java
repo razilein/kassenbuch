@@ -20,30 +20,50 @@ import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
  * @author Sita Geßner
  */
 public final class KassenbuchBearbeitenUtils {
-	
+
 	private final static Logger LOGGER = LoggerFactory.getLogger(KassenbuchBearbeitenUtils.class);
-	
+
 	private KassenbuchBearbeitenUtils() {
 	}
-
-	public static File addKassenbuchEintrag(final String filePath, final String verwendungstext, final Date datum, final BigDecimal betrag) {
+	
+	public static File addKassenbuchEintrag(final String filePath, final String verwendungstext, final Date datum, final BigDecimal betrag,
+	        final boolean isNegative) {
 		final List<Rechnung> rechnungen = readRechnungenFromCsvFile(filePath);
-		rechnungen.add(createNeueEintragung(verwendungstext, datum, betrag));
+		rechnungen.add(createNeueEintragung(verwendungstext, datum, betrag, isNegative));
 		final Rechnung ausgangsRechnung = rechnungen.get(0);
 		rechnungen.remove(0);
 		final File csvFile = KassenbuchErstellenUtils.createCsv(rechnungen, ausgangsRechnung,
-				filePath.substring(0, filePath.lastIndexOf(File.separator)));
+		        filePath.substring(0, filePath.lastIndexOf(File.separator)));
 		KassenbuchErstellenUtils.createPdf(rechnungen, ausgangsRechnung, filePath.substring(0, filePath.lastIndexOf(File.separator)));
 		return csvFile;
 	}
-
-	private static Rechnung createNeueEintragung(final String verwendungstext, final Date datum, final BigDecimal betrag) {
+	
+	private static Rechnung createNeueEintragung(final String verwendungstext, final Date datum, final BigDecimal betrag,
+			final boolean isNegative) {
 		final Rechnung rechnung = new Rechnung();
-		rechnung.setRechnungsbetrag(betrag);
+		rechnung.setRechnungsbetrag(getBetrag(betrag, isNegative));
 		rechnung.setRechnungsdatum(datum);
 		rechnung.setRechnungsnummer(verwendungstext);
 		LOGGER.info("Eintrag  hinzugefügt: {}", rechnung);
 		return rechnung;
+	}
+	
+	/**
+	 * Wenn der Radiobutton <code>-</code> gesetzt wurde, muss der Betrag negativ sein werden.<br>
+	 * Wenn der Radiobutton <code>+</code> gesetzt wurde, muss der Betrag positiv sein werden.
+	 *
+	 * @param betrag
+	 * @param isNegative
+	 * @return BigDecimal
+	 */
+	private static BigDecimal getBetrag(final BigDecimal betrag, final boolean isNegative) {
+		BigDecimal result = betrag;
+		final boolean isBetragPositiv = BigDecimal.ZERO.compareTo(betrag) < 0;
+		final boolean isBetragNegativ = BigDecimal.ZERO.compareTo(betrag) > 0;
+		if (isBetragPositiv && isNegative || isBetragNegativ && !isNegative) {
+			result = result.multiply(new BigDecimal("-1"));
+		}
+		return result;
 	}
 
 	private static List<Rechnung> readRechnungenFromCsvFile(final String filePath) {
@@ -52,16 +72,16 @@ public final class KassenbuchBearbeitenUtils {
 		try (final BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 			String line = "";
 			while ((line = br.readLine()) != null) {
-				
+
 				items = line.split(";");
-				
+
 				if (items.length == 3) {
 					if (items[1].contains("Gesamtbetrag") && StringUtils.isBlank(items[0])) {
 						LOGGER.info("Gesamtbetrag der Datei {}: {}", filePath, items[2]);
 					} else {
 						final Rechnung rechnung = new Rechnung();
 						rechnung.setRechnungsdatum(StringUtils.isNotBlank(items[0]) ? KassenbuchErstellenUtils.DATE_FORMAT.parse(items[0])
-								: null);
+						        : null);
 						rechnung.setRechnungsnummer(StringUtils.replace(items[1], "Rechnung: ", ""));
 						rechnung.setRechnungsbetrag(new BigDecimal(normalizeCurrencyValue(items[2])));
 						rechnungen.add(rechnung);
@@ -80,7 +100,7 @@ public final class KassenbuchBearbeitenUtils {
 		}
 		return rechnungen;
 	}
-
+	
 	public static String normalizeCurrencyValue(final String value) {
 		return StringUtils.replaceEach(value, new String[] { "€", "EUR", "," }, new String[] { "", "", "." }).trim();
 	}

@@ -9,12 +9,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
@@ -59,6 +61,10 @@ public class KassenbuchGUI {
 
 	private final JTextField verwendungszweck = new JTextField(50);
 	
+	private final JRadioButton eintragungsArtEingang = new JRadioButton("+");
+	
+	private final JRadioButton eintragungsArtAusgang = new JRadioButton("-", true);
+	
 	public void create(final JFrame main) {
 		this.main = main;
 		
@@ -80,21 +86,27 @@ public class KassenbuchGUI {
 
 		final GroupLayout layout = new GroupLayout(panel);
 		layout.setAutoCreateGaps(true);
+		
+		final ButtonGroup eintragungsArt = new ButtonGroup();
+		eintragungsArt.add(eintragungsArtAusgang);
+		eintragungsArt.add(eintragungsArtEingang);
+		
 		layout.setHorizontalGroup(layout
-		        .createSequentialGroup()
-		        .addComponent(new JLabel("Zu bearbeitende CSV-Datei (mit Dateipfad)"))
-		        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(dateiPfad))
-		        .addComponent(new JLabel("Verwendungszweck"))
-		        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(verwendungszweck))
-		        .addGroup(
-		                layout.createSequentialGroup()
-		                        .addGroup(
-		                                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-		                                        .addComponent(new JLabel("Eintragungsdatum")).addComponent(eintragungsDatum))
-		                        .addGroup(
-		                                layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(new JLabel("Betrag"))
-		                                        .addComponent(eintragungsBetrag)))
-		        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(btnStart)));
+				.createSequentialGroup()
+				.addComponent(new JLabel("Zu bearbeitende CSV-Datei (mit Dateipfad)"))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(dateiPfad))
+				.addComponent(new JLabel("Verwendungszweck"))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(verwendungszweck))
+				.addGroup(
+						layout.createSequentialGroup()
+						.addGroup(
+								layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+								.addComponent(new JLabel("Eintragungsdatum")).addComponent(eintragungsDatum))
+								.addGroup(
+										layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(new JLabel("Betrag"))
+										.addComponent(eintragungsArtAusgang).addComponent(eintragungsArtEingang)
+										.addComponent(eintragungsBetrag)))
+										.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(btnStart)));
 		
 		return panel;
 	}
@@ -128,7 +140,8 @@ public class KassenbuchGUI {
 
 				if (validParameters) {
 					LOGGER.info("Kassenbuch-Bearbeitung gestartet.");
-					final File csvFile = KassenbuchBearbeitenUtils.addKassenbuchEintrag(filePath, verwendungszweck.getText(), date, betrag);
+					final File csvFile = KassenbuchBearbeitenUtils.addKassenbuchEintrag(filePath, verwendungszweck.getText(), date, betrag,
+					        eintragungsArtAusgang.isSelected() && !eintragungsArtEingang.isSelected());
 					dateiPfad.setText(csvFile.getAbsolutePath());
 					SettingsUtils.setPropertyLastCsvFile(csvFile.getAbsolutePath());
 					LOGGER.info("Kassenbuch-Bearbeitung beendet.");
