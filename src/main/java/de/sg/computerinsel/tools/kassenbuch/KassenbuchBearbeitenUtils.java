@@ -21,7 +21,15 @@ import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
  */
 public final class KassenbuchBearbeitenUtils {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(KassenbuchBearbeitenUtils.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(KassenbuchBearbeitenUtils.class);
+
+	private static final int INDEX_LINE_DATE = 0;
+
+	private static final int INDEX_LINE_ART = 1;
+
+	private static final int INDEX_LINE_SUM = 4;
+	
+	private static final int MAX_LENGTH_LINE = 5;
 
 	private KassenbuchBearbeitenUtils() {
 	}
@@ -75,30 +83,40 @@ public final class KassenbuchBearbeitenUtils {
 
 				items = line.split(";");
 
-				if (items.length == 3) {
-					if (items[1].contains("Gesamtbetrag") && StringUtils.isBlank(items[0])) {
-						LOGGER.info("Gesamtbetrag der Datei {}: {}", filePath, items[2]);
+				if (items.length == MAX_LENGTH_LINE) {
+					if (items[INDEX_LINE_ART].contains("Gesamtbetrag") || items[INDEX_LINE_ART].contains("Ausgangsbetrag")) {
+						LOGGER.info("Gesamtbetrag vom {}: {}", items[INDEX_LINE_DATE], items[INDEX_LINE_SUM]);
+						continue;
 					} else {
 						final Rechnung rechnung = new Rechnung();
-						rechnung.setRechnungsdatum(StringUtils.isNotBlank(items[0]) ? KassenbuchErstellenUtils.DATE_FORMAT.parse(items[0])
-						        : null);
-						rechnung.setRechnungsnummer(StringUtils.replace(items[1], "Rechnung: ", ""));
-						rechnung.setRechnungsbetrag(new BigDecimal(normalizeCurrencyValue(items[2])));
+						rechnung.setRechnungsdatum(StringUtils.isNotBlank(items[INDEX_LINE_DATE]) ? KassenbuchErstellenUtils.DATE_FORMAT
+						        .parse(items[INDEX_LINE_DATE]) : null);
+						rechnung.setRechnungsnummer(StringUtils.replace(items[INDEX_LINE_ART], "Rechnung: ", ""));
+						rechnung.setRechnungsbetrag(new BigDecimal(normalizeCurrencyValue(extractBetrag(items))));
 						rechnungen.add(rechnung);
 						LOGGER.info("Erfolgreich eingelesene Rechnung: {}", rechnung);
 					}
 				} else {
-					LOGGER.info("Ungültige Zeile beim Auslesen der CSV-Datei gefunden: {}. Zeile wurde ignoriert.", items.toString());
+					String ungueltigeZeile = StringUtils.EMPTY;
+					for (final String item : items) {
+						ungueltigeZeile += item + "; ";
+					}
+					LOGGER.info("Ungültige Zeile beim Auslesen der CSV-Datei gefunden: {}. Zeile wurde ignoriert.", ungueltigeZeile);
 				}
 			}
 		} catch (final IOException e) {
 			LOGGER.error("Fehler beim Lesen der Datei {}, {}", filePath, e.getMessage());
 		} catch (final ParseException e) {
-			LOGGER.error("Rechnungsdatum: '{}' kann nicht geparst werden: {} ", items == null ? null : items[0], e.getMessage());
+			LOGGER.error("Rechnungsdatum: '{}' kann nicht geparst werden: {} ", items == null ? null : items[INDEX_LINE_DATE],
+					e.getMessage());
 		} catch (final NumberFormatException e) {
-			LOGGER.error("Fehler beim Lesen des Rechnungsbetrages: {}", items == null ? null : items[2], e.getMessage());
+			LOGGER.error("Fehler beim Lesen des Rechnungsbetrages: {}", items == null ? null : extractBetrag(items), e.getMessage());
 		}
 		return rechnungen;
+	}
+
+	private static String extractBetrag(final String[] items) {
+		return items[2] == null || StringUtils.isBlank(items[2]) ? items[3] : items[2];
 	}
 	
 	public static String normalizeCurrencyValue(final String value) {
