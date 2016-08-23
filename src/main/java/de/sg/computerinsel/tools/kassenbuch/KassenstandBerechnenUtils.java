@@ -25,95 +25,97 @@ import de.sg.computerinsel.tools.kassenbuch.model.Kassenbestand;
  * @author Sita Geßner
  */
 public final class KassenstandBerechnenUtils {
-	
-	public static final String STANDARD_VALUE_BERECHNEN = "0";
-	
-	private final static Logger LOGGER = LoggerFactory.getLogger(KassenstandBerechnenUtils.class);
 
-	private static final NumberFormat NF = NumberFormat.getInstance(Locale.GERMAN);
+	public static final String STANDARD_VALUE_BERECHNEN = "0";
+
+	private final static Logger LOGGER = LoggerFactory.getLogger(KassenstandBerechnenUtils.class);
 	
+	private static final NumberFormat NF = NumberFormat.getInstance(Locale.GERMAN);
+
 	private KassenstandBerechnenUtils() {
 	}
-	
+
 	public static String berechneErgebnis(final String anzahl, final BigDecimal multiplier) {
 		return NumberUtils.isNumber(anzahl) ? getFormattedBetrag(multiplier.multiply(new BigDecimal(anzahl))) : STANDARD_VALUE_BERECHNEN;
 	}
-
+	
 	public static String getNormalizedAnzahl(final String anzahl) {
 		final String normalizedAnzahl = StringUtils.isNotBlank(anzahl) ? StringUtils.stripStart(anzahl.replaceAll("[\\D]", ""), "0")
-				: anzahl;
+		        : anzahl;
 		return StringUtils.isBlank(normalizedAnzahl) ? STANDARD_VALUE_BERECHNEN : normalizedAnzahl;
 	}
-	
+
 	public static String berechneGesamtergebnis(final Kassenbestand bestand) {
 		final BigDecimal result = getBetrag(bestand.getErgebnisScheine500().getText())
-		        .add(getBetrag(bestand.getErgebnisScheine200().getText())).add(getBetrag(bestand.getErgebnisScheine100().getText()))
-				.add(getBetrag(bestand.getErgebnisScheine50().getText())).add(getBetrag(bestand.getErgebnisScheine20().getText()))
-				.add(getBetrag(bestand.getErgebnisScheine10().getText())).add(getBetrag(bestand.getErgebnisScheine5().getText()))
-				.add(getBetrag(bestand.getErgebnisMuenzen2().getText())).add(getBetrag(bestand.getErgebnisMuenzen1().getText()))
-				.add(getBetrag(bestand.getErgebnisMuenzen50().getText())).add(getBetrag(bestand.getErgebnisMuenzen20().getText()))
-				.add(getBetrag(bestand.getErgebnisMuenzen10().getText())).add(getBetrag(bestand.getErgebnisMuenzen5().getText()))
-		        .add(getBetrag(bestand.getErgebnisMuenzen2Cent().getText())).add(getBetrag(bestand.getErgebnisMuenzen1Cent().getText()));
+				.add(getBetrag(bestand.getErgebnisScheine200().getText())).add(getBetrag(bestand.getErgebnisScheine100().getText()))
+		        .add(getBetrag(bestand.getErgebnisScheine50().getText())).add(getBetrag(bestand.getErgebnisScheine20().getText()))
+		        .add(getBetrag(bestand.getErgebnisScheine10().getText())).add(getBetrag(bestand.getErgebnisScheine5().getText()))
+		        .add(getBetrag(bestand.getErgebnisMuenzen2().getText())).add(getBetrag(bestand.getErgebnisMuenzen1().getText()))
+		        .add(getBetrag(bestand.getErgebnisMuenzen50().getText())).add(getBetrag(bestand.getErgebnisMuenzen20().getText()))
+		        .add(getBetrag(bestand.getErgebnisMuenzen10().getText())).add(getBetrag(bestand.getErgebnisMuenzen5().getText()))
+				.add(getBetrag(bestand.getErgebnisMuenzen2Cent().getText())).add(getBetrag(bestand.getErgebnisMuenzen1Cent().getText()));
 		return getFormattedBetrag(result);
 	}
-
+	
 	public static String berechneDifferenz(final String kassenstand, final String kassenbuchStand) {
 		return getFormattedBetrag(getBetrag(kassenstand).subtract(getBetrag(kassenbuchStand)));
 	}
-	
+
 	public static String getGesamtbetragKassenbuch(final String dateipfad, final String ablageverzeichnis) {
 		BigDecimal result = BigDecimal.ZERO;
-		if (StringUtils.isNotBlank(dateipfad)) {
+		if (StringUtils.isNotBlank(dateipfad) && new File(dateipfad).exists()) {
 			result = getGesamtbetragByKassenbuchCsv(dateipfad);
-		} else if (StringUtils.isNotBlank(ablageverzeichnis)) {
+		} else if (StringUtils.isNotBlank(ablageverzeichnis) && new File(ablageverzeichnis).exists()) {
 			result = getGesamtbetragByKassenbuchCsv(getNeustesKassenbuch(ablageverzeichnis));
 		} else {
 			throw new IllegalStateException(
-			        "Bitte unter 'Kassenbuch erstellen' ein Ablageverzeichnis oder unte 'Kassenbuch editieren' eine zu bearbeitende CSV-Datei hinterlegen.");
+					"Bitte unter 'Kassenbuch erstellen' ein Ablageverzeichnis oder unter 'Kassenbuch editieren' eine zu bearbeitende CSV-Datei hinterlegen.");
 		}
 		return getFormattedBetrag(result);
 	}
-
+	
 	private static BigDecimal getGesamtbetragByKassenbuchCsv(final String dateipfad) {
 		BigDecimal result = BigDecimal.ZERO;
 		if (StringUtils.isNotBlank(dateipfad) && new File(dateipfad).exists()) {
 			String[] items = null;
 			try (final BufferedReader br = new BufferedReader(new FileReader(dateipfad))) {
 				String line = "";
+				String betrag = StringUtils.EMPTY;
 				while ((line = br.readLine()) != null) {
 					items = line.split(";");
-					if (items.length == 3 && items[1].contains("Gesamtbetrag") && StringUtils.isBlank(items[0])) {
-						result = getBetrag(items[2]);
-						break;
+					if (items.length == KassenbuchBearbeitenUtils.MAX_LENGTH_LINE
+							&& items[KassenbuchBearbeitenUtils.INDEX_LINE_ART].contains("Gesamtbetrag")) {
+						betrag = items[KassenbuchBearbeitenUtils.INDEX_LINE_SUM];
 					}
 				}
+				result = getBetrag(betrag);
 			} catch (final IOException e) {
 				LOGGER.error("Fehler beim Lesen der Datei {}, {}", dateipfad, e.getMessage());
 			}
 		}
 		return result;
 	}
-
+	
 	private static String getNeustesKassenbuch(final String ablageverzeichnis) {
 		File neusteDatei = null;
 		final File dir = new File(ablageverzeichnis);
 		final File[] files = dir.listFiles(new FileFilter() {
-			
+
 			@Override
 			public boolean accept(final File file) {
 				return file.isFile() && FilenameUtils.isExtension(file.getName(), "csv");
 			}
-
+			
 		});
-		
+
 		if (files.length > 0) {
 			Arrays.sort(files, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
 			neusteDatei = files[0];
 		}
-		
+
 		return neusteDatei == null ? null : neusteDatei.getAbsolutePath();
 	}
-	
+
 	private static BigDecimal getBetrag(final String ergebnis) {
 		BigDecimal result = BigDecimal.ZERO;
 		if (ergebnis != null) {
@@ -125,10 +127,10 @@ public final class KassenstandBerechnenUtils {
 		}
 		return result;
 	}
-
+	
 	public static String getFormattedBetrag(final BigDecimal betrag) {
 		final DecimalFormat formatter = new DecimalFormat("##,##0.00");
 		return formatter.format(betrag);
 	}
-	
+
 }

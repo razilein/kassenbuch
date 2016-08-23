@@ -197,27 +197,29 @@ public final class KassenbuchErstellenUtils {
 		try {
 			final FileWriter writer = new FileWriter(csvFile.getAbsoluteFile());
 			BigDecimal gesamtBetrag = BigDecimal.ZERO;
+			BigDecimal gesamtEingang = BigDecimal.ZERO;
+			BigDecimal gesamtAusgang = BigDecimal.ZERO;
 			Date rechnungsdatum = null;
 			for (final Rechnung rechnung : rechnungen) {
 				if (rechnungsdatum != null && !rechnungsdatum.equals(rechnung.getRechnungsdatum())) {
 					writer.append("\r\n");
-					writer.append(KassenbuchErstellenUtils.DATE_FORMAT.format(rechnungsdatum));
-					writer.append(";Gesamtbetrag;;;");
 					final String betrag = BETRAG_FORMAT.format(gesamtBetrag);
-					writer.append(betrag);
-					writer.append("\r\n\r\n");
-					writer.append(KassenbuchErstellenUtils.DATE_FORMAT.format(rechnung.getRechnungsdatum()));
-					writer.append(";Ausgangsbetrag;;;");
-					writer.append(betrag);
+					writeCsvLine(writer, rechnungsdatum, "Gesamtbetrag", gesamtEingang, gesamtAusgang, betrag);
 					writer.append("\r\n");
+					writeCsvLine(writer, rechnung.getRechnungsdatum(), "Ausgangsbetrag", gesamtEingang, gesamtAusgang, betrag);
 				}
 				gesamtBetrag = gesamtBetrag.add(rechnung.getRechnungsbetrag());
+				final String formattedRechnungsbetrag = BETRAG_FORMAT.format(rechnung.getRechnungsbetrag());
+				gesamtEingang = isEingangssbetrag(formattedRechnungsbetrag) ? gesamtEingang.add(rechnung.getRechnungsbetrag())
+						: gesamtEingang;
+				gesamtAusgang = isAusgangsbetrag(formattedRechnungsbetrag) ? gesamtAusgang.add(rechnung.getRechnungsbetrag())
+						: gesamtAusgang;
+				
 				writer.append(rechnung.toCsvString(gesamtBetrag));
 				rechnungsdatum = rechnung.getRechnungsdatum();
 			}
 			writer.append("\r\n");
-			writer.append(";Gesamtbetrag;;;");
-			writer.append(BETRAG_FORMAT.format(gesamtBetrag));
+			writeCsvLine(writer, null, "Gesamtbetrag", gesamtEingang, gesamtAusgang, BETRAG_FORMAT.format(gesamtBetrag));
 			writer.flush();
 			writer.close();
 			LOGGER.info("CSV-Datei {} erfolgreich unter {} gespeichert.", csvFile.getName(), ablageverzeichnis);
@@ -225,6 +227,20 @@ public final class KassenbuchErstellenUtils {
 			LOGGER.error("Fehler beim Schreiben der CSV-Datei {}: {}", csvFile.getName(), e.getMessage());
 		}
 		return csvFile;
+	}
+	
+	private static void writeCsvLine(final FileWriter writer, final Date rechnungsdatum, final String verwendungszweck,
+			final BigDecimal gesamtEingang, final BigDecimal gesamtAusgang, final String betrag) throws IOException {
+		writer.append(rechnungsdatum == null ? StringUtils.EMPTY : DATE_FORMAT.format(rechnungsdatum));
+		writer.append(";");
+		writer.append(verwendungszweck);
+		writer.append(";");
+		writer.append(BETRAG_FORMAT.format(gesamtEingang));
+		writer.append(";");
+		writer.append(BETRAG_FORMAT.format(gesamtAusgang));
+		writer.append(";");
+		writer.append(betrag);
+		writer.append("\r\n");
 	}
 
 	private static Comparator<Rechnung> rechnungComparator() {
