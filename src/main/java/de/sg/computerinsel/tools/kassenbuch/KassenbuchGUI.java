@@ -9,14 +9,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -253,18 +251,7 @@ public class KassenbuchGUI {
 	}
 	
 	private Component getMoneyPictureAsComponent(final String filename) {
-		JLabel picLabel;
-		try {
-			final File file = new File("src" + File.separator + "main" + File.separator + "resources" + File.separator
-					+ this.getClass().getPackage().getName().replace(".", File.separator) + File.separator + "pictures" + File.separator
-					+ filename + ".jpg");
-			final ImageIcon imageIcon = new ImageIcon(ImageIO.read(file));
-			picLabel = new JLabel(imageIcon);
-		} catch (final IOException e) {
-			LOGGER.error(e.getMessage(), e);
-			picLabel = new JLabel();
-		}
-		return picLabel;
+		return new JLabel(new ImageIcon(getClass().getResource("pictures/" + filename + ".jpg")));
 	}
 	
 	private JPanel createPanelKassenbuchEditieren() {
