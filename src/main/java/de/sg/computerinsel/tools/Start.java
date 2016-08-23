@@ -5,12 +5,7 @@ import javax.swing.JFrame;
 import de.sg.computerinsel.tools.kassenbuch.KassenbuchGUI;
 
 /**
- * @author Sita Geßner TODO: <br>
- *         - Tagessumme in neuer Zeile abbilden mit Leerzeile dazwischen <br>
- *         - Einnahmen und Ausgaben trennen <br>
- *         - Nummerische Sortierung der Rechnungsnummern (nicht String-Sortierung)<br>
- *         - Anfangsbestand für nächsten Tag eintragen - Einnahmen, Ausgaben trennen - Kassenrechner (Anzahl Scheine, Münzen und
- *         Differenzbetrag zu Kassenbuch ermitteln)
+ * @author Sita Geßner
  */
 public class Start {
 	
