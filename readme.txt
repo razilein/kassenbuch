@@ -56,6 +56,9 @@ Durch Bestätigen der "Einstellungen speichern"-Schaltfläche, werden die Einste
 ****************************
 V 1.0.1:
 
+** 5 - Farbe Tabellenkopf in PDF-Datei anpassen **
+- Es wurde für den Tabellenkopf in den PDF-Dateien nun ein hellerer Grauton gewählt.
+
 ** 7 - Icon für Programm hinzufügen **
 - Für das Programm wurde ein Kassenicon hinzugefügt.
 
