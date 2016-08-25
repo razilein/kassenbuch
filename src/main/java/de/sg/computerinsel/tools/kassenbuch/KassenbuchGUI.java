@@ -83,8 +83,9 @@ public class KassenbuchGUI {
 
 	public void create(final JFrame main) {
 		this.main = main;
-		main.setTitle("Kassenbuchprogramm V1.0.0 © Sita Geßner");
-		
+		main.setIconImage(new ImageIcon(getClass().getResource("pictures/kasse.png")).getImage());
+		main.setTitle("Kassenbuchprogramm V1.0.1-SNAPSHOT © Sita Geßner");
+
 		final JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.addTab("Kassenbuch erstellen", createPanelKassenbuchErstellen());
 		tabbedPane.addTab("Kassenbuch editieren", createPanelKassenbuchEditieren());

@@ -49,3 +49,12 @@ Farbliche Bedeutung der Differenz:
 ****************************
 Hier muss das Ablageverzeichnis für erstellte Kassenbüche, sowie das Rechnungsverzeichnis in dem sich alle Rechnungen befinden angegeben werden.
 Durch Bestätigen der "Einstellungen speichern"-Schaltfläche, werden die Einstellungen in der Datei config.properties gesichert.
+
+
+****************************
+* 4. Releasenotes          *
+****************************
+V 1.0.1:
+
+** 7 - Icon für Programm hinzufügen **
+- Für das Programm wurde ein Kassenicon hinzugefügt
