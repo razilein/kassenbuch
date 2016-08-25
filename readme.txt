@@ -59,6 +59,9 @@ V 1.0.1:
 ** 5 - Farbe Tabellenkopf in PDF-Datei anpassen **
 - Es wurde für den Tabellenkopf in den PDF-Dateien nun ein hellerer Grauton gewählt.
 
+** 6 - Timestamp im Dateinamen von CSV und PDF anpassen **
+- Der Timestamp im Dateinamen ist nun, um die Sortierbarkeit zu verbessern, in folgendem Format: yyyy-MM-dd_HH-mm-ss
+
 ** 7 - Icon für Programm hinzufügen **
 - Für das Programm wurde ein Kassenicon hinzugefügt.
 
