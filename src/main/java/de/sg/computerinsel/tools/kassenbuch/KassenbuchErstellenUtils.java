@@ -358,7 +358,7 @@ public final class KassenbuchErstellenUtils {
 	private static PdfPCell createHeaderCell(final String title) {
 		final PdfPCell cell = new PdfPCell(new Phrase(title, TABLEHEADER_FONT));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		cell.setBackgroundColor(BaseColor.GRAY);
+		cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
 		return cell;
 	}
 	
