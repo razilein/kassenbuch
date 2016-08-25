@@ -252,7 +252,7 @@ public class KassenbuchGUI {
 	}
 	
 	private Component getMoneyPictureAsComponent(final String filename) {
-		return new JLabel(new ImageIcon(getClass().getResource("pictures/" + filename + ".jpg")));
+		return new JLabel(new ImageIcon(getClass().getResource("pictures/" + filename + ".png")));
 	}
 	
 	private JPanel createPanelKassenbuchEditieren() {

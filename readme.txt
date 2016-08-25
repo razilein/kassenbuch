@@ -57,4 +57,8 @@ Durch Bestätigen der "Einstellungen speichern"-Schaltfläche, werden die Einste
 V 1.0.1:
 
 ** 7 - Icon für Programm hinzufügen **
-- Für das Programm wurde ein Kassenicon hinzugefügt
+- Für das Programm wurde ein Kassenicon hinzugefügt.
+
+** 13 - Bilder für Münzen/Scheine überarbeiten **
+- Das Dateiformat für Bilder für Münzen wurden zu png geändert.
+- Für Münzen wird der Hintergrund nun transparent dargestellt.
