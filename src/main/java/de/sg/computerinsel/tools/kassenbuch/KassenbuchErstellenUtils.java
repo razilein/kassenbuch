@@ -48,6 +48,8 @@ public final class KassenbuchErstellenUtils {
 	private static final String FORMAT_DATUM = "dd.MM.yyyy";
 
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(FORMAT_DATUM);
+
+	private static final SimpleDateFormat DATE_FORMAT_FILES = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 	
 	private final static Logger LOGGER = LoggerFactory.getLogger(KassenbuchErstellenUtils.class);
 	
@@ -190,7 +192,7 @@ public final class KassenbuchErstellenUtils {
 	}
 
 	public static File createCsv(final List<Rechnung> files, final Rechnung ausgangsRechnung, final String ablageverzeichnis) {
-		final File csvFile = new File(ablageverzeichnis, new SimpleDateFormat(FORMAT_DATUM + "_HH-mm-ss").format(new Date()) + FILENAME_CSV);
+		final File csvFile = new File(ablageverzeichnis, DATE_FORMAT_FILES.format(new Date()) + FILENAME_CSV);
 		final List<Rechnung> rechnungen = new ArrayList<>(files);
 		Collections.sort(rechnungen, rechnungComparator());
 		rechnungen.add(0, ausgangsRechnung);
@@ -267,7 +269,7 @@ public final class KassenbuchErstellenUtils {
 	}
 	
 	public static File createPdf(final List<Rechnung> files, final Rechnung ausgangsRechnung, final String ablageverzeichnis) {
-		final File pdfFile = new File(ablageverzeichnis, new SimpleDateFormat(FORMAT_DATUM + "_HH-mm-ss").format(new Date()) + FILENAME_PDF);
+		final File pdfFile = new File(ablageverzeichnis, DATE_FORMAT_FILES.format(new Date()) + FILENAME_PDF);
 		final List<Rechnung> rechnungen = new ArrayList<>(files);
 		Collections.sort(rechnungen, rechnungComparator());
 		rechnungen.add(0, ausgangsRechnung);
