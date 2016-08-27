@@ -47,8 +47,8 @@ import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
  */
 public final class KassenbuchErstellenUtils {
 
-	private static final DecimalFormat BETRAG_FORMAT = new DecimalFormat("#,###,##0.00");
-	
+	public static final DecimalFormat BETRAG_FORMAT = new DecimalFormat("#,###,##0.00");
+	 
 	private static final String FORMAT_DATUM = "dd.MM.yyyy";
 
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(FORMAT_DATUM);
@@ -367,11 +367,11 @@ public final class KassenbuchErstellenUtils {
 		return cell;
 	}
 	
-	private static boolean isAusgangsbetrag(final String formattedRechnungsbetrag) {
+	static boolean isAusgangsbetrag(final String formattedRechnungsbetrag) {
 		return StringUtils.startsWith(formattedRechnungsbetrag, "-");
 	}
 	
-	private static boolean isEingangssbetrag(final String formattedRechnungsbetrag) {
+	static boolean isEingangssbetrag(final String formattedRechnungsbetrag) {
 		return !isAusgangsbetrag(formattedRechnungsbetrag);
 	}
 	
