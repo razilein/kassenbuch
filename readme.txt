@@ -56,6 +56,10 @@ Durch Bestätigen der "Einstellungen speichern"-Schaltfläche, werden die Einste
 ****************************
 V 1.0.1:
 
+** 1 - Kassenbuch erweitern um Feld "Ausgangsbetrag Datum" **
+- Das Datum für den Ausgangsbetrag kann nun gewählt werden (Standardmäßig ist dieses mit dem Tagesdatum vorbelegt)
+- Das Rechnungsdatum von wird nun ebenfalls mit dem Tagesdatum vorbelegt
+
 ** 5 - Farbe Tabellenkopf in PDF-Datei anpassen **
 - Es wurde für den Tabellenkopf in den PDF-Dateien nun ein hellerer Grauton gewählt.
 
@@ -64,6 +68,9 @@ V 1.0.1:
 
 ** 7 - Icon für Programm hinzufügen **
 - Für das Programm wurde ein Kassenicon hinzugefügt.
+
+** 8 - Fehlender Ausgangsbetrag nach hinzufügen von Einträgen **
+- Der Fehler, der verursachte dass der Ausgangsbetrag fehlte nach dem Hinzufügen von Einträgen, wurde behoben.
 
 ** 13 - Bilder für Münzen/Scheine überarbeiten **
 - Das Dateiformat für Bilder für Münzen wurden zu png geändert.

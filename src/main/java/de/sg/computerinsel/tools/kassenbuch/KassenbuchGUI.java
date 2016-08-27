@@ -58,7 +58,9 @@ public class KassenbuchGUI {
 
 	private final JTextField zeitraumBis = new JTextField(10);
 
-	private final JTextField ausgangsbetrag = new JTextField(50);
+	private final JTextField ausgangsbetrag = new JTextField(35);
+	
+	private final JTextField ausgangsbetragDatum = new JTextField(10);
 
 	/*
 	 * Kassenbuch bearbeiten
@@ -367,23 +369,30 @@ public class KassenbuchGUI {
 		btnStart.addActionListener(getActionListenerBtnKassenbuchErstellen());
 
 		ausgangsbetrag.setText(getAusgangsbetragFromLatestKassenbuch());
-		zeitraumBis.setText(KassenbuchErstellenUtils.DATE_FORMAT.format(new Date()));
+		final String currentDate = KassenbuchErstellenUtils.DATE_FORMAT.format(new Date());
+		ausgangsbetragDatum.setText(currentDate);
+		zeitraumVon.setText(currentDate);
+		zeitraumBis.setText(currentDate);
 		
 		final GroupLayout layout = new GroupLayout(panel);
 		layout.setAutoCreateGaps(true);
 		layout.setHorizontalGroup(layout
-		        .createSequentialGroup()
-		        .addGroup(
-		                layout.createSequentialGroup()
-		                        .addGroup(
-		                                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-		                                        .addComponent(new JLabel("Rechnungsdatum von")).addComponent(zeitraumVon))
-		                        .addGroup(
-		                                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-		                                        .addComponent(new JLabel("Rechnungsdatum bis")).addComponent(zeitraumBis)))
-		        .addGroup(layout.createParallelGroup().addComponent(new JLabel("Ausgangsbetrag")))
-										.addGroup(layout.createParallelGroup().addGroup(layout.createParallelGroup().addComponent(ausgangsbetrag)))
-		        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(btnStart)));
+				.createSequentialGroup()
+				.addGroup(
+						layout.createSequentialGroup()
+						.addGroup(
+								layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+								.addComponent(new JLabel("Rechnungsdatum von")).addComponent(zeitraumVon))
+								.addGroup(
+										layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+										.addComponent(new JLabel("Rechnungsdatum bis")).addComponent(zeitraumBis)))
+										.addGroup(
+												layout.createParallelGroup()
+												.addComponent(new JLabel("Kassenstand Vortag als Ausgangsbetrag für den"))
+												.addGroup(
+														layout.createParallelGroup().addGroup(layout.createParallelGroup().addComponent(ausgangsbetrag))
+														.addComponent(ausgangsbetragDatum)))
+														.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(btnStart)));
 		return panel;
 	}
 	
@@ -436,28 +445,37 @@ public class KassenbuchGUI {
 							"Bitte geben Sie im Feld 'Ausgangsbetrag' einen gültigen Wert ein (ohne Währungssymbol).");
 					validParameters = false;
 				}
+
+				Date startBetragdatum = null;
+				try {
+					startBetragdatum = KassenbuchErstellenUtils.DATE_FORMAT.parse(ausgangsbetragDatum.getText());
+				} catch (final ParseException e1) {
+					JOptionPane.showMessageDialog(main,
+							"Das angegebene Datum im Feld 'Ausgangsdatum vom' besitzt kein gültiges Datumsformat. (dd.MM.yyyy)");
+					validParameters = false;
+				}
 				
 				if (validParameters) {
 					LOGGER.info("Kassenbuch-Erstellung wird gestartet.");
-					startRechnungsablage(rechnungsPath, ablagePath, dateFrom, dateTo, startBetrag);
+					startRechnungsablage(rechnungsPath, ablagePath, dateFrom, dateTo, startBetrag, startBetragdatum);
 				}
 			}
 
 			private void startRechnungsablage(final String rechnungsPath, final String ablagePath, final Date dateFrom, final Date dateTo,
-					final BigDecimal startBetrag) {
+					final BigDecimal startBetrag, final Date startBetragdatum) {
 				File csvFile = null;
 				File pdfFile = null;
-				final List<Rechnung> files = KassenbuchErstellenUtils.readHtmlFiles(new File(rechnungsPath), dateFrom, dateTo);
-				if (files.isEmpty()) {
+				final List<Rechnung> rechnungen = KassenbuchErstellenUtils.readHtmlFiles(new File(rechnungsPath), dateFrom, dateTo);
+				if (rechnungen.isEmpty()) {
 					LOGGER.info("Keine Rechnungen gefunden.");
 					JOptionPane.showMessageDialog(main,
 							"Im angegebenen Verzeichnis '" + rechnungsPath + "' konnten keine BAR-Rechnungen im angegebenen Zeitraum vom "
 									+ KassenbuchErstellenUtils.DATE_FORMAT.format(dateFrom) + " bis "
 									+ KassenbuchErstellenUtils.DATE_FORMAT.format(dateTo) + " gefunden werden.");
 				} else {
-					final Rechnung ausgangsRechnung = createStartBetrag(startBetrag);
-					csvFile = KassenbuchErstellenUtils.createCsv(files, ausgangsRechnung, ablagePath);
-					pdfFile = KassenbuchErstellenUtils.createPdf(files, ausgangsRechnung, ablagePath);
+					final Rechnung ausgangsRechnung = createStartBetrag(startBetrag, startBetragdatum);
+					csvFile = KassenbuchErstellenUtils.createCsv(rechnungen, ausgangsRechnung, ablagePath);
+					pdfFile = KassenbuchErstellenUtils.createPdf(rechnungen, ausgangsRechnung, ablagePath);
 					dateiPfad.setText(csvFile.getAbsolutePath());
 					SettingsUtils.setPropertyLastCsvFile(csvFile.getAbsolutePath());
 					ausgangsbetrag.setText(getAusgangsbetragFromLatestKassenbuch());
@@ -480,10 +498,11 @@ public class KassenbuchGUI {
 				}
 			}
 
-			private Rechnung createStartBetrag(final BigDecimal startBetrag) {
+			private Rechnung createStartBetrag(final BigDecimal startBetrag, final Date startBetragdatum) {
 				final Rechnung rechnung = new Rechnung();
+				rechnung.setRechnungsdatum(startBetragdatum);
 				rechnung.setRechnungsbetrag(startBetrag);
-				rechnung.setRechnungsnummer("Ausgangsbetrag");
+				rechnung.setRechnungsnummer(Rechnung.AUSGANGSBETRAG);
 				return rechnung;
 			}
 			
@@ -505,17 +524,13 @@ public class KassenbuchGUI {
 	}
 	
 	private ActionListener getActionListenerBtnEinstellungenMerken() {
-		return new ActionListener() {
-			
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				SettingsUtils.saveSettings(rechnungsverzeichnis.getText(), ablageverzeichnis.getText(), ausgangsbetrag.getText(),
-						dateiPfad.getText());
-				JOptionPane.showMessageDialog(main, "Die Einstellungen wurden gespeichert.");
-				LOGGER.info(
-						"Einstellungen gespeichert: Rechnungsverzeichnis: {}, Ablageverzeichnis: {}, Ausgangsbetrag: {}, Letzte CSV-Datei: {}",
-						rechnungsverzeichnis.getText(), ablageverzeichnis.getText(), ausgangsbetrag.getText(), dateiPfad.getText());
-			}
+		return e -> {
+			SettingsUtils.saveSettings(rechnungsverzeichnis.getText(), ablageverzeichnis.getText(), ausgangsbetrag.getText(),
+					dateiPfad.getText());
+			JOptionPane.showMessageDialog(main, "Die Einstellungen wurden gespeichert.");
+			LOGGER.info(
+					"Einstellungen gespeichert: Rechnungsverzeichnis: {}, Ablageverzeichnis: {}, Ausgangsbetrag: {}, Letzte CSV-Datei: {}",
+					rechnungsverzeichnis.getText(), ablageverzeichnis.getText(), ausgangsbetrag.getText(), dateiPfad.getText());
 		};
 	}
 
