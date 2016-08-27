@@ -325,6 +325,7 @@ public class KassenbuchGUI {
 					        eintragungsArtAusgang.isSelected() && !eintragungsArtEingang.isSelected());
 					dateiPfad.setText(csvFile.getAbsolutePath());
 					SettingsUtils.setPropertyLastCsvFile(csvFile.getAbsolutePath());
+					ausgangsbetrag.setText(getAusgangsbetragFromLatestKassenbuch());
 					LOGGER.info("Kassenbuch-Bearbeitung beendet.");
 					JOptionPane.showMessageDialog(main, "Der Eintrag wurde erfolgreich der Datei \n\r" + filePath + " hinzugefügt.");
 				}
@@ -364,11 +365,8 @@ public class KassenbuchGUI {
 		final JPanel panel = new JPanel();
 		final JButton btnStart = new JButton("Kassenbuch erstellen");
 		btnStart.addActionListener(getActionListenerBtnKassenbuchErstellen());
-		
-		final Properties settings = SettingsUtils.loadSettings();
-		if (settings != null) {
-			ausgangsbetrag.setText(settings.getProperty(SettingsUtils.PROP_AUSGANGSBETRAG));
-		}
+
+		ausgangsbetrag.setText(getAusgangsbetragFromLatestKassenbuch());
 		zeitraumBis.setText(KassenbuchErstellenUtils.DATE_FORMAT.format(new Date()));
 		
 		final GroupLayout layout = new GroupLayout(panel);
@@ -387,6 +385,17 @@ public class KassenbuchGUI {
 										.addGroup(layout.createParallelGroup().addGroup(layout.createParallelGroup().addComponent(ausgangsbetrag)))
 		        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(btnStart)));
 		return panel;
+	}
+	
+	private String getAusgangsbetragFromLatestKassenbuch() {
+		String betrag = StringUtils.EMPTY;
+		final Properties settings = SettingsUtils.loadSettings();
+		if (settings != null) {
+			betrag = settings.getProperty(SettingsUtils.PROP_AUSGANGSBETRAG);
+		} else {
+			betrag = KassenstandBerechnenUtils.getGesamtbetragKassenbuch(dateiPfad.getText(), ablageverzeichnis.getText());
+		}
+		return betrag;
 	}
 
 	private ActionListener getActionListenerBtnKassenbuchErstellen() {
@@ -451,6 +460,7 @@ public class KassenbuchGUI {
 					pdfFile = KassenbuchErstellenUtils.createPdf(files, ausgangsRechnung, ablagePath);
 					dateiPfad.setText(csvFile.getAbsolutePath());
 					SettingsUtils.setPropertyLastCsvFile(csvFile.getAbsolutePath());
+					ausgangsbetrag.setText(getAusgangsbetragFromLatestKassenbuch());
 					LOGGER.info("Kassenbuch-Erstellung beendet.");
 				}
 				if (csvFile == null) {

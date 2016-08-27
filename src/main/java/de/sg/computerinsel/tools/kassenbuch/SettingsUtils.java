@@ -83,6 +83,12 @@ public final class SettingsUtils {
 		}
 	}
 	
+	public static void setPropertyAusgangsbetrag(final String ausgangsbetrag) {
+		final Properties props = loadSettings();
+		props.setProperty(PROP_AUSGANGSBETRAG, ausgangsbetrag);
+		saveProperties(props);
+	}
+	
 	public static Properties loadSettings() {
 		Properties props = null;
 		try (final FileReader reader = new FileReader(new File(FOLDER_CONFIG_PROPERTIES, FILENAME_CONFIG_PROPERTIES))) {
