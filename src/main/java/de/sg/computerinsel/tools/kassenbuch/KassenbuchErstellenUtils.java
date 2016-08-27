@@ -14,7 +14,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.Charsets;
 import org.apache.commons.lang3.StringUtils;
@@ -67,13 +71,7 @@ public final class KassenbuchErstellenUtils {
 	}
 	
 	public static List<Rechnung> readHtmlFiles(final File directory, final Date dateFrom, final Date dateTo) {
-		final File[] files = directory.listFiles(new FilenameFilter() {
-
-			@Override
-			public boolean accept(final File dir, final String name) {
-				return name.contains(".htm");
-			}
-		});
+		final File[] files = directory.listFiles((FilenameFilter) (dir, name) -> name.contains(".htm"));
 		LOGGER.info("{} Rechnungen gefunden", files.length);
 		
 		int counterBarRechnungen = 0;
@@ -248,25 +246,21 @@ public final class KassenbuchErstellenUtils {
 	}
 	
 	private static Comparator<Rechnung> rechnungComparator() {
-		return new Comparator<Rechnung>() {
-			
-			@Override
-			public int compare(final Rechnung o1, final Rechnung o2) {
-				int result = 0;
-				if (o1.getRechnungsdatum() == null) {
-					result = o1.getRechnungsdatum() == null ? 0 : 1;
-				}
-				if (o2.getRechnungsdatum() == null) {
-					result = o2.getRechnungsdatum() == null ? 0 : 1;
-				}
-				if (o1.getRechnungsdatum() != null && o2.getRechnungsdatum() != null) {
-					result = o1.getRechnungsdatum().compareTo(o2.getRechnungsdatum());
-				}
-				if (o1.getRechnungsnummerAsInt() != null && o2.getRechnungsnummerAsInt() != null) {
-					result += o1.getRechnungsnummerAsInt().compareTo(o2.getRechnungsnummerAsInt());
-				}
-				return result;
+		return (o1, o2) -> {
+			int result = 0;
+			if (o1.getRechnungsdatum() == null) {
+				result = o1.getRechnungsdatum() == null ? 0 : 1;
 			}
+			if (o2.getRechnungsdatum() == null) {
+				result = o2.getRechnungsdatum() == null ? 0 : 1;
+			}
+			if (o1.getRechnungsdatum() != null && o2.getRechnungsdatum() != null) {
+				result = o1.getRechnungsdatum().compareTo(o2.getRechnungsdatum());
+			}
+			if (o1.getRechnungsnummerAsInt() != null && o2.getRechnungsnummerAsInt() != null) {
+				result += o1.getRechnungsnummerAsInt().compareTo(o2.getRechnungsnummerAsInt());
+			}
+			return result;
 		};
 	}
 
@@ -275,14 +269,20 @@ public final class KassenbuchErstellenUtils {
 		final List<Rechnung> rechnungen = new ArrayList<>(files);
 		Collections.sort(rechnungen, rechnungComparator());
 		rechnungen.add(0, ausgangsRechnung);
+		final Map<Date, List<Rechnung>> rechnungenByRechnungsdatum = rechnungen.stream().filter(r -> r.getRechnungsdatum() != null)
+				.collect(Collectors.groupingBy(Rechnung::getRechnungsdatum, LinkedHashMap::new, Collectors.toList()));
 		try {
 			pdfFile.createNewFile();
 			try (final FileOutputStream outputStream = new FileOutputStream(pdfFile);) {
 				final com.itextpdf.text.Document document = new com.itextpdf.text.Document();
 				PdfWriter.getInstance(document, outputStream);
 				document.open();
-				addTitlePage(document);
-				addTable(document, rechnungen);
+				
+				for (final Entry<Date, List<Rechnung>> rechnungenByDatum : rechnungenByRechnungsdatum.entrySet()) {
+					addTitlePage(document, rechnungenByDatum.getKey());
+					addTable(document, rechnungenByDatum.getValue());
+					document.newPage();
+				}
 				document.close();
 			}
 		} catch (final DocumentException e) {
@@ -295,16 +295,9 @@ public final class KassenbuchErstellenUtils {
 		return pdfFile;
 	}
 	
-	private static void addTitlePage(final com.itextpdf.text.Document document) throws DocumentException {
-		final Paragraph preface = new Paragraph();
+	private static void addTitlePage(final com.itextpdf.text.Document document, final Date datum) throws DocumentException {
+		document.add(new Paragraph("Kassenbuch vom " + DATE_FORMAT.format(datum), TITLEFONT));
 		addEmptyLine(document);
-		preface.add(new Paragraph("Kassenbuch", TITLEFONT));
-		addEmptyLine(document);
-		preface.add(new Paragraph("Erstellt am: " + DATE_FORMAT.format(new Date()), TEXTFONT));
-		addEmptyLine(document);
-		addEmptyLine(document);
-		addEmptyLine(document);
-		document.add(preface);
 	}
 	
 	private static void addEmptyLine(final com.itextpdf.text.Document document) throws DocumentException {
