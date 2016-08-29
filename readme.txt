@@ -60,6 +60,15 @@ V 1.0.1:
 - Das Datum für den Ausgangsbetrag kann nun gewählt werden (Standardmäßig ist dieses mit dem Tagesdatum vorbelegt)
 - Das Rechnungsdatum von wird nun ebenfalls mit dem Tagesdatum vorbelegt
 
+** 2 - Überschrift Kassenbuch-PDF anpassen **
+- Die Überschrift des Kassenbuchs lautet nun: "Kassenbuch vom dd.MM.yyyy"
+
+** 3 - Je Tag eine neue PDF-Seite im Kassenbuch erzeugen **
+- Je Tag wird eine neue PDF-Seite im Gesamtdokument begonnen
+
+** 4 - Ausgangsbetrag beim Starten des Programms vorselektieren **
+- Der Ausgangsbetrag wird beim erstellen/editieren eines Kassenbuchs gespeichert und beim Programmstart wieder ausgelesen
+
 ** 5 - Farbe Tabellenkopf in PDF-Datei anpassen **
 - Es wurde für den Tabellenkopf in den PDF-Dateien nun ein hellerer Grauton gewählt.
 
@@ -71,6 +80,12 @@ V 1.0.1:
 
 ** 8 - Fehlender Ausgangsbetrag nach hinzufügen von Einträgen **
 - Der Fehler, der verursachte dass der Ausgangsbetrag fehlte nach dem Hinzufügen von Einträgen, wurde behoben.
+
+** 9 - Erweiterung Kassenbuch bearbeiten **
+- Beim Hinzufügen von Einträgen zum Kassenbuch werden die hinzugefügten Werte in einer darunterliegenden Tabelle in der Maske angezeigt.
+
+** 12 - Beträge sollen nur Tagweise summiert werden **
+- Beträge werden nun nur noch Tagweise summiert
 
 ** 13 - Bilder für Münzen/Scheine überarbeiten **
 - Das Dateiformat für Bilder für Münzen wurden zu png geändert.
