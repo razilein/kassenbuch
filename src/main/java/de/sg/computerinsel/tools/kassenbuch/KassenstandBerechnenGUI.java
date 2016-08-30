@@ -4,11 +4,18 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,6 +23,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.sg.computerinsel.tools.kassenbuch.model.Einstellungen;
 import de.sg.computerinsel.tools.kassenbuch.model.Kassenbestand;
@@ -25,8 +34,10 @@ import de.sg.computerinsel.tools.kassenbuch.model.Kassenbestand;
  */
 public class KassenstandBerechnenGUI {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(KassenstandBerechnenGUI.class);
+
     private static final String STANDARD_VALUE_BERECHNEN = "0";
-    
+
     private final Kassenbestand bestand = new Kassenbestand();
 
     private final JFrame main;
@@ -71,16 +82,35 @@ public class KassenstandBerechnenGUI {
                 KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_2_CENT), Kassenbestand.MUENZE_2_CENT);
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen1Cent(), bestand.getErgebnisMuenzen1Cent(),
                 KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_1_CENT), Kassenbestand.MUENZE_1_CENT);
-        panel.add(new JLabel("Differenz"));
         panel.add(new JLabel());
+        panel.add(new JLabel("Differenz"));
         panel.add(new JLabel("Gesamt Kassenbuch"));
         panel.add(new JLabel("Gesamt Kasse"));
+        final JButton btnSpeichern = new JButton("Speichern");
+        btnSpeichern.addActionListener(getActionListener(panel));
+        panel.add(btnSpeichern);
         panel.add(bestand.getDifferenzBetrag());
         bestand.getDifferenzBetrag().setEditable(false);
-        panel.add(new JLabel());
         panel.add(bestand.getGesamtBetragKassenbuch());
         panel.add(bestand.getGesamtErgebnis());
         return panel;
+    }
+
+    private ActionListener getActionListener(final JPanel panel) {
+        return e -> {
+            final BufferedImage img = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_RGB);
+            panel.paint(img.getGraphics());
+            final File outputfile = new File(einstellungen.getAblageverzeichnisText(),
+                    KassenbuchErstellenUtils.DATE_FORMAT_FILES.format(new Date()) + "_kassenstand.png");
+            try {
+                ImageIO.write(img, "png", outputfile);
+                JOptionPane.showMessageDialog(main, "Der Kassenstand wurde erfolgreich unter: \r\n'" + outputfile.getAbsolutePath()
+                        + "' ablegt.");
+            } catch (final IOException ex) {
+                LOGGER.error("Screenshot vom Kassenstand konnte nicht gespeichert werden: {} {}", ex.getMessage(), ex);
+            }
+
+        };
     }
 
     private void addRowToPanelKassenstandBerechnen(final JPanel panel, final JTextField anzahlFeld, final JTextField ergebnisFeld,
