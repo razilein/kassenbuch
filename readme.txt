@@ -90,3 +90,10 @@ V 1.0.1:
 ** 13 - Bilder für Münzen/Scheine überarbeiten **
 - Das Dateiformat für Bilder für Münzen wurden zu png geändert.
 - Für Münzen wird der Hintergrund nun transparent dargestellt.
+
+V 1.0.2:
+
+** 16 - Feld Eingang in PDF-Datei bei Ausgangsbetrag leer **
+- In der PDF Datei ist beim Ausgangsbetrag das Feld "Eingang" nun leer
+- Die Schriftgröße im PDF wurde erhöht
+- Die Betragsfelder im PDF wurden rechtsbündig ausgerichtet

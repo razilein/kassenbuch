@@ -12,12 +12,12 @@ import de.sg.computerinsel.tools.kassenbuch.model.Einstellungen;
  * @author Sita Geßner
  */
 public class KassenbuchGUI {
-    
+
     private final Einstellungen einstellungen = new Einstellungen();
-    
+
     public void create(final JFrame main) {
         main.setIconImage(new ImageIcon(getClass().getResource("pictures/kasse.png")).getImage());
-        main.setTitle("Kassenbuchprogramm V1.0.1 © Sita Geßner");
+        main.setTitle("Kassenbuchprogramm V1.0.2 © Sita Geßner");
         loadSettings();
         final JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Kassenbuch erstellen", new KassenbuchErstellenGUI(main, einstellungen).createPanelKassenbuchErstellen());
@@ -36,5 +36,5 @@ public class KassenbuchGUI {
             einstellungen.setAusgangsbetragText(settings.getProperty(SettingsUtils.PROP_AUSGANGSBETRAG));
         }
     }
-    
+
 }

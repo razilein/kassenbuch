@@ -12,7 +12,7 @@ public class Einstellungen {
     private final JTextField ablageverzeichnis = new JTextField(50);
 
     private final JTextField ausgangsbetrag = new JTextField(35);
-    
+
     private final JTextField dateipfad = new JTextField(50);
 
     public JTextField getRechnungsverzeichnis() {
@@ -38,19 +38,19 @@ public class Einstellungen {
     public void setAblageverzeichnisText(final String ablageverzeichnis) {
         this.ablageverzeichnis.setText(ablageverzeichnis);
     }
-    
+
     public JTextField getAusgangsbetrag() {
         return ausgangsbetrag;
     }
-    
+
     public String getAusgangsbetragText() {
         return ausgangsbetrag.getText();
     }
-    
+
     public void setAusgangsbetragText(final String ausgangsbetrag) {
         this.ausgangsbetrag.setText(ausgangsbetrag);
     }
-    
+
     public JTextField getDateipfad() {
         return dateipfad;
     }
@@ -58,7 +58,7 @@ public class Einstellungen {
     public String getDateipfadText() {
         return dateipfad.getText();
     }
-    
+
     public void setDateipfadText(final String dateipfad) {
         this.dateipfad.setText(dateipfad);
     }

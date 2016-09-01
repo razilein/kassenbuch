@@ -35,9 +35,9 @@ import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
 public class KassenbuchBearbeitenGUI {
 
     private final Logger LOGGER = LoggerFactory.getLogger(KassenbuchBearbeitenGUI.class);
-    
+
     private final JFrame main;
-    
+
     private final JTextField eintragungsDatum = new JTextField(10);
 
     private final JTextField eintragungsBetrag = new JTextField(10);
@@ -66,21 +66,21 @@ public class KassenbuchBearbeitenGUI {
         this.main = main;
         this.einstellungen = einstellungen;
     }
-    
+
     public JPanel createPanelKassenbuchBearbeiten() {
         final JPanel panel = new JPanel();
         final JButton btnStart = new JButton("Eintrag hinzufügen");
         eintragungsDatum.setText(KassenbuchErstellenUtils.DATE_FORMAT.format(new Date()));
         btnStart.addActionListener(getActionListenerBtnKassenbuchBearbeiten());
-        
+
         final GroupLayout layout = new GroupLayout(panel);
         layout.setAutoCreateGaps(true);
-        
+
         final ButtonGroup eintragungsArt = new ButtonGroup();
         eintragungsArt.add(eintragungsArtAusgang);
         eintragungsArt.add(eintragungsArtEingang);
         prepareTableModel();
-        
+
         layout.setHorizontalGroup(layout
                 .createSequentialGroup()
                 .addComponent(new JLabel("Zu bearbeitende CSV-Datei (mit Dateipfad)"))
@@ -98,20 +98,20 @@ public class KassenbuchBearbeitenGUI {
                                                 .addComponent(eintragungsBetrag)))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(btnStart))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(createTablePane())));
-        
+
         return panel;
     }
-    
+
     private ActionListener getActionListenerBtnKassenbuchBearbeiten() {
         return new ActionListener() {
-            
+
             @Override
             public void actionPerformed(final ActionEvent e) {
                 boolean validParameters = true;
                 final String filePath = einstellungen.getDateipfadText();
                 validParameters = validParameters && validateDateiPfad(filePath);
                 validParameters = validParameters && validVerwendungszweck();
-                
+
                 Date date = null;
                 try {
                     date = KassenbuchErstellenUtils.DATE_FORMAT.parse(eintragungsDatum.getText());
@@ -120,7 +120,7 @@ public class KassenbuchBearbeitenGUI {
                             "Das angegebene Datum im Feld 'Eintragungsdatum' besitzt kein gültiges Datumsformat. (dd.MM.yyyy)");
                     validParameters = false;
                 }
-                
+
                 BigDecimal betrag = BigDecimal.ZERO;
                 try {
                     betrag = new BigDecimal(KassenbuchBearbeitenUtils.normalizeCurrencyValue(eintragungsBetrag.getText()));
@@ -128,7 +128,7 @@ public class KassenbuchBearbeitenGUI {
                     JOptionPane.showMessageDialog(main, "Bitte geben Sie im Feld 'Betrag' einen gültigen Wert ein (ohne Währungssymbol).");
                     validParameters = false;
                 }
-                
+
                 if (validParameters) {
                     LOGGER.info("Kassenbuch-Bearbeitung gestartet.");
                     final Rechnung neuerEintrag = KassenbuchBearbeitenUtils.createNeueEintragung(verwendungszweck.getText(), date, betrag,
@@ -143,7 +143,7 @@ public class KassenbuchBearbeitenGUI {
                     JOptionPane.showMessageDialog(main, "Der Eintrag wurde erfolgreich der Datei \n\r" + filePath + " hinzugefügt.");
                 }
             }
-            
+
             private boolean validVerwendungszweck() {
                 final boolean validParameters = StringUtils.isNotBlank(verwendungszweck.getText().trim());
                 if (!validParameters) {
@@ -151,7 +151,7 @@ public class KassenbuchBearbeitenGUI {
                 }
                 return validParameters;
             }
-            
+
             private boolean validateDateiPfad(final String dateiPfad) {
                 boolean result = true;
                 final File file = new File(dateiPfad);
@@ -195,5 +195,5 @@ public class KassenbuchBearbeitenGUI {
                 KassenbuchErstellenUtils.isEingangssbetrag(rechnungsbetrag) ? rechnungsbetrag : StringUtils.EMPTY,
                 KassenbuchErstellenUtils.isAusgangsbetrag(rechnungsbetrag) ? rechnungsbetrag : StringUtils.EMPTY });
     }
-    
+
 }

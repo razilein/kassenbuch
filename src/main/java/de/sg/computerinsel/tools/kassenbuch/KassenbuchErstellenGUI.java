@@ -26,36 +26,36 @@ import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
 public class KassenbuchErstellenGUI {
 
     private final Logger LOGGER = LoggerFactory.getLogger(KassenbuchErstellenGUI.class);
-    
+
     private final JFrame main;
 
     private final JTextField zeitraumVon = new JTextField(10);
-    
+
     private final JTextField zeitraumBis = new JTextField(10);
-    
+
     private final JTextField ausgangsbetrag = new JTextField(35);
-    
+
     private final JTextField ausgangsbetragDatum = new JTextField(10);
-    
+
     private final Einstellungen einstellungen;
-    
+
     public KassenbuchErstellenGUI(final JFrame main, final Einstellungen einstellungen) {
         this.main = main;
         this.einstellungen = einstellungen;
     }
-    
+
     public JPanel createPanelKassenbuchErstellen() {
         final JPanel panel = new JPanel();
         final JButton btnStart = new JButton("Kassenbuch erstellen");
         btnStart.addActionListener(getActionListenerBtnKassenbuchErstellen());
-        
+
         ausgangsbetrag.setText(KassenbuchUtils.getAusgangsbetragFromLatestKassenbuch(einstellungen.getRechnungsverzeichnisText(),
                 einstellungen.getAblageverzeichnisText()));
         final String currentDate = KassenbuchErstellenUtils.DATE_FORMAT.format(new Date());
         ausgangsbetragDatum.setText(currentDate);
         zeitraumVon.setText(currentDate);
         zeitraumBis.setText(currentDate);
-        
+
         final GroupLayout layout = new GroupLayout(panel);
         layout.setAutoCreateGaps(true);
         layout.setHorizontalGroup(layout
@@ -162,7 +162,7 @@ public class KassenbuchErstellenGUI {
                     JOptionPane.showMessageDialog(main,
                             "Das Kassenbuch wurde erfolgreich erstellt und unter: \r\n'" + csvFile.getAbsolutePath() + "' ablegt.");
                 }
-                
+
                 if (pdfFile == null) {
                     JOptionPane.showMessageDialog(
                             main,
@@ -197,7 +197,7 @@ public class KassenbuchErstellenGUI {
             }
 
         };
-        
+
     }
-    
+
 }
