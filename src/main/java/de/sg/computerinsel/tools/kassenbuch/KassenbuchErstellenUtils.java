@@ -65,7 +65,7 @@ public final class KassenbuchErstellenUtils {
 
     private static final Font TABLEHEADER_FONT = new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD);
 
-    private static final Font TEXTFONT = new Font(Font.FontFamily.HELVETICA, 8, Font.NORMAL);
+    private static final Font TEXTFONT = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL);
 
     private KassenbuchErstellenUtils() {
     }
@@ -321,8 +321,8 @@ public final class KassenbuchErstellenUtils {
         BigDecimal gesamtEingang = BigDecimal.ZERO;
         BigDecimal gesamtAusgang = BigDecimal.ZERO;
         if (ausgangsBetrag != null) {
-            addTableRow(table, rechnungen.isEmpty() ? null : rechnungen.get(0).getRechnungsdatum(), Rechnung.AUSGANGSBETRAG,
-                    BETRAG_FORMAT.format(ausgangsBetrag), null, ausgangsBetrag);
+            addTableRow(table, rechnungen.isEmpty() ? null : rechnungen.get(0).getRechnungsdatum(), Rechnung.AUSGANGSBETRAG, null, null,
+                    ausgangsBetrag);
             gesamtBetrag = ausgangsBetrag;
             gesamtEingang = ausgangsBetrag;
         }
@@ -349,22 +349,30 @@ public final class KassenbuchErstellenUtils {
     private static void addTableHeaderRow(final PdfPTable table) {
         table.addCell(createHeaderCell("Datum"));
         table.addCell(createHeaderCell("Verwendungszweck"));
-        table.addCell(createHeaderCell("Einnahmen"));
-        table.addCell(createHeaderCell("Ausgaben"));
-        table.addCell(createHeaderCell("Kassenbestand"));
+        table.addCell(createHeaderCell("Einnahmen", Element.ALIGN_RIGHT));
+        table.addCell(createHeaderCell("Ausgaben", Element.ALIGN_RIGHT));
+        table.addCell(createHeaderCell("Kassenbestand", Element.ALIGN_RIGHT));
     }
 
-    private static PdfPCell createHeaderCell(final String title) {
+    private static PdfPCell createHeaderCell(final String title, final int alignment) {
         final PdfPCell cell = new PdfPCell(new Phrase(title, TABLEHEADER_FONT));
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setHorizontalAlignment(alignment);
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
         return cell;
     }
 
-    private static PdfPCell createBodyCell(final String text) {
+    private static PdfPCell createHeaderCell(final String title) {
+        return createHeaderCell(title, Element.ALIGN_LEFT);
+    }
+
+    private static PdfPCell createBodyCell(final String text, final int alignment) {
         final PdfPCell cell = new PdfPCell(new Phrase(text, TEXTFONT));
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setHorizontalAlignment(alignment);
         return cell;
+    }
+
+    private static PdfPCell createBodyCell(final String text) {
+        return createBodyCell(text, Element.ALIGN_LEFT);
     }
 
     static boolean isAusgangsbetrag(final String formattedRechnungsbetrag) {
@@ -385,8 +393,8 @@ public final class KassenbuchErstellenUtils {
             final String betragEingang, final String betragAusgang, final BigDecimal gesamtBetrag) {
         table.addCell(createBodyCell(rechnungsdatum == null ? StringUtils.EMPTY : DATE_FORMAT.format(rechnungsdatum)));
         table.addCell(createBodyCell(verwendungszweck));
-        table.addCell(createBodyCell(betragEingang));
-        table.addCell(createBodyCell(betragAusgang));
-        table.addCell(createBodyCell(BETRAG_FORMAT.format(gesamtBetrag)));
+        table.addCell(createBodyCell(betragEingang, Element.ALIGN_RIGHT));
+        table.addCell(createBodyCell(betragAusgang, Element.ALIGN_RIGHT));
+        table.addCell(createBodyCell(BETRAG_FORMAT.format(gesamtBetrag), Element.ALIGN_RIGHT));
     }
 }
