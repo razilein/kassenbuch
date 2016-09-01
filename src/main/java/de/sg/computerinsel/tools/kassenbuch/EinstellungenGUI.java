@@ -22,14 +22,14 @@ public class EinstellungenGUI {
     private static final Logger LOGGER = LoggerFactory.getLogger(EinstellungenGUI.class);
 
     private final JFrame main;
-    
+
     private final Einstellungen einstellungen;
-    
+
     public EinstellungenGUI(final JFrame main, final Einstellungen einstellungen) {
         this.main = main;
         this.einstellungen = einstellungen;
     }
-    
+
     public JPanel createPanelEinstellungen() {
         final JPanel panel = new JPanel();
         final JButton btnRememberSettings = new JButton("Einstellungen speichern");
@@ -42,13 +42,13 @@ public class EinstellungenGUI {
                 .addComponent(einstellungen.getRechnungsverzeichnis())
                 .addGroup(
                         layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(new JLabel("Ablageverzeichnis"))
-                        .addComponent(einstellungen.getAblageverzeichnis()))
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING).addComponent(btnRememberSettings)));
+                                .addComponent(einstellungen.getAblageverzeichnis()))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING).addComponent(btnRememberSettings)));
         panel.add(btnRememberSettings);
 
         return panel;
     }
-    
+
     private ActionListener getActionListenerBtnEinstellungenMerken() {
         return e -> {
             SettingsUtils.saveSettings(einstellungen.getRechnungsverzeichnisText(), einstellungen.getAblageverzeichnisText(),

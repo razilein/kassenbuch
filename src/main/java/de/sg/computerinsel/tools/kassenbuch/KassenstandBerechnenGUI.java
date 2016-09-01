@@ -124,7 +124,7 @@ public class KassenstandBerechnenGUI {
         ergebnisFeld.setFocusable(false);
         addActionListener(anzahlFeld, ergebnisFeld, multiplier);
     }
-    
+
     private void addActionListener(final JTextField anzahlFeld, final JTextField ergebnisFeld, final BigDecimal multiplier) {
         anzahlFeld.addKeyListener(new KeyListener() {
 
@@ -203,5 +203,5 @@ public class KassenstandBerechnenGUI {
     private Component getMoneyPictureAsComponent(final String filename) {
         return new JLabel(new ImageIcon(getClass().getResource("pictures/" + filename + ".png")));
     }
-    
+
 }

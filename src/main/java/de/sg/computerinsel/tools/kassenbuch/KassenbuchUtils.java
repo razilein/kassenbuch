@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author Sita Geßner
  */
 public final class KassenbuchUtils {
-    
+
     private KassenbuchUtils() {
     }
 
@@ -33,7 +33,7 @@ public final class KassenbuchUtils {
         String jarDirectory = null;
         int cutFileSeperator = 0;
         int cutSemicolon = -1;
-        
+
         jarFile = System.getProperty("java.class.path");
         // Cut seperators
         cutFileSeperator = jarFile.lastIndexOf(System.getProperty("file.separator"));
@@ -41,8 +41,8 @@ public final class KassenbuchUtils {
         // Cut semicolons
         cutSemicolon = jarDirectory.lastIndexOf(';');
         jarDirectory = jarDirectory.substring(cutSemicolon + 1, jarDirectory.length());
-        
+
         return jarDirectory + System.getProperty("file.separator");
     }
-    
+
 }
