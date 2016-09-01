@@ -91,6 +91,9 @@ V 1.0.1:
 - Das Dateiformat für Bilder für Münzen wurden zu png geändert.
 - Für Münzen wird der Hintergrund nun transparent dargestellt.
 
+** 14 - Screenshot Kassenstand erstellen **
+- Durch Klick auf den neuen Button "Speichern" unter "Kassenstand berechnen" wird ein Screenshot des Tabs im Ablageverzeichnis gespeichert
+
 V 1.0.2:
 
 ** 15 - Button Anzeigen in Kassenbuch erstellen/bearbeiten hinuzgefügt **
