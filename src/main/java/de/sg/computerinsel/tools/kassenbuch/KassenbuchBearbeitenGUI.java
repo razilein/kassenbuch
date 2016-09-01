@@ -32,7 +32,7 @@ import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
 /**
  * @author Sita Geßner
  */
-public class KassenbuchBearbeitenGUI {
+public class KassenbuchBearbeitenGUI extends BaseKassenbuchGUI {
 
     private final Logger LOGGER = LoggerFactory.getLogger(KassenbuchBearbeitenGUI.class);
 
@@ -67,11 +67,15 @@ public class KassenbuchBearbeitenGUI {
         this.einstellungen = einstellungen;
     }
 
-    public JPanel createPanelKassenbuchBearbeiten() {
+    @Override
+    public JPanel createPanel() {
         final JPanel panel = new JPanel();
         final JButton btnStart = new JButton("Eintrag hinzufügen");
         eintragungsDatum.setText(KassenbuchErstellenUtils.DATE_FORMAT.format(new Date()));
         btnStart.addActionListener(getActionListenerBtnKassenbuchBearbeiten());
+
+        final JButton btnAnzeigen = new JButton("Anzeigen");
+        btnAnzeigen.addActionListener(getActionListenerBtnAnzeigen(einstellungen));
 
         final GroupLayout layout = new GroupLayout(panel);
         layout.setAutoCreateGaps(true);
@@ -97,7 +101,8 @@ public class KassenbuchBearbeitenGUI {
                                                 .addComponent(eintragungsArtAusgang).addComponent(eintragungsArtEingang)
                                                 .addComponent(eintragungsBetrag)))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(btnStart))
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(createTablePane())));
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(createTablePane()))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(btnAnzeigen)));
 
         return panel;
     }
