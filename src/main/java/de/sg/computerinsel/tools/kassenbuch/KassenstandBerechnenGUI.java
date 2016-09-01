@@ -32,7 +32,7 @@ import de.sg.computerinsel.tools.kassenbuch.model.Kassenbestand;
 /**
  * @author Sita Geßner
  */
-public class KassenstandBerechnenGUI {
+public class KassenstandBerechnenGUI extends BaseKassenbuchGUI {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(KassenstandBerechnenGUI.class);
 
@@ -49,7 +49,8 @@ public class KassenstandBerechnenGUI {
         this.einstellungen = einstellungen;
     }
 
-    public JPanel createPanelKassenstandBerechnen() {
+    @Override
+    public JPanel createPanel() {
         final JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(17, 3));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlScheine500(), bestand.getErgebnisScheine500(),

@@ -20,10 +20,10 @@ public class KassenbuchGUI {
         main.setTitle("Kassenbuchprogramm V1.0.2 © Sita Geßner");
         loadSettings();
         final JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Kassenbuch erstellen", new KassenbuchErstellenGUI(main, einstellungen).createPanelKassenbuchErstellen());
-        tabbedPane.addTab("Kassenbuch bearbeiten", new KassenbuchBearbeitenGUI(main, einstellungen).createPanelKassenbuchBearbeiten());
-        tabbedPane.addTab("Kassenstand berechnen", new KassenstandBerechnenGUI(main, einstellungen).createPanelKassenstandBerechnen());
-        tabbedPane.addTab("Einstellungen", new EinstellungenGUI(main, einstellungen).createPanelEinstellungen());
+        tabbedPane.addTab("Kassenbuch erstellen", new KassenbuchErstellenGUI(main, einstellungen).createPanel());
+        tabbedPane.addTab("Kassenbuch bearbeiten", new KassenbuchBearbeitenGUI(main, einstellungen).createPanel());
+        tabbedPane.addTab("Kassenstand berechnen", new KassenstandBerechnenGUI(main, einstellungen).createPanel());
+        tabbedPane.addTab("Einstellungen", new EinstellungenGUI(main, einstellungen).createPanel());
         main.add(tabbedPane);
     }
 

@@ -17,7 +17,7 @@ import de.sg.computerinsel.tools.kassenbuch.model.Einstellungen;
 /**
  * @author Sita Geßner
  */
-public class EinstellungenGUI {
+public class EinstellungenGUI extends BaseKassenbuchGUI {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EinstellungenGUI.class);
 
@@ -30,7 +30,8 @@ public class EinstellungenGUI {
         this.einstellungen = einstellungen;
     }
 
-    public JPanel createPanelEinstellungen() {
+    @Override
+    public JPanel createPanel() {
         final JPanel panel = new JPanel();
         final JButton btnRememberSettings = new JButton("Einstellungen speichern");
         btnRememberSettings.addActionListener(getActionListenerBtnEinstellungenMerken());

@@ -93,6 +93,10 @@ V 1.0.1:
 
 V 1.0.2:
 
+** 15 - Button Anzeigen in Kassenbuch erstellen/bearbeiten hinuzgefügt **
+- Der Button Anzeigen wurde zu den Masken Kassenbuch erstellen und Kassenbuch bearbeiten hinzugefügt.
+- Dieser öffnet das zuletzt erstellte PDF anhand des Feldes "Zu bearbeitende CSV-Datei (mit Dateipfad)"
+
 ** 16 - Feld Eingang in PDF-Datei bei Ausgangsbetrag leer **
 - In der PDF Datei ist beim Ausgangsbetrag das Feld "Eingang" nun leer
 - Die Schriftgröße im PDF wurde erhöht

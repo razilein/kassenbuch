@@ -1,5 +1,8 @@
 package de.sg.computerinsel.tools.kassenbuch;
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -8,13 +11,13 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -23,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import de.sg.computerinsel.tools.kassenbuch.model.Einstellungen;
 import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
 
-public class KassenbuchErstellenGUI {
+public class KassenbuchErstellenGUI extends BaseKassenbuchGUI {
 
     private final Logger LOGGER = LoggerFactory.getLogger(KassenbuchErstellenGUI.class);
 
@@ -33,9 +36,9 @@ public class KassenbuchErstellenGUI {
 
     private final JTextField zeitraumBis = new JTextField(10);
 
-    private final JTextField ausgangsbetrag = new JTextField(35);
+    private final JTextField ausgangsbetrag = new JTextField(15);
 
-    private final JTextField ausgangsbetragDatum = new JTextField(10);
+    private final JTextField ausgangsbetragDatum = new JTextField(8);
 
     private final Einstellungen einstellungen;
 
@@ -44,10 +47,14 @@ public class KassenbuchErstellenGUI {
         this.einstellungen = einstellungen;
     }
 
-    public JPanel createPanelKassenbuchErstellen() {
-        final JPanel panel = new JPanel();
+    @Override
+    public JPanel createPanel() {
+        final JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         final JButton btnStart = new JButton("Kassenbuch erstellen");
         btnStart.addActionListener(getActionListenerBtnKassenbuchErstellen());
+
+        final JButton btnAnzeigen = new JButton("Anzeigen");
+        btnAnzeigen.addActionListener(getActionListenerBtnAnzeigen(einstellungen));
 
         ausgangsbetrag.setText(KassenbuchUtils.getAusgangsbetragFromLatestKassenbuch(einstellungen.getRechnungsverzeichnisText(),
                 einstellungen.getAblageverzeichnisText()));
@@ -56,25 +63,28 @@ public class KassenbuchErstellenGUI {
         zeitraumVon.setText(currentDate);
         zeitraumBis.setText(currentDate);
 
-        final GroupLayout layout = new GroupLayout(panel);
-        layout.setAutoCreateGaps(true);
-        layout.setHorizontalGroup(layout
-                .createSequentialGroup()
-                .addGroup(
-                        layout.createSequentialGroup()
-                                .addGroup(
-                                        layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                .addComponent(new JLabel("Rechnungsdatum von")).addComponent(zeitraumVon))
-                                .addGroup(
-                                        layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                .addComponent(new JLabel("Rechnungsdatum bis")).addComponent(zeitraumBis)))
-                .addGroup(
-                        layout.createParallelGroup()
-                                .addComponent(new JLabel("Kassenstand Vortag als Ausgangsbetrag für den"))
-                                .addGroup(
-                                        layout.createParallelGroup().addGroup(layout.createParallelGroup().addComponent(ausgangsbetrag))
-                                                .addComponent(ausgangsbetragDatum)))
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(btnStart)));
+        final JPanel datumPanel = new JPanel(new GridLayout(2, 2, 5, 0));
+        datumPanel.setPreferredSize(new Dimension(350, 40));
+        datumPanel.add(new JLabel("Rechnungsdatum von"));
+        datumPanel.add(new JLabel("Rechnungsdatum bis"));
+        datumPanel.add(zeitraumVon);
+        datumPanel.add(zeitraumBis);
+        panel.add(datumPanel);
+
+        panel.add(new JLabel("Kassenstand Vortag als Ausgangsbetrag für den"));
+        final JPanel ausgangsbetragPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        ausgangsbetragPanel.setPreferredSize(new Dimension(600, 25));
+        ausgangsbetrag.setHorizontalAlignment(SwingConstants.RIGHT);
+        ausgangsbetragPanel.add(ausgangsbetrag);
+        ausgangsbetragPanel.add(ausgangsbetragDatum);
+        panel.add(ausgangsbetragPanel);
+
+        final JPanel btnPanel = new JPanel(new GridLayout(1, 2, 5, 10));
+        btnPanel.setPreferredSize(new Dimension(450, 25));
+        btnPanel.add(btnAnzeigen);
+        btnPanel.add(btnStart);
+        panel.add(btnPanel);
+
         return panel;
     }
 
