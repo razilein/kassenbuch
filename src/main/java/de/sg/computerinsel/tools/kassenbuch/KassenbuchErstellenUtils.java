@@ -267,7 +267,6 @@ public final class KassenbuchErstellenUtils {
     public static File createPdf(final List<Rechnung> files, final Rechnung ausgangsRechnung, final String ablageverzeichnis) {
         final File pdfFile = new File(ablageverzeichnis, DATE_FORMAT_FILES.format(new Date()) + FILENAME_PDF);
         final List<Rechnung> rechnungen = new ArrayList<>(files);
-        rechnungen.add(0, ausgangsRechnung);
         Collections.sort(rechnungen, rechnungComparator());
         final Map<Date, List<Rechnung>> rechnungenByRechnungsdatum = rechnungen.stream().filter(r -> r.getRechnungsdatum() != null)
                 .collect(Collectors.groupingBy(Rechnung::getRechnungsdatum, LinkedHashMap::new, Collectors.toList()));
@@ -278,7 +277,7 @@ public final class KassenbuchErstellenUtils {
                 PdfWriter.getInstance(document, outputStream);
                 document.open();
 
-                BigDecimal ausgangsBetrag = null;
+                BigDecimal ausgangsBetrag = ausgangsRechnung.getRechnungsbetrag();
                 for (final Entry<Date, List<Rechnung>> rechnungenByDatum : rechnungenByRechnungsdatum.entrySet()) {
                     addTitlePage(document, rechnungenByDatum.getKey());
                     ausgangsBetrag = addTable(document, rechnungenByDatum.getValue(), ausgangsBetrag);
@@ -324,7 +323,6 @@ public final class KassenbuchErstellenUtils {
             addTableRow(table, rechnungen.isEmpty() ? null : rechnungen.get(0).getRechnungsdatum(), Rechnung.AUSGANGSBETRAG, null, null,
                     ausgangsBetrag);
             gesamtBetrag = ausgangsBetrag;
-            gesamtEingang = ausgangsBetrag;
         }
 
         for (final Rechnung rechnung : rechnungen) {
