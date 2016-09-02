@@ -26,8 +26,6 @@ import de.sg.computerinsel.tools.kassenbuch.model.Kassenbestand;
  */
 public final class KassenstandBerechnenUtils {
 
-    public static final String STANDARD_VALUE_BERECHNEN = "0";
-
     private final static Logger LOGGER = LoggerFactory.getLogger(KassenstandBerechnenUtils.class);
 
     private static final NumberFormat NF = NumberFormat.getInstance(Locale.GERMAN);
@@ -36,13 +34,14 @@ public final class KassenstandBerechnenUtils {
     }
 
     public static String berechneErgebnis(final String anzahl, final BigDecimal multiplier) {
-        return NumberUtils.isNumber(anzahl) ? getFormattedBetrag(multiplier.multiply(new BigDecimal(anzahl))) : STANDARD_VALUE_BERECHNEN;
+        return NumberUtils.isNumber(anzahl) ? getFormattedBetrag(multiplier.multiply(new BigDecimal(anzahl)))
+                : Kassenbestand.STANDARD_VALUE_BERECHNEN;
     }
 
     public static String getNormalizedAnzahl(final String anzahl) {
-        final String normalizedAnzahl = StringUtils.isNotBlank(anzahl) ? StringUtils.stripStart(anzahl.replaceAll("[\\D]", ""), "0")
-                : anzahl;
-        return StringUtils.isBlank(normalizedAnzahl) ? STANDARD_VALUE_BERECHNEN : normalizedAnzahl;
+        final String normalizedAnzahl = StringUtils.isNotBlank(anzahl) ? StringUtils.stripStart(anzahl.replaceAll("[\\D]", ""),
+                Kassenbestand.STANDARD_VALUE_BERECHNEN) : anzahl;
+        return StringUtils.isBlank(normalizedAnzahl) ? Kassenbestand.STANDARD_VALUE_BERECHNEN : normalizedAnzahl;
     }
 
     public static String berechneGesamtergebnis(final Kassenbestand bestand) {

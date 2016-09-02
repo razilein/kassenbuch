@@ -11,7 +11,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -25,6 +27,8 @@ import javax.swing.JTextField;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Splitter;
 
 import de.sg.computerinsel.tools.kassenbuch.model.Einstellungen;
 import de.sg.computerinsel.tools.kassenbuch.model.Kassenbestand;
@@ -53,36 +57,41 @@ public class KassenstandBerechnenGUI extends BaseKassenbuchGUI {
     public JPanel createPanel() {
         final JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(17, 3));
+
+        final List<String> kassenstand = loadSettings();
+        int counter = 0;
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlScheine500(), bestand.getErgebnisScheine500(),
-                Kassenbestand.SCHEIN_500.toString(), Kassenbestand.SCHEIN_500);
+                Kassenbestand.SCHEIN_500.toString(), Kassenbestand.SCHEIN_500, kassenstand.get(counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlScheine200(), bestand.getErgebnisScheine200(),
-                Kassenbestand.SCHEIN_200.toString(), Kassenbestand.SCHEIN_200);
+                Kassenbestand.SCHEIN_200.toString(), Kassenbestand.SCHEIN_200, kassenstand.get(counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlScheine100(), bestand.getErgebnisScheine100(),
-                Kassenbestand.SCHEIN_100.toString(), Kassenbestand.SCHEIN_100);
+                Kassenbestand.SCHEIN_100.toString(), Kassenbestand.SCHEIN_100, kassenstand.get(counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlScheine50(), bestand.getErgebnisScheine50(),
-                Kassenbestand.SCHEIN_50.toString(), Kassenbestand.SCHEIN_50);
+                Kassenbestand.SCHEIN_50.toString(), Kassenbestand.SCHEIN_50, kassenstand.get(counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlScheine20(), bestand.getErgebnisScheine20(),
-                Kassenbestand.SCHEIN_20.toString(), Kassenbestand.SCHEIN_20);
+                Kassenbestand.SCHEIN_20.toString(), Kassenbestand.SCHEIN_20, kassenstand.get(counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlScheine10(), bestand.getErgebnisScheine10(),
-                Kassenbestand.SCHEIN_10.toString(), Kassenbestand.SCHEIN_10);
+                Kassenbestand.SCHEIN_10.toString(), Kassenbestand.SCHEIN_10, kassenstand.get(counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlScheine5(), bestand.getErgebnisScheine5(),
-                Kassenbestand.SCHEIN_5.toString(), Kassenbestand.SCHEIN_5);
+                Kassenbestand.SCHEIN_5.toString(), Kassenbestand.SCHEIN_5, kassenstand.get(counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen2(), bestand.getErgebnisMuenzen2(),
-                Kassenbestand.MUENZE_2.toString(), Kassenbestand.MUENZE_2);
+                Kassenbestand.MUENZE_2.toString(), Kassenbestand.MUENZE_2, kassenstand.get(counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen1(), bestand.getErgebnisMuenzen1(),
-                Kassenbestand.MUENZE_1.toString(), Kassenbestand.MUENZE_1);
+                Kassenbestand.MUENZE_1.toString(), Kassenbestand.MUENZE_1, kassenstand.get(counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen50(), bestand.getErgebnisMuenzen50(),
-                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_50), Kassenbestand.MUENZE_50);
+                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_50), Kassenbestand.MUENZE_50, kassenstand.get(counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen20(), bestand.getErgebnisMuenzen20(),
-                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_20), Kassenbestand.MUENZE_20);
+                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_20), Kassenbestand.MUENZE_20, kassenstand.get(counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen10(), bestand.getErgebnisMuenzen10(),
-                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_10), Kassenbestand.MUENZE_10);
+                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_10), Kassenbestand.MUENZE_10, kassenstand.get(counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen5(), bestand.getErgebnisMuenzen5(),
-                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_5), Kassenbestand.MUENZE_5);
+                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_5), Kassenbestand.MUENZE_5, kassenstand.get(counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen2Cent(), bestand.getErgebnisMuenzen2Cent(),
-                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_2_CENT), Kassenbestand.MUENZE_2_CENT);
+                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_2_CENT), Kassenbestand.MUENZE_2_CENT,
+                kassenstand.get(counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen1Cent(), bestand.getErgebnisMuenzen1Cent(),
-                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_1_CENT), Kassenbestand.MUENZE_1_CENT);
+                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_1_CENT), Kassenbestand.MUENZE_1_CENT,
+                kassenstand.get(counter++));
         panel.add(new JLabel());
         panel.add(new JLabel("Differenz"));
         panel.add(new JLabel("Gesamt Kassenbuch"));
@@ -94,7 +103,21 @@ public class KassenstandBerechnenGUI extends BaseKassenbuchGUI {
         bestand.getDifferenzBetrag().setEditable(false);
         panel.add(bestand.getGesamtBetragKassenbuch());
         panel.add(bestand.getGesamtErgebnis());
+        berechne();
         return panel;
+    }
+
+    private List<String> loadSettings() {
+        List<String> kassenstand;
+        final String setting = (String) SettingsUtils.loadSettings().get(SettingsUtils.PROP_KASSENSTAND);
+        if (setting != null) {
+            kassenstand = Splitter.on("|").splitToList(setting);
+        } else {
+            final String[] empty = new String[15];
+            Arrays.fill(empty, Kassenbestand.STANDARD_VALUE_BERECHNEN);
+            kassenstand = Arrays.asList(empty);
+        }
+        return kassenstand;
     }
 
     private ActionListener getActionListener(final JPanel panel) {
@@ -107,6 +130,7 @@ public class KassenstandBerechnenGUI extends BaseKassenbuchGUI {
                 ImageIO.write(img, "png", outputfile);
                 JOptionPane.showMessageDialog(main, "Der Kassenstand wurde erfolgreich unter: \r\n'" + outputfile.getAbsolutePath()
                         + "' ablegt.");
+                saveKassenstand();
             } catch (final IOException ex) {
                 LOGGER.error("Screenshot vom Kassenstand konnte nicht gespeichert werden: {} {}", ex.getMessage(), ex);
             }
@@ -114,16 +138,59 @@ public class KassenstandBerechnenGUI extends BaseKassenbuchGUI {
         };
     }
 
+    private void saveKassenstand() {
+        SettingsUtils.setPropertyKassenstand(bestand.toSettingsString());
+    }
+
     private void addRowToPanelKassenstandBerechnen(final JPanel panel, final JTextField anzahlFeld, final JTextField ergebnisFeld,
-            final String betrag, final BigDecimal multiplier) {
+            final String betrag, final BigDecimal multiplier, final String anzahl) {
         panel.add(anzahlFeld);
+        anzahlFeld.setText(anzahl);
         panel.add(new JLabel("x " + betrag));
         panel.add(getMoneyPictureAsComponent(betrag.replace(",", "")));
         panel.add(ergebnisFeld);
-        ergebnisFeld.setText(STANDARD_VALUE_BERECHNEN);
+        ergebnisFeld.setText(KassenstandBerechnenUtils.berechneErgebnis(anzahl, multiplier));
         ergebnisFeld.setEditable(false);
         ergebnisFeld.setFocusable(false);
         addActionListener(anzahlFeld, ergebnisFeld, multiplier);
+    }
+
+    private void berechne() {
+        berechneGesamtergebnis();
+        setzeGesamtbetragKassenbuch();
+        berechneDifferenz();
+        colorDifferenzFeld();
+    }
+
+    private void setzeGesamtbetragKassenbuch() {
+        try {
+            bestand.getGesamtBetragKassenbuch().setText(
+                    KassenstandBerechnenUtils.getGesamtbetragKassenbuch(einstellungen.getDateipfadText(),
+                            einstellungen.getAblageverzeichnisText()));
+        } catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(main, e.getMessage());
+        }
+    }
+
+    private void berechneGesamtergebnis() {
+        bestand.getGesamtErgebnis().setText(KassenstandBerechnenUtils.berechneGesamtergebnis(bestand));
+    }
+
+    private void berechneDifferenz() {
+        bestand.getDifferenzBetrag().setText(
+                KassenstandBerechnenUtils.berechneDifferenz(bestand.getGesamtErgebnis().getText(), bestand.getGesamtBetragKassenbuch()
+                        .getText()));
+    }
+
+    private void colorDifferenzFeld() {
+        final String differenz = bestand.getDifferenzBetrag().getText();
+        if ("0,00".equals(differenz)) {
+            bestand.getDifferenzBetrag().setBackground(Color.GREEN);
+        } else if (StringUtils.startsWith(differenz, "-")) {
+            bestand.getDifferenzBetrag().setBackground(Color.RED);
+        } else {
+            bestand.getDifferenzBetrag().setBackground(Color.YELLOW);
+        }
     }
 
     private void addActionListener(final JTextField anzahlFeld, final JTextField ergebnisFeld, final BigDecimal multiplier) {
@@ -133,45 +200,11 @@ public class KassenstandBerechnenGUI extends BaseKassenbuchGUI {
             public void keyReleased(final KeyEvent e) {
                 anzahlFeld.setText(KassenstandBerechnenUtils.getNormalizedAnzahl(anzahlFeld.getText()));
                 berechneErgebnis();
-                berechneGesamtergebnis();
-                setzeGesamtbetragKassenbuch();
-                berechneDifferenz();
-                colorDifferenzFeld();
-            }
-
-            private void setzeGesamtbetragKassenbuch() {
-                try {
-                    bestand.getGesamtBetragKassenbuch().setText(
-                            KassenstandBerechnenUtils.getGesamtbetragKassenbuch(einstellungen.getDateipfadText(),
-                                    einstellungen.getAblageverzeichnisText()));
-                } catch (final IllegalStateException e) {
-                    JOptionPane.showMessageDialog(main, e.getMessage());
-                }
+                berechne();
             }
 
             private void berechneErgebnis() {
                 ergebnisFeld.setText(KassenstandBerechnenUtils.berechneErgebnis(anzahlFeld.getText(), multiplier));
-            }
-
-            private void berechneGesamtergebnis() {
-                bestand.getGesamtErgebnis().setText(KassenstandBerechnenUtils.berechneGesamtergebnis(bestand));
-            }
-
-            private void berechneDifferenz() {
-                bestand.getDifferenzBetrag().setText(
-                        KassenstandBerechnenUtils.berechneDifferenz(bestand.getGesamtErgebnis().getText(), bestand
-                                .getGesamtBetragKassenbuch().getText()));
-            }
-
-            private void colorDifferenzFeld() {
-                final String differenz = bestand.getDifferenzBetrag().getText();
-                if ("0,00".equals(differenz)) {
-                    bestand.getDifferenzBetrag().setBackground(Color.GREEN);
-                } else if (StringUtils.startsWith(differenz, "-")) {
-                    bestand.getDifferenzBetrag().setBackground(Color.RED);
-                } else {
-                    bestand.getDifferenzBetrag().setBackground(Color.YELLOW);
-                }
             }
 
             @Override

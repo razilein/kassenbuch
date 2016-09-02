@@ -1,8 +1,11 @@
 package de.sg.computerinsel.tools.kassenbuch.model;
 
 import java.math.BigDecimal;
+import java.util.StringJoiner;
 
 import javax.swing.JTextField;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Sita Geßner
@@ -39,6 +42,9 @@ public class Kassenbestand {
 
     public static final BigDecimal MUENZE_1_CENT = new BigDecimal("0.01");
 
+    public static final String STANDARD_VALUE_BERECHNEN = "0";
+
+    private static final StringJoiner PIPE_JOINER = new StringJoiner("|");
     /*
      * Geldscheine
      */
@@ -245,4 +251,16 @@ public class Kassenbestand {
         return differenzBetrag;
     }
 
+    public String toSettingsString() {
+        return PIPE_JOINER.add(normalizeAnzahl(anzahlScheine500)).add(normalizeAnzahl(anzahlScheine200))
+                .add(normalizeAnzahl(anzahlScheine100)).add(normalizeAnzahl(anzahlScheine50)).add(normalizeAnzahl(anzahlScheine20))
+                .add(normalizeAnzahl(anzahlScheine10)).add(normalizeAnzahl(anzahlScheine5)).add(normalizeAnzahl(anzahlMuenzen2))
+                .add(normalizeAnzahl(anzahlMuenzen1)).add(normalizeAnzahl(anzahlMuenzen50)).add(normalizeAnzahl(anzahlMuenzen20))
+                .add(normalizeAnzahl(anzahlMuenzen10)).add(normalizeAnzahl(anzahlMuenzen5)).add(normalizeAnzahl(anzahlMuenzen2Cent))
+                .add(normalizeAnzahl(anzahlMuenzen1Cent)).toString();
+    }
+
+    private String normalizeAnzahl(final JTextField anzahl) {
+        return StringUtils.defaultIfBlank(anzahl.getText(), STANDARD_VALUE_BERECHNEN);
+    }
 }
