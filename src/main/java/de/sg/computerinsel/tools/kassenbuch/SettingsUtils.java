@@ -24,6 +24,8 @@ public final class SettingsUtils {
 
     static final String PROP_LETZTE_CSV = "kassenbuch.letztecsvdateipfad";
 
+    static final String PROP_KASSENSTAND = "kassenbuch.kassenstand";
+
     private static final String FOLDER_CONFIG_PROPERTIES = "settings";
 
     private static final String FILENAME_CONFIG_PROPERTIES = "config.properties";
@@ -91,6 +93,12 @@ public final class SettingsUtils {
     public static void setPropertyAusgangsbetrag(final String ausgangsbetrag) {
         final Properties props = loadSettings();
         props.setProperty(PROP_AUSGANGSBETRAG, ausgangsbetrag.replace(".", ""));
+        saveProperties(props);
+    }
+
+    public static void setPropertyKassenstand(final String kassenstand) {
+        final Properties props = loadSettings();
+        props.setProperty(PROP_KASSENSTAND, kassenstand.replaceAll("[^0-9|]", ""));
         saveProperties(props);
     }
 
