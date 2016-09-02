@@ -104,3 +104,8 @@ V 1.0.2:
 - In der PDF Datei ist beim Ausgangsbetrag das Feld "Eingang" nun leer
 - Die Schriftgröße im PDF wurde erhöht
 - Die Betragsfelder im PDF wurden rechtsbündig ausgerichtet
+
+V 1.0.3:
+** 16 - Feld Eingang in PDF-Datei bei Ausgangsbetrag leer **
+- In der PDF Datei ist beim Ausgangsbetrag das Feld "Eingang" nun leer
+- In der Spalte "Eingang" wird der Ausgangsbetrag nun nicht mehr mitberechnet
