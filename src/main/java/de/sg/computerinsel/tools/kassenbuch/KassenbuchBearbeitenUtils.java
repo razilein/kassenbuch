@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +44,13 @@ public final class KassenbuchBearbeitenUtils {
         final File csvFile = KassenbuchErstellenUtils.createCsv(rechnungen, ausgangsRechnung,
                 filePath.substring(0, filePath.lastIndexOf(File.separator)));
         KassenbuchErstellenUtils.createPdf(rechnungen, ausgangsRechnung, filePath.substring(0, filePath.lastIndexOf(File.separator)));
+        deleteOldFiles(filePath, FilenameUtils.removeExtension(filePath) + ".pdf");
         return csvFile;
+    }
+
+    private static void deleteOldFiles(final String csvFilePath, final String pdfFilePath) {
+        FileUtils.deleteQuietly(new File(csvFilePath));
+        FileUtils.deleteQuietly(new File(pdfFilePath));
     }
 
     static Rechnung createNeueEintragung(final String verwendungstext, final Date datum, final BigDecimal betrag, final boolean isNegative) {

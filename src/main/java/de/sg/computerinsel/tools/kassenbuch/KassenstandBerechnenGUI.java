@@ -11,10 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
->>>>>>> 17 - Anzahl in Kassenstand berechnen speichern
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -43,8 +40,6 @@ import de.sg.computerinsel.tools.kassenbuch.model.Kassenbestand;
 public class KassenstandBerechnenGUI extends BaseKassenbuchGUI {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(KassenstandBerechnenGUI.class);
-
-    private static final String STANDARD_VALUE_BERECHNEN = "0";
 
     private final Kassenbestand bestand = new Kassenbestand();
 
