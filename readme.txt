@@ -106,9 +106,13 @@ V 1.0.2:
 - Die Betragsfelder im PDF wurden rechtsbündig ausgerichtet
 
 V 1.0.3:
+
 ** 16 - Feld Eingang in PDF-Datei bei Ausgangsbetrag leer **
 - In der PDF Datei ist beim Ausgangsbetrag das Feld "Eingang" nun leer
 - In der Spalte "Eingang" wird der Ausgangsbetrag nun nicht mehr mitberechnet
 
 ** 17 - Anzahl in Kassenstand berechnen speichern **
 - Beim Klick auf den Speichern-Button wird der Kassenstand nun gespeichert und steht beim erneuten Öffnen des Programms wieder zur Verfügung
+
+** 18 - Nach dem Bearbeiten des Kassenbuchs alte Dateien Löschen **
+- Nachdem ein Kassenbuch bearbeitet wurde, wird die CSV-/PDF-Datei unter "Zu bearbeitende CSV-Datei (mit Dateipfad)" gelöscht
