@@ -11,6 +11,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+<<<<<<< HEAD
+=======
+import java.util.ArrayList;
+>>>>>>> 17 - Anzahl in Kassenstand berechnen speichern
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -108,14 +112,15 @@ public class KassenstandBerechnenGUI extends BaseKassenbuchGUI {
     }
 
     private List<String> loadSettings() {
-        List<String> kassenstand;
+        final List<String> kassenstand = new ArrayList<>();
         final String setting = (String) SettingsUtils.loadSettings().get(SettingsUtils.PROP_KASSENSTAND);
         if (setting != null) {
-            kassenstand = Splitter.on("|").splitToList(setting);
+            final List<String> splittedSettings = Splitter.on("|").splitToList(setting);
+            splittedSettings.forEach(s -> kassenstand.add(KassenstandBerechnenUtils.getNormalizedAnzahl(s)));
         } else {
             final String[] empty = new String[15];
             Arrays.fill(empty, Kassenbestand.STANDARD_VALUE_BERECHNEN);
-            kassenstand = Arrays.asList(empty);
+            kassenstand.addAll(Arrays.asList(empty));
         }
         return kassenstand;
     }
