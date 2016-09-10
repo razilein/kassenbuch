@@ -14,14 +14,19 @@ import javax.persistence.Table;
 public class Reparatur extends IntegerBaseObject {
 
     @ManyToOne
-    @JoinColumn(name = "MITARBEITER_ID")
+    @JoinColumn(name = "mitarbeiter_id")
     private Mitarbeiter mitarbeiter;
+
+    @ManyToOne
+    @JoinColumn(name = "kunde_id", referencedColumnName = "id")
+    private Kunde kunde;
 
     @Column(name = "nummer")
     private String nummer;
 
     @Column(name = "art")
     private Integer art;
+
     @Column(name = "geraet")
     private String geraet;
 
@@ -143,6 +148,25 @@ public class Reparatur extends IntegerBaseObject {
 
     public void setKostenvoranschlag(final String kostenvoranschlag) {
         this.kostenvoranschlag = kostenvoranschlag;
+    }
+
+    public Kunde getKunde() {
+        return kunde;
+    }
+
+    public void setKunde(final Kunde kunde) {
+        this.kunde = kunde;
+    }
+
+    @Override
+    public Object[] getTableModelObject() {
+        return new Object[] { nummer, art, geraet, seriennummer, symptome, aufgaben, geraetepasswort, expressbeabeitung, abholdatum,
+                abholzeit, kostenvoranschlag, mitarbeiter, getId() };
+    }
+
+    @Override
+    public String toString() {
+        return "Reparatur " + nummer;
     }
 
 }

@@ -89,9 +89,13 @@ public class Kunde extends IntegerBaseObject {
     }
 
     @Override
+    public Object[] getTableModelObject() {
+        return new Object[] { nachname, vorname, strasse, plz, ort, telefon, email, getId() };
+    }
+
+    @Override
     public String toString() {
-        return "Kunde [nachname=" + nachname + ", vorname=" + vorname + ", strasse=" + strasse + ", plz=" + plz + ", ort=" + ort
-                + ", telefon=" + telefon + ", email=" + email + "]";
+        return "Kunde " + nachname + ", " + vorname;
     }
 
 }

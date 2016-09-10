@@ -41,7 +41,6 @@ public class FilialeGUI extends BaseEditGUI {
 
     FilialeGUI(final HibernateService service) {
         super.service = service;
-        super.main = main;
 
         main = new JFrame();
         main.setTitle("Reparaturprogramm - Filialien V1.0.0 © Sita Geßner");

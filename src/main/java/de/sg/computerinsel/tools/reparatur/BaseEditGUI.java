@@ -60,7 +60,7 @@ public class BaseEditGUI {
         columnModel.removeColumn(columnModel.getColumn(colNames.length));
     }
 
-    protected JScrollPane createTablePane(final MouseListener listener, final List<IntegerBaseObject> list, final String[] columns) {
+    protected JScrollPane createTablePane(final MouseListener listener, final List<? extends IntegerBaseObject> list, final String[] columns) {
         final JScrollPane pane = new JScrollPane();
 
         table.addMouseListener(listener);
@@ -68,8 +68,8 @@ public class BaseEditGUI {
         for (final IntegerBaseObject obj : list) {
             tableModel.addRow(obj.getTableModelObject());
         }
-        final int height = list.size() > 10 || list.isEmpty() ? 200 : list.size() * 30;
-        pane.setPreferredSize(new Dimension(600, height));
+        final int height = list.size() > 10 || list.isEmpty() ? 200 : list.size() * 35;
+        pane.setPreferredSize(new Dimension(main.getWidth(), height));
         pane.getViewport().add(table);
         return pane;
     }
@@ -92,19 +92,35 @@ public class BaseEditGUI {
     }
 
     protected JPanel createBtnPanel(final ActionListener listenerBtnErstellen, final ActionListener listenerBtnSpeichern) {
-        final JPanel panel = new JPanel(new GridLayout(1, 2, 5, 5));
+        return createBtnPanel(listenerBtnErstellen, listenerBtnSpeichern, null);
+    }
+
+    protected JPanel createBtnPanel(final ActionListener listenerBtnErstellen, final ActionListener listenerBtnSpeichern,
+            final ActionListener listenerBtnSuchen) {
+        final JPanel panel = new JPanel(new GridLayout(1, listenerBtnSuchen == null ? 3 : 4, 5, 5));
         panel.setPreferredSize(new Dimension(300, 50));
+
+        if (listenerBtnSuchen != null) {
+            final JButton btnSuchen = new JButton(new ImageIcon(getClass().getResource("pictures/suchen.png")));
+            btnSuchen.addActionListener(listenerBtnSuchen);
+            btnSuchen
+                    .setToolTipText("<html>Suchen<br>* = Platzhalter beliebig viele oder keine Zeichen<br>_ = Platzhalter ein Zeichen</html>");
+            panel.add(btnSuchen);
+        }
 
         final JButton btnErstellen = new JButton(new ImageIcon(getClass().getResource("pictures/erstellen.png")));
         btnErstellen.addActionListener(listenerBtnErstellen);
+        btnErstellen.setToolTipText("Erstellen");
         panel.add(btnErstellen);
 
         final JButton btnLoeschen = new JButton(new ImageIcon(getClass().getResource("pictures/loeschen.png")));
         btnLoeschen.addActionListener(getActionListenerBtnLoeschen());
+        btnLoeschen.setToolTipText("Löschen");
         panel.add(btnLoeschen);
 
         final JButton btnSpeichern = new JButton(new ImageIcon(getClass().getResource("pictures/speichern.png")));
         btnSpeichern.addActionListener(listenerBtnSpeichern);
+        btnSpeichern.setToolTipText("Speichern");
         panel.add(btnSpeichern);
 
         return panel;
