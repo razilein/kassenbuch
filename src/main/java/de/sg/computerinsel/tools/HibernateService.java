@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
@@ -35,14 +36,22 @@ public class HibernateService {
 
     public IntegerBaseObject save(final IntegerBaseObject o) {
         final Session session = sessionFactory.openSession();
-        if (o.getId() == null) {
-            session.save(o);
-            LOGGER.debug("Erfolgreich erstellt: {}", o.toString());
-        } else {
-            session.update(o);
-            LOGGER.debug("Erfolgreich bearbeitet: {}", o.toString());
+        final Transaction transaction = session.beginTransaction();
+        try {
+            if (o.getId() == null) {
+                session.save(o);
+                LOGGER.debug("Erfolgreich erstellt: {}", o.toString());
+            } else {
+                session.update(o);
+                LOGGER.debug("Erfolgreich bearbeitet: {}", o.toString());
+            }
+            transaction.commit();
+        } catch (final Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            transaction.rollback();
+        } finally {
+            session.close();
         }
-        session.close();
         return o;
     }
 
@@ -68,9 +77,17 @@ public class HibernateService {
 
     public void delete(final IntegerBaseObject o) {
         final Session session = sessionFactory.openSession();
-        session.remove(o);
-        LOGGER.debug("Erfolgreich gelöscht: {}", o.toString());
-        session.close();
+        final Transaction transaction = session.beginTransaction();
+        try {
+            session.remove(o);
+            transaction.commit();
+            LOGGER.debug("Erfolgreich gelöscht: {}", o.toString());
+        } catch (final Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            transaction.rollback();
+        } finally {
+            session.close();
+        }
     }
 
 }
