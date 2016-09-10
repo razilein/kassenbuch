@@ -58,3 +58,8 @@ local.properties
 ######
 config.properties
 logs/
+src/main/resources/de/sg/computerinsel/db/ci.tmp
+src/main/resources/de/sg/computerinsel/db/ci.lck
+src/main/resources/de/sg/computerinsel/db/ci.log
+src/main/resources/de/sg/computerinsel/db/ci.properties
+src/main/resources/de/sg/computerinsel/db/ci.script
