@@ -40,6 +40,7 @@ public class ReparaturGUI {
     private JMenu createMenuEinstellungen() {
         final JMenu menu = new JMenu("Einstellungen");
         menu.add(createMenuFilialie());
+        menu.add(createMenuMitarbeiter());
         return menu;
     }
 
@@ -109,6 +110,20 @@ public class ReparaturGUI {
         final JMenuItem menu = new JMenuItem("Bearbeiten");
         menu.addActionListener(e -> {
             new FilialeGUI(service);
+        });
+        return menu;
+    }
+
+    private JMenuItem createMenuMitarbeiter() {
+        final JMenu menu = new JMenu("Mitarbeiter");
+        menu.add(createMenuMitarbeiterBearbeiten());
+        return menu;
+    }
+
+    private JMenuItem createMenuMitarbeiterBearbeiten() {
+        final JMenuItem menu = new JMenuItem("Bearbeiten");
+        menu.addActionListener(e -> {
+            new MitarbeiterGUI(service);
         });
         return menu;
     }

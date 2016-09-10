@@ -21,4 +21,8 @@ public class IntegerBaseObject {
         this.id = id;
     }
 
+    public Object[] getTableModelObject() {
+        return new Object[id];
+    }
+
 }
