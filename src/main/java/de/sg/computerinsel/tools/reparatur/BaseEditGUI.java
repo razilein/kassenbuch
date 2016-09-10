@@ -1,0 +1,169 @@
+package de.sg.computerinsel.tools.reparatur;
+
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+
+import org.apache.commons.lang3.StringUtils;
+
+import de.sg.computerinsel.tools.HibernateService;
+import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
+
+/**
+ * @author Sita Geßner
+ */
+public class BaseEditGUI {
+
+    protected HibernateService service;
+
+    protected JFrame main;
+
+    private final DefaultTableModel tableModel = new DefaultTableModel() {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public boolean isCellEditable(final int row, final int column) {
+            return false;
+        }
+    };
+
+    private final JTable table = new JTable(tableModel);
+
+    private int selectedIndex;
+
+    private IntegerBaseObject obj;
+
+    private void prepareTableModel(final String... colNames) {
+        for (final String name : colNames) {
+            tableModel.addColumn(name);
+        }
+        tableModel.addColumn("ID");
+        final TableColumnModel columnModel = table.getColumnModel();
+        columnModel.removeColumn(columnModel.getColumn(colNames.length));
+    }
+
+    protected JScrollPane createTablePane(final MouseListener listener, final List<IntegerBaseObject> list, final String[] columns) {
+        final JScrollPane pane = new JScrollPane();
+
+        table.addMouseListener(listener);
+        prepareTableModel(columns);
+        for (final IntegerBaseObject obj : list) {
+            tableModel.addRow(obj.getTableModelObject());
+        }
+        final int height = list.size() > 10 || list.isEmpty() ? 200 : list.size() * 30;
+        pane.setPreferredSize(new Dimension(600, height));
+        pane.getViewport().add(table);
+        return pane;
+    }
+
+    protected String validate(final IntegerBaseObject obj) {
+        final StringBuilder errorMsg = new StringBuilder();
+        final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        final Set<ConstraintViolation<IntegerBaseObject>> validate = validator.validate(obj);
+        if (!validate.isEmpty()) {
+            errorMsg.append("<html>");
+        }
+        for (final ConstraintViolation<IntegerBaseObject> violation : validate) {
+            errorMsg.append(violation.getMessage());
+            errorMsg.append("<br>");
+        }
+        if (!validate.isEmpty()) {
+            errorMsg.append("</html>");
+        }
+        return errorMsg.toString();
+    }
+
+    protected JPanel createBtnPanel(final ActionListener listenerBtnErstellen, final ActionListener listenerBtnSpeichern) {
+        final JPanel panel = new JPanel(new GridLayout(1, 2, 5, 5));
+        panel.setPreferredSize(new Dimension(300, 50));
+
+        final JButton btnErstellen = new JButton(new ImageIcon(getClass().getResource("pictures/erstellen.png")));
+        btnErstellen.addActionListener(listenerBtnErstellen);
+        panel.add(btnErstellen);
+
+        final JButton btnLoeschen = new JButton(new ImageIcon(getClass().getResource("pictures/loeschen.png")));
+        btnLoeschen.addActionListener(getActionListenerBtnLoeschen());
+        panel.add(btnLoeschen);
+
+        final JButton btnSpeichern = new JButton(new ImageIcon(getClass().getResource("pictures/speichern.png")));
+        btnSpeichern.addActionListener(listenerBtnSpeichern);
+        panel.add(btnSpeichern);
+
+        return panel;
+    }
+
+    private ActionListener getActionListenerBtnLoeschen() {
+        return e -> {
+            final int reply = JOptionPane.showConfirmDialog(null, "Wollen Sie diesen Eintrag wirklich löschen?", obj.toString()
+                    + " löschen?", JOptionPane.YES_NO_OPTION);
+            if (reply == JOptionPane.YES_OPTION) {
+                service.delete(obj);
+                obj.setId(null);
+                tableModel.removeRow(selectedIndex);
+                JOptionPane.showMessageDialog(main, obj.toString() + " wurde erfolgreich gelöscht.");
+            }
+        };
+    }
+
+    protected void saveObj() {
+        final String errorMsg = validate(obj);
+        if (StringUtils.isBlank(errorMsg)) {
+            final boolean isErstellen = obj.getId() == null;
+            obj = service.save(obj);
+            JOptionPane.showMessageDialog(main, obj.toString() + " wurde erfolgreich gespeichert.");
+            if (isErstellen) {
+                tableModel.addRow(obj.getTableModelObject());
+            }
+        } else {
+            JOptionPane.showMessageDialog(main, errorMsg);
+        }
+    }
+
+    protected Vector<?> getRow(final Point point) {
+        selectedIndex = table.rowAtPoint(point);
+        return (Vector<?>) tableModel.getDataVector().elementAt(selectedIndex);
+    }
+
+    public IntegerBaseObject getObj() {
+        return obj;
+    }
+
+    public void setObj(final IntegerBaseObject obj) {
+        this.obj = obj;
+    }
+
+    public DefaultTableModel getTableModel() {
+        return tableModel;
+    }
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public int getSelectedIndex() {
+        return selectedIndex;
+    }
+
+    public void setSelectedIndex(final int selectedIndex) {
+        this.selectedIndex = selectedIndex;
+    }
+
+}
