@@ -1,5 +1,6 @@
 package de.sg.computerinsel.tools;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +43,10 @@ public class HibernateService {
         configuration.addAnnotatedClass(KundeReparatur.class);
         final StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
         sessionFactory = configuration.buildSessionFactory(builder.build());
+    }
+
+    public Map<String, Object> getConnectionProperties() {
+        return sessionFactory.getProperties();
     }
 
     public IntegerBaseObject save(final IntegerBaseObject o) {
@@ -88,6 +95,18 @@ public class HibernateService {
     public List<? extends IntegerBaseObject> listByConditions(final Class<? extends IntegerBaseObject> clzz, final Map<String, ?> conditions) {
         final Session session = sessionFactory.openSession();
         final Criteria criteria = session.createCriteria(clzz);
+        addConditionsToCriteria(conditions, criteria);
+        @SuppressWarnings("unchecked")
+        final List<IntegerBaseObject> list = criteria.list();
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Anzahl Einträge: {}", list.size());
+            list.forEach(o -> LOGGER.debug(o.toString()));
+        }
+        session.close();
+        return list;
+    }
+
+    private void addConditionsToCriteria(final Map<String, ?> conditions, final Criteria criteria) {
         for (final Entry<String, ?> entrySet : conditions.entrySet()) {
             if (entrySet.getValue() instanceof String) {
                 final String value = StringUtils.replace((String) entrySet.getValue(), "*", "%");
@@ -100,6 +119,22 @@ public class HibernateService {
                 criteria.add(Restrictions.eq(entrySet.getKey(), entrySet.getValue()));
             }
         }
+    }
+
+    public List<IntegerBaseObject> listByDate(final Date startDate, final Date endDate, final Map<String, ?> conditions) {
+        final Session session = sessionFactory.openSession();
+        final Criteria criteria = session.createCriteria(Reparatur.class);
+        addConditionsToCriteria(conditions, criteria);
+        final String reparaturField = getFieldNameByAnnotation(Reparatur.class, "abholdatum");
+        if (startDate != null) {
+            criteria.add(Restrictions.ge(reparaturField, startDate));
+        }
+        if (endDate != null) {
+            criteria.add(Restrictions.le(reparaturField, endDate));
+        }
+        criteria.addOrder(Order.asc(reparaturField));
+        criteria.addOrder(Order.asc(getFieldNameByAnnotation(Reparatur.class, "abholzeit")));
+        criteria.addOrder(Order.asc(getFieldNameByAnnotation(Reparatur.class, "nummer")));
         @SuppressWarnings("unchecked")
         final List<IntegerBaseObject> list = criteria.list();
         if (LOGGER.isDebugEnabled()) {
@@ -125,37 +160,54 @@ public class HibernateService {
         }
     }
 
-    public Map<String, String> createConditions(final IntegerBaseObject obj) {
-        final Map<String, String> conditions = new HashMap<>();
+    public Map<String, ?> createConditions(final IntegerBaseObject obj) {
+        final Map<String, Object> conditions = new HashMap<>();
         if (obj instanceof Kunde) {
             final Kunde kunde = (Kunde) obj;
-            try {
-                if (StringUtils.isNotBlank(kunde.getNachname())) {
-                    conditions.put(Kunde.class.getDeclaredField("nachname").getAnnotation(Column.class).name(), kunde.getNachname());
-                }
-                if (StringUtils.isNotBlank(kunde.getVorname())) {
-                    conditions.put(Kunde.class.getDeclaredField("vorname").getAnnotation(Column.class).name(), kunde.getVorname());
-                }
-                if (StringUtils.isNotBlank(kunde.getStrasse())) {
-                    conditions.put(Kunde.class.getDeclaredField("strasse").getAnnotation(Column.class).name(), kunde.getStrasse());
-                }
-                if (StringUtils.isNotBlank(kunde.getPlz())) {
-                    conditions.put(Kunde.class.getDeclaredField("plz").getAnnotation(Column.class).name(), kunde.getPlz());
-                }
-                if (StringUtils.isNotBlank(kunde.getOrt())) {
-                    conditions.put(Kunde.class.getDeclaredField("ort").getAnnotation(Column.class).name(), kunde.getOrt());
-                }
-                if (StringUtils.isNotBlank(kunde.getTelefon())) {
-                    conditions.put(Kunde.class.getDeclaredField("telefon").getAnnotation(Column.class).name(), kunde.getTelefon());
-                }
-                if (StringUtils.isNotBlank(kunde.getEmail())) {
-                    conditions.put(Kunde.class.getDeclaredField("email").getAnnotation(Column.class).name(), kunde.getEmail());
-                }
-            } catch (NoSuchFieldException | SecurityException e) {
-                LOGGER.error(e.getMessage(), e);
+            if (StringUtils.isNotBlank(kunde.getNachname())) {
+                conditions.put(getFieldNameByAnnotation(obj.getClass(), "nachname"), kunde.getNachname());
+            }
+            if (StringUtils.isNotBlank(kunde.getVorname())) {
+                conditions.put(getFieldNameByAnnotation(obj.getClass(), "vorname"), kunde.getVorname());
+            }
+            if (StringUtils.isNotBlank(kunde.getStrasse())) {
+                conditions.put(getFieldNameByAnnotation(obj.getClass(), "strasse"), kunde.getStrasse());
+            }
+            if (StringUtils.isNotBlank(kunde.getPlz())) {
+                conditions.put(getFieldNameByAnnotation(obj.getClass(), "plz"), kunde.getPlz());
+            }
+            if (StringUtils.isNotBlank(kunde.getOrt())) {
+                conditions.put(getFieldNameByAnnotation(obj.getClass(), "ort"), kunde.getOrt());
+            }
+            if (StringUtils.isNotBlank(kunde.getTelefon())) {
+                conditions.put(getFieldNameByAnnotation(obj.getClass(), "telefon"), kunde.getTelefon());
+            }
+            if (StringUtils.isNotBlank(kunde.getEmail())) {
+                conditions.put(getFieldNameByAnnotation(obj.getClass(), "email"), kunde.getEmail());
+            }
+        } else if (obj instanceof Reparatur) {
+            final Reparatur reparatur = (Reparatur) obj;
+            if (reparatur.getErledigt() != null) {
+                conditions.put(getFieldNameByAnnotation(obj.getClass(), "erledigt"), reparatur.getErledigt());
             }
         }
         return conditions;
+    }
+
+    private String getFieldNameByAnnotation(final Class<? extends IntegerBaseObject> clzz, final String field) {
+        try {
+            return clzz.getDeclaredField(field).getAnnotation(Column.class).name();
+        } catch (NoSuchFieldException | SecurityException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    public Integer getMaxId(final Class<? extends IntegerBaseObject> clzz) {
+        final Session session = sessionFactory.openSession();
+        final Integer maxId = (Integer) session.createCriteria(clzz).setProjection(Projections.max("id")).uniqueResult();
+        session.close();
+        return maxId == null ? 0 : maxId;
     }
 
 }

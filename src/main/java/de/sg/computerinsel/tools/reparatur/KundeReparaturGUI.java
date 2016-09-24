@@ -1,27 +1,38 @@
 package de.sg.computerinsel.tools.reparatur;
 
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.sg.computerinsel.tools.HibernateService;
+import de.sg.computerinsel.tools.ReportService;
 import de.sg.computerinsel.tools.reparatur.model.Kunde;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
@@ -32,12 +43,18 @@ import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
  */
 public class KundeReparaturGUI extends BaseEditGUI {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(KundeReparaturGUI.class);
+
     private static final String[] COLUMNS = new String[] { "Nummer", "Art", "Gerät", "Seriennummer", "Symptome / Fehler",
             "Geplante Aufgaben", "Gerätepasswort", "Expressbearbeitung", "Abholdatum", "Abholzeit", "Kostenvoranschlag", "Mitarbeiter" };
 
+    private static final SimpleDateFormat DATE = new SimpleDateFormat("dd.MM.yyyy");
+
+    private static final SimpleDateFormat TIME = new SimpleDateFormat("HH:mm");
+
     private final JTextField nummerFeld = new JTextField();
 
-    private final JComboBox<ReparaturArt> artFeld = new JComboBox<>(ReparaturArt.values());
+    private final JComboBox<DropDownItem> artFeld = new JComboBox<>();
 
     private final JTextField geraetFeld = new JTextField();
 
@@ -49,7 +66,7 @@ public class KundeReparaturGUI extends BaseEditGUI {
 
     private final JTextField geraetepasswortFeld = new JTextField();
 
-    private final JCheckBox expressbeabeitungFeld = new JCheckBox();
+    private final JCheckBox expressbearbeitungFeld = new JCheckBox();
 
     private final JTextField abholdatumFeld = new JTextField();
 
@@ -57,14 +74,19 @@ public class KundeReparaturGUI extends BaseEditGUI {
 
     private final JTextField kostenvoranschlagFeld = new JTextField();
 
-    private final JTextField mitarbeiterFeld = new JTextField();
+    private final JComboBox<DropDownItem> mitarbeiterFeld = new JComboBox<>();
 
     private final Kunde kunde;
+
+    private final ReportService reportService;
 
     public KundeReparaturGUI(final HibernateService service, final Kunde kunde) {
         super.service = service;
         this.kunde = kunde;
-
+        reportService = new ReportService(service.getConnectionProperties());
+        service.list(Mitarbeiter.class)
+                .forEach(m -> mitarbeiterFeld.addItem(new DropDownItem(((Mitarbeiter) m).getId(), ((Mitarbeiter) m).getCompleteName())));
+        Arrays.asList(ReparaturArt.values()).forEach(r -> artFeld.addItem(new DropDownItem(r.getCode(), r.getDescription())));
         main = new JFrame();
         main.setTitle("Reparaturprogramm - Kunden V1.0.0 © Sita Geßner");
         main.setIconImage(new ImageIcon(getClass().getResource("pictures/zahnrad.png")).getImage());
@@ -80,32 +102,65 @@ public class KundeReparaturGUI extends BaseEditGUI {
         panel.add(createTablePane(getTableMouseListener(),
                 service.listByConditions(Reparatur.class, Collections.singletonMap("kunde.id", kunde.getId())), COLUMNS));
         panel.add(createEditPanel());
-        panel.add(createBtnPanel(getActionListenerBtnSpeichern(true), getActionListenerBtnSpeichern(false)));
+
+        final JButton btnDownload = new JButton(new ImageIcon(getClass().getResource("pictures/download.png")));
+        btnDownload.addActionListener(getActionListenerShowReport());
+        btnDownload.setToolTipText("Download PDF");
+
+        panel.add(createBtnPanel(getActionListenerBtnSpeichern(true), getActionListenerBtnSpeichern(false), btnDownload));
         return panel;
+    }
+
+    private ActionListener getActionListenerShowReport() {
+        return e -> {
+            if (Desktop.isDesktopSupported()) {
+                for (final File reportFile : reportService.createReport(getObj().getId().intValue(), SettingsUtils.getFiliale())) {
+                    if (reportFile.exists()) {
+                        try {
+                            Desktop.getDesktop().open(reportFile);
+                        } catch (final IOException e1) {
+                            LOGGER.error(e1.getMessage(), e);
+                        }
+                    }
+                }
+            }
+        };
     }
 
     private ActionListener getActionListenerBtnSpeichern(final boolean erstellen) {
         return e -> {
             final Reparatur reparatur = getObj() instanceof Reparatur && !erstellen ? (Reparatur) getObj() : new Reparatur();
             reparatur.setNummer(nummerFeld.getText());
-            reparatur.setArt(artFeld.getSelectedIndex());
+            DropDownItem item = (DropDownItem) artFeld.getSelectedItem();
+            reparatur.setArt(ReparaturArt.getByCode(item.getId()).getCode());
             reparatur.setGeraet(StringUtils.stripToNull(geraetFeld.getText()));
             reparatur.setSeriennummer(StringUtils.stripToNull(seriennummerFeld.getText()));
             reparatur.setSymptome(StringUtils.stripToNull(symptomeFeld.getText()));
             reparatur.setAufgaben(StringUtils.stripToNull(aufgabenFeld.getText()));
             reparatur.setGeraetepasswort(StringUtils.stripToNull(geraetepasswortFeld.getText()));
-            reparatur.setExpressbeabeitung(expressbeabeitungFeld.isSelected());
-            // filiale.setAbholdatum(StringUtils.stripToNull(abholdatumFeld.getText()));
-            // filiale.setAbholzeit(StringUtils.stripToNull(abholzeitFeld.getText()));
+            reparatur.setExpressbeabeitung(expressbearbeitungFeld.isSelected());
             reparatur.setKostenvoranschlag(StringUtils.stripToNull(kostenvoranschlagFeld.getText()));
-            setObj(reparatur);
-            saveObj();
+            final Mitarbeiter mitarbeiter = new Mitarbeiter();
+            item = (DropDownItem) mitarbeiterFeld.getSelectedItem();
+            mitarbeiter.setId(item == null ? null : item.getId());
+            reparatur.setMitarbeiter(mitarbeiter);
+            reparatur.setKunde(kunde);
+            try {
+                reparatur.setAbholdatum(DATE.parse(StringUtils.stripToNull(abholdatumFeld.getText())));
+                reparatur.setAbholzeit(new Time(TIME.parse(StringUtils.stripToNull(abholzeitFeld.getText())).getTime()));
+                setObj(reparatur);
+                saveObj();
+            } catch (final ParseException e1) {
+                LOGGER.debug(e1.getMessage(), e1);
+                JOptionPane.showMessageDialog(main,
+                        "Bitte geben Sie eine gültiges Abholdatum (Format dd.MM.yyyy) und eine gültige Abholzeit (Format HH:mm) an.");
+            }
         };
     }
 
     private JPanel createEditPanel() {
         final JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(400, 400));
+        panel.setPreferredSize(new Dimension(600, 400));
         panel.setLayout(new GridLayout(20, 1));
         panel.add(new JLabel(COLUMNS[0]));
         panel.add(nummerFeld);
@@ -123,7 +178,7 @@ public class KundeReparaturGUI extends BaseEditGUI {
         panel.add(new JLabel(COLUMNS[6]));
         panel.add(geraetepasswortFeld);
         panel.add(new JLabel(COLUMNS[7]));
-        panel.add(expressbeabeitungFeld);
+        panel.add(expressbearbeitungFeld);
         panel.add(new JLabel(COLUMNS[8]));
         panel.add(abholdatumFeld);
         panel.add(new JLabel(COLUMNS[9]));
@@ -170,7 +225,7 @@ public class KundeReparaturGUI extends BaseEditGUI {
 
                     final Integer art = (Integer) row.get(1);
                     reparatur.setArt(art);
-                    artFeld.setSelectedIndex(art);
+                    setArtFeld(art);
 
                     final String geraet = (String) row.get(2);
                     reparatur.setGeraet(geraet);
@@ -194,17 +249,15 @@ public class KundeReparaturGUI extends BaseEditGUI {
 
                     final Boolean expressbeabeitung = (Boolean) row.get(7);
                     reparatur.setExpressbeabeitung(expressbeabeitung);
-                    expressbeabeitungFeld.setSelected(expressbeabeitung);
+                    expressbearbeitungFeld.setSelected(expressbeabeitung);
 
                     final Date abholdatum = (Date) row.get(8);
-                    // TODO Abholdatum
                     reparatur.setAbholdatum(abholdatum);
-                    abholdatumFeld.setText(abholdatum.toString());
+                    abholdatumFeld.setText(DATE.format(abholdatum));
 
                     final Time abholzeit = (Time) row.get(9);
-                    // TODO Abholzeit
                     reparatur.setAbholzeit(abholzeit);
-                    abholzeitFeld.setText(abholzeit.toString());
+                    abholzeitFeld.setText(TIME.format(abholzeit));
 
                     final String kostenvoranschlag = (String) row.get(10);
                     reparatur.setKostenvoranschlag(kostenvoranschlag);
@@ -212,14 +265,32 @@ public class KundeReparaturGUI extends BaseEditGUI {
 
                     final Mitarbeiter mitarbeiter = (Mitarbeiter) row.get(11);
                     reparatur.setMitarbeiter(mitarbeiter);
-                    mitarbeiterFeld.setText(mitarbeiter.toString());
+                    setMitarbeiterFeld(mitarbeiter);
 
                     reparatur.setId((Integer) row.get(12));
+                    reparatur.setKunde(kunde);
                     setObj(reparatur);
                 }
 
             }
+
+            private void setMitarbeiterFeld(final Mitarbeiter mitarbeiter) {
+                for (int i = 0; i < mitarbeiterFeld.getItemCount(); i++) {
+                    final DropDownItem item = mitarbeiterFeld.getItemAt(i);
+                    if (mitarbeiter.getId().equals(item.getId())) {
+                        mitarbeiterFeld.setSelectedIndex(i);
+                    }
+                }
+            }
+
+            private void setArtFeld(final Integer art) {
+                for (int i = 0; i < artFeld.getItemCount(); i++) {
+                    final DropDownItem item = artFeld.getItemAt(i);
+                    if (art.equals(item.getId())) {
+                        artFeld.setSelectedIndex(i);
+                    }
+                }
+            }
         };
     }
-
 }

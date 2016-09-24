@@ -132,6 +132,7 @@ public class ReparaturGUI {
     private JMenuItem createMenuKunden() {
         final JMenu menu = new JMenu("Kunden");
         menu.add(createMenuKundenBearbeiten());
+        menu.add(createMenuBericht());
         return menu;
     }
 
@@ -140,6 +141,15 @@ public class ReparaturGUI {
         menu.setToolTipText("Hier können Sie Kundenkarteien durchsuchen/erstellen/bearbeiten/löschen und die Reparaturen zu einem Kunden aufrufen.");
         menu.addActionListener(e -> {
             new KundenGUI(service);
+        });
+        return menu;
+    }
+
+    private JMenuItem createMenuBericht() {
+        final JMenuItem menu = new JMenuItem("Was geht?");
+        menu.setToolTipText("Hier können Sie einsehen welche Aufträge in einem bestimmten Zeitraum anstehen. Die Aufträge können erledigt werden.");
+        menu.addActionListener(e -> {
+            new BerichteGUI(service);
         });
         return menu;
     }

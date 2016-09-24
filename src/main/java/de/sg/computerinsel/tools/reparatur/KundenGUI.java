@@ -185,7 +185,7 @@ public class KundenGUI extends BaseEditGUI {
                     telefonFeld.setText(telefon);
 
                     final String email = (String) row.get(5);
-                    kunde.setTelefon(email);
+                    kunde.setEmail(email);
                     emailFeld.setText(email);
 
                     kunde.setId((Integer) row.get(7));

@@ -43,6 +43,11 @@ public class Filiale extends IntegerBaseObject {
     @Column(name = "email")
     private String email;
 
+    @NotNull(message = "Bitte geben Sie das Kürzel der Filiale an. Dieses wird den Auftragsnummer vorangestellt.")
+    @Size(max = 3, message = "Das Kürzel darf nicht länger als 3 Zeichen sein.")
+    @Column(name = "kuerzel")
+    private String kuerzel;
+
     public String getName() {
         return name;
     }
@@ -91,13 +96,22 @@ public class Filiale extends IntegerBaseObject {
         this.email = email;
     }
 
+    public String getKuerzel() {
+        return kuerzel;
+    }
+
+    public void setKuerzel(final String kuerzel) {
+        this.kuerzel = kuerzel;
+    }
+
     public String toHtmlString() {
-        return "<html>[" + name + "]<br>" + email + "<br>" + strasse + "<br> " + plz + " " + ort + "<br> " + telefon + "</html>";
+        return "<html>[" + name + " (" + kuerzel + ")" + "]<br>" + email + "<br>" + strasse + "<br> " + plz + " " + ort + "<br> " + telefon
+                + "</html>";
     }
 
     @Override
     public Object[] getTableModelObject() {
-        return new Object[] { name, email, strasse, plz, ort, telefon, getId() };
+        return new Object[] { name, kuerzel, email, strasse, plz, ort, telefon, getId() };
     }
 
     @Override
