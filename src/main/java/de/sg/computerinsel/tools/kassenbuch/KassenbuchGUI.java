@@ -17,12 +17,13 @@ public class KassenbuchGUI {
 
     public void create(final JFrame main) {
         main.setIconImage(new ImageIcon(getClass().getResource("pictures/kasse.png")).getImage());
-        main.setTitle("Kassenbuchprogramm V1.0.3 © Sita Geßner");
+        main.setTitle("Kassenbuchprogramm V1.1.0 © Sita Geßner");
         loadSettings();
         final JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Kassenbuch erstellen", new KassenbuchErstellenGUI(main, einstellungen).createPanel());
         tabbedPane.addTab("Kassenbuch bearbeiten", new KassenbuchBearbeitenGUI(main, einstellungen).createPanel());
         tabbedPane.addTab("Kassenstand berechnen", new KassenstandBerechnenGUI(main, einstellungen).createPanel());
+        tabbedPane.addTab("Statistiken", new KassenbuchStatistikGUI(main, einstellungen).createPanel());
         tabbedPane.addTab("Einstellungen", new EinstellungenGUI(main, einstellungen).createPanel());
         main.add(tabbedPane);
     }

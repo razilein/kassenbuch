@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,12 +18,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import org.apache.commons.io.Charsets;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,125 +61,6 @@ public final class KassenbuchErstellenUtils {
     private static final Font TEXTFONT = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL);
 
     private KassenbuchErstellenUtils() {
-    }
-
-    public static List<Rechnung> readHtmlFiles(final File directory, final Date dateFrom, final Date dateTo) {
-        final File[] files = directory.listFiles((FilenameFilter) (dir, name) -> name.contains(".htm"));
-        LOGGER.info("{} Rechnungen gefunden", files.length);
-
-        int counterBarRechnungen = 0;
-        final List<Rechnung> rechnungen = new ArrayList<>();
-        for (final File file : files) {
-            if (isBarRechnung(file)) {
-                final Rechnung rechnung = parseFile(file, dateFrom, dateTo);
-                if (rechnung != null) {
-                    rechnungen.add(rechnung);
-                    counterBarRechnungen++;
-                }
-            }
-        }
-        LOGGER.info("{} Rechnungen verarbeitet", counterBarRechnungen);
-        return rechnungen;
-    }
-
-    private static boolean isBarRechnung(final File file) {
-        Boolean isBarRechnung = false;
-        final String dateiname = file.getName();
-        try {
-            final Document doc = Jsoup.parse(file, Charsets.UTF_8.name());
-            final Elements elements = doc.select("p");
-            if (elements.get(elements.size() - 3).text().contains("BAR")) {
-                isBarRechnung = true;
-            } else {
-                final String text = doc.text();
-                String zahlungsart = StringUtils.substring(text, StringUtils.indexOf(text, "Zahlungsart: ") + 13, text.length());
-                final int indexOf = StringUtils.indexOf(zahlungsart, " ");
-                if (indexOf > 0) {
-                    zahlungsart = StringUtils.substring(zahlungsart, 0, indexOf);
-                }
-                isBarRechnung = "BAR".equals(zahlungsart);
-                LOGGER.info("Rechnung: {}, besitzt als Zahlungsart nicht 'BAR'. Alternatives Auslesen der Zahlungsart ergab: {}",
-                        dateiname, zahlungsart);
-            }
-        } catch (final IOException e) {
-            LOGGER.error("Datei: '{}' kann nicht geparst werden: {}", dateiname, e.getMessage());
-        }
-        return isBarRechnung;
-    }
-
-    private static Rechnung parseFile(final File file, final Date dateFrom, final Date dateTo) {
-        Rechnung rechnung = null;
-        try {
-            final Document doc = Jsoup.parse(file, Charsets.UTF_8.name());
-            final Date rechnungsdatum = extractRechnungsdatumFromFile(doc, file.getName());
-            if (isRechnungsdatumInRechnungszeitraum(dateFrom, dateTo, rechnungsdatum)) {
-                rechnung = new Rechnung();
-                rechnung.setRechnungsdatum(rechnungsdatum);
-                rechnung.setRechnungsnummer(extractRechnungsnummerFromFile(doc, file.getName()));
-                rechnung.setRechnungsbetrag(extractRechnungbetragFromFile(doc));
-                LOGGER.info("Erfolgreich eingelesene Rechnung: {}", rechnung);
-            } else {
-                LOGGER.info("Rechnungsdatum: {} der Rechnung {} liegt nicht im angegebenen Rechnunszeitraum von {} bis {}",
-                        DATE_FORMAT.format(rechnungsdatum), file.getName(), DATE_FORMAT.format(dateFrom), DATE_FORMAT.format(dateTo));
-            }
-        } catch (final IOException e) {
-            LOGGER.error("Datei: '{}' kann nicht geparst werden: {}", file.getName(), e.getMessage());
-        } catch (final NumberFormatException e) {
-            LOGGER.error("Rechnungsbetrag der Datei: '{}' kann nicht geparst werden: {}", file.getName(), e.getMessage());
-        } catch (final ParseException e) {
-            LOGGER.error("Rechnungsdatum: {} der Datei: '{}' kann nicht geparst werden: ", file.getName(), e.getMessage());
-        }
-        return rechnung;
-    }
-
-    private static boolean isRechnungsdatumInRechnungszeitraum(final Date dateFrom, final Date dateTo, final Date rechnungsdatum) {
-        return rechnungsdatum.equals(dateFrom) || rechnungsdatum.equals(dateTo)
-                || (rechnungsdatum.after(dateFrom) && rechnungsdatum.before(dateTo));
-    }
-
-    private static Date extractRechnungsdatumFromFile(final Document doc, final String filename) throws ParseException {
-        Date date = null;
-        try {
-            final Elements elements = doc.select("table").get(0).select("td");
-            final String rechnungsdatum = StringUtils.replace(elements.get(elements.size() - 1).text(), "Rechnungsdatum: ", "").trim();
-            date = DateUtils.parseDate(rechnungsdatum, FORMAT_DATUM);
-        } catch (final ParseException e) {
-            final int indexOf = StringUtils.indexOf(doc.text(), "Rechnungsdatum: ");
-            final String alternativeRechnungsdatum = StringUtils.substring(doc.text(), indexOf + 16, indexOf + 26);
-            LOGGER.info(
-                    "Rechnungsdatum: {} der Datei: '{}' kann nicht geparst werden. Alternativ ausgelesenes Rechnungsdatum wird verwendet: {}",
-                    e.getMessage(), filename, alternativeRechnungsdatum);
-            date = DateUtils.parseDate(alternativeRechnungsdatum, FORMAT_DATUM);
-        }
-        return date;
-    }
-
-    private static String extractRechnungsnummerFromFile(final Document doc, final String filename) {
-        String rechnungsnummer = StringUtils.replace(doc.select("td").get(0).text(), "Rechnungsnummer: ", "");
-        if (!StringUtils.isNumeric(rechnungsnummer)
-                || (rechnungsnummer.length() >= 1 && !StringUtils.isNumeric(StringUtils.substring(rechnungsnummer, 1)))) {
-            final String text = doc.text();
-            StringUtils.indexOf(text, "Rechnungsnummer: ");
-            StringUtils.indexOf(text, "Rechnungsdatum: ");
-            final String alternativeRechnungsnummer = StringUtils
-                    .substring(text, StringUtils.indexOf(text, "Rechnungsnummer: ") + 17, StringUtils.indexOf(text, "Rechnungsdatum: "))
-                    .trim().replace("\u00a0", "");
-            LOGGER.info("Rechnungsnummer: {} der Datei: '{}' ungültig. Alternativ ausgelesene Rechnungsnummer wird verwendet: {}",
-                    rechnungsnummer, filename, alternativeRechnungsnummer);
-            rechnungsnummer = alternativeRechnungsnummer;
-        }
-        return rechnungsnummer;
-    }
-
-    private static BigDecimal extractRechnungbetragFromFile(final Document doc) {
-        final Elements tableElements = doc.select("table");
-        final Elements elements = tableElements.get(tableElements.size() - 1).select("td");
-        final String rechnungsbetrag = elements.get(elements.size() - 1).text();
-        return new BigDecimal(normalizeCurrencyValue(rechnungsbetrag));
-    }
-
-    private static String normalizeCurrencyValue(final String value) {
-        return StringUtils.replace(StringUtils.substring(value, 0, value.length() - 1), ",", ".");
     }
 
     public static File createCsv(final List<Rechnung> files, final Rechnung ausgangsRechnung, final String ablageverzeichnis) {
@@ -327,8 +201,8 @@ public final class KassenbuchErstellenUtils {
 
         for (final Rechnung rechnung : rechnungen) {
             final String verwendungszweck = StringUtils.isNumeric(rechnung.getRechnungsnummer())
-                    || StringUtils.isNumeric(StringUtils.substring(rechnung.getRechnungsnummer(), 1)) ? "Rechnung: "
-                    + rechnung.getRechnungsnummer() : rechnung.getRechnungsnummer();
+                    || StringUtils.isNumeric(StringUtils.substring(rechnung.getRechnungsnummer(), 1))
+                            ? "Rechnung: " + rechnung.getRechnungsnummer() : rechnung.getRechnungsnummer();
             final String formattedRechnungsbetrag = BETRAG_FORMAT.format(rechnung.getRechnungsbetrag());
             gesamtBetrag = gesamtBetrag.add(rechnung.getRechnungsbetrag());
             gesamtEingang = isEingangssbetrag(formattedRechnungsbetrag) ? gesamtEingang.add(rechnung.getRechnungsbetrag()) : gesamtEingang;
