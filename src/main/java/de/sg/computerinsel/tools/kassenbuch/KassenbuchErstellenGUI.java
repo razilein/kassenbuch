@@ -190,7 +190,7 @@ public class KassenbuchErstellenGUI extends BaseKassenbuchGUI {
                 return rechnung;
             }
 
-            private boolean validatePath(final String path, final String messageDescription) {
+            public boolean validatePath(final String path, final String messageDescription) {
                 boolean result = true;
                 if (StringUtils.isBlank(path) || !new File(path).exists() || !new File(path).isDirectory()) {
                     JOptionPane.showMessageDialog(main, "Bitte geben Sie ein gültiges " + messageDescription + " ein.");

@@ -2,10 +2,14 @@ package de.sg.computerinsel.tools.kassenbuch.model;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.time.Month;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import com.google.common.base.Joiner;
 import com.google.common.primitives.Ints;
@@ -32,6 +36,14 @@ public class Rechnung {
     private Zahlart art;
 
     private List<Rechnungsposten> posten;
+
+    public Date getRechnungsjahr() {
+        return DateUtils.truncate(rechnungsdatum, Calendar.YEAR);
+    }
+
+    public Month getRechnungsmonat() {
+        return rechnungsdatum.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getMonth();
+    }
 
     public Integer getRechnungsnummerAsInt() {
         return StringUtils.isNumeric(rechnungsnummer) ? Integer.valueOf(rechnungsnummer)

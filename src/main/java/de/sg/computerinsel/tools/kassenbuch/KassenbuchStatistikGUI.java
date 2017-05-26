@@ -5,15 +5,30 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Panel;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.time.Month;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import de.sg.computerinsel.tools.kassenbuch.model.Einstellungen;
+import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
+import de.sg.computerinsel.tools.kassenbuch.model.Zahlart;
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author Sita Geßner
+ */
+@Slf4j
 public class KassenbuchStatistikGUI {
 
     private final JFrame main;
@@ -32,8 +47,6 @@ public class KassenbuchStatistikGUI {
 
     public JPanel createPanel() {
         final JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        final JButton btnEinlesen = new JButton("Rechnungen einlesen");
-        btnEinlesen.addActionListener(getActionListenerBtnRechnungenEinlesen());
         final JButton btnAnzeigen = new JButton("Statistik anzeigen");
         btnAnzeigen.addActionListener(getActionListenerBtnStatistikAnzeigen());
 
@@ -50,8 +63,7 @@ public class KassenbuchStatistikGUI {
         postenPanel.add(posten);
         panel.add(postenPanel);
 
-        final Panel btnPanel = new Panel(new FlowLayout(FlowLayout.LEFT));
-        btnPanel.add(btnEinlesen);
+        final Panel btnPanel = new Panel(new FlowLayout(FlowLayout.RIGHT));
         btnPanel.add(btnAnzeigen);
         panel.add(btnPanel);
 
@@ -60,14 +72,32 @@ public class KassenbuchStatistikGUI {
 
     private ActionListener getActionListenerBtnStatistikAnzeigen() {
         return e -> {
-
+            final Date dateFrom = parseDate(zeitraumVon.getText());
+            final Date dateTo = parseDate(zeitraumBis.getText());
+            if (dateFrom != null && dateTo != null) {
+                final List<Rechnung> rechnungen = RechnungenEinlesenUtils
+                        .readHtmlFilesWithPosten(new File(einstellungen.getRechnungsverzeichnisText()), dateFrom, dateTo);
+                log.debug("{} Rechnungen ausgelesen", rechnungen.size());
+                final File ablageverzeichnis = new File(einstellungen.getAblageverzeichnisText());
+                final Map<Integer, Map<Zahlart, Map<Month, List<Rechnung>>>> statistikProJahrZahlungsartMonat = KassenbuchStatistikUtils
+                        .getStatistikProJahrZahlungsartMonat(rechnungen);
+                try {
+                    KassenbuchStatistikUtils.createFile(ablageverzeichnis, statistikProJahrZahlungsartMonat);
+                } catch (final IOException e1) {
+                    log.error(e1.getMessage(), e1);
+                    JOptionPane.showMessageDialog(main, "Fehler beim erzeugen der Statistik. Näheres ist der Log-Datei zu entnehmen.");
+                }
+            }
         };
     }
 
-    private ActionListener getActionListenerBtnRechnungenEinlesen() {
-        return e -> {
-
-        };
+    public Date parseDate(final String date) {
+        try {
+            return KassenbuchErstellenUtils.DATE_FORMAT.parse(date);
+        } catch (final ParseException e) {
+            JOptionPane.showMessageDialog(main, "Das angegebene Datum besitzt kein gültiges Datumsformat. (dd.MM.yyyy)");
+        }
+        return null;
     }
 
 }

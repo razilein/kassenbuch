@@ -1,17 +1,18 @@
 package de.sg.computerinsel.tools.kassenbuch;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.Charsets;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jsoup.Jsoup;
@@ -51,8 +52,8 @@ public final class RechnungenEinlesenUtils {
     }
 
     private static List<Rechnung> readHtmlFiles(final File directory, final Date dateFrom, final Date dateTo, final boolean complete) {
-        final File[] files = directory.listFiles((FilenameFilter) (dir, name) -> name.contains(".htm"));
-        log.info("{} Rechnungen gefunden", files.length);
+        final Collection<File> files = listFiles(directory, complete);
+        log.info("{} Rechnungen gefunden", files.size());
 
         int counterBarRechnungen = 0;
         final List<Rechnung> rechnungen = new ArrayList<>();
@@ -73,25 +74,16 @@ public final class RechnungenEinlesenUtils {
 
     }
 
+    private Collection<File> listFiles(final File directory, final boolean complete) {
+        return FileUtils.listFiles(directory, null, complete);
+    }
+
     private static boolean isBarRechnung(final File file) {
         Boolean isBarRechnung = false;
         final String dateiname = file.getName();
         try {
             final Document doc = Jsoup.parse(file, Charsets.UTF_8.name());
-            final Elements elements = doc.select("p");
-            if (elements.get(elements.size() - 3).text().contains("BAR")) {
-                isBarRechnung = true;
-            } else {
-                final String text = doc.text();
-                String zahlungsart = StringUtils.substring(text, StringUtils.indexOf(text, "Zahlungsart: ") + 13, text.length());
-                final int indexOf = StringUtils.indexOf(zahlungsart, " ");
-                if (indexOf > 0) {
-                    zahlungsart = StringUtils.substring(zahlungsart, 0, indexOf);
-                }
-                isBarRechnung = "BAR".equals(zahlungsart);
-                log.info("Rechnung: {}, besitzt als Zahlungsart nicht 'BAR'. Alternatives Auslesen der Zahlungsart ergab: {}", dateiname,
-                        zahlungsart);
-            }
+            isBarRechnung = Zahlart.BAR == extractZahlartFromFile(doc);
         } catch (final IOException e) {
             log.error("Datei: '{}' kann nicht geparst werden: {}", dateiname, e.getMessage());
         }
@@ -118,6 +110,7 @@ public final class RechnungenEinlesenUtils {
                 rechnung.setRechnungsbetrag(extractRechnungbetragFromFile(doc));
                 if (readPosten) {
                     rechnung.setPosten(extractRechnungspostenFromFile(doc));
+                    rechnung.setArt(extractZahlartFromFile(doc));
                 }
                 log.info("Erfolgreich eingelesene Rechnung: {}", rechnung);
             } else {
@@ -141,13 +134,13 @@ public final class RechnungenEinlesenUtils {
 
     private static Zahlart extractZahlartFromFile(final Document doc) {
         final Elements elements = doc.select("p");
-        final Zahlart art = Zahlart.getByBezeichnung(elements.get(elements.size() - 3).text());
+        Zahlart art = Zahlart.getByBezeichnung(elements.get(elements.size() - 3).text());
         if (art == null) {
             final String text = doc.text();
             final String zahlungsart = StringUtils.substring(text, StringUtils.indexOf(text, "Zahlungsart: ") + 13, text.length());
             final int indexOf = StringUtils.indexOf(zahlungsart, " ");
             if (indexOf > 0) {
-                Zahlart.getByBezeichnung(StringUtils.substring(zahlungsart, 0, indexOf));
+                art = Zahlart.getByBezeichnung(StringUtils.substring(zahlungsart, 0, indexOf));
             }
         }
         return art;
