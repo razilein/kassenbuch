@@ -1,13 +1,17 @@
 package de.sg.computerinsel.tools.kassenbuch;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -85,25 +89,18 @@ public class KassenbuchBearbeitenGUI extends BaseKassenbuchGUI {
         eintragungsArt.add(eintragungsArtEingang);
         prepareTableModel();
 
-        layout.setHorizontalGroup(layout
-                .createSequentialGroup()
-                .addComponent(new JLabel("Zu bearbeitende CSV-Datei (mit Dateipfad)"))
+        layout.setHorizontalGroup(layout.createSequentialGroup().addComponent(new JLabel("Zu bearbeitende CSV-Datei (mit Dateipfad)"))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(einstellungen.getDateipfad()))
                 .addComponent(new JLabel("Verwendungszweck"))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(verwendungszweck))
-                .addGroup(
-                        layout.createSequentialGroup()
-                                .addGroup(
-                                        layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                .addComponent(new JLabel("Eintragungsdatum")).addComponent(eintragungsDatum))
-                                .addGroup(
-                                        layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(new JLabel("Betrag"))
-                                                .addComponent(eintragungsArtAusgang).addComponent(eintragungsArtEingang)
-                                                .addComponent(eintragungsBetrag)))
+                .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(new JLabel("Eintragungsdatum"))
+                                .addComponent(eintragungsDatum))
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(new JLabel("Betrag"))
+                                .addComponent(eintragungsArtAusgang).addComponent(eintragungsArtEingang).addComponent(eintragungsBetrag)))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(btnStart))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(createTablePane()))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(btnAnzeigen)));
-
         return panel;
     }
 
@@ -180,7 +177,24 @@ public class KassenbuchBearbeitenGUI extends BaseKassenbuchGUI {
     }
 
     private JScrollPane createTablePane() {
-        final JScrollPane pane = new JScrollPane();
+        final JScrollPane pane = new JScrollPane() {
+            {
+                setOpaque(false);
+                getViewport().setOpaque(false);
+            }
+
+            @Override
+            protected void paintComponent(final Graphics g) {
+                try {
+                    final BufferedImage image = ImageIO.read(getClass().getResource("pictures/background.png"));
+                    g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+                } catch (final IOException e) {
+                    LOGGER.error(e.getMessage(), e);
+                }
+                super.paintComponent(g);
+            }
+
+        };
         pane.setPreferredSize(new Dimension(550, 200));
         pane.getViewport().add(table);
         return pane;
@@ -195,10 +209,10 @@ public class KassenbuchBearbeitenGUI extends BaseKassenbuchGUI {
 
     private void addTableEntry(final Rechnung rechnung) {
         final String rechnungsbetrag = KassenbuchErstellenUtils.BETRAG_FORMAT.format(rechnung.getRechnungsbetrag());
-        tableModel.addRow(new String[] { KassenbuchErstellenUtils.DATE_FORMAT.format(rechnung.getRechnungsdatum()),
-                rechnung.getRechnungsnummer(),
-                KassenbuchErstellenUtils.isEingangssbetrag(rechnungsbetrag) ? rechnungsbetrag : StringUtils.EMPTY,
-                KassenbuchErstellenUtils.isAusgangsbetrag(rechnungsbetrag) ? rechnungsbetrag : StringUtils.EMPTY });
+        tableModel.addRow(
+                new String[] { KassenbuchErstellenUtils.DATE_FORMAT.format(rechnung.getRechnungsdatum()), rechnung.getRechnungsnummer(),
+                        KassenbuchErstellenUtils.isEingangssbetrag(rechnungsbetrag) ? rechnungsbetrag : StringUtils.EMPTY,
+                        KassenbuchErstellenUtils.isAusgangsbetrag(rechnungsbetrag) ? rechnungsbetrag : StringUtils.EMPTY });
     }
 
 }

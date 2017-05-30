@@ -208,13 +208,19 @@ public final class RechnungenEinlesenUtils {
         final Elements columns = row.getElementsByTag("td");
         Rechnungsposten posten = null;
         if (columns.size() == 5) {
-            posten = new Rechnungsposten(Ints.tryParse(columns.get(0).text()), columns.get(1).text(),
+            posten = new Rechnungsposten(Ints.tryParse(columns.get(0).text()), normalizeBezeichnung(columns.get(1).text()),
                     new BigDecimal(normalizeCurrencyValue(columns.get(2).text())),
-                    new BigDecimal(normalizeCurrencyValue(columns.get(3).text())));
+                    new BigDecimal(normalizeCurrencyValue(columns.get(3).text())),
+                    new BigDecimal(normalizeCurrencyValue(columns.get(4).text())));
         } else {
             log.debug("Überspringe Posten, da ungültige Anzahl an Spalten: {}", row.text());
         }
         return posten;
+    }
+
+    private static String normalizeBezeichnung(final String text) {
+        final String normalized = text.endsWith("()") ? text.substring(0, text.length() - 2) : text;
+        return normalized.trim();
     }
 
     private static String normalizeCurrencyValue(final String value) {

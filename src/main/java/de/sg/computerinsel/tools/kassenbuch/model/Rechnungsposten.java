@@ -17,6 +17,9 @@ public class Rechnungsposten {
     private String bezeichnung;
 
     private BigDecimal preis;
+
     private BigDecimal rabatt;
+
+    private BigDecimal gesamt;
 
 }

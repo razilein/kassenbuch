@@ -37,13 +37,10 @@ public class EinstellungenGUI extends BaseKassenbuchGUI {
         btnRememberSettings.addActionListener(getActionListenerBtnEinstellungenMerken());
         final GroupLayout layout = new GroupLayout(panel);
         layout.setAutoCreateGaps(true);
-        layout.setHorizontalGroup(layout
-                .createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(new JLabel("Rechnungsverzeichnis"))
-                .addComponent(einstellungen.getRechnungsverzeichnis())
-                .addGroup(
-                        layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(new JLabel("Ablageverzeichnis"))
-                                .addComponent(einstellungen.getAblageverzeichnis()))
+        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(new JLabel("Rechnungsverzeichnis")).addComponent(einstellungen.getRechnungsverzeichnis())
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(new JLabel("Ablageverzeichnis"))
+                        .addComponent(einstellungen.getAblageverzeichnis()))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING).addComponent(btnRememberSettings)));
         panel.add(btnRememberSettings);
 

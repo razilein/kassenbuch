@@ -7,8 +7,11 @@ import java.awt.Panel;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +51,7 @@ public class KassenbuchStatistikGUI {
     public JPanel createPanel() {
         final JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         final JButton btnAnzeigen = new JButton("Statistik anzeigen");
-        btnAnzeigen.addActionListener(getActionListenerBtnStatistikAnzeigen());
+        btnAnzeigen.addActionListener(getActionListenerBtnStatistikAnzeigen(panel));
 
         final JPanel datumPanel = new JPanel(new GridLayout(2, 2, 5, 0));
         datumPanel.setPreferredSize(new Dimension(350, 40));
@@ -67,10 +70,23 @@ public class KassenbuchStatistikGUI {
         btnPanel.add(btnAnzeigen);
         panel.add(btnPanel);
 
+        presetFields();
+
         return panel;
     }
 
-    private ActionListener getActionListenerBtnStatistikAnzeigen() {
+    private void presetFields() {
+        final LocalDateTime firstDayOfYear = LocalDateTime.now().withDayOfYear(1);
+        zeitraumVon
+                .setText(KassenbuchErstellenUtils.DATE_FORMAT.format(Date.from(firstDayOfYear.atZone(ZoneId.systemDefault()).toInstant())));
+
+        final LocalDateTime lastDayOfYear = LocalDateTime.now().withMonth(Month.DECEMBER.getValue()).withDayOfMonth(31);
+        zeitraumBis
+                .setText(KassenbuchErstellenUtils.DATE_FORMAT.format(Date.from(lastDayOfYear.atZone(ZoneId.systemDefault()).toInstant())));
+        posten.setText("Service");
+    }
+
+    private ActionListener getActionListenerBtnStatistikAnzeigen(final JPanel panel) {
         return e -> {
             final Date dateFrom = parseDate(zeitraumVon.getText());
             final Date dateTo = parseDate(zeitraumBis.getText());
@@ -79,10 +95,15 @@ public class KassenbuchStatistikGUI {
                         .readHtmlFilesWithPosten(new File(einstellungen.getRechnungsverzeichnisText()), dateFrom, dateTo);
                 log.debug("{} Rechnungen ausgelesen", rechnungen.size());
                 final File ablageverzeichnis = new File(einstellungen.getAblageverzeichnisText());
-                final Map<Integer, Map<Zahlart, Map<Month, List<Rechnung>>>> statistikProJahrZahlungsartMonat = KassenbuchStatistikUtils
-                        .getStatistikProJahrZahlungsartMonat(rechnungen);
                 try {
+                    final Map<Integer, Map<Zahlart, Map<Month, List<Rechnung>>>> statistikProJahrZahlungsartMonat = KassenbuchStatistikUtils
+                            .getStatistikProJahrZahlungsartMonat(rechnungen);
                     KassenbuchStatistikUtils.createFile(ablageverzeichnis, statistikProJahrZahlungsartMonat);
+
+                    final Map<Integer, Map<String, Map<Month, BigDecimal>>> statistikProJahrPostenMonat = KassenbuchStatistikUtils
+                            .getStatistikProJahrPostenMonat(rechnungen, posten.getText());
+                    KassenbuchStatistikUtils.createPostenFile(ablageverzeichnis, statistikProJahrPostenMonat);
+                    JOptionPane.showMessageDialog(main, "Statistiken wurden erzeugt und im Ablageverzeichnis abgelegt.");
                 } catch (final IOException e1) {
                     log.error(e1.getMessage(), e1);
                     JOptionPane.showMessageDialog(main, "Fehler beim erzeugen der Statistik. Näheres ist der Log-Datei zu entnehmen.");
