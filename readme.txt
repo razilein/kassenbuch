@@ -116,3 +116,15 @@ V 1.0.3:
 
 ** 18 - Nach dem Bearbeiten des Kassenbuchs alte Dateien Löschen **
 - Nachdem ein Kassenbuch bearbeitet wurde, wird die CSV-/PDF-Datei unter "Zu bearbeitende CSV-Datei (mit Dateipfad)" gelöscht
+
+V 1.1.0:
+
+** 20 - Statistiken hinzufügen **
+- Der neue Reiter "Statistik" wurde hinzugefügt und ermöglicht es über einen bestimmten Zeitraum Rechnungen auszuwerten.
+- 1. Rechnungen im Zeitraum aufgeteilt nach Zahlart
+- 2. Rechnungen im Zeitraum aufgeteilt nach Posten, Filterung der Posten möglich
+- Die erstellten Statistiken werden abgelegt im Rechnnungsverzeichnis.
+
+** XX - Hintergrundbild für Tabelle Kassenbuch bearbeiten **
+- Für die Tabelle im Reiter "Kassenbuch bearbeiten" wurde ein Hintergrundbild hinzugefügt. Dieses ist austauschbar in der JAR unter:
+/de/sg/computerinsel/tools/kassenbuch/pictures/background.png

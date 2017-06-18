@@ -145,7 +145,7 @@ public class KassenbuchErstellenGUI extends BaseKassenbuchGUI {
                     final BigDecimal startBetrag, final Date startBetragdatum) {
                 File csvFile = null;
                 File pdfFile = null;
-                final List<Rechnung> rechnungen = KassenbuchErstellenUtils.readHtmlFiles(new File(rechnungsPath), dateFrom, dateTo);
+                final List<Rechnung> rechnungen = RechnungenEinlesenUtils.readHtmlFiles(new File(rechnungsPath), dateFrom, dateTo);
                 if (rechnungen.isEmpty()) {
                     LOGGER.info("Keine Rechnungen gefunden.");
                     JOptionPane.showMessageDialog(main,
@@ -164,8 +164,7 @@ public class KassenbuchErstellenGUI extends BaseKassenbuchGUI {
 
                 }
                 if (csvFile == null) {
-                    JOptionPane.showMessageDialog(
-                            main,
+                    JOptionPane.showMessageDialog(main,
                             "Fehler beim Erstellen der CSV-Datei. Siehe " + KassenbuchUtils.getJarExecutionDirectory() + "logs"
                                     + System.getProperty("file.separator") + "system.logs für weitere Hinweise.");
                 } else {
@@ -174,8 +173,7 @@ public class KassenbuchErstellenGUI extends BaseKassenbuchGUI {
                 }
 
                 if (pdfFile == null) {
-                    JOptionPane.showMessageDialog(
-                            main,
+                    JOptionPane.showMessageDialog(main,
                             "Fehler beim Erstellen der PDF-Datei. Siehe " + KassenbuchUtils.getJarExecutionDirectory() + "logs"
                                     + System.getProperty("file.separator") + "system.logs für weitere Hinweise.");
                 } else {
@@ -192,7 +190,7 @@ public class KassenbuchErstellenGUI extends BaseKassenbuchGUI {
                 return rechnung;
             }
 
-            private boolean validatePath(final String path, final String messageDescription) {
+            public boolean validatePath(final String path, final String messageDescription) {
                 boolean result = true;
                 if (StringUtils.isBlank(path) || !new File(path).exists() || !new File(path).isDirectory()) {
                     JOptionPane.showMessageDialog(main, "Bitte geben Sie ein gültiges " + messageDescription + " ein.");

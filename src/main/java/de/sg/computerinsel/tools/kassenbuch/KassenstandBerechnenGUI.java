@@ -60,37 +60,41 @@ public class KassenstandBerechnenGUI extends BaseKassenbuchGUI {
         final List<String> kassenstand = loadSettings();
         int counter = 0;
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlScheine500(), bestand.getErgebnisScheine500(),
-                Kassenbestand.SCHEIN_500.toString(), Kassenbestand.SCHEIN_500, kassenstand.get(counter++));
+                Kassenbestand.SCHEIN_500.toString(), Kassenbestand.SCHEIN_500, getAnzahl(kassenstand, counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlScheine200(), bestand.getErgebnisScheine200(),
-                Kassenbestand.SCHEIN_200.toString(), Kassenbestand.SCHEIN_200, kassenstand.get(counter++));
+                Kassenbestand.SCHEIN_200.toString(), Kassenbestand.SCHEIN_200, getAnzahl(kassenstand, counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlScheine100(), bestand.getErgebnisScheine100(),
-                Kassenbestand.SCHEIN_100.toString(), Kassenbestand.SCHEIN_100, kassenstand.get(counter++));
+                Kassenbestand.SCHEIN_100.toString(), Kassenbestand.SCHEIN_100, getAnzahl(kassenstand, counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlScheine50(), bestand.getErgebnisScheine50(),
-                Kassenbestand.SCHEIN_50.toString(), Kassenbestand.SCHEIN_50, kassenstand.get(counter++));
+                Kassenbestand.SCHEIN_50.toString(), Kassenbestand.SCHEIN_50, getAnzahl(kassenstand, counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlScheine20(), bestand.getErgebnisScheine20(),
-                Kassenbestand.SCHEIN_20.toString(), Kassenbestand.SCHEIN_20, kassenstand.get(counter++));
+                Kassenbestand.SCHEIN_20.toString(), Kassenbestand.SCHEIN_20, getAnzahl(kassenstand, counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlScheine10(), bestand.getErgebnisScheine10(),
-                Kassenbestand.SCHEIN_10.toString(), Kassenbestand.SCHEIN_10, kassenstand.get(counter++));
+                Kassenbestand.SCHEIN_10.toString(), Kassenbestand.SCHEIN_10, getAnzahl(kassenstand, counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlScheine5(), bestand.getErgebnisScheine5(),
-                Kassenbestand.SCHEIN_5.toString(), Kassenbestand.SCHEIN_5, kassenstand.get(counter++));
+                Kassenbestand.SCHEIN_5.toString(), Kassenbestand.SCHEIN_5, getAnzahl(kassenstand, counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen2(), bestand.getErgebnisMuenzen2(),
-                Kassenbestand.MUENZE_2.toString(), Kassenbestand.MUENZE_2, kassenstand.get(counter++));
+                Kassenbestand.MUENZE_2.toString(), Kassenbestand.MUENZE_2, getAnzahl(kassenstand, counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen1(), bestand.getErgebnisMuenzen1(),
-                Kassenbestand.MUENZE_1.toString(), Kassenbestand.MUENZE_1, kassenstand.get(counter++));
+                Kassenbestand.MUENZE_1.toString(), Kassenbestand.MUENZE_1, getAnzahl(kassenstand, counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen50(), bestand.getErgebnisMuenzen50(),
-                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_50), Kassenbestand.MUENZE_50, kassenstand.get(counter++));
+                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_50), Kassenbestand.MUENZE_50,
+                getAnzahl(kassenstand, counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen20(), bestand.getErgebnisMuenzen20(),
-                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_20), Kassenbestand.MUENZE_20, kassenstand.get(counter++));
+                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_20), Kassenbestand.MUENZE_20,
+                getAnzahl(kassenstand, counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen10(), bestand.getErgebnisMuenzen10(),
-                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_10), Kassenbestand.MUENZE_10, kassenstand.get(counter++));
+                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_10), Kassenbestand.MUENZE_10,
+                getAnzahl(kassenstand, counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen5(), bestand.getErgebnisMuenzen5(),
-                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_5), Kassenbestand.MUENZE_5, kassenstand.get(counter++));
+                KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_5), Kassenbestand.MUENZE_5,
+                getAnzahl(kassenstand, counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen2Cent(), bestand.getErgebnisMuenzen2Cent(),
                 KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_2_CENT), Kassenbestand.MUENZE_2_CENT,
-                kassenstand.get(counter++));
+                getAnzahl(kassenstand, counter++));
         addRowToPanelKassenstandBerechnen(panel, bestand.getAnzahlMuenzen1Cent(), bestand.getErgebnisMuenzen1Cent(),
                 KassenstandBerechnenUtils.getFormattedBetrag(Kassenbestand.MUENZE_1_CENT), Kassenbestand.MUENZE_1_CENT,
-                kassenstand.get(counter++));
+                getAnzahl(kassenstand, counter++));
         panel.add(new JLabel());
         panel.add(new JLabel("Differenz"));
         panel.add(new JLabel("Gesamt Kassenbuch"));
@@ -104,6 +108,10 @@ public class KassenstandBerechnenGUI extends BaseKassenbuchGUI {
         panel.add(bestand.getGesamtErgebnis());
         berechne();
         return panel;
+    }
+
+    private String getAnzahl(final List<String> kassenstand, final int counter) {
+        return kassenstand.size() > counter ? kassenstand.get(counter) : "0";
     }
 
     private List<String> loadSettings() {
@@ -128,8 +136,8 @@ public class KassenstandBerechnenGUI extends BaseKassenbuchGUI {
                     KassenbuchErstellenUtils.DATE_FORMAT_FILES.format(new Date()) + "_kassenstand.png");
             try {
                 ImageIO.write(img, "png", outputfile);
-                JOptionPane.showMessageDialog(main, "Der Kassenstand wurde erfolgreich unter: \r\n'" + outputfile.getAbsolutePath()
-                        + "' ablegt.");
+                JOptionPane.showMessageDialog(main,
+                        "Der Kassenstand wurde erfolgreich unter: \r\n'" + outputfile.getAbsolutePath() + "' ablegt.");
                 saveKassenstand();
             } catch (final IOException ex) {
                 LOGGER.error("Screenshot vom Kassenstand konnte nicht gespeichert werden: {} {}", ex.getMessage(), ex);
@@ -164,9 +172,8 @@ public class KassenstandBerechnenGUI extends BaseKassenbuchGUI {
 
     private void setzeGesamtbetragKassenbuch() {
         try {
-            bestand.getGesamtBetragKassenbuch().setText(
-                    KassenstandBerechnenUtils.getGesamtbetragKassenbuch(einstellungen.getDateipfadText(),
-                            einstellungen.getAblageverzeichnisText()));
+            bestand.getGesamtBetragKassenbuch().setText(KassenstandBerechnenUtils
+                    .getGesamtbetragKassenbuch(einstellungen.getDateipfadText(), einstellungen.getAblageverzeichnisText()));
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(main, e.getMessage());
         }
@@ -177,9 +184,8 @@ public class KassenstandBerechnenGUI extends BaseKassenbuchGUI {
     }
 
     private void berechneDifferenz() {
-        bestand.getDifferenzBetrag().setText(
-                KassenstandBerechnenUtils.berechneDifferenz(bestand.getGesamtErgebnis().getText(), bestand.getGesamtBetragKassenbuch()
-                        .getText()));
+        bestand.getDifferenzBetrag().setText(KassenstandBerechnenUtils.berechneDifferenz(bestand.getGesamtErgebnis().getText(),
+                bestand.getGesamtBetragKassenbuch().getText()));
     }
 
     private void colorDifferenzFeld() {
