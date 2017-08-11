@@ -182,8 +182,15 @@ public final class RechnungenEinlesenUtils {
 
     private static BigDecimal extractRechnungbetragFromFile(final Document doc) {
         final Elements tableElements = doc.select("table");
-        final Elements elements = tableElements.get(tableElements.size() - 1).select("td");
+        final Element sumElements = tableElements.get(tableElements.size() - 1);
+        final Elements rows = sumElements.select("tr");
+        final Element possibleBetragRow1 = rows.get(rows.size() - 1);
+        final Element possibleBetragRow2 = rows.get(rows.size() - 3);
+
+        final Element betragRow = possibleBetragRow1.text().contains("Rechnungsbetrag") ? possibleBetragRow1 : possibleBetragRow2;
+        final Elements elements = betragRow.select("td");
         final String rechnungsbetrag = elements.get(elements.size() - 1).text();
+
         return new BigDecimal(normalizeCurrencyValue(rechnungsbetrag));
     }
 

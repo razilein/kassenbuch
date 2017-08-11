@@ -128,3 +128,8 @@ V 1.1.0:
 ** XX - Hintergrundbild für Tabelle Kassenbuch bearbeiten **
 - Für die Tabelle im Reiter "Kassenbuch bearbeiten" wurde ein Hintergrundbild hinzugefügt. Dieses ist austauschbar in der JAR unter:
 /de/sg/computerinsel/tools/kassenbuch/pictures/background.png
+
+V 1.1.1:
+** XX - Umstellung - Auslesen des Rechnungsbetrags geändert **
+- Der Rechnungsbetrag wurde in den HTML-Rechnungen verschoben. Es wird nun automatisch erkannt, ob sich der Rechnungsbetrag an erster oder letzter
+Stelle im Gesamtergebnis befindet.
