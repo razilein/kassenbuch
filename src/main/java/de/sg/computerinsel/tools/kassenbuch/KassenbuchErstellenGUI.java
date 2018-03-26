@@ -1,13 +1,22 @@
 package de.sg.computerinsel.tools.kassenbuch;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -61,6 +70,8 @@ public class KassenbuchErstellenGUI extends BaseKassenbuchGUI {
         final String currentDate = KassenbuchErstellenUtils.DATE_FORMAT.format(new Date());
         ausgangsbetragDatum.setText(currentDate);
         zeitraumVon.setText(currentDate);
+        zeitraumVon.addFocusListener(getOnFocusLostAdapter(currentDate));
+        zeitraumVon.addKeyListener(getKeyListener(currentDate));
         zeitraumBis.setText(currentDate);
 
         final JPanel datumPanel = new JPanel(new GridLayout(2, 2, 5, 0));
@@ -88,6 +99,47 @@ public class KassenbuchErstellenGUI extends BaseKassenbuchGUI {
         return panel;
     }
 
+    private KeyListener getKeyListener(final String currentDate) {
+        return new KeyListener() {
+
+            @Override
+            public void keyTyped(final KeyEvent arg0) {
+            }
+
+            @Override
+            public void keyReleased(final KeyEvent arg0) {
+                ausgangsbetrag.setBackground(StringUtils.equals(currentDate, zeitraumVon.getText()) ? Color.WHITE : Color.RED);
+            }
+
+            @Override
+            public void keyPressed(final KeyEvent arg0) {
+            }
+        };
+    }
+
+    private FocusAdapter getOnFocusLostAdapter(final String currentDate) {
+        return new FocusAdapter() {
+            @Override
+            public void focusLost(final FocusEvent e) {
+                try {
+                    if (!StringUtils.equals(currentDate, zeitraumVon.getText())) {
+                        final Date dateFrom = KassenbuchErstellenUtils.DATE_FORMAT.parse(zeitraumVon.getText());
+                        LocalDate date = Instant.ofEpochMilli(dateFrom.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+                        date = date.minusDays(date.getDayOfWeek() == DayOfWeek.MONDAY ? 2 : 1);
+                        final String formattedDateTo = date.format(KassenbuchErstellenUtils.DATETIME_FORMAT);
+                        ausgangsbetragDatum.setText(zeitraumVon.getText());
+                        JOptionPane.showMessageDialog(main,
+                                "<html><body width='250'>Bitte beachten Sie, dass der Wert im Feld 'Ausgangsbetrag' auf dem Betrag vom "
+                                        + formattedDateTo
+                                        + " gesetzt werden muss.<br><br> Das <b>Datum</b> des Ausgangsbetrags wurde <b>automatisch</b> gesetzt.</body></html>");
+                    }
+                } catch (final ParseException e1) {
+                    LOGGER.debug(e1.getMessage(), e);
+                }
+            }
+        };
+    }
+
     private ActionListener getActionListenerBtnKassenbuchErstellen() {
         return new ActionListener() {
 
@@ -103,7 +155,7 @@ public class KassenbuchErstellenGUI extends BaseKassenbuchGUI {
                     dateFrom = KassenbuchErstellenUtils.DATE_FORMAT.parse(zeitraumVon.getText());
                 } catch (final ParseException e1) {
                     JOptionPane.showMessageDialog(main,
-                            "Das angegebene Datum im Feld 'Rechnungsdatum von' besitzt kein gültiges Datumsformat. (dd.MM.yyyy)");
+                            "<html><body width='250'>Das angegebene Datum im Feld 'Rechnungsdatum von' besitzt kein gültiges Datumsformat. (dd.MM.yyyy)</body></html>");
                     validParameters = false;
                 }
 
@@ -112,7 +164,7 @@ public class KassenbuchErstellenGUI extends BaseKassenbuchGUI {
                     dateTo = KassenbuchErstellenUtils.DATE_FORMAT.parse(zeitraumBis.getText());
                 } catch (final ParseException e1) {
                     JOptionPane.showMessageDialog(main,
-                            "Das angegebene Datum im Feld 'Rechnungsdatum bis' besitzt kein gültiges Datumsformat. (dd.MM.yyyy)");
+                            "<html><body width='250'>Das angegebene Datum im Feld 'Rechnungsdatum bis' besitzt kein gültiges Datumsformat. (dd.MM.yyyy)</body></html>");
                     validParameters = false;
                 }
 
@@ -121,7 +173,7 @@ public class KassenbuchErstellenGUI extends BaseKassenbuchGUI {
                     startBetrag = new BigDecimal(KassenbuchBearbeitenUtils.normalizeCurrencyValue(ausgangsbetrag.getText()));
                 } catch (final NumberFormatException e2) {
                     JOptionPane.showMessageDialog(main,
-                            "Bitte geben Sie im Feld 'Ausgangsbetrag' einen gültigen Wert ein (ohne Währungssymbol).");
+                            "<html><body width='250'>Bitte geben Sie im Feld 'Ausgangsbetrag' einen gültigen Wert ein (ohne Währungssymbol).</body></html>");
                     validParameters = false;
                 }
 
@@ -130,7 +182,7 @@ public class KassenbuchErstellenGUI extends BaseKassenbuchGUI {
                     startBetragdatum = KassenbuchErstellenUtils.DATE_FORMAT.parse(ausgangsbetragDatum.getText());
                 } catch (final ParseException e1) {
                     JOptionPane.showMessageDialog(main,
-                            "Das angegebene Datum im Feld 'Ausgangsdatum vom' besitzt kein gültiges Datumsformat. (dd.MM.yyyy)");
+                            "<html><body width='250'>Das angegebene Datum im Feld 'Ausgangsdatum vom' besitzt kein gültiges Datumsformat. (dd.MM.yyyy)</body></html>");
                     validParameters = false;
                 }
 
@@ -149,9 +201,9 @@ public class KassenbuchErstellenGUI extends BaseKassenbuchGUI {
                 if (rechnungen.isEmpty()) {
                     LOGGER.info("Keine Rechnungen gefunden.");
                     JOptionPane.showMessageDialog(main,
-                            "Im angegebenen Verzeichnis '" + rechnungsPath + "' konnten keine BAR-Rechnungen im angegebenen Zeitraum vom "
+                            "<html><body width='250'>Im hinterlegten Rechnungsverzeichnis konnten keine BAR-Rechnungen im angegebenen Zeitraum <br><br>vom "
                                     + KassenbuchErstellenUtils.DATE_FORMAT.format(dateFrom) + " bis "
-                                    + KassenbuchErstellenUtils.DATE_FORMAT.format(dateTo) + " gefunden werden.");
+                                    + KassenbuchErstellenUtils.DATE_FORMAT.format(dateTo) + "<br><br>gefunden werden.</body></html>");
                 } else {
                     final Rechnung ausgangsRechnung = createStartBetrag(startBetrag, startBetragdatum);
                     csvFile = KassenbuchErstellenUtils.createCsv(rechnungen, ausgangsRechnung, ablagePath);
@@ -163,22 +215,14 @@ public class KassenbuchErstellenGUI extends BaseKassenbuchGUI {
                     LOGGER.info("Kassenbuch-Erstellung beendet.");
 
                 }
-                if (csvFile == null) {
-                    JOptionPane.showMessageDialog(main,
-                            "Fehler beim Erstellen der CSV-Datei. Siehe " + KassenbuchUtils.getJarExecutionDirectory() + "logs"
-                                    + System.getProperty("file.separator") + "system.logs für weitere Hinweise.");
-                } else {
-                    JOptionPane.showMessageDialog(main,
-                            "Das Kassenbuch wurde erfolgreich erstellt und unter: \r\n'" + csvFile.getAbsolutePath() + "' ablegt.");
-                }
 
-                if (pdfFile == null) {
+                if (pdfFile == null || csvFile == null) {
                     JOptionPane.showMessageDialog(main,
-                            "Fehler beim Erstellen der PDF-Datei. Siehe " + KassenbuchUtils.getJarExecutionDirectory() + "logs"
+                            "Fehler beim Erstellen der Kassenbuch-Dateien. Siehe " + KassenbuchUtils.getJarExecutionDirectory() + "logs"
                                     + System.getProperty("file.separator") + "system.logs für weitere Hinweise.");
                 } else {
                     JOptionPane.showMessageDialog(main,
-                            "Das Kassenbuch wurde erfolgreich erstellt und unter: \r\n'" + pdfFile.getAbsolutePath() + "' ablegt.");
+                            "Das Kassenbuch wurde erfolgreich erstellt und unter dem Dateinamen: \r\n'" + pdfFile.getName() + "' ablegt.");
                 }
             }
 

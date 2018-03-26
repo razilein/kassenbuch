@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -45,6 +46,8 @@ public final class KassenbuchErstellenUtils {
     private static final String FORMAT_DATUM = "dd.MM.yyyy";
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(FORMAT_DATUM);
+
+    public static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern(FORMAT_DATUM);
 
     public static final SimpleDateFormat DATE_FORMAT_FILES = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 
@@ -202,7 +205,8 @@ public final class KassenbuchErstellenUtils {
         for (final Rechnung rechnung : rechnungen) {
             final String verwendungszweck = StringUtils.isNumeric(rechnung.getRechnungsnummer())
                     || StringUtils.isNumeric(StringUtils.substring(rechnung.getRechnungsnummer(), 1))
-                            ? "Rechnung: " + rechnung.getRechnungsnummer() : rechnung.getRechnungsnummer();
+                            ? "Rechnung: " + rechnung.getRechnungsnummer()
+                            : rechnung.getRechnungsnummer();
             final String formattedRechnungsbetrag = BETRAG_FORMAT.format(rechnung.getRechnungsbetrag());
             gesamtBetrag = gesamtBetrag.add(rechnung.getRechnungsbetrag());
             gesamtEingang = isEingangssbetrag(formattedRechnungsbetrag) ? gesamtEingang.add(rechnung.getRechnungsbetrag()) : gesamtEingang;
