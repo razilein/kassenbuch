@@ -133,3 +133,12 @@ V 1.1.1:
 ** XX - Umstellung - Auslesen des Rechnungsbetrags geändert **
 - Der Rechnungsbetrag wurde in den HTML-Rechnungen verschoben. Es wird nun automatisch erkannt, ob sich der Rechnungsbetrag an erster oder letzter
 Stelle im Gesamtergebnis befindet.
+
+V 1.1.2
+** 21 - Hinweismeldung bei Änderung des Rechnungsdatums **
+- Wird das Rechnungsdatum von zu einem anderem Datum als dem Tagesdatum geändert wird das Feld Ausgangsbetrag rot markiert.
+Zudem wird das Datum im Feld Ausgangsbetragsdatum auf den Wert des Feldes Rechnungsdatum von gesetzt.
+Wird ein anderes Feld fokussiert erscheint eine Hinweismeldung, dass der Ausgangsbetrag angepasst werden muss.
+
+** XX - Verbesserung Meldungsdialoge **
+- Nach dem Speichern des Kassenbuchs erscheint nun nur noch ein Meldungsdialog. Zudem wurden die Dialoge optisch verbessert.
