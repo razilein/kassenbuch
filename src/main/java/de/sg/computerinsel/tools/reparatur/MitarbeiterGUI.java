@@ -33,7 +33,7 @@ public class MitarbeiterGUI extends BaseEditGUI {
 
     MitarbeiterGUI(final HibernateService service) {
         super.service = service;
-        super.main = main;
+
         main = new JFrame();
         main.setTitle("Reparaturprogramm - Mitarbeiter V1.0.0 © Sita Geßner");
         main.setIconImage(new ImageIcon(getClass().getResource("pictures/zahnrad.png")).getImage());

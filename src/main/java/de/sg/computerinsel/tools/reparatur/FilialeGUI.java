@@ -25,7 +25,7 @@ import de.sg.computerinsel.tools.reparatur.model.Filiale;
  */
 public class FilialeGUI extends BaseEditGUI {
 
-    private static final String[] COLUMNS = new String[] { "Name", "E-Mail", "Straße", "PLZ", "Ort", "Telefon" };
+    private static final String[] COLUMNS = new String[] { "Name", "Kürzel (Auftragsnummer)", "E-Mail", "Straße", "PLZ", "Ort", "Telefon" };
 
     private final JTextField emailFeld = new JTextField();
 
@@ -39,9 +39,10 @@ public class FilialeGUI extends BaseEditGUI {
 
     private final JTextField telefonFeld = new JTextField();
 
+    private final JTextField kuerzelFeld = new JTextField();
+
     FilialeGUI(final HibernateService service) {
         super.service = service;
-        super.main = main;
 
         main = new JFrame();
         main.setTitle("Reparaturprogramm - Filialien V1.0.0 © Sita Geßner");
@@ -65,6 +66,7 @@ public class FilialeGUI extends BaseEditGUI {
         return e -> {
             final Filiale filiale = getObj() instanceof Filiale && !erstellen ? (Filiale) getObj() : new Filiale();
             filiale.setName(StringUtils.stripToNull(nameFeld.getText()));
+            filiale.setKuerzel(StringUtils.stripToNull(kuerzelFeld.getText()));
             filiale.setEmail(StringUtils.stripToNull(emailFeld.getText()));
             filiale.setStrasse(StringUtils.stripToNull(strasseFeld.getText()));
             filiale.setPlz(StringUtils.stripToNull(plzFeld.getText()));
@@ -77,19 +79,21 @@ public class FilialeGUI extends BaseEditGUI {
 
     private JPanel createEditPanel() {
         final JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(300, 200));
-        panel.setLayout(new GridLayout(12, 1));
+        panel.setPreferredSize(new Dimension(300, 240));
+        panel.setLayout(new GridLayout(14, 1));
         panel.add(new JLabel(COLUMNS[0]));
         panel.add(nameFeld);
         panel.add(new JLabel(COLUMNS[1]));
-        panel.add(emailFeld);
+        panel.add(kuerzelFeld);
         panel.add(new JLabel(COLUMNS[2]));
-        panel.add(strasseFeld);
+        panel.add(emailFeld);
         panel.add(new JLabel(COLUMNS[3]));
-        panel.add(plzFeld);
+        panel.add(strasseFeld);
         panel.add(new JLabel(COLUMNS[4]));
-        panel.add(ortFeld);
+        panel.add(plzFeld);
         panel.add(new JLabel(COLUMNS[5]));
+        panel.add(ortFeld);
+        panel.add(new JLabel(COLUMNS[6]));
         panel.add(telefonFeld);
         return panel;
     }
@@ -120,34 +124,38 @@ public class FilialeGUI extends BaseEditGUI {
             @Override
             public void mouseClicked(final MouseEvent e) {
                 final Vector<?> row = getRow(e.getPoint());
-                if (row != null && row.size() == 7) {
+                if (row != null && row.size() == 8) {
                     final Filiale filiale = new Filiale();
 
                     final String name = (String) row.get(0);
                     filiale.setName(name);
                     nameFeld.setText(name);
 
-                    final String email = (String) row.get(1);
+                    final String kuerzel = (String) row.get(1);
+                    filiale.setKuerzel(kuerzel);
+                    kuerzelFeld.setText(kuerzel);
+
+                    final String email = (String) row.get(2);
                     filiale.setEmail(email);
                     emailFeld.setText(email);
 
-                    final String strasse = (String) row.get(2);
+                    final String strasse = (String) row.get(3);
                     filiale.setStrasse(strasse);
                     strasseFeld.setText(strasse);
 
-                    final String plz = (String) row.get(3);
+                    final String plz = (String) row.get(4);
                     filiale.setPlz(plz);
                     plzFeld.setText(plz);
 
-                    final String ort = (String) row.get(4);
+                    final String ort = (String) row.get(5);
                     filiale.setOrt(ort);
                     ortFeld.setText(ort);
 
-                    final String telefon = (String) row.get(5);
+                    final String telefon = (String) row.get(6);
                     filiale.setTelefon(telefon);
                     telefonFeld.setText(telefon);
 
-                    filiale.setId((Integer) row.get(6));
+                    filiale.setId((Integer) row.get(7));
                     setObj(filiale);
                 }
 

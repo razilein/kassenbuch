@@ -1,6 +1,7 @@
 CREATE TABLE kunde (
    id INTEGER IDENTITY NOT NULL PRIMARY KEY,
    nachname VARCHAR(100) NOT NULL,
+   kuerzel VARCHAR(3) NOT NULL,
    vorname VARCHAR(50),
    strasse VARCHAR(100),
    plz VARCHAR(8),
@@ -28,6 +29,7 @@ CREATE TABLE mitarbeiter (
 CREATE TABLE reparatur (
    id INTEGER IDENTITY NOT NULL PRIMARY KEY,
    mitarbeiter_id INTEGER NOT NULL,
+   kunde_id INTEGER NOT NULL,
    nummer VARCHAR(20),
    art TINYINT NOT NULL,
    geraet VARCHAR(200),
@@ -39,15 +41,10 @@ CREATE TABLE reparatur (
    abholdatum DATE,
    abholzeit TIME,
    kostenvoranschlag VARCHAR(10),
-   FOREIGN KEY (mitarbeiter_id) REFERENCES mitarbeiter(id)
+   erledigt BIT DEFAULT 0,
+   erledigungsdatum DATETIME,
+   FOREIGN KEY (mitarbeiter_id) REFERENCES mitarbeiter(id),
+   FOREIGN KEY (kunde_id) REFERENCES kunde(id)
 );
 
-CREATE TABLE kunde_reparatur (
-   id INTEGER IDENTITY NOT NULL PRIMARY KEY,
-   kunde_id INTEGER NOT NULL,
-   reparatur_id INTEGER NOT NULL,
-   FOREIGN KEY (kunde_id) REFERENCES kunde(id),
-   FOREIGN KEY (reparatur_id) REFERENCES reparatur(id)
-);
-
-
+CREATE SEQUENCE PUBLIC.R_NUMMER_SEQUENCE START WITH 5000 INCREMENT BY 1;

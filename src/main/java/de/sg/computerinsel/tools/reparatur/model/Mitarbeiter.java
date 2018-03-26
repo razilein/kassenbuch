@@ -23,6 +23,10 @@ public class Mitarbeiter extends IntegerBaseObject {
     @Column(name = "vorname")
     private String vorname;
 
+    public String getCompleteName() {
+        return nachname + ", " + vorname;
+    }
+
     public String getNachname() {
         return nachname;
     }

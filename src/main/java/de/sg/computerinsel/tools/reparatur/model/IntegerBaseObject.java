@@ -25,4 +25,8 @@ public class IntegerBaseObject {
         return new Object[id];
     }
 
+    public Object[] getTableModelObjectSearch() {
+        return new Object[id];
+    }
+
 }

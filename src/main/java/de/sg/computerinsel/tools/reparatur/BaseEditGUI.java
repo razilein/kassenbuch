@@ -25,12 +25,52 @@ import javax.validation.Validator;
 import org.apache.commons.lang3.StringUtils;
 
 import de.sg.computerinsel.tools.HibernateService;
+import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
+import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 
 /**
  * @author Sita Geßner
  */
 public class BaseEditGUI {
+
+    public class DropDownItem {
+
+        private Integer id;
+
+        private String text;
+
+        public DropDownItem() {
+            this(null, null);
+        }
+
+        public DropDownItem(final Integer id, final String text) {
+            this.id = id;
+            this.text = text;
+        }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(final Integer id) {
+            this.id = id;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(final String text) {
+            this.text = text;
+        }
+
+        @Override
+        public String toString() {
+            return text;
+        }
+
+    }
 
     protected HibernateService service;
 
@@ -60,16 +100,21 @@ public class BaseEditGUI {
         columnModel.removeColumn(columnModel.getColumn(colNames.length));
     }
 
-    protected JScrollPane createTablePane(final MouseListener listener, final List<IntegerBaseObject> list, final String[] columns) {
+    protected JScrollPane createTablePane(final MouseListener listener, final List<? extends IntegerBaseObject> list, final String[] columns) {
+        return createTablePane(listener, list, columns, false);
+    }
+
+    protected JScrollPane createTablePane(final MouseListener listener, final List<? extends IntegerBaseObject> list,
+            final String[] columns, final boolean searchTableObj) {
         final JScrollPane pane = new JScrollPane();
 
         table.addMouseListener(listener);
         prepareTableModel(columns);
         for (final IntegerBaseObject obj : list) {
-            tableModel.addRow(obj.getTableModelObject());
+            tableModel.addRow(searchTableObj ? obj.getTableModelObjectSearch() : obj.getTableModelObject());
         }
-        final int height = list.size() > 10 || list.isEmpty() ? 200 : list.size() * 30;
-        pane.setPreferredSize(new Dimension(600, height));
+        final int height = list.size() > 10 || list.isEmpty() ? 200 : list.size() * 35;
+        pane.setPreferredSize(new Dimension(main.getWidth(), height));
         pane.getViewport().add(table);
         return pane;
     }
@@ -91,22 +136,44 @@ public class BaseEditGUI {
         return errorMsg.toString();
     }
 
-    protected JPanel createBtnPanel(final ActionListener listenerBtnErstellen, final ActionListener listenerBtnSpeichern) {
-        final JPanel panel = new JPanel(new GridLayout(1, 2, 5, 5));
+    protected JPanel createBtnPanel(final ActionListener listenerBtnErstellen, final ActionListener listenerBtnSpeichern,
+            final JButton... buttons) {
+        return createBtnPanel(listenerBtnErstellen, listenerBtnSpeichern, null, buttons);
+    }
+
+    protected JPanel createBtnPanel(final ActionListener listenerBtnErstellen, final ActionListener listenerBtnSpeichern,
+            final ActionListener listenerBtnSuchen, final JButton... buttons) {
+        final int columns = listenerBtnSuchen == null ? 3 : 4;
+        final JPanel panel = new JPanel(new GridLayout(1, buttons == null ? columns : columns + buttons.length, 5, 5));
         panel.setPreferredSize(new Dimension(300, 50));
+
+        if (listenerBtnSuchen != null) {
+            final JButton btnSuchen = new JButton(new ImageIcon(getClass().getResource("pictures/suchen.png")));
+            btnSuchen.addActionListener(listenerBtnSuchen);
+            btnSuchen
+                    .setToolTipText("<html>Suchen<br>* = Platzhalter beliebig viele oder keine Zeichen<br>_ = Platzhalter ein Zeichen</html>");
+            panel.add(btnSuchen);
+        }
 
         final JButton btnErstellen = new JButton(new ImageIcon(getClass().getResource("pictures/erstellen.png")));
         btnErstellen.addActionListener(listenerBtnErstellen);
+        btnErstellen.setToolTipText("Erstellen");
         panel.add(btnErstellen);
 
         final JButton btnLoeschen = new JButton(new ImageIcon(getClass().getResource("pictures/loeschen.png")));
         btnLoeschen.addActionListener(getActionListenerBtnLoeschen());
+        btnLoeschen.setToolTipText("Löschen");
         panel.add(btnLoeschen);
 
         final JButton btnSpeichern = new JButton(new ImageIcon(getClass().getResource("pictures/speichern.png")));
         btnSpeichern.addActionListener(listenerBtnSpeichern);
+        btnSpeichern.setToolTipText("Speichern");
         panel.add(btnSpeichern);
-
+        if (buttons != null) {
+            for (final JButton btn : buttons) {
+                panel.add(btn);
+            }
+        }
         return panel;
     }
 
@@ -124,17 +191,31 @@ public class BaseEditGUI {
     }
 
     protected void saveObj() {
+        final boolean isErstellen = obj.getId() == null;
+        if (isErstellen && obj instanceof Reparatur) {
+            final Reparatur reparatur = (Reparatur) obj;
+            reparatur.setNummer(createAuftragsnummer());
+        }
         final String errorMsg = validate(obj);
         if (StringUtils.isBlank(errorMsg)) {
-            final boolean isErstellen = obj.getId() == null;
             obj = service.save(obj);
             JOptionPane.showMessageDialog(main, obj.toString() + " wurde erfolgreich gespeichert.");
             if (isErstellen) {
                 tableModel.addRow(obj.getTableModelObject());
+            } else {
+                tableModel.fireTableDataChanged();
             }
         } else {
             JOptionPane.showMessageDialog(main, errorMsg);
         }
+    }
+
+    private String createAuftragsnummer() {
+        final Integer nummer = service.getMaxId(Reparatur.class) + 1;
+        final Filiale filiale = (Filiale) service.get(Filiale.class, SettingsUtils.getFiliale());
+        final String kuerzel = filiale == null || filiale.getKuerzel() == null ? StringUtils.EMPTY : filiale.getKuerzel()
+                + String.valueOf(nummer);
+        return kuerzel + String.valueOf(nummer);
     }
 
     protected Vector<?> getRow(final Point point) {
