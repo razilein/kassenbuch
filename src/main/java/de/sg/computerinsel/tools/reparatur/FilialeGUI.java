@@ -12,6 +12,7 @@ import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -72,8 +73,18 @@ public class FilialeGUI extends BaseEditGUI {
             filiale.setPlz(StringUtils.stripToNull(plzFeld.getText()));
             filiale.setOrt(StringUtils.stripToNull(ortFeld.getText()));
             filiale.setTelefon(StringUtils.stripToNull(telefonFeld.getText()));
-            setObj(filiale);
-            saveObj();
+
+            if (StringUtils.isAnyBlank(filiale.getName(), filiale.getKuerzel(), filiale.getEmail(), filiale.getStrasse(), filiale.getPlz(),
+                    filiale.getOrt(), filiale.getTelefon())) {
+                JOptionPane.showMessageDialog(main, "Bitte füllen Sie alle Felder aus!");
+            } else {
+                final int reply = JOptionPane.showConfirmDialog(null, "Soll die Filiale nun gespeichert werden?",
+                        nameFeld.getText() + " speichern?", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    setObj(filiale);
+                    saveObj();
+                }
+            }
         };
     }
 

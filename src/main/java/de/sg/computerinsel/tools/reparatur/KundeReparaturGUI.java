@@ -147,9 +147,16 @@ public class KundeReparaturGUI extends BaseEditGUI {
             reparatur.setKunde(kunde);
             try {
                 reparatur.setAbholdatum(DATE.parse(StringUtils.stripToNull(abholdatumFeld.getText())));
-                reparatur.setAbholzeit(new Time(TIME.parse(StringUtils.stripToNull(abholzeitFeld.getText())).getTime()));
-                setObj(reparatur);
-                saveObj();
+                final String time = StringUtils.stripToNull(abholzeitFeld.getText());
+                if (time != null) {
+                    reparatur.setAbholzeit(new Time(TIME.parse(time).getTime()));
+                }
+                final int reply = JOptionPane.showConfirmDialog(null, "Soll der Auftrag nun gespeichert werden?",
+                        nummerFeld.getText() + " speichern?", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    setObj(reparatur);
+                    saveObj();
+                }
             } catch (final ParseException e1) {
                 LOGGER.debug(e1.getMessage(), e1);
                 JOptionPane.showMessageDialog(main,

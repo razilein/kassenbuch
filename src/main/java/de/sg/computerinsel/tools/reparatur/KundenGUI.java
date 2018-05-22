@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -114,8 +115,16 @@ public class KundenGUI extends BaseEditGUI {
 
     private ActionListener getActionListenerBtnSpeichern(final boolean erstellen) {
         return e -> {
-            setObj(createKundeObjectFromFields(erstellen));
-            saveObj();
+            if (StringUtils.isBlank(nameFeld.getText())) {
+                JOptionPane.showMessageDialog(main, "Bitte geben Sie einen Namen an.");
+            } else {
+                final int reply = JOptionPane.showConfirmDialog(null, "Sollen der Kunde nun gespeichert werden?",
+                        nameFeld.getText() + " speichern?", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    setObj(createKundeObjectFromFields(erstellen));
+                    saveObj();
+                }
+            }
         };
     }
 

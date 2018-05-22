@@ -12,6 +12,7 @@ import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -68,8 +69,17 @@ public class MitarbeiterGUI extends BaseEditGUI {
             final Mitarbeiter mitarbeiter = getObj() instanceof Mitarbeiter && !erstellen ? (Mitarbeiter) getObj() : new Mitarbeiter();
             mitarbeiter.setNachname(StringUtils.stripToNull(nameFeld.getText()));
             mitarbeiter.setVorname(StringUtils.stripToNull(vornameFeld.getText()));
-            setObj(mitarbeiter);
-            saveObj();
+
+            if (StringUtils.isAnyBlank(mitarbeiter.getNachname(), mitarbeiter.getVorname())) {
+                JOptionPane.showMessageDialog(main, "Bitte füllen Sie alle Felder aus!");
+            } else {
+                final int reply = JOptionPane.showConfirmDialog(null, "Soll der Mitarbeiter nun gespeichert werden?",
+                        nameFeld.getText() + " speichern?", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    setObj(mitarbeiter);
+                    saveObj();
+                }
+            }
         };
     }
 
