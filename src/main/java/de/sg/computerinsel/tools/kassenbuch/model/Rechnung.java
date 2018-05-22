@@ -37,6 +37,8 @@ public class Rechnung {
 
     private List<Rechnungsposten> posten;
 
+    private String adressfeld;
+
     public Date getRechnungsjahr() {
         return DateUtils.truncate(rechnungsdatum, Calendar.YEAR);
     }

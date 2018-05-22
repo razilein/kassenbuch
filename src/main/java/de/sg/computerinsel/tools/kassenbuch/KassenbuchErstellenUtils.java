@@ -122,7 +122,7 @@ public final class KassenbuchErstellenUtils {
         writer.append("\r\n");
     }
 
-    private static Comparator<Rechnung> rechnungComparator() {
+    static Comparator<Rechnung> rechnungComparator() {
         return (o1, o2) -> {
             int result = 0;
             if (o1.getRechnungsdatum() == null) {
@@ -205,8 +205,7 @@ public final class KassenbuchErstellenUtils {
         for (final Rechnung rechnung : rechnungen) {
             final String verwendungszweck = StringUtils.isNumeric(rechnung.getRechnungsnummer())
                     || StringUtils.isNumeric(StringUtils.substring(rechnung.getRechnungsnummer(), 1))
-                            ? "Rechnung: " + rechnung.getRechnungsnummer()
-                            : rechnung.getRechnungsnummer();
+                            ? "Rechnung: " + rechnung.getRechnungsnummer() : rechnung.getRechnungsnummer();
             final String formattedRechnungsbetrag = BETRAG_FORMAT.format(rechnung.getRechnungsbetrag());
             gesamtBetrag = gesamtBetrag.add(rechnung.getRechnungsbetrag());
             gesamtEingang = isEingangssbetrag(formattedRechnungsbetrag) ? gesamtEingang.add(rechnung.getRechnungsbetrag()) : gesamtEingang;

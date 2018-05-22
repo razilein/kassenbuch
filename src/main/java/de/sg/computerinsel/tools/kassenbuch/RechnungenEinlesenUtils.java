@@ -111,6 +111,7 @@ public final class RechnungenEinlesenUtils {
                 if (readPosten) {
                     rechnung.setPosten(extractRechnungspostenFromFile(doc));
                     rechnung.setArt(extractZahlartFromFile(doc));
+                    rechnung.setAdressfeld(extractAdressfeldFromFile(doc));
                 }
                 log.info("Erfolgreich eingelesene Rechnung: {}", rechnung);
             } else {
@@ -125,6 +126,10 @@ public final class RechnungenEinlesenUtils {
             log.error("Rechnungsdatum: {} der Datei: '{}' kann nicht geparst werden: ", file.getName(), e.getMessage());
         }
         return rechnung;
+    }
+
+    private static String extractAdressfeldFromFile(final Document doc) {
+        return doc.select("p").get(0).text();
     }
 
     private static boolean isRechnungsdatumInRechnungszeitraum(final Date dateFrom, final Date dateTo, final Date rechnungsdatum) {
@@ -215,10 +220,14 @@ public final class RechnungenEinlesenUtils {
         final Elements columns = row.getElementsByTag("td");
         Rechnungsposten posten = null;
         if (columns.size() == 5) {
-            posten = new Rechnungsposten(Ints.tryParse(columns.get(0).text()), normalizeBezeichnung(columns.get(1).text()),
-                    new BigDecimal(normalizeCurrencyValue(columns.get(2).text())),
-                    new BigDecimal(normalizeCurrencyValue(columns.get(3).text())),
-                    new BigDecimal(normalizeCurrencyValue(columns.get(4).text())));
+            try {
+                posten = new Rechnungsposten(Ints.tryParse(columns.get(0).text()), normalizeBezeichnung(columns.get(1).text()),
+                        new BigDecimal(normalizeCurrencyValue(columns.get(2).text())),
+                        new BigDecimal(normalizeCurrencyValue(columns.get(3).text())),
+                        new BigDecimal(normalizeCurrencyValue(columns.get(4).text())));
+            } catch (final Exception e) {
+                log.error("Posten ist ungültig und kann nicht ausgelsen werden: {}", columns.text(), e.getMessage(), e);
+            }
         } else {
             log.debug("Überspringe Posten, da ungültige Anzahl an Spalten: {}", row.text());
         }
