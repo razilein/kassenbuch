@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.common.base.Joiner;
+
 import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
 import de.sg.computerinsel.tools.kassenbuch.model.Rechnungsposten;
 import de.sg.computerinsel.tools.kassenbuch.model.Zahlart;
@@ -189,6 +191,27 @@ public class KassenbuchStatistikUtils {
             writer.flush();
             writer.close();
         }
+    }
+
+    public void createUeberweisungenUebersichtFile(final File ablageverzeichnis, final List<Rechnung> ueberweisungen,
+            final String zeitraumVon, final String zeitraumBis) throws IOException {
+        final File file = new File(ablageverzeichnis,
+                KassenbuchErstellenUtils.DATE_FORMAT_FILES.format(new Date()) + "_uebersicht_ueberweisungen.xls");
+        final FileWriter writer = new FileWriter(file.getAbsoluteFile());
+        writer.write("Rechnungszeitraum von " + zeitraumVon + " (inkl.) bis " + zeitraumBis + " (inkl.)\n\r\n\r");
+        writer.write("Rechnungsnummer|Name|Betrag|Rechnungsdatum\n\r");
+        for (final Rechnung rechnung : ueberweisungen) {
+            writeUeberweisungToFile(writer, rechnung);
+        }
+        writer.flush();
+        writer.close();
+    }
+
+    private void writeUeberweisungToFile(final FileWriter writer, final Rechnung rechnung) throws IOException {
+        writer.write(Joiner.on("|").join(rechnung.getRechnungsnummer(), rechnung.getAdressfeld(),
+                KassenbuchErstellenUtils.BETRAG_FORMAT.format(rechnung.getRechnungsbetrag()),
+                KassenbuchErstellenUtils.DATE_FORMAT.format(rechnung.getRechnungsdatum())));
+        writer.write("\n\r");
     }
 
     private Map<Month, BigDecimal> getStatistikPostenProMonat(

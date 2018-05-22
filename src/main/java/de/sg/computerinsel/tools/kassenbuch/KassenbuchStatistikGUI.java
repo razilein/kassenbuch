@@ -12,9 +12,11 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,6 +24,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.apache.commons.lang.StringUtils;
 
 import de.sg.computerinsel.tools.kassenbuch.model.Einstellungen;
 import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
@@ -53,16 +57,21 @@ public class KassenbuchStatistikGUI {
         final JButton btnAnzeigen = new JButton("Statistik anzeigen");
         btnAnzeigen.addActionListener(getActionListenerBtnStatistikAnzeigen(panel));
 
-        final JPanel datumPanel = new JPanel(new GridLayout(2, 2, 5, 0));
-        datumPanel.setPreferredSize(new Dimension(350, 40));
+        final JButton btnUeberweisungen = new JButton("Überweisungen");
+        btnUeberweisungen.addActionListener(getActionListenerBtnUeberweisungAnzeigen(panel));
+
+        final JPanel datumPanel = new JPanel(new GridLayout(2, 3, 5, 0));
+        datumPanel.setPreferredSize(new Dimension(500, 40));
         datumPanel.add(new JLabel("Rechnungsdatum von"));
         datumPanel.add(new JLabel("Rechnungsdatum bis"));
+        datumPanel.add(new JLabel(StringUtils.EMPTY));
         datumPanel.add(zeitraumVon);
         datumPanel.add(zeitraumBis);
+        datumPanel.add(btnUeberweisungen);
         panel.add(datumPanel);
 
         final Panel postenPanel = new Panel(new GridLayout(2, 1, 5, 0));
-        postenPanel.add(new JLabel("Bezeichnung Rechnungsposten (optional)"));
+        postenPanel.add(new JLabel("Bezeichnung Rechnungsposten (optional nur für Statistik)"));
         postenPanel.add(posten);
         panel.add(postenPanel);
 
@@ -106,7 +115,30 @@ public class KassenbuchStatistikGUI {
                     JOptionPane.showMessageDialog(main, "Statistiken wurden erzeugt und im Ablageverzeichnis abgelegt.");
                 } catch (final IOException e1) {
                     log.error(e1.getMessage(), e1);
-                    JOptionPane.showMessageDialog(main, "Fehler beim erzeugen der Statistik. Näheres ist der Log-Datei zu entnehmen.");
+                    JOptionPane.showMessageDialog(main, "Fehler beim Erzeugen der Statistik. Näheres ist der Log-Datei zu entnehmen.");
+                }
+            }
+        };
+    }
+
+    private ActionListener getActionListenerBtnUeberweisungAnzeigen(final JPanel panel) {
+        return e -> {
+            final Date dateFrom = parseDate(zeitraumVon.getText());
+            final Date dateTo = parseDate(zeitraumBis.getText());
+            if (dateFrom != null && dateTo != null) {
+                final List<Rechnung> ueberweisungen = RechnungenEinlesenUtils
+                        .readHtmlFilesWithPosten(new File(einstellungen.getRechnungsverzeichnisText()), dateFrom, dateTo).stream()
+                        .filter(u -> Zahlart.UEBERWEISUNG == u.getArt()).collect(Collectors.toList());
+                Collections.sort(ueberweisungen, KassenbuchErstellenUtils.rechnungComparator());
+                log.debug("{} Rechnungen ausgelesen", ueberweisungen.size());
+                final File ablageverzeichnis = new File(einstellungen.getAblageverzeichnisText());
+                try {
+                    KassenbuchStatistikUtils.createUeberweisungenUebersichtFile(ablageverzeichnis, ueberweisungen, zeitraumVon.getText(),
+                            zeitraumBis.getText());
+                    JOptionPane.showMessageDialog(main, "Statistiken wurden erzeugt und im Ablageverzeichnis abgelegt.");
+                } catch (final IOException e1) {
+                    log.error(e1.getMessage(), e1);
+                    JOptionPane.showMessageDialog(main, "Fehler beim Erzeugen der Statistik. Näheres ist der Log-Datei zu entnehmen.");
                 }
             }
         };

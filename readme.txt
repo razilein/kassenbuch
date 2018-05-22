@@ -142,3 +142,7 @@ Wird ein anderes Feld fokussiert erscheint eine Hinweismeldung, dass der Ausgang
 
 ** XX - Verbesserung Meldungsdialoge **
 - Nach dem Speichern des Kassenbuchs erscheint nun nur noch ein Meldungsdialog. Zudem wurden die Dialoge optisch verbessert.
+
+** 22 - Statistische Auswertung über Überweisungen **
+- Im Statistik-Reiter steht nun die Schaltfläche "Überweisungen" verfügbar. Alle Rechnungen mit der Zahlungsart "ÜBERWEISUNG" werden in einer
+Exceldatei aufgelistet und im Rechnungsverzeichnis abgelegt.
