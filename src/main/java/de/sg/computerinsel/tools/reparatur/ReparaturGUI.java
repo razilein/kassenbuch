@@ -25,10 +25,14 @@ public class ReparaturGUI {
 
     private ButtonGroup btnGroup;
 
+    private KundeReparaturGUI kundeReparaturGUI;
+
     public void create(final JFrame main) {
         main.setIconImage(new ImageIcon(getClass().getResource("pictures/zahnrad.png")).getImage());
         main.setTitle("Reparaturprogramm V1.0.0 © Sita Geßner");
         main.setJMenuBar(createMenuBar());
+
+        kundeReparaturGUI = new KundeReparaturGUI(service, main);
     }
 
     private JMenuBar createMenuBar() {
@@ -138,7 +142,8 @@ public class ReparaturGUI {
 
     private JMenuItem createMenuKundenBearbeiten() {
         final JMenuItem menu = new JMenuItem("Liste");
-        menu.setToolTipText("Hier können Sie Kundenkarteien durchsuchen/erstellen/bearbeiten/löschen und die Reparaturen zu einem Kunden aufrufen.");
+        menu.setToolTipText(
+                "Hier können Sie Kundenkarteien durchsuchen/erstellen/bearbeiten/löschen und die Reparaturen zu einem Kunden aufrufen.");
         menu.addActionListener(e -> {
             new KundenGUI(service);
         });
@@ -147,7 +152,8 @@ public class ReparaturGUI {
 
     private JMenuItem createMenuBericht() {
         final JMenuItem menu = new JMenuItem("Was geht?");
-        menu.setToolTipText("Hier können Sie einsehen welche Aufträge in einem bestimmten Zeitraum anstehen. Die Aufträge können erledigt werden.");
+        menu.setToolTipText(
+                "Hier können Sie einsehen welche Aufträge in einem bestimmten Zeitraum anstehen. Die Aufträge können erledigt werden.");
         menu.addActionListener(e -> {
             new BerichteGUI(service);
         });

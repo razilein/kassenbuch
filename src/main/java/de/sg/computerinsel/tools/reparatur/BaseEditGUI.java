@@ -100,7 +100,8 @@ public class BaseEditGUI {
         columnModel.removeColumn(columnModel.getColumn(colNames.length));
     }
 
-    protected JScrollPane createTablePane(final MouseListener listener, final List<? extends IntegerBaseObject> list, final String[] columns) {
+    protected JScrollPane createTablePane(final MouseListener listener, final List<? extends IntegerBaseObject> list,
+            final String[] columns) {
         return createTablePane(listener, list, columns, false);
     }
 
@@ -150,8 +151,8 @@ public class BaseEditGUI {
         if (listenerBtnSuchen != null) {
             final JButton btnSuchen = new JButton(new ImageIcon(getClass().getResource("pictures/suchen.png")));
             btnSuchen.addActionListener(listenerBtnSuchen);
-            btnSuchen
-                    .setToolTipText("<html>Suchen<br>* = Platzhalter beliebig viele oder keine Zeichen<br>_ = Platzhalter ein Zeichen</html>");
+            btnSuchen.setToolTipText(
+                    "<html>Suchen<br>* = Platzhalter beliebig viele oder keine Zeichen<br>_ = Platzhalter ein Zeichen</html>");
             panel.add(btnSuchen);
         }
 
@@ -179,8 +180,8 @@ public class BaseEditGUI {
 
     private ActionListener getActionListenerBtnLoeschen() {
         return e -> {
-            final int reply = JOptionPane.showConfirmDialog(null, "Wollen Sie diesen Eintrag wirklich löschen?", obj.toString()
-                    + " löschen?", JOptionPane.YES_NO_OPTION);
+            final int reply = JOptionPane.showConfirmDialog(null, "Wollen Sie diesen Eintrag wirklich löschen?",
+                    obj.toString() + " löschen?", JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION) {
                 service.delete(obj);
                 obj.setId(null);
@@ -211,10 +212,9 @@ public class BaseEditGUI {
     }
 
     private String createAuftragsnummer() {
-        final Integer nummer = service.getMaxId(Reparatur.class) + 1;
+        final Integer nummer = service.getMaxId(Reparatur.class);
         final Filiale filiale = (Filiale) service.get(Filiale.class, SettingsUtils.getFiliale());
-        final String kuerzel = filiale == null || filiale.getKuerzel() == null ? StringUtils.EMPTY : filiale.getKuerzel()
-                + String.valueOf(nummer);
+        final String kuerzel = filiale == null || filiale.getKuerzel() == null ? StringUtils.EMPTY : filiale.getKuerzel();
         return kuerzel + String.valueOf(nummer);
     }
 

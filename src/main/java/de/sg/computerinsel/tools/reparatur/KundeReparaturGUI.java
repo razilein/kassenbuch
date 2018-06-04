@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -47,6 +50,8 @@ public class KundeReparaturGUI extends BaseEditGUI {
 
     private static final String[] COLUMNS = new String[] { "Nummer", "Art", "Gerät", "Seriennummer", "Symptome / Fehler",
             "Geplante Aufgaben", "Gerätepasswort", "Expressbearbeitung", "Abholdatum", "Abholzeit", "Kostenvoranschlag", "Mitarbeiter" };
+
+    private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     private static final SimpleDateFormat DATE = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -97,11 +102,25 @@ public class KundeReparaturGUI extends BaseEditGUI {
         main.add(createPanel());
     }
 
+    public KundeReparaturGUI(final HibernateService service, final JFrame main) {
+        super.service = service;
+        this.kunde = null;
+        reportService = new ReportService(service.getConnectionProperties());
+        service.list(Mitarbeiter.class)
+                .forEach(m -> mitarbeiterFeld.addItem(new DropDownItem(((Mitarbeiter) m).getId(), ((Mitarbeiter) m).getCompleteName())));
+        Arrays.asList(ReparaturArt.values()).forEach(r -> artFeld.addItem(new DropDownItem(r.getCode(), r.getDescription())));
+        this.main = main;
+        this.main.add(createPanel());
+    }
+
     private JPanel createPanel() {
         final JPanel panel = new JPanel();
-        panel.add(createTablePane(getTableMouseListener(),
-                service.listByConditions(Reparatur.class, Collections.singletonMap("kunde.id", kunde.getId())), COLUMNS));
+        if (kunde != null) {
+            panel.add(createTablePane(getTableMouseListener(),
+                    service.listByConditions(Reparatur.class, Collections.singletonMap("kunde.id", kunde.getId())), COLUMNS));
+        }
         panel.add(createEditPanel());
+        initFelder();
 
         final JButton btnDownload = new JButton(new ImageIcon(getClass().getResource("pictures/download.png")));
         btnDownload.addActionListener(getActionListenerShowReport());
@@ -109,6 +128,17 @@ public class KundeReparaturGUI extends BaseEditGUI {
 
         panel.add(createBtnPanel(getActionListenerBtnSpeichern(true), getActionListenerBtnSpeichern(false), btnDownload));
         return panel;
+    }
+
+    private void initFelder() {
+        final LocalDate abholdatum = LocalDate.now().plusWeeks(1);
+        if (abholdatum.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            abholdatum.plusDays(1);
+        }
+        abholdatumFeld.setText(abholdatum.format(DATETIME_FORMATTER));
+        abholzeitFeld.setText("12:00");
+
+        nummerFeld.setPreferredSize(new Dimension(20, 10));
     }
 
     private ActionListener getActionListenerShowReport() {

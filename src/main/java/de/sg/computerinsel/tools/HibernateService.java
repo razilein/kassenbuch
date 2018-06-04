@@ -16,7 +16,6 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,7 +91,8 @@ public class HibernateService {
         return list;
     }
 
-    public List<? extends IntegerBaseObject> listByConditions(final Class<? extends IntegerBaseObject> clzz, final Map<String, ?> conditions) {
+    public List<? extends IntegerBaseObject> listByConditions(final Class<? extends IntegerBaseObject> clzz,
+            final Map<String, ?> conditions) {
         final Session session = sessionFactory.openSession();
         final Criteria criteria = session.createCriteria(clzz);
         addConditionsToCriteria(conditions, criteria);
@@ -205,7 +205,7 @@ public class HibernateService {
 
     public Integer getMaxId(final Class<? extends IntegerBaseObject> clzz) {
         final Session session = sessionFactory.openSession();
-        final Integer maxId = (Integer) session.createCriteria(clzz).setProjection(Projections.max("id")).uniqueResult();
+        final Integer maxId = (Integer) session.createNativeQuery("call NEXT VALUE FOR R_NUMMER_SEQUENCE").getResultList().get(0);
         session.close();
         return maxId == null ? 0 : maxId;
     }

@@ -17,11 +17,12 @@ public class Start {
         }
         final JFrame main = new JFrame();
         if (Tool.KASSENBUCH == tool) {
+            main.setSize(600, 500);
             new KassenbuchGUI().create(main);
         } else {
+            main.setSize(700, 600);
             new ReparaturGUI().create(main);
         }
-        main.setSize(600, 500);
         main.setResizable(false);
         main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         main.setVisible(true);

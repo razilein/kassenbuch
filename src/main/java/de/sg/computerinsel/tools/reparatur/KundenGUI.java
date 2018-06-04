@@ -20,7 +20,6 @@ import javax.swing.JTextField;
 import org.apache.commons.lang3.StringUtils;
 
 import de.sg.computerinsel.tools.HibernateService;
-import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.model.Kunde;
 
@@ -129,7 +128,7 @@ public class KundenGUI extends BaseEditGUI {
     }
 
     private Kunde createKundeObjectFromFields(final boolean erstellen) {
-        final Kunde kunde = getObj() instanceof Filiale && !erstellen ? (Kunde) getObj() : new Kunde();
+        final Kunde kunde = getObj() instanceof Kunde && !erstellen ? (Kunde) getObj() : new Kunde();
         kunde.setNachname(StringUtils.stripToNull(nameFeld.getText()));
         kunde.setVorname(StringUtils.stripToNull(vornameFeld.getText()));
         kunde.setStrasse(StringUtils.stripToNull(strasseFeld.getText()));
@@ -193,7 +192,7 @@ public class KundenGUI extends BaseEditGUI {
                     kunde.setTelefon(telefon);
                     telefonFeld.setText(telefon);
 
-                    final String email = (String) row.get(5);
+                    final String email = (String) row.get(6);
                     kunde.setEmail(email);
                     emailFeld.setText(email);
 
