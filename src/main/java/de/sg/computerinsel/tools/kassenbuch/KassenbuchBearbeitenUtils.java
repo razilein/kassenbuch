@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -36,16 +37,17 @@ public final class KassenbuchBearbeitenUtils {
     private KassenbuchBearbeitenUtils() {
     }
 
-    public static File addKassenbuchEintrag(final String filePath, final Rechnung rechnung) {
+    public static List<File> addKassenbuchEintrag(final String filePath, final Rechnung rechnung) {
         final List<Rechnung> rechnungen = readRechnungenFromCsvFile(filePath);
         rechnungen.add(rechnung);
         final Rechnung ausgangsRechnung = rechnungen.get(0);
         rechnungen.remove(0);
         final File csvFile = KassenbuchErstellenUtils.createCsv(rechnungen, ausgangsRechnung,
                 filePath.substring(0, filePath.lastIndexOf(File.separator)));
-        KassenbuchErstellenUtils.createPdf(rechnungen, ausgangsRechnung, filePath.substring(0, filePath.lastIndexOf(File.separator)));
+        final File pdfFile = KassenbuchErstellenUtils.createPdf(rechnungen, ausgangsRechnung,
+                filePath.substring(0, filePath.lastIndexOf(File.separator)));
         deleteOldFiles(filePath, FilenameUtils.removeExtension(filePath) + ".pdf");
-        return csvFile;
+        return Arrays.asList(new File[] { csvFile, pdfFile });
     }
 
     private static void deleteOldFiles(final String csvFilePath, final String pdfFilePath) {
@@ -53,7 +55,8 @@ public final class KassenbuchBearbeitenUtils {
         FileUtils.deleteQuietly(new File(pdfFilePath));
     }
 
-    static Rechnung createNeueEintragung(final String verwendungstext, final Date datum, final BigDecimal betrag, final boolean isNegative) {
+    public static Rechnung createNeueEintragung(final String verwendungstext, final Date datum, final BigDecimal betrag,
+            final boolean isNegative) {
         final Rechnung rechnung = new Rechnung();
         rechnung.setRechnungsbetrag(getBetrag(betrag, isNegative));
         rechnung.setRechnungsdatum(datum);
@@ -96,8 +99,9 @@ public final class KassenbuchBearbeitenUtils {
                         continue;
                     } else {
                         final Rechnung rechnung = new Rechnung();
-                        rechnung.setRechnungsdatum(StringUtils.isNotBlank(items[INDEX_LINE_DATE]) ? KassenbuchErstellenUtils.DATE_FORMAT
-                                .parse(items[INDEX_LINE_DATE]) : null);
+                        rechnung.setRechnungsdatum(StringUtils.isNotBlank(items[INDEX_LINE_DATE])
+                                ? KassenbuchErstellenUtils.DATE_FORMAT.parse(items[INDEX_LINE_DATE])
+                                : null);
                         rechnung.setRechnungsnummer(StringUtils.replace(items[INDEX_LINE_ART], "Rechnung: ", ""));
                         rechnung.setRechnungsbetrag(new BigDecimal(normalizeCurrencyValue(extractBetrag(items))));
                         rechnungen.add(rechnung);

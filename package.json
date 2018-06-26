@@ -1,0 +1,29 @@
+{
+  "name": "kassenbuch",
+  "version": "1.0.0",
+  "description": "Kassenbuchprogramm für die Computer-Insel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/razilein/kassenbuch.git"
+  },
+  "author": "Sita Geßner",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/razilein/kassenbuch/issues"
+  },
+  "homepage": "https://github.com/razilein/kassenbuch#readme",
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-jshint": "^1.1.0"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "vue": "^2.5.16"
+  }
+}

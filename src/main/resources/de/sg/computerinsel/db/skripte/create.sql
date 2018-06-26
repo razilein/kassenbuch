@@ -7,7 +7,8 @@ CREATE TABLE kunde (
    plz VARCHAR(8),
    ort VARCHAR(50),
    telefon VARCHAR(50),
-   email VARCHAR(100)
+   email VARCHAR(100),
+   erstellt_am DATETIME,
 );
 
 CREATE TABLE filiale (
@@ -23,7 +24,8 @@ CREATE TABLE filiale (
 CREATE TABLE mitarbeiter (
    id INTEGER IDENTITY NOT NULL PRIMARY KEY,
    nachname VARCHAR(50),
-   vorname VARCHAR(50)
+   vorname VARCHAR(50),
+   email VARCHAR(100)
 );
 
 CREATE TABLE reparatur (
@@ -43,8 +45,15 @@ CREATE TABLE reparatur (
    kostenvoranschlag VARCHAR(10),
    erledigt BIT DEFAULT 0,
    erledigungsdatum DATETIME,
+   erstellt_am DATETIME,
    FOREIGN KEY (mitarbeiter_id) REFERENCES mitarbeiter(id),
    FOREIGN KEY (kunde_id) REFERENCES kunde(id)
+);
+
+CREATE TABLE einstellungen (
+  id INTEGER IDENTITY NOT NULL PRIMARY KEY,
+  name VARCHAR(500),
+  wert VARCHAR(1000)
 );
 
 CREATE SEQUENCE PUBLIC.R_NUMMER_SEQUENCE START WITH 5000 INCREMENT BY 1;

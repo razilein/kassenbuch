@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.model.Kunde;
-import de.sg.computerinsel.tools.reparatur.model.KundeReparatur;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 
@@ -39,7 +38,6 @@ public class HibernateService {
         configuration.addAnnotatedClass(Filiale.class);
         configuration.addAnnotatedClass(Mitarbeiter.class);
         configuration.addAnnotatedClass(Reparatur.class);
-        configuration.addAnnotatedClass(KundeReparatur.class);
         final StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
         sessionFactory = configuration.buildSessionFactory(builder.build());
     }

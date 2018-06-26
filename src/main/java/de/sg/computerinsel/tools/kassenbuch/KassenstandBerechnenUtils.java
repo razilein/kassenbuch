@@ -34,13 +34,14 @@ public final class KassenstandBerechnenUtils {
     }
 
     public static String berechneErgebnis(final String anzahl, final BigDecimal multiplier) {
-        return NumberUtils.isNumber(anzahl) ? getFormattedBetrag(multiplier.multiply(new BigDecimal(anzahl)))
+        return NumberUtils.isCreatable(anzahl) ? getFormattedBetrag(multiplier.multiply(new BigDecimal(anzahl)))
                 : Kassenbestand.STANDARD_VALUE_BERECHNEN;
     }
 
     public static String getNormalizedAnzahl(final String anzahl) {
-        final String normalizedAnzahl = StringUtils.isNotBlank(anzahl) ? StringUtils.stripStart(anzahl.replaceAll("[\\D]", ""),
-                Kassenbestand.STANDARD_VALUE_BERECHNEN) : anzahl;
+        final String normalizedAnzahl = StringUtils.isNotBlank(anzahl)
+                ? StringUtils.stripStart(anzahl.replaceAll("[\\D]", ""), Kassenbestand.STANDARD_VALUE_BERECHNEN)
+                : anzahl;
         return StringUtils.isBlank(normalizedAnzahl) ? Kassenbestand.STANDARD_VALUE_BERECHNEN : normalizedAnzahl;
     }
 
@@ -70,7 +71,7 @@ public final class KassenstandBerechnenUtils {
             throw new IllegalStateException(
                     "Bitte unter 'Kassenbuch erstellen' ein Ablageverzeichnis oder unter 'Kassenbuch editieren' eine zu bearbeitende CSV-Datei hinterlegen.");
         }
-        return getFormattedBetrag(result);
+        return result.toString().replaceAll(",", StringUtils.EMPTY);
     }
 
     private static BigDecimal getGesamtbetragByKassenbuchCsv(final String dateipfad) {
@@ -121,7 +122,7 @@ public final class KassenstandBerechnenUtils {
     }
 
     public static String getFormattedBetrag(final BigDecimal betrag) {
-        final DecimalFormat formatter = new DecimalFormat("##,##0.00");
+        final DecimalFormat formatter = new DecimalFormat("####0.00");
         return formatter.format(betrag);
     }
 

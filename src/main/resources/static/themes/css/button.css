@@ -1,0 +1,64 @@
+button {
+  background-color: #1A8CFF;
+  border: none;
+  color: white;
+  font-size: 15px;
+  height: 40px;
+  min-width: 200px;
+  margin-left: 20px;
+}
+
+button.add {
+  mask: url("../icons/add.svg") no-repeat center;
+  -webkit-mask: url("../icons/add.svg") no-repeat center;
+}
+
+button.delete {
+  mask: url("../icons/delete.svg") no-repeat center;
+  -webkit-mask: url("../icons/delete.svg") no-repeat center;
+}
+
+button.error {
+  background-color: #D8000C;
+}
+
+button.ok {
+  mask: url("../icons/ok.svg") no-repeat center;
+  -webkit-mask: url("../icons/ok.svg") no-repeat center;
+}
+
+button.add, button.delete, button.ok {
+  background-color: #1a8cff;
+  float: none;
+  height: 30px;
+  margin: none;
+  min-width: 20px;
+  padding: 0;
+  width: 40px;
+}
+
+button.panel {
+  background-color: #EDEDED;
+  height: 200px;
+  width: 200px;
+}
+
+button.info {
+  background-color: #00529B;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:hover, div.form {
+  box-shadow: 0 5px 15px 0 rgba(0,0,0,0.16),0 5px 20px 0 rgba(0,0,0,0.12);
+}
+
+button.success {
+  background-color: #4F8A10;
+}
+
+button.warning {
+  background-color: #9F6000;
+}

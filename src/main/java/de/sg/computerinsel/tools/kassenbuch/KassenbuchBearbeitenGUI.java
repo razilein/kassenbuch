@@ -135,7 +135,7 @@ public class KassenbuchBearbeitenGUI extends BaseKassenbuchGUI {
                     LOGGER.info("Kassenbuch-Bearbeitung gestartet.");
                     final Rechnung neuerEintrag = KassenbuchBearbeitenUtils.createNeueEintragung(verwendungszweck.getText(), date, betrag,
                             eintragungsArtAusgang.isSelected() && !eintragungsArtEingang.isSelected());
-                    final File csvFile = KassenbuchBearbeitenUtils.addKassenbuchEintrag(filePath, neuerEintrag);
+                    final File csvFile = KassenbuchBearbeitenUtils.addKassenbuchEintrag(filePath, neuerEintrag).get(0);
                     einstellungen.setDateipfadText(csvFile.getAbsolutePath());
                     SettingsUtils.setPropertyLastCsvFile(csvFile.getAbsolutePath());
                     einstellungen.setAusgangsbetragText(KassenbuchUtils.getAusgangsbetragFromLatestKassenbuch(

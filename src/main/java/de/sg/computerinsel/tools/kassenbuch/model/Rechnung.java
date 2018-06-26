@@ -48,8 +48,13 @@ public class Rechnung {
     }
 
     public Integer getRechnungsnummerAsInt() {
-        return StringUtils.isNumeric(rechnungsnummer) ? Integer.valueOf(rechnungsnummer)
-                : Ints.tryParse(StringUtils.substring(rechnungsnummer, 1));
+        Integer nummer = 0;
+        if (StringUtils.isNumeric(rechnungsnummer)) {
+            nummer = Integer.valueOf(rechnungsnummer);
+        } else if (rechnungsnummer != null) {
+            Ints.tryParse(StringUtils.replaceAll(rechnungsnummer, "[^\\d.]", StringUtils.EMPTY));
+        }
+        return nummer;
     }
 
     public String toCsvString(final BigDecimal gesamtBetrag) {
