@@ -25,7 +25,7 @@ h1 {
   background-color: #102759;
   color: white;
   height: 130px;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   top: 0;
   width: 100%;
 }
@@ -52,6 +52,16 @@ input[readonly] {
 
 #navigation {
   background-color: #CEC319;
+  padding: 5 5 5 5;
+}
+
+#navigation2 {
+  background-color: #1A8CFF;
+  margin-bottom: 20px;
+  width: 50%;
+}
+
+#navigation, #navigation2 {
   height: 20px;
   padding: 5 5 5 5;
   top: 100px;
@@ -59,12 +69,19 @@ input[readonly] {
 
 .navigationLink {
   color: #102759;
+}
+
+.navigationLink2 {
+  color: white;
+}
+
+.navigationLink, .navigationLink2 {
   font-size: 20px;
   margin-right: 20px;
   text-decoration: none;
 }
 
-.navigationLink:hover {
+.navigationLink:hover, .navigationLink2:hover {
   text-decoration: underline;
 }
 

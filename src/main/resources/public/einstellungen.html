@@ -2,6 +2,10 @@
   <head>
     <title>Einstellungen - Computer-Insel Tools by Sita Ge&szlig;ner</title>
     <link rel="icon" href="/themes/icons/zahnrad.png">
+    <link rel="stylesheet" href="/themes/css/button.css">
+    <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/radio.css">
+    <link rel="stylesheet" href="/themes/css/raster.css">
     <link rel="stylesheet" href="/themes/css/style.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
@@ -10,7 +14,7 @@
     <div id="einstellungen">
       <page-header></page-header>
       <div id="content">
-        <div class="form" style="height: 160px;">
+        <div class="form">
           <div class="m1">
             <label>Rechnungsverzeichnis</label>
             <input class="m1" type="text" v-model="einstellungen.rechnungsverzeichnis.wert" />
@@ -24,11 +28,11 @@
           </div>
         </div>
       </div>
-      <messages-box v-bind:text="result"></messages-box>
+      <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
     </div>
   </body>
   <script src="/scripts/util.js"></script>
-  <script src="/scripts/messages.component.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/einstellungen/einstellungen.js"></script>
 </html>

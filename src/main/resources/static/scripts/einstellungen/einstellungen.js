@@ -5,7 +5,8 @@ var vm = new Vue({
       ablageverzeichnis: {},
       rechnungsverzeichnis: {}
     },
-    result: {}
+    result: {},
+    showDialog: false,
   },
   methods: {
 
@@ -33,6 +34,7 @@ var vm = new Vue({
 
     setMessages: function(response) {
       vm.result = response.data;
+      vm.showDialog = true;
     },
 
   }
