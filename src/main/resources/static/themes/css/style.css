@@ -42,12 +42,20 @@ input {
   height: 25px;
 }
 
+input.error {
+  background-color: #FFD2D2 !important;
+}
+
 input:focus, input:hover {
   background-color: #ffffcc;
 }
 
 input[readonly] {
   background-color: #ededed;
+}
+
+input.success {
+  background-color: #DFF2BF !important;
 }
 
 #navigation {

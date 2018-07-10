@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.sg.computerinsel.tools.Einstellungen;
@@ -20,14 +19,15 @@ import de.sg.computerinsel.tools.kassenbuch.rest.model.KassenbuchEintragungManue
 import de.sg.computerinsel.tools.kassenbuch.rest.model.KassenbuchErstellenData;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.service.EinstellungenService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class KassenbuchErstellenService {
 
-    @Autowired
-    private EinstellungenService einstellungenService;
+    private final EinstellungenService einstellungenService;
 
     public Map<String, Object> startRechnungsablage(final String rechnungsPath, final String ablagePath,
             final KassenbuchErstellenData data) {

@@ -28,7 +28,7 @@
 
 .m1, .m2, .m2m, .m3, .m3m, .m4, .m4m, .m5, .m5m, .m6, .m6m, .m7, .m7m {
   float: left;
-  margin-bottom: 10px;
+  margin-bottom: 3px;
 }
 
 .m2m, .m3m, .m4m, .m5m, .m6m, .m7m {

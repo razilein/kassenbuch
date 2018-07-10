@@ -23,18 +23,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
+import de.sg.computerinsel.tools.kassenbuch.service.PdfDocumentUtils;
+import de.sg.computerinsel.tools.kassenbuch.service.PdfTableUtils;
 
 /**
  * @author Sita Geßner
@@ -57,11 +54,7 @@ public final class KassenbuchErstellenUtils {
 
     private static final String FILENAME_PDF = "kassenbuch.pdf";
 
-    private static final Font TITLEFONT = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
-
-    private static final Font TABLEHEADER_FONT = new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD);
-
-    private static final Font TEXTFONT = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL);
+    private static final int TABELLE_SPALTEN = 5;
 
     private KassenbuchErstellenUtils() {
     }
@@ -150,13 +143,13 @@ public final class KassenbuchErstellenUtils {
         try {
             pdfFile.createNewFile();
             try (final FileOutputStream outputStream = new FileOutputStream(pdfFile);) {
-                final com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+                final Document document = new Document();
                 PdfWriter.getInstance(document, outputStream);
                 document.open();
 
                 BigDecimal ausgangsBetrag = ausgangsRechnung.getRechnungsbetrag();
                 for (final Entry<Date, List<Rechnung>> rechnungenByDatum : rechnungenByRechnungsdatum.entrySet()) {
-                    addTitlePage(document, rechnungenByDatum.getKey());
+                    PdfDocumentUtils.addTitle(document, "Kassenbuch vom " + DATE_FORMAT.format(rechnungenByDatum.getKey()));
                     ausgangsBetrag = addTable(document, rechnungenByDatum.getValue(), ausgangsBetrag);
                     document.newPage();
                 }
@@ -172,20 +165,10 @@ public final class KassenbuchErstellenUtils {
         return pdfFile;
     }
 
-    private static void addTitlePage(final com.itextpdf.text.Document document, final Date datum) throws DocumentException {
-        document.add(new Paragraph("Kassenbuch vom " + DATE_FORMAT.format(datum), TITLEFONT));
-        addEmptyLine(document);
-    }
-
-    private static void addEmptyLine(final com.itextpdf.text.Document document) throws DocumentException {
-        document.add(Chunk.NEWLINE);
-    }
-
-    private static BigDecimal addTable(final com.itextpdf.text.Document document, final List<Rechnung> rechnungen,
-            final BigDecimal ausgangsBetrag) throws DocumentException {
+    private static BigDecimal addTable(final Document document, final List<Rechnung> rechnungen, final BigDecimal ausgangsBetrag)
+            throws DocumentException {
         BigDecimal gesamtBetrag = BigDecimal.ZERO;
-        final PdfPTable table = new PdfPTable(5);
-        table.setHeaderRows(1);
+        final PdfPTable table = PdfTableUtils.createTable(5);
         addTableHeaderRow(table);
         gesamtBetrag = addTableBodyRows(rechnungen, table, ausgangsBetrag);
         document.add(table);
@@ -205,7 +188,8 @@ public final class KassenbuchErstellenUtils {
         for (final Rechnung rechnung : rechnungen) {
             final String verwendungszweck = StringUtils.isNumeric(rechnung.getRechnungsnummer())
                     || StringUtils.isNumeric(StringUtils.substring(rechnung.getRechnungsnummer(), 1))
-                            ? "Rechnung: " + rechnung.getRechnungsnummer() : rechnung.getRechnungsnummer();
+                            ? "Rechnung: " + rechnung.getRechnungsnummer()
+                            : rechnung.getRechnungsnummer();
             final String formattedRechnungsbetrag = BETRAG_FORMAT.format(rechnung.getRechnungsbetrag());
             gesamtBetrag = gesamtBetrag.add(rechnung.getRechnungsbetrag());
             gesamtEingang = isEingangssbetrag(formattedRechnungsbetrag) ? gesamtEingang.add(rechnung.getRechnungsbetrag()) : gesamtEingang;
@@ -215,39 +199,18 @@ public final class KassenbuchErstellenUtils {
                     isEingangssbetrag(formattedRechnungsbetrag) ? formattedRechnungsbetrag : StringUtils.EMPTY,
                     isAusgangsbetrag(formattedRechnungsbetrag) ? formattedRechnungsbetrag : StringUtils.EMPTY, gesamtBetrag);
         }
-        addEmptyTableRow(table);
+        PdfTableUtils.addEmptyTableRow(table, TABELLE_SPALTEN);
         addTableRow(table, null, Rechnung.GESAMTBETRAG, BETRAG_FORMAT.format(gesamtEingang), BETRAG_FORMAT.format(gesamtAusgang),
                 gesamtBetrag);
         return gesamtBetrag;
     }
 
     private static void addTableHeaderRow(final PdfPTable table) {
-        table.addCell(createHeaderCell("Datum"));
-        table.addCell(createHeaderCell("Verwendungszweck"));
-        table.addCell(createHeaderCell("Einnahmen", Element.ALIGN_RIGHT));
-        table.addCell(createHeaderCell("Ausgaben", Element.ALIGN_RIGHT));
-        table.addCell(createHeaderCell("Kassenbestand", Element.ALIGN_RIGHT));
-    }
-
-    private static PdfPCell createHeaderCell(final String title, final int alignment) {
-        final PdfPCell cell = new PdfPCell(new Phrase(title, TABLEHEADER_FONT));
-        cell.setHorizontalAlignment(alignment);
-        cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
-        return cell;
-    }
-
-    private static PdfPCell createHeaderCell(final String title) {
-        return createHeaderCell(title, Element.ALIGN_LEFT);
-    }
-
-    private static PdfPCell createBodyCell(final String text, final int alignment) {
-        final PdfPCell cell = new PdfPCell(new Phrase(text, TEXTFONT));
-        cell.setHorizontalAlignment(alignment);
-        return cell;
-    }
-
-    private static PdfPCell createBodyCell(final String text) {
-        return createBodyCell(text, Element.ALIGN_LEFT);
+        PdfTableUtils.addTableHeaderCell(table, "Datum");
+        PdfTableUtils.addTableHeaderCell(table, "Verwendungszweck");
+        PdfTableUtils.addTableHeaderCell(table, "Einnahmen", Element.ALIGN_RIGHT);
+        PdfTableUtils.addTableHeaderCell(table, "Ausgaben", Element.ALIGN_RIGHT);
+        PdfTableUtils.addTableHeaderCell(table, "Kassenbestand", Element.ALIGN_RIGHT);
     }
 
     static boolean isAusgangsbetrag(final String formattedRechnungsbetrag) {
@@ -258,18 +221,12 @@ public final class KassenbuchErstellenUtils {
         return !isAusgangsbetrag(formattedRechnungsbetrag);
     }
 
-    private static void addEmptyTableRow(final PdfPTable table) {
-        for (int i = 0; i < 5; i++) {
-            table.addCell("");
-        }
-    }
-
     private static void addTableRow(final PdfPTable table, final Date rechnungsdatum, final String verwendungszweck,
             final String betragEingang, final String betragAusgang, final BigDecimal gesamtBetrag) {
-        table.addCell(createBodyCell(rechnungsdatum == null ? StringUtils.EMPTY : DATE_FORMAT.format(rechnungsdatum)));
-        table.addCell(createBodyCell(verwendungszweck));
-        table.addCell(createBodyCell(betragEingang, Element.ALIGN_RIGHT));
-        table.addCell(createBodyCell(betragAusgang, Element.ALIGN_RIGHT));
-        table.addCell(createBodyCell(BETRAG_FORMAT.format(gesamtBetrag), Element.ALIGN_RIGHT));
+        PdfTableUtils.addTableBodyCell(table, rechnungsdatum == null ? StringUtils.EMPTY : DATE_FORMAT.format(rechnungsdatum));
+        PdfTableUtils.addTableBodyCell(table, verwendungszweck);
+        PdfTableUtils.addTableBodyCell(table, betragEingang, Element.ALIGN_RIGHT);
+        PdfTableUtils.addTableBodyCell(table, betragAusgang, Element.ALIGN_RIGHT);
+        PdfTableUtils.addTableBodyCell(table, BETRAG_FORMAT.format(gesamtBetrag), Element.ALIGN_RIGHT);
     }
 }
