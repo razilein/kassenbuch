@@ -115,7 +115,7 @@ public final class KassenbuchErstellenUtils {
         writer.append("\r\n");
     }
 
-    static Comparator<Rechnung> rechnungComparator() {
+    public static Comparator<Rechnung> rechnungComparator() {
         return (o1, o2) -> {
             int result = 0;
             if (o1.getRechnungsdatum() == null) {

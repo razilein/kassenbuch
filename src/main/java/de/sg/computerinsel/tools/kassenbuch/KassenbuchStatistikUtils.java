@@ -34,6 +34,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class KassenbuchStatistikUtils {
 
+    private static final String TRENNZEICHEN = "|";
+
     public static Map<Integer, Map<Zahlart, Map<Month, List<Rechnung>>>> getStatistikProJahrZahlungsartMonat(
             final List<Rechnung> rechnungen) {
         final Map<Integer, Map<Zahlart, Map<Month, List<Rechnung>>>> result = new TreeMap<>();
@@ -67,10 +69,10 @@ public class KassenbuchStatistikUtils {
     }
 
     private void writeHeadline(final FileWriter writer) throws IOException {
-        writer.write(";");
+        writer.write(TRENNZEICHEN);
         for (final Month entry : Month.values()) {
             writer.write(entry.toString());
-            writer.write(";");
+            writer.write(TRENNZEICHEN);
         }
         writer.write("\n\r");
     }
@@ -79,12 +81,12 @@ public class KassenbuchStatistikUtils {
             throws IOException {
         for (final Entry<Zahlart, Map<Month, List<Rechnung>>> entry : rechnungProZahlartMonat.entrySet()) {
             writer.write(entry.getKey().getBezeichnung());
-            writer.write(";");
+            writer.write(TRENNZEICHEN);
             for (final Entry<Month, List<Rechnung>> entry2 : entry.getValue().entrySet()) {
                 final BigDecimal betrag = entry2.getValue().stream().map(Rechnung::getRechnungsbetrag).reduce(BigDecimal::add)
                         .orElse(BigDecimal.ZERO);
                 writer.write(KassenbuchErstellenUtils.BETRAG_FORMAT.format(betrag));
-                writer.write(";");
+                writer.write(TRENNZEICHEN);
             }
             writer.write("\n\r");
         }
@@ -94,7 +96,7 @@ public class KassenbuchStatistikUtils {
     private void writeFootline(final FileWriter writer, final Map<Zahlart, Map<Month, List<Rechnung>>> rechnungProZahlartMonat)
             throws IOException {
         writer.write("Gesamt");
-        writer.write(";");
+        writer.write(TRENNZEICHEN);
         final Map<Month, BigDecimal> result = new TreeMap<>();
         for (final Entry<Zahlart, Map<Month, List<Rechnung>>> entry : rechnungProZahlartMonat.entrySet()) {
             for (final Entry<Month, List<Rechnung>> entry2 : entry.getValue().entrySet()) {
@@ -106,7 +108,7 @@ public class KassenbuchStatistikUtils {
         }
         for (final Entry<Month, BigDecimal> entry : result.entrySet()) {
             writer.write(KassenbuchErstellenUtils.BETRAG_FORMAT.format(entry.getValue()));
-            writer.write(";");
+            writer.write(TRENNZEICHEN);
         }
     }
 
@@ -243,10 +245,10 @@ public class KassenbuchStatistikUtils {
             throws IOException {
         for (final Entry<String, Map<Month, BigDecimal>> entry : statistikProPostenMonat.entrySet()) {
             writer.write(entry.getKey());
-            writer.write(";");
+            writer.write(TRENNZEICHEN);
             for (final Entry<Month, BigDecimal> entry2 : entry.getValue().entrySet()) {
                 writer.write(KassenbuchErstellenUtils.BETRAG_FORMAT.format(entry2.getValue()));
-                writer.write(";");
+                writer.write(TRENNZEICHEN);
             }
             writer.write("\n\r");
         }
@@ -255,10 +257,10 @@ public class KassenbuchStatistikUtils {
 
     private void writePostenFootline(final FileWriter writer, final Map<Month, BigDecimal> statistikProMonat) throws IOException {
         writer.write("Gesamt");
-        writer.write(";");
+        writer.write(TRENNZEICHEN);
         for (final Entry<Month, BigDecimal> entry : statistikProMonat.entrySet()) {
             writer.write(KassenbuchErstellenUtils.BETRAG_FORMAT.format(entry.getValue()));
-            writer.write(";");
+            writer.write(TRENNZEICHEN);
         }
     }
 
