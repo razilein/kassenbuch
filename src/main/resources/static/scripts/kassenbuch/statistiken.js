@@ -16,8 +16,10 @@ var vm = new Vue({
     },
 
     erstelleStatistikZahlungsarten: function() {
+      showLoader();
       vm.executeErstelleStatistikZahlungsarten()
         .then(vm.setMessages)
+        .then(hideLoader)
     },
 
     executeErstelleStatistikZahlungsarten: function() {
@@ -25,8 +27,10 @@ var vm = new Vue({
     },
     
     erstelleStatistikUeberweisungen: function() {
+      showLoader();
       vm.executeErstelleStatistikUeberweisungen()
-      .then(vm.setMessages)
+        .then(vm.setMessages)
+        .then(hideLoader)
     },
     
     executeErstelleStatistikUeberweisungen: function() {

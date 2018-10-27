@@ -11,13 +11,17 @@ var vm = new Vue({
   methods: {
 
     init: function() {
+      showLoader();
       vm.getEinstellungen()
         .then(vm.setEinstellungen)
+        .then(hideLoader);
     },
 
     speichernEinstellungen: function() {
+      showLoader();
       vm.executeSpeichernEinstellungen()
         .then(vm.setMessages)
+        .then(hideLoader);
     },
 
     executeSpeichernEinstellungen: function() {

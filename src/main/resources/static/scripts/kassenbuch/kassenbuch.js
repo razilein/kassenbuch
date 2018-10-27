@@ -26,8 +26,10 @@ var vm = new Vue({
     },
 
     erstellen: function() {
+      showLoader();
       vm.erstellenExecute()
-        .then(vm.setMessages);
+        .then(vm.setMessages)
+        .then(hideLoader);
     },
 
     erstellenExecute: function() {
@@ -44,10 +46,12 @@ var vm = new Vue({
     },
 
     init: function() {
+      showLoader();
       vm.getAusgangsbetrag()
         .then(vm.setAusgangsbetrag)
         .then(vm.getCsvDatei)
         .then(vm.setCsvDatei)
+        .then(hideLoader);
     },
 
     initModel: function() {
@@ -61,12 +65,13 @@ var vm = new Vue({
     },
 
     saveEintragungen: function() {
+      showLoader();
       vm.saveEintragungenExecute()
-        .then(vm.markSavedEintragungen);
+        .then(vm.markSavedEintragungen)
+        .then(hideLoader);
     },
 
     saveEintragungenExecute: function() {
-      //TODO - CSV-Dateiname mitgeben
       return axios.post('kassenbuch/eintragungen/erstellen', vm.manuell);
     },
 

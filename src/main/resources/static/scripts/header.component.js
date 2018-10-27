@@ -2,6 +2,7 @@ Vue.component('page-header', {
   data: {},
   template: 
   `<div id="header">
+     <div class="loading hide" id="loader">Loading&#8230;</div>
      <img src="themes/icons/logo.png" height="100" />
      <div id="navigation">
        <a class="navigationLink" href="kassenbuch.html">

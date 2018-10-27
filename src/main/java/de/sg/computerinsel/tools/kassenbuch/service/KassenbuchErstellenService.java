@@ -62,13 +62,15 @@ public class KassenbuchErstellenService {
 
     public void manuelleEintragung(final List<KassenbuchEintragungManuell> eintragungen, final String csvDatei) {
         log.info("Kassenbuch-Bearbeitung gestartet.");
+        String csvDateiPfad = csvDatei;
         for (final KassenbuchEintragungManuell eintragung : eintragungen) {
             final Rechnung neuerEintrag = KassenbuchBearbeitenUtils.createNeueEintragung(eintragung.getVerwendungszweck(),
                     eintragung.getDatum(), eintragung.getBetrag(),
                     KassenbuchEintragungManuell.IST_NEGATIVE_EINTRAGUNGSART.equals(eintragung.getEintragungsart()));
-            final List<File> files = KassenbuchBearbeitenUtils.addKassenbuchEintrag(csvDatei, neuerEintrag);
+            final List<File> files = KassenbuchBearbeitenUtils.addKassenbuchEintrag(csvDateiPfad, neuerEintrag);
             updateSettings(files.get(0).getAbsolutePath(), files.get(1).getAbsolutePath(),
                     einstellungenService.getRechnungsverzeichnis().getWert(), einstellungenService.getAblageverzeichnis().getWert());
+            csvDateiPfad = files.get(0).getAbsolutePath();
         }
         log.info("Kassenbuch-Bearbeitung beendet.");
     }

@@ -12,3 +12,11 @@ function getDateAsString() {
 function hasMessages(result) {
   return result && (result.success || result.info || result.warning || result.error);
 }
+
+function showLoader() {
+  document.getElementById("loader").classList.remove("hide");
+}
+
+function hideLoader() {
+  document.getElementById("loader").classList.add("hide");
+}

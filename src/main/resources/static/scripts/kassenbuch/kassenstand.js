@@ -37,17 +37,21 @@ var vm = new Vue({
     },
 
     init: function() {
+      showLoader();
       vm.getKassenbuchbetrag()
         .then(vm.setKassenbuchBetrag)
         .then(vm.getKassenstand)
         .then(vm.setKassenstand)
-        .then(vm.berechne);
+        .then(vm.berechne)
+        .then(hideLoader);
     },
 
     save: function() {
+      showLoader();
       vm.executeSave()
         .then(vm.setMessages)
-        .then(vm.init);
+        .then(vm.init)
+        .then(hideLoader);
     },
 
     executeSave: function() {

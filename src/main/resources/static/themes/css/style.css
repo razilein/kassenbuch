@@ -58,6 +58,10 @@ input.success {
   background-color: #DFF2BF !important;
 }
 
+.hide {
+  display: none;
+}
+
 #navigation {
   background-color: #CEC319;
   padding: 5 5 5 5;
