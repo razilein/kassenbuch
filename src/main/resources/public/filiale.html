@@ -1,9 +1,10 @@
 <html>
   <head>
-    <title>Einstellungen - Computer-Insel Tools by Sita Ge&szlig;ner</title>
+    <title>Filialen - Computer-Insel Tools by Sita Ge&szlig;ner</title>
     <link rel="icon" href="/themes/icons/zahnrad.png">
     <link rel="stylesheet" href="/themes/css/button.css">
     <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/grid.css">
     <link rel="stylesheet" href="/themes/css/loading.css">
     <link rel="stylesheet" href="/themes/css/radio.css">
     <link rel="stylesheet" href="/themes/css/raster.css">
@@ -12,23 +13,16 @@
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
   </head>
   <body>
-    <div id="einstellungen">
+    <div id="filiale">
       <page-header></page-header>
-      <page-header-einstellungen v-bind:marker="'Allgemein'"></page-header-einstellungen>
+      <page-header-einstellungen v-bind:marker="'Filiale'"></page-header-einstellungen>
       <div id="content">
-        <div class="form">
-          <div class="m1">
-            <label>Rechnungsverzeichnis</label>
-            <input class="m1" type="text" v-model="einstellungen.rechnungsverzeichnis.wert" />
-          </div>
-          <div class="m1">
-            <label>Ablageverzeichnis</label>
-            <input class="m1" type="text" v-model="einstellungen.ablageverzeichnis.wert" />
-          </div>
-          <div class="m1">
-            <button class="right" v-on:click="speichernEinstellungen">Speichern</button>
-          </div>
-        </div>
+        <grid
+          :clazz="'m1'"
+          :data="gridData"
+          :columns="gridColumns"
+          :filter-key="searchQuery"
+        ></grid>
       </div>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
     </div>
@@ -36,6 +30,7 @@
   <script src="/scripts/util.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/grid.component.js"></script>
   <script src="/scripts/einstellungen/einstellungen.header.component.js"></script>
-  <script src="/scripts/einstellungen/einstellungen.js"></script>
+  <script src="/scripts/einstellungen/filiale.js"></script>
 </html>

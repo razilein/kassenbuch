@@ -32,6 +32,7 @@ button.add, button.delete, button.ok {
   float: none;
   height: 30px;
   margin: none;
+  margin-left: 0px;
   min-width: 20px;
   padding: 0;
   width: 40px;
