@@ -24,9 +24,10 @@ Vue.component('grid', {
           <th v-for="key in columns"
             @click="sortBy(key)"
             :class="{ active: sort == key.name }"
-            :style="{ width: key.width }">
+            :style="{ width: key.width }"
+          >
             {{ key.title }}
-            <span class="arrow" :class="sortOrders[key.name] > 0 ? 'asc' : 'desc'"></span>
+            <span class="arrow" :class="sortOrders[key.name] > 0 ? 'asc' : 'desc'" v-if="key.sortable !== false"></span>
           </th>
         </tr>
       </thead>
@@ -82,10 +83,12 @@ Vue.component('grid', {
   },
   methods: {
     sortBy: function (key) {
-      this.sort = key.name;
-      this.sortOrders[key.name] = this.sortOrders[key.name] * -1;
-      this.sortorder = this.sortorder === 'asc' ? 'desc' : 'asc';
-      this.reloadTabledata();
+      if (key.sortable !== false) {
+        this.sort = key.name;
+        this.sortOrders[key.name] = this.sortOrders[key.name] * -1;
+        this.sortorder = this.sortorder === 'asc' ? 'desc' : 'asc';
+        this.reloadTabledata();
+      }
     },
     changePageSize: function() {
       this.reloadTabledata();

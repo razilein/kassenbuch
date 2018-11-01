@@ -35,16 +35,17 @@ var vm = new Vue({
       vm.grid.gridColumns = [
         { name: 'functions',
           title: 'Funktionen',
-          width: '10%',
+          sortable: false,
+          width: 120,
           formatter: [
-          { clazz: 'delete', title: 'Filiale bearbeiten', clickFunc: vm.editFunction },
+          { clazz: 'edit', title: 'Filiale bearbeiten', clickFunc: vm.editFunction },
           { clazz: 'delete', title: 'Filiale löschen', clickFunc: vm.deleteFunction }
         ] },
-        { name: 'kuerzel', title: 'Kürzel', width: '5%' },
-        { name: 'name', title: 'Name', width: '40%' },
-        { name: 'strasse', title: 'Straße', width: '40%' },
-        { name: 'plz', title: 'PLZ', width: '40%' },
-        { name: 'ort', title: 'Ort', width: '40%' },
+        { name: 'kuerzel', title: 'Kürzel', width: 80 },
+        { name: 'name', title: 'Name', width: 100 },
+        { name: 'strasse', title: 'Straße', width: 60 },
+        { name: 'plz', title: 'PLZ', width: 50 },
+        { name: 'ort', title: 'Ort', width: 100 },
       ];
     },
     

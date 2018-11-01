@@ -18,6 +18,11 @@ button.delete {
   -webkit-mask: url("../icons/delete.svg") no-repeat center;
 }
 
+button.edit {
+  mask: url("../icons/edit.svg") no-repeat center;
+  -webkit-mask: url("../icons/edit.svg") no-repeat center;
+}
+
 button.error {
   background-color: #D8000C;
 }
@@ -37,7 +42,7 @@ button.pageRight {
   -webkit-mask: url("../icons/right.svg") no-repeat center;
 }
 
-button.add, button.delete, button.ok {
+button.add, button.delete, button.edit, button.ok {
   background-color: #1a8cff;
   float: none;
   height: 30px;
