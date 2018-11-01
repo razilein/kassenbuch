@@ -4,23 +4,23 @@ Vue.component('grid', {
       <thead>
         <tr>
           <th class="tableNavi" :colspan="columns.length">
-            Anzahl: {{data.length}}
+            Anzahl: {{data ? data.length : 0}}
           </th>
         </tr>
       </thead>
       <thead>
         <tr>
           <th v-for="key in columns"
-            @click="sortBy(key.name)"
-            :class="{ active: sortKey == key.name }"
+            @click="sortBy(key)"
+            :class="{ active: sort == key.name }"
             :style="{ width: key.width }">
             {{ key.title }}
-            <span class="arrow" :class="sortOrders[key.name] > 0 ? 'asc' : 'dsc'"></span>
+            <span class="arrow" :class="sortOrders[key.name] > 0 ? 'asc' : 'desc'"></span>
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="entry in filteredData">
+        <tr v-for="entry in data">
           <td
             :title="entry[key.name]"
             v-for="key in columns">
@@ -38,48 +38,26 @@ Vue.component('grid', {
   `,
   props: {
     clazz: String,
-    data: Array,
     columns: Array,
-    filterKey: String
+    filterKey: Object,
+    restUrl: String,
   },
   data: function () {
-    var sortOrders = {}
+    var order = {}
     this.columns.forEach(function (key) {
-      sortOrders[key.name] = 1;
-    })
+      order[key.name] = 1;
+    });
+    console.log(order);
+    this.getData()
+      .then(this.setData);
     return {
-      sortKey: '',
-      sortOrders: sortOrders
+      data: this.data,
+      sort: '',
+      sortOrders: order,
+      sortorder: 'asc',
     }
   },
-  computed: {
-    filteredData: function () {
-      var sortKey = this.sortKey;
-      var filterKeys = this.filterKey;
-      var order = this.sortOrders[sortKey] || 1;
-      var data = this.data;
-      if (filterKeys) {
-        data = data.filter(function (row) {
-          return Object.keys(row).some(function (key) {
-            var filterKey = filterKeys[key] || null;
-            if (!filterKey) {
-              return true;
-            }
-            var columnValue = String(row[key]).toLowerCase();
-            return columnValue.indexOf(filterKey.toLowerCase()) > -1;
-          })
-        })
-      }
-      if (sortKey) {
-        data = data.slice().sort(function (a, b) {
-          a = a[sortKey];
-          b = b[sortKey];
-          return (a === b ? 0 : a > b ? 1 : -1) * order;
-        })
-      }
-      return data;
-    }
-  },
+  computed: {},
   filters: {
     capitalize: function (str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -87,12 +65,28 @@ Vue.component('grid', {
   },
   methods: {
     sortBy: function (key) {
-      this.sortKey = key;
-      this.sortOrders[key] = this.sortOrders[key] * -1;
+      this.sort = key.name;
+      this.sortOrders[key.name] = this.sortOrders[key.name] * -1;
+      console.log(this.sortOrders);
+      this.sortorder = this.sortorder === 'asc' ? 'desc' : 'asc';
+      this.getData()
+        .then(this.setData);
     },
     clickFunc: function(row, func) {
       return typeof func === 'function' ? func(row) : null;
-    }
+    },
+    getData: function() {
+      var params = {
+        page: 0,
+        size: 10,
+        sort: this.sort,
+        sortorder: this.sortorder
+      };
+      return axios.post(this.restUrl, params);
+    },
+    setData: function(response) {
+      this.data = response.data.content;
+    },
   }
-})
+});
 

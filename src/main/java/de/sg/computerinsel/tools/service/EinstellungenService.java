@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.ImmutableList;
@@ -13,18 +14,23 @@ import com.google.common.primitives.Ints;
 import de.sg.computerinsel.tools.Einstellungen;
 import de.sg.computerinsel.tools.dao.EinstellungenRepository;
 import de.sg.computerinsel.tools.kassenbuch.rest.model.Kassenstand;
+import de.sg.computerinsel.tools.reparatur.FilialeRepository;
+import de.sg.computerinsel.tools.reparatur.model.Filiale;
+import lombok.AllArgsConstructor;
 
 /**
  * @author Sita Geßner
  */
 @Service
+@AllArgsConstructor
 public class EinstellungenService {
 
     private static final List<String> KASSENBESTAND_SETTING_KEYS = ImmutableList.of("500", "200", "100", "50", "20", "10", "5", "2", "1",
             "050", "020", "010", "005", "002", "001");
 
-    @Autowired
-    private EinstellungenRepository einstellungen;
+    private final EinstellungenRepository einstellungen;
+
+    private final FilialeRepository filialeRepository;
 
     public Einstellungen getAusgangsbetrag() {
         return getEinstellung("kassenbuch.ausgangsbetrag");
@@ -76,6 +82,10 @@ public class EinstellungenService {
             einstellung.setWert(String.valueOf(kassenstand.getAnzahl()));
             einstellungen.save(einstellung);
         }
+    }
+
+    public Page<Filiale> listFiliale(final PageRequest pageRequest) {
+        return filialeRepository.findAll(pageRequest);
     }
 
 }

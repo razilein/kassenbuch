@@ -1,5 +1,4 @@
 Vue.component('page-header', {
-  data: {},
   template: 
   `<div id="header">
      <div class="loading hide" id="loader">Loading&#8230;</div>

@@ -1,5 +1,4 @@
 Vue.component('page-header-einstellungen', {
-  data: {},
   props: ['marker'],
   template: 
   `<div id="navigation2">

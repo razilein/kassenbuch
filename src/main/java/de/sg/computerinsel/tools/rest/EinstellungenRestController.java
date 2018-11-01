@@ -4,13 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.rest.model.EinstellungenData;
+import de.sg.computerinsel.tools.rest.model.TableData;
 import de.sg.computerinsel.tools.service.EinstellungenService;
 
 @RestController
@@ -41,6 +45,11 @@ public class EinstellungenRestController {
         }
 
         return result;
+    }
+
+    @PostMapping("/filiale")
+    public Page<Filiale> getFilialen(@RequestBody final TableData data) {
+        return einstellungenService.listFiliale(data.getPagination());
     }
 
 }

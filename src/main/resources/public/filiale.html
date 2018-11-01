@@ -17,12 +17,14 @@
       <page-header></page-header>
       <page-header-einstellungen v-bind:marker="'Filiale'"></page-header-einstellungen>
       <div id="content">
-        <grid
-          :clazz="'m1'"
-          :data="gridData"
-          :columns="gridColumns"
-          :filter-key="searchQuery"
-        ></grid>
+        <div id="gridDiv" v-if="grid.gridColumns.length > 0">
+          <grid
+            :clazz="'m1'"
+            :columns="grid.gridColumns"
+            :filter-key="grid.searchQuery"
+            :rest-url="grid.restUrl"
+          ></grid>
+        </div>
       </div>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
     </div>

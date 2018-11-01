@@ -169,7 +169,7 @@
                             <goal>grunt</goal>
                         </goals>
                         <configuration>
-                            <arguments>copy</arguments>
+                            <arguments>copy:prod</arguments>
                         </configuration>
                     </execution>
 
