@@ -8,14 +8,12 @@ module.exports = function(grunt) {
         files: [
           {src: 'node_modules/axios/dist/axios.min.js', dest: 'src/main/resources/static/scripts/vendor/axios.min.js'},
           {src: 'node_modules/vue/dist/vue.min.js', dest: 'src/main/resources/static/scripts/vendor/vue.min.js'},
-          {src: 'node_modules/vuejs-paginator/dist/vuejs-paginator.min.js', dest: 'src/main/resources/static/scripts/vendor/vuejs-paginator.min.js'},
         ],
       },
       dev: {
         files: [
           {src: 'node_modules/axios/dist/axios.js', dest: 'src/main/resources/static/scripts/vendor/axios.min.js'},
           {src: 'node_modules/vue/dist/vue.js', dest: 'src/main/resources/static/scripts/vendor/vue.min.js'},
-          {src: 'node_modules/vuejs-paginator/dist/vuejs-paginator.js', dest: 'src/main/resources/static/scripts/vendor/vuejs-paginator.min.js'},
         ],
       }
     },

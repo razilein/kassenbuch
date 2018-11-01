@@ -4,7 +4,18 @@ Vue.component('grid', {
       <thead>
         <tr>
           <th class="tableNavi" :colspan="columns.length">
-            Anzahl: {{data ? data.length : 0}}
+            Zeige:
+            <select
+              @change="changePageSize()"
+              v-model="size"
+            >
+              <option v-for="val in pageSizes" :value="val">{{val}}</option>
+            </select>
+            <button class="pageLeft disabled" title="Eine Seite zurück" v-if="page === 0"></button>
+            <button class="pageLeft" @click="previousPage()" title="Eine Seite zurück" v-if="page !== 0"></button>
+            Seite {{ page + 1 }} von {{ totalPages }}
+            <button class="pageRight disabled" title="Zur nächsten Seite" v-if="page + 1 === totalPages"></button>
+            <button class="pageRight" @click="nextPage()" title="Zur nächsten Seite" v-if="page + 1 !== totalPages"></button>
           </th>
         </tr>
       </thead>
@@ -47,17 +58,23 @@ Vue.component('grid', {
     this.columns.forEach(function (key) {
       order[key.name] = 1;
     });
-    console.log(order);
-    this.getData()
-      .then(this.setData);
+    this.reloadTabledata();
     return {
       data: this.data,
+      page: 0,
+      size: 10,
       sort: '',
       sortOrders: order,
       sortorder: 'asc',
+      totalElements: 0,
+      totalPages: 0,
     }
   },
-  computed: {},
+  computed: {
+    pageSizes: function() {
+      return [10, 20, 50, 100, 200, 500, 1000];
+    }
+  },
   filters: {
     capitalize: function (str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -67,18 +84,33 @@ Vue.component('grid', {
     sortBy: function (key) {
       this.sort = key.name;
       this.sortOrders[key.name] = this.sortOrders[key.name] * -1;
-      console.log(this.sortOrders);
       this.sortorder = this.sortorder === 'asc' ? 'desc' : 'asc';
-      this.getData()
-        .then(this.setData);
+      this.reloadTabledata();
+    },
+    changePageSize: function() {
+      this.reloadTabledata();
     },
     clickFunc: function(row, func) {
       return typeof func === 'function' ? func(row) : null;
     },
+    nextPage: function() {
+      this.page = this.page + 1;
+      this.reloadTabledata();
+    },
+    previousPage: function() {
+      this.page = this.page - 1;
+      this.reloadTabledata();
+    },
+    reloadTabledata: function() {
+      showLoader();
+      this.getData()
+        .then(this.setData)
+        .then(hideLoader);
+    },
     getData: function() {
       var params = {
-        page: 0,
-        size: 10,
+        page: this.page,
+        size: this.size,
         sort: this.sort,
         sortorder: this.sortorder
       };
@@ -86,6 +118,8 @@ Vue.component('grid', {
     },
     setData: function(response) {
       this.data = response.data.content;
+      this.totalElements = response.data.totalElements;
+      this.totalPages = response.data.totalPages;
     },
   }
 });

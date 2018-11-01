@@ -27,6 +27,16 @@ button.ok {
   -webkit-mask: url("../icons/ok.svg") no-repeat center;
 }
 
+button.pageLeft {
+  mask: url("../icons/left.svg") no-repeat center;
+  -webkit-mask: url("../icons/left.svg") no-repeat center;
+}
+
+button.pageRight {
+  mask: url("../icons/right.svg") no-repeat center;
+  -webkit-mask: url("../icons/right.svg") no-repeat center;
+}
+
 button.add, button.delete, button.ok {
   background-color: #1a8cff;
   float: none;
@@ -36,6 +46,22 @@ button.add, button.delete, button.ok {
   min-width: 20px;
   padding: 0;
   width: 40px;
+}
+
+button.pageLeft, button.pageRight {
+  background-color: #1a8cff;
+  float: none;
+  height: 10px;
+  margin: none;
+  margin-left: 0px;
+  min-width: 20px;
+  padding: 0;
+  width: 20px;
+}
+
+button.pageLeft.disabled, button.pageRight.disabled {
+  background-color: #a9a9a9;
+  cursor: default;
 }
 
 button.panel {
