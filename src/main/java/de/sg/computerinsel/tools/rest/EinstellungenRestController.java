@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,6 +51,23 @@ public class EinstellungenRestController {
     @PostMapping("/filiale")
     public Page<Filiale> getFilialen(@RequestBody final TableData data) {
         return einstellungenService.listFiliale(data.getPagination());
+    }
+
+    @GetMapping("/filiale/{id}")
+    public Filiale getFiliale(@PathVariable final Integer id) {
+        return einstellungenService.getFiliale(id).orElse(new Filiale());
+    }
+
+    @PutMapping("/filiale")
+    public Map<String, Object> saveFiliale(@RequestBody final Filiale filiale) {
+        final Map<String, Object> result = new HashMap<>();
+        result.putAll(ValidationUtils.validate(filiale));
+
+        if (result.isEmpty()) {
+            einstellungenService.save(filiale);
+            result.put(Message.SUCCESS.getCode(), "Die Filiale " + filiale.getName() + " wurde erfolgreich gespeichert");
+        }
+        return result;
     }
 
 }

@@ -20,3 +20,20 @@ function showLoader() {
 function hideLoader() {
   document.getElementById("loader").classList.add("hide");
 }
+
+function createEditDialogTemplate(body) {
+  return `
+  <div class="dialog-mask">
+  <div class="dialog-wrapper">
+    <div class="dialog-container info">
+      <h3 class="dialog-header">{{title}}</h3>
+      <div class="dialog-body">` + body + `</div>
+      <div class="dialog-footer">
+        <button class="dialog-default-button info" @click="saveFunc()">Speichern</button>
+        <button class="dialog-default-button info" @click="$emit('close')">Abbrechen</button>
+      </div>
+    </div>
+  </div>
+</div>
+`
+}

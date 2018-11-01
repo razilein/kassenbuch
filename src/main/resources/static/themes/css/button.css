@@ -79,6 +79,10 @@ button.info {
   background-color: #00529B;
 }
 
+button.info.disabled {
+  background-color: #637A8E;
+}
+
 button:hover {
   cursor: pointer;
 }

@@ -22,6 +22,12 @@ Vue.component('delete-dialog', {
     deleteFunc: function() {
       axios.delete(this.restUrl, { data: { id: this.id } });
     },
+    executeDelete: function() {
+      return axios.delete(this.restUrl, { data: { id: this.id } });
+    },
+    closeAndReturnResponse: function(response) {
+      this.$emit('deleted', response.data);
+    },
   }
 });
 

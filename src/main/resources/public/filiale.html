@@ -23,15 +23,26 @@
             :columns="grid.gridColumns"
             :filter-key="grid.searchQuery"
             :rest-url="grid.restUrl"
+            :reload="grid.reload"
+            @reloaded="grid.reload = false"
           ></grid>
         </div>
       </div>
+      <edit-dialog
+        :rest-url-get="editRow.restUrlGet"
+        :rest-url-save="editRow.restUrlSave"
+        :title="editRow.title"
+        v-if="showEditDialog"
+        @close="showEditDialog = false"
+        @saved="handleEditResponse"
+      ></edit-dialog>
       <delete-dialog
         :title="deleteRow.title"
         :rest-url="deleteRow.restUrl"
         :row-id="deleteRow.id"
         v-if="showDeleteDialog"
         @close="showDeleteDialog = false"
+        @deleted="handleDeleteResponse"
       ></delete-dialog>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
     </div>
@@ -41,6 +52,7 @@
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/grid.component.js"></script>
   <script src="/scripts/delete.dialog.component.js"></script>
+  <script src="/scripts/einstellungen/edit.dialog.component.js"></script>
   <script src="/scripts/einstellungen/einstellungen.header.component.js"></script>
   <script src="/scripts/einstellungen/filiale.js"></script>
 </html>

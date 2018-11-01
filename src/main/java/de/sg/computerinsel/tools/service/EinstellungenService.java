@@ -2,6 +2,7 @@ package de.sg.computerinsel.tools.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -86,6 +87,14 @@ public class EinstellungenService {
 
     public Page<Filiale> listFiliale(final PageRequest pageRequest) {
         return filialeRepository.findAll(pageRequest);
+    }
+
+    public Optional<Filiale> getFiliale(final Integer id) {
+        return filialeRepository.findById(id);
+    }
+
+    public void save(final Filiale filiale) {
+        filialeRepository.save(filiale);
     }
 
 }

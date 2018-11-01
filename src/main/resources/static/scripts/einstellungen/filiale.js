@@ -4,27 +4,51 @@ var vm = new Vue({
     result: {},
     showDialog: false,
     showDeleteDialog: false,
+    showEditDialog: false,
     deleteRow: {
       id: null,
       restUrl: '/einstellungen/filiale',
       title: 'Filiale löschen',
     },
+    editRow: {
+      restUrlGet: '/einstellungen/filiale/',
+      restUrlSave: '/einstellungen/filiale',
+      title: 'Filiale bearbeiten',
+    },
     grid: {
       gridColumns: [],
+      reload: false,
       restUrl: 'einstellungen/filiale',
       searchQuery: {},
-    }
+    },
   },
   methods: {
     
     editFunction: function(row) {
-      alert('It works 2!');
+      vm.editRow.restUrlGet = '/einstellungen/filiale/' + row.id;
+      vm.editRow.title = 'Filiale ' + row.name + ' bearbeiten';
+      vm.showEditDialog = true;
+    },
+    
+    handleEditResponse: function(data) {
+      if (data.success) {
+        vm.showEditDialog = false;
+        vm.grid.reload = true;
+      } 
+      vm.result = data;
+      vm.showDialog = true;
     },
     
     deleteFunction: function(row) {
       vm.deleteRow.id = row.id;
       vm.deleteRow.title = 'Filiale ' + row.name + ' löschen';
       vm.showDeleteDialog = true;
+    },
+    
+    handleDeleteResponse: function(data) {
+      vm.showDeleteDialog = false;
+      vm.result = data;
+      vm.showDialog = true;
     },
 
     init: function() {

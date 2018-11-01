@@ -52,6 +52,7 @@ Vue.component('grid', {
     clazz: String,
     columns: Array,
     filterKey: Object,
+    reload: Boolean,
     restUrl: String,
   },
   data: function () {
@@ -76,10 +77,13 @@ Vue.component('grid', {
       return [10, 20, 50, 100, 200, 500, 1000];
     }
   },
-  filters: {
-    capitalize: function (str) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
+  mounted() {
+    this.$watch(function() { return this.reload }, function(newVal, oldVal) {
+      if (newVal === true && oldVal === false) {
+        this.reloadTabledata();
+        this.$emit('reloaded');
+      }
+    }, { deep: true })
   },
   methods: {
     sortBy: function (key) {
