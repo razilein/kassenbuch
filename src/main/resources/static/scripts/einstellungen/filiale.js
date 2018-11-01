@@ -3,6 +3,12 @@ var vm = new Vue({
   data: {
     result: {},
     showDialog: false,
+    showDeleteDialog: false,
+    deleteRow: {
+      id: null,
+      restUrl: '/einstellungen/filiale',
+      title: 'Filiale löschen',
+    },
     grid: {
       gridColumns: [],
       restUrl: 'einstellungen/filiale',
@@ -16,7 +22,9 @@ var vm = new Vue({
     },
     
     deleteFunction: function(row) {
-      alert('It works!');
+      vm.deleteRow.id = row.id;
+      vm.deleteRow.title = 'Filiale ' + row.name + ' löschen';
+      vm.showDeleteDialog = true;
     },
 
     init: function() {

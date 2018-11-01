@@ -75,3 +75,6 @@ div.warning {
   color: #9F6000;
 }
 
+dialog:not([open]) {
+  display: none;
+}
