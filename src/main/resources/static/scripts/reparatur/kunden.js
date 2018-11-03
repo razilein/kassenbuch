@@ -83,6 +83,7 @@ var vm = new Vue({
         { name: 'ort', title: 'Ort', width: 100 },
         { name: 'telefon', title: 'Telefonnummer', width: 140 },
         { name: 'bemerkung', title: 'Bemerkungen', width: 200 },
+        { name: 'erstelltAm', title: 'Erstellt am', width: 100, formatter: ['datetime'] }
       ];
     },
     

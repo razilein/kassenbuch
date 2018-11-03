@@ -1,5 +1,6 @@
 package de.sg.computerinsel.tools.reparatur.rest;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +45,9 @@ public class ReparaturRestController {
         result.putAll(ValidationUtils.validate(kunde));
 
         if (result.isEmpty()) {
+            if (kunde.getId() == null) {
+                kunde.setErstelltAm(LocalDateTime.now());
+            }
             service.save(kunde);
             result.put(Message.SUCCESS.getCode(), "Der Kunde '" + kunde.getNachname() + "' wurde erfolgreich gespeichert");
         }

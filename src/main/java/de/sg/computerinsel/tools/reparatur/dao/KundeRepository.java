@@ -18,6 +18,8 @@ public interface KundeRepository extends CrudRepository<Kunde, Integer> {
 
     Page<Kunde> findByVornameLikeAndPlzLike(String vorname, String plz, Pageable pagination);
 
+    Page<Kunde> findByNachnameLike(String nachname, Pageable pagination);
+
     Page<Kunde> findByVornameLike(String vorname, Pageable pagination);
 
     Page<Kunde> findByPlzLike(String plz, Pageable pagination);

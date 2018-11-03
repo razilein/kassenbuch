@@ -54,8 +54,10 @@ Vue.component('grid', {
                 :class="form.clazz"
                 :title="form.title"
                 v-for="form in key.formatter"
+                v-if="form.clickFunc"
               ></button>
-            {{entry[key.name]}}
+              <span v-for="form in key.formatter" v-if="form === 'datetime'">{{formatDate(entry[key.name])}}</span>
+              <span v-if="!key.formatter">{{entry[key.name]}}</span>
           </td>
         </tr>
       </tbody>
@@ -67,7 +69,8 @@ Vue.component('grid', {
     columns: Array,
     filterKey: Object,
     reload: Boolean,
-    restUrl: String
+    restUrl: String,
+    searchQuery: Object
   },
   data: function() {
     var order = {};
@@ -122,6 +125,13 @@ Vue.component('grid', {
     clickFunc: function(row, func) {
       return typeof func === 'function' ? func(row) : null;
     },
+    formatDate: function(datetime) {
+      if (datetime) {
+        var local = moment.utc(datetime).local();
+        return local.format('DD.MM.YYYY HH:mm');
+      }
+      return datetime;
+    },
     nextPage: function() {
       this.page = this.page + 1;
       this.reloadTabledata();
@@ -138,9 +148,7 @@ Vue.component('grid', {
     },
     getData: function() {
       var params = {
-        conditions: {
-          
-        },
+        conditions: this.searchQuery,
         data: {
           page: this.page,
           size: this.size,
