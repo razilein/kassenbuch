@@ -138,15 +138,19 @@ Vue.component('grid', {
     },
     getData: function() {
       var params = {
-        page: this.page,
-        size: this.size,
-        sort: this.sort,
-        sortorder: this.sortorder
+        conditions: {
+          
+        },
+        data: {
+          page: this.page,
+          size: this.size,
+          sort: this.sort,
+          sortorder: this.sortorder
+        }
       };
       return axios.post(this.restUrl, params);
     },
     setData: function(response) {
-      console.log(response.data);
       this.data = response.data.content;
       this.pageElements = response.data.numberOfElements;
       this.totalElements = response.data.totalElements;

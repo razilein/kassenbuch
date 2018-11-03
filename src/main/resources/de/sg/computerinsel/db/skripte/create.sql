@@ -1,7 +1,6 @@
 CREATE TABLE kunde (
    id INTEGER IDENTITY NOT NULL PRIMARY KEY,
    nachname VARCHAR(100) NOT NULL,
-   kuerzel VARCHAR(3) NOT NULL,
    vorname VARCHAR(50),
    strasse VARCHAR(100),
    plz VARCHAR(8),
