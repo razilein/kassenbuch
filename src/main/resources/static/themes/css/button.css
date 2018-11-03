@@ -81,6 +81,8 @@ button.info {
 
 button.info.disabled {
   background-color: #637A8E;
+  box-shadow: none;
+  cursor: default;
 }
 
 button:hover {

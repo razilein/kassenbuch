@@ -97,6 +97,10 @@ input.success {
   text-decoration: underline;
 }
 
+.required:after {
+  content: " *";
+}
+
 .right {
   float: right;
 }

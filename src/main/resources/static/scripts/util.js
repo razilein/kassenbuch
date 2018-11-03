@@ -29,7 +29,12 @@ function createEditDialogTemplate(body) {
       <h3 class="dialog-header">{{title}}</h3>
       <div class="dialog-body">` + body + `</div>
       <div class="dialog-footer">
-        <button class="dialog-default-button info" @click="saveFunc()">Speichern</button>
+        <button class="dialog-default-button info" @click="saveFunc()" v-if="areRequiredFieldsNotEmpty()">Speichern</button>
+        <button
+          class="dialog-default-button info disabled"
+          title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus."
+          v-if="!areRequiredFieldsNotEmpty()"
+        >Speichern</button>
         <button class="dialog-default-button info" @click="$emit('close')">Abbrechen</button>
       </div>
     </div>
@@ -37,3 +42,12 @@ function createEditDialogTemplate(body) {
 </div>
 `
 }
+
+function hasAllProperties(object, properties) {
+  var result = true;
+  properties.forEach(function(val) {
+    result = result && object[val];
+  });
+  return result;
+}
+

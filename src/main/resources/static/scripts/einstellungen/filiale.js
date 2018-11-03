@@ -40,6 +40,7 @@ var vm = new Vue({
     },
     
     deleteFunction: function(row) {
+      //TODO Remove Delete for Filiale
       vm.deleteRow.id = row.id;
       vm.deleteRow.title = 'Filiale ' + row.name + ' löschen';
       vm.showDeleteDialog = true;
