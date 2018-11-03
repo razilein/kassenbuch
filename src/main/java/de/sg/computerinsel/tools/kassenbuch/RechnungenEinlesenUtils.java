@@ -3,6 +3,7 @@ package de.sg.computerinsel.tools.kassenbuch;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,7 +12,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -82,7 +82,7 @@ public final class RechnungenEinlesenUtils {
         Boolean isBarRechnung = false;
         final String dateiname = file.getName();
         try {
-            final Document doc = Jsoup.parse(file, Charsets.UTF_8.name());
+            final Document doc = Jsoup.parse(file, StandardCharsets.UTF_8.name());
             isBarRechnung = Zahlart.BAR == extractZahlartFromFile(doc);
         } catch (final IOException e) {
             log.error("Datei: '{}' kann nicht geparst werden: {}", dateiname, e.getMessage());
@@ -101,7 +101,7 @@ public final class RechnungenEinlesenUtils {
     private static Rechnung parseFile(final File file, final Date dateFrom, final Date dateTo, final boolean readPosten) {
         Rechnung rechnung = null;
         try {
-            final Document doc = Jsoup.parse(file, Charsets.UTF_8.name());
+            final Document doc = Jsoup.parse(file, StandardCharsets.UTF_8.name());
             final Date rechnungsdatum = extractRechnungsdatumFromFile(doc, file.getName());
             if (isRechnungsdatumInRechnungszeitraum(dateFrom, dateTo, rechnungsdatum)) {
                 rechnung = new Rechnung();
