@@ -1,6 +1,5 @@
 Vue.component('page-header', {
-  template: 
-  `<div id="header">
+  template: `<div id="header">
      <div class="loading hide" id="loader">Loading&#8230;</div>
      <img src="themes/icons/logo.png" height="100" />
      <div id="navigation">
@@ -14,5 +13,6 @@ Vue.component('page-header', {
          <img src="themes/icons/einstellungen.png" height="20" /> Einstellungen
        </a>
       </div>
-    </div>`
+    </div>
+`
 });

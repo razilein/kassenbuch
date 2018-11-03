@@ -10,24 +10,28 @@ function getDateAsString() {
 }
 
 function hasMessages(result) {
-  return result && (result.success || result.info || result.warning || result.error);
+  return (
+    result && (result.success || result.info || result.warning || result.error)
+  );
 }
 
 function showLoader() {
-  document.getElementById("loader").classList.remove("hide");
+  document.getElementById('loader').classList.remove('hide');
 }
 
 function hideLoader() {
-  document.getElementById("loader").classList.add("hide");
+  document.getElementById('loader').classList.add('hide');
 }
 
 function createEditDialogTemplate(body) {
-  return `
-  <div class="dialog-mask">
+  return (
+    `<div class="dialog-mask">
   <div class="dialog-wrapper">
     <div class="dialog-container info">
       <h3 class="dialog-header">{{title}}</h3>
-      <div class="dialog-body">` + body + `</div>
+      <div class="dialog-body">` +
+    body +
+    `</div>
       <div class="dialog-footer">
         <button class="dialog-default-button info" @click="saveFunc()" v-if="areRequiredFieldsNotEmpty()">Speichern</button>
         <button
@@ -39,8 +43,8 @@ function createEditDialogTemplate(body) {
       </div>
     </div>
   </div>
-</div>
-`
+</div>`
+  );
 }
 
 function hasAllProperties(object, properties) {
@@ -50,4 +54,3 @@ function hasAllProperties(object, properties) {
   });
   return result;
 }
-

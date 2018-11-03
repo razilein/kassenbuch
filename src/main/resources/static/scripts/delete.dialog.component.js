@@ -16,7 +16,7 @@ Vue.component('delete-dialog', {
   props: {
     id: Number,
     restUrl: String,
-    title: String,
+    title: String
   },
   methods: {
     deleteFunc: function() {
@@ -27,7 +27,6 @@ Vue.component('delete-dialog', {
     },
     closeAndReturnResponse: function(response) {
       this.$emit('deleted', response.data);
-    },
+    }
   }
 });
-

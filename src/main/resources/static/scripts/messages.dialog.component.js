@@ -34,4 +34,4 @@ Vue.component('messages-box', {
       </div>
     </div>
   `
-})
+});

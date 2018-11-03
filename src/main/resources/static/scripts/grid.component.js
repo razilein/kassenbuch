@@ -53,11 +53,11 @@ Vue.component('grid', {
     columns: Array,
     filterKey: Object,
     reload: Boolean,
-    restUrl: String,
+    restUrl: String
   },
-  data: function () {
-    var order = {}
-    this.columns.forEach(function (key) {
+  data: function() {
+    var order = {};
+    this.columns.forEach(function(key) {
       order[key.name] = 1;
     });
     this.reloadTabledata();
@@ -69,8 +69,8 @@ Vue.component('grid', {
       sortOrders: order,
       sortorder: 'asc',
       totalElements: 0,
-      totalPages: 0,
-    }
+      totalPages: 0
+    };
   },
   computed: {
     pageSizes: function() {
@@ -78,15 +78,21 @@ Vue.component('grid', {
     }
   },
   mounted() {
-    this.$watch(function() { return this.reload }, function(newVal, oldVal) {
-      if (newVal === true && oldVal === false) {
-        this.reloadTabledata();
-        this.$emit('reloaded');
-      }
-    }, { deep: true })
+    this.$watch(
+      function() {
+        return this.reload;
+      },
+      function(newVal, oldVal) {
+        if (newVal === true && oldVal === false) {
+          this.reloadTabledata();
+          this.$emit('reloaded');
+        }
+      },
+      { deep: true }
+    );
   },
   methods: {
-    sortBy: function (key) {
+    sortBy: function(key) {
       if (key.sortable !== false) {
         this.sort = key.name;
         this.sortOrders[key.name] = this.sortOrders[key.name] * -1;
@@ -127,7 +133,6 @@ Vue.component('grid', {
       this.data = response.data.content;
       this.totalElements = response.data.totalElements;
       this.totalPages = response.data.totalPages;
-    },
+    }
   }
 });
-
