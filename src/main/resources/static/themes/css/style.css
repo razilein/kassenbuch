@@ -34,7 +34,7 @@ label {
   font-size: 15px;
 }
 
-input {
+input, select {
   border-color: #80ccff;
   border-style: solid;
   border-width: 1px;
@@ -46,11 +46,11 @@ input.error {
   background-color: #FFD2D2 !important;
 }
 
-input:focus, input:hover {
+input:focus, input:hover, select:focus, select:hover {
   background-color: #ffffcc;
 }
 
-input[readonly] {
+input[readonly], select[readonly] {
   background-color: #ededed;
 }
 
@@ -103,6 +103,10 @@ input.success {
 
 .right {
   float: right;
+}
+
+select {
+  background-color: white;
 }
 
 ::selection {

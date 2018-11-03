@@ -15,4 +15,6 @@ public class EinstellungenData {
 
     Einstellungen rechnungsverzeichnis;
 
+    Einstellungen filiale;
+
 }

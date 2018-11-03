@@ -1,8 +1,11 @@
 package de.sg.computerinsel.tools.rest;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.keyvalue.DefaultKeyValue;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +34,7 @@ public class EinstellungenRestController {
         final EinstellungenData data = new EinstellungenData();
         data.setAblageverzeichnis(einstellungenService.getAblageverzeichnis());
         data.setRechnungsverzeichnis(einstellungenService.getRechnungsverzeichnis());
+        data.setFiliale(einstellungenService.getFiliale());
         return data;
     }
 
@@ -40,13 +44,24 @@ public class EinstellungenRestController {
         result.putAll(
                 ValidationUtils.validateVerzeichnisse(data.getRechnungsverzeichnis().getWert(), data.getAblageverzeichnis().getWert()));
 
+        if (StringUtils.isBlank(data.getFiliale().getWert())) {
+            result.put(Message.ERROR.getCode(), "Bitte wählen Sie eine Filiale aus."
+                    + " Sollte keine Filiale zur Auswahl stehen müssen Sie diese zuerst in den Einstellungen unter Filiale eine Filiale anlegen");
+        }
+
         if (result.isEmpty()) {
             einstellungenService.save(data.getAblageverzeichnis());
             einstellungenService.save(data.getRechnungsverzeichnis());
+            einstellungenService.save(data.getFiliale());
             result.put(Message.SUCCESS.getCode(), "Die Einstellungen wurden erfolgreich gespeichert.");
         }
 
         return result;
+    }
+
+    @GetMapping("/filiale")
+    public List<DefaultKeyValue> getFilialen() {
+        return einstellungenService.listFiliale();
     }
 
     @PostMapping("/filiale")

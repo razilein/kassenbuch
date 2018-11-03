@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.collections.keyvalue.DefaultKeyValue;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -57,6 +58,10 @@ public class EinstellungenService {
         return getEinstellung("kassenbuch.rechnungsverzeichnis");
     }
 
+    public Einstellungen getFiliale() {
+        return getEinstellung("reparatur.filiale");
+    }
+
     private Einstellungen getEinstellung(final String name) {
         return einstellungen.findByName(name).orElse(createEinstellung(name));
     }
@@ -87,6 +92,12 @@ public class EinstellungenService {
             einstellung.setWert(String.valueOf(kassenstand.getAnzahl()));
             einstellungen.save(einstellung);
         }
+    }
+
+    public List<DefaultKeyValue> listFiliale() {
+        final List<DefaultKeyValue> result = new ArrayList<>();
+        filialeRepository.findAllByOrderByNameAsc().forEach(f -> result.add(new DefaultKeyValue(f.getId(), f.getName())));
+        return result;
     }
 
     public Page<Filiale> listFiliale(final PageRequest pageRequest) {
