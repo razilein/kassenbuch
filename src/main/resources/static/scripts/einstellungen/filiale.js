@@ -16,6 +16,7 @@ var vm = new Vue({
       title: 'Filiale bearbeiten',
     },
     grid: {
+      actions: [],
       gridColumns: [],
       reload: false,
       restUrl: 'einstellungen/filiale',
@@ -23,6 +24,12 @@ var vm = new Vue({
     },
   },
   methods: {
+    
+    addFunction: function() {
+      vm.editRow.restUrlGet = '/einstellungen/filiale/' + -1;
+      vm.editRow.title = 'Filiale hinzufügen';
+      vm.showEditDialog = true;
+    },
     
     editFunction: function(row) {
       vm.editRow.restUrlGet = '/einstellungen/filiale/' + row.id;
@@ -53,6 +60,7 @@ var vm = new Vue({
     },
 
     init: function() {
+      vm.setGridActions();
       vm.setGridColumns();
     },
     
@@ -72,6 +80,12 @@ var vm = new Vue({
         { name: 'plz', title: 'PLZ', width: 50 },
         { name: 'ort', title: 'Ort', width: 100 },
       ];
+    },
+    
+    setGridActions: function() {
+      vm.grid.actions = [
+        { clazz: 'add', title: 'Mitarbeiter hinzufügen', clickFunc: vm.addFunction }
+      ]
     },
     
   }
