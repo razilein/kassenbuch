@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
+import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.rest.model.EinstellungenData;
 import de.sg.computerinsel.tools.rest.model.TableData;
 import de.sg.computerinsel.tools.service.EinstellungenService;
@@ -66,6 +67,28 @@ public class EinstellungenRestController {
         if (result.isEmpty()) {
             einstellungenService.save(filiale);
             result.put(Message.SUCCESS.getCode(), "Die Filiale " + filiale.getName() + " wurde erfolgreich gespeichert");
+        }
+        return result;
+    }
+
+    @PostMapping("/mitarbeiter")
+    public Page<Mitarbeiter> getMitarbeiter(@RequestBody final TableData data) {
+        return einstellungenService.listMitarbeiter(data.getPagination());
+    }
+
+    @GetMapping("/mitarbeiter/{id}")
+    public Mitarbeiter getMitarbeiter(@PathVariable final Integer id) {
+        return einstellungenService.getMitarbeiter(id).orElse(new Mitarbeiter());
+    }
+
+    @PutMapping("/mitarbeiter")
+    public Map<String, Object> saveMitarbeiter(@RequestBody final Mitarbeiter mitarbeiter) {
+        final Map<String, Object> result = new HashMap<>();
+        result.putAll(ValidationUtils.validate(mitarbeiter));
+
+        if (result.isEmpty()) {
+            einstellungenService.save(mitarbeiter);
+            result.put(Message.SUCCESS.getCode(), "Die Filiale " + mitarbeiter.getCompleteName() + " wurde erfolgreich gespeichert");
         }
         return result;
     }

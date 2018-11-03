@@ -132,7 +132,7 @@ Vue.component('grid', {
     setData: function(response) {
       this.data = response.data.content;
       this.totalElements = response.data.totalElements;
-      this.totalPages = response.data.totalPages;
+      this.totalPages = response.data.totalPages || 1;
     }
   }
 });

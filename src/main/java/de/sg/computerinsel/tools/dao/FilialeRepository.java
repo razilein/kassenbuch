@@ -1,4 +1,4 @@
-package de.sg.computerinsel.tools.reparatur;
+package de.sg.computerinsel.tools.dao;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

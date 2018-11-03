@@ -25,7 +25,9 @@ CREATE TABLE mitarbeiter (
    id INTEGER IDENTITY NOT NULL PRIMARY KEY,
    nachname VARCHAR(50),
    vorname VARCHAR(50),
-   email VARCHAR(100)
+   email VARCHAR(50),
+   email_privat VARCHAR(100),
+   telefon VARCHAR(50)
 );
 
 CREATE TABLE reparatur (

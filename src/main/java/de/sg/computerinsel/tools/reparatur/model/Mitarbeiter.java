@@ -6,11 +6,16 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author Sita Geßner
  */
 @Entity
 @Table(name = "MITARBEITER")
+@Getter
+@Setter
 public class Mitarbeiter extends IntegerBaseObject {
 
     @NotNull(message = "Bitte geben Sie den Nachnamen an.")
@@ -23,24 +28,20 @@ public class Mitarbeiter extends IntegerBaseObject {
     @Column(name = "vorname")
     private String vorname;
 
+    @Size(max = 50, message = "Die E-Mail-Adresse darf nicht länger als 50 Zeichen sein.")
+    @Column(name = "email")
+    private String email;
+
+    @Size(max = 100, message = "Die private E-Mail-Adresse darf nicht länger als 50 Zeichen sein.")
+    @Column(name = "email_privat")
+    private String emailPrivat;
+
+    @Size(max = 50, message = "Die Telefonnummer darf nicht länger als 50 Zeichen sein.")
+    @Column(name = "telefon")
+    private String telefon;
+
     public String getCompleteName() {
         return nachname + ", " + vorname;
-    }
-
-    public String getNachname() {
-        return nachname;
-    }
-
-    public void setNachname(final String nachname) {
-        this.nachname = nachname;
-    }
-
-    public String getVorname() {
-        return vorname;
-    }
-
-    public void setVorname(final String vorname) {
-        this.vorname = vorname;
     }
 
     @Override

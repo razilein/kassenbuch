@@ -14,9 +14,11 @@ import com.google.common.primitives.Ints;
 
 import de.sg.computerinsel.tools.Einstellungen;
 import de.sg.computerinsel.tools.dao.EinstellungenRepository;
+import de.sg.computerinsel.tools.dao.FilialeRepository;
+import de.sg.computerinsel.tools.dao.MitarbeiterRepository;
 import de.sg.computerinsel.tools.kassenbuch.rest.model.Kassenstand;
-import de.sg.computerinsel.tools.reparatur.FilialeRepository;
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
+import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import lombok.AllArgsConstructor;
 
 /**
@@ -32,6 +34,8 @@ public class EinstellungenService {
     private final EinstellungenRepository einstellungen;
 
     private final FilialeRepository filialeRepository;
+
+    private final MitarbeiterRepository mitarbeiterRepository;
 
     public Einstellungen getAusgangsbetrag() {
         return getEinstellung("kassenbuch.ausgangsbetrag");
@@ -95,6 +99,18 @@ public class EinstellungenService {
 
     public void save(final Filiale filiale) {
         filialeRepository.save(filiale);
+    }
+
+    public Page<Mitarbeiter> listMitarbeiter(final PageRequest pageRequest) {
+        return mitarbeiterRepository.findAll(pageRequest);
+    }
+
+    public Optional<Mitarbeiter> getMitarbeiter(final Integer id) {
+        return mitarbeiterRepository.findById(id);
+    }
+
+    public void save(final Mitarbeiter mitarbeiter) {
+        mitarbeiterRepository.save(mitarbeiter);
     }
 
 }
