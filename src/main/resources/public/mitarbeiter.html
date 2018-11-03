@@ -20,6 +20,7 @@
       <div id="content">
         <div id="gridDiv" v-if="grid.gridColumns.length > 0">
           <grid
+            :actions="grid.actions"
             :clazz="'m1'"
             :columns="grid.gridColumns"
             :filter-key="grid.searchQuery"

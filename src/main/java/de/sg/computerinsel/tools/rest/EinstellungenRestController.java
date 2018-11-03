@@ -88,7 +88,7 @@ public class EinstellungenRestController {
 
         if (result.isEmpty()) {
             einstellungenService.save(mitarbeiter);
-            result.put(Message.SUCCESS.getCode(), "Die Filiale " + mitarbeiter.getCompleteName() + " wurde erfolgreich gespeichert");
+            result.put(Message.SUCCESS.getCode(), "Der Mitarbeiter '" + mitarbeiter.getCompleteName() + "' wurde erfolgreich gespeichert");
         }
         return result;
     }

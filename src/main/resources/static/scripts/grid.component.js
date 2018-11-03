@@ -2,7 +2,20 @@ Vue.component('grid', {
   template: `
     <table :class="clazz">
       <thead>
+        <th class="tableNavi" :colspan="columns.length" style="line-height: 5px; font-size: 11px;">
+          Anzahl Datensätze Seite: {{pageElements}}, Gesamt: {{totalElements}}
+        </th>
+      </thead>
+      <thead>
         <tr>
+          <th class="tableNavi">
+            <button
+            @click="clickFunc(null, action.clickFunc)"
+            :class="action.clazz"
+            :title="action.title"
+            v-for="action in actions"
+            ></button>
+          </th>
           <th class="tableNavi" :colspan="columns.length">
             Zeige:
             <select
@@ -49,6 +62,7 @@ Vue.component('grid', {
     </table>
   `,
   props: {
+    actions: Array,
     clazz: String,
     columns: Array,
     filterKey: Object,
@@ -62,8 +76,10 @@ Vue.component('grid', {
     });
     this.reloadTabledata();
     return {
+      actions: [],
       data: this.data,
       page: 0,
+      pageElements: 0,
       size: 10,
       sort: '',
       sortOrders: order,
@@ -130,7 +146,9 @@ Vue.component('grid', {
       return axios.post(this.restUrl, params);
     },
     setData: function(response) {
+      console.log(response.data);
       this.data = response.data.content;
+      this.pageElements = response.data.numberOfElements;
       this.totalElements = response.data.totalElements;
       this.totalPages = response.data.totalPages || 1;
     }

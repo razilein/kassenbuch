@@ -10,6 +10,7 @@ var vm = new Vue({
       title: 'Mitarbeiter bearbeiten',
     },
     grid: {
+      actions: [],
       gridColumns: [],
       reload: false,
       restUrl: 'einstellungen/mitarbeiter',
@@ -17,6 +18,12 @@ var vm = new Vue({
     },
   },
   methods: {
+    
+    addFunction: function() {
+      vm.editRow.restUrlGet = '/einstellungen/mitarbeiter/' + -1;
+      vm.editRow.title = 'Mitarbeiter hinzufügen';
+      vm.showEditDialog = true;
+    },
     
     editFunction: function(row) {
       vm.editRow.restUrlGet = '/einstellungen/mitarbeiter/' + row.id;
@@ -34,6 +41,7 @@ var vm = new Vue({
     },
     
     init: function() {
+      vm.setGridActions();
       vm.setGridColumns();
     },
     
@@ -49,6 +57,12 @@ var vm = new Vue({
         { name: 'nachname', title: 'Nachname', width: '50%' },
         { name: 'vorname', title: 'Vorname', width: '50%' },
       ];
+    },
+    
+    setGridActions: function() {
+      vm.grid.actions = [
+        { clazz: 'add', title: 'Mitarbeiter hinzufügen', clickFunc: vm.addFunction }
+      ]
     },
     
   }
