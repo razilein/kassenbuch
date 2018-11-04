@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.rest.model.EinstellungenData;
-import de.sg.computerinsel.tools.rest.model.TableData;
 import de.sg.computerinsel.tools.service.EinstellungenService;
 
 @RestController
@@ -65,8 +64,8 @@ public class EinstellungenRestController {
     }
 
     @PostMapping("/filiale")
-    public Page<Filiale> getFilialen(@RequestBody final TableData data) {
-        return einstellungenService.listFiliale(data.getPagination());
+    public Page<Filiale> getFilialen(@RequestBody final SearchData data) {
+        return einstellungenService.listFiliale(data.getData().getPagination());
     }
 
     @GetMapping("/filiale/{id}")
@@ -87,8 +86,8 @@ public class EinstellungenRestController {
     }
 
     @PostMapping("/mitarbeiter")
-    public Page<Mitarbeiter> getMitarbeiter(@RequestBody final TableData data) {
-        return einstellungenService.listMitarbeiter(data.getPagination());
+    public Page<Mitarbeiter> getMitarbeiter(@RequestBody final SearchData data) {
+        return einstellungenService.listMitarbeiter(data.getData().getPagination());
     }
 
     @GetMapping("/mitarbeiter/{id}")
