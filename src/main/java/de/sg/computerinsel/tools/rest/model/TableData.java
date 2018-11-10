@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.NullHandling;
+import org.springframework.data.domain.Sort.Order;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -36,9 +38,12 @@ public class TableData {
         return getPagination(size, page, sortorder, sort);
     }
 
-    private PageRequest getPagination(final int size, final int page, final String sortorder, final String... sort) {
+    private PageRequest getPagination(final int size, final int page, final String sortorder, final String sort) {
         final Direction direction = StringUtils.equalsIgnoreCase("DESC", sortorder) ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return PageRequest.of(page, size, direction, sort);
+        Order order = direction == Sort.Direction.DESC ? Order.desc(sort) : Order.asc(sort);
+        // HSQLDB unterstützt dies nicht
+        order = order.with(NullHandling.NULLS_LAST);
+        return PageRequest.of(page, size, Sort.by(order));
     }
 
 }
