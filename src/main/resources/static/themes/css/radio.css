@@ -1,8 +1,17 @@
-.container {
-  position: relative;
+.radio {
   padding-left: 20px;
   margin-top: 30px;
   margin-bottom: 5px;
+}
+
+.checkbox {
+  display: block;
+  padding-left: 35px;
+  margin-bottom: 12px;
+}
+
+.container {
+  position: relative;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -13,37 +22,60 @@
 .container input {
   position: absolute;
   opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
 
 .checkmark {
   position: absolute;
   top: 0;
   left: 0;
+  background-color: white;
+}
+
+.checkbox .checkMark {
+  height: 17px;
+  width: 17px;
+}
+
+.radio .checkMark {
   height: 15px;
   width: 15px;
-  background-color: white;
   border-radius: 50%;
 }
 
-.container:hover input ~ .checkmark {
+.container:hover input ~ .checkMark {
   background-color: #ccc;
 }
 
-.container input:checked ~ .checkmark {
+.container input:checked ~ .checkMark {
   background-color: #2196F3;
 }
 
-.checkmark:after {
+.checkMark:after {
   content: "";
   position: absolute;
   display: none;
 }
 
-.container input:checked ~ .checkmark:after {
+.container input:checked ~ .checkMark:after {
   display: block;
 }
 
-.container .checkmark:after {
+.container.checkbox .checkMark:after {
+  left: 4px;
+  top: 0px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.container.radio .checkmark:after {
   top: 5px;
   left: 5px;
   width: 4px;

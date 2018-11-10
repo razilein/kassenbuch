@@ -8,6 +8,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -56,6 +58,28 @@ public class Kunde extends IntegerBaseObject {
 
     @Column(name = "erstellt_am")
     private LocalDateTime erstelltAm;
+
+    public String getCompleteWithAdressAndPhone() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(nachname);
+        if (StringUtils.isNotBlank(vorname)) {
+            builder.append(", ");
+            builder.append(vorname);
+        }
+        builder.append(System.lineSeparator());
+        if (StringUtils.isNotBlank(strasse)) {
+            builder.append(strasse);
+            builder.append(System.lineSeparator());
+        }
+        if (StringUtils.isNotBlank(plz) || StringUtils.isNotBlank(ort)) {
+            builder.append(plz);
+            builder.append(StringUtils.SPACE);
+            builder.append(ort);
+            builder.append(System.lineSeparator());
+        }
+        builder.append(telefon);
+        return builder.toString();
+    }
 
     @Override
     public Object[] getTableModelObject() {

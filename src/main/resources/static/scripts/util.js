@@ -9,6 +9,34 @@ function getDateAsString() {
   return today.getFullYear() + '-' + month + '-' + day;
 }
 
+function formatDateForInput(date) {
+  return formatDatetimeByFormatter(date, 'YYYY-MM-DD');
+}
+
+function formatDate(date) {
+  return formatDatetimeByFormatter(date, 'DD.MM.YYYY');
+}
+
+function formatDatetime(datetime) {
+  return formatDatetimeByFormatter(datetime, 'DD.MM.YYYY HH:mm');
+}
+
+function formatTime(time) {
+  return formatDatetimeByFormatter(time, 'HH:mm');
+}
+
+function formatDatetimeByFormatter(datetime, formatter) {
+  if (datetime) {
+    var local = moment.utc(datetime).local();
+    return local.format(formatter);
+  }
+  return datetime;
+}
+
+function formatBooleanJaNein(value) {
+  return value ? 'Ja' : 'Nein';
+}
+
 function hasMessages(result) {
   return (
     result && (result.success || result.info || result.warning || result.error)
@@ -50,7 +78,11 @@ function createEditDialogTemplate(body) {
 function hasAllProperties(object, properties) {
   var result = true;
   properties.forEach(function(val) {
-    result = result && object[val];
+    var obj = object;
+    val.split('.').forEach(function(v) {
+      obj = obj[v];
+    });
+    result = result && obj !== null && obj !== undefined;
   });
   return result;
 }

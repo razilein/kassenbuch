@@ -8,6 +8,7 @@ CREATE TABLE kunde (
    telefon VARCHAR(50),
    email VARCHAR(100),
    erstellt_am DATETIME,
+   bemerkung VARCHAR(4000)
 );
 
 CREATE TABLE filiale (
@@ -47,6 +48,7 @@ CREATE TABLE reparatur (
    erledigt BIT DEFAULT 0,
    erledigungsdatum DATETIME,
    erstellt_am DATETIME,
+   bemerkung VARCHAR(4000),
    FOREIGN KEY (mitarbeiter_id) REFERENCES mitarbeiter(id),
    FOREIGN KEY (kunde_id) REFERENCES kunde(id)
 );

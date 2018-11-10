@@ -3,8 +3,10 @@ package de.sg.computerinsel.tools.reparatur.rest;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.keyvalue.DefaultKeyValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,17 +19,63 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.sg.computerinsel.tools.reparatur.model.Kunde;
+import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.service.ReparaturService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
 import de.sg.computerinsel.tools.rest.ValidationUtils;
+import de.sg.computerinsel.tools.service.EinstellungenService;
 
 @RestController
 @RequestMapping("/reparatur")
 public class ReparaturRestController {
 
     @Autowired
+    private EinstellungenService einstellungenService;
+
+    @Autowired
     private ReparaturService service;
+
+    @PostMapping
+    public Page<Reparatur> getReparaturen(@RequestBody final SearchData data) {
+        return service.listReparaturen(data.getData().getPagination(), data.getConditions());
+    }
+
+    @GetMapping("/{id}")
+    public Reparatur getReparatur(@PathVariable final Integer id) {
+        return service.getReparatur(id).orElse(new Reparatur());
+    }
+
+    @PutMapping
+    public Map<String, Object> saveReparatur(@RequestBody final Reparatur reparatur) {
+        final Map<String, Object> result = new HashMap<>();
+        result.putAll(ValidationUtils.validate(reparatur));
+
+        if (result.isEmpty()) {
+            if (reparatur.getId() == null) {
+                reparatur.setErstelltAm(LocalDateTime.now());
+            }
+            service.save(reparatur);
+            result.put(Message.SUCCESS.getCode(), "Der Reparaturauftrag '" + reparatur.getNummer() + "' wurde erfolgreich gespeichert");
+        }
+        return result;
+    }
+
+    @DeleteMapping
+    public Map<String, Object> deleteReparatur(@RequestBody final Map<String, Object> data) {
+        service.deleteReparatur((int) data.get("id"));
+        return Collections.singletonMap(Message.SUCCESS.getCode(), "Der Reparaturauftrag wurde erfolgreich gelöscht.");
+    }
+
+    @GetMapping("/mitarbeiter")
+    public List<DefaultKeyValue> getMitarbeiter() {
+        return einstellungenService.getMitarbeiter();
+    }
+
+    @GetMapping("/reparaturarten")
+    public List<DefaultKeyValue> getReparaturarten() {
+        return service.getReparaturarten();
+    }
 
     @PostMapping("/kunde")
     public Page<Kunde> getKunden(@RequestBody final SearchData data) {

@@ -1,7 +1,8 @@
 package de.sg.computerinsel.tools.reparatur.model;
 
-import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +11,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "REPARATUR")
+@Getter
+@Setter
 public class Reparatur extends IntegerBaseObject {
 
     @ManyToOne
@@ -51,15 +57,16 @@ public class Reparatur extends IntegerBaseObject {
     @Column(name = "geraetepasswort")
     private String geraetepasswort;
 
-    @Column(name = "expressbeabeitung")
-    private Boolean expressbeabeitung;
+    @Column(name = "expressbearbeitung")
+    private Boolean expressbearbeitung;
 
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
     @Column(name = "abholdatum")
-    private Date abholdatum;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate abholdatum;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     @Column(name = "abholzeit")
-    private Time abholzeit;
+    private LocalTime abholzeit;
 
     @Size(max = 10, message = "Der im Feld 'Kostenvoranschlag' eingetragene Text darf nicht länger als 10 Zeichen sein.")
     @Column(name = "kostenvoranschlag")
@@ -69,131 +76,27 @@ public class Reparatur extends IntegerBaseObject {
     private Boolean erledigt;
 
     @Column(name = "erledigungsdatum")
-    private Date erledigungsdatum;
+    private LocalDateTime erledigungsdatum;
 
-    public Mitarbeiter getMitarbeiter() {
-        return mitarbeiter;
-    }
+    @Column(name = "erstellt_am")
+    private LocalDateTime erstelltAm;
 
-    public void setMitarbeiter(final Mitarbeiter mitarbeiter) {
-        this.mitarbeiter = mitarbeiter;
-    }
+    @Column(name = "bemerkung")
+    private String bemerkung;
 
-    public String getNummer() {
-        return nummer;
-    }
-
-    public void setNummer(final String nummer) {
-        this.nummer = nummer;
-    }
-
-    public Integer getArt() {
-        return art;
-    }
-
-    public void setArt(final Integer art) {
-        this.art = art;
-    }
-
-    public String getGeraet() {
-        return geraet;
-    }
-
-    public void setGeraet(final String geraet) {
-        this.geraet = geraet;
-    }
-
-    public String getSeriennummer() {
-        return seriennummer;
-    }
-
-    public void setSeriennummer(final String seriennummer) {
-        this.seriennummer = seriennummer;
-    }
-
-    public String getSymptome() {
-        return symptome;
-    }
-
-    public void setSymptome(final String symptome) {
-        this.symptome = symptome;
-    }
-
-    public String getAufgaben() {
-        return aufgaben;
-    }
-
-    public void setAufgaben(final String aufgaben) {
-        this.aufgaben = aufgaben;
-    }
-
-    public String getGeraetepasswort() {
-        return geraetepasswort;
-    }
-
-    public void setGeraetepasswort(final String geraetepasswort) {
-        this.geraetepasswort = geraetepasswort;
-    }
-
-    public Boolean getExpressbeabeitung() {
-        return expressbeabeitung;
-    }
-
-    public void setExpressbeabeitung(final Boolean expressbeabeitung) {
-        this.expressbeabeitung = expressbeabeitung;
-    }
-
-    public Date getAbholdatum() {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    public LocalDate getAbholdatum() {
         return abholdatum;
     }
 
-    public void setAbholdatum(final Date abholdatum) {
-        this.abholdatum = abholdatum;
-    }
-
-    public Time getAbholzeit() {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    public LocalTime getAbholzeit() {
         return abholzeit;
-    }
-
-    public void setAbholzeit(final Time abholzeit) {
-        this.abholzeit = abholzeit;
-    }
-
-    public String getKostenvoranschlag() {
-        return kostenvoranschlag;
-    }
-
-    public void setKostenvoranschlag(final String kostenvoranschlag) {
-        this.kostenvoranschlag = kostenvoranschlag;
-    }
-
-    public Kunde getKunde() {
-        return kunde;
-    }
-
-    public void setKunde(final Kunde kunde) {
-        this.kunde = kunde;
-    }
-
-    public Boolean getErledigt() {
-        return erledigt;
-    }
-
-    public void setErledigt(final Boolean erledigt) {
-        this.erledigt = erledigt;
-    }
-
-    public Date getErledigungsdatum() {
-        return erledigungsdatum;
-    }
-
-    public void setErledigungsdatum(final Date erledigungsdatum) {
-        this.erledigungsdatum = erledigungsdatum;
     }
 
     @Override
     public Object[] getTableModelObject() {
-        return new Object[] { nummer, art, geraet, seriennummer, symptome, aufgaben, geraetepasswort, expressbeabeitung, abholdatum,
+        return new Object[] { nummer, art, geraet, seriennummer, symptome, aufgaben, geraetepasswort, expressbearbeitung, abholdatum,
                 abholzeit, kostenvoranschlag, mitarbeiter, getId(), getKunde() };
     }
 

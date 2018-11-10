@@ -168,7 +168,7 @@ public class KundeReparaturGUI extends BaseEditGUI {
             reparatur.setSymptome(StringUtils.stripToNull(symptomeFeld.getText()));
             reparatur.setAufgaben(StringUtils.stripToNull(aufgabenFeld.getText()));
             reparatur.setGeraetepasswort(StringUtils.stripToNull(geraetepasswortFeld.getText()));
-            reparatur.setExpressbeabeitung(expressbearbeitungFeld.isSelected());
+            reparatur.setExpressbearbeitung(expressbearbeitungFeld.isSelected());
             reparatur.setKostenvoranschlag(StringUtils.stripToNull(kostenvoranschlagFeld.getText()));
             final Mitarbeiter mitarbeiter = new Mitarbeiter();
             item = (DropDownItem) mitarbeiterFeld.getSelectedItem();
@@ -285,7 +285,7 @@ public class KundeReparaturGUI extends BaseEditGUI {
                     geraetepasswortFeld.setText(geraetepasswort);
 
                     final Boolean expressbeabeitung = (Boolean) row.get(7);
-                    reparatur.setExpressbeabeitung(expressbeabeitung);
+                    reparatur.setExpressbearbeitung(expressbeabeitung);
                     expressbearbeitungFeld.setSelected(expressbeabeitung);
 
                     final Date abholdatum = (Date) row.get(8);

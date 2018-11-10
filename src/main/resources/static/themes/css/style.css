@@ -39,6 +39,7 @@ input, select, textarea {
   border-style: solid;
   border-width: 1px;
   font-size: 15px;
+  font-family: sans-serif;
   height: 25px;
 }
 
@@ -50,7 +51,7 @@ input:focus, input:hover, select:focus, select:hover {
   background-color: #ffffcc;
 }
 
-input[readonly], select[readonly] {
+input[readonly], select[readonly], textarea[readonly] {
   background-color: #ededed;
 }
 
@@ -114,4 +115,10 @@ select {
 }
 ::-moz-selection {
   background: #a8ffab;
+}
+
+textarea {
+  max-height: 300px;
+  min-height: 70px;
+  resize: vertical;
 }

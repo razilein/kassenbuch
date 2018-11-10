@@ -116,6 +116,12 @@ public class EinstellungenService {
         return mitarbeiterRepository.findAll(pageRequest);
     }
 
+    public List<DefaultKeyValue> getMitarbeiter() {
+        final List<DefaultKeyValue> result = new ArrayList<>();
+        mitarbeiterRepository.findAllByOrderByNachnameAsc().forEach(m -> result.add(new DefaultKeyValue(m.getId(), m.getCompleteName())));
+        return result;
+    }
+
     public Optional<Mitarbeiter> getMitarbeiter(final Integer id) {
         return mitarbeiterRepository.findById(id);
     }

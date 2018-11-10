@@ -8,14 +8,19 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections.keyvalue.DefaultKeyValue;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import de.sg.computerinsel.tools.reparatur.dao.KundeRepository;
+import de.sg.computerinsel.tools.reparatur.dao.ReparaturRepository;
 import de.sg.computerinsel.tools.reparatur.model.Kunde;
+import de.sg.computerinsel.tools.reparatur.model.Reparatur;
+import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -24,6 +29,9 @@ public class ReparaturService {
 
     private final KundeRepository kundeRepository;
 
+    private final ReparaturRepository reparaturRepository;
+
+    @SuppressWarnings("unchecked")
     public Page<Kunde> listKunden(final PageRequest pagination, final Map<String, String> conditions) {
         final String nachname = getAndReplaceJoker(conditions, "nachname");
         final String vorname = getAndReplaceJoker(conditions, "vorname");
@@ -32,25 +40,26 @@ public class ReparaturService {
         if (StringUtils.isBlank(nachname) && StringUtils.isBlank(vorname) && StringUtils.isBlank(plz)) {
             return kundeRepository.findAll(pagination);
         } else {
-            return findByParams(pagination, nachname, vorname, plz);
+            return (Page<Kunde>) findByParams(kundeRepository, pagination, buildMethodnameForQueryKunde(nachname, vorname, plz), nachname,
+                    vorname, plz);
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private Page<Kunde> findByParams(final PageRequest pagination, final String nachname, final String vorname, final String plz) {
-        final String methodname = buildMethodnameForQuery(nachname, vorname, plz);
-        final List<String> params = getMethodParams(nachname, vorname, plz);
+    @SuppressWarnings("rawtypes")
+    private Page<?> findByParams(final CrudRepository repository, final PageRequest pagination, final String methodname,
+            final String... felder) {
+        final List<String> params = getMethodParams(felder);
         try {
             Method method;
             if (params.size() == 1) {
-                method = KundeRepository.class.getDeclaredMethod(methodname, String.class, Pageable.class);
-                return (Page<Kunde>) method.invoke(kundeRepository, params.get(0), pagination);
+                method = repository.getClass().getDeclaredMethod(methodname, String.class, Pageable.class);
+                return (Page<?>) method.invoke(repository, params.get(0), pagination);
             } else if (params.size() == 2) {
-                method = KundeRepository.class.getDeclaredMethod(methodname, String.class, String.class, Pageable.class);
-                return (Page<Kunde>) method.invoke(kundeRepository, params.get(0), params.get(1), pagination);
+                method = repository.getClass().getDeclaredMethod(methodname, String.class, String.class, Pageable.class);
+                return (Page<?>) method.invoke(repository, params.get(0), params.get(1), pagination);
             } else {
-                method = KundeRepository.class.getDeclaredMethod(methodname, String.class, String.class, String.class, Pageable.class);
-                return (Page<Kunde>) method.invoke(kundeRepository, params.get(0), params.get(1), params.get(2), pagination);
+                method = repository.getClass().getDeclaredMethod(methodname, String.class, String.class, String.class, Pageable.class);
+                return (Page<?>) method.invoke(repository, params.get(0), params.get(1), params.get(2), pagination);
             }
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                 | InvocationTargetException e) {
@@ -62,7 +71,7 @@ public class ReparaturService {
         return Arrays.asList(felder).stream().filter(StringUtils::isNotBlank).collect(Collectors.toList());
     }
 
-    private String buildMethodnameForQuery(final String nachname, final String vorname, final String plz) {
+    private String buildMethodnameForQueryKunde(final String nachname, final String vorname, final String plz) {
         String methodName = "findBy";
         if (StringUtils.isNotBlank(nachname)) {
             methodName += "NachnameLikeAnd";
@@ -90,6 +99,47 @@ public class ReparaturService {
 
     public void deleteKunde(final Integer id) {
         kundeRepository.deleteById(id);
+    }
+
+    @SuppressWarnings("unchecked")
+    public Page<Reparatur> listReparaturen(final PageRequest pagination, final Map<String, String> conditions) {
+        final String nachname = getAndReplaceJoker(conditions, "nachname");
+        final String nummer = getAndReplaceJoker(conditions, "nummer");
+
+        if (StringUtils.isBlank(nachname) && StringUtils.isBlank(nummer)) {
+            return reparaturRepository.findAll(pagination);
+        } else {
+            return (Page<Reparatur>) findByParams(reparaturRepository, pagination, buildMethodnameForQueryReparatur(nachname, nummer),
+                    nachname, nummer);
+        }
+    }
+
+    private String buildMethodnameForQueryReparatur(final String nachname, final String nummer) {
+        String methodName = "findBy";
+        if (StringUtils.isNotBlank(nachname)) {
+            methodName += "KundeNachnameLikeAnd";
+        }
+        if (StringUtils.isNotBlank(nummer)) {
+            methodName += "NummerLikeAnd";
+        }
+        return StringUtils.removeEnd(methodName, "And");
+    }
+
+    public Optional<Reparatur> getReparatur(final Integer id) {
+        return reparaturRepository.findById(id);
+    }
+
+    public List<DefaultKeyValue> getReparaturarten() {
+        return Arrays.asList(ReparaturArt.values()).stream().map(r -> new DefaultKeyValue(r.getCode(), r.getDescription()))
+                .collect(Collectors.toList());
+    }
+
+    public void save(final Reparatur reparatur) {
+        reparaturRepository.save(reparatur);
+    }
+
+    public void deleteReparatur(final Integer id) {
+        reparaturRepository.deleteById(id);
     }
 
 }
