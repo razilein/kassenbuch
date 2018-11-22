@@ -3,6 +3,8 @@ package de.sg.computerinsel.tools.reparatur.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -89,9 +91,22 @@ public class Reparatur extends IntegerBaseObject {
         return abholdatum;
     }
 
+    public String getWochentagAbholdatum() {
+        return getAbholdatum() == null ? null : getAbholdatum().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.GERMANY);
+    }
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     public LocalTime getAbholzeit() {
         return abholzeit;
+    }
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
+    public LocalDateTime getErstelltAm() {
+        return erstelltAm;
+    }
+
+    public String getWochentagErstelltAm() {
+        return getErstelltAm() == null ? null : getErstelltAm().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.GERMANY);
     }
 
     @Override

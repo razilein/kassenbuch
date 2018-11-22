@@ -16,6 +16,10 @@ module.exports = function(grunt) {
           {
             src: 'node_modules/moment/min/moment.min.js',
             dest: 'src/main/resources/static/scripts/vendor/moment.min.js'
+          },
+          {
+            src: 'node_modules/moment/locale/de.js',
+            dest: 'src/main/resources/static/scripts/vendor/de.js'
           }
         ]
       },
@@ -32,6 +36,10 @@ module.exports = function(grunt) {
           {
             src: 'node_modules/moment/moment.js',
             dest: 'src/main/resources/static/scripts/vendor/moment.min.js'
+          },
+          {
+            src: 'node_modules/moment/locale/de.js',
+            dest: 'src/main/resources/static/scripts/vendor/de.js'
           }
         ]
       }

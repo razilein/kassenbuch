@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.primitives.Ints;
+
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.rest.model.EinstellungenData;
@@ -35,6 +37,12 @@ public class EinstellungenRestController {
         data.setRechnungsverzeichnis(einstellungenService.getRechnungsverzeichnis());
         data.setFiliale(einstellungenService.getFiliale());
         return data;
+    }
+
+    @GetMapping("/standardfiliale")
+    public Filiale getStandardFiliale() {
+        final String id = einstellungenService.getFiliale().getWert();
+        return getFiliale(id == null ? null : Ints.tryParse(id));
     }
 
     @PutMapping

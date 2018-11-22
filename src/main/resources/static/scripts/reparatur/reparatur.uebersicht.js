@@ -59,6 +59,10 @@ var vm = new Vue({
       vm.setGridColumns();
     },
     
+    openFunction: function(row) {
+      window.open('/reparatur-drucken.html?id=' + row.id);
+    },
+    
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
@@ -66,6 +70,7 @@ var vm = new Vue({
           sortable: false,
           width: 120,
           formatter: [
+          { clazz: 'open-new-tab', title: 'Reparaturauftrag öffnen', clickFunc: vm.openFunction },
           { clazz: 'edit', title: 'Reparaturauftrag bearbeiten', clickFunc: vm.editFunction },
           { clazz: 'delete', title: 'Reparaturauftrag löschen', clickFunc: vm.deleteFunction }
         ] },

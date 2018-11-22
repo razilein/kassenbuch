@@ -37,6 +37,11 @@ button.ok {
   -webkit-mask: url("../icons/ok.svg") no-repeat center;
 }
 
+button.open-new-tab {
+  mask: url("../icons/open-new-tab.svg") no-repeat center;
+  -webkit-mask: url("../icons/open-new-tab.svg") no-repeat center;
+}
+
 button.pageLeft {
   mask: url("../icons/left.svg") no-repeat center;
   -webkit-mask: url("../icons/left.svg") no-repeat center;
@@ -47,7 +52,7 @@ button.pageRight {
   -webkit-mask: url("../icons/right.svg") no-repeat center;
 }
 
-button.add, button.delete, button.edit, button.kunde, button.ok {
+button.add, button.delete, button.edit, button.kunde, button.ok, button.open-new-tab {
   background-color: #1a8cff;
   float: none;
   height: 30px;

@@ -86,3 +86,11 @@ function hasAllProperties(object, properties) {
   });
   return result;
 }
+
+function getParamFromCurrentUrl(param) {
+  return getParamFromUrl(window.location.href, param);
+}
+
+function getParamFromUrl(url, param) {
+  return new URL(url).searchParams.get(param);
+}

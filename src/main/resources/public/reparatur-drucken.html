@@ -1,0 +1,524 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Reparaturauftrag drucken - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/zahnrad.png">
+    <link rel="stylesheet" href="/themes/css/reparaturauftrag.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/de.js"></script>
+  </head>
+  <body>
+    <div id="reparatur-drucken">
+      <div id="content">
+        <table class="head">
+          <tr>
+            <td class="left verdana size7" width="45%" style="border-style: solid; border-width: 1;" height="59">
+              NR: {{entity.nummer}}
+            </td>
+            <td width="45%" style="border-style: none; border-width: medium;" rowspan="3" height="152">
+              <span style="position: absolute; left: 400; top: -16; z-index: -1">
+                <img border="0" src="/themes/icons/auftrag_logo.png" width="483" height="192">
+              </span>
+            </td>
+            <td width="10%" style="border-right:1px solid #111111; border-left-style: solid; border-left-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" align="center" height="59"></td>
+          </tr>
+          <tr>
+            <td class="size6 u" width="45%" style="border-left-style:none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-bottom-style: none; border-bottom-width: medium" align="left" height="60" valign="bottom">
+              Auftrag
+            </td>
+            <td width="10%" style="border-right:medium none #111111; border-left-style:none; border-left-width:medium; border-bottom-style:none; border-bottom-width:medium" align="center" height="60">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="left verdana u" width="45%" style="border-style: none; border-width: medium;" height="31">
+              Erstellt durch: {{entity.mitarbeiter.vorname}} {{entity.mitarbeiter.nachname}}
+            </td>
+          </tr>
+        </table>
+        <br>
+        <table class="reparaturart">
+          <tr>
+            <td class="center arial" width=30%>
+              <span v-if="entity.art !== 1">Garantieprüfung</span>
+              <span  v-if="entity.art === 1">&#9658;Garantieprüfung</span>
+            </td>
+            <td class="center arial" width=35% style="border: 1px solid">
+              <span v-if="entity.art !== 2">Garantiefall</span>
+              <span v-if="entity.art === 2">&#9658;Garantiefall</span>
+            </td>
+            <td class="center arial" width=35% style="border: 1px solid">
+              <span v-if="entity.art !== 0">Reparatur</span>
+              <span v-if="entity.art === 0">&#9658;Reparatur</span>
+            </td>
+          </tr>
+        </table>
+        <p align=center style="margin-bottom: 0cm; widows: 0; orphans: 0; text-decoration: none">&nbsp;</p>
+        <table class="auflistung arial left size4">
+          <col width=200>
+          <col width=475>
+          <col width=475>
+          <col width=19>
+          <tr valign=top>
+            <td width=227 height=24 style="border: none; padding: 0cm" valign="middle" align="left">
+              Gerät / Zubehör:
+            </td>
+            <td colspan=3 width=929 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" height="24" valign="bottom">
+              <span lang="de">{{entity.geraet}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="s1">
+              SN:
+            </td>
+            <td colspan=3 width=929 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              {{entity.seriennummer}}
+            </td>
+          </tr>
+          <tr valign=top>
+            <td class="s1" valign="middle">
+              Symptome:
+            </td>
+            <td colspan=3 width=929 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              {{entity.symptome}}
+            </td>
+          </tr>
+          <tr>
+            <td class="s1">
+              Geplante Aufgaben:
+            </td>
+            <td colspan=3 class="s3">
+              {{entity.aufgaben}}
+            </td>
+          </tr>
+          <tr valign=top>
+            <td class="s1" valign="middle">
+              Gerätepasswort:
+            </td>
+            <td class="s3" colspan="3">
+              {{entity.geraetepasswort}}
+            </td>
+          </tr>
+          <tr valign=top>
+            <td class="s1" valign="middle">
+              Name:
+            </td>
+            <td class="s2" colspan="2">
+              {{entity.kunde.vorname}} {{entity.kunde.nachname}}
+            </td>
+            <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35"></td>
+          </tr>
+          <tr>
+            <td class="s1">
+              Anschrift:
+            </td>
+            <td width=904 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" colspan="2" valign="bottom" height="35">
+              {{entity.kunde.strasse}} in {{entity.kunde.plz}} {{entity.kunde.ort}}
+            </td>
+            <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              <p align=left style="widows: 0; orphans: 0">&nbsp;</p>
+            </td>
+          </tr>
+          <tr valign=top>
+            <td class="s1" valign="middle">
+              Telefon:
+            </td>
+            <td class="s2" colspan="2">
+              {{entity.kunde.telefon}}
+            </td>
+            <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              <p align=left style="widows: 0; orphans: 0">&nbsp;</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="s1">
+              Annahmezeitpunkt:
+            </td>
+            <td class="s2" colspan="2">
+              {{entity.wochentagErstelltAm}}, {{entity.erstelltAm}}
+            </td>
+            <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              <p align=left style="widows: 0; orphans: 0">&nbsp;</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="s1">
+              Expressbearbeitung:
+            </td>
+            <td class="s2" colspan="2">
+              <span lang="de" v:if="!entity.expressbearbeitung">NEIN</span>
+              <span lang="de" v:if="entity.expressbearbeitung">JA</span>
+            </td>
+            <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              <p align=left style="widows: 0; orphans: 0">&nbsp;</p>
+            </td>
+          </tr>
+          <tr valign=top>
+            <td class="s1" valign="middle">
+              Vorraussichtl. Abholbereit:
+            </td>
+            <td class="s2" colspan="2">
+              {{entity.wochentagAbholdatum}}, {{entity.abholdatum}} {{entity.abholzeit}}
+            </td>
+            <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              <p align=left style="widows: 0; orphans: 0">&nbsp;</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="s1">
+              <p align=left style="widows: 0; orphans: 0">
+                <font size=4 face="arial, sans-serif" color="#000000">
+                  Kostenvoranschlag:
+                </font>
+              </p>
+            </td>
+            <td class="s2" colspan="2">
+              <p align=left>
+                <font face="arial" size="4">
+                  <span lang="de">{{entity.kostenvoranschlag}}</span>
+                </font>
+              </p>
+            </td>
+            <td width=25 style="border: none; padding: 0cm" align="left" valign="bottom" height="35">
+              <p align=left style="widows: 0; orphans: 0">
+                <font color="#000000" face="arial">&euro;</font>
+              </p>
+            </td>
+          </tr>
+          <tr valign=top>
+            <td width=227 style="; border-left:medium none; border-right:medium none; border-top:medium none; padding:0cm; border-bottom-color:inherit" valign="bottom" height="16">
+              <p align=left style="widows: 0; orphans: 0"></p>
+            </td>
+            <td width=904 style="; border: none; padding: 0cm" align="left" colspan="2" valign="bottom" height="16">
+              <p align=left></p>
+            </td>
+            <td width=25 style="border-left:medium none; border-right:medium none; border-top:medium none; padding:0cm; border-bottom-color:inherit" align="left" valign="bottom" height="16">
+              <p align=left style="widows: 0; orphans: 0"></p>
+            </td>
+          </tr>
+          <tr valign=top>
+            <td width=227 style="; border-left:1px solid; border-right:medium none; border-top:1px solid; border-bottom:medium none; padding:0cm; " valign="bottom" height="71">&nbsp;</td>
+            <td width=904 style="; border-top: 1px solid; border-bottom: 1px solid #000000; border-left: medium none; border-right: medium none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="middle" height="71" colspan="2">
+              <font face="arial">
+                <span lang="de">Hiermit erteile ich den oben beschriebenen Auftrag und erkläre mich damit einverstanden, dass ggf. telefonisch Änderungen am Auftrag besprochen werden, durch die sich der Auftragsinhalt und der Preis &auml;ndern kann. Die von mir gemachten Angaben sind korrekt. 
+              Ich verpflichte mich, das Gerät spätestens 14 Tage nach 
+              Fertigstellung abzuholen. (Expressbearbeitung = 25€ Aufpreis)
+                </span>
+              </font>
+            </td>
+            <td width=25 style="; border-top: 1px solid; border-bottom: medium none #000000; border-left: medium none; border-right: 1px solid; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="71">&nbsp;</td>
+          </tr>
+          <tr valign=top>
+            <td width=227 style="; border-left:1px solid; border-right:medium none; border-top:medium none; border-bottom:medium none; padding:0cm; " valign="bottom" height="62">
+              <p align=left style="widows: 0; orphans: 0">
+                <font size=4 face="arial, sans-serif" color="#000000">Datum / Unterschrift Kunde:</font>
+              </p>
+            </td>
+            <td width=193 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="62">
+              <p align=left>
+                <font face="arial" size="4">
+                  <span lang="de">{{currentDay}}, {{currentDate}}</span>
+                </font>
+              </P>
+            </TD>
+            <td width=711 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="62">
+              <font size=5 face="arial, sans-serif">
+                <b>X</b>
+              </font>
+            </td>
+            <td width=25 style="; border-top: medium none; border-bottom: medium none #000000; border-left: medium none; border-right: 1px solid; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="62">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width=227 height=10 valign=bottom style="border-bottom:1px solid; border-left:1px solid; border-right:medium none; border-top:medium none; padding:0cm; ">
+              <font face="arial, sans-serif" style="font-size: 1pt" color="#ffffff"> &nbsp;</font>
+            </td>
+            <td colspan=3 width=929 valign=top style="; border-bottom:1px solid #000000; border-top:medium none; border-left:medium none; border-right:1px solid; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm; " align="left" height="10">
+              <font face="arial, sans-serif" style="font-size: 1pt" color="#ffffff">&nbsp;</font>
+            </td>
+          </tr>
+        </table>
+        <br>
+        <hr noshade color="#000000">
+        <div align="right">
+          <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-left-width:0; border-top-width:0; border-bottom-width:0" bordercolor="#111111" width="100%" height="0">
+            <tr>
+              <td width="45%" rowspan="5" style="border-left-style: none; border-left-width: medium; border-right-style: solid; border-right-width: 1; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" align="left" valign="top">
+                <font face="Arial" size="2"><span lang="de">Notizen (vom Personal auszufüllen):</span></font>
+              </td>
+              <td width="100%" colspan="7" style="border-top-color: #111111; border-top-width: 1">
+                <b>Anrufprotokoll</b>
+              </td>
+            </tr>
+            <tr>
+              <td width="17%">Datum</td>
+              <td width="11%">Uhrzeit</td>
+              <td width="34%">Anrufgrund</td>
+              <td width="20%"><font size="2">Kunde<br>inform.</font></td>
+              <td width="20%"><font size="2">Anruf-<br>beantw.</font></td>
+              <td width="20%"><font size="2">nicht<br>erreicht</font></td>
+              <td width="20%"><font size="2">Angehör.<br>inform.</font></td>
+            </tr>
+            <tr>
+              <td width="62%" height="45" colspan="3">&nbsp;</td>
+              <td width="20%" height="45">&nbsp;</td>
+              <td width="20%" height="45">&nbsp;</td>
+              <td width="20%" height="45">&nbsp;</td>
+              <td width="20%" height="45">&nbsp;</td>
+            </tr>
+            <tr>
+              <td width="62%" height="45" colspan="3">&nbsp;</td>
+              <td width="20%" height="45">&nbsp;</td>
+              <td width="20%" height="45">&nbsp;</td>
+              <td width="20%" height="45">&nbsp;</td>
+              <td width="20%" height="45">&nbsp;</td>
+            </tr>
+            <tr>
+              <td width="62%" height="45" colspan="3" style="border-bottom-color: #111111; border-bottom-width: 1">&nbsp;</td>
+              <td width="20%" height="45" style="border-bottom-color: #111111; border-bottom-width: 1">&nbsp;</td>
+              <td width="20%" height="45" style="border-bottom-color: #111111; border-bottom-width: 1">&nbsp;</td>
+              <td width="20%" height="45" style="border-bottom-color: #111111; border-bottom-width: 1">&nbsp;</td>
+              <td width="20%" height="45" style="border-bottom-color: #111111; border-bottom-width: 1">&nbsp;</td>
+            </tr>
+          </table>
+        </div>
+        <hr noshade color="#000000">
+        <br>
+        <table width="100%" cellpadding=4 cellspacing=0 frame=void rules=none style="border-collapse: collapse" bordercolor="#111111" height="75">
+          <tr>
+            <td width=226 height=1 valign=bottom style="border-left:1px solid; border-right:medium none; border-top:1px solid; border-bottom:1px solid; padding:0cm; ">
+              <p align=left style="widows: 0; orphans: 0">
+                <font size=4 face="arial, sans-serif" color="#000000">Gerät ausgehändigt am, Unterschrift Kunde:</font>
+              </p>
+            </td>
+            <td width=928 valign=top style="; border-top: 1px solid; border-bottom: 1px solid #000000; border-left: medium none; border-right: 1px solid; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" height="1">
+              <p align=left>
+                <font face="arial">
+                  Hiermit bestätige ich 
+                  (Kunde) das oben genannte Gerät inkl. Zubehör 
+                  vollständig und
+                  <span class="auto-style1"><br>&#9675;</span> repariert /
+                  <span class="auto-style1">&#9675;</span> nicht repariert
+                  zurückerhalten zu haben.
+                </font>
+                <br>
+              </p>
+            </td>
+          </tr>
+        </table>
+        <br>
+        <table border="1" cellpadding="0" cellspacing="0" style="page-break-after: always; border-collapse: collapse; border-top-width: 0; border-bottom-width: 0" bordercolor="#111111" width="100%">
+          <tr>
+            <td width="40%" style="border-style: solid; border-width: 1" align="left">
+              <font face="verdana" size="7">Rg.Nr.:</font>
+            </td>
+            <td width="10%" style="border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>
+            <td width="50%" style="border-style: solid; border-width: 1" align="right">
+              <font face="Verdana" size="7">NR: {{entity.nummer}}</font>
+            </td>
+          </tr>
+        </table>
+        <!------------------------------------------------------------------------------------------------------------------------------------>
+        <table border="1" cellpadding="0" cellspacing="0" style="border-width:0; border-collapse: collapse; " bordercolor="#111111" width="100%" height="64">
+          <tr>
+            <td width="45%" style="border-style: solid; border-width: 1; " align="left" height="1">
+              <font face="Verdana" size="7">NR: {{entity.nummer}}</font>
+            </td>
+            <td width="45%" style="border-style:none; border-width:medium; " rowspan="3" height="62"></td>
+            <td width="10%" style="border-right:1px solid #111111; border-left-style:solid; border-left-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" align="center" height="1">
+              <font face="Verdana" size="7"></font>
+            </td>
+          </tr>
+        </table>
+        <p></p>
+        <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" height="84">
+          <tr>
+            <td width="100%" colspan="2" align="center" height="16">
+              <img border="0" src="/themes/icons/auftrag_logo.gif" width="413" height="135">
+            </td>
+          </tr>
+          <tr>
+            <td width="100%" colspan="2" align="center" height="16">
+              <p class="western" align="center" style="margin-bottom: 0cm; font-style: normal; font-weight: normal; widows: 0; orphans: 0">
+                <font face="arial">Computer-Insel GbR</font>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td width="100%" colspan="2" align="center" height="22">
+              <p class="western" align="center" style="margin-bottom: 0cm; font-style: normal; font-weight: normal; widows: 0; orphans: 0">
+                <font face="arial">Inh.: Stefan Weiske, Peer Dernoscheck</font>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td width="100%" height="6" colspan="2"></td>
+          </tr>
+          <tr>
+            <td width="50%" height="16">
+              <p class="western" style="margin-bottom: 0cm; widows: 0; orphans: 0">
+                <font face="arial">{{filiale.strasse}}, {{filiale.plz}} {{filiale.ort}}</font>
+            </td>
+            <td width="50%" align="right" height="16">
+              <p class="western" style="margin-bottom: 0cm; widows: 0; orphans: 0">
+                <font face="arial" color="#000000">
+                  <span style="text-decoration: none">Internet: www.computer-insel.net</span>
+                </font>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" height="22">
+              <p class="western" style="margin-bottom: 0cm; widows: 0; orphans: 0">
+                <font face="arial" color="#000000">
+                  <span style="text-decoration: none">Tel: {{filiale.telefon}}</span>
+                </font>
+              </p>
+            </td>
+            <td width="50%" align="right" height="22">
+              <p CLASS="western" STYLE="margin-bottom: 0cm; widows: 0; orphans: 0">
+                <font FACE="Arial" COLOR="#000000">
+                  <span STYLE="text-decoration: none">Email: {{filiale.email}}</span>
+                </font>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" height="22">
+              <p class="western" style="margin-bottom: 0cm; widows: 0; orphans: 0">
+                <font face="arial" color="#000000">
+                  <span style="text-decoration: none" lang="de-de">Steuernr.: 232/167/37105</span>
+                </font>
+            </td>
+            <td width="50%" align="right" height="22">
+              <font face="Arial">Mo-Fr: 9:00-19:00&nbsp;/&nbsp; Sa: 10:00-14:00</font>
+            </td>
+          </tr>
+          <tr>
+            <td width="100%" height="5" colspan="2">
+              <font face="Arial" style="font-size: 5pt" color="#FFFFFF">&nbsp;</font>
+            </td>
+          </tr>
+          <tr>
+            <td width="100%" colspan="2" align="center" height="16">
+              <p class="western" align="center" style="margin-bottom: 0cm; widows: 0; orphans: 0">
+                <font color="#000000" face="arial">
+                  <span style="text-decoration: none; font-style: normal">Verkauf von Neu- und
+                Gebrauchtware. Hardware, Software, Zubeh&ouml;r, Reparatur, Beratung, Service
+                  </span>
+                </font>
+              </p>
+            </td>
+          </tr>
+        </table>
+        <p CLASS="western" ALIGN="left" STYLE="widows: 0; orphans: 0; margin-bottom: 0cm">&nbsp;</p>
+        <p CLASS="western" ALIGN="left" STYLE="widows: 0; orphans: 0; margin-bottom: 0cm">&nbsp;</p>
+        <p CLASS="western" ALIGN="left" STYLE="widows: 0; orphans: 0; margin-bottom: 0cm">
+          <u><font face="Verdana" size="6">Abholbeleg</font></u>
+        </p>
+        <p CLASS="western" ALIGN="left" STYLE="widows: 0; orphans: 0; margin-bottom: 0cm">
+          <u><i><font size="4" face="Verdana">WICHTIG: Dieser Beleg ist
+          bei Abholung vorzulegen. Bitte verlieren Sie ihn nicht. <br>
+          Personen, welche den Beleg nicht vorlegen k&ouml;nnen, m&uuml;ssen sich ausweisen.</font></i></u>
+        </p>
+        <p class="western" align="left" style="widows: 0; orphans: 0; margin-bottom: 0cm">&nbsp;</p>
+        <table width="100%" cellpadding=4 cellspacing=0 frame=void rules=none style="border-collapse: collapse" bordercolor="#111111" height="488">
+          <tr valign=top>
+            <td width=227 height=24 style="border: none; padding: 0cm" valign="bottom" align="left">
+              <p align=left style="widows: 0; orphans: 0">
+                <font size=4 face="arial, sans-serif" color="#000000">Gerät / Zubehör:</font>
+              </P>
+            </td>
+            <td colspan=2 width=929 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" height="24" valign="bottom">
+              <p align=left><font face="arial" size="4"><span lang="de">{{entity.geraet}}</span></font><br>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td width=227 height=35 style="border: none; padding: 0cm" valign="bottom" align="left">
+              <p align=left style="widows: 0; orphans: 0">
+                <font face="arial, sans-serif" size="4">SN:</font>
+              </p>
+            </td>
+            <td colspan=2 width=929 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              <p style="widows: 0; orphans: 0; text-decoration: none">
+                <font face="arial" size="4">{{entity.seriennummer}}</font>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td width=227 height=35 style="border: none; padding: 0cm" valign="bottom" align="left">
+              <p align=left style="widows: 0; orphans: 0">
+                <font size=4 face="arial, sans-serif" color="#000000">entgegengenommen von:</font>
+              </p>
+            </td>
+            <td colspan=2 width=929 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              <p style="widows: 0; orphans: 0; text-decoration: none">
+                <font face="arial" size="4">{{entity.mitarbeiter.vorname}} {{entity.mitarbeiter.nachname}}</font>
+              </p>
+            </td>
+          </tr>
+          <tr valign=top>
+            <td width=227 height=35 style="border: none; padding: 0cm" valign="bottom" align="left">
+              <p align=left style="widows: 0; orphans: 0">
+                <font face="arial, sans-serif" size="4">Symptome:</font>
+              </p>
+            </td>
+            <td colspan=2 width=929 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              <p style="widows: 0; orphans: 0; text-decoration: none">
+                <font face="arial" size="4">{{entity.symptome}}</font>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td width=227 style="; border: none; padding: 0cm" valign="bottom" height="35" align="left">
+              <p align=left style="widows: 0; orphans: 0">
+                <font size=4 face="arial, sans-serif" color="#000000">Annahmezeitpunkt:</font>
+              </p>
+            </td>
+            <td width=904 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              <p align=left>
+                <font face="arial" size="4">{{entity.wochentagErstelltAm}}, {{entity.erstelltAm}}</font>
+              </p>
+            </td>
+            <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              <p align=left style="widows: 0; orphans: 0">&nbsp;</p>
+            </td>
+          </tr>
+          <tr>
+            <td width=227 style="; border: none; padding: 0cm" valign="bottom" height="35" align="left">
+              <p align=left style="widows: 0; orphans: 0"><font size=4 face="arial, sans-serif" color="#000000">
+                <span lang="de">Expressbearbeitung</span>:</FONT>
+              </p>
+            </td>
+            <td width=904 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              <font face="arial" size="4">
+                <span lang="de" v:if="!entity.expressbearbeitung">NEIN</span>
+                <span lang="de" v:if="entity.expressbearbeitung">JA</span>
+              </font>
+            </td>
+            <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              <p align=left style="widows: 0; orphans: 0">&nbsp;</p>
+            </td>
+          </tr>
+          <tr valign=top>
+            <td width=227 style="; border: none; padding: 0cm" valign="bottom" height="35" align="left">
+              <p align=left style="widows: 0; orphans: 0">
+                <font face="arial, sans-serif" size="4">Vorraussichtl. abholbereit:</font>
+              </p>
+            </td>
+            <td width=904 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              <p align=left><font face="arial" size="4"><span lang="de">{{entity.wochentagAbholdatum}}, {{entity.abholdatum}} {{entity.abholzeit}}, <strong>aber erst nach Anruf durch uns!</strong></span></font>
+              </p>
+            </td>
+            <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+              <p align=left style="widows: 0; orphans: 0">&nbsp;</p>
+            </td>
+          </tr>
+        </table>
+        
+      </div>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/reparatur/reparatur-drucken.js"></script>
+</html>
