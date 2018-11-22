@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +62,7 @@ public class ReparaturRestController {
     public Map<String, Object> getAbholdatumUndZeit(@PathVariable final boolean express) {
         final Map<String, Object> result = new HashMap<>();
         result.put("abholdatum", berechneAbholdatum(express));
-        result.put("abholzeit", berechneAbholzeit(express));
+        result.put("abholzeit", berechneAbholzeit(express).format(DateTimeFormatter.ofPattern("HH:mm")));
         return result;
     }
 

@@ -60,7 +60,7 @@ public class Reparatur extends IntegerBaseObject {
     private String geraetepasswort;
 
     @Column(name = "expressbearbeitung")
-    private Boolean expressbearbeitung;
+    private boolean expressbearbeitung = false;
 
     @Column(name = "abholdatum")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -75,7 +75,7 @@ public class Reparatur extends IntegerBaseObject {
     private String kostenvoranschlag;
 
     @Column(name = "erledigt")
-    private Boolean erledigt;
+    private boolean erledigt = false;
 
     @Column(name = "erledigungsdatum")
     private LocalDateTime erledigungsdatum;

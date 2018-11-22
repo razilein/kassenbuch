@@ -56,6 +56,9 @@ public class Kunde extends IntegerBaseObject {
     @Size(max = 4000, message = "Das Bemerkungsfeld darf nicht länger als 4000 Zeichen sein.")
     private String bemerkung;
 
+    @Column(name = "dsgvo")
+    private boolean dsgvo = false;
+
     @Column(name = "erstellt_am")
     private LocalDateTime erstelltAm;
 

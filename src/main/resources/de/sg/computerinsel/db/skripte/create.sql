@@ -7,6 +7,7 @@ CREATE TABLE kunde (
    ort VARCHAR(50),
    telefon VARCHAR(50),
    email VARCHAR(100),
+   dsgvo BIT DEFAULT 0 NOT NULL,
    erstellt_am DATETIME,
    bemerkung VARCHAR(4000)
 );
@@ -41,11 +42,11 @@ CREATE TABLE reparatur (
    symptome VARCHAR(1000),
    aufgaben VARCHAR(1000),
    geraetepasswort VARCHAR(50),
-   expressbeabeitung BIT,
+   expressbeabeitung BIT DEFAULT 0 NOT NULL,
    abholdatum DATE,
    abholzeit TIME,
    kostenvoranschlag VARCHAR(100),
-   erledigt BIT DEFAULT 0,
+   erledigt BIT DEFAULT 0 NOT NULL,,
    erledigungsdatum DATETIME,
    erstellt_am DATETIME,
    bemerkung VARCHAR(4000),
