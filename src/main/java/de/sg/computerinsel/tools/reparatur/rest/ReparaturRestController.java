@@ -96,8 +96,9 @@ public class ReparaturRestController {
             if (kunde.getId() == null) {
                 kunde.setErstelltAm(LocalDateTime.now());
             }
-            service.save(kunde);
+            final Kunde saved = service.save(kunde);
             result.put(Message.SUCCESS.getCode(), "Der Kunde '" + kunde.getNachname() + "' wurde erfolgreich gespeichert");
+            result.put("kunde", saved);
         }
         return result;
     }

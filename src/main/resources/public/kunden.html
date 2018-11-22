@@ -49,14 +49,14 @@
           ></grid>
         </div>
       </div>
-      <edit-dialog
+      <kunde-edit-dialog
         :rest-url-get="editRow.restUrlGet"
         :rest-url-save="editRow.restUrlSave"
         :title="editRow.title"
         v-if="showEditDialog"
         @close="showEditDialog = false"
         @saved="handleEditResponse"
-      ></edit-dialog>
+      ></kunde-edit-dialog>
       <delete-dialog
         :title="deleteRow.title"
         :rest-url="deleteRow.restUrl"

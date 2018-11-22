@@ -93,8 +93,8 @@ public class ReparaturService {
         return kundeRepository.findById(id);
     }
 
-    public void save(final Kunde kunde) {
-        kundeRepository.save(kunde);
+    public Kunde save(final Kunde kunde) {
+        return kundeRepository.save(kunde);
     }
 
     public void deleteKunde(final Integer id) {

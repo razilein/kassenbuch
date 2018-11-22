@@ -36,7 +36,7 @@ Vue.component('edit-dialog', {
     </div>
   </div>
   <div class="m1" v-if="entity.kunde">
-    <label for="reparaturEditForm_kunde">Kunde</label>
+    <label for="reparaturEditForm_kunde">Kunde</label><button class="kunde" title="Kunde suchen" @click="showKundeDialog = true"></button>
     <textarea class="m1" id="reparaturEditForm_kunde" readonly v-model="entity.kunde.completeWithAdressAndPhone"></textarea>
   </div>
   <div class="m1">
@@ -51,7 +51,7 @@ Vue.component('edit-dialog', {
       <input class="m2" id="reparaturEditForm_abholdatum" type="date" v-model="entity.abholdatum" />
     </div>
     <div class="m2">
-      <label for="reparaturEditForm_abholzeit">Abholdatum</label>
+      <label for="reparaturEditForm_abholzeit">Abholzeit</label>
       <input class="m2" id="reparaturEditForm_abholzeit" max="19:00" min="9:00" type="time" v-model="entity.abholzeit" />
     </div>
   </div>
@@ -73,6 +73,12 @@ Vue.component('edit-dialog', {
       </select>
     </div>
   </div>
+  <kunde-suchen-dialog
+    :kunde="entity.kunde"
+    v-if="showKundeDialog"
+    @close="showKundeDialog = false"
+    @saved="handleKundeResponse"
+  ></edit-dialog>
       `),
   props: {
     restUrlGet: String,
@@ -85,6 +91,7 @@ Vue.component('edit-dialog', {
       entity: {},
       mitarbeiter: {},
       reparaturarten: {},
+      showKundeDialog: false
     };
   },
   methods: {
@@ -110,6 +117,10 @@ Vue.component('edit-dialog', {
     },
     closeAndReturnResponse: function(response) {
       this.$emit('saved', response.data);
+    },
+    handleKundeResponse: function(kunde) {
+      this.showKundeDialog = false;
+      this.entity.kunde = kunde;
     },
     getEntity: function() {
       return axios.get(this.restUrlGet);

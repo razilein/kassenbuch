@@ -1,4 +1,4 @@
-Vue.component('edit-dialog', {
+Vue.component('kunde-edit-dialog', {
   template: createEditDialogTemplate(`
   <div class="m1">
     <div class="m2m">
@@ -6,7 +6,7 @@ Vue.component('edit-dialog', {
       <input class="m2" id="kundeEditForm_nachname" maxlength="100" type="text" v-model="entity.nachname"></input>
     </div>
     <div class="m2">
-      <label class="required" for="kundeEditForm_vorname">Vorname</label>
+      <label for="kundeEditForm_vorname">Vorname</label>
       <input class="m2" id="kundeEditForm_vorname" maxlength="50" type="text" v-model="entity.vorname"></input>
     </div>
   </div>
@@ -40,6 +40,7 @@ Vue.component('edit-dialog', {
   </div>
       `),
   props: {
+    initialEntity: Object,
     restUrlGet: String,
     restUrlSave: String,
     title: String,
@@ -52,12 +53,13 @@ Vue.component('edit-dialog', {
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && hasAllProperties(this.entity, ['nachname', 'vorname']);
+      return this.entity && hasAllProperties(this.entity, ['nachname']);
     },
     loadEntity: function() {
       showLoader();
       this.getEntity()
         .then(this.setEntity)
+        .then(this.initEntityIfEmpty)
         .then(hideLoader);
     },
     saveFunc: function() {
@@ -69,6 +71,11 @@ Vue.component('edit-dialog', {
     },
     closeAndReturnResponse: function(response) {
       this.$emit('saved', response.data);
+    },
+    initEntityIfEmpty: function() {
+      if (!hasAllProperties(this.entity, ['id'])) {
+        this.entity = this.initialEntity || {};
+      }
     },
     getEntity: function() {
       return axios.get(this.restUrlGet);

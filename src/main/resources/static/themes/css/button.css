@@ -27,6 +27,11 @@ button.error {
   background-color: #D8000C;
 }
 
+button.kunde {
+  mask: url("../icons/kunde.svg") no-repeat center;
+  -webkit-mask: url("../icons/kunde.svg") no-repeat center;
+}
+
 button.ok {
   mask: url("../icons/ok.svg") no-repeat center;
   -webkit-mask: url("../icons/ok.svg") no-repeat center;
@@ -42,7 +47,7 @@ button.pageRight {
   -webkit-mask: url("../icons/right.svg") no-repeat center;
 }
 
-button.add, button.delete, button.edit, button.ok {
+button.add, button.delete, button.edit, button.kunde, button.ok {
   background-color: #1a8cff;
   float: none;
   height: 30px;

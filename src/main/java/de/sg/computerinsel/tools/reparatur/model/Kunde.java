@@ -72,12 +72,12 @@ public class Kunde extends IntegerBaseObject {
             builder.append(System.lineSeparator());
         }
         if (StringUtils.isNotBlank(plz) || StringUtils.isNotBlank(ort)) {
-            builder.append(plz);
+            builder.append(StringUtils.defaultString(plz));
             builder.append(StringUtils.SPACE);
-            builder.append(ort);
+            builder.append(StringUtils.defaultString(ort));
             builder.append(System.lineSeparator());
         }
-        builder.append(telefon);
+        builder.append(StringUtils.defaultString(telefon));
         return builder.toString();
     }
 
