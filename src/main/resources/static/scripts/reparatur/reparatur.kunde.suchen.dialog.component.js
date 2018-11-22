@@ -14,7 +14,7 @@ Vue.component('kunde-suchen-dialog', {
       <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
     </div>
   </div>
-  <h5 class="m2">
+  <h5 class="m3">
     Gewählter Kunde *:
     <br>
     {{entity.nachname}} {{entity.vorname}}
