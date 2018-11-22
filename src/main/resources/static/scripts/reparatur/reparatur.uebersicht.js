@@ -86,7 +86,7 @@ var vm = new Vue({
         { name: 'abholdatum', title: 'Abholdatum', width: 120, formatter: ['date'] },
         { name: 'kostenvoranschlag', title: 'Kosten', width: 90 },
         { name: 'erledigt', title: 'Erledigt', width: 90, formatter: ['boolean'] },
-        { name: 'erstelltAm', title: 'Erstellt am', width: 100, formatter: ['datetime'] }
+        { name: 'erstelltAm', title: 'Erstellt am', width: 100 }
       ];
     },
     
