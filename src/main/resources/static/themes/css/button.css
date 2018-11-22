@@ -52,7 +52,12 @@ button.pageRight {
   -webkit-mask: url("../icons/right.svg") no-repeat center;
 }
 
-button.add, button.delete, button.edit, button.kunde, button.ok, button.open-new-tab {
+button.zahnrad {
+  mask: url("../icons/zahnrad.svg") no-repeat center;
+  -webkit-mask: url("../icons/zahnrad.svg") no-repeat center;
+}
+
+button.add, button.delete, button.edit, button.kunde, button.ok, button.open-new-tab, button.zahnrad {
   background-color: #1a8cff;
   float: none;
   height: 30px;

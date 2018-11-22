@@ -66,6 +66,10 @@ var vm = new Vue({
       vm.setGridColumns();
     },
     
+    openReparaturFunction: function(row) {
+      window.open('/reparatur-uebersicht.html?id=' + row.id);
+    },
+    
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
@@ -73,6 +77,7 @@ var vm = new Vue({
           sortable: false,
           width: 120,
           formatter: [
+          { clazz: 'zahnrad', title: 'Reparaturaufträge anzeigen', clickFunc: vm.openReparaturFunction },
           { clazz: 'edit', title: 'Kunde bearbeiten', clickFunc: vm.editFunction },
           { clazz: 'delete', title: 'Kunde löschen', clickFunc: vm.deleteFunction }
         ] },

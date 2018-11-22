@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import com.google.common.primitives.Ints;
+
 import de.sg.computerinsel.tools.reparatur.dao.KundeRepository;
 import de.sg.computerinsel.tools.reparatur.dao.ReparaturRepository;
 import de.sg.computerinsel.tools.reparatur.model.Kunde;
@@ -105,8 +107,11 @@ public class ReparaturService {
     public Page<Reparatur> listReparaturen(final PageRequest pagination, final Map<String, String> conditions) {
         final String nachname = getAndReplaceJoker(conditions, "nachname");
         final String nummer = getAndReplaceJoker(conditions, "nummer");
+        final String kundeId = getAndReplaceJoker(conditions, "kunde.id");
 
-        if (StringUtils.isBlank(nachname) && StringUtils.isBlank(nummer)) {
+        if (StringUtils.isNumeric(kundeId)) {
+            return reparaturRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
+        } else if (StringUtils.isBlank(nachname) && StringUtils.isBlank(nummer)) {
             return reparaturRepository.findAll(pagination);
         } else {
             return (Page<Reparatur>) findByParams(reparaturRepository, pagination, buildMethodnameForQueryReparatur(nachname, nummer),

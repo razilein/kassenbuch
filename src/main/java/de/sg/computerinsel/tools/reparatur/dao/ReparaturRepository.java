@@ -16,4 +16,6 @@ public interface ReparaturRepository extends CrudRepository<Reparatur, Integer> 
 
     Page<Reparatur> findByNummerLike(String nummer, Pageable pagination);
 
+    Page<Reparatur> findByKundeId(Integer kundeId, Pageable pagination);
+
 }

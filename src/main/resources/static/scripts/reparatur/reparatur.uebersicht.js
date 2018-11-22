@@ -1,6 +1,7 @@
 var vm = new Vue({
   el: '#reparaturen',
   data: {
+    kundeId: getParamFromCurrentUrl('id') || null,
     result: {},
     showDialog: false,
     showDeleteDialog: false,
@@ -56,6 +57,10 @@ var vm = new Vue({
     },
 
     init: function() {
+      if (vm.kundeId) {
+        vm.grid.searchQuery['kunde.id'] = vm.kundeId;
+        vm.grid.reload = true;
+      }
       vm.setGridColumns();
     },
     

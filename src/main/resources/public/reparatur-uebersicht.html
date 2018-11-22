@@ -19,7 +19,7 @@
       <page-header></page-header>
       <page-header-reparatur v-bind:marker="'Reparaturen'"></page-header-reparatur>
       <div id="content">
-        <div class="form m1">
+        <div class="form m1" v-if="kundeId === null">
           <div class="m6m">
             <label for="searchForm_plz">Nummer</label>
             <input class="m6" id="searchForm_nummer" type="text" v-model="grid.searchQuery.nummer"></input>
@@ -32,7 +32,8 @@
             <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
           </div>
         </div>
-        <div style="height: 200px;"></div>
+        <div style="height: 200px;" v-if="kundeId === null"></div>
+        <h3 v-if="kundeId !== null">Reparaturaufträge zum gewählten Kunden:</h3>
         <div id="gridDiv" v-if="grid.gridColumns.length > 0">
           <grid
             :columns="grid.gridColumns"
