@@ -20,14 +20,18 @@ import com.google.common.primitives.Ints;
 
 import de.sg.computerinsel.tools.reparatur.dao.KundeRepository;
 import de.sg.computerinsel.tools.reparatur.dao.ReparaturRepository;
+import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.Kunde;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
+import de.sg.computerinsel.tools.service.EinstellungenService;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class ReparaturService {
+
+    private final EinstellungenService einstellungenService;
 
     private final KundeRepository kundeRepository;
 
@@ -140,6 +144,16 @@ public class ReparaturService {
     }
 
     public Reparatur save(final Reparatur reparatur) {
+        if (StringUtils.isBlank(reparatur.getNummer())) {
+            final String id = einstellungenService.getFiliale().getWert();
+            final Optional<Filiale> filiale = einstellungenService.getFiliale(id == null ? null : Ints.tryParse(id));
+
+            final String nummer = StringUtils.leftPad(String.valueOf(reparaturRepository.getNextAuftragsnummer()), 4, "0");
+            if (filiale.isPresent()) {
+                reparatur.setNummer(filiale.get().getKuerzel());
+            }
+            reparatur.setNummer(reparatur.getNummer() + nummer);
+        }
         return reparaturRepository.save(reparatur);
     }
 
