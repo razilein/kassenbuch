@@ -93,7 +93,6 @@ public final class KassenbuchErstellenUtils {
             writeCsvLine(writer, null, Rechnung.GESAMTBETRAG, gesamtEingang, gesamtAusgang, formattedGesamtbetrag);
             writer.flush();
             writer.close();
-            SettingsUtils.setPropertyAusgangsbetrag(formattedGesamtbetrag);
             LOGGER.info("CSV-Datei {} erfolgreich unter {} gespeichert.", csvFile.getName(), ablageverzeichnis);
         } catch (final IOException e) {
             LOGGER.error("Fehler beim Schreiben der CSV-Datei {}: {}", csvFile.getName(), e.getMessage());

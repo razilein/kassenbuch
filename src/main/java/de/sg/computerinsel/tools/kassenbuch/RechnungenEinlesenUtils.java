@@ -113,9 +113,9 @@ public final class RechnungenEinlesenUtils {
                     rechnung.setArt(extractZahlartFromFile(doc));
                     rechnung.setAdressfeld(extractAdressfeldFromFile(doc));
                 }
-                log.info("Erfolgreich eingelesene Rechnung: {}", rechnung);
+                log.debug("Erfolgreich eingelesene Rechnung: {}", rechnung);
             } else {
-                log.info("Rechnungsdatum: {} der Rechnung {} liegt nicht im angegebenen Rechnunszeitraum von {} bis {}",
+                log.debug("Rechnungsdatum: {} der Rechnung {} liegt nicht im angegebenen Rechnunszeitraum von {} bis {}",
                         DATE_FORMAT.format(rechnungsdatum), file.getName(), DATE_FORMAT.format(dateFrom), DATE_FORMAT.format(dateTo));
             }
         } catch (final IOException e) {
@@ -160,7 +160,7 @@ public final class RechnungenEinlesenUtils {
         } catch (final ParseException e) {
             final int indexOf = StringUtils.indexOf(doc.text(), "Rechnungsdatum: ");
             final String alternativeRechnungsdatum = StringUtils.substring(doc.text(), indexOf + 16, indexOf + 26);
-            log.info(
+            log.debug(
                     "Rechnungsdatum: {} der Datei: '{}' kann nicht geparst werden. Alternativ ausgelesenes Rechnungsdatum wird verwendet: {}",
                     e.getMessage(), filename, alternativeRechnungsdatum);
             date = DateUtils.parseDate(alternativeRechnungsdatum, FORMAT_DATUM);
@@ -178,7 +178,7 @@ public final class RechnungenEinlesenUtils {
             final String alternativeRechnungsnummer = StringUtils
                     .substring(text, StringUtils.indexOf(text, "Rechnungsnummer: ") + 17, StringUtils.indexOf(text, "Rechnungsdatum: "))
                     .trim().replace("\u00a0", "");
-            log.info("Rechnungsnummer: {} der Datei: '{}' ungültig. Alternativ ausgelesene Rechnungsnummer wird verwendet: {}",
+            log.debug("Rechnungsnummer: {} der Datei: '{}' ungültig. Alternativ ausgelesene Rechnungsnummer wird verwendet: {}",
                     rechnungsnummer, filename, alternativeRechnungsnummer);
             rechnungsnummer = alternativeRechnungsnummer;
         }
