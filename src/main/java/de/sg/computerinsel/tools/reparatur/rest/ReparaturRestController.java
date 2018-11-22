@@ -1,6 +1,9 @@
 package de.sg.computerinsel.tools.reparatur.rest;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.sg.computerinsel.tools.reparatur.model.Kunde;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
+import de.sg.computerinsel.tools.reparatur.service.FeiertagUtils;
 import de.sg.computerinsel.tools.reparatur.service.ReparaturService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
@@ -43,7 +47,47 @@ public class ReparaturRestController {
 
     @GetMapping("/{id}")
     public Reparatur getReparatur(@PathVariable final Integer id) {
-        return service.getReparatur(id).orElse(new Reparatur());
+        return service.getReparatur(id).orElse(createReparatur());
+    }
+
+    private Reparatur createReparatur() {
+        final Reparatur reparatur = new Reparatur();
+        reparatur.setAbholdatum(berechneAbholdatum(false));
+        reparatur.setAbholzeit(berechneAbholzeit(false));
+        return reparatur;
+    }
+
+    @GetMapping("/abholdatum/{express}")
+    public Map<String, Object> getAbholdatumUndZeit(@PathVariable final boolean express) {
+        final Map<String, Object> result = new HashMap<>();
+        result.put("abholdatum", berechneAbholdatum(express));
+        result.put("abholzeit", berechneAbholzeit(express));
+        return result;
+    }
+
+    private LocalDate berechneAbholdatum(final boolean express) {
+        LocalDate date = LocalDate.now();
+        if (express && LocalTime.now().isAfter(LocalTime.of(13, 30))) {
+            date = date.plusDays(1);
+        } else if (!express) {
+            date = date.plusDays(3);
+        }
+        while (date.getDayOfWeek() == DayOfWeek.SUNDAY || FeiertagUtils.isFeiertag(date)) {
+            date = date.plusDays(1);
+        }
+        return date;
+    }
+
+    private LocalTime berechneAbholzeit(final boolean express) {
+        LocalTime time = LocalTime.of(16, 30);
+        if (express) {
+            if (LocalTime.now().isBefore(LocalTime.of(13, 30))) {
+                time = LocalTime.of(18, 30);
+            } else {
+                time = LocalTime.of(13, 30);
+            }
+        }
+        return time;
     }
 
     @PutMapping

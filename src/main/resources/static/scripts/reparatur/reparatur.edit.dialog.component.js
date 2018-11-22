@@ -41,7 +41,7 @@ Vue.component('edit-dialog', {
   </div>
   <div class="m1">
     <label class="container checkbox">Expressbearbeitung
-      <input id="reparaturEditForm_expressbearbeitung" type="checkbox" v-model="entity.expressbearbeitung" />
+      <input id="reparaturEditForm_expressbearbeitung" type="checkbox" v-model="entity.expressbearbeitung" v-on:change="editKostenvoranschlag(); changeAbholdatumZeit();" />
       <span class="checkmark"></span>
     </label>
   </div>
@@ -58,7 +58,7 @@ Vue.component('edit-dialog', {
   <div class="m1">
     <div class="m2m">
       <label for="reparaturEditForm_kostenvoranschlag">Kostenvoranschlag</label>
-      <input class="m2" id="reparaturEditForm_kostenvoranschlag" maxlength="10" type="text" v-model="entity.kostenvoranschlag"></input>
+      <input class="m2" id="reparaturEditForm_kostenvoranschlag" maxlength="100" type="text" v-model="entity.kostenvoranschlag"></input>
     </div>
   </div>
   <div class="m1">
@@ -98,6 +98,20 @@ Vue.component('edit-dialog', {
     areRequiredFieldsNotEmpty: function() {
       return this.entity && this.entity.kunde && hasAllProperties(this.entity, ['kunde.id', 'mitarbeiter.id']);
     },
+    changeAbholdatumZeit: function() {
+      this.getAbholdatumZeit()
+        .then(this.setAbholdatumZeit);
+    },
+    editKostenvoranschlag: function() {
+      var kosten = this.entity.kostenvoranschlag || '';
+      var isExpress = this.entity.expressbearbeitung;
+      if (isExpress && !kosten.includes('+ 25,- Expresspauschale')) {
+        kosten += ' + 25,- Expresspauschale';
+      } else if (!isExpress) {
+        kosten = kosten.replace('+ 25,- Expresspauschale', '');
+      }
+      this.entity.kostenvoranschlag = kosten.trim() || null;
+    },
     loadEntity: function() {
       showLoader();
       this.getEntity()
@@ -121,6 +135,13 @@ Vue.component('edit-dialog', {
     handleKundeResponse: function(kunde) {
       this.showKundeDialog = false;
       this.entity.kunde = kunde;
+    },
+    getAbholdatumZeit: function() {
+      return axios.get('/reparatur/abholdatum/' + this.entity.expressbearbeitung);
+    },
+    setAbholdatumZeit: function(response) {
+      this.entity.abholdatum = response.data.abholdatum;
+      this.entity.abholzeit = response.data.abholzeit;
     },
     getEntity: function() {
       return axios.get(this.restUrlGet);

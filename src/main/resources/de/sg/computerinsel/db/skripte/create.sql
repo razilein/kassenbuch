@@ -44,7 +44,7 @@ CREATE TABLE reparatur (
    expressbeabeitung BIT,
    abholdatum DATE,
    abholzeit TIME,
-   kostenvoranschlag VARCHAR(10),
+   kostenvoranschlag VARCHAR(100),
    erledigt BIT DEFAULT 0,
    erledigungsdatum DATETIME,
    erstellt_am DATETIME,

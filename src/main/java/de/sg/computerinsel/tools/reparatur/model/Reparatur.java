@@ -68,7 +68,7 @@ public class Reparatur extends IntegerBaseObject {
     @Column(name = "abholzeit")
     private LocalTime abholzeit;
 
-    @Size(max = 10, message = "Der im Feld 'Kostenvoranschlag' eingetragene Text darf nicht länger als 10 Zeichen sein.")
+    @Size(max = 100, message = "Der im Feld 'Kostenvoranschlag' eingetragene Text darf nicht länger als 100 Zeichen sein.")
     @Column(name = "kostenvoranschlag")
     private String kostenvoranschlag;
 
