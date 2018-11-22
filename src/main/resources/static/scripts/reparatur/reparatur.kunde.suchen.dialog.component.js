@@ -1,5 +1,5 @@
 Vue.component('kunde-suchen-dialog', {
-  template: createEditDialogTemplate(`
+  template: createEditDialogTemplateWithoutSaveButton(`
   <div class="m2m">
     <div class="m2m">
       <label for="searchFormKunde_nachname">Nachname</label>
@@ -100,6 +100,7 @@ Vue.component('kunde-suchen-dialog', {
     },
     chooseFunction: function(row) {
       this.entity = row;
+      this.saveFunc();
     },
     editFunction: function(row) {
       this.editRow.restUrlGet = '/reparatur/kunde/' + row.id;

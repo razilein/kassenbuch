@@ -75,6 +75,24 @@ function createEditDialogTemplate(body) {
   );
 }
 
+function createEditDialogTemplateWithoutSaveButton(body) {
+  return (
+    `<div class="dialog-mask">
+  <div class="dialog-wrapper">
+    <div class="dialog-container info">
+      <h3 class="dialog-header">{{title}}</h3>
+      <div class="dialog-body">` +
+    body +
+    `</div>
+      <div class="dialog-footer">
+        <button class="dialog-default-button info" @click="$emit('close')">Abbrechen</button>
+      </div>
+    </div>
+  </div>
+</div>`
+  );
+}
+
 function hasAllProperties(object, properties) {
   var result = true;
   properties.forEach(function(val) {
