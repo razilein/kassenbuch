@@ -64,7 +64,7 @@ public class Kunde extends IntegerBaseObject {
 
     public String getCompleteWithAdressAndPhone() {
         final StringBuilder builder = new StringBuilder();
-        builder.append(nachname);
+        builder.append(StringUtils.defaultString(nachname));
         if (StringUtils.isNotBlank(vorname)) {
             builder.append(", ");
             builder.append(vorname);

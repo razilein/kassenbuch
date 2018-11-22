@@ -134,8 +134,8 @@ public class ReparaturService {
                 .collect(Collectors.toList());
     }
 
-    public void save(final Reparatur reparatur) {
-        reparaturRepository.save(reparatur);
+    public Reparatur save(final Reparatur reparatur) {
+        return reparaturRepository.save(reparatur);
     }
 
     public void deleteReparatur(final Integer id) {

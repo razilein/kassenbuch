@@ -89,7 +89,7 @@ button.info {
   background-color: #00529B;
 }
 
-button.info.disabled {
+button.info.disabled, button.disabled {
   background-color: #637A8E;
   box-shadow: none;
   cursor: default;

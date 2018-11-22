@@ -3,22 +3,115 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Reparaturen - Computer-Insel Tools by Sita Geßner</title>
     <link rel="icon" href="/themes/icons/zahnrad.png">
+    <link rel="stylesheet" href="/themes/css/button.css">
+    <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/grid.css">
+    <link rel="stylesheet" href="/themes/css/loading.css">
+    <link rel="stylesheet" href="/themes/css/radio.css">
+    <link rel="stylesheet" href="/themes/css/raster.css">
     <link rel="stylesheet" href="/themes/css/style.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
   <body>
-    <div id="reparatur">
+    <div id="reparaturErstellen">
       <page-header></page-header>
       <page-header-reparatur v-bind:marker="'Erstellen'"></page-header-reparatur>
       <div id="content">
-        Reparaturen
+        <div class="form m1">
+          <div class="m1">
+            <label class="container radio" v-for="art in reparaturarten">
+              <input
+                name="art"
+                type="radio"
+                :value="art.key"
+                v-model="entity.art"
+              >{{art.value}}</input>
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="m1">
+            <label for="reparaturEditForm_geraet">Gerät / Zubehör</label>
+            <input class="m1" id="reparaturEditForm_geraet" maxlength="200" type="text" v-model="entity.geraet"></input>
+          </div>
+          <div class="m1">
+            <div class="m2m">
+              <label for="reparaturEditForm_seriennummer">Seriennummer</label>
+              <input class="m2" id="reparaturEditForm_seriennummer" maxlength="200" type="text" v-model="entity.seriennummer"></input>
+            </div>
+          </div>
+          <div class="m1">
+            <label for="reparaturEditForm_symptome">Symptome / Fehler</label>
+            <textarea class="m1" id="reparaturEditForm_symptome" maxlength="4000" v-model="entity.symptome"></textarea>
+          </div>
+          <div class="m1">
+            <label for="reparaturEditForm_aufgaben">Geplante Aufgaben</label>
+            <textarea class="m1" id="reparaturEditForm_aufgaben" maxlength="4000" v-model="entity.aufgaben"></textarea>
+          </div>
+          <div class="m1">
+            <div class="m2">
+              <label for="reparaturEditForm_geraetepasswort">Gerätepasswort</label>
+              <input class="m2" id="reparaturEditForm_geraetepasswort" maxlength="50" type="text" v-model="entity.geraetepasswort"></input>
+            </div>
+          </div>
+          <div class="m1" v-if="entity.kunde">
+            <label for="reparaturEditForm_kunde">Kunde</label><button class="kunde" title="Kunde suchen" @click="showKundeDialog = true"></button>
+            <textarea class="m1" id="reparaturEditForm_kunde" readonly v-model="entity.kunde.completeWithAdressAndPhone"></textarea>
+          </div>
+          <div class="m1">
+            <label class="container checkbox">Expressbearbeitung
+              <input id="reparaturEditForm_expressbearbeitung" type="checkbox" v-model="entity.expressbearbeitung" v-on:change="editKostenvoranschlag(); changeAbholdatumZeit();" />
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="m1">
+            <div class="m2m">
+              <label for="reparaturEditForm_abholdatum">Abholdatum</label>
+              <input class="m2" id="reparaturEditForm_abholdatum" type="date" v-model="entity.abholdatum" />
+            </div>
+            <div class="m2">
+              <label for="reparaturEditForm_abholzeit">Abholzeit</label>
+              <input class="m2" id="reparaturEditForm_abholzeit" max="19:00" min="9:00" type="time" v-model="entity.abholzeit" />
+            </div>
+          </div>
+          <div class="m1">
+            <div class="m2m">
+              <label for="reparaturEditForm_kostenvoranschlag">Kostenvoranschlag</label>
+              <input class="m2" id="reparaturEditForm_kostenvoranschlag" maxlength="100" type="text" v-model="entity.kostenvoranschlag"></input>
+            </div>
+          </div>
+          <div class="m1">
+            <label for="reparaturEditForm_bemerkung">Bemerkungen</label>
+            <textarea class="m1" id="reparaturEditForm_bemerkung" maxlength="4000" v-model="entity.bemerkung"></textarea>
+          </div>
+          <div class="m1">
+            <div class="m2" style="float: right;">
+              <label for="reparaturEditForm_mitarbeiter">Mitarbeiter</label>
+              <select class="m2" id="reparaturEditForm_mitarbeiter" v-model="entity.mitarbeiter.id">
+                <option :value="m.key" v-for="m in mitarbeiter">{{m.value}}</option>
+              </select>
+            </div>
+          </div>
+          <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">Speichern</button>
+          <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmpty()">Speichern</button>
+        </div>
       </div>
+      <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+      <kunde-suchen-dialog
+        :kunde="entity.kunde"
+        v-if="showKundeDialog"
+        @close="showKundeDialog = false"
+        @saved="handleKundeResponse"
+      ></edit-dialog>
     </div>
   </body>
   <script src="/scripts/util.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/grid.component.js"></script>
+  <script src="/scripts/reparatur/reparatur.kunde.suchen.dialog.component.js"></script>
+  <script src="/scripts/reparatur/kunde.edit.dialog.component.js"></script>
   <script src="/scripts/reparatur/reparatur.header.component.js"></script>
   <script src="/scripts/reparatur/reparatur.js"></script>
 </html>

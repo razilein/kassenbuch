@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.sg.computerinsel.tools.reparatur.model.Kunde;
+import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
+import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
 import de.sg.computerinsel.tools.reparatur.service.FeiertagUtils;
 import de.sg.computerinsel.tools.reparatur.service.ReparaturService;
 import de.sg.computerinsel.tools.rest.Message;
@@ -53,8 +55,11 @@ public class ReparaturRestController {
 
     private Reparatur createReparatur() {
         final Reparatur reparatur = new Reparatur();
+        reparatur.setMitarbeiter(new Mitarbeiter());
+        reparatur.setKunde(new Kunde());
         reparatur.setAbholdatum(berechneAbholdatum(false));
         reparatur.setAbholzeit(berechneAbholzeit(false));
+        reparatur.setArt(ReparaturArt.REPARATUR.getCode());
         return reparatur;
     }
 
@@ -100,8 +105,9 @@ public class ReparaturRestController {
             if (reparatur.getId() == null) {
                 reparatur.setErstelltAm(LocalDateTime.now());
             }
-            service.save(reparatur);
+            final Reparatur saved = service.save(reparatur);
             result.put(Message.SUCCESS.getCode(), "Der Reparaturauftrag '" + reparatur.getNummer() + "' wurde erfolgreich gespeichert");
+            result.put("reparatur", saved);
         }
         return result;
     }
