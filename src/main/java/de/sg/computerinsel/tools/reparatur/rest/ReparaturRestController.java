@@ -1,5 +1,8 @@
 package de.sg.computerinsel.tools.reparatur.rest;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,7 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -131,6 +137,16 @@ public class ReparaturRestController {
     @PostMapping("/kunde")
     public Page<Kunde> getKunden(@RequestBody final SearchData data) {
         return service.listKunden(data.getData().getPagination(), data.getConditions());
+    }
+
+    @GetMapping("/kunde/download-dsgvo/{id}")
+    public void getFile(final HttpServletResponse response, @PathVariable final Integer id) throws IOException {
+        try (final InputStream stream = new FileInputStream(einstellungenService.getDsgvoFilepath())) {
+            IOUtils.copy(stream, response.getOutputStream());
+            response.setContentType("application/pdf");
+            response.flushBuffer();
+        }
+        service.saveDsgvo(id);
     }
 
     @GetMapping("/kunde/{id}")

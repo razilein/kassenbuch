@@ -99,6 +99,13 @@ public class ReparaturService {
         return kundeRepository.findById(id);
     }
 
+    public void saveDsgvo(final Integer id) {
+        getKunde(id).ifPresent(k -> {
+            k.setDsgvo(true);
+            save(k);
+        });
+    }
+
     public Kunde save(final Kunde kunde) {
         return kundeRepository.save(kunde);
     }

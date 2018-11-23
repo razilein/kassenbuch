@@ -1,5 +1,6 @@
 package de.sg.computerinsel.tools.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EinstellungenService {
 
+    private static final String DSGVO_FILENAME = "Einwilligung_DSGVO.pdf";
+
     private static final List<String> KASSENBESTAND_SETTING_KEYS = ImmutableList.of("500", "200", "100", "50", "20", "10", "5", "2", "1",
             "050", "020", "010", "005", "002", "001");
 
@@ -56,6 +59,11 @@ public class EinstellungenService {
 
     public Einstellungen getRechnungsverzeichnis() {
         return getEinstellung("kassenbuch.rechnungsverzeichnis");
+    }
+
+    public String getDsgvoFilepath() {
+        final File ablageverzeichnis = new File(getAblageverzeichnis().getWert());
+        return new File(new File(ablageverzeichnis.getParent()), DSGVO_FILENAME).getAbsolutePath();
     }
 
     public Einstellungen getFiliale() {
@@ -118,8 +126,7 @@ public class EinstellungenService {
 
     public List<DefaultKeyValue<Integer, String>> getMitarbeiter() {
         final List<DefaultKeyValue<Integer, String>> result = new ArrayList<>();
-        mitarbeiterRepository.findAllByOrderByNachnameAsc()
-                .forEach(m -> result.add(new DefaultKeyValue<>(m.getId(), m.getCompleteName())));
+        mitarbeiterRepository.findAllByOrderByNachnameAsc().forEach(m -> result.add(new DefaultKeyValue<>(m.getId(), m.getCompleteName())));
         return result;
     }
 

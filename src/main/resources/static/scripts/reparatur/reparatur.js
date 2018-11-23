@@ -50,9 +50,15 @@ var vm = new Vue({
       vm.showKundeDialog = false;
       vm.entity.kunde = kunde;
     },
+    openDsgvoFile: function(kunde) {
+      if (!kunde.dsgvo) {
+        window.open('reparatur/kunde/download-dsgvo/' + kunde.id, '_blank');
+      }
+    },
     openReparatur: function(response) {
       var data = response.data;
       if (data.success) {
+        vm.openDsgvoFile(data.reparatur.kunde);
         var id = data.reparatur.id;
         window.open('/reparatur-drucken.html?id=' + id);
         vm.init();
