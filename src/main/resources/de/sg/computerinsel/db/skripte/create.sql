@@ -67,16 +67,16 @@ CREATE TABLE rolle (
   name VARCHAR(50) NOT NULL,
   beschreibung VARCHAR(200) NOT NULL
 );
-
-INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_KASSENBUCH_ERSTELLEN', 'Bestimmt, ob auf die Seite Kassenbuch erstellen zugegriffen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_KASSENBUCH_KASSENSTAND', 'Bestimmt, ob auf die Seite Kassenstand berechnen zugegriffen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_KASSENBUCH_STATISTIK', 'Bestimmt, ob auf die Seite Statistik zugegriffen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_EINSTELLUNGEN_ALLGEMEIN', 'Bestimmt, ob auf die Seite Einstellungen allgemein zugegriffen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_EINSTELLUNGEN_FILIALEN', 'Bestimmt, ob auf die Seite Filiale zugegriffen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_EINSTELLUNGEN_MITARBEITER', 'Bestimmt, ob auf die Seite Mitarbeiter zugegriffen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_REPARATUR_KUNDEN', 'Bestimmt, ob auf die Seite Kunden zugegriffen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_REPARATUR_ERSTELLEN', 'Bestimmt, ob auf die Seite Reparaturauftrag erstellen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_REPARATUR_UEBERSICHT', 'Bestimmt, ob auf die Seite Übersicht Reparaturaufträge zugegriffen werden darf.');
+--Müssen mit ROLE_ starten, da spring-security diese sonst nicht erkennt
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_ERSTELLEN', 'Bestimmt, ob auf die Seite Kassenbuch erstellen zugegriffen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_KASSENSTAND', 'Bestimmt, ob auf die Seite Kassenstand berechnen zugegriffen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_STATISTIK', 'Bestimmt, ob auf die Seite Statistik zugegriffen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_EINSTELLUNGEN_ALLGEMEIN', 'Bestimmt, ob auf die Seite Einstellungen allgemein zugegriffen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_EINSTELLUNGEN_FILIALEN', 'Bestimmt, ob auf die Seite Filiale zugegriffen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_EINSTELLUNGEN_MITARBEITER', 'Bestimmt, ob auf die Seite Mitarbeiter zugegriffen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_REPARATUR_KUNDEN', 'Bestimmt, ob auf die Seite Kunden zugegriffen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_REPARATUR_ERSTELLEN', 'Bestimmt, ob auf die Seite Reparaturauftrag erstellen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_REPARATUR_UEBERSICHT', 'Bestimmt, ob auf die Seite Übersicht Reparaturaufträge zugegriffen werden darf.');
 
 CREATE TABLE mitarbeiter_rolle (
   id INTEGER IDENTITY NOT NULL PRIMARY KEY,
