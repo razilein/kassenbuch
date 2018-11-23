@@ -106,7 +106,6 @@ public class ReparaturRestController {
     public Map<String, Object> saveReparatur(@RequestBody final Reparatur reparatur) {
         final Map<String, Object> result = new HashMap<>();
         result.putAll(ValidationUtils.validate(reparatur));
-
         if (result.isEmpty()) {
             if (reparatur.getId() == null) {
                 reparatur.setErstelltAm(LocalDateTime.now());

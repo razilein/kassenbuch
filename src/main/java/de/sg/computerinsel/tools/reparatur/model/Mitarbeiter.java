@@ -40,6 +40,16 @@ public class Mitarbeiter extends IntegerBaseObject {
     @Column(name = "telefon")
     private String telefon;
 
+    @NotEmpty(message = "Bitte geben Sie einen Benutzernamen an.")
+    @Size(min = 6, max = 50, message = "Der Benutzername darf nicht kürzer als 6 und nicht länger als 50 Zeichen sein.")
+    @Column(name = "benutzername")
+    private String benutzername;
+
+    @NotEmpty(message = "Bitte geben Sie ein Passwort an.")
+    @Size(min = 10, max = 500, message = "Das Passwort darf nicht kürzer als 10 und nicht länger als 500 Zeichen sein.")
+    @Column(name = "passwort")
+    private String passwort;
+
     public String getCompleteName() {
         return nachname + ", " + vorname;
     }

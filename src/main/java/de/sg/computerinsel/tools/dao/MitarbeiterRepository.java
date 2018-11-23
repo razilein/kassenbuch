@@ -1,6 +1,7 @@
 package de.sg.computerinsel.tools.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,5 +14,7 @@ public interface MitarbeiterRepository extends CrudRepository<Mitarbeiter, Integ
     Page<Mitarbeiter> findAll(Pageable pageRequest);
 
     List<Mitarbeiter> findAllByOrderByNachnameAsc();
+
+    Optional<Mitarbeiter> findByBenutzername(String benutzername);
 
 }

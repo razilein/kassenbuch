@@ -1,14 +1,18 @@
 package de.sg.computerinsel.tools.service;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.ImmutableList;
@@ -31,6 +35,8 @@ import lombok.AllArgsConstructor;
 public class EinstellungenService {
 
     private static final String DSGVO_FILENAME = "Einwilligung_DSGVO.pdf";
+
+    private static final String SALT_FILENAME = "salt.txt";
 
     private static final List<String> KASSENBESTAND_SETTING_KEYS = ImmutableList.of("500", "200", "100", "50", "20", "10", "5", "2", "1",
             "050", "020", "010", "005", "002", "001");
@@ -59,6 +65,15 @@ public class EinstellungenService {
 
     public Einstellungen getRechnungsverzeichnis() {
         return getEinstellung("kassenbuch.rechnungsverzeichnis");
+    }
+
+    public String getSalt() {
+        final File ablageverzeichnis = new File(getAblageverzeichnis().getWert());
+        try {
+            return FileUtils.readLines(new File(new File(ablageverzeichnis.getParent()), SALT_FILENAME), StandardCharsets.UTF_8).get(9);
+        } catch (final IOException e) {
+            return "12345";
+        }
     }
 
     public String getDsgvoFilepath() {
@@ -135,6 +150,10 @@ public class EinstellungenService {
     }
 
     public void save(final Mitarbeiter mitarbeiter) {
+        if (mitarbeiter.getPasswort() == null) {
+            mitarbeiter.setPasswort(mitarbeiter.getNachname());
+        }
+        mitarbeiter.setPasswort(BCrypt.hashpw(mitarbeiter.getPasswort(), getSalt()));
         mitarbeiterRepository.save(mitarbeiter);
     }
 

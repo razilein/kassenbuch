@@ -24,8 +24,10 @@ CREATE TABLE filiale (
 
 CREATE TABLE mitarbeiter (
    id INTEGER IDENTITY NOT NULL PRIMARY KEY,
-   nachname VARCHAR(50),
-   vorname VARCHAR(50),
+   benutzername VARCHAR(50) NOT NULL,
+   passwort VARCHAR(50) NOT NULL,
+   nachname VARCHAR(50) NOT NULL,
+   vorname VARCHAR(50) NOT NULL,
    email VARCHAR(50),
    email_privat VARCHAR(100),
    telefon VARCHAR(50)
@@ -58,6 +60,30 @@ CREATE TABLE einstellungen (
   id INTEGER IDENTITY NOT NULL PRIMARY KEY,
   name VARCHAR(500),
   wert VARCHAR(1000)
+);
+
+CREATE TABLE rolle (
+  id INTEGER IDENTITY NOT NULL PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  beschreibung VARCHAR(200) NOT NULL
+);
+
+INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_KASSENBUCH_ERSTELLEN', 'Bestimmt, ob auf die Seite Kassenbuch erstellen zugegriffen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_KASSENBUCH_KASSENSTAND', 'Bestimmt, ob auf die Seite Kassenstand berechnen zugegriffen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_KASSENBUCH_STATISTIK', 'Bestimmt, ob auf die Seite Statistik zugegriffen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_EINSTELLUNGEN_ALLGEMEIN', 'Bestimmt, ob auf die Seite Einstellungen allgemein zugegriffen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_EINSTELLUNGEN_FILIALEN', 'Bestimmt, ob auf die Seite Filiale zugegriffen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_EINSTELLUNGEN_MITARBEITER', 'Bestimmt, ob auf die Seite Mitarbeiter zugegriffen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_REPARATUR_KUNDEN', 'Bestimmt, ob auf die Seite Kunden zugegriffen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_REPARATUR_ERSTELLEN', 'Bestimmt, ob auf die Seite Reparaturauftrag erstellen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ZUGRIFF_REPARATUR_UEBERSICHT', 'Bestimmt, ob auf die Seite Übersicht Reparaturaufträge zugegriffen werden darf.');
+
+CREATE TABLE mitarbeiter_rolle (
+  id INTEGER IDENTITY NOT NULL PRIMARY KEY,
+  rolle_id INTEGER NOT NULL,
+  mitarbeiter_id INTEGER NOT NULL,
+  FOREIGN KEY (rolle_id) REFERENCES rolle(id),
+  FOREIGN KEY (mitarbeiter_id) REFERENCES mitarbeiter(id)
 );
 
 CREATE SEQUENCE PUBLIC.R_NUMMER_SEQUENCE START WITH 5000 INCREMENT BY 1;
