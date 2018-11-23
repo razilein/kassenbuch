@@ -16,6 +16,9 @@ var vm = new Vue({
     handleLoginResponse: function(response) {
       vm.result = response.data;
       vm.showDialog = true;
+      if (response.data.success) {
+        window.open('/index.html');
+      }
     },
   }
 });

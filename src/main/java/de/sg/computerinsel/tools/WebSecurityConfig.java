@@ -45,6 +45,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
           .and()
         .authorizeRequests()
             .antMatchers("/themes/**", "/scripts/**", "/login**").permitAll()
+            .antMatchers("/kassenbuch.html", "/kassenbuch/erstellen*", "kassenbuch/download*", "/kassenbuch/eintragungen/erstellen*" ).hasAnyRole("ZUGRIFF_KASSENBUCH_ERSTELLEN")
+            .antMatchers("/kassenstand.html", "/kassenbuch/kassenstand*").hasAnyRole("ZUGRIFF_KASSENBUCH_KASSENSTAND")
+            .antMatchers("/statistiken.html", "/kassenbuch/statistiken*").hasAnyRole("ZUGRIFF_KASSENBUCH_STATISTIK")
+            .antMatchers("/einstellungen.html", "/einstellungen").hasAnyRole("ZUGRIFF_EINSTELLUNGEN_ALLGEMEIN")
+            .antMatchers("/filiale.html", "/einstellungen/filiale*").hasAnyRole("ZUGRIFF_EINSTELLUNGEN_FILIALEN")
+            .antMatchers("/mitarbeiter.html", "/einstellungen/mitarbeiter*").hasAnyRole("ZUGRIFF_EINSTELLUNGEN_MITARBEITER")
+            .antMatchers("/kunden.html").hasAnyRole("ZUGRIFF_REPARATUR_KUNDEN")
+            .antMatchers("/reparatur.html").hasAnyRole("ZUGRIFF_REPARATUR_ERSTELLEN")
+            .antMatchers("/reparatur-uebersicht.html", "/reparatur*").hasAnyRole("ZUGRIFF_REPARATUR_UEBERSICHT")
             .anyRequest().authenticated()
             .and()
         .formLogin()
@@ -56,7 +65,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
             .logoutSuccessUrl("/login.html")
             .deleteCookies("JSESSIONID")
-            .permitAll();
+            .permitAll()
+            .and()
+        .exceptionHandling()
+            .accessDeniedPage("/no-permission.html");
         /* @formatter:on */
     }
 
