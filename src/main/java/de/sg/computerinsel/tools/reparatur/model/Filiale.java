@@ -53,18 +53,4 @@ public class Filiale extends IntegerBaseObject {
     @Column(name = "kuerzel")
     private String kuerzel;
 
-    public String toHtmlString() {
-        return "<html>[" + name + " (" + kuerzel + ")" + "]<br>" + email + "<br>" + strasse + "<br> " + plz + " " + ort + "<br> " + telefon
-                + "</html>";
-    }
-
-    @Override
-    public Object[] getTableModelObject() {
-        return new Object[] { name, kuerzel, email, strasse, plz, ort, telefon, getId() };
-    }
-
-    @Override
-    public String toString() {
-        return "Filiale " + name;
-    }
 }

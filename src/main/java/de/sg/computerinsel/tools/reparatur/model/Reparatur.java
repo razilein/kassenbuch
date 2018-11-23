@@ -109,20 +109,4 @@ public class Reparatur extends IntegerBaseObject {
         return getErstelltAm() == null ? null : getErstelltAm().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.GERMANY);
     }
 
-    @Override
-    public Object[] getTableModelObject() {
-        return new Object[] { nummer, art, geraet, seriennummer, symptome, aufgaben, geraetepasswort, expressbearbeitung, abholdatum,
-                abholzeit, kostenvoranschlag, mitarbeiter, getId(), getKunde() };
-    }
-
-    @Override
-    public Object[] getTableModelObjectSearch() {
-        return new Object[] { nummer, art, geraet, abholdatum, abholzeit, kunde, mitarbeiter, getId() };
-    }
-
-    @Override
-    public String toString() {
-        return "Reparatur " + nummer;
-    }
-
 }

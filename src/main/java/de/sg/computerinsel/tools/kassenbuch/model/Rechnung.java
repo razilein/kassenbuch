@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
@@ -52,7 +53,7 @@ public class Rechnung {
         if (StringUtils.isNumeric(rechnungsnummer)) {
             nummer = Integer.valueOf(rechnungsnummer);
         } else if (rechnungsnummer != null) {
-            Ints.tryParse(StringUtils.replaceAll(rechnungsnummer, "[^\\d.]", StringUtils.EMPTY));
+            Ints.tryParse(RegExUtils.replaceAll(rechnungsnummer, "[^\\d.]", StringUtils.EMPTY));
         }
         return nummer;
     }
@@ -63,6 +64,7 @@ public class Rechnung {
         final String verwendungszweck = StringUtils.isNumeric(rechnungsnummer)
                 || StringUtils.isNumeric(StringUtils.substring(rechnungsnummer, 1)) ? "Rechnung: " + rechnungsnummer : rechnungsnummer;
         final String formattedRechnungsbetrag = new DecimalFormat("#0.00").format(rechnungsbetrag);
+
         return Joiner.on(";").join(formattedDate, verwendungszweck,
                 StringUtils.startsWith(formattedRechnungsbetrag, "-") ? "" : formattedRechnungsbetrag,
                 !StringUtils.startsWith(formattedRechnungsbetrag, "-") ? "" : formattedRechnungsbetrag, gesamtBetrag, "\r\n");

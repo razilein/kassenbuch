@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.keyvalue.DefaultKeyValue;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -138,8 +138,8 @@ public class ReparaturService {
         return reparaturRepository.findById(id);
     }
 
-    public List<DefaultKeyValue> getReparaturarten() {
-        return Arrays.asList(ReparaturArt.values()).stream().map(r -> new DefaultKeyValue(r.getCode(), r.getDescription()))
+    public List<DefaultKeyValue<Integer, String>> getReparaturarten() {
+        return Arrays.asList(ReparaturArt.values()).stream().map(r -> new DefaultKeyValue<>(r.getCode(), r.getDescription()))
                 .collect(Collectors.toList());
     }
 

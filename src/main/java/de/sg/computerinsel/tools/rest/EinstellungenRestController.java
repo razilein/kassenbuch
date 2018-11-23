@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.keyvalue.DefaultKeyValue;
+import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,7 +67,7 @@ public class EinstellungenRestController {
     }
 
     @GetMapping("/filiale")
-    public List<DefaultKeyValue> getFilialen() {
+    public List<DefaultKeyValue<Integer, String>> getFilialen() {
         return einstellungenService.listFiliale();
     }
 

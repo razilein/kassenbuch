@@ -44,14 +44,4 @@ public class Mitarbeiter extends IntegerBaseObject {
         return nachname + ", " + vorname;
     }
 
-    @Override
-    public Object[] getTableModelObject() {
-        return new Object[] { nachname, vorname, getId() };
-    }
-
-    @Override
-    public String toString() {
-        return "Mitarbeiter " + nachname + ", " + vorname;
-    }
-
 }

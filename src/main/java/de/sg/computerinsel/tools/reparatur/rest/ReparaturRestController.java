@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.keyvalue.DefaultKeyValue;
+import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -119,12 +119,12 @@ public class ReparaturRestController {
     }
 
     @GetMapping("/mitarbeiter")
-    public List<DefaultKeyValue> getMitarbeiter() {
+    public List<DefaultKeyValue<Integer, String>> getMitarbeiter() {
         return einstellungenService.getMitarbeiter();
     }
 
     @GetMapping("/reparaturarten")
-    public List<DefaultKeyValue> getReparaturarten() {
+    public List<DefaultKeyValue<Integer, String>> getReparaturarten() {
         return service.getReparaturarten();
     }
 

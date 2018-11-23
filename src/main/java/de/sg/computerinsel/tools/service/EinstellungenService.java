@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.collections.keyvalue.DefaultKeyValue;
+import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -94,9 +94,9 @@ public class EinstellungenService {
         }
     }
 
-    public List<DefaultKeyValue> listFiliale() {
-        final List<DefaultKeyValue> result = new ArrayList<>();
-        filialeRepository.findAllByOrderByNameAsc().forEach(f -> result.add(new DefaultKeyValue(f.getId(), f.getName())));
+    public List<DefaultKeyValue<Integer, String>> listFiliale() {
+        final List<DefaultKeyValue<Integer, String>> result = new ArrayList<>();
+        filialeRepository.findAllByOrderByNameAsc().forEach(f -> result.add(new DefaultKeyValue<>(f.getId(), f.getName())));
         return result;
     }
 
@@ -116,9 +116,10 @@ public class EinstellungenService {
         return mitarbeiterRepository.findAll(pageRequest);
     }
 
-    public List<DefaultKeyValue> getMitarbeiter() {
-        final List<DefaultKeyValue> result = new ArrayList<>();
-        mitarbeiterRepository.findAllByOrderByNachnameAsc().forEach(m -> result.add(new DefaultKeyValue(m.getId(), m.getCompleteName())));
+    public List<DefaultKeyValue<Integer, String>> getMitarbeiter() {
+        final List<DefaultKeyValue<Integer, String>> result = new ArrayList<>();
+        mitarbeiterRepository.findAllByOrderByNachnameAsc()
+                .forEach(m -> result.add(new DefaultKeyValue<>(m.getId(), m.getCompleteName())));
         return result;
     }
 
