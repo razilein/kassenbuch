@@ -29,7 +29,7 @@ public final class KassenstandBerechnenUtils {
     private static final NumberFormat NF = NumberFormat.getInstance(Locale.GERMAN);
 
     public static String getGesamtbetragKassenbuch(final String dateipfad, final String ablageverzeichnis) {
-        BigDecimal result = BigDecimal.ZERO;
+        BigDecimal result;
         if (StringUtils.isNotBlank(dateipfad) && new File(dateipfad).exists()) {
             result = getGesamtbetragByKassenbuchCsv(dateipfad);
         } else if (StringUtils.isNotBlank(ablageverzeichnis) && new File(ablageverzeichnis).exists()) {

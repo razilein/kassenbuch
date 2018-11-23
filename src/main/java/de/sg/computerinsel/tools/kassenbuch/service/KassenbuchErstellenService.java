@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.Einstellungen;
 import de.sg.computerinsel.tools.kassenbuch.KassenbuchBearbeitenUtils;
 import de.sg.computerinsel.tools.kassenbuch.KassenbuchErstellenUtils;
@@ -40,21 +41,21 @@ public class KassenbuchErstellenService {
             log.info("Keine Rechnungen gefunden.");
             result.put(Message.INFO.getCode(),
                     "Im hinterlegten Rechnungsverzeichnis konnten keine BAR-Rechnungen im angegebenen Zeitraum vom "
-                            + KassenbuchErstellenUtils.DATE_FORMAT.format(data.getZeitraumVon()) + " bis "
-                            + KassenbuchErstellenUtils.DATE_FORMAT.format(data.getZeitraumBis()) + " gefunden werden.");
+                            + DateUtils.format(data.getZeitraumVon()) + " bis " + DateUtils.format(data.getZeitraumBis())
+                            + " gefunden werden.");
         } else {
             final Rechnung ausgangsRechnung = createStartBetrag(data.getAusgangsbetrag(), data.getAusgangsbetragDatum());
             csvFile = KassenbuchErstellenUtils.createCsv(rechnungen, ausgangsRechnung, ablagePath);
             pdfFile = KassenbuchErstellenUtils.createPdf(rechnungen, ausgangsRechnung, ablagePath);
-            updateSettings(csvFile.getAbsolutePath(), pdfFile.getAbsolutePath(), rechnungsPath, ablagePath);
+            updateSettings(csvFile.getAbsolutePath(), pdfFile.getAbsolutePath(), ablagePath);
             log.info("Kassenbuch-Erstellung beendet.");
 
-            if (pdfFile == null || csvFile == null) {
-                result.put(Message.ERROR.getCode(),
-                        "Fehler beim Erstellen der Kassenbuch-Dateien. Siehe system.logs für weitere Hinweise.");
-            } else {
+            if (pdfFile.exists() && csvFile.exists()) {
                 result.put(Message.SUCCESS.getCode(),
                         "Das Kassenbuch wurde erfolgreich erstellt und unter dem Dateinamen: \r\n'" + pdfFile.getName() + "' ablegt.");
+            } else {
+                result.put(Message.ERROR.getCode(),
+                        "Fehler beim Erstellen der Kassenbuch-Dateien. Siehe system.logs für weitere Hinweise.");
             }
         }
         return result;
@@ -69,13 +70,13 @@ public class KassenbuchErstellenService {
                     KassenbuchEintragungManuell.IST_NEGATIVE_EINTRAGUNGSART.equals(eintragung.getEintragungsart()));
             final List<File> files = KassenbuchBearbeitenUtils.addKassenbuchEintrag(csvDateiPfad, neuerEintrag);
             updateSettings(files.get(0).getAbsolutePath(), files.get(1).getAbsolutePath(),
-                    einstellungenService.getRechnungsverzeichnis().getWert(), einstellungenService.getAblageverzeichnis().getWert());
+                    einstellungenService.getAblageverzeichnis().getWert());
             csvDateiPfad = files.get(0).getAbsolutePath();
         }
         log.info("Kassenbuch-Bearbeitung beendet.");
     }
 
-    private void updateSettings(final String csvFilePath, final String pdfFilePath, final String rechnungsPath, final String ablagePath) {
+    private void updateSettings(final String csvFilePath, final String pdfFilePath, final String ablagePath) {
         final Einstellungen letzteCsvDateipfad = einstellungenService.getLetzteCsvDateiPfad();
         letzteCsvDateipfad.setWert(csvFilePath);
         einstellungenService.save(letzteCsvDateipfad);

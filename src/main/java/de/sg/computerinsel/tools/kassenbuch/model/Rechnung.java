@@ -2,20 +2,19 @@ package de.sg.computerinsel.tools.kassenbuch.model;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 
 import com.google.common.base.Joiner;
 import com.google.common.primitives.Ints;
 
-import de.sg.computerinsel.tools.kassenbuch.KassenbuchErstellenUtils;
+import de.sg.computerinsel.tools.DateUtils;
 import lombok.Data;
 
 /**
@@ -41,11 +40,15 @@ public class Rechnung {
     private String adressfeld;
 
     public Date getRechnungsjahr() {
-        return DateUtils.truncate(rechnungsdatum, Calendar.YEAR);
+        return DateUtils.getYear(rechnungsdatum);
     }
 
     public Month getRechnungsmonat() {
         return rechnungsdatum.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getMonth();
+    }
+
+    public LocalDate getRechnungsdatumWithoutTime() {
+        return rechnungsdatum == null ? null : DateUtils.convert(rechnungsdatum);
     }
 
     public Integer getRechnungsnummerAsInt() {
@@ -53,14 +56,13 @@ public class Rechnung {
         if (StringUtils.isNumeric(rechnungsnummer)) {
             nummer = Integer.valueOf(rechnungsnummer);
         } else if (rechnungsnummer != null) {
-            Ints.tryParse(RegExUtils.replaceAll(rechnungsnummer, "[^\\d.]", StringUtils.EMPTY));
+            nummer = Ints.tryParse(RegExUtils.replaceAll(rechnungsnummer, "[^\\d.]", StringUtils.EMPTY));
         }
         return nummer;
     }
 
     public String toCsvString(final BigDecimal gesamtBetrag) {
-        final String formattedDate = rechnungsdatum == null ? StringUtils.EMPTY
-                : KassenbuchErstellenUtils.DATE_FORMAT.format(rechnungsdatum);
+        final String formattedDate = rechnungsdatum == null ? StringUtils.EMPTY : DateUtils.format(rechnungsdatum);
         final String verwendungszweck = StringUtils.isNumeric(rechnungsnummer)
                 || StringUtils.isNumeric(StringUtils.substring(rechnungsnummer, 1)) ? "Rechnung: " + rechnungsnummer : rechnungsnummer;
         final String formattedRechnungsbetrag = new DecimalFormat("#0.00").format(rechnungsbetrag);

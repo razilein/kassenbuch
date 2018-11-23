@@ -31,11 +31,11 @@ public class TableData {
     private String sortorder;
 
     public PageRequest getPagination() {
-        final int size = this.size == 0 ? DEFAULT_SIZE : this.size;
-        final int page = this.page < 0 ? DEFAULT_PAGE : this.page;
-        final String sort = StringUtils.isBlank(this.sort) ? DEFAULT_SORT : this.sort;
-        final String sortorder = StringUtils.isBlank(this.sortorder) ? DEFAULT_SORTORDER : this.sortorder;
-        return getPagination(size, page, sortorder, sort);
+        final int sizeOrDefault = this.size == 0 ? DEFAULT_SIZE : this.size;
+        final int pageOrDefault = this.page < 0 ? DEFAULT_PAGE : this.page;
+        final String sortOrDefault = StringUtils.isBlank(this.sort) ? DEFAULT_SORT : this.sort;
+        final String sortorderOrDefault = StringUtils.isBlank(this.sortorder) ? DEFAULT_SORTORDER : this.sortorder;
+        return getPagination(sizeOrDefault, pageOrDefault, sortorderOrDefault, sortOrDefault);
     }
 
     private PageRequest getPagination(final int size, final int page, final String sortorder, final String sort) {

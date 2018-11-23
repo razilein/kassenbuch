@@ -4,9 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -14,7 +13,6 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,6 +20,7 @@ import org.jsoup.select.Elements;
 
 import com.google.common.primitives.Ints;
 
+import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
 import de.sg.computerinsel.tools.kassenbuch.model.Rechnungsposten;
 import de.sg.computerinsel.tools.kassenbuch.model.Zahlart;
@@ -35,13 +34,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class RechnungenEinlesenUtils {
 
-    public static final DecimalFormat BETRAG_FORMAT = new DecimalFormat("#,###,##0.00");
+    private static final String ELEMENT_TABLE = "table";
 
-    private static final String FORMAT_DATUM = "dd.MM.yyyy";
+    private static final String RECHNUNGSDATUM = "Rechnungsdatum: ";
 
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(FORMAT_DATUM);
-
-    public static final SimpleDateFormat DATE_FORMAT_FILES = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+    private static final String RECHNUNGSNUMMER = "Rechnungsnummer: ";
 
     public static List<Rechnung> readHtmlFiles(final File directory, final Date dateFrom, final Date dateTo) {
         return readHtmlFiles(directory, dateFrom, dateTo, false);
@@ -116,13 +113,13 @@ public final class RechnungenEinlesenUtils {
                 log.debug("Erfolgreich eingelesene Rechnung: {}", rechnung);
             } else {
                 log.debug("Rechnungsdatum: {} der Rechnung {} liegt nicht im angegebenen Rechnunszeitraum von {} bis {}",
-                        DATE_FORMAT.format(rechnungsdatum), file.getName(), DATE_FORMAT.format(dateFrom), DATE_FORMAT.format(dateTo));
+                        DateUtils.format(rechnungsdatum), file.getName(), DateUtils.format(dateFrom), DateUtils.format(dateTo));
             }
         } catch (final IOException e) {
             log.error("Datei: '{}' kann nicht geparst werden: {}", file.getName(), e.getMessage());
         } catch (final NumberFormatException e) {
             log.error("Rechnungsbetrag der Datei: '{}' kann nicht geparst werden: {}", file.getName(), e.getMessage());
-        } catch (final ParseException e) {
+        } catch (final DateTimeParseException e) {
             log.error("Rechnungsdatum: {} der Datei: '{}' kann nicht geparst werden: ", file.getName(), e.getMessage());
         }
         return rechnung;
@@ -133,8 +130,11 @@ public final class RechnungenEinlesenUtils {
     }
 
     private static boolean isRechnungsdatumInRechnungszeitraum(final Date dateFrom, final Date dateTo, final Date rechnungsdatum) {
-        return rechnungsdatum.equals(dateFrom) || rechnungsdatum.equals(dateTo)
-                || (rechnungsdatum.after(dateFrom) && rechnungsdatum.before(dateTo));
+        final LocalDate zeitraumVon = DateUtils.convert(dateFrom);
+        final LocalDate zeitraumBis = DateUtils.convert(dateTo);
+
+        final LocalDate datum = DateUtils.convert(rechnungsdatum);
+        return datum.equals(zeitraumVon) || datum.equals(zeitraumBis) || (datum.isAfter(zeitraumVon) && datum.isBefore(zeitraumBis));
     }
 
     private static Zahlart extractZahlartFromFile(final Document doc) {
@@ -151,33 +151,33 @@ public final class RechnungenEinlesenUtils {
         return art;
     }
 
-    private static Date extractRechnungsdatumFromFile(final Document doc, final String filename) throws ParseException {
+    private static Date extractRechnungsdatumFromFile(final Document doc, final String filename) {
         Date date = null;
         try {
-            final Elements elements = doc.select("table").get(0).select("td");
-            final String rechnungsdatum = StringUtils.replace(elements.get(elements.size() - 1).text(), "Rechnungsdatum: ", "").trim();
-            date = DateUtils.parseDate(rechnungsdatum, FORMAT_DATUM);
-        } catch (final ParseException e) {
-            final int indexOf = StringUtils.indexOf(doc.text(), "Rechnungsdatum: ");
+            final Elements elements = doc.select(ELEMENT_TABLE).get(0).select("td");
+            final String rechnungsdatum = StringUtils.replace(elements.get(elements.size() - 1).text(), RECHNUNGSDATUM, "").trim();
+            date = DateUtils.parseDate(rechnungsdatum);
+        } catch (final DateTimeParseException e) {
+            final int indexOf = StringUtils.indexOf(doc.text(), RECHNUNGSDATUM);
             final String alternativeRechnungsdatum = StringUtils.substring(doc.text(), indexOf + 16, indexOf + 26);
             log.debug(
                     "Rechnungsdatum: {} der Datei: '{}' kann nicht geparst werden. Alternativ ausgelesenes Rechnungsdatum wird verwendet: {}",
                     e.getMessage(), filename, alternativeRechnungsdatum);
-            date = DateUtils.parseDate(alternativeRechnungsdatum, FORMAT_DATUM);
+            date = DateUtils.parseDate(alternativeRechnungsdatum);
         }
         return date;
     }
 
     private static String extractRechnungsnummerFromFile(final Document doc, final String filename) {
-        String rechnungsnummer = StringUtils.replace(doc.select("td").get(0).text(), "Rechnungsnummer: ", "");
+        String rechnungsnummer = StringUtils.replace(doc.select("td").get(0).text(), RECHNUNGSNUMMER, "");
         if (!StringUtils.isNumeric(rechnungsnummer)
                 || (rechnungsnummer.length() >= 1 && !StringUtils.isNumeric(StringUtils.substring(rechnungsnummer, 1)))) {
             final String text = doc.text();
-            StringUtils.indexOf(text, "Rechnungsnummer: ");
-            StringUtils.indexOf(text, "Rechnungsdatum: ");
+            StringUtils.indexOf(text, RECHNUNGSNUMMER);
+            StringUtils.indexOf(text, RECHNUNGSDATUM);
             final String alternativeRechnungsnummer = StringUtils
-                    .substring(text, StringUtils.indexOf(text, "Rechnungsnummer: ") + 17, StringUtils.indexOf(text, "Rechnungsdatum: "))
-                    .trim().replace("\u00a0", "");
+                    .substring(text, StringUtils.indexOf(text, RECHNUNGSNUMMER) + 17, StringUtils.indexOf(text, RECHNUNGSDATUM)).trim()
+                    .replace("\u00a0", "");
             log.debug("Rechnungsnummer: {} der Datei: '{}' ungültig. Alternativ ausgelesene Rechnungsnummer wird verwendet: {}",
                     rechnungsnummer, filename, alternativeRechnungsnummer);
             rechnungsnummer = alternativeRechnungsnummer;
@@ -186,7 +186,7 @@ public final class RechnungenEinlesenUtils {
     }
 
     private static BigDecimal extractRechnungbetragFromFile(final Document doc) {
-        final Elements tableElements = doc.select("table");
+        final Elements tableElements = doc.select(ELEMENT_TABLE);
         final Element sumElements = tableElements.get(tableElements.size() - 1);
         final Elements rows = sumElements.select("tr");
         final Element possibleBetragRow1 = rows.get(rows.size() - 1);
@@ -201,7 +201,7 @@ public final class RechnungenEinlesenUtils {
 
     private static List<Rechnungsposten> extractRechnungspostenFromFile(final Document doc) {
         final List<Rechnungsposten> list = new ArrayList<>();
-        final Elements tableElements = doc.select("table");
+        final Elements tableElements = doc.select(ELEMENT_TABLE);
         final Elements elements = tableElements.get(tableElements.size() - 1).select("tr");
         for (int i = 0; i < elements.size(); i++) {
             if (i > 1 && i < elements.size() - 4) {

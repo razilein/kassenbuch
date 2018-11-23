@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -15,7 +14,8 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import de.sg.computerinsel.tools.kassenbuch.KassenbuchErstellenUtils;
+import de.sg.computerinsel.tools.CurrencyUtils;
+import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.kassenbuch.rest.model.Kassenstand;
 import de.sg.computerinsel.tools.kassenbuch.service.PdfTableUtils.PdfCellElement;
 import de.sg.computerinsel.tools.service.EinstellungenService;
@@ -38,21 +38,20 @@ public class KassenstandService {
     private final EinstellungenService einstellungenService;
 
     public void ablegen(final List<Kassenstand> kassenstaende) {
-        final File pdfFile = new File(einstellungenService.getAblageverzeichnis().getWert(),
-                KassenbuchErstellenUtils.DATE_FORMAT_FILES.format(new Date()) + FILENAME_PDF);
+        final File pdfFile = new File(einstellungenService.getAblageverzeichnis().getWert(), DateUtils.nowDatetime() + FILENAME_PDF);
         try {
-            pdfFile.createNewFile();
+            if (pdfFile.createNewFile()) {
+                log.debug("Neue PDF-Datei erzeugt: {}", pdfFile.getAbsolutePath());
+            }
             try (final FileOutputStream outputStream = new FileOutputStream(pdfFile);) {
                 final com.itextpdf.text.Document document = new com.itextpdf.text.Document();
                 PdfWriter.getInstance(document, outputStream);
                 document.open();
-                PdfDocumentUtils.addTitle(document, "Kassenstand vom " + KassenbuchErstellenUtils.DATE_FORMAT.format(new Date()));
+                PdfDocumentUtils.addTitle(document, "Kassenstand vom " + DateUtils.now());
                 document.add(createTable(kassenstaende));
                 document.close();
             }
-        } catch (final IOException e) {
-            log.error(e.getMessage(), e);
-        } catch (final DocumentException e) {
+        } catch (final IOException | DocumentException e) {
             log.error(e.getMessage(), e);
         }
     }
@@ -68,8 +67,8 @@ public class KassenstandService {
         final List<PdfCellElement> cells = new ArrayList<>();
         for (final Kassenstand kassenstand : kassenstaende) {
             cells.add(new PdfCellElement(String.valueOf(kassenstand.getAnzahl()), Element.ALIGN_CENTER));
-            cells.add(new PdfCellElement(KassenbuchErstellenUtils.BETRAG_FORMAT.format(kassenstand.getMulti()), Element.ALIGN_RIGHT));
-            cells.add(new PdfCellElement(KassenbuchErstellenUtils.BETRAG_FORMAT.format(kassenstand.getBetrag()), Element.ALIGN_RIGHT));
+            cells.add(new PdfCellElement(CurrencyUtils.format(kassenstand.getMulti()), Element.ALIGN_RIGHT));
+            cells.add(new PdfCellElement(CurrencyUtils.format(kassenstand.getBetrag()), Element.ALIGN_RIGHT));
         }
         return cells;
     }

@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.kassenbuch.KassenbuchErstellenUtils;
 import de.sg.computerinsel.tools.kassenbuch.KassenbuchStatistikUtils;
 import de.sg.computerinsel.tools.kassenbuch.RechnungenEinlesenUtils;
@@ -58,8 +59,8 @@ public class StatistikService {
         log.debug("{} Rechnungen ausgelesen", ueberweisungen.size());
         final File ablageverzeichnis = new File(einstellungenService.getAblageverzeichnis().getWert());
         try {
-            final String zeitraumVon = KassenbuchErstellenUtils.DATE_FORMAT.format(statistik.getZeitraumVon());
-            final String zeitraumBis = KassenbuchErstellenUtils.DATE_FORMAT.format(statistik.getZeitraumBis());
+            final String zeitraumVon = DateUtils.format(statistik.getZeitraumVon());
+            final String zeitraumBis = DateUtils.format(statistik.getZeitraumBis());
             KassenbuchStatistikUtils.createUeberweisungenUebersichtFile(ablageverzeichnis, ueberweisungen, zeitraumVon, zeitraumBis);
         } catch (final IOException e) {
             throw new IllegalArgumentException("Fehler beim Erzeugen der Statistik. Näheres ist der Log-Datei zu entnehmen.", e);

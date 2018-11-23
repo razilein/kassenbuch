@@ -68,10 +68,11 @@ public class KassenbuchRestController {
 
     @GetMapping("/download/")
     public void getFile(final HttpServletResponse response) throws IOException {
-        final InputStream stream = new FileInputStream(einstellungenService.getLetztePdfDateiPfad().getWert());
-        IOUtils.copy(stream, response.getOutputStream());
-        response.setContentType("application/pdf");
-        response.flushBuffer();
+        try (final InputStream stream = new FileInputStream(einstellungenService.getLetztePdfDateiPfad().getWert())) {
+            IOUtils.copy(stream, response.getOutputStream());
+            response.setContentType("application/pdf");
+            response.flushBuffer();
+        }
     }
 
     @PostMapping("/eintragungen/erstellen")

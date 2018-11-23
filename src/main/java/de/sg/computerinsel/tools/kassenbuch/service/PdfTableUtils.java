@@ -80,7 +80,7 @@ public class PdfTableUtils {
         table.addCell(createBodyCell(text, Element.ALIGN_LEFT));
     }
 
-    public static void addEmptyTableRow(final PdfPTable table, final int spalten) {
+    public static void addEmptyTableRow(final PdfPTable table) {
         for (int i = 0; i < 5; i++) {
             table.addCell(StringUtils.EMPTY);
         }
