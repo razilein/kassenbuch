@@ -1,5 +1,8 @@
 Vue.component('page-header', {
   template: `<div id="header">
+     <a class="logoutLink" href="/logout" v-if="username">ausloggen</a>
+     <a class="logoutLink" href="/logout" v-if="username">Mein Profil</a>
+     <span class="right" style="padding-right: 10px" v-if="username">Eingeloggt als {{username}}</span>
      <div class="loading hide" id="loader">Loading&#8230;</div>
      <img src="themes/icons/logo.png" height="100" />
      <div id="navigation">
@@ -14,5 +17,23 @@ Vue.component('page-header', {
        </a>
       </div>
     </div>
-`
+`,
+  data: function() {
+    this.loadUser()
+    return {
+      username: null,
+    };
+  },
+  methods: {
+    loadUser: function() {
+      this.getUsername()
+        .then(this.setUsername)
+    },
+    getUsername: function() {
+      return axios.get('/current-user');
+    },
+    setUsername: function(response) {
+      this.username = response.data;
+    },
+  },
 });

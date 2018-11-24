@@ -63,6 +63,13 @@ input.success {
   display: none;
 }
 
+.logoutLink {
+  float: right;
+  height: 20px;
+  color: #1A8CFF;
+  padding-right: 5px;
+}
+
 #navigation {
   background-color: #CEC319;
   padding: 5 5 5 5;

@@ -6,12 +6,15 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.rest.model.UserDTO;
+import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.SecurityService;
 
 @RestController
@@ -19,6 +22,9 @@ public class BaseRestController {
 
     @Autowired
     private SecurityService securityService;
+
+    @Autowired
+    private MitarbeiterService mitarbeiterService;
 
     @RequestMapping("/login")
     public String login(final Model model, final String error, final String logout) {
@@ -36,6 +42,11 @@ public class BaseRestController {
             result.put(Message.ERROR.getCode(), "Der Login war nicht erfolgreich. Bitte prüfen Sie Ihre Anmeldedaten.");
         }
         return result;
+    }
+
+    @GetMapping("/current-user")
+    public String getCurrentUser() {
+        return mitarbeiterService.getAngemeldeterMitarbeiter().orElse(new Mitarbeiter()).getCompleteName();
     }
 
 }
