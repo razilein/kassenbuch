@@ -3,12 +3,11 @@ var vm = new Vue({
   data: {
     model: {},
     result: {},
-    showDialog: false,
+    showDialog: false
   },
   methods: {
     login: function() {
-      vm.executeLogin()
-        .then(vm.handleLoginResponse);
+      vm.executeLogin().then(vm.handleLoginResponse);
     },
     executeLogin: function() {
       return axios.post('/loginsecure', vm.model);
@@ -19,6 +18,6 @@ var vm = new Vue({
       if (response.data.success) {
         window.open('/index.html');
       }
-    },
+    }
   }
 });

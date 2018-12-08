@@ -21,19 +21,18 @@ Vue.component('page-header', {
   data: function() {
     this.loadUser();
     return {
-      username: null,
+      username: null
     };
   },
   methods: {
     loadUser: function() {
-      this.getUsername()
-        .then(this.setUsername);
+      this.getUsername().then(this.setUsername);
     },
     getUsername: function() {
       return axios.get('/current-user');
     },
     setUsername: function(response) {
       this.username = response.data;
-    },
-  },
+    }
+  }
 });
