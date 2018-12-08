@@ -50,6 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/statistiken.html", "/kassenbuch/statistiken*").hasRole("ZUGRIFF_KASSENBUCH_STATISTIK")
             .antMatchers("/einstellungen.html", "/einstellungen").hasRole("ZUGRIFF_EINSTELLUNGEN_ALLGEMEIN")
             .antMatchers("/filiale.html", "/einstellungen/filiale*").hasRole("ZUGRIFF_EINSTELLUNGEN_FILIALEN")
+            .antMatchers("/einstellungen/mitarbeiter/rechte").hasRole("MITARBEITER_RECHTE")
+            .antMatchers("/einstellungen/mitarbeiter/reset").hasRole("MITARBEITER_RESET")
             .antMatchers("/mitarbeiter.html", "/einstellungen/mitarbeiter*").hasRole("ZUGRIFF_EINSTELLUNGEN_MITARBEITER")
             .antMatchers("/kunden.html").hasRole("ZUGRIFF_REPARATUR_KUNDEN")
             .antMatchers("/reparatur.html").hasRole("ZUGRIFF_REPARATUR_ERSTELLEN")

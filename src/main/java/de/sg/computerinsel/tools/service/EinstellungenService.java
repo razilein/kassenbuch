@@ -16,15 +16,19 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 
 import de.sg.computerinsel.tools.Einstellungen;
 import de.sg.computerinsel.tools.dao.EinstellungenRepository;
 import de.sg.computerinsel.tools.dao.FilialeRepository;
 import de.sg.computerinsel.tools.dao.MitarbeiterRepository;
+import de.sg.computerinsel.tools.dao.RolleRepository;
 import de.sg.computerinsel.tools.kassenbuch.rest.model.Kassenstand;
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
+import de.sg.computerinsel.tools.reparatur.model.Rolle;
+import de.sg.computerinsel.tools.rest.model.MitarbeiterDTO;
 import lombok.AllArgsConstructor;
 
 /**
@@ -46,6 +50,8 @@ public class EinstellungenService {
     private final FilialeRepository filialeRepository;
 
     private final MitarbeiterRepository mitarbeiterRepository;
+
+    private final RolleRepository rolleRepository;
 
     public Einstellungen getAusgangsbetrag() {
         return getEinstellung("kassenbuch.ausgangsbetrag");
@@ -135,7 +141,7 @@ public class EinstellungenService {
         filialeRepository.save(filiale);
     }
 
-    public Page<Mitarbeiter> listMitarbeiter(final PageRequest pageRequest) {
+    public Page<MitarbeiterDTO> listMitarbeiter(final PageRequest pageRequest) {
         return mitarbeiterRepository.findAll(pageRequest);
     }
 
@@ -150,11 +156,33 @@ public class EinstellungenService {
     }
 
     public void save(final Mitarbeiter mitarbeiter) {
-        if (mitarbeiter.getPasswort() == null) {
-            mitarbeiter.setPasswort(mitarbeiter.getNachname());
+        if (mitarbeiter.getBenutzername() == null) {
+            mitarbeiter.setBenutzername(generateDefaultBenutzername(mitarbeiter));
         }
-        mitarbeiter.setPasswort(BCrypt.hashpw(mitarbeiter.getPasswort(), getSalt()));
+        if (mitarbeiter.getPasswort() == null) {
+            mitarbeiter.setPasswort(hashPassword(mitarbeiter.getBenutzername()));
+        }
+
         mitarbeiterRepository.save(mitarbeiter);
+    }
+
+    public String hashPassword(final String password) {
+        return BCrypt.hashpw(password, getSalt());
+    }
+
+    private String generateDefaultBenutzername(final Mitarbeiter mitarbeiter) {
+        String benutzername = StringUtils.left(mitarbeiter.getVorname(), 1).toLowerCase() + mitarbeiter.getNachname().toLowerCase();
+        benutzername = StringUtils.rightPad(benutzername, Mitarbeiter.MIN_LENGTH_BENUTZERNAME, "0");
+        benutzername = StringUtils.left(benutzername, Mitarbeiter.MAX_LENGTH_BENUTZERNAME);
+        return benutzername;
+    }
+
+    public boolean existsUsername(final String benutzername) {
+        return mitarbeiterRepository.findByBenutzername(StringUtils.trimToEmpty(benutzername)).isPresent();
+    }
+
+    public List<Rolle> listRollen() {
+        return Lists.newArrayList(rolleRepository.findAll());
     }
 
 }

@@ -68,22 +68,24 @@ CREATE TABLE rolle (
   beschreibung VARCHAR(200) NOT NULL
 );
 --Müssen mit ROLE_ starten, da spring-security diese sonst nicht erkennt
-INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_ERSTELLEN', 'Bestimmt, ob auf die Seite Kassenbuch erstellen zugegriffen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_KASSENSTAND', 'Bestimmt, ob auf die Seite Kassenstand berechnen zugegriffen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_STATISTIK', 'Bestimmt, ob auf die Seite Statistik zugegriffen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_EINSTELLUNGEN_ALLGEMEIN', 'Bestimmt, ob auf die Seite Einstellungen allgemein zugegriffen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_EINSTELLUNGEN_FILIALEN', 'Bestimmt, ob auf die Seite Filiale zugegriffen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_EINSTELLUNGEN_MITARBEITER', 'Bestimmt, ob auf die Seite Mitarbeiter zugegriffen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_REPARATUR_KUNDEN', 'Bestimmt, ob auf die Seite Kunden zugegriffen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_REPARATUR_ERSTELLEN', 'Bestimmt, ob auf die Seite Reparaturauftrag erstellen werden darf.');
-INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_REPARATUR_UEBERSICHT', 'Bestimmt, ob auf die Seite Übersicht Reparaturaufträge zugegriffen werden darf.');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_ERSTELLEN', 'Zugriff auf die Seite: Kassenbuch erstellen');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_KASSENSTAND', 'Zugriff auf die Seite: Kassenstand berechnen');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_STATISTIK', 'Zugriff auf die Seite: Statistik');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_EINSTELLUNGEN_ALLGEMEIN', 'Zugriff auf die Seite: Einstellungen allgemein');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_EINSTELLUNGEN_FILIALEN', 'Zugriff auf die Seite: Filiale');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_EINSTELLUNGEN_MITARBEITER', 'Zugriff auf die Seite Mitarbeiter');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_MITARBEITER_RESET', 'Das Passwort von anderen Benutzern darf zurückgesetzt werden');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_MITARBEITER_RECHTE', 'Die Berechtigungen von anderen Benutzern dürfen angepasst werden');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_REPARATUR_KUNDEN', 'Zugriff auf die Seite Kunden');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_REPARATUR_ERSTELLEN', 'Zugriff auf die Seite Reparaturauftrag erstellen');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_REPARATUR_UEBERSICHT', 'Zugriff auf die Seite Übersicht Reparaturaufträge');
 
 CREATE TABLE mitarbeiter_rolle (
   id INTEGER IDENTITY NOT NULL PRIMARY KEY,
   rolle_id INTEGER NOT NULL,
   mitarbeiter_id INTEGER NOT NULL,
-  FOREIGN KEY (rolle_id) REFERENCES rolle(id),
-  FOREIGN KEY (mitarbeiter_id) REFERENCES mitarbeiter(id)
+  FOREIGN KEY (rolle_id) REFERENCES rolle(id) ON DELETE CASCADE,
+  FOREIGN KEY (mitarbeiter_id) REFERENCES mitarbeiter(id) ON DELETE CASCADE
 );
 
 CREATE SEQUENCE PUBLIC.R_NUMMER_SEQUENCE START WITH 5000 INCREMENT BY 1;

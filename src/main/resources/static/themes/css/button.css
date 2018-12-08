@@ -27,6 +27,11 @@ button.error {
   background-color: #D8000C;
 }
 
+button.key {
+  mask: url("../icons/key.svg") no-repeat center;
+  -webkit-mask: url("../icons/key.svg") no-repeat center;
+}
+
 button.kunde {
   mask: url("../icons/kunde.svg") no-repeat center;
   -webkit-mask: url("../icons/kunde.svg") no-repeat center;
@@ -52,12 +57,17 @@ button.pageRight {
   -webkit-mask: url("../icons/right.svg") no-repeat center;
 }
 
+button.recht {
+  mask: url("../icons/recht.svg") no-repeat center;
+  -webkit-mask: url("../icons/recht.svg") no-repeat center;
+}
+
 button.zahnrad {
   mask: url("../icons/zahnrad.svg") no-repeat center;
   -webkit-mask: url("../icons/zahnrad.svg") no-repeat center;
 }
 
-button.add, button.delete, button.edit, button.kunde, button.ok, button.open-new-tab, button.zahnrad {
+button.add, button.delete, button.edit, button.key, button.kunde, button.ok, button.open-new-tab, button.recht, button.zahnrad {
   background-color: #1a8cff;
   float: none;
   height: 30px;

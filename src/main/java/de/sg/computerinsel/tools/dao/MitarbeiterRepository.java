@@ -8,10 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
+import de.sg.computerinsel.tools.rest.model.MitarbeiterDTO;
 
 public interface MitarbeiterRepository extends CrudRepository<Mitarbeiter, Integer> {
 
-    Page<Mitarbeiter> findAll(Pageable pageRequest);
+    Page<MitarbeiterDTO> findAll(Pageable pageRequest);
 
     List<Mitarbeiter> findAllByOrderByNachnameAsc();
 

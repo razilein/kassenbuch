@@ -11,7 +11,6 @@ import javax.validation.Validator;
 
 import org.apache.commons.lang3.StringUtils;
 
-import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,11 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 @UtilityClass
 @Slf4j
 public class ValidationUtils {
-
-    public static Map<String, Object> validateMitarbeiter(final Mitarbeiter mitarbeiter) {
-        final Map<String, Object> messages = new HashMap<>(validate(mitarbeiter));
-        return messages;
-    }
 
     public static <T> Map<String, Object> validate(final T obj) {
         final Map<String, Object> messages = new HashMap<>();

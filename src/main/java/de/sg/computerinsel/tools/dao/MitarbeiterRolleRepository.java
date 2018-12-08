@@ -10,4 +10,6 @@ public interface MitarbeiterRolleRepository extends CrudRepository<MitarbeiterRo
 
     List<MitarbeiterRolle> findByMitarbeiterId(Integer mitarbeiterId);
 
+    void deleteByMitarbeiterId(Integer mitarbeiterId);
+
 }

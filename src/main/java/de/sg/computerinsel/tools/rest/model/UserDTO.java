@@ -1,12 +1,18 @@
 package de.sg.computerinsel.tools.rest.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class UserDTO {
+
+    private Integer id;
 
     private String username;
 
     private String password;
+
+    private String passwordBefore;
 
 }

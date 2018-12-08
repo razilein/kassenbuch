@@ -2,8 +2,18 @@ var vm = new Vue({
   el: '#mitarbeiter',
   data: {
     result: {},
+    showConfirmDialog: false,
     showDialog: false,
     showEditDialog: false,
+    showEditRechteDialog: false,
+    confirmDialog: {
+      text: 'Wollen Sie das Passwort des Benutzers zurücksetzen?',
+    },
+    editRechtDialog: {
+      restUrlGet: '/einstellungen/mitarbeiter/rechte/',
+      restUrlSave: '/einstellungen/mitarbeiter/rechte',
+      title: 'Berechtigungen bearbeiten',
+    },
     editRow: {
       restUrlGet: '/einstellungen/mitarbeiter/',
       restUrlSave: '/einstellungen/mitarbeiter',
@@ -40,6 +50,39 @@ var vm = new Vue({
       vm.showDialog = true;
     },
     
+    editRechteFunction: function(row) {
+      vm.editRechtDialog.restUrlGet = '/einstellungen/mitarbeiter/rechte/' + row.id;
+      vm.editRechtDialog.title = 'Berechtigungen für ' + row.completeName + ' bearbeiten';
+      vm.showEditRechteDialog = true;
+    },
+    
+    handleEditRechteResponse: function(data) {
+      if (data.success) {
+        vm.showEditRechteDialog = false;
+      } 
+      vm.result = data;
+      vm.showDialog = true;
+    },
+    
+    resetPasswordFunction: function(row) {
+      vm.confirmDialog.title = 'Passwort für ' + row.completeName + ' zurücksetzen';
+      vm.confirmDialog.func = vm.resetPassword;
+      vm.confirmDialog.params = row;
+      vm.showConfirmDialog = true;
+    },
+    
+    resetPassword: function(row) {
+      return axios.put('/einstellungen/mitarbeiter/reset', { id: row.id });
+    },
+    
+    handleConfirmResponse: function(data) {
+      if (data.success) {
+        vm.showConfirmDialog = false;
+      } 
+      vm.result = data;
+      vm.showDialog = true;
+    },
+    
     init: function() {
       vm.setGridActions();
       vm.setGridColumns();
@@ -53,6 +96,8 @@ var vm = new Vue({
           width: 120,
           formatter: [
           { clazz: 'edit', title: 'Mitarbeiter bearbeiten', clickFunc: vm.editFunction },
+          { clazz: 'key', title: 'Passwort zurücksetzen', clickFunc: vm.resetPasswordFunction },
+          { clazz: 'recht', title: 'Berechtigungen bearbeiten', clickFunc: vm.editRechteFunction },
         ] },
         { name: 'nachname', title: 'Nachname', width: '50%' },
         { name: 'vorname', title: 'Vorname', width: '50%' },

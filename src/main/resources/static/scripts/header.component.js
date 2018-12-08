@@ -1,7 +1,7 @@
 Vue.component('page-header', {
   template: `<div id="header">
      <a class="logoutLink" href="/logout" v-if="username">ausloggen</a>
-     <a class="logoutLink" href="/logout" v-if="username">Mein Profil</a>
+     <a class="logoutLink" href="/mitarbeiter-profil.html" v-if="username">Mein Profil</a>
      <span class="right" style="padding-right: 10px" v-if="username">Eingeloggt als {{username}}</span>
      <div class="loading hide" id="loader">Loading&#8230;</div>
      <img src="themes/icons/logo.png" height="100" />

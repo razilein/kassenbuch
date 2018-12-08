@@ -6,7 +6,12 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.Validate;
+
+import de.sg.computerinsel.tools.rest.model.MitarbeiterDTO;
+import de.sg.computerinsel.tools.rest.model.UserDTO;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -16,7 +21,12 @@ import lombok.Setter;
 @Table(name = "MITARBEITER")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Mitarbeiter extends IntegerBaseObject {
+
+    public static final int MAX_LENGTH_BENUTZERNAME = 50;
+
+    public static final int MIN_LENGTH_BENUTZERNAME = 6;
 
     @NotEmpty(message = "Bitte geben Sie den Nachnamen an.")
     @Size(max = 50, message = "Der Nachname darf nicht länger als 50 Zeichen sein.")
@@ -41,7 +51,7 @@ public class Mitarbeiter extends IntegerBaseObject {
     private String telefon;
 
     @NotEmpty(message = "Bitte geben Sie einen Benutzernamen an.")
-    @Size(min = 6, max = 50, message = "Der Benutzername darf nicht kürzer als 6 und nicht länger als 50 Zeichen sein.")
+    @Size(min = MIN_LENGTH_BENUTZERNAME, max = MAX_LENGTH_BENUTZERNAME, message = "Der Benutzername darf nicht kürzer als 6 und nicht länger als 50 Zeichen sein.")
     @Column(name = "benutzername")
     private String benutzername;
 
@@ -49,6 +59,21 @@ public class Mitarbeiter extends IntegerBaseObject {
     @Size(min = 10, max = 500, message = "Das Passwort darf nicht kürzer als 10 und nicht länger als 500 Zeichen sein.")
     @Column(name = "passwort")
     private String passwort;
+
+    public Mitarbeiter(final MitarbeiterDTO mitarbeiter) {
+        Validate.notNull(mitarbeiter, "mitarbeiter darf nicht null sein.");
+        this.nachname = mitarbeiter.getNachname();
+        this.vorname = mitarbeiter.getVorname();
+        this.email = mitarbeiter.getEmail();
+        this.emailPrivat = mitarbeiter.getEmailPrivat();
+        this.telefon = mitarbeiter.getTelefon();
+    }
+
+    public Mitarbeiter(final UserDTO anmeldedaten) {
+        Validate.notNull(anmeldedaten, "anmeldedaten darf nicht null sein.");
+        this.benutzername = anmeldedaten.getUsername();
+        this.passwort = anmeldedaten.getPassword();
+    }
 
     public String getCompleteName() {
         return nachname + ", " + vorname;
