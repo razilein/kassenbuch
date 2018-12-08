@@ -78,18 +78,31 @@ public class MitarbeiterService {
             final Mitarbeiter mitarbeiter = optional.get();
             if (geaenderterBenutzernameExistiertBereits(dto, mitarbeiter)) {
                 result.put(Message.ERROR.getCode(), "Der gewählte Benutzername ist bereits vergeben.");
-            } else if (!checkPasswordBefore(mitarbeiter, dto.getPasswordBefore())) {
+            } else if (!StringUtils.isAllBlank(dto.getPassword(), dto.getPasswordRepeat())
+                    && !checkPasswordBefore(mitarbeiter, dto.getPasswordBefore())) {
                 result.put(Message.ERROR.getCode(), "Das alte Passwort stimmt nicht überein.");
             } else {
-                mitarbeiter.setBenutzername(dto.getUsername());
-                mitarbeiter.setPasswort(einstellungenService.hashPassword(dto.getPassword()));
-                einstellungenService.save(mitarbeiter);
+                saveUsernameAndPassword(dto, mitarbeiter);
                 result.put(Message.SUCCESS.getCode(), "Die Anmeldedaten wurden geändert.");
             }
         } else {
             result.put(Message.ERROR.getCode(), "Ungültige Anmeldedaten.");
         }
         return result;
+    }
+
+    private void saveUsernameAndPassword(final UserDTO dto, final Mitarbeiter mitarbeiter) {
+        final boolean changedUsername = !StringUtils.equals(dto.getUsername(), mitarbeiter.getBenutzername());
+        if (changedUsername) {
+            mitarbeiter.setBenutzername(dto.getUsername());
+        }
+        if (!StringUtils.isBlank(dto.getPassword())) {
+            mitarbeiter.setPasswort(einstellungenService.hashPassword(dto.getPassword()));
+        }
+        einstellungenService.save(mitarbeiter);
+        if (changedUsername) {
+            SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+        }
     }
 
     private boolean geaenderterBenutzernameExistiertBereits(final UserDTO dto, final Mitarbeiter mitarbeiter) {

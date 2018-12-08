@@ -19,7 +19,7 @@ Vue.component('page-header', {
     </div>
 `,
   data: function() {
-    this.loadUser()
+    this.loadUser();
     return {
       username: null,
     };
@@ -27,7 +27,7 @@ Vue.component('page-header', {
   methods: {
     loadUser: function() {
       this.getUsername()
-        .then(this.setUsername)
+        .then(this.setUsername);
     },
     getUsername: function() {
       return axios.get('/current-user');

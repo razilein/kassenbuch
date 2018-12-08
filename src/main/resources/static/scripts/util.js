@@ -93,7 +93,7 @@ function createEditDialogTemplateWithoutSaveButton(body) {
   );
 }
 
-function hasAllProperties(object, properties) {
+function hasAllProperties(object, properties, checkempty) {
   var result = true;
   properties.forEach(function(val) {
     var obj = object;
@@ -101,8 +101,15 @@ function hasAllProperties(object, properties) {
       obj = obj[v];
     });
     result = result && obj !== null && obj !== undefined;
+    if (checkempty) {
+      result = result && obj !== '';
+    }
   });
   return result;
+}
+
+function hasAllPropertiesAndNotEmpty(object, properties) {
+  return hasAllProperties(object, properties, true);
 }
 
 function getParamFromCurrentUrl(param) {

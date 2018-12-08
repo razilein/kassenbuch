@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,13 @@ public class MitarbeiterProfilRestController {
     @GetMapping
     public MitarbeiterDTO get() {
         return new MitarbeiterDTO(service.getAngemeldeterMitarbeiter().orElse(null));
+    }
+
+    @GetMapping("/anmeldedaten")
+    public UserDTO benutzername() {
+        final UserDTO dto = new UserDTO();
+        dto.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        return dto;
     }
 
     @PutMapping

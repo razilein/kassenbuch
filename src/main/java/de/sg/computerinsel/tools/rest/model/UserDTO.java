@@ -15,4 +15,6 @@ public class UserDTO {
 
     private String passwordBefore;
 
+    private String passwordRepeat;
+
 }
