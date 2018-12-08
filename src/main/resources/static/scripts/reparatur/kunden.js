@@ -1,6 +1,7 @@
 var vm = new Vue({
   el: '#kunden',
   data: {
+    rechte: {},
     result: {},
     showDialog: false,
     showDeleteDialog: false,
@@ -62,8 +63,22 @@ var vm = new Vue({
     },
 
     init: function() {
+      vm.prepareRoles();
       vm.setGridActions();
       vm.setGridColumns();
+    },
+    
+    prepareRoles: function() {
+      vm.getRecht('ROLE_KUNDEN_REPARATUR');
+      vm.getRecht('ROLE_KUNDEN_VERWALTEN');
+    },
+    
+    hasNotRoleReparaturAnzeigen: function() {
+      return !vm.rechte['ROLE_KUNDEN_REPARATUR'];
+    },
+    
+    hasNotRoleVerwalten: function() {
+      return !vm.rechte['ROLE_KUNDEN_VERWALTEN'];
     },
     
     openReparaturFunction: function(row) {
@@ -77,9 +92,9 @@ var vm = new Vue({
           sortable: false,
           width: 120,
           formatter: [
-          { clazz: 'zahnrad', title: 'Reparaturaufträge anzeigen', clickFunc: vm.openReparaturFunction },
-          { clazz: 'edit', title: 'Kunde bearbeiten', clickFunc: vm.editFunction },
-          { clazz: 'delete', title: 'Kunde löschen', clickFunc: vm.deleteFunction }
+          { clazz: 'zahnrad', disabled: vm.hasNotRoleReparaturAnzeigen, title: 'Reparaturaufträge anzeigen', clickFunc: vm.openReparaturFunction },
+          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Kunde bearbeiten', clickFunc: vm.editFunction },
+          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Kunde löschen', clickFunc: vm.deleteFunction }
         ] },
         { name: 'nachname', title: 'Nachname', width: 150 },
         { name: 'vorname', title: 'Vorname', width: 100 },
@@ -94,9 +109,19 @@ var vm = new Vue({
     
     setGridActions: function() {
       vm.grid.actions = [
-        { clazz: 'add', title: 'Kunde hinzufügen', clickFunc: vm.addFunction }
+        { clazz: 'add', disabled: vm.hasNotRoleVerwalten, title: 'Kunde hinzufügen', clickFunc: vm.addFunction }
       ]
     },
+    
+    getRecht: function(role) {
+      return hasRole(role).then(vm.setRecht(role));
+    },
+    
+    setRecht: function(role) {
+      return function(response) {
+        vm.rechte[role] = response.data;
+      }
+    }
     
   }
 });

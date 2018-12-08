@@ -50,8 +50,12 @@ Vue.component('kunde-suchen-dialog', {
   props: {
     kunde: Object,
   },
+  created: function() {
+    this.prepareRoles();
+  },
   data: function() {
     return {
+      rechte: this.rechte || {},
       entity: this.kunde || {},
       showDialog: false,
       showEditDialog: false,
@@ -62,7 +66,7 @@ Vue.component('kunde-suchen-dialog', {
       },
       grid: {
         actions: [
-          { clazz: 'add', title: 'Kunde hinzufügen', clickFunc: this.addFunction }
+          { clazz: 'add', disabled: this.hasNotRoleVerwalten, title: 'Kunde hinzufügen', clickFunc: this.addFunction }
         ],
         gridColumns:  [
           { name: 'functions',
@@ -71,7 +75,7 @@ Vue.component('kunde-suchen-dialog', {
             width: 80,
             formatter: [
             { clazz: 'ok', title: 'Diesen Kunden wählen', clickFunc: this.chooseFunction },
-            { clazz: 'edit', title: 'Kunde bearbeiten', clickFunc: this.editFunction },
+            { clazz: 'edit', disabled: this.hasNotRoleVerwalten, title: 'Kunde bearbeiten', clickFunc: this.editFunction },
           ] },
           { name: 'nachname', title: 'Nachname', width: 150 },
           { name: 'vorname', title: 'Vorname', width: 100 },
@@ -122,6 +126,15 @@ Vue.component('kunde-suchen-dialog', {
     closeAndReturnResponse: function() {
       this.$emit('saved', this.entity);
     },
+    hasNotRoleVerwalten: function() {
+      return !this.rechte['ROLE_KUNDEN_VERWALTEN'];
+    },
+    prepareRoles: function() {
+      hasRole('ROLE_KUNDEN_VERWALTEN').then(this.setRecht);
+    },
+    setRecht: function(response) {
+      this.rechte['ROLE_KUNDEN_VERWALTEN'] = response.data;
+    }
   }
 });
 

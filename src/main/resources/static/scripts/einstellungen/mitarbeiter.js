@@ -1,6 +1,7 @@
 var vm = new Vue({
   el: '#mitarbeiter',
   data: {
+    rechte: {},
     result: {},
     showConfirmDialog: false,
     showDialog: false,
@@ -84,10 +85,29 @@ var vm = new Vue({
     },
     
     init: function() {
+      vm.prepareRoles();
       vm.setGridActions();
       vm.setGridColumns();
     },
     
+    prepareRoles: function() {
+      vm.getRecht('ROLE_MITARBEITER_RECHTE');
+      vm.getRecht('ROLE_MITARBEITER_RESET');
+      vm.getRecht('ROLE_MITARBEITER_VERWALTEN');
+    },
+    
+    hasNotRoleEditRecht: function() {
+      return !vm.rechte['ROLE_MITARBEITER_RECHTE'];
+    },
+    
+    hasNotRoleResetPassword: function() {
+      return !vm.rechte['ROLE_MITARBEITER_RESET'];
+    },
+    
+    hasNotRoleVerwalten: function() {
+      return !vm.rechte['ROLE_MITARBEITER_VERWALTEN'];
+    },
+
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
@@ -95,9 +115,9 @@ var vm = new Vue({
           sortable: false,
           width: 120,
           formatter: [
-          { clazz: 'edit', title: 'Mitarbeiter bearbeiten', clickFunc: vm.editFunction },
-          { clazz: 'key', title: 'Passwort zurücksetzen', clickFunc: vm.resetPasswordFunction },
-          { clazz: 'recht', title: 'Berechtigungen bearbeiten', clickFunc: vm.editRechteFunction },
+          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Mitarbeiter bearbeiten', clickFunc: vm.editFunction },
+          { clazz: 'key', disabled: vm.hasNotRoleResetPassword, title: 'Passwort zurücksetzen', clickFunc: vm.resetPasswordFunction },
+          { clazz: 'recht', disabled: vm.hasNotRoleEditRecht, title: 'Berechtigungen bearbeiten', clickFunc: vm.editRechteFunction },
         ] },
         { name: 'nachname', title: 'Nachname', width: '50%' },
         { name: 'vorname', title: 'Vorname', width: '50%' },
@@ -106,9 +126,19 @@ var vm = new Vue({
     
     setGridActions: function() {
       vm.grid.actions = [
-        { clazz: 'add', title: 'Mitarbeiter hinzufügen', clickFunc: vm.addFunction }
+        { clazz: 'add', disabled: vm.hasNotRoleVerwalten, title: 'Mitarbeiter hinzufügen', clickFunc: vm.addFunction }
       ]
     },
+    
+    getRecht: function(role) {
+      return hasRole(role).then(vm.setRecht(role));
+    },
+    
+    setRecht: function(role) {
+      return function(response) {
+        vm.rechte[role] = response.data;
+      }
+    }
     
   }
 });

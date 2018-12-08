@@ -14,6 +14,7 @@ Vue.component('grid', {
             :class="action.clazz"
             :title="action.title"
             v-for="action in actions"
+            v-if="isEnabled(action.disabled)"
             ></button>
           </th>
           <th class="tableNavi" :colspan="columns.length">
@@ -54,7 +55,7 @@ Vue.component('grid', {
                 :class="form.clazz"
                 :title="form.title"
                 v-for="form in key.formatter"
-                v-if="form.clickFunc"
+                v-if="form.clickFunc && isEnabled(form.disabled, entry)"
               ></button>
               <span v-for="form in key.formatter" v-if="form === 'datetime'">{{formatDatetime(getEntryByKey(entry, key.name))}}</span>
               <span v-for="form in key.formatter" v-if="form === 'date'">{{formatDate(getEntryByKey(entry, key.name))}}</span>
@@ -126,6 +127,15 @@ Vue.component('grid', {
     },
     clickFunc: function(row, func) {
       return typeof func === 'function' ? func(row) : null;
+    },
+    isEnabled: function(disabled, row) {
+      var result = true;
+      if (typeof disabled === 'boolean') {
+        result = !disabled;
+      } else if (typeof disabled === 'function') {
+        result = !disabled(row);
+      }
+      return result;
     },
     nextPage: function() {
       this.page = this.page + 1;

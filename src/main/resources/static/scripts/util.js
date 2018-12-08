@@ -119,3 +119,7 @@ function getParamFromCurrentUrl(param) {
 function getParamFromUrl(url, param) {
   return new URL(url).searchParams.get(param);
 }
+
+function hasRole(role) {
+  return axios.get('/mitarbeiter-profil/hasRole/' + role);
+}

@@ -73,12 +73,18 @@ INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_KASSENST
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_STATISTIK', 'Zugriff auf die Seite: Statistik');
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_EINSTELLUNGEN_ALLGEMEIN', 'Zugriff auf die Seite: Einstellungen allgemein');
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_EINSTELLUNGEN_FILIALEN', 'Zugriff auf die Seite: Filiale');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_FILIALEN_VERWALTEN', 'Filialen können angelegt, bearbeitet oder gelöscht werden');
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_EINSTELLUNGEN_MITARBEITER', 'Zugriff auf die Seite Mitarbeiter');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_MITARBEITER_VERWALTEN', 'Mitarbeiter dürfen angelegt, bearbeitet oder gelöscht werden');
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_MITARBEITER_RESET', 'Das Passwort von anderen Benutzern darf zurückgesetzt werden');
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_MITARBEITER_RECHTE', 'Die Berechtigungen von anderen Benutzern dürfen angepasst werden');
-INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_REPARATUR_KUNDEN', 'Zugriff auf die Seite Kunden');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KUNDEN', 'Zugriff auf die Seite Kunden');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_KUNDEN_VERWALTEN', 'Kunden dürfen angelegt, bearbeitet oder gelöscht werden');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_KUNDEN_REPARATUR', 'Ermöglicht das Anzeigen aller Reparaturaufträge eines Kunden');
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_REPARATUR_ERSTELLEN', 'Zugriff auf die Seite Reparaturauftrag erstellen');
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_REPARATUR_UEBERSICHT', 'Zugriff auf die Seite Übersicht Reparaturaufträge');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_REPARATUR', 'Ermöglicht das Anzeigen der Druckansicht eines Reparaturauftrages');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_REPARATUR_VERWALTEN', 'Reparaturaufträge dürfen angelegt, bearbeitet oder gelöscht werden');
 
 CREATE TABLE mitarbeiter_rolle (
   id INTEGER IDENTITY NOT NULL PRIMARY KEY,

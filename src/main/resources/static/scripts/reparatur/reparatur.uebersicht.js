@@ -2,6 +2,7 @@ var vm = new Vue({
   el: '#reparaturen',
   data: {
     kundeId: getParamFromCurrentUrl('id') || null,
+    rechte: {},
     result: {},
     showDialog: false,
     showDeleteDialog: false,
@@ -57,11 +58,25 @@ var vm = new Vue({
     },
 
     init: function() {
+      vm.prepareRoles();
       if (vm.kundeId) {
         vm.grid.searchQuery['kunde.id'] = vm.kundeId;
         vm.grid.reload = true;
       }
       vm.setGridColumns();
+    },
+    
+    prepareRoles: function() {
+      vm.getRecht('ROLE_REPARATUR');
+      vm.getRecht('ROLE_REPARATUR_VERWALTEN');
+    },
+    
+    hasNotRoleReparaturAnzeigen: function() {
+      return !vm.rechte['ROLE_REPARATUR'];
+    },
+    
+    hasNotRoleVerwalten: function() {
+      return !vm.rechte['ROLE_REPARATUR_VERWALTEN'];
     },
     
     openFunction: function(row) {
@@ -75,9 +90,9 @@ var vm = new Vue({
           sortable: false,
           width: 120,
           formatter: [
-          { clazz: 'open-new-tab', title: 'Reparaturauftrag öffnen', clickFunc: vm.openFunction },
-          { clazz: 'edit', title: 'Reparaturauftrag bearbeiten', clickFunc: vm.editFunction },
-          { clazz: 'delete', title: 'Reparaturauftrag löschen', clickFunc: vm.deleteFunction }
+          { clazz: 'open-new-tab', disabled: vm.hasNotRoleReparaturAnzeigen, title: 'Reparaturauftrag öffnen', clickFunc: vm.openFunction },
+          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Reparaturauftrag bearbeiten', clickFunc: vm.editFunction },
+          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Reparaturauftrag löschen', clickFunc: vm.deleteFunction }
         ] },
         { name: 'nummer', title: 'Auftragsnummer', width: 150 },
         { name: 'kunde.nachname', title: 'Kunde', width: 100 },
@@ -89,6 +104,16 @@ var vm = new Vue({
         { name: 'erstelltAm', title: 'Erstellt am', width: 100 }
       ];
     },
+    
+    getRecht: function(role) {
+      return hasRole(role).then(vm.setRecht(role));
+    },
+    
+    setRecht: function(role) {
+      return function(response) {
+        vm.rechte[role] = response.data;
+      }
+    }
     
   }
 });

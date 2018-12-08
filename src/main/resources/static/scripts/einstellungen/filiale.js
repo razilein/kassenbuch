@@ -1,6 +1,7 @@
 var vm = new Vue({
   el: '#filiale',
   data: {
+    rechte: {},
     result: {},
     showDialog: false,
     showDeleteDialog: false,
@@ -60,8 +61,17 @@ var vm = new Vue({
     },
 
     init: function() {
+      vm.prepareRoles();
       vm.setGridActions();
       vm.setGridColumns();
+    },
+    
+    prepareRoles: function() {
+      vm.getRecht('ROLE_FILIALEN_VERWALTEN');
+    },
+    
+    hasNotRoleVerwalten: function() {
+      return !vm.rechte['ROLE_FILIALEN_VERWALTEN'];
     },
     
     setGridColumns: function() {
@@ -71,8 +81,8 @@ var vm = new Vue({
           sortable: false,
           width: 120,
           formatter: [
-          { clazz: 'edit', title: 'Filiale bearbeiten', clickFunc: vm.editFunction },
-          { clazz: 'delete', title: 'Filiale löschen', clickFunc: vm.deleteFunction }
+          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Filiale bearbeiten', clickFunc: vm.editFunction },
+          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Filiale löschen', clickFunc: vm.deleteFunction }
         ] },
         { name: 'kuerzel', title: 'Kürzel', width: 80 },
         { name: 'name', title: 'Name', width: 100 },
@@ -84,9 +94,19 @@ var vm = new Vue({
     
     setGridActions: function() {
       vm.grid.actions = [
-        { clazz: 'add', title: 'Mitarbeiter hinzufügen', clickFunc: vm.addFunction }
+        { clazz: 'add', disabled: vm.hasNotRoleVerwalten, title: 'Filiale hinzufügen', clickFunc: vm.addFunction }
       ]
     },
+    
+    getRecht: function(role) {
+      return hasRole(role).then(vm.setRecht(role));
+    },
+    
+    setRecht: function(role) {
+      return function(response) {
+        vm.rechte[role] = response.data;
+      }
+    }
     
   }
 });
