@@ -1,5 +1,12 @@
 package de.sg.computerinsel.tools.rest;
 
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltabelle.FILIALE;
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltabelle.MITARBEITER;
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltabelle.RECHTE;
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ANGESEHEN;
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ERSTELLT;
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GEAENDERT;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +34,7 @@ import de.sg.computerinsel.tools.rest.model.MitarbeiterDTO;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterRollenDTO;
 import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
+import de.sg.computerinsel.tools.service.ProtokollService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -39,6 +47,9 @@ public class EinstellungenRestController {
 
     @Autowired
     private MitarbeiterService mitarbeiterService;
+
+    @Autowired
+    private ProtokollService protokollService;
 
     @GetMapping
     public EinstellungenData getEinstellungen() {
@@ -71,6 +82,7 @@ public class EinstellungenRestController {
             einstellungenService.save(data.getRechnungsverzeichnis());
             einstellungenService.save(data.getFiliale());
             result.put(Message.SUCCESS.getCode(), "Die Einstellungen wurden erfolgreich gespeichert.");
+            protokollService.write("Einstellungen gespeichert");
         }
 
         return result;
@@ -88,7 +100,11 @@ public class EinstellungenRestController {
 
     @GetMapping("/filiale/{id}")
     public Filiale getFiliale(@PathVariable final Integer id) {
-        return einstellungenService.getFiliale(id).orElse(new Filiale());
+        final Optional<Filiale> optional = einstellungenService.getFiliale(id);
+        if (optional.isPresent()) {
+            protokollService.write(optional.get().getId(), FILIALE, optional.get().getName(), ANGESEHEN);
+        }
+        return optional.orElse(new Filiale());
     }
 
     @PutMapping("/filiale")
@@ -97,7 +113,8 @@ public class EinstellungenRestController {
         result.putAll(ValidationUtils.validate(filiale));
 
         if (result.isEmpty()) {
-            einstellungenService.save(filiale);
+            final Filiale saved = einstellungenService.save(filiale);
+            protokollService.write(saved.getId(), FILIALE, saved.getName(), filiale.getId() == null ? ERSTELLT : GEAENDERT);
             result.put(Message.SUCCESS.getCode(), "Die Filiale " + filiale.getName() + " wurde erfolgreich gespeichert");
         }
         return result;
@@ -110,13 +127,21 @@ public class EinstellungenRestController {
 
     @GetMapping("/mitarbeiter/{id}")
     public MitarbeiterDTO getMitarbeiter(@PathVariable final Integer id) {
-        return einstellungenService.getMitarbeiter(id).map(MitarbeiterDTO::new).orElseGet(MitarbeiterDTO::new);
+        final Optional<Mitarbeiter> optional = einstellungenService.getMitarbeiter(id);
+        if (optional.isPresent()) {
+            protokollService.write(optional.get().getId(), MITARBEITER, optional.get().getCompleteName(), ANGESEHEN);
+        }
+        return optional.map(MitarbeiterDTO::new).orElseGet(MitarbeiterDTO::new);
     }
 
     @PutMapping("/mitarbeiter")
     public Map<String, Object> saveMitarbeiter(@RequestBody final MitarbeiterDTO dto) {
         final Optional<Mitarbeiter> optional = dto.getId() == null ? Optional.of(new Mitarbeiter(dto))
                 : einstellungenService.getMitarbeiter(dto.getId());
+        if (optional.isPresent()) {
+            protokollService.write(optional.get().getId(), MITARBEITER, "Profildaten geändert für: " + optional.get().getCompleteName(),
+                    dto.getId() == null ? ERSTELLT : GEAENDERT);
+        }
         return mitarbeiterService.saveMitarbeiterProfil(dto, optional);
     }
 
@@ -128,6 +153,8 @@ public class EinstellungenRestController {
             final Mitarbeiter mitarbeiter = optional.get();
             mitarbeiter.setPasswort(null);
             einstellungenService.save(mitarbeiter);
+            protokollService.write(mitarbeiter.getId(), MITARBEITER, "Passwort zurückgesetzt für: " + optional.get().getCompleteName(),
+                    GEAENDERT);
             result.put(Message.SUCCESS.getCode(), "Das Passwort wurde zurückgesetzt.");
             log.debug("Passwort für Benutzer '{}' zurückgesetzt.", mitarbeiter.getBenutzername());
         } else {
@@ -139,6 +166,7 @@ public class EinstellungenRestController {
 
     @GetMapping("/mitarbeiter/rechte/{id}")
     public MitarbeiterRollenDTO getMitarbeiterRollen(@PathVariable final Integer id) {
+        protokollService.write(id, RECHTE, ANGESEHEN);
         return mitarbeiterService.listRollen(id);
     }
 
@@ -146,6 +174,7 @@ public class EinstellungenRestController {
     public Map<String, Object> saveMitarbeiterRollen(@RequestBody final MitarbeiterRollenDTO dto) {
         final Map<String, Object> result = new HashMap<>();
         mitarbeiterService.saveRollen(dto);
+        protokollService.write(dto.getMitarbeiterId(), RECHTE, GEAENDERT);
         result.put(Message.SUCCESS.getCode(), "Die Berechtigungen wurden erfolgreich gespeichert.");
         return result;
     }

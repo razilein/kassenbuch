@@ -26,6 +26,7 @@ import de.sg.computerinsel.tools.kassenbuch.service.KassenbuchErstellenService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.ValidationUtils;
 import de.sg.computerinsel.tools.service.EinstellungenService;
+import de.sg.computerinsel.tools.service.ProtokollService;
 
 /**
  * @author Sita Geßner
@@ -39,6 +40,9 @@ public class KassenbuchRestController {
 
     @Autowired
     private KassenbuchErstellenService service;
+
+    @Autowired
+    private ProtokollService protokollService;
 
     @GetMapping("/ausgangsbetrag")
     public String getAusgangsbetrag() {
@@ -61,6 +65,8 @@ public class KassenbuchRestController {
 
         if (!result.containsKey(Message.ERROR.getCode())) {
             result.putAll(service.startRechnungsablage(rechnungsverzeichnis, ablageverzeichnis, data));
+            protokollService.write("Kassenbuch erstellt: " + data.getZeitraumVon() + " - " + data.getZeitraumBis() + " mit Ausgangsbetrag: "
+                    + data.getAusgangsbetrag());
         }
 
         return result;
@@ -98,6 +104,7 @@ public class KassenbuchRestController {
             result.put(Message.INFO.getCode(), "Es wurden keine Eintragungen erstellt oder alle Eintragungen wurden bereits gespeichert.");
         } else if (!result.containsKey(Message.ERROR.getCode())) {
             service.manuelleEintragung(nochNichtGespeicherteEintragungen, eintragungCsvDatei.getCsvDatei());
+            protokollService.write(nochNichtGespeicherteEintragungen.size() + " Eintragung zum Kassenbuch hinzugefügt");
             result.put(Message.SUCCESS.getCode(), "Die Eintragungen wurden erfolgreich hinzugefügt.");
         }
 

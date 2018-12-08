@@ -1,5 +1,12 @@
 package de.sg.computerinsel.tools.reparatur.rest;
 
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltabelle.KUNDE;
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltabelle.REPARATUR;
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ANGESEHEN;
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ERSTELLT;
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GEAENDERT;
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GELOESCHT;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,6 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,6 +46,8 @@ import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
 import de.sg.computerinsel.tools.rest.ValidationUtils;
 import de.sg.computerinsel.tools.service.EinstellungenService;
+import de.sg.computerinsel.tools.service.MitarbeiterService;
+import de.sg.computerinsel.tools.service.ProtokollService;
 
 @RestController
 @RequestMapping("/reparatur")
@@ -45,6 +55,12 @@ public class ReparaturRestController {
 
     @Autowired
     private EinstellungenService einstellungenService;
+
+    @Autowired
+    private MitarbeiterService mitarbeiterService;
+
+    @Autowired
+    private ProtokollService protokollService;
 
     @Autowired
     private ReparaturService service;
@@ -56,7 +72,11 @@ public class ReparaturRestController {
 
     @GetMapping("/{id}")
     public Reparatur getReparatur(@PathVariable final Integer id) {
-        return service.getReparatur(id).orElse(createReparatur());
+        final Optional<Reparatur> optional = service.getReparatur(id);
+        if (optional.isPresent()) {
+            protokollService.write(optional.get().getId(), REPARATUR, optional.get().getNummer(), ANGESEHEN);
+        }
+        return optional.orElseGet(this::createReparatur);
     }
 
     private Reparatur createReparatur() {
@@ -107,19 +127,27 @@ public class ReparaturRestController {
         final Map<String, Object> result = new HashMap<>();
         result.putAll(ValidationUtils.validate(reparatur));
         if (result.isEmpty()) {
-            if (reparatur.getId() == null) {
+            final boolean isErstellen = reparatur.getId() == null;
+            if (isErstellen) {
                 reparatur.setErstelltAm(LocalDateTime.now());
+                reparatur.setMitarbeiter(mitarbeiterService.getAngemeldeterMitarbeiter().orElse(null));
             }
             final Reparatur saved = service.save(reparatur);
             result.put(Message.SUCCESS.getCode(), "Der Reparaturauftrag '" + reparatur.getNummer() + "' wurde erfolgreich gespeichert");
             result.put("reparatur", saved);
+            protokollService.write(saved.getId(), REPARATUR, saved.getNummer(), isErstellen ? ERSTELLT : GEAENDERT);
         }
         return result;
     }
 
     @DeleteMapping
     public Map<String, Object> deleteReparatur(@RequestBody final Map<String, Object> data) {
-        service.deleteReparatur((int) data.get("id"));
+        final int id = (int) data.get("id");
+        final Optional<Reparatur> optional = service.getReparatur(id);
+        service.deleteReparatur(id);
+        if (optional.isPresent()) {
+            protokollService.write(optional.get().getId(), REPARATUR, optional.get().getNummer(), GELOESCHT);
+        }
         return Collections.singletonMap(Message.SUCCESS.getCode(), "Der Reparaturauftrag wurde erfolgreich gelöscht.");
     }
 
@@ -150,7 +178,11 @@ public class ReparaturRestController {
 
     @GetMapping("/kunde/{id}")
     public Kunde getKunde(@PathVariable final Integer id) {
-        return service.getKunde(id).orElse(new Kunde());
+        final Optional<Kunde> optional = service.getKunde(id);
+        if (optional.isPresent()) {
+            protokollService.write(optional.get().getId(), KUNDE, optional.get().getCompleteWithAdressAndPhone(), ANGESEHEN);
+        }
+        return optional.orElse(new Kunde());
     }
 
     @PutMapping("/kunde")
@@ -159,19 +191,28 @@ public class ReparaturRestController {
         result.putAll(ValidationUtils.validate(kunde));
 
         if (result.isEmpty()) {
-            if (kunde.getId() == null) {
+            final boolean isErstellen = kunde.getId() == null;
+            if (isErstellen) {
                 kunde.setErstelltAm(LocalDateTime.now());
             }
             final Kunde saved = service.save(kunde);
             result.put(Message.SUCCESS.getCode(), "Der Kunde '" + kunde.getNachname() + "' wurde erfolgreich gespeichert");
             result.put("kunde", saved);
+            protokollService.write(saved.getId(), KUNDE, saved.getCompleteWithAdressAndPhone(), isErstellen ? ERSTELLT : GEAENDERT);
         }
         return result;
     }
 
     @DeleteMapping("/kunde")
     public Map<String, Object> deleteKunde(@RequestBody final Map<String, Object> data) {
-        service.deleteKunde((int) data.get("id"));
+        final int id = (int) data.get("id");
+
+        final Optional<Kunde> optional = service.getKunde(id);
+        service.deleteReparatur(id);
+        if (optional.isPresent()) {
+            protokollService.write(optional.get().getId(), KUNDE, optional.get().getCompleteWithAdressAndPhone(), GELOESCHT);
+        }
+        service.deleteKunde(id);
         return Collections.singletonMap(Message.SUCCESS.getCode(), "Der Kunde wurde erfolgreich gelöscht.");
     }
 

@@ -137,8 +137,8 @@ public class EinstellungenService {
         return filialeRepository.findById(id);
     }
 
-    public void save(final Filiale filiale) {
-        filialeRepository.save(filiale);
+    public Filiale save(final Filiale filiale) {
+        return filialeRepository.save(filiale);
     }
 
     public Page<MitarbeiterDTO> listMitarbeiter(final PageRequest pageRequest) {

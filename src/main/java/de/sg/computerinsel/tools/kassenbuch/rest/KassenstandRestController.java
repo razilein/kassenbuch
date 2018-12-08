@@ -15,6 +15,7 @@ import de.sg.computerinsel.tools.kassenbuch.rest.model.Kassenstand;
 import de.sg.computerinsel.tools.kassenbuch.service.KassenstandService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.service.EinstellungenService;
+import de.sg.computerinsel.tools.service.ProtokollService;
 
 /**
  * @author Sita Geßner
@@ -29,8 +30,12 @@ public class KassenstandRestController {
     @Autowired
     private KassenstandService service;
 
+    @Autowired
+    private ProtokollService protokollService;
+
     @GetMapping
     public List<Kassenstand> get() {
+        protokollService.write("Kassenstand eingesehen");
         return einstellungenService.getKassenstand();
     }
 
@@ -38,6 +43,7 @@ public class KassenstandRestController {
     public Map<String, Object> save(@RequestBody final List<Kassenstand> kassenstaende) {
         einstellungenService.saveKassenstand(kassenstaende);
         service.ablegen(kassenstaende);
+        protokollService.write("Kassenstand gespeichert");
         return Collections.singletonMap(Message.SUCCESS.getCode(), "Der Kassenstand wurde erfolgreich gespeichert.");
     }
 

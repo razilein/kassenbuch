@@ -26,6 +26,7 @@ public class MitarbeiterDTO {
 
     public MitarbeiterDTO(final Mitarbeiter mitarbeiter) {
         Validate.notNull(mitarbeiter, "Mitarbeiter darf nicht null sein.");
+        this.id = mitarbeiter.getId();
         this.nachname = mitarbeiter.getNachname();
         this.vorname = mitarbeiter.getVorname();
         this.email = mitarbeiter.getEmail();
