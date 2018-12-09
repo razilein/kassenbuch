@@ -14,6 +14,7 @@ CREATE TABLE kunde (
 
 CREATE TABLE filiale (
    id INTEGER IDENTITY NOT NULL PRIMARY KEY,
+   kuerzel VARCHAR(3) NOT NULL,
    name VARCHAR(50) NOT NULL,
    strasse VARCHAR(100) NOT NULL,
    plz VARCHAR(8) NOT NULL,
@@ -25,7 +26,7 @@ CREATE TABLE filiale (
 CREATE TABLE mitarbeiter (
    id INTEGER IDENTITY NOT NULL PRIMARY KEY,
    benutzername VARCHAR(50) NOT NULL,
-   passwort VARCHAR(50) NOT NULL,
+   passwort VARCHAR(500) NOT NULL,
    nachname VARCHAR(50) NOT NULL,
    vorname VARCHAR(50) NOT NULL,
    email VARCHAR(50),
@@ -35,7 +36,7 @@ CREATE TABLE mitarbeiter (
 
 CREATE TABLE reparatur (
    id INTEGER IDENTITY NOT NULL PRIMARY KEY,
-   mitarbeiter_id INTEGER NOT NULL,
+   mitarbeiter VARCHAR(200) NOT NULL,
    kunde_id INTEGER NOT NULL,
    nummer VARCHAR(20),
    art TINYINT NOT NULL,
@@ -44,16 +45,15 @@ CREATE TABLE reparatur (
    symptome VARCHAR(1000),
    aufgaben VARCHAR(1000),
    geraetepasswort VARCHAR(50),
-   expressbeabeitung BIT DEFAULT 0 NOT NULL,
+   expressbearbeitung BIT DEFAULT 0 NOT NULL,
    abholdatum DATE,
    abholzeit TIME,
    kostenvoranschlag VARCHAR(100),
-   erledigt BIT DEFAULT 0 NOT NULL,,
+   erledigt BIT DEFAULT 0 NOT NULL,
    erledigungsdatum DATETIME,
    erstellt_am DATETIME,
    bemerkung VARCHAR(4000),
-   FOREIGN KEY (mitarbeiter_id) REFERENCES mitarbeiter(id),
-   FOREIGN KEY (kunde_id) REFERENCES kunde(id)
+   FOREIGN KEY (kunde_id) REFERENCES kunde(id) ON DELETE CASCADE
 );
 
 CREATE TABLE einstellungen (
