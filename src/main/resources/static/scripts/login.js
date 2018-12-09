@@ -1,5 +1,12 @@
 var vm = new Vue({
   el: '#login',
+  created() {
+    window.addEventListener('keydown', e => {
+      if (e.key == 'Enter') {
+        vm.login();
+      }
+    });
+  },
   data: {
     model: {},
     result: {},

@@ -20,13 +20,13 @@
           <div class="form">
             <div class="m1">
               <label for="loginForm_benutzername">Benutzername</label>
-              <input class="m1" id="loginForm_benutzername" maxlength="50" type="text" v-model="model.username" />
+              <input autofocus class="m1" id="loginForm_benutzername" maxlength="50" type="text" v-model="model.username" />
             </div>
             <div class="m1">
               <label for="loginForm_passwort">Passwort</label>
               <input class="m1" id="loginForm_passwort" maxlength="500" type="password" v-model="model.password"  />
             </div>
-            <button class="m2 right" v-on:click="login">Anmelden</button>
+            <button class="m2 right" v-on:click="login" @keyup.enter.native="login">Anmelden</button>
           </div>
       </div>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
