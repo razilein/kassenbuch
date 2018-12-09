@@ -5,8 +5,10 @@ var vm = new Vue({
     rechte: {},
     result: {},
     showDialog: false,
+    showConfirmDialog: false,
     showDeleteDialog: false,
     showEditDialog: false,
+    confirmDialog: {},
     deleteRow: {
       id: null,
       restUrl: '/reparatur',
@@ -56,6 +58,28 @@ var vm = new Vue({
       vm.result = data;
       vm.showDialog = true;
     },
+    
+    erledigen: function(row) {
+      return axios.put('/reparatur/erledigen', { id: row.id });
+    },
+    
+    erledigenFunction: function(row) {
+      var art = row.erledigt ? ' wiedereröffnen' : ' erledigen';
+      vm.confirmDialog.text = 'Wollen Sie diesen Auftrag' + art + '?';
+      vm.confirmDialog.title = 'Reparaturauftrag ' + row.nummer + art;
+      vm.confirmDialog.func = vm.erledigen;
+      vm.confirmDialog.params = row;
+      vm.showConfirmDialog = true;
+    },
+    
+    handleConfirmResponse: function(data) {
+      if (data.success) {
+        vm.showConfirmDialog = false;
+        vm.grid.reload = true;
+      } 
+      vm.result = data;
+      vm.showDialog = true;
+    },
 
     init: function() {
       vm.prepareRoles();
@@ -92,6 +116,7 @@ var vm = new Vue({
           formatter: [
           { clazz: 'open-new-tab', disabled: vm.hasNotRoleReparaturAnzeigen, title: 'Reparaturauftrag öffnen', clickFunc: vm.openFunction },
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Reparaturauftrag bearbeiten', clickFunc: vm.editFunction },
+          { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.erledigenFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Reparaturauftrag löschen', clickFunc: vm.deleteFunction }
         ] },
         { name: 'nummer', title: 'Auftragsnummer', width: 150 },
@@ -103,6 +128,14 @@ var vm = new Vue({
         { name: 'erledigt', title: 'Erledigt', width: 90, formatter: ['boolean'] },
         { name: 'erstelltAm', title: 'Erstellt am', width: 100 }
       ];
+    },
+    
+    getClazzErledigt: function(row) {
+      return row.erledigt ? 'good' : 'bad';
+    },
+    
+    getTitleErledigt: function(row) {
+      return row.erledigt ? 'Der Auftrag wurde erledigt. Auftrag wiedereröffnen?' : 'Der Auftrag wurde noch nicht erledigt. Jetzt erledigen?';
     },
     
     getRecht: function(role) {

@@ -11,8 +11,8 @@ Vue.component('grid', {
           <th class="tableNavi">
             <button
             @click="clickFunc(null, action.clickFunc)"
-            :class="action.clazz"
-            :title="action.title"
+            :class="getStringOrFuncResult(action.clazz)"
+            :title="getStringOrFuncResult(action.title)"
             v-for="action in actions"
             v-if="isEnabled(action.disabled)"
             ></button>
@@ -52,8 +52,8 @@ Vue.component('grid', {
             v-for="key in columns">
               <button
                 @click="clickFunc(entry, form.clickFunc)"
-                :class="form.clazz"
-                :title="form.title"
+                :class="getStringOrFuncResult(form.clazz, entry)"
+                :title="getStringOrFuncResult(form.title, entry)"
                 v-for="form in key.formatter"
                 v-if="form.clickFunc && isEnabled(form.disabled, entry)"
               ></button>
@@ -127,6 +127,9 @@ Vue.component('grid', {
     },
     clickFunc: function(row, func) {
       return typeof func === 'function' ? func(row) : null;
+    },
+    getStringOrFuncResult: function(element, row) {
+      return typeof element === 'function' ? element(row) : element;
     },
     isEnabled: function(disabled, row) {
       var result = true;

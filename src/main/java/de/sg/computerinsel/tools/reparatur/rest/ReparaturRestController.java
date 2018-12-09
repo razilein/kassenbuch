@@ -25,8 +25,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.model.Kunde;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
@@ -67,7 +72,12 @@ public class ReparaturRestController {
 
     @PostMapping
     public Page<Reparatur> getReparaturen(@RequestBody final SearchData data) {
-        return service.listReparaturen(data.getData().getPagination(), data.getConditions());
+        if (StringUtils.isBlank(data.getData().getSort())) {
+            data.getData().setSort("abholdatum");
+            data.getData().setSortorder(Sort.Direction.DESC.name());
+        }
+        final PageRequest pagination = data.getData().getPagination();
+        return service.listReparaturen(pagination, data.getConditions());
     }
 
     @GetMapping("/{id}")
@@ -136,6 +146,27 @@ public class ReparaturRestController {
             result.put(Message.SUCCESS.getCode(), "Der Reparaturauftrag '" + reparatur.getNummer() + "' wurde erfolgreich gespeichert");
             result.put("reparatur", saved);
             protokollService.write(saved.getId(), REPARATUR, saved.getNummer(), isErstellen ? ERSTELLT : GEAENDERT);
+        }
+        return result;
+    }
+
+    @PutMapping("/erledigen")
+    public Map<String, Object> reparaturErledigen(@RequestBody final IntegerBaseObject obj) {
+        final Map<String, Object> result = new HashMap<>();
+        if (obj.getId() == null) {
+            result.put(Message.ERROR.getCode(), "Ungültiger Reparaturauftrag");
+        } else {
+            final Optional<Reparatur> optional = service.getReparatur(obj.getId());
+            if (optional.isPresent()) {
+                final Reparatur reparatur = optional.get();
+                final boolean erledigt = !reparatur.isErledigt();
+                reparatur.setErledigt(erledigt);
+                reparatur.setErledigungsdatum(erledigt ? LocalDateTime.now() : null);
+                service.save(reparatur);
+                protokollService.write(reparatur.getId(), REPARATUR,
+                        reparatur.getNummer() + " Erledigt: " + BooleanUtils.toStringYesNo(erledigt), GEAENDERT);
+                result.put(Message.SUCCESS.getCode(), "Der Reparaturauftrag '" + reparatur.getNummer() + "' wurde erfolgreich gespeichert");
+            }
         }
         return result;
     }

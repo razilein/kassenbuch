@@ -45,6 +45,15 @@
           ></grid>
         </div>
       </div>
+      <confirm-dialog
+        :func="confirmDialog.func"
+        :params="confirmDialog.params"
+        :text="confirmDialog.text"
+        :title="confirmDialog.title"
+        v-if="showConfirmDialog"
+        @close="showConfirmDialog = false"
+        @confirmed="handleConfirmResponse"
+      ></confirm-dialog>
       <edit-dialog
         :rest-url-get="editRow.restUrlGet"
         :rest-url-save="editRow.restUrlSave"
@@ -66,6 +75,7 @@
   </body>
   <script src="/scripts/util.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/confirm.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/grid.component.js"></script>
   <script src="/scripts/delete.dialog.component.js"></script>

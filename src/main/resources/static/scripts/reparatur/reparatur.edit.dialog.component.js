@@ -96,7 +96,7 @@ Vue.component('edit-dialog', {
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.kunde && hasAllProperties(this.entity, ['kunde.id', 'mitarbeiter.id']);
+      return this.entity && this.entity.kunde && hasAllProperties(this.entity, ['kunde.id', 'mitarbeiter.id']) && !this.entity.erledigt;
     },
     changeAbholdatumZeit: function() {
       this.getAbholdatumZeit()

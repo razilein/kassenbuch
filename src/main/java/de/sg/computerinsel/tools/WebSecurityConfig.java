@@ -18,6 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final String REPARATUR_VERWALTEN = "REPARATUR_VERWALTEN";
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -59,8 +60,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.PUT, "/reparatur/kunde").hasRole("KUNDEN_VERWALTEN")
             .antMatchers(HttpMethod.DELETE, "/reparatur/kunde").hasRole("KUNDEN_VERWALTEN")
             .antMatchers("/kunden.html*").hasRole("ZUGRIFF_KUNDEN")
-            .antMatchers(HttpMethod.PUT, "/reparatur").hasRole("REPARATUR_VERWALTEN")
-            .antMatchers(HttpMethod.DELETE, "/reparatur").hasRole("REPARATUR_VERWALTEN")
+            .antMatchers(HttpMethod.PUT, "/reparatur/erledigen").hasRole(REPARATUR_VERWALTEN)
+            .antMatchers(HttpMethod.PUT, "/reparatur").hasRole(REPARATUR_VERWALTEN)
+            .antMatchers(HttpMethod.DELETE, "/reparatur").hasRole(REPARATUR_VERWALTEN)
             .antMatchers("/reparatur-drucken.html*").hasRole("REPARATUR")
             .antMatchers("/reparatur.html*").hasRole("ZUGRIFF_REPARATUR_ERSTELLEN")
             .antMatchers("/reparatur-uebersicht.html?id=*").hasRole("KUNDEN_REPARATUR")

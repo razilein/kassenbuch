@@ -13,6 +13,12 @@ button.add {
   -webkit-mask: url("../icons/add.svg") no-repeat center;
 }
 
+button.bad {
+  background-color: #D8000C !important;
+  mask: url("../icons/bad.svg") no-repeat center;
+  -webkit-mask: url("../icons/bad.svg") no-repeat center;
+}
+
 button.delete {
   mask: url("../icons/delete.svg") no-repeat center;
   -webkit-mask: url("../icons/delete.svg") no-repeat center;
@@ -25,6 +31,11 @@ button.edit {
 
 button.error {
   background-color: #D8000C;
+}
+
+button.good {
+  mask: url("../icons/good.svg") no-repeat center;
+  -webkit-mask: url("../icons/good.svg") no-repeat center;
 }
 
 button.key {
@@ -67,7 +78,7 @@ button.zahnrad {
   -webkit-mask: url("../icons/zahnrad.svg") no-repeat center;
 }
 
-button.add, button.delete, button.edit, button.key, button.kunde, button.ok, button.open-new-tab, button.recht, button.zahnrad {
+button.add, button.bad, button.delete, button.edit, button.good, button.key, button.kunde, button.ok, button.open-new-tab, button.recht, button.zahnrad {
   background-color: #1a8cff;
   float: none;
   height: 30px;
