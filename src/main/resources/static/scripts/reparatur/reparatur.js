@@ -3,7 +3,6 @@ var vm = new Vue({
   data: {
     entity: {
       kunde: {},
-      mitarbeiter: {},
     },
     mitarbeiter: [],
     reparaturarten: [],
@@ -13,14 +12,12 @@ var vm = new Vue({
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.kunde && hasAllProperties(this.entity, ['kunde.id', 'mitarbeiter.id']);
+      return this.entity && this.entity.kunde && hasAllProperties(this.entity, ['kunde.id']);
     },
     init: function() {
       showLoader();
       vm.getEntity()
         .then(vm.setEntity)
-        .then(vm.getMitarbeiter)
-        .then(vm.setMitarbeiter)
         .then(vm.getReparaturarten)
         .then(vm.setReparaturarten)
         .then(hideLoader);
@@ -52,7 +49,7 @@ var vm = new Vue({
     },
     openDsgvoFile: function(kunde) {
       if (!kunde.dsgvo) {
-        window.open('reparatur/kunde/download-dsgvo/' + kunde.id, '_blank');
+        window.open('reparatur/kunde/download-dsgvo/' + kunde.id);
       }
     },
     openReparatur: function(response) {
@@ -78,12 +75,6 @@ var vm = new Vue({
     },
     setEntity: function(response) {
       vm.entity = response.data;
-    },
-    getMitarbeiter: function() {
-      return axios.get('/reparatur/mitarbeiter');
-    },
-    setMitarbeiter: function(response) {
-      vm.mitarbeiter = response.data;
     },
     getReparaturarten: function() {
       return axios.get('/reparatur/reparaturarten');

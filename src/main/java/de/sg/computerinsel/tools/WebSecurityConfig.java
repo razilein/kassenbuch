@@ -56,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/einstellungen/mitarbeiter/rechte").hasRole("MITARBEITER_RECHTE")
             .antMatchers("/einstellungen/mitarbeiter/reset").hasRole("MITARBEITER_RESET")
             .antMatchers(HttpMethod.PUT, "/einstellungen/mitarbeiter").hasRole("MITARBEITER_VERWALTEN")
+            .antMatchers(HttpMethod.DELETE, "/einstellungen/mitarbeiter").hasRole("MITARBEITER_VERWALTEN")
             .antMatchers("/mitarbeiter.html*", "/einstellungen/mitarbeiter*").hasRole("ZUGRIFF_EINSTELLUNGEN_MITARBEITER")
             .antMatchers(HttpMethod.PUT, "/reparatur/kunde").hasRole("KUNDEN_VERWALTEN")
             .antMatchers(HttpMethod.DELETE, "/reparatur/kunde").hasRole("KUNDEN_VERWALTEN")

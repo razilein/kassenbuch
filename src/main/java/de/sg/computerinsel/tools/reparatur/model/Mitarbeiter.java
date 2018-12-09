@@ -79,4 +79,8 @@ public class Mitarbeiter extends IntegerBaseObject {
         return nachname + ", " + vorname;
     }
 
+    public String getCompleteNameReverse() {
+        return vorname + " " + nachname;
+    }
+
 }

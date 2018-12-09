@@ -68,9 +68,7 @@ Vue.component('edit-dialog', {
   <div class="m1">
     <div class="m2" style="float: right;">
       <label for="reparaturEditForm_mitarbeiter">Mitarbeiter</label>
-      <select class="m2" id="reparaturEditForm_mitarbeiter" v-model="entity.mitarbeiter.id">
-        <option :value="m.key" v-for="m in mitarbeiter">{{m.value}}</option>
-      </select>
+      <input class="m2" id="reparaturEditForm_mitarbeiter" readonly type="text" :value="entity.mitarbeiter.completeName" />
     </div>
   </div>
   <kunde-suchen-dialog
@@ -96,7 +94,7 @@ Vue.component('edit-dialog', {
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.kunde && hasAllProperties(this.entity, ['kunde.id', 'mitarbeiter.id']) && !this.entity.erledigt;
+      return this.entity && this.entity.kunde && hasAllProperties(this.entity, ['kunde.id']) && !this.entity.erledigt;
     },
     changeAbholdatumZeit: function() {
       this.getAbholdatumZeit()

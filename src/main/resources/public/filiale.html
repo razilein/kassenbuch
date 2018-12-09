@@ -37,14 +37,6 @@
         @close="showEditDialog = false"
         @saved="handleEditResponse"
       ></edit-dialog>
-      <delete-dialog
-        :title="deleteRow.title"
-        :rest-url="deleteRow.restUrl"
-        :row-id="deleteRow.id"
-        v-if="showDeleteDialog"
-        @close="showDeleteDialog = false"
-        @deleted="handleDeleteResponse"
-      ></delete-dialog>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
     </div>
   </body>
@@ -52,7 +44,6 @@
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/grid.component.js"></script>
-  <script src="/scripts/delete.dialog.component.js"></script>
   <script src="/scripts/einstellungen/filiale.edit.dialog.component.js"></script>
   <script src="/scripts/einstellungen/einstellungen.header.component.js"></script>
   <script src="/scripts/einstellungen/filiale.js"></script>

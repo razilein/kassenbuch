@@ -2,7 +2,6 @@ package de.sg.computerinsel.tools.reparatur.service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -158,7 +157,7 @@ public class ReparaturService {
 
             final String nummer = StringUtils.leftPad(String.valueOf(reparaturRepository.getNextAuftragsnummer()), 4, "0");
             if (filiale.isPresent()) {
-                reparatur.setNummer(filiale.get().getKuerzel() + LocalDate.now().getYear());
+                reparatur.setNummer(filiale.get().getKuerzel());
             }
             reparatur.setNummer(reparatur.getNummer() + nummer);
         }

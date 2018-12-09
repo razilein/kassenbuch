@@ -24,9 +24,11 @@ import lombok.Setter;
 @Setter
 public class Reparatur extends IntegerBaseObject {
 
-    @ManyToOne
-    @JoinColumn(name = "mitarbeiter_id")
-    private Mitarbeiter mitarbeiter;
+    public static final int MAX_LENGTH_MITARBEITER = 200;
+
+    @Size(max = MAX_LENGTH_MITARBEITER, message = "Der Mitarbeitername darf nicht länger als 200 Zeichen sein.")
+    @Column(name = "mitarbeiter")
+    private String mitarbeiter;
 
     @ManyToOne
     @JoinColumn(name = "kunde_id", referencedColumnName = "id")

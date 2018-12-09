@@ -5,10 +5,16 @@ var vm = new Vue({
     result: {},
     showConfirmDialog: false,
     showDialog: false,
+    showDeleteDialog: false,
     showEditDialog: false,
     showEditRechteDialog: false,
     confirmDialog: {
       text: 'Wollen Sie das Passwort des Benutzers zurücksetzen?',
+    },
+    deleteRow: {
+      id: null,
+      restUrl: '/einstellungen/mitarbeiter',
+      title: 'Mitarbeiter löschen',
     },
     editRechtDialog: {
       restUrlGet: '/einstellungen/mitarbeiter/rechte/',
@@ -84,6 +90,18 @@ var vm = new Vue({
       vm.showDialog = true;
     },
     
+    deleteFunction: function(row) {
+      vm.deleteRow.id = row.id;
+      vm.deleteRow.title = 'Mitarbeiter ' + row.completeName + ' löschen';
+      vm.showDeleteDialog = true;
+    },
+    
+    handleDeleteResponse: function(data) {
+      vm.showDeleteDialog = false;
+      vm.result = data;
+      vm.showDialog = true;
+    },
+    
     init: function() {
       vm.prepareRoles();
       vm.setGridActions();
@@ -113,14 +131,15 @@ var vm = new Vue({
         { name: 'functions',
           title: 'Funktionen',
           sortable: false,
-          width: 120,
+          width: 150,
           formatter: [
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Mitarbeiter bearbeiten', clickFunc: vm.editFunction },
           { clazz: 'key', disabled: vm.hasNotRoleResetPassword, title: 'Passwort zurücksetzen', clickFunc: vm.resetPasswordFunction },
           { clazz: 'recht', disabled: vm.hasNotRoleEditRecht, title: 'Berechtigungen bearbeiten', clickFunc: vm.editRechteFunction },
+          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Mitarbeiter löschen', clickFunc: vm.deleteFunction }
         ] },
-        { name: 'nachname', title: 'Nachname', width: '50%' },
-        { name: 'vorname', title: 'Vorname', width: '50%' },
+        { name: 'nachname', title: 'Nachname', width: 200 },
+        { name: 'vorname', title: 'Vorname', width: 150 },
       ];
     },
     

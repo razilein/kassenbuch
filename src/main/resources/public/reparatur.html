@@ -85,14 +85,6 @@
             <label for="reparaturEditForm_bemerkung">Bemerkungen</label>
             <textarea class="m1" id="reparaturEditForm_bemerkung" maxlength="4000" v-model="entity.bemerkung"></textarea>
           </div>
-          <div class="m1">
-            <div class="m2" style="float: right;">
-              <label for="reparaturEditForm_mitarbeiter">Mitarbeiter</label>
-              <select class="m2" id="reparaturEditForm_mitarbeiter" v-model="entity.mitarbeiter.id">
-                <option :value="m.key" v-for="m in mitarbeiter">{{m.value}}</option>
-              </select>
-            </div>
-          </div>
           <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">Speichern</button>
           <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmpty()">Speichern</button>
         </div>

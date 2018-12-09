@@ -4,13 +4,7 @@ var vm = new Vue({
     rechte: {},
     result: {},
     showDialog: false,
-    showDeleteDialog: false,
     showEditDialog: false,
-    deleteRow: {
-      id: null,
-      restUrl: '/einstellungen/filiale',
-      title: 'Filiale löschen',
-    },
     editRow: {
       restUrlGet: '/einstellungen/filiale/',
       restUrlSave: '/einstellungen/filiale',
@@ -82,7 +76,6 @@ var vm = new Vue({
           width: 120,
           formatter: [
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Filiale bearbeiten', clickFunc: vm.editFunction },
-          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Filiale löschen', clickFunc: vm.deleteFunction }
         ] },
         { name: 'kuerzel', title: 'Kürzel', width: 80 },
         { name: 'name', title: 'Name', width: 100 },

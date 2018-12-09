@@ -45,6 +45,16 @@ public class MitarbeiterService {
         return mitarbeiterRepository.findByBenutzername(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
+    public String getAngemeldeterMitarbeiterVornameNachname() {
+        final Optional<Mitarbeiter> optional = getAngemeldeterMitarbeiter();
+        return optional.isPresent() ? optional.get().getCompleteNameReverse() : null;
+    }
+
+    public String getAngemeldeterMitarbeiterNachnameVorname() {
+        final Optional<Mitarbeiter> optional = getAngemeldeterMitarbeiter();
+        return optional.isPresent() ? optional.get().getCompleteName() : null;
+    }
+
     public boolean checkPasswordBefore(final Mitarbeiter mitarbeiter, final String passwordBefore) {
         return BCrypt.checkpw(passwordBefore, mitarbeiter.getPasswort());
     }

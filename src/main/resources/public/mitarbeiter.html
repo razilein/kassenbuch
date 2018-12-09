@@ -39,6 +39,14 @@
         @close="showConfirmDialog = false"
         @confirmed="handleConfirmResponse"
       ></confirm-dialog>
+      <delete-dialog
+        :title="deleteRow.title"
+        :rest-url="deleteRow.restUrl"
+        :id="deleteRow.id"
+        v-if="showDeleteDialog"
+        @close="showDeleteDialog = false"
+        @deleted="handleDeleteResponse"
+      ></delete-dialog>
       <edit-dialog
         :rest-url-get="editRow.restUrlGet"
         :rest-url-save="editRow.restUrlSave"
@@ -63,6 +71,7 @@
   <script src="/scripts/confirm.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/grid.component.js"></script>
+  <script src="/scripts/delete.dialog.component.js"></script>
   <script src="/scripts/einstellungen/mitarbeiter.edit.dialog.component.js"></script>
   <script src="/scripts/einstellungen/mitarbeiter.edit.rechte.dialog.component.js"></script>
   <script src="/scripts/einstellungen/einstellungen.header.component.js"></script>

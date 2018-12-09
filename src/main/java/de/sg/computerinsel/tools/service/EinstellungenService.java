@@ -154,6 +154,10 @@ public class EinstellungenService {
         mitarbeiterRepository.save(mitarbeiter);
     }
 
+    public void deleteMitarbeiter(final Integer id) {
+        mitarbeiterRepository.deleteById(id);
+    }
+
     public String hashPassword(final String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }

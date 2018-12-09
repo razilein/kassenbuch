@@ -6,7 +6,9 @@ import static de.sg.computerinsel.tools.model.Protokoll.Protokolltabelle.RECHTE;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ANGESEHEN;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ERSTELLT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GEAENDERT;
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GELOESCHT;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,7 @@ import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -143,6 +146,17 @@ public class EinstellungenRestController {
                     dto.getId() == null ? ERSTELLT : GEAENDERT);
         }
         return mitarbeiterService.saveMitarbeiterProfil(dto, optional);
+    }
+
+    @DeleteMapping("/mitarbeiter")
+    public Map<String, Object> deleteMitarbeiter(@RequestBody final Map<String, Object> data) {
+        final int id = (int) data.get("id");
+        final Optional<Mitarbeiter> optional = einstellungenService.getMitarbeiter(id);
+        einstellungenService.deleteMitarbeiter(id);
+        if (optional.isPresent()) {
+            protokollService.write(optional.get().getId(), MITARBEITER, optional.get().getCompleteName(), GELOESCHT);
+        }
+        return Collections.singletonMap(Message.SUCCESS.getCode(), "Der Mitarbeiter wurde erfolgreich gelöscht.");
     }
 
     @PutMapping("/mitarbeiter/reset")

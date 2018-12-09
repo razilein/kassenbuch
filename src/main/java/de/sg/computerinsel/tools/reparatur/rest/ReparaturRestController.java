@@ -7,9 +7,11 @@ import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ERSTELLT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GEAENDERT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GELOESCHT;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,16 +23,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,7 +46,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.model.Kunde;
-import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
 import de.sg.computerinsel.tools.reparatur.service.FeiertagUtils;
@@ -91,7 +94,7 @@ public class ReparaturRestController {
 
     private Reparatur createReparatur() {
         final Reparatur reparatur = new Reparatur();
-        reparatur.setMitarbeiter(new Mitarbeiter());
+        reparatur.setMitarbeiter(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname());
         reparatur.setKunde(new Kunde());
         reparatur.setAbholdatum(berechneAbholdatum(false));
         reparatur.setAbholzeit(berechneAbholzeit(false));
@@ -140,7 +143,8 @@ public class ReparaturRestController {
             final boolean isErstellen = reparatur.getId() == null;
             if (isErstellen) {
                 reparatur.setErstelltAm(LocalDateTime.now());
-                reparatur.setMitarbeiter(mitarbeiterService.getAngemeldeterMitarbeiter().orElse(null));
+                reparatur.setMitarbeiter(StringUtils.abbreviate(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname(),
+                        Reparatur.MAX_LENGTH_MITARBEITER));
             }
             final Reparatur saved = service.save(reparatur);
             result.put(Message.SUCCESS.getCode(), "Der Reparaturauftrag '" + reparatur.getNummer() + "' wurde erfolgreich gespeichert");
@@ -198,13 +202,16 @@ public class ReparaturRestController {
     }
 
     @GetMapping("/kunde/download-dsgvo/{id}")
-    public void getFile(final HttpServletResponse response, @PathVariable final Integer id) throws IOException {
-        try (final InputStream stream = new FileInputStream(einstellungenService.getDsgvoFilepath())) {
-            IOUtils.copy(stream, response.getOutputStream());
-            response.setContentType("application/pdf");
-            response.flushBuffer();
-        }
+    public ResponseEntity<Resource> getFile(@PathVariable final Integer id) throws IOException {
         service.saveDsgvo(id);
+        final File file = new File(einstellungenService.getDsgvoFilepath());
+        final Path path = Paths.get(einstellungenService.getDsgvoFilepath()).toAbsolutePath();
+        final ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
+
+        final HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Einwilligung_DSGVO.pdf");
+        return ResponseEntity.ok().headers(header).contentLength(file.length()).contentType(MediaType.parseMediaType("application/pdf"))
+                .body(resource);
     }
 
     @GetMapping("/kunde/{id}")
