@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Mitarbeiter - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/zahnrad.png">
+    <link rel="stylesheet" href="/themes/css/button.css">
+    <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/grid.css">
+    <link rel="stylesheet" href="/themes/css/loading.css">
+    <link rel="stylesheet" href="/themes/css/radio.css">
+    <link rel="stylesheet" href="/themes/css/raster.css">
+    <link rel="stylesheet" href="/themes/css/style.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+  </head>
+  <body>
+    <div id="mitarbeiter">
+      <page-header></page-header>
+      <page-header-einstellungen v-bind:marker="'Mitarbeiter'"></page-header-einstellungen>
+      <div id="content">
+        <div id="gridDiv" v-if="grid.gridColumns.length > 0">
+          <grid
+            :actions="grid.actions"
+            :clazz="'m1'"
+            :columns="grid.gridColumns"
+            :filter-key="grid.searchQuery"
+            :rest-url="grid.restUrl"
+            :reload="grid.reload"
+            @reloaded="grid.reload = false"
+          ></grid>
+        </div>
+      </div>
+      <confirm-dialog
+        :func="confirmDialog.func"
+        :params="confirmDialog.params"
+        :text="confirmDialog.text"
+        :title="confirmDialog.title"
+        v-if="showConfirmDialog"
+        @close="showConfirmDialog = false"
+        @confirmed="handleConfirmResponse"
+      ></confirm-dialog>
+      <delete-dialog
+        :title="deleteRow.title"
+        :rest-url="deleteRow.restUrl"
+        :id="deleteRow.id"
+        v-if="showDeleteDialog"
+        @close="showDeleteDialog = false"
+        @deleted="handleDeleteResponse"
+      ></delete-dialog>
+      <edit-dialog
+        :rest-url-get="editRow.restUrlGet"
+        :rest-url-save="editRow.restUrlSave"
+        :title="editRow.title"
+        v-if="showEditDialog"
+        @close="showEditDialog = false"
+        @saved="handleEditResponse"
+      ></edit-dialog>
+      <rechte-edit-dialog
+        :rest-url-get="editRechtDialog.restUrlGet"
+        :rest-url-save="editRechtDialog.restUrlSave"
+        :title="editRechtDialog.title"
+        v-if="showEditRechteDialog"
+        @close="showEditRechteDialog = false"
+        @saved="handleEditRechteResponse"
+      ></rechte-edit-dialog>
+      <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/confirm.dialog.component.js"></script>
+  <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/grid.component.js"></script>
+  <script src="/scripts/delete.dialog.component.js"></script>
+  <script src="/scripts/einstellungen/mitarbeiter.edit.dialog.component.js"></script>
+  <script src="/scripts/einstellungen/mitarbeiter.edit.rechte.dialog.component.js"></script>
+  <script src="/scripts/einstellungen/einstellungen.header.component.js"></script>
+  <script src="/scripts/einstellungen/mitarbeiter.js"></script>
+</html>

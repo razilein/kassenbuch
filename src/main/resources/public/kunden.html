@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Kunden - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/zahnrad.png">
+    <link rel="stylesheet" href="/themes/css/button.css">
+    <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/grid.css">
+    <link rel="stylesheet" href="/themes/css/loading.css">
+    <link rel="stylesheet" href="/themes/css/radio.css">
+    <link rel="stylesheet" href="/themes/css/raster.css">
+    <link rel="stylesheet" href="/themes/css/style.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
+  </head>
+  <body>
+    <div id="kunden">
+      <page-header></page-header>
+      <page-header-reparatur v-bind:marker="'Kunden'"></page-header-reparatur>
+      <div id="content">
+        <div class="form m1">
+          <div class="m2m">
+            <label for="searchForm_nachname">Nachname</label>
+            <input class="m2" id="searchForm_nachname" type="text" v-model="grid.searchQuery.nachname"></input>
+          </div>
+          <div class="m2">
+            <label for="searchForm_vorname">Vorname</label>
+            <input class="m2" id="searchForm_vorname" type="text" v-model="grid.searchQuery.vorname"></input>
+          </div>
+          <div class="m6m">
+            <label for="searchForm_plz">PLZ</label>
+            <input class="m6" id="searchForm_plz" type="text" v-model="grid.searchQuery.plz"></input>
+          </div>
+          <div class="m1">
+            <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
+          </div>
+        </div>
+        <div style="height: 200px;"></div>
+        <div id="gridDiv" v-if="grid.gridColumns.length > 0">
+          <grid
+            :actions="grid.actions"
+            :columns="grid.gridColumns"
+            :filter-key="grid.searchQuery"
+            :rest-url="grid.restUrl"
+            :reload="grid.reload"
+            :search-query="grid.searchQuery"
+            @reloaded="grid.reload = false"
+          ></grid>
+        </div>
+      </div>
+      <kunde-edit-dialog
+        :rest-url-get="editRow.restUrlGet"
+        :rest-url-save="editRow.restUrlSave"
+        :title="editRow.title"
+        v-if="showEditDialog"
+        @close="showEditDialog = false"
+        @saved="handleEditResponse"
+      ></kunde-edit-dialog>
+      <delete-dialog
+        :title="deleteRow.title"
+        :rest-url="deleteRow.restUrl"
+        :id="deleteRow.id"
+        v-if="showDeleteDialog"
+        @close="showDeleteDialog = false"
+        @deleted="handleDeleteResponse"
+      ></delete-dialog>
+      <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/grid.component.js"></script>
+  <script src="/scripts/delete.dialog.component.js"></script>
+  <script src="/scripts/reparatur/kunde.edit.dialog.component.js"></script>
+  <script src="/scripts/reparatur/reparatur.header.component.js"></script>
+  <script src="/scripts/reparatur/kunden.js"></script>
+</html>

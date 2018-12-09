@@ -1,0 +1,138 @@
+button {
+  background-color: #1A8CFF;
+  border: none;
+  color: white;
+  font-size: 15px;
+  height: 40px;
+  min-width: 200px;
+  margin-left: 20px;
+}
+
+button.add {
+  mask: url("../icons/add.svg") no-repeat center;
+  -webkit-mask: url("../icons/add.svg") no-repeat center;
+}
+
+button.bad {
+  background-color: #D8000C !important;
+  mask: url("../icons/bad.svg") no-repeat center;
+  -webkit-mask: url("../icons/bad.svg") no-repeat center;
+}
+
+button.delete {
+  mask: url("../icons/delete.svg") no-repeat center;
+  -webkit-mask: url("../icons/delete.svg") no-repeat center;
+}
+
+button.edit {
+  mask: url("../icons/edit.svg") no-repeat center;
+  -webkit-mask: url("../icons/edit.svg") no-repeat center;
+}
+
+button.error {
+  background-color: #D8000C;
+}
+
+button.good {
+  mask: url("../icons/good.svg") no-repeat center;
+  -webkit-mask: url("../icons/good.svg") no-repeat center;
+}
+
+button.key {
+  mask: url("../icons/key.svg") no-repeat center;
+  -webkit-mask: url("../icons/key.svg") no-repeat center;
+}
+
+button.kunde {
+  mask: url("../icons/kunde.svg") no-repeat center;
+  -webkit-mask: url("../icons/kunde.svg") no-repeat center;
+}
+
+button.ok {
+  mask: url("../icons/ok.svg") no-repeat center;
+  -webkit-mask: url("../icons/ok.svg") no-repeat center;
+}
+
+button.open-new-tab {
+  mask: url("../icons/open-new-tab.svg") no-repeat center;
+  -webkit-mask: url("../icons/open-new-tab.svg") no-repeat center;
+}
+
+button.pageLeft {
+  mask: url("../icons/left.svg") no-repeat center;
+  -webkit-mask: url("../icons/left.svg") no-repeat center;
+}
+
+button.pageRight {
+  mask: url("../icons/right.svg") no-repeat center;
+  -webkit-mask: url("../icons/right.svg") no-repeat center;
+}
+
+button.recht {
+  mask: url("../icons/recht.svg") no-repeat center;
+  -webkit-mask: url("../icons/recht.svg") no-repeat center;
+}
+
+button.zahnrad {
+  mask: url("../icons/zahnrad.svg") no-repeat center;
+  -webkit-mask: url("../icons/zahnrad.svg") no-repeat center;
+}
+
+button.add, button.bad, button.delete, button.edit, button.good, button.key, button.kunde, button.ok, button.open-new-tab, button.recht, button.zahnrad {
+  background-color: #1a8cff;
+  float: none;
+  height: 30px;
+  margin: none;
+  margin-left: 0px;
+  min-width: 20px;
+  padding: 0;
+  width: 40px;
+}
+
+button.pageLeft, button.pageRight {
+  background-color: #1a8cff;
+  float: none;
+  height: 10px;
+  margin: none;
+  margin-left: 0px;
+  min-width: 20px;
+  padding: 0;
+  width: 20px;
+}
+
+button.pageLeft.disabled, button.pageRight.disabled {
+  background-color: #a9a9a9;
+  cursor: default;
+}
+
+button.panel {
+  background-color: #EDEDED;
+  height: 200px;
+  width: 200px;
+}
+
+button.info {
+  background-color: #00529B;
+}
+
+button.info.disabled, button.disabled {
+  background-color: #637A8E;
+  box-shadow: none;
+  cursor: default;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:hover, div.form {
+  box-shadow: 0 5px 15px 0 rgba(0,0,0,0.16),0 5px 20px 0 rgba(0,0,0,0.12);
+}
+
+button.success {
+  background-color: #4F8A10;
+}
+
+button.warning {
+  background-color: #9F6000;
+}

@@ -1,0 +1,83 @@
+.dialog-mask {
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  transition: opacity .3s ease;
+  width: 100%;
+  z-index: 9998;
+}
+
+.dialog-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.dialog-container {
+  background-color: #ededed;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  border-radius: 2px;
+  font-family: Helvetica, Arial, sans-serif;
+  height: auto;
+  margin: 0px auto;
+  max-height: 600px;
+  overflow: auto;
+  padding: 20px 30px;
+  transition: all .3s ease;
+  width: 650px;
+}
+
+.dialog-header h3 {
+  color: #42b983;
+  margin-top: 0;
+}
+
+.dialog-body {
+  margin: 0 0;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.dialog-default-button {
+  float: right;
+}
+
+.dialog-enter {
+  opacity: 0;
+}
+
+.dialog-leave-active {
+  opacity: 0;
+}
+
+.dialog-enter .dialog-container,
+.dialog-leave-active .dialog-container {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+}
+
+div.error {
+  background-color: #FFD2D2;
+  color: #D8000C;
+}
+
+div.info {
+  background-color: #BDE5F8;
+  color: #00529B;
+}
+
+div.success {
+  background-color: #DFF2BF;
+  color: #4F8A10;
+}
+
+div.warning {
+  background-color: #FEEFB3;
+  color: #9F6000;
+}
+
+dialog:not([open]) {
+  display: none;
+}

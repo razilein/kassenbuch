@@ -1,10 +1,21 @@
+# Created by https://www.gitignore.io/api/java,grunt,maven,eclipse
 
-# Created by https://www.gitignore.io/api/eclipse
+### Project specific ###
+node
+node_modules
+src/main/resources/static/scripts/vendor
+config.properties
+src/main/resources/application.properties
+logs/
+src/main/resources/de/sg/computerinsel/db/ci.tmp
+src/main/resources/de/sg/computerinsel/db/ci.lck
+src/main/resources/de/sg/computerinsel/db/ci.log
+src/main/resources/de/sg/computerinsel/db/ci.properties
+src/main/resources/de/sg/computerinsel/db/ci.script
 
 ### Eclipse ###
 
 .metadata
-target/
 bin/
 tmp/
 *.tmp
@@ -15,9 +26,6 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-
-# Eclipse Core
-.project
 
 # External tool builders
 .externalToolBuilders/
@@ -30,9 +38,6 @@ local.properties
 
 # CDT-specific (C/C++ Development Tooling)
 .cproject
-
-# JDT-specific (Eclipse Java Development Tools)
-.classpath
 
 # Java annotation processor (APT)
 .factorypath
@@ -55,11 +60,65 @@ local.properties
 # Code Recommenders
 .recommenders/
 
-######
-config.properties
-logs/
-src/main/resources/de/sg/computerinsel/db/ci.tmp
-src/main/resources/de/sg/computerinsel/db/ci.lck
-src/main/resources/de/sg/computerinsel/db/ci.log
-src/main/resources/de/sg/computerinsel/db/ci.properties
-src/main/resources/de/sg/computerinsel/db/ci.script
+# Scala IDE specific (Scala & Java development for Eclipse)
+.cache-main
+.scala_dependencies
+.worksheet
+
+### Eclipse Patch ###
+# Eclipse Core
+.project
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# Annotation Processing
+.apt_generated
+
+### grunt ###
+# Grunt usually compiles files inside this directory
+dist/
+
+# Grunt usually preprocesses files such as coffeescript, compass... inside the .tmp directory
+.tmp/
+
+### Java ###
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
+!/.mvn/wrapper/maven-wrapper.jar
+
+
+# End of https://www.gitignore.io/api/java,grunt,maven,eclipse

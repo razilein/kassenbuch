@@ -6,9 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,119 +18,90 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import de.sg.computerinsel.tools.CurrencyUtils;
+import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
+import de.sg.computerinsel.tools.kassenbuch.service.PdfDocumentUtils;
+import de.sg.computerinsel.tools.kassenbuch.service.PdfTableUtils;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Sita Geßner
  */
+@UtilityClass
+@Slf4j
 public final class KassenbuchErstellenUtils {
-
-    public static final DecimalFormat BETRAG_FORMAT = new DecimalFormat("#,###,##0.00");
-
-    private static final String FORMAT_DATUM = "dd.MM.yyyy";
-
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(FORMAT_DATUM);
-
-    public static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern(FORMAT_DATUM);
-
-    public static final SimpleDateFormat DATE_FORMAT_FILES = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(KassenbuchErstellenUtils.class);
 
     private static final String FILENAME_CSV = "kassenbuch.csv";
 
     private static final String FILENAME_PDF = "kassenbuch.pdf";
 
-    private static final Font TITLEFONT = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
-
-    private static final Font TABLEHEADER_FONT = new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD);
-
-    private static final Font TEXTFONT = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL);
-
-    private KassenbuchErstellenUtils() {
-    }
-
     public static File createCsv(final List<Rechnung> files, final Rechnung ausgangsRechnung, final String ablageverzeichnis) {
-        final File csvFile = new File(ablageverzeichnis, DATE_FORMAT_FILES.format(new Date()) + FILENAME_CSV);
+        final File csvFile = new File(ablageverzeichnis, DateUtils.nowDatetime() + FILENAME_CSV);
         final List<Rechnung> rechnungen = new ArrayList<>(files);
         rechnungen.add(0, ausgangsRechnung);
         Collections.sort(rechnungen, rechnungComparator());
-        try {
-            final FileWriter writer = new FileWriter(csvFile.getAbsoluteFile());
+        try (final FileWriter writer = new FileWriter(csvFile.getAbsoluteFile())) {
             BigDecimal gesamtBetrag = BigDecimal.ZERO;
             BigDecimal gesamtEingang = BigDecimal.ZERO;
             BigDecimal gesamtAusgang = BigDecimal.ZERO;
-            Date rechnungsdatum = null;
+            LocalDate rechnungsdatum = null;
             for (final Rechnung rechnung : rechnungen) {
-                if (rechnungsdatum != null && !rechnungsdatum.equals(rechnung.getRechnungsdatum())) {
+                if (rechnungsdatum != null && !rechnungsdatum.equals(rechnung.getRechnungsdatumWithoutTime())) {
                     writer.append("\r\n");
-                    final String betrag = BETRAG_FORMAT.format(gesamtBetrag);
-                    writeCsvLine(writer, rechnungsdatum, Rechnung.GESAMTBETRAG, gesamtEingang, gesamtAusgang, betrag);
+                    final String betrag = CurrencyUtils.format(gesamtBetrag);
+                    writeCsvLine(writer, DateUtils.convert(rechnungsdatum), Rechnung.GESAMTBETRAG, gesamtEingang, gesamtAusgang, betrag);
                     writer.append("\r\n");
                     writeCsvLine(writer, rechnung.getRechnungsdatum(), Rechnung.AUSGANGSBETRAG, gesamtEingang, gesamtAusgang, betrag);
                 }
                 gesamtBetrag = gesamtBetrag.add(rechnung.getRechnungsbetrag());
-                final String formattedRechnungsbetrag = BETRAG_FORMAT.format(rechnung.getRechnungsbetrag());
+                final String formattedRechnungsbetrag = CurrencyUtils.format(rechnung.getRechnungsbetrag());
                 gesamtEingang = isEingangssbetrag(formattedRechnungsbetrag) ? gesamtEingang.add(rechnung.getRechnungsbetrag())
                         : gesamtEingang;
                 gesamtAusgang = isAusgangsbetrag(formattedRechnungsbetrag) ? gesamtAusgang.add(rechnung.getRechnungsbetrag())
                         : gesamtAusgang;
 
                 writer.append(rechnung.toCsvString(gesamtBetrag));
-                rechnungsdatum = rechnung.getRechnungsdatum();
+                rechnungsdatum = rechnung.getRechnungsdatumWithoutTime();
             }
             writer.append("\r\n");
-            final String formattedGesamtbetrag = BETRAG_FORMAT.format(gesamtBetrag);
+            final String formattedGesamtbetrag = CurrencyUtils.format(gesamtBetrag);
             writeCsvLine(writer, null, Rechnung.GESAMTBETRAG, gesamtEingang, gesamtAusgang, formattedGesamtbetrag);
             writer.flush();
-            writer.close();
-            SettingsUtils.setPropertyAusgangsbetrag(formattedGesamtbetrag);
-            LOGGER.info("CSV-Datei {} erfolgreich unter {} gespeichert.", csvFile.getName(), ablageverzeichnis);
+            log.info("CSV-Datei {} erfolgreich unter {} gespeichert.", csvFile.getName(), ablageverzeichnis);
         } catch (final IOException e) {
-            LOGGER.error("Fehler beim Schreiben der CSV-Datei {}: {}", csvFile.getName(), e.getMessage());
+            log.error("Fehler beim Schreiben der CSV-Datei {}: {}", csvFile.getName(), e.getMessage());
         }
         return csvFile;
     }
 
     private static void writeCsvLine(final FileWriter writer, final Date rechnungsdatum, final String verwendungszweck,
             final BigDecimal gesamtEingang, final BigDecimal gesamtAusgang, final String betrag) throws IOException {
-        writer.append(rechnungsdatum == null ? StringUtils.EMPTY : DATE_FORMAT.format(rechnungsdatum));
+        writer.append(rechnungsdatum == null ? StringUtils.EMPTY : DateUtils.format(rechnungsdatum));
         writer.append(";");
         writer.append(verwendungszweck);
         writer.append(";");
-        writer.append(BETRAG_FORMAT.format(gesamtEingang));
+        writer.append(CurrencyUtils.format(gesamtEingang));
         writer.append(";");
-        writer.append(BETRAG_FORMAT.format(gesamtAusgang));
+        writer.append(CurrencyUtils.format(gesamtAusgang));
         writer.append(";");
         writer.append(betrag);
         writer.append("\r\n");
     }
 
-    static Comparator<Rechnung> rechnungComparator() {
+    public static Comparator<Rechnung> rechnungComparator() {
         return (o1, o2) -> {
             int result = 0;
-            if (o1.getRechnungsdatum() == null) {
-                result = o1.getRechnungsdatum() == null ? 0 : 1;
-            }
-            if (o2.getRechnungsdatum() == null) {
-                result = o2.getRechnungsdatum() == null ? 0 : 1;
-            }
-            if (o1.getRechnungsdatum() != null && o2.getRechnungsdatum() != null) {
-                result = o1.getRechnungsdatum().compareTo(o2.getRechnungsdatum());
+            if (o1.getRechnungsdatumWithoutTime() != null && o2.getRechnungsdatumWithoutTime() != null) {
+                result += o1.getRechnungsdatumWithoutTime().compareTo(o2.getRechnungsdatumWithoutTime());
             }
             if (o1.getRechnungsnummerAsInt() != null && o2.getRechnungsnummerAsInt() != null) {
                 result += o1.getRechnungsnummerAsInt().compareTo(o2.getRechnungsnummerAsInt());
@@ -142,52 +111,44 @@ public final class KassenbuchErstellenUtils {
     }
 
     public static File createPdf(final List<Rechnung> files, final Rechnung ausgangsRechnung, final String ablageverzeichnis) {
-        final File pdfFile = new File(ablageverzeichnis, DATE_FORMAT_FILES.format(new Date()) + FILENAME_PDF);
-        final List<Rechnung> rechnungen = new ArrayList<>(files);
-        Collections.sort(rechnungen, rechnungComparator());
-        final Map<Date, List<Rechnung>> rechnungenByRechnungsdatum = rechnungen.stream().filter(r -> r.getRechnungsdatum() != null)
-                .collect(Collectors.groupingBy(Rechnung::getRechnungsdatum, LinkedHashMap::new, Collectors.toList()));
+        final File pdfFile = new File(ablageverzeichnis, DateUtils.nowDatetime() + FILENAME_PDF);
+        final Map<LocalDate, List<Rechnung>> rechnungenByRechnungsdatum = new ArrayList<>(files).stream()
+                .filter(r -> r.getRechnungsdatum() != null)
+                .collect(Collectors.groupingBy(Rechnung::getRechnungsdatumWithoutTime, LinkedHashMap::new, Collectors.toList()));
         try {
-            pdfFile.createNewFile();
+            if (pdfFile.createNewFile()) {
+                log.debug("Neue PDF-Datei erzeugt: {}", pdfFile.getAbsolutePath());
+            }
             try (final FileOutputStream outputStream = new FileOutputStream(pdfFile);) {
-                final com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+                final Document document = new Document();
                 PdfWriter.getInstance(document, outputStream);
                 document.open();
 
                 BigDecimal ausgangsBetrag = ausgangsRechnung.getRechnungsbetrag();
-                for (final Entry<Date, List<Rechnung>> rechnungenByDatum : rechnungenByRechnungsdatum.entrySet()) {
-                    addTitlePage(document, rechnungenByDatum.getKey());
-                    ausgangsBetrag = addTable(document, rechnungenByDatum.getValue(), ausgangsBetrag);
+                for (final Entry<LocalDate, List<Rechnung>> rechnungenByDatum : rechnungenByRechnungsdatum.entrySet()) {
+                    PdfDocumentUtils.addTitle(document, "Kassenbuch vom " + DateUtils.format(rechnungenByDatum.getKey()));
+                    final List<Rechnung> value = rechnungenByDatum.getValue();
+                    Collections.sort(value, rechnungComparator());
+                    ausgangsBetrag = addTable(document, value, ausgangsBetrag);
                     document.newPage();
                 }
                 document.close();
             }
         } catch (final DocumentException e) {
-            LOGGER.error("Fehler beim Schreiben der PDF-Datei {}: {}", pdfFile.getName(), e.getMessage());
+            log.error("Fehler beim Schreiben der PDF-Datei {}: {}", pdfFile.getName(), e.getMessage());
         } catch (final FileNotFoundException e) {
-            LOGGER.error("PDF-Datei {} konnte nicht gefunden werden: {}", pdfFile.getName(), e.getMessage());
+            log.error("PDF-Datei {} konnte nicht gefunden werden: {}", pdfFile.getName(), e.getMessage());
         } catch (final IOException e) {
-            LOGGER.error("Fehler beim Erzeugen der PDF-Datei {}: {}", pdfFile.getName(), e.getMessage());
+            log.error("Fehler beim Erzeugen der PDF-Datei {}: {}", pdfFile.getName(), e.getMessage());
         }
         return pdfFile;
     }
 
-    private static void addTitlePage(final com.itextpdf.text.Document document, final Date datum) throws DocumentException {
-        document.add(new Paragraph("Kassenbuch vom " + DATE_FORMAT.format(datum), TITLEFONT));
-        addEmptyLine(document);
-    }
-
-    private static void addEmptyLine(final com.itextpdf.text.Document document) throws DocumentException {
-        document.add(Chunk.NEWLINE);
-    }
-
-    private static BigDecimal addTable(final com.itextpdf.text.Document document, final List<Rechnung> rechnungen,
-            final BigDecimal ausgangsBetrag) throws DocumentException {
-        BigDecimal gesamtBetrag = BigDecimal.ZERO;
-        final PdfPTable table = new PdfPTable(5);
-        table.setHeaderRows(1);
+    private static BigDecimal addTable(final Document document, final List<Rechnung> rechnungen, final BigDecimal ausgangsBetrag)
+            throws DocumentException {
+        final PdfPTable table = PdfTableUtils.createTable(5);
         addTableHeaderRow(table);
-        gesamtBetrag = addTableBodyRows(rechnungen, table, ausgangsBetrag);
+        final BigDecimal gesamtBetrag = addTableBodyRows(rechnungen, table, ausgangsBetrag);
         document.add(table);
         return gesamtBetrag;
     }
@@ -205,8 +166,9 @@ public final class KassenbuchErstellenUtils {
         for (final Rechnung rechnung : rechnungen) {
             final String verwendungszweck = StringUtils.isNumeric(rechnung.getRechnungsnummer())
                     || StringUtils.isNumeric(StringUtils.substring(rechnung.getRechnungsnummer(), 1))
-                            ? "Rechnung: " + rechnung.getRechnungsnummer() : rechnung.getRechnungsnummer();
-            final String formattedRechnungsbetrag = BETRAG_FORMAT.format(rechnung.getRechnungsbetrag());
+                            ? "Rechnung: " + rechnung.getRechnungsnummer()
+                            : rechnung.getRechnungsnummer();
+            final String formattedRechnungsbetrag = CurrencyUtils.format(rechnung.getRechnungsbetrag());
             gesamtBetrag = gesamtBetrag.add(rechnung.getRechnungsbetrag());
             gesamtEingang = isEingangssbetrag(formattedRechnungsbetrag) ? gesamtEingang.add(rechnung.getRechnungsbetrag()) : gesamtEingang;
             gesamtAusgang = isAusgangsbetrag(formattedRechnungsbetrag) ? gesamtAusgang.add(rechnung.getRechnungsbetrag()) : gesamtAusgang;
@@ -215,39 +177,18 @@ public final class KassenbuchErstellenUtils {
                     isEingangssbetrag(formattedRechnungsbetrag) ? formattedRechnungsbetrag : StringUtils.EMPTY,
                     isAusgangsbetrag(formattedRechnungsbetrag) ? formattedRechnungsbetrag : StringUtils.EMPTY, gesamtBetrag);
         }
-        addEmptyTableRow(table);
-        addTableRow(table, null, Rechnung.GESAMTBETRAG, BETRAG_FORMAT.format(gesamtEingang), BETRAG_FORMAT.format(gesamtAusgang),
+        PdfTableUtils.addEmptyTableRow(table);
+        addTableRow(table, null, Rechnung.GESAMTBETRAG, CurrencyUtils.format(gesamtEingang), CurrencyUtils.format(gesamtAusgang),
                 gesamtBetrag);
         return gesamtBetrag;
     }
 
     private static void addTableHeaderRow(final PdfPTable table) {
-        table.addCell(createHeaderCell("Datum"));
-        table.addCell(createHeaderCell("Verwendungszweck"));
-        table.addCell(createHeaderCell("Einnahmen", Element.ALIGN_RIGHT));
-        table.addCell(createHeaderCell("Ausgaben", Element.ALIGN_RIGHT));
-        table.addCell(createHeaderCell("Kassenbestand", Element.ALIGN_RIGHT));
-    }
-
-    private static PdfPCell createHeaderCell(final String title, final int alignment) {
-        final PdfPCell cell = new PdfPCell(new Phrase(title, TABLEHEADER_FONT));
-        cell.setHorizontalAlignment(alignment);
-        cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
-        return cell;
-    }
-
-    private static PdfPCell createHeaderCell(final String title) {
-        return createHeaderCell(title, Element.ALIGN_LEFT);
-    }
-
-    private static PdfPCell createBodyCell(final String text, final int alignment) {
-        final PdfPCell cell = new PdfPCell(new Phrase(text, TEXTFONT));
-        cell.setHorizontalAlignment(alignment);
-        return cell;
-    }
-
-    private static PdfPCell createBodyCell(final String text) {
-        return createBodyCell(text, Element.ALIGN_LEFT);
+        PdfTableUtils.addTableHeaderCell(table, "Datum");
+        PdfTableUtils.addTableHeaderCell(table, "Verwendungszweck");
+        PdfTableUtils.addTableHeaderCell(table, "Einnahmen", Element.ALIGN_RIGHT);
+        PdfTableUtils.addTableHeaderCell(table, "Ausgaben", Element.ALIGN_RIGHT);
+        PdfTableUtils.addTableHeaderCell(table, "Kassenbestand", Element.ALIGN_RIGHT);
     }
 
     static boolean isAusgangsbetrag(final String formattedRechnungsbetrag) {
@@ -258,18 +199,13 @@ public final class KassenbuchErstellenUtils {
         return !isAusgangsbetrag(formattedRechnungsbetrag);
     }
 
-    private static void addEmptyTableRow(final PdfPTable table) {
-        for (int i = 0; i < 5; i++) {
-            table.addCell("");
-        }
-    }
-
     private static void addTableRow(final PdfPTable table, final Date rechnungsdatum, final String verwendungszweck,
             final String betragEingang, final String betragAusgang, final BigDecimal gesamtBetrag) {
-        table.addCell(createBodyCell(rechnungsdatum == null ? StringUtils.EMPTY : DATE_FORMAT.format(rechnungsdatum)));
-        table.addCell(createBodyCell(verwendungszweck));
-        table.addCell(createBodyCell(betragEingang, Element.ALIGN_RIGHT));
-        table.addCell(createBodyCell(betragAusgang, Element.ALIGN_RIGHT));
-        table.addCell(createBodyCell(BETRAG_FORMAT.format(gesamtBetrag), Element.ALIGN_RIGHT));
+        PdfTableUtils.addTableBodyCell(table, rechnungsdatum == null ? StringUtils.EMPTY : DateUtils.format(rechnungsdatum));
+        PdfTableUtils.addTableBodyCell(table, verwendungszweck);
+        PdfTableUtils.addTableBodyCell(table, betragEingang, Element.ALIGN_RIGHT);
+        PdfTableUtils.addTableBodyCell(table, betragAusgang, Element.ALIGN_RIGHT);
+        PdfTableUtils.addTableBodyCell(table, CurrencyUtils.format(gesamtBetrag), Element.ALIGN_RIGHT);
     }
+
 }

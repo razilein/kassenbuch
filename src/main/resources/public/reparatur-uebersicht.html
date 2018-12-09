@@ -1,0 +1,87 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Übersicht Reparaturen - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/zahnrad.png">
+    <link rel="stylesheet" href="/themes/css/button.css">
+    <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/grid.css">
+    <link rel="stylesheet" href="/themes/css/loading.css">
+    <link rel="stylesheet" href="/themes/css/radio.css">
+    <link rel="stylesheet" href="/themes/css/raster.css">
+    <link rel="stylesheet" href="/themes/css/style.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
+  </head>
+  <body>
+    <div id="reparaturen">
+      <page-header></page-header>
+      <page-header-reparatur v-bind:marker="'Reparaturen'"></page-header-reparatur>
+      <div id="content">
+        <div class="form m1" v-if="kundeId === null">
+          <div class="m6m">
+            <label for="searchForm_plz">Nummer</label>
+            <input class="m6" id="searchForm_nummer" type="text" v-model="grid.searchQuery.nummer"></input>
+          </div>
+          <div class="m2m">
+            <label for="searchForm_nachname">Nachname</label>
+            <input class="m2" id="searchForm_nachname" type="text" v-model="grid.searchQuery.nachname"></input>
+          </div>
+          <div class="m1">
+            <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
+          </div>
+        </div>
+        <div style="height: 200px;" v-if="kundeId === null"></div>
+        <h3 v-if="kundeId !== null">Reparaturaufträge zum gewählten Kunden:</h3>
+        <div id="gridDiv" v-if="grid.gridColumns.length > 0">
+          <grid
+            :columns="grid.gridColumns"
+            :filter-key="grid.searchQuery"
+            :rest-url="grid.restUrl"
+            :reload="grid.reload"
+            :search-query="grid.searchQuery"
+            @reloaded="grid.reload = false"
+          ></grid>
+        </div>
+      </div>
+      <confirm-dialog
+        :func="confirmDialog.func"
+        :params="confirmDialog.params"
+        :text="confirmDialog.text"
+        :title="confirmDialog.title"
+        v-if="showConfirmDialog"
+        @close="showConfirmDialog = false"
+        @confirmed="handleConfirmResponse"
+      ></confirm-dialog>
+      <edit-dialog
+        :rest-url-get="editRow.restUrlGet"
+        :rest-url-save="editRow.restUrlSave"
+        :title="editRow.title"
+        v-if="showEditDialog"
+        @close="showEditDialog = false"
+        @saved="handleEditResponse"
+      ></edit-dialog>
+      <delete-dialog
+        :title="deleteRow.title"
+        :rest-url="deleteRow.restUrl"
+        :id="deleteRow.id"
+        v-if="showDeleteDialog"
+        @close="showDeleteDialog = false"
+        @deleted="handleDeleteResponse"
+      ></delete-dialog>
+      <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/confirm.dialog.component.js"></script>
+  <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/grid.component.js"></script>
+  <script src="/scripts/delete.dialog.component.js"></script>
+  <script src="/scripts/reparatur/reparatur.kunde.suchen.dialog.component.js"></script>
+  <script src="/scripts/reparatur/kunde.edit.dialog.component.js"></script>
+  <script src="/scripts/reparatur/reparatur.edit.dialog.component.js"></script>
+  <script src="/scripts/reparatur/reparatur.header.component.js"></script>
+  <script src="/scripts/reparatur/reparatur.uebersicht.js"></script>
+</html>

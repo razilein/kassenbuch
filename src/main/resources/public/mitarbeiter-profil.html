@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Mitarbeiter - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/zahnrad.png">
+    <link rel="stylesheet" href="/themes/css/button.css">
+    <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/grid.css">
+    <link rel="stylesheet" href="/themes/css/loading.css">
+    <link rel="stylesheet" href="/themes/css/radio.css">
+    <link rel="stylesheet" href="/themes/css/raster.css">
+    <link rel="stylesheet" href="/themes/css/style.css">
+    <link rel="stylesheet" href="/themes/css/tabs.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+  </head>
+  <body>
+    <div id="mitarbeiterProfil">
+      <page-header></page-header>
+      <div id="content">
+        <div class="tabbed">
+          <input checked="checked" id="tab1" type="radio" name="tabs" />
+          <input id="tab2" type="radio" name="tabs" />
+          <input id="tab3" type="radio" name="tabs" />
+        
+          <nav>
+            <label for="tab1">Allgemein</label>
+            <label for="tab2">Anmeldedaten</label>
+          </nav>
+           
+          <figure>
+            <div class="tab1">
+              <div class="m1">
+                <div class="m2m">
+                  <label class="required" for="profildatenForm_name">Nachname</label>
+                  <input class="m2" id="profildatenForm_name" type="text" v-model="model.profildaten.nachname"></input>
+                </div>
+                <div class="m2">
+                  <label class="required" for="profildatenForm_vorname">Vorname</label>
+                  <input class="m2" id="profildatenForm_vorname" type="text" v-model="model.profildaten.vorname"></input>
+                </div>
+              </div>
+              <div class="m1">
+                <div class="m2m">
+                  <label for="profildatenForm_email">E-Mail (geschäftlich)</label>
+                  <input class="m2" id="profildatenForm_email" type="text" v-model="model.profildaten.email"></input>
+                </div>
+                <div class="m2">
+                  <label for="profildatenForm_email_privat">E-Mail (privat)</label>
+                  <input class="m2" id="profildatenForm_email_privat" type="text" v-model="model.profildaten.emailPrivat"></input>
+                </div>
+              </div>
+              <div class="m1">
+                <div class="m2m">
+                  <label for="profildatenForm_telefon">Telefon (privat)</label>
+                  <input class="m2" id="profildatenForm_telefon" type="text" v-model="model.profildaten.telefon"></input>
+                </div>
+              </div>
+              <div class="m1">
+                <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmptyProfildaten()" v-on:click="saveProfildatenFunc();">Speichern</button>
+                <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmptyProfildaten()">Speichern</button>
+              </div>
+            </div>
+
+            <div class="tab2">
+              <div class="m1">
+                <div class="m2">
+                  <label for="anmeldedatenForm_benutzername" class="required">Benutzername</label>
+                  <input class="m2" id="anmeldedatenForm_benutzername" type="text" v-model="model.anmeldedaten.username" />
+                </div>
+              </div>
+              <div class="m1">
+                <div class="m2">
+                  <label for="anmeldedatenForm_passwordBefore" class="required">Passwort</label>
+                  <input class="m2" id="anmeldedatenForm_passwordBefore" type="password" v-model="model.anmeldedaten.passwordBefore" />
+                </div>
+              </div>
+              <div class="m1">
+                <div class="m2m">
+                  <label for="anmeldedatenForm_password">Neues Passwort</label>
+                  <input class="m2" id="anmeldedatenForm_password" type="password" v-model="model.anmeldedaten.password" />
+                </div>
+                <div class="m2">
+                  <label for="anmeldedatenForm_passwordRepeat">Neues Passwort wiederholen</label>
+                  <input class="m2" id="anmeldedatenForm_passwordRepeat" type="password" v-model="model.anmeldedaten.passwordRepeat" />
+                </div>
+              </div>
+              <div class="m1">
+                <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmptyAnmeldedaten()" v-on:click="saveAnmeldedatenFunc();">Speichern</button>
+                <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmptyAnmeldedaten()">Speichern</button>
+              </div>
+            </div>
+          </figure>
+        </div>
+      </div>
+      <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/einstellungen/mitarbeiter-profil.js"></script>
+</html>

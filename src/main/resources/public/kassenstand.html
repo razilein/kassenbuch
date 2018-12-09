@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Kassenstand - Computer-Insel Tools by Sita Ge&szlig;ner</title>
+    <link rel="icon" href="/themes/icons/kasse.png">
+    <link rel="stylesheet" href="/themes/css/button.css">
+    <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/kassenstand.css">
+    <link rel="stylesheet" href="/themes/css/loading.css">
+    <link rel="stylesheet" href="/themes/css/raster.css">
+    <link rel="stylesheet" href="/themes/css/style.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+  </head>
+  <body>
+    <div id="kassenstand">
+      <page-header></page-header>
+      <page-header-kassenbuch v-bind:marker="'Kassenstand'"></page-header-kassenbuch>
+      <div id="content">
+        <div class="form">
+          <h1>Kassenstand berechnen</h1>
+          <div class="m1" v-for="(m, index) in model">
+            <div class="m6m"><img class="right" :src="'themes/icons/' + model[index].key + '.png'" height="20" /></div>
+            <div class="m5m">
+              <input
+                class="m5"
+                min="0"
+                step="1"
+                type="number"
+                v-model="model[index].anzahl"
+                v-on:change="model[index].betrag = model[index].anzahl * model[index].multi; berechne();"
+              />
+            </div>
+            <div class="m7m">x{{model[index].multi}} = </div>
+            <div class="m5">
+              <input
+                class="m5"
+                min="0"
+                type="number"
+                :step="model[index].multi"
+                v-model="model[index].betrag"
+                v-on:change="model[index].anzahl = model[index].betrag / model[index].multi; berechne();"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="form">
+          <div class="m1">
+            <div class="m3m">
+               <label>Differenz</label>
+               <input class="m3" readonly type="number" v-bind:class="differenz < 0 ? 'error' : 'success'" v-model="differenz" />
+            </div>
+            <div class="m3m">
+              <label>Gesamt Kassenbuch</label>
+              <input class="m3" readonly type="number" v-model="kassenbuchbetrag" />
+            </div>
+            <div class="m3">
+              <label>Gesamt Kasse</label>
+              <input class="m3" readonly type="number" v-model="kassenbetrag" />
+            </div>
+          </div>
+          <div class="m1">
+            <button class="right" title="Speichern" v-on:click="save">Speichern</button>
+          </div>
+        </div>
+        <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+      </div>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/kassenbuch/kassenbuch.header.component.js"></script>
+  <script src="/scripts/kassenbuch/kassenstand.js"></script>
+</html>

@@ -1,7 +1,10 @@
 package de.sg.computerinsel.tools.reparatur.model;
 
-import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,15 +13,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "REPARATUR")
+@Getter
+@Setter
 public class Reparatur extends IntegerBaseObject {
 
-    @ManyToOne
-    @JoinColumn(name = "mitarbeiter_id")
-    private Mitarbeiter mitarbeiter;
+    public static final int MAX_LENGTH_MITARBEITER = 200;
+
+    @Size(max = MAX_LENGTH_MITARBEITER, message = "Der Mitarbeitername darf nicht länger als 200 Zeichen sein.")
+    @Column(name = "mitarbeiter")
+    private String mitarbeiter;
 
     @ManyToOne
     @JoinColumn(name = "kunde_id", referencedColumnName = "id")
@@ -51,160 +61,54 @@ public class Reparatur extends IntegerBaseObject {
     @Column(name = "geraetepasswort")
     private String geraetepasswort;
 
-    @Column(name = "expressbeabeitung")
-    private Boolean expressbeabeitung;
+    @Column(name = "expressbearbeitung")
+    private boolean expressbearbeitung = false;
 
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
     @Column(name = "abholdatum")
-    private Date abholdatum;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate abholdatum;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     @Column(name = "abholzeit")
-    private Time abholzeit;
+    private LocalTime abholzeit;
 
-    @Size(max = 10, message = "Der im Feld 'Kostenvoranschlag' eingetragene Text darf nicht länger als 10 Zeichen sein.")
+    @Size(max = 100, message = "Der im Feld 'Kostenvoranschlag' eingetragene Text darf nicht länger als 100 Zeichen sein.")
     @Column(name = "kostenvoranschlag")
     private String kostenvoranschlag;
 
     @Column(name = "erledigt")
-    private Boolean erledigt;
+    private boolean erledigt = false;
 
     @Column(name = "erledigungsdatum")
-    private Date erledigungsdatum;
+    private LocalDateTime erledigungsdatum;
 
-    public Mitarbeiter getMitarbeiter() {
-        return mitarbeiter;
-    }
+    @Column(name = "erstellt_am")
+    private LocalDateTime erstelltAm;
 
-    public void setMitarbeiter(final Mitarbeiter mitarbeiter) {
-        this.mitarbeiter = mitarbeiter;
-    }
+    @Column(name = "bemerkung")
+    private String bemerkung;
 
-    public String getNummer() {
-        return nummer;
-    }
-
-    public void setNummer(final String nummer) {
-        this.nummer = nummer;
-    }
-
-    public Integer getArt() {
-        return art;
-    }
-
-    public void setArt(final Integer art) {
-        this.art = art;
-    }
-
-    public String getGeraet() {
-        return geraet;
-    }
-
-    public void setGeraet(final String geraet) {
-        this.geraet = geraet;
-    }
-
-    public String getSeriennummer() {
-        return seriennummer;
-    }
-
-    public void setSeriennummer(final String seriennummer) {
-        this.seriennummer = seriennummer;
-    }
-
-    public String getSymptome() {
-        return symptome;
-    }
-
-    public void setSymptome(final String symptome) {
-        this.symptome = symptome;
-    }
-
-    public String getAufgaben() {
-        return aufgaben;
-    }
-
-    public void setAufgaben(final String aufgaben) {
-        this.aufgaben = aufgaben;
-    }
-
-    public String getGeraetepasswort() {
-        return geraetepasswort;
-    }
-
-    public void setGeraetepasswort(final String geraetepasswort) {
-        this.geraetepasswort = geraetepasswort;
-    }
-
-    public Boolean getExpressbeabeitung() {
-        return expressbeabeitung;
-    }
-
-    public void setExpressbeabeitung(final Boolean expressbeabeitung) {
-        this.expressbeabeitung = expressbeabeitung;
-    }
-
-    public Date getAbholdatum() {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    public LocalDate getAbholdatum() {
         return abholdatum;
     }
 
-    public void setAbholdatum(final Date abholdatum) {
-        this.abholdatum = abholdatum;
+    public String getWochentagAbholdatum() {
+        return getAbholdatum() == null ? null : getAbholdatum().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.GERMANY);
     }
 
-    public Time getAbholzeit() {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    public LocalTime getAbholzeit() {
         return abholzeit;
     }
 
-    public void setAbholzeit(final Time abholzeit) {
-        this.abholzeit = abholzeit;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
+    public LocalDateTime getErstelltAm() {
+        return erstelltAm;
     }
 
-    public String getKostenvoranschlag() {
-        return kostenvoranschlag;
-    }
-
-    public void setKostenvoranschlag(final String kostenvoranschlag) {
-        this.kostenvoranschlag = kostenvoranschlag;
-    }
-
-    public Kunde getKunde() {
-        return kunde;
-    }
-
-    public void setKunde(final Kunde kunde) {
-        this.kunde = kunde;
-    }
-
-    public Boolean getErledigt() {
-        return erledigt;
-    }
-
-    public void setErledigt(final Boolean erledigt) {
-        this.erledigt = erledigt;
-    }
-
-    public Date getErledigungsdatum() {
-        return erledigungsdatum;
-    }
-
-    public void setErledigungsdatum(final Date erledigungsdatum) {
-        this.erledigungsdatum = erledigungsdatum;
-    }
-
-    @Override
-    public Object[] getTableModelObject() {
-        return new Object[] { nummer, art, geraet, seriennummer, symptome, aufgaben, geraetepasswort, expressbeabeitung, abholdatum,
-                abholzeit, kostenvoranschlag, mitarbeiter, getId(), getKunde() };
-    }
-
-    @Override
-    public Object[] getTableModelObjectSearch() {
-        return new Object[] { nummer, art, geraet, abholdatum, abholzeit, kunde, mitarbeiter, getId() };
-    }
-
-    @Override
-    public String toString() {
-        return "Reparatur " + nummer;
+    public String getWochentagErstelltAm() {
+        return getErstelltAm() == null ? null : getErstelltAm().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.GERMANY);
     }
 
 }

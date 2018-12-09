@@ -1,0 +1,36 @@
+.m1 {
+  width: 600px;
+}
+
+.m2, .m2m {
+  width: 290px;
+}
+
+.m3, .m3m {
+  width: 186px;
+}
+
+.m4, .m4m {
+  width: 135px;
+}
+
+.m5, .m5m {
+  width: 104px;
+}
+
+.m6, .m6m {
+  width: 83px;
+}
+
+.m7, .m7m {
+  width: 68px;
+}
+
+.m1, .m2, .m2m, .m3, .m3m, .m4, .m4m, .m5, .m5m, .m6, .m6m, .m7, .m7m {
+  float: left;
+  margin-bottom: 3px;
+}
+
+.m2m, .m3m, .m4m, .m5m, .m6m, .m7m {
+  margin-right: 20px;
+}

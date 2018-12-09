@@ -21,6 +21,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.Joiner;
 
+import de.sg.computerinsel.tools.CurrencyUtils;
+import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
 import de.sg.computerinsel.tools.kassenbuch.model.Rechnungsposten;
 import de.sg.computerinsel.tools.kassenbuch.model.Zahlart;
@@ -33,6 +35,8 @@ import lombok.extern.slf4j.Slf4j;
 @UtilityClass
 @Slf4j
 public class KassenbuchStatistikUtils {
+
+    private static final String TRENNZEICHEN = "|";
 
     public static Map<Integer, Map<Zahlart, Map<Month, List<Rechnung>>>> getStatistikProJahrZahlungsartMonat(
             final List<Rechnung> rechnungen) {
@@ -67,10 +71,10 @@ public class KassenbuchStatistikUtils {
     }
 
     private void writeHeadline(final FileWriter writer) throws IOException {
-        writer.write(";");
+        writer.write(TRENNZEICHEN);
         for (final Month entry : Month.values()) {
             writer.write(entry.toString());
-            writer.write(";");
+            writer.write(TRENNZEICHEN);
         }
         writer.write("\n\r");
     }
@@ -79,12 +83,12 @@ public class KassenbuchStatistikUtils {
             throws IOException {
         for (final Entry<Zahlart, Map<Month, List<Rechnung>>> entry : rechnungProZahlartMonat.entrySet()) {
             writer.write(entry.getKey().getBezeichnung());
-            writer.write(";");
+            writer.write(TRENNZEICHEN);
             for (final Entry<Month, List<Rechnung>> entry2 : entry.getValue().entrySet()) {
                 final BigDecimal betrag = entry2.getValue().stream().map(Rechnung::getRechnungsbetrag).reduce(BigDecimal::add)
                         .orElse(BigDecimal.ZERO);
-                writer.write(KassenbuchErstellenUtils.BETRAG_FORMAT.format(betrag));
-                writer.write(";");
+                writer.write(CurrencyUtils.format(betrag));
+                writer.write(TRENNZEICHEN);
             }
             writer.write("\n\r");
         }
@@ -94,7 +98,7 @@ public class KassenbuchStatistikUtils {
     private void writeFootline(final FileWriter writer, final Map<Zahlart, Map<Month, List<Rechnung>>> rechnungProZahlartMonat)
             throws IOException {
         writer.write("Gesamt");
-        writer.write(";");
+        writer.write(TRENNZEICHEN);
         final Map<Month, BigDecimal> result = new TreeMap<>();
         for (final Entry<Zahlart, Map<Month, List<Rechnung>>> entry : rechnungProZahlartMonat.entrySet()) {
             for (final Entry<Month, List<Rechnung>> entry2 : entry.getValue().entrySet()) {
@@ -105,8 +109,8 @@ public class KassenbuchStatistikUtils {
             }
         }
         for (final Entry<Month, BigDecimal> entry : result.entrySet()) {
-            writer.write(KassenbuchErstellenUtils.BETRAG_FORMAT.format(entry.getValue()));
-            writer.write(";");
+            writer.write(CurrencyUtils.format(entry.getValue()));
+            writer.write(TRENNZEICHEN);
         }
     }
 
@@ -119,7 +123,7 @@ public class KassenbuchStatistikUtils {
     }
 
     private File createFile(final File ablageverzeichnis, final int jahr, final String name) {
-        return new File(ablageverzeichnis, KassenbuchErstellenUtils.DATE_FORMAT_FILES.format(new Date()) + name + jahr + ".xls");
+        return new File(ablageverzeichnis, DateUtils.nowDatetime() + name + jahr + ".xls");
     }
 
     private static Map<Zahlart, Map<Month, List<Rechnung>>> getStatistikProZahlungsartMonat(final List<Rechnung> rechnungen) {
@@ -129,9 +133,7 @@ public class KassenbuchStatistikUtils {
             result.put(entry.getKey(), getStatistikProMonat(entry.getValue()));
         }
         for (final Zahlart zahlart : Zahlart.values()) {
-            if (result.get(zahlart) == null) {
-                result.put(zahlart, getEmptyStatitsikProMonat());
-            }
+            result.computeIfAbsent(zahlart, k -> getEmptyStatitsikProMonat());
         }
         return result;
     }
@@ -140,9 +142,7 @@ public class KassenbuchStatistikUtils {
         final Map<Month, List<Rechnung>> rechnungJeMonat = new TreeMap<>(
                 rechnungen.stream().collect(Collectors.groupingBy(Rechnung::getRechnungsmonat)));
         for (final Month month : Month.values()) {
-            if (rechnungJeMonat.get(month) == null) {
-                rechnungJeMonat.put(month, new ArrayList<>());
-            }
+            rechnungJeMonat.computeIfAbsent(month, k -> new ArrayList<>());
         }
         return rechnungJeMonat;
     }
@@ -173,7 +173,7 @@ public class KassenbuchStatistikUtils {
                     .map(Rechnung::getPosten).flatMap(Collection::stream)
                     .filter(p -> StringUtils.containsIgnoreCase(p.getBezeichnung(), postenfilter)).collect(Collectors.toList());
             for (final Rechnungsposten posten : list) {
-                log.debug("{} {}", posten.getBezeichnung(), KassenbuchErstellenUtils.BETRAG_FORMAT.format(posten.getGesamt()));
+                log.debug("{} {}", posten.getBezeichnung(), CurrencyUtils.format(posten.getGesamt()));
             }
             final BigDecimal betrag = list.stream().map(Rechnungsposten::getGesamt).filter(Objects::nonNull).reduce(BigDecimal::add)
                     .orElse(BigDecimal.ZERO);
@@ -186,31 +186,29 @@ public class KassenbuchStatistikUtils {
             final Map<Integer, Map<String, Map<Month, BigDecimal>>> statistikProJahrPostenMonat) throws IOException {
         for (final Entry<Integer, Map<String, Map<Month, BigDecimal>>> entry : statistikProJahrPostenMonat.entrySet()) {
             final File file = createFilePosten(ablageverzeichnis, entry.getKey());
-            final FileWriter writer = new FileWriter(file.getAbsoluteFile());
-            writePostenToFile(writer, entry.getValue(), getStatistikPostenProMonat(entry.getValue()));
-            writer.flush();
-            writer.close();
+            try (final FileWriter writer = new FileWriter(file.getAbsoluteFile())) {
+                writePostenToFile(writer, entry.getValue(), getStatistikPostenProMonat(entry.getValue()));
+                writer.flush();
+            }
         }
     }
 
     public void createUeberweisungenUebersichtFile(final File ablageverzeichnis, final List<Rechnung> ueberweisungen,
             final String zeitraumVon, final String zeitraumBis) throws IOException {
-        final File file = new File(ablageverzeichnis,
-                KassenbuchErstellenUtils.DATE_FORMAT_FILES.format(new Date()) + "_uebersicht_ueberweisungen.xls");
-        final FileWriter writer = new FileWriter(file.getAbsoluteFile());
-        writer.write("Rechnungszeitraum von " + zeitraumVon + " (inkl.) bis " + zeitraumBis + " (inkl.)\n\r\n\r");
-        writer.write("Rechnungsnummer|Name|Betrag|Rechnungsdatum\n\r");
-        for (final Rechnung rechnung : ueberweisungen) {
-            writeUeberweisungToFile(writer, rechnung);
+        final File file = new File(ablageverzeichnis, DateUtils.nowDatetime() + "_uebersicht_ueberweisungen.xls");
+        try (final FileWriter writer = new FileWriter(file.getAbsoluteFile())) {
+            writer.write("Rechnungszeitraum von " + zeitraumVon + " (inkl.) bis " + zeitraumBis + " (inkl.)\n\r\n\r");
+            writer.write("Rechnungsnummer|Name|Betrag|Rechnungsdatum\n\r");
+            for (final Rechnung rechnung : ueberweisungen) {
+                writeUeberweisungToFile(writer, rechnung);
+            }
+            writer.flush();
         }
-        writer.flush();
-        writer.close();
     }
 
     private void writeUeberweisungToFile(final FileWriter writer, final Rechnung rechnung) throws IOException {
         writer.write(Joiner.on("|").join(rechnung.getRechnungsnummer(), rechnung.getAdressfeld(),
-                KassenbuchErstellenUtils.BETRAG_FORMAT.format(rechnung.getRechnungsbetrag()),
-                KassenbuchErstellenUtils.DATE_FORMAT.format(rechnung.getRechnungsdatum())));
+                CurrencyUtils.format(rechnung.getRechnungsbetrag()), DateUtils.format(rechnung.getRechnungsdatum())));
         writer.write("\n\r");
     }
 
@@ -243,10 +241,10 @@ public class KassenbuchStatistikUtils {
             throws IOException {
         for (final Entry<String, Map<Month, BigDecimal>> entry : statistikProPostenMonat.entrySet()) {
             writer.write(entry.getKey());
-            writer.write(";");
+            writer.write(TRENNZEICHEN);
             for (final Entry<Month, BigDecimal> entry2 : entry.getValue().entrySet()) {
-                writer.write(KassenbuchErstellenUtils.BETRAG_FORMAT.format(entry2.getValue()));
-                writer.write(";");
+                writer.write(CurrencyUtils.format(entry2.getValue()));
+                writer.write(TRENNZEICHEN);
             }
             writer.write("\n\r");
         }
@@ -255,10 +253,10 @@ public class KassenbuchStatistikUtils {
 
     private void writePostenFootline(final FileWriter writer, final Map<Month, BigDecimal> statistikProMonat) throws IOException {
         writer.write("Gesamt");
-        writer.write(";");
+        writer.write(TRENNZEICHEN);
         for (final Entry<Month, BigDecimal> entry : statistikProMonat.entrySet()) {
-            writer.write(KassenbuchErstellenUtils.BETRAG_FORMAT.format(entry.getValue()));
-            writer.write(";");
+            writer.write(CurrencyUtils.format(entry.getValue()));
+            writer.write(TRENNZEICHEN);
         }
     }
 
@@ -268,7 +266,7 @@ public class KassenbuchStatistikUtils {
         for (final Entry<Month, List<Rechnung>> entry : getStatistikProMonat(rechnungen).entrySet()) {
             log.debug("Monat: {}", entry.getKey());
             for (final Entry<String, List<Rechnungsposten>> posten : getStatistikProPosten(entry.getValue(), postenfilter).entrySet()) {
-                log.debug("{} {}", posten.getKey(), KassenbuchErstellenUtils.BETRAG_FORMAT.format(getBetragPosten(posten.getValue())));
+                log.debug("{} {}", posten.getKey(), CurrencyUtils.format(getBetragPosten(posten.getValue())));
                 Map<Month, BigDecimal> map = result.get(posten.getKey());
                 if (map == null) {
                     map = new TreeMap<>();
