@@ -164,6 +164,7 @@ public class ReparaturRestController {
             if (optional.isPresent()) {
                 final Reparatur reparatur = optional.get();
                 final boolean erledigt = !reparatur.isErledigt();
+                reparatur.setGeraetepasswort(null);
                 reparatur.setErledigt(erledigt);
                 reparatur.setErledigungsdatum(erledigt ? LocalDateTime.now() : null);
                 service.save(reparatur);

@@ -82,6 +82,17 @@
             </div>
           </div>
           <div class="m1">
+            <label class="container radio" v-for="status in pruefstatus">
+              <input
+                name="status"
+                type="radio"
+                :value="status.key"
+                v-model="entity.funktionsfaehig"
+              >{{status.value}}</input>
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="m1">
             <label for="reparaturEditForm_bemerkung">Bemerkungen</label>
             <textarea class="m1" id="reparaturEditForm_bemerkung" maxlength="4000" v-model="entity.bemerkung"></textarea>
           </div>

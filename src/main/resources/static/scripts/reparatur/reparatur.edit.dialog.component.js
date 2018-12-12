@@ -62,13 +62,24 @@ Vue.component('edit-dialog', {
     </div>
   </div>
   <div class="m1">
+    <label class="container radio" v-for="status in pruefstatus">
+      <input
+        name="status"
+        type="radio"
+        :value="status.key"
+        v-model="entity.funktionsfaehig"
+      >{{status.value}}</input>
+      <span class="checkmark"></span>
+    </label>
+  </div>
+  <div class="m1">
     <label for="reparaturEditForm_bemerkung">Bemerkungen</label>
     <textarea class="m1" id="reparaturEditForm_bemerkung" maxlength="4000" v-model="entity.bemerkung"></textarea>
   </div>
   <div class="m1">
     <div class="m2" style="float: right;">
       <label for="reparaturEditForm_mitarbeiter">Mitarbeiter</label>
-      <input class="m2" id="reparaturEditForm_mitarbeiter" readonly type="text" :value="entity.mitarbeiter.completeName" />
+      <input class="m2" id="reparaturEditForm_mitarbeiter" readonly type="text" :value="entity.mitarbeiter" />
     </div>
   </div>
   <kunde-suchen-dialog
@@ -88,6 +99,10 @@ Vue.component('edit-dialog', {
     return {
       entity: {},
       mitarbeiter: {},
+      pruefstatus: [
+        { key: true, value: 'Gerät funktioniert' },
+        { key: false, value: 'Gerät funktioniert nicht' }
+      ],
       reparaturarten: {},
       showKundeDialog: false
     };
