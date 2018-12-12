@@ -79,7 +79,7 @@ Vue.component('edit-dialog', {
   <div class="m1">
     <div class="m2" style="float: right;">
       <label for="reparaturEditForm_mitarbeiter">Mitarbeiter</label>
-      <input class="m2" id="reparaturEditForm_mitarbeiter" readonly type="text" :value="entity.mitarbeiter.completeName" />
+      <input class="m2" id="reparaturEditForm_mitarbeiter" readonly type="text" :value="entity.mitarbeiter" />
     </div>
   </div>
   <kunde-suchen-dialog
