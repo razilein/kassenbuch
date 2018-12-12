@@ -5,6 +5,11 @@ var vm = new Vue({
       kunde: {},
     },
     mitarbeiter: [],
+    pruefstatus: [
+      { key: 0, value: 'Gerät nicht geprüft' },
+      { key: true, value: 'Gerät funktioniert' },
+      { key: false, value: 'Gerät funktioniert nicht' }
+    ],
     reparaturarten: [],
     result: {},
     showDialog: false,
@@ -12,7 +17,7 @@ var vm = new Vue({
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.kunde && hasAllProperties(this.entity, ['kunde.id']);
+      return this.entity && this.entity.kunde && hasAllProperties(this.entity, ['kunde.id']) && this.entity.geprueft !== 0;
     },
     init: function() {
       showLoader();
@@ -74,6 +79,7 @@ var vm = new Vue({
       return axios.get('/reparatur/' + -1);
     },
     setEntity: function(response) {
+      response.data.funktionsfaehig = 0;
       vm.entity = response.data;
     },
     getReparaturarten: function() {

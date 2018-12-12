@@ -135,7 +135,9 @@
               Annahmezeitpunkt:
             </td>
             <td class="s2" colspan="2">
-              {{entity.wochentagErstelltAm}}, {{entity.erstelltAm}}
+              {{entity.wochentagErstelltAm}}, {{entity.erstelltAm}},
+              <span v-if="entity.funktionsfaehig">Gerät funktionsfähig</span>
+              <span v-if="!entity.funktionsfaehig">Gerät <span class="u">NICHT</span> funktionsfähig ({{entity.bemerkung}})</span>
             </td>
             <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
               <p align=left style="widows: 0; orphans: 0">&nbsp;</p>
