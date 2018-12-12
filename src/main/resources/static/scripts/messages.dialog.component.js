@@ -1,7 +1,7 @@
 Vue.component('messages-box', {
   props: ['text'],
   template: `
-    <div class="dialog-mask">
+    <div class="dialog-mask" @mousemove="if (!!text.success) $emit('close');">
       <div class="dialog-wrapper">
         <div class="dialog-container success" v-if="text.success">
             <h3 class="dialog-header">Erfolg</h3>
