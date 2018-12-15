@@ -15,6 +15,9 @@ Vue.component('page-header', {
        <a class="navigationLink" href="einstellungen.html">
          <img src="themes/icons/einstellungen.png" height="20" /> Einstellungen
        </a>
+       <a class="navigationLink" href="produkt.html">
+         <img src="themes/icons/inventar.png" height="20" /> Inventar
+       </a>
       </div>
     </div>
 `,

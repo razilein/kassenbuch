@@ -1,0 +1,86 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Produkte - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/inventar.png">
+    <link rel="stylesheet" href="/themes/css/button.css">
+    <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/grid.css">
+    <link rel="stylesheet" href="/themes/css/loading.css">
+    <link rel="stylesheet" href="/themes/css/radio.css">
+    <link rel="stylesheet" href="/themes/css/raster.css">
+    <link rel="stylesheet" href="/themes/css/style.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+  </head>
+  <body>
+    <div id="produkt">
+      <page-header></page-header>
+      <page-header-inventar v-bind:marker="'Produkt'"></page-header-inventar>
+      <div id="content">
+        <div class="form m1">
+          <div class="m1">
+            <div class="m2m">
+              <label for="searchForm_kategorie">Kategorie</label>
+              <select class="m2" id="searchForm_kategorie" v-model="grid.searchQuery.kategorie" v-on:change="updateGruppen()">
+                <option value=""></option>
+                <option :value="k.key" v-for="k in kategorien">{{k.value}}</option>
+              </select>
+            </div>
+            <div class="m2">
+              <label for="searchForm_gruppe">Gruppe</label>
+              <select class="m2" id="searchForm_gruppe" v-model="grid.searchQuery.gruppe">
+                <option value=""></option>
+                <option :value="g.key" v-for="g in gruppen">{{g.value}}</option>
+              </select>
+            </div>
+            <div class="m1">
+              <label for="searchForm_bezeichnung">Bezeichnung</label>
+              <input class="m1" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung"></input>
+            </div>
+          </div>
+          <div class="m1">
+            <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
+          </div>
+        </div>
+        <div style="height: 200px;"></div>
+        <div id="gridDiv" v-if="grid.gridColumns.length > 0">
+          <grid
+            :actions="grid.actions"
+            :columns="grid.gridColumns"
+            :filter-key="grid.searchQuery"
+            :rest-url="grid.restUrl"
+            :reload="grid.reload"
+            :search-query="grid.searchQuery"
+            @reloaded="grid.reload = false"
+          ></grid>
+        </div>
+      </div>
+      <delete-dialog
+        :title="deleteRow.title"
+        :rest-url="deleteRow.restUrl"
+        :id="deleteRow.id"
+        v-if="showDeleteDialog"
+        @close="showDeleteDialog = false"
+        @deleted="handleDeleteResponse"
+      ></delete-dialog>
+      <edit-dialog
+        :rest-url-get="editRow.restUrlGet"
+        :rest-url-save="editRow.restUrlSave"
+        :title="editRow.title"
+        v-if="showEditDialog"
+        @close="showEditDialog = false"
+        @saved="handleEditResponse"
+      ></edit-dialog>
+      <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/delete.dialog.component.js"></script>
+  <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/grid.component.js"></script>
+  <script src="/scripts/inventar/inventar.header.component.js"></script>
+  <script src="/scripts/inventar/produkt.edit.dialog.component.js"></script>
+  <script src="/scripts/inventar/produkt.js"></script>
+</html>
