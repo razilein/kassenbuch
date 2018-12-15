@@ -37,8 +37,6 @@ public class EinstellungenService {
 
     private static final String DSGVO_FILENAME = "Einwilligung_DSGVO.pdf";
 
-    private static final String SALT_FILENAME = "salt.txt";
-
     private static final List<String> KASSENBESTAND_SETTING_KEYS = ImmutableList.of("500", "200", "100", "50", "20", "10", "5", "2", "1",
             "050", "020", "010", "005", "002", "001");
 
@@ -68,6 +66,22 @@ public class EinstellungenService {
 
     public Einstellungen getRechnungsverzeichnis() {
         return getEinstellung("kassenbuch.rechnungsverzeichnis");
+    }
+
+    public Einstellungen getRechnungsnummer() {
+        return getEinstellung("rechnung.nummer");
+    }
+
+    public String getAndSaveNextRechnungsnummer() {
+        final Einstellungen einstellung = getRechnungsnummer();
+
+        final String nummer = StringUtils.defaultIfBlank(einstellung.getWert(), "0");
+        if (StringUtils.isNumeric(nummer)) {
+            einstellung.setWert(String.valueOf(Ints.tryParse(nummer) + 1));
+            save(einstellung);
+            return einstellung.getWert();
+        }
+        return "0";
     }
 
     public String getDsgvoFilepath() {

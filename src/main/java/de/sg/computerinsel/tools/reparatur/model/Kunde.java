@@ -62,7 +62,7 @@ public class Kunde extends IntegerBaseObject {
     @Column(name = "erstellt_am")
     private LocalDateTime erstelltAm;
 
-    public String getCompleteWithAdressAndPhone() {
+    public String getCompleteWithAdress() {
         final StringBuilder builder = new StringBuilder();
         builder.append(StringUtils.defaultString(nachname));
         if (StringUtils.isNotBlank(vorname)) {
@@ -78,8 +78,13 @@ public class Kunde extends IntegerBaseObject {
             builder.append(StringUtils.defaultString(plz));
             builder.append(StringUtils.SPACE);
             builder.append(StringUtils.defaultString(ort));
-            builder.append(System.lineSeparator());
         }
+        return builder.toString();
+    }
+
+    public String getCompleteWithAdressAndPhone() {
+        final StringBuilder builder = new StringBuilder(getCompleteWithAdress());
+        builder.append(System.lineSeparator());
         builder.append(StringUtils.defaultString(telefon));
         return builder.toString();
     }

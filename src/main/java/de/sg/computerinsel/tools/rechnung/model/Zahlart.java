@@ -1,4 +1,4 @@
-package de.sg.computerinsel.tools.kassenbuch.model;
+package de.sg.computerinsel.tools.rechnung.model;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -9,7 +9,9 @@ import lombok.Getter;
 @Getter
 public enum Zahlart {
 
-    BAR("BAR"), EC("EC"), UEBERWEISUNG("ÜBERWEISUNG");
+    BAR(0, "BAR"), EC(1, "EC"), UEBERWEISUNG(2, "ÜBERWEISUNG"), PAYPAL(3, "PAYPAL");
+
+    final int code;
 
     final String bezeichnung;
 

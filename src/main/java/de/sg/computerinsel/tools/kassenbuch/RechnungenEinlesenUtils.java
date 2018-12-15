@@ -23,7 +23,7 @@ import com.google.common.primitives.Ints;
 import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
 import de.sg.computerinsel.tools.kassenbuch.model.Rechnungsposten;
-import de.sg.computerinsel.tools.kassenbuch.model.Zahlart;
+import de.sg.computerinsel.tools.rechnung.model.Zahlart;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 

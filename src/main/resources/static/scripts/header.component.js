@@ -18,6 +18,9 @@ Vue.component('page-header', {
        <a class="navigationLink" href="produkt.html">
          <img src="themes/icons/inventar.png" height="20" /> Inventar
        </a>
+       <a class="navigationLink" href="rechnung.html">
+         <img src="themes/icons/rechnung.png" height="20" /> Rechnungen
+       </a>
       </div>
     </div>
 `,

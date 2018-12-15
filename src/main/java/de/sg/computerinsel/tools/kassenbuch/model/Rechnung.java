@@ -15,6 +15,7 @@ import com.google.common.base.Joiner;
 import com.google.common.primitives.Ints;
 
 import de.sg.computerinsel.tools.DateUtils;
+import de.sg.computerinsel.tools.rechnung.model.Zahlart;
 import lombok.Data;
 
 /**
