@@ -219,7 +219,7 @@ public class ReparaturRestController {
     public Kunde getKunde(@PathVariable final Integer id) {
         final Optional<Kunde> optional = service.getKunde(id);
         if (optional.isPresent()) {
-            protokollService.write(optional.get().getId(), KUNDE, optional.get().getCompleteWithAdressAndPhone(), ANGESEHEN);
+            protokollService.write(optional.get().getId(), KUNDE, optional.get().getNummer().toString(), ANGESEHEN);
         }
         return optional.orElse(new Kunde());
     }
@@ -235,9 +235,9 @@ public class ReparaturRestController {
                 kunde.setErstelltAm(LocalDateTime.now());
             }
             final Kunde saved = service.save(kunde);
-            result.put(Message.SUCCESS.getCode(), "Der Kunde '" + kunde.getNachname() + "' wurde erfolgreich gespeichert");
+            result.put(Message.SUCCESS.getCode(), "Der Kunde '" + saved.getNummer() + "' wurde erfolgreich gespeichert");
             result.put("kunde", saved);
-            protokollService.write(saved.getId(), KUNDE, saved.getCompleteWithAdressAndPhone(), isErstellen ? ERSTELLT : GEAENDERT);
+            protokollService.write(saved.getId(), KUNDE, saved.getNummer().toString(), isErstellen ? ERSTELLT : GEAENDERT);
         }
         return result;
     }
@@ -249,7 +249,7 @@ public class ReparaturRestController {
         final Optional<Kunde> optional = service.getKunde(id);
         service.deleteReparatur(id);
         if (optional.isPresent()) {
-            protokollService.write(optional.get().getId(), KUNDE, optional.get().getCompleteWithAdressAndPhone(), GELOESCHT);
+            protokollService.write(optional.get().getId(), KUNDE, optional.get().getNummer().toString(), GELOESCHT);
         }
         service.deleteKunde(id);
         return Collections.singletonMap(Message.SUCCESS.getCode(), "Der Kunde wurde erfolgreich gelöscht.");

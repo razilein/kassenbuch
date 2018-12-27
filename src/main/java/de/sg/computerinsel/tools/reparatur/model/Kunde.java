@@ -22,6 +22,9 @@ import lombok.Setter;
 @Setter
 public class Kunde extends IntegerBaseObject {
 
+    @Column(name = "nummer")
+    private Integer nummer;
+
     @Column(name = "nachname")
     @NotEmpty(message = "Bitte geben Sie den Nachnamen an.")
     @Size(max = 100, message = "Der Nachname darf nicht länger als 100 Zeichen sein.")

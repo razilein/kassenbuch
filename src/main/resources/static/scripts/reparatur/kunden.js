@@ -34,7 +34,7 @@ var vm = new Vue({
     
     editFunction: function(row) {
       vm.editRow.restUrlGet = '/reparatur/kunde/' + row.id;
-      vm.editRow.title = 'Kunde ' + row.nachname + ' bearbeiten';
+      vm.editRow.title = 'Kunde ' + row.nummer + ' bearbeiten';
       vm.showEditDialog = true;
     },
     
@@ -49,7 +49,7 @@ var vm = new Vue({
     
     deleteFunction: function(row) {
       vm.deleteRow.id = row.id;
-      vm.deleteRow.title = 'Kunde ' + row.nachname + ' löschen';
+      vm.deleteRow.title = 'Kunde ' + row.nummer + ' löschen';
       vm.showDeleteDialog = true;
     },
     
@@ -96,6 +96,7 @@ var vm = new Vue({
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Kunde bearbeiten', clickFunc: vm.editFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Kunde löschen', clickFunc: vm.deleteFunction }
         ] },
+        { name: 'nummer', title: 'Nr.', width: 50 },
         { name: 'nachname', title: 'Nachname', width: 150 },
         { name: 'vorname', title: 'Vorname', width: 100 },
         { name: 'strasse', title: 'Straße', width: 100 },

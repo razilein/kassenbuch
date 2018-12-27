@@ -77,6 +77,7 @@ Vue.component('kunde-suchen-dialog', {
             { clazz: 'ok', title: 'Diesen Kunden wählen', clickFunc: this.chooseFunction },
             { clazz: 'edit', disabled: this.hasNotRoleVerwalten, title: 'Kunde bearbeiten', clickFunc: this.editFunction },
           ] },
+          { name: 'nummer', title: 'Nr.', width: 50 },
           { name: 'nachname', title: 'Nachname', width: 150 },
           { name: 'vorname', title: 'Vorname', width: 100 },
           { name: 'strasse', title: 'Straße', width: 100 },

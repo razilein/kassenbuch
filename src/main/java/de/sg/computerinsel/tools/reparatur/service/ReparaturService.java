@@ -75,6 +75,9 @@ public class ReparaturService {
     }
 
     public Kunde save(final Kunde kunde) {
+        if (kunde.getNummer() == null) {
+            kunde.setNummer(kundeRepository.getNextNummer());
+        }
         return kundeRepository.save(kunde);
     }
 

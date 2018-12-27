@@ -2,6 +2,7 @@ package de.sg.computerinsel.tools.reparatur.dao;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import de.sg.computerinsel.tools.reparatur.model.Kunde;
@@ -23,5 +24,8 @@ public interface KundeRepository extends CrudRepository<Kunde, Integer> {
     Page<Kunde> findByVornameLike(String vorname, Pageable pagination);
 
     Page<Kunde> findByPlzLike(String plz, Pageable pagination);
+
+    @Query(value = "call NEXT VALUE FOR K_NUMMER_SEQUENCE", nativeQuery = true)
+    Integer getNextNummer();
 
 }
