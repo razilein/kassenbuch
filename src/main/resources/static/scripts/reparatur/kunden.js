@@ -70,11 +70,16 @@ var vm = new Vue({
     
     prepareRoles: function() {
       vm.getRecht('ROLE_KUNDEN_REPARATUR');
+      vm.getRecht('ROLE_KUNDEN_RECHNUNG');
       vm.getRecht('ROLE_KUNDEN_VERWALTEN');
     },
     
     hasNotRoleReparaturAnzeigen: function() {
       return !vm.rechte['ROLE_KUNDEN_REPARATUR'];
+    },
+    
+    hasNotRoleRechnungAnzeigen: function() {
+      return !vm.rechte['ROLE_KUNDEN_RECHNUNG'];
     },
     
     hasNotRoleVerwalten: function() {
@@ -85,6 +90,10 @@ var vm = new Vue({
       window.open('/reparatur-uebersicht.html?id=' + row.id);
     },
     
+    openRechnungFunction: function(row) {
+      window.open('/rechnung-uebersicht.html?id=' + row.id);
+    },
+    
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
@@ -93,6 +102,7 @@ var vm = new Vue({
           width: 120,
           formatter: [
           { clazz: 'zahnrad', disabled: vm.hasNotRoleReparaturAnzeigen, title: 'Reparaturaufträge anzeigen', clickFunc: vm.openReparaturFunction },
+          { clazz: 'euro', disabled: vm.hasNotRoleRechnungAnzeigen, title: 'Rechnungen anzeigen', clickFunc: vm.openRechnungFunction },
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Kunde bearbeiten', clickFunc: vm.editFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Kunde löschen', clickFunc: vm.deleteFunction }
         ] },
