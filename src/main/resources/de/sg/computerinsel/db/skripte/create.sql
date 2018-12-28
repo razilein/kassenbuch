@@ -69,6 +69,8 @@ CREATE TABLE rolle (
 );
 --Müssen mit ROLE_ starten, da spring-security diese sonst nicht erkennt
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_ERSTELLEN', 'Zugriff auf die Seite: Kassenbuch erstellen');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_UEBERSICHT', 'Zugriff auf die Seite: Übersicht Kassenbücher');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_KASSENBUCH', 'Ermöglicht das Anzeigen der Druckansicht eines Kassenbuches');
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_KASSENSTAND', 'Zugriff auf die Seite: Kassenstand berechnen');
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_STATISTIK', 'Zugriff auf die Seite: Statistik');
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_EINSTELLUNGEN_ALLGEMEIN', 'Zugriff auf die Seite: Einstellungen allgemein');

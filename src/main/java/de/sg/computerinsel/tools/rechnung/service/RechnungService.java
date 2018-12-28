@@ -86,10 +86,14 @@ public class RechnungService {
     public RechnungDTO getRechnung(final Integer id) {
         final Optional<Rechnung> rechnung = rechnungRepository.findById(id);
         if (rechnung.isPresent()) {
-            return new RechnungDTO(rechnung.get(), rechnungspostenRepository.findAllByRechnungIdOrderByPositionAsc(id));
+            return new RechnungDTO(rechnung.get(), listRechnungspostenByRechnungId(id));
         } else {
             return new RechnungDTO();
         }
+    }
+
+    public List<Rechnungsposten> listRechnungspostenByRechnungId(final Integer id) {
+        return rechnungspostenRepository.findAllByRechnungIdOrderByPositionAsc(id);
     }
 
     @Transactional
@@ -115,6 +119,10 @@ public class RechnungService {
     public List<DefaultKeyValue<Integer, String>> getZahlarten() {
         return Arrays.asList(Zahlart.values()).stream().map(z -> new DefaultKeyValue<>(z.getCode(), z.getBezeichnung()))
                 .collect(Collectors.toList());
+    }
+
+    public List<Rechnung> listBarRechnungenByDatum(final LocalDate datum) {
+        return rechnungRepository.findAllByDatumAndArtOrderByNummerAsc(datum, Zahlart.BAR.getCode());
     }
 
 }

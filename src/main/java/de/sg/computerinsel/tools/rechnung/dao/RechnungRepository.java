@@ -1,5 +1,8 @@
 package de.sg.computerinsel.tools.rechnung.dao;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
@@ -45,4 +48,6 @@ public interface RechnungRepository extends CrudRepository<Rechnung, Integer> {
     Page<Rechnung> findByKundeNummerAndErstellerLike(Integer kundenummer, String ersteller, Pageable pagination);
 
     Page<Rechnung> findByErstellerLike(String ersteller, Pageable pagination);
+
+    List<Rechnung> findAllByDatumAndArtOrderByNummerAsc(LocalDate datum, Integer art);
 }

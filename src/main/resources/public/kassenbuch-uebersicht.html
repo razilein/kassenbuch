@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Übersicht Kassenbücher - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/zahnrad.png">
+    <link rel="stylesheet" href="/themes/css/button.css">
+    <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/grid.css">
+    <link rel="stylesheet" href="/themes/css/loading.css">
+    <link rel="stylesheet" href="/themes/css/radio.css">
+    <link rel="stylesheet" href="/themes/css/raster.css">
+    <link rel="stylesheet" href="/themes/css/style.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
+  </head>
+  <body>
+    <div id="kassenbuecher">
+      <page-header></page-header>
+      <page-header-kassenbuch v-bind:marker="'Uebersicht'"></page-header-kassenbuch>
+      <div id="content">
+        <div class="form m1">
+          <div class="m4">
+            <label class="required" for="searchForm_datum">Datum</label>
+            <input class="m4" id="searchForm_datum" type="date" v-model="grid.searchQuery.datum" />
+          </div>
+          <div class="m1">
+            <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
+          </div>
+        </div>
+        <div style="height: 200px;"></div>
+        <div id="gridDiv" v-if="grid.gridColumns.length > 0">
+          <grid
+            :columns="grid.gridColumns"
+            :filter-key="grid.searchQuery"
+            :rest-url="grid.restUrl"
+            :reload="grid.reload"
+            :search-query="grid.searchQuery"
+            @reloaded="grid.reload = false"
+          ></grid>
+        </div>
+      </div>
+      <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/grid.component.js"></script>
+  <script src="/scripts/kassenbuch/kassenbuch.header.component.js"></script>
+  <script src="/scripts/kassenbuch/kassenbuch.uebersicht.js"></script>
+</html>

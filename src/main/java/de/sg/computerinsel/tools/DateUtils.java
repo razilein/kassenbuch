@@ -37,6 +37,10 @@ public class DateUtils {
         return LocalDate.parse(date, DATE_FORMATTER);
     }
 
+    public static LocalDate parse(final String date, final String pattern) {
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern(pattern));
+    }
+
     public static Date parseDate(final String date) {
         return convert(parse(date));
     }
