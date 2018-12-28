@@ -79,7 +79,7 @@ public class EinstellungenService {
         if (StringUtils.isNumeric(nummer)) {
             einstellung.setWert(String.valueOf(Ints.tryParse(nummer) + 1));
             save(einstellung);
-            return einstellung.getWert();
+            return StringUtils.leftPad(einstellung.getWert(), 5, "0");
         }
         return "0";
     }

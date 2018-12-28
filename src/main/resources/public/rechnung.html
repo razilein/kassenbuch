@@ -104,16 +104,19 @@
           <div class="m1">
             <label class="container radio" v-for="art in zahlarten">
               <input
+                :checked="entity.rechnung.art === art.key"
                 name="art"
                 type="radio"
                 :value="art.key"
-                v-model="entity.art"
+                v-model="entity.rechnung.art"
               >{{art.value}}</input>
               <span class="checkmark"></span>
             </label>
           </div>
           <div class="m1" v-if="entity.rechnung.reparatur">
-            <label for="rechnungEditForm_reparatur">Reparaturauftrag</label><button class="zahnrad" title="Reparaturauftrag suchen" @click="showReparaturDialog = true"></button>
+            <label for="rechnungEditForm_reparatur">Reparaturauftrag</label>
+            <button class="zahnrad" title="Reparaturauftrag suchen" @click="showReparaturDialog = true"></button>
+            <button class="delete" title="Reparaturauftrag deselektieren" @click="entity.rechnung.reparatur = {}"></button>
             <input class="m1" id="rechnungEditForm_reparatur" readonly type="text" v-model="entity.rechnung.reparatur.nummer" />
           </div>
           <div class="m1">
@@ -123,7 +126,9 @@
             </label>
           </div>
           <div class="m1" v-if="entity.rechnung.kunde">
-            <label for="rechnungEditForm_kunde">Kunde</label><button class="kunde" title="Kunde suchen" @click="showKundeDialog = true"></button>
+            <label for="rechnungEditForm_kunde">Kunde</label>
+            <button class="kunde" title="Kunde suchen" @click="showKundeDialog = true"></button>
+            <button class="delete" title="Kunde deselektieren" @click="entity.rechnung.kunde = {}"></button>
             <textarea class="m1" id="rechnungEditForm_kunde" readonly v-model="entity.rechnung.kunde.completeWithAdress"></textarea>
           </div>
           <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">Speichern</button>

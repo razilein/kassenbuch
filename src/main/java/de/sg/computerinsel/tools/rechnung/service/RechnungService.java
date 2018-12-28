@@ -23,7 +23,9 @@ import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.rechnung.model.Zahlart;
 import de.sg.computerinsel.tools.rechnung.rest.model.RechnungDTO;
 import de.sg.computerinsel.tools.service.EinstellungenService;
+import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
+import de.sg.computerinsel.tools.service.SearchQueryUtils;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -39,7 +41,42 @@ public class RechnungService {
     private final RechnungspostenRepository rechnungspostenRepository;
 
     public Page<Rechnung> listRechnungen(final PageRequest pagination, final Map<String, String> conditions) {
-        return rechnungRepository.findAll(pagination);
+        final String nummer = SearchQueryUtils.getAndReplaceJoker(conditions, "nummer");
+        final String reparaturnummer = SearchQueryUtils.getAndReplaceJoker(conditions, "reparaturnummer");
+        final String kundennummer = SearchQueryUtils.getAndReplaceJoker(conditions, "kundenummer");
+        final String ersteller = SearchQueryUtils.getAndReplaceJoker(conditions, "ersteller");
+        final String kundeId = SearchQueryUtils.getAndReplaceJoker(conditions, "kunde.id");
+
+        if (StringUtils.isNumeric(kundeId)) {
+            return rechnungRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
+        } else if (!StringUtils.isNumeric(nummer) && StringUtils.isBlank(reparaturnummer) && StringUtils.isBlank(ersteller)
+                && !StringUtils.isNumeric(kundennummer)) {
+            return rechnungRepository.findAll(pagination);
+        } else {
+            final FindAllByConditionsExecuter<Rechnung> executer = new FindAllByConditionsExecuter<>();
+            return executer.findByParams(rechnungRepository, pagination,
+                    buildMethodnameForQueryRechnungen(nummer, reparaturnummer, kundennummer, ersteller),
+                    StringUtils.isNumeric(nummer) ? Ints.tryParse(nummer) : null, reparaturnummer,
+                    StringUtils.isNumeric(kundennummer) ? Ints.tryParse(kundennummer) : null, ersteller);
+        }
+    }
+
+    private String buildMethodnameForQueryRechnungen(final String nummer, final String reparaturnummer, final String kundennummer,
+            final String ersteller) {
+        String methodName = "findBy";
+        if (StringUtils.isNumeric(nummer)) {
+            methodName += "NummerAnd";
+        }
+        if (StringUtils.isNotBlank(reparaturnummer)) {
+            methodName += "ReparaturNummerAnd";
+        }
+        if (StringUtils.isNumeric(kundennummer)) {
+            methodName += "KundeNummerAnd";
+        }
+        if (StringUtils.isNotBlank(ersteller)) {
+            methodName += "ErstellerLikeAnd";
+        }
+        return StringUtils.removeEnd(methodName, "And");
     }
 
     public Page<Rechnungsposten> listRechnungsposten(final PageRequest pagination, final Integer rechnungId) {

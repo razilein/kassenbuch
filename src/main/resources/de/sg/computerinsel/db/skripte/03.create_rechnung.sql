@@ -29,3 +29,9 @@ CREATE TABLE rechnungsposten (
 ALTER TABLE kunde ADD COLUMN nummer INT NOT NULL;
 
 CREATE SEQUENCE PUBLIC.K_NUMMER_SEQUENCE START WITH 7000 INCREMENT BY 1;
+
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_KUNDEN_RECHNUNG', 'Ermöglicht das Anzeigen aller Rechnungen eines Kunden');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_RECHNUNG_ERSTELLEN', 'Zugriff auf die Seite Rechnung erstellen');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_RECHNUNG_UEBERSICHT', 'Zugriff auf die Seite Übersicht Rechnungen');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_RECHNUNG', 'Ermöglicht das Anzeigen der Druckansicht einer Rechnung');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_RECHNUNG_VERWALTEN', 'Rechnungen dürfen angelegt, bearbeitet oder gelöscht werden');

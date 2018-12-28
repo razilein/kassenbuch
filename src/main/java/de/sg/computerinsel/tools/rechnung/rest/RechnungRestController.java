@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ import de.sg.computerinsel.tools.rechnung.model.Rechnung;
 import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.rechnung.rest.model.RechnungDTO;
 import de.sg.computerinsel.tools.rechnung.service.RechnungService;
+import de.sg.computerinsel.tools.reparatur.model.Reparatur;
+import de.sg.computerinsel.tools.reparatur.service.ReparaturService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
 import de.sg.computerinsel.tools.rest.ValidationUtils;
@@ -43,6 +46,9 @@ public class RechnungRestController {
 
     @Autowired
     private RechnungService service;
+
+    @Autowired
+    private ReparaturService reparaturService;
 
     @Autowired
     private ProtokollService protokollService;
@@ -97,16 +103,30 @@ public class RechnungRestController {
         }
         if (result.isEmpty()) {
             final Rechnung saved = service.saveRechnung(rechnung);
-            for (final Rechnungsposten posten : dto.getPosten()) {
-                posten.setRechnung(saved);
-                service.savePosten(posten);
-            }
+            savePosten(dto.getPosten(), saved);
+            reparaturErledigen(saved);
             result.put(Message.SUCCESS.getCode(), "Die Rechnung " + saved.getNummer() + " erfolgreich gespeichert.");
             result.put("rechnung", saved);
             protokollService.write(saved.getId(), RECHNUNG, String.valueOf(rechnung.getNummer()),
                     rechnung.getId() == null ? ERSTELLT : GEAENDERT);
         }
         return result;
+    }
+
+    private void savePosten(final List<Rechnungsposten> list, final Rechnung rechnung) {
+        for (final Rechnungsposten posten : list) {
+            posten.setRechnung(rechnung);
+            service.savePosten(posten);
+        }
+    }
+
+    private void reparaturErledigen(final Rechnung saved) {
+        if (saved.getReparatur() != null && saved.getReparatur().getId() != null) {
+            final Optional<Reparatur> optional = reparaturService.getReparatur(saved.getReparatur().getId());
+            if (optional.isPresent()) {
+                reparaturService.reparaturErledigen(optional.get(), true);
+            }
+        }
     }
 
     @DeleteMapping
@@ -117,7 +137,8 @@ public class RechnungRestController {
         if (dto.getRechnung().getId() != null) {
             protokollService.write(dto.getRechnung().getId(), RECHNUNG, String.valueOf(dto.getRechnung().getNummer()), GELOESCHT);
         }
-        return Collections.singletonMap(Message.SUCCESS.getCode(), "Die Rechnung wurde erfolgreich gelöscht.");
+        return Collections.singletonMap(Message.SUCCESS.getCode(),
+                "Die Rechnung " + dto.getRechnung().getNummer() + " wurde erfolgreich gelöscht.");
     }
 
 }

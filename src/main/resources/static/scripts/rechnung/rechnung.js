@@ -73,6 +73,7 @@ var vm = new Vue({
     editPosten: function(index) {
       var posten = vm.entity.posten[index];
       vm.editEntity = {
+        id: posten.id,
         position: posten.position,
         produkt: posten.row,
         menge: posten.menge,

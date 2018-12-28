@@ -1,5 +1,6 @@
 package de.sg.computerinsel.tools.reparatur.service;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -119,6 +120,13 @@ public class ReparaturService {
     public List<DefaultKeyValue<Integer, String>> getReparaturarten() {
         return Arrays.asList(ReparaturArt.values()).stream().map(r -> new DefaultKeyValue<>(r.getCode(), r.getDescription()))
                 .collect(Collectors.toList());
+    }
+
+    public Reparatur reparaturErledigen(final Reparatur reparatur, final boolean erledigt) {
+        reparatur.setGeraetepasswort(null);
+        reparatur.setErledigt(erledigt);
+        reparatur.setErledigungsdatum(erledigt ? LocalDateTime.now() : null);
+        return save(reparatur);
     }
 
     public Reparatur save(final Reparatur reparatur) {

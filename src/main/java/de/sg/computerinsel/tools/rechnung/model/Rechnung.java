@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.model.Kunde;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
@@ -46,5 +48,10 @@ public class Rechnung extends IntegerBaseObject {
     @ManyToOne
     @JoinColumn(name = "reparatur_id", referencedColumnName = "id")
     private Reparatur reparatur;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    public LocalDate getDatum() {
+        return datum;
+    }
 
 }
