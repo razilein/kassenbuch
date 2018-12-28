@@ -16,9 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.primitives.Ints;
 
-import de.sg.computerinsel.tools.reparatur.dao.KundeRepository;
 import de.sg.computerinsel.tools.reparatur.dao.ReparaturRepository;
-import de.sg.computerinsel.tools.reparatur.model.Kunde;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
 import de.sg.computerinsel.tools.service.EinstellungenService;
@@ -32,59 +30,7 @@ public class ReparaturService {
 
     private final EinstellungenService einstellungenService;
 
-    private final KundeRepository kundeRepository;
-
     private final ReparaturRepository reparaturRepository;
-
-    public Page<Kunde> listKunden(final PageRequest pagination, final Map<String, String> conditions) {
-        final String nachname = SearchQueryUtils.getAndReplaceJoker(conditions, "nachname");
-        final String vorname = SearchQueryUtils.getAndReplaceJoker(conditions, "vorname");
-        final String plz = SearchQueryUtils.getAndReplaceJoker(conditions, "plz");
-
-        if (StringUtils.isBlank(nachname) && StringUtils.isBlank(vorname) && StringUtils.isBlank(plz)) {
-            return kundeRepository.findAll(pagination);
-        } else {
-            final FindAllByConditionsExecuter<Kunde> executer = new FindAllByConditionsExecuter<>();
-            return executer.findByParams(kundeRepository, pagination, buildMethodnameForQueryKunde(nachname, vorname, plz), nachname,
-                    vorname, plz);
-        }
-    }
-
-    private String buildMethodnameForQueryKunde(final String nachname, final String vorname, final String plz) {
-        String methodName = "findBy";
-        if (StringUtils.isNotBlank(nachname)) {
-            methodName += "NachnameLikeAnd";
-        }
-        if (StringUtils.isNotBlank(vorname)) {
-            methodName += "VornameLikeAnd";
-        }
-        if (StringUtils.isNotBlank(plz)) {
-            methodName += "PlzLikeAnd";
-        }
-        return StringUtils.removeEnd(methodName, "And");
-    }
-
-    public Optional<Kunde> getKunde(final Integer id) {
-        return kundeRepository.findById(id);
-    }
-
-    public void saveDsgvo(final Integer id) {
-        getKunde(id).ifPresent(k -> {
-            k.setDsgvo(true);
-            save(k);
-        });
-    }
-
-    public Kunde save(final Kunde kunde) {
-        if (kunde.getNummer() == null) {
-            kunde.setNummer(kundeRepository.getNextNummer());
-        }
-        return kundeRepository.save(kunde);
-    }
-
-    public void deleteKunde(final Integer id) {
-        kundeRepository.deleteById(id);
-    }
 
     public Page<Reparatur> listReparaturen(final PageRequest pagination, final Map<String, String> conditions) {
         final String nachname = SearchQueryUtils.getAndReplaceJoker(conditions, "nachname");

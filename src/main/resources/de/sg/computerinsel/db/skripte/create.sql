@@ -37,7 +37,7 @@ CREATE TABLE mitarbeiter (
 CREATE TABLE reparatur (
    id INTEGER IDENTITY NOT NULL PRIMARY KEY,
    mitarbeiter VARCHAR(200) NOT NULL,
-   kunde_id INTEGER NOT NULL,
+   kunde_id INTEGER,
    nummer VARCHAR(20),
    art TINYINT NOT NULL,
    geraet VARCHAR(200),
@@ -53,7 +53,7 @@ CREATE TABLE reparatur (
    erledigungsdatum DATETIME,
    erstellt_am DATETIME,
    bemerkung VARCHAR(4000),
-   FOREIGN KEY (kunde_id) REFERENCES kunde(id) ON DELETE CASCADE
+   FOREIGN KEY (kunde_id) REFERENCES kunde(id) ON DELETE SET NULL
 );
 
 CREATE TABLE einstellungen (

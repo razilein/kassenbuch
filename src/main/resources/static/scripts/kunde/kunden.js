@@ -8,32 +8,32 @@ var vm = new Vue({
     showEditDialog: false,
     deleteRow: {
       id: null,
-      restUrl: '/reparatur/kunde',
+      restUrl: '/kunde',
       title: 'Kunde löschen',
     },
     editRow: {
-      restUrlGet: '/reparatur/kunde/',
-      restUrlSave: '/reparatur/kunde',
+      restUrlGet: '/kunde/',
+      restUrlSave: '/kunde',
       title: 'Kunde bearbeiten',
     },
     grid: {
       actions: [],
       gridColumns: [],
       reload: false,
-      restUrl: 'reparatur/kunde',
+      restUrl: 'kunde',
       searchQuery: {},
     },
   },
   methods: {
     
     addFunction: function() {
-      vm.editRow.restUrlGet = '/reparatur/kunde/' + -1;
+      vm.editRow.restUrlGet = '/kunde/' + -1;
       vm.editRow.title = 'Kunde hinzufügen';
       vm.showEditDialog = true;
     },
     
     editFunction: function(row) {
-      vm.editRow.restUrlGet = '/reparatur/kunde/' + row.id;
+      vm.editRow.restUrlGet = '/kunde/' + row.id;
       vm.editRow.title = 'Kunde ' + row.nummer + ' bearbeiten';
       vm.showEditDialog = true;
     },

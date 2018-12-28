@@ -11,8 +11,8 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
-import de.sg.computerinsel.tools.reparatur.model.Kunde;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import lombok.Getter;
 import lombok.Setter;

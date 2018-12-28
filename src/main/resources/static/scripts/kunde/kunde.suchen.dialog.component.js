@@ -60,8 +60,8 @@ Vue.component('kunde-suchen-dialog', {
       showDialog: false,
       showEditDialog: false,
       editRow: {
-        restUrlGet: '/reparatur/kunde/',
-        restUrlSave: '/reparatur/kunde',
+        restUrlGet: '/kunde/',
+        restUrlSave: '/kunde',
         title: 'Kunde bearbeiten',
       },
       grid: {
@@ -84,7 +84,7 @@ Vue.component('kunde-suchen-dialog', {
           { name: 'ort', title: 'Ort', width: 100 },
         ],
         reload: false,
-        restUrl: 'reparatur/kunde',
+        restUrl: 'kunde',
         searchQuery: {
           nachname: this.kunde ? this.kunde.nachname : null,
           vorname: this.kunde ? this.kunde.vorname : null
@@ -99,7 +99,7 @@ Vue.component('kunde-suchen-dialog', {
       return this.entity && hasAllProperties(this.entity, ['id']);
     },
     addFunction: function() {
-      this.editRow.restUrlGet = '/reparatur/kunde/' + -1;
+      this.editRow.restUrlGet = '/kunde/' + -1;
       this.editRow.title = 'Kunde hinzufügen';
       this.showEditDialog = true;
     },
@@ -108,7 +108,7 @@ Vue.component('kunde-suchen-dialog', {
       this.saveFunc();
     },
     editFunction: function(row) {
-      this.editRow.restUrlGet = '/reparatur/kunde/' + row.id;
+      this.editRow.restUrlGet = '/kunde/' + row.id;
       this.editRow.title = 'Kunde ' + row.nachname + ' bearbeiten';
       this.showEditDialog = true;
     },

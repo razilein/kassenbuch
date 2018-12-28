@@ -146,7 +146,7 @@ var vm = new Vue({
     },
     openDsgvoFile: function(kunde) {
       if (kunde && !kunde.dsgvo) {
-        window.open('reparatur/kunde/download-dsgvo/' + kunde.id);
+        window.open('kunde/download-dsgvo/' + kunde.id);
       }
     },
     openRechnung: function(response) {

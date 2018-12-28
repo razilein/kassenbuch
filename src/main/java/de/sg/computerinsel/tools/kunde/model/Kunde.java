@@ -1,4 +1,4 @@
-package de.sg.computerinsel.tools.reparatur.model;
+package de.sg.computerinsel.tools.kunde.model;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.StringUtils;
 
+import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import lombok.Getter;
 import lombok.Setter;
 

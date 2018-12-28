@@ -1,11 +1,11 @@
-package de.sg.computerinsel.tools.reparatur.dao;
+package de.sg.computerinsel.tools.kunde.dao;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import de.sg.computerinsel.tools.reparatur.model.Kunde;
+import de.sg.computerinsel.tools.kunde.model.Kunde;
 
 public interface KundeRepository extends CrudRepository<Kunde, Integer> {
 

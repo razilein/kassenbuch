@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
 import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
-import de.sg.computerinsel.tools.reparatur.model.Kunde;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import lombok.AllArgsConstructor;
 import lombok.Data;
