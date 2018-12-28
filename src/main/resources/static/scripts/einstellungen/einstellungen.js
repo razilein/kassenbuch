@@ -4,7 +4,9 @@ var vm = new Vue({
     einstellungen: {
       ablageverzeichnis: {},
       filiale: {},
-      rechnungsverzeichnis: {}
+      rechnungsverzeichnis: {},
+      rechnungsnummer: {},
+      reparaturnummer: {}
     },
     filialen: {},
     result: {},

@@ -68,6 +68,10 @@ public class EinstellungenService {
         return getEinstellung("kassenbuch.rechnungsverzeichnis");
     }
 
+    public Einstellungen getReparaturnummer() {
+        return getEinstellung("reparatur.nummer");
+    }
+
     public Einstellungen getRechnungsnummer() {
         return getEinstellung("rechnung.nummer");
     }
@@ -79,7 +83,19 @@ public class EinstellungenService {
         if (StringUtils.isNumeric(nummer)) {
             einstellung.setWert(String.valueOf(Ints.tryParse(nummer) + 1));
             save(einstellung);
-            return StringUtils.leftPad(einstellung.getWert(), 5, "0");
+            return StringUtils.leftPad(einstellung.getWert(), 4, "0");
+        }
+        return "0";
+    }
+
+    public String getAndSaveNextReparaturnummer() {
+        final Einstellungen einstellung = getReparaturnummer();
+
+        final String nummer = StringUtils.defaultIfBlank(einstellung.getWert(), "0");
+        if (StringUtils.isNumeric(nummer)) {
+            einstellung.setWert(String.valueOf(Ints.tryParse(nummer) + 1));
+            save(einstellung);
+            return StringUtils.leftPad(einstellung.getWert(), 4, "0");
         }
         return "0";
     }

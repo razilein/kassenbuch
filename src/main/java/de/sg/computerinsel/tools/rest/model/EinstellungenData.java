@@ -17,4 +17,8 @@ public class EinstellungenData {
 
     Einstellungen filiale;
 
+    Einstellungen rechnungsnummer;
+
+    Einstellungen reparaturnummer;
+
 }

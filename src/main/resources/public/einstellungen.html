@@ -27,6 +27,16 @@
             <input class="m1" id="einstellungenForm_ablageverzeichnis" type="text" v-model="einstellungen.ablageverzeichnis.wert" />
           </div>
           <div class="m1">
+            <div class="m4m">
+              <label for="einstellungenForm_rechnungsnummer">Rechnungsnummer</label>
+              <input class="m4" id="einstellungenForm_rechnungsnummer" type="number" v-model="einstellungen.rechnungsnummer.wert" />
+            </div>
+            <div class="m4">
+              <label for="einstellungenForm_reparaturnummer">Auftragsnummer</label>
+              <input class="m4" id="einstellungenForm_reparaturnummer" type="number" v-model="einstellungen.reparaturnummer.wert" />
+            </div>
+          </div>
+          <div class="m1">
             <div class="m2m">
               <label for="einstellungenForm_filiale">Filiale</label>
               <select class="m2" v-model="einstellungen.filiale.wert">
