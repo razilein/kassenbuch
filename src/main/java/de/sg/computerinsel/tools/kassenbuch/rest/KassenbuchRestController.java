@@ -53,10 +53,10 @@ public class KassenbuchRestController {
     @GetMapping
     public KassenbuchDTO initKassenbuch() {
         BigDecimal betrag;
-        final String ausgangsbetrag = einstellungenService.getAusgangsbetrag().getWert();
+        final String ausgangsbetrag = getAusgangsbetrag();
         try {
             betrag = new BigDecimal(ausgangsbetrag);
-        } catch (final NumberFormatException e) {
+        } catch (final NumberFormatException | NullPointerException e) {
             log.debug(e.getMessage(), e);
             betrag = BigDecimal.ZERO;
         }
