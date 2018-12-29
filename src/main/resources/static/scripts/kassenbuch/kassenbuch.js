@@ -75,14 +75,6 @@ var vm = new Vue({
         .then(hideLoader);
     },
 
-    getAusgangsbetrag: function() {
-      return axios.get('kassenbuch/ausgangsbetrag');
-    },
-
-    setAusgangsbetrag: function(response) {
-      vm.model.kassenbuch.ausgangsbetrag = response.data;
-    },
-    
     getModel: function() {
       return axios.get('kassenbuch');
     },
