@@ -19,6 +19,7 @@ import de.sg.computerinsel.tools.inventar.dao.ProduktRepository;
 import de.sg.computerinsel.tools.inventar.model.Gruppe;
 import de.sg.computerinsel.tools.inventar.model.Kategorie;
 import de.sg.computerinsel.tools.inventar.model.Produkt;
+import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
 import de.sg.computerinsel.tools.service.SearchQueryUtils;
 import lombok.AllArgsConstructor;
@@ -136,6 +137,22 @@ public class InventarService {
 
     public void deleteProdukt(final Integer id) {
         produktRepository.deleteById(id);
+    }
+
+    public void bestandReduzieren(final List<Rechnungsposten> postenList) {
+        for (final Rechnungsposten posten : postenList.stream().filter(InventarService::isBegrenzterBestand).collect(Collectors.toList())) {
+            final Optional<Produkt> optional = getProdukt(posten.getProdukt().getId());
+            if (optional.isPresent()) {
+                final Produkt produkt = optional.get();
+                final int bestand = produkt.getBestand() - posten.getMenge();
+                produkt.setBestand(bestand < 0 ? 0 : bestand);
+                saveProdukt(produkt);
+            }
+        }
+    }
+
+    private static boolean isBegrenzterBestand(final Rechnungsposten p) {
+        return p.getProdukt() != null && p.getProdukt().getId() != null && !p.getProdukt().isBestandUnendlich();
     }
 
 }

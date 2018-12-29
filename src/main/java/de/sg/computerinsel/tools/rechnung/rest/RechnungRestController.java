@@ -91,6 +91,8 @@ public class RechnungRestController {
     public Map<String, Object> save(@RequestBody final RechnungDTO dto) {
         final Rechnung rechnung = dto.getRechnung();
         final Map<String, Object> result = new HashMap<>(ValidationUtils.validate(rechnung));
+
+        final boolean isErstellt = dto.getRechnung().getId() == null;
         if (rechnung.getReparatur() != null && rechnung.getReparatur().getId() == null) {
             rechnung.setReparatur(null);
         }
@@ -105,12 +107,18 @@ public class RechnungRestController {
             final Rechnung saved = service.saveRechnung(rechnung);
             savePosten(dto.getPosten(), saved);
             reparaturErledigen(saved);
+            if (isErstellt) {
+                inventarAnpassen(dto);
+            }
             result.put(Message.SUCCESS.getCode(), "Die Rechnung " + saved.getNummer() + " erfolgreich gespeichert.");
             result.put("rechnung", saved);
-            protokollService.write(saved.getId(), RECHNUNG, String.valueOf(rechnung.getNummer()),
-                    rechnung.getId() == null ? ERSTELLT : GEAENDERT);
+            protokollService.write(saved.getId(), RECHNUNG, String.valueOf(rechnung.getNummer()), isErstellt ? ERSTELLT : GEAENDERT);
         }
         return result;
+    }
+
+    private void inventarAnpassen(final RechnungDTO dto) {
+        inventarService.bestandReduzieren(dto.getPosten());
     }
 
     private void savePosten(final List<Rechnungsposten> list, final Rechnung rechnung) {
