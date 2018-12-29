@@ -13,8 +13,6 @@ public class EinstellungenData {
 
     Einstellungen ablageverzeichnis;
 
-    Einstellungen rechnungsverzeichnis;
-
     Einstellungen filiale;
 
     Einstellungen rechnungsnummer;

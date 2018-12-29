@@ -58,7 +58,6 @@ public class EinstellungenRestController {
     public EinstellungenData getEinstellungen() {
         final EinstellungenData data = new EinstellungenData();
         data.setAblageverzeichnis(einstellungenService.getAblageverzeichnis());
-        data.setRechnungsverzeichnis(einstellungenService.getRechnungsverzeichnis());
         data.setFiliale(einstellungenService.getFiliale());
         data.setRechnungsnummer(einstellungenService.getRechnungsnummer());
         data.setReparaturnummer(einstellungenService.getReparaturnummer());
@@ -74,8 +73,7 @@ public class EinstellungenRestController {
     @PutMapping
     public Map<String, Object> saveEinstellungen(@RequestBody final EinstellungenData data) {
         final Map<String, Object> result = new HashMap<>();
-        result.putAll(
-                ValidationUtils.validateVerzeichnisse(data.getRechnungsverzeichnis().getWert(), data.getAblageverzeichnis().getWert()));
+        result.putAll(ValidationUtils.validateVerzeichnisse(data.getAblageverzeichnis().getWert()));
 
         if (StringUtils.isBlank(data.getFiliale().getWert())) {
             result.put(Message.ERROR.getCode(), "Bitte wählen Sie eine Filiale aus."
@@ -88,7 +86,6 @@ public class EinstellungenRestController {
 
         if (result.isEmpty()) {
             einstellungenService.save(data.getAblageverzeichnis());
-            einstellungenService.save(data.getRechnungsverzeichnis());
             einstellungenService.save(data.getFiliale());
             einstellungenService.save(data.getRechnungsnummer());
             einstellungenService.save(data.getReparaturnummer());

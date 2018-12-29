@@ -50,4 +50,9 @@ public interface RechnungRepository extends CrudRepository<Rechnung, Integer> {
     Page<Rechnung> findByErstellerLike(String ersteller, Pageable pagination);
 
     List<Rechnung> findAllByDatumAndArtOrderByNummerAsc(LocalDate datum, Integer art);
+
+    List<Rechnung> findAllByDatumGreaterThanEqualAndDatumLessThanEqual(LocalDate datumVon, LocalDate datumBis);
+
+    List<Rechnung> findAllByDatumGreaterThanEqualAndDatumLessThanEqualAndArtOrderByDatumAscNummerAsc(LocalDate datumVon, LocalDate datumBis,
+            Integer art);
 }

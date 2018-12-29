@@ -4,12 +4,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.Month;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -23,9 +22,9 @@ import com.google.common.base.Joiner;
 
 import de.sg.computerinsel.tools.CurrencyUtils;
 import de.sg.computerinsel.tools.DateUtils;
-import de.sg.computerinsel.tools.kassenbuch.model.Rechnung;
-import de.sg.computerinsel.tools.kassenbuch.model.Rechnungsposten;
+import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.rechnung.model.Zahlart;
+import de.sg.computerinsel.tools.rechnung.rest.model.RechnungDTO;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,23 +37,23 @@ public class KassenbuchStatistikUtils {
 
     private static final String TRENNZEICHEN = "|";
 
-    public static Map<Integer, Map<Zahlart, Map<Month, List<Rechnung>>>> getStatistikProJahrZahlungsartMonat(
-            final List<Rechnung> rechnungen) {
-        final Map<Integer, Map<Zahlart, Map<Month, List<Rechnung>>>> result = new TreeMap<>();
-        for (final Entry<Date, List<Rechnung>> entry : getRechnungenJeJahr(rechnungen).entrySet()) {
-            final int year = entry.getKey().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
+    public static Map<Integer, Map<Zahlart, Map<Month, List<RechnungDTO>>>> getStatistikProJahrZahlungsartMonat(
+            final List<RechnungDTO> rechnungen) {
+        final Map<Integer, Map<Zahlart, Map<Month, List<RechnungDTO>>>> result = new TreeMap<>();
+        for (final Entry<LocalDate, List<RechnungDTO>> entry : getRechnungenJeJahr(rechnungen).entrySet()) {
+            final int year = entry.getKey().getYear();
             result.put(year, getStatistikProZahlungsartMonat(entry.getValue()));
         }
         return result;
     }
 
-    private static Map<Date, List<Rechnung>> getRechnungenJeJahr(final List<Rechnung> rechnungen) {
-        return rechnungen.stream().collect(Collectors.groupingBy(Rechnung::getRechnungsjahr));
+    private static Map<LocalDate, List<RechnungDTO>> getRechnungenJeJahr(final List<RechnungDTO> rechnungen) {
+        return rechnungen.stream().collect(Collectors.groupingBy(RechnungDTO::getRechnungsjahr));
     }
 
     public void createFile(final File ablageverzeichnis,
-            final Map<Integer, Map<Zahlart, Map<Month, List<Rechnung>>>> rechnungProJahrMonatZahlungsart) throws IOException {
-        for (final Entry<Integer, Map<Zahlart, Map<Month, List<Rechnung>>>> entry : rechnungProJahrMonatZahlungsart.entrySet()) {
+            final Map<Integer, Map<Zahlart, Map<Month, List<RechnungDTO>>>> rechnungProJahrMonatZahlungsart) throws IOException {
+        for (final Entry<Integer, Map<Zahlart, Map<Month, List<RechnungDTO>>>> entry : rechnungProJahrMonatZahlungsart.entrySet()) {
             final File file = createFileZahlweg(ablageverzeichnis, entry.getKey());
             final FileWriter writer = new FileWriter(file.getAbsoluteFile());
             writeToFile(writer, entry.getValue());
@@ -63,7 +62,7 @@ public class KassenbuchStatistikUtils {
         }
     }
 
-    private void writeToFile(final FileWriter writer, final Map<Zahlart, Map<Month, List<Rechnung>>> rechnungProZahlartMonat)
+    private void writeToFile(final FileWriter writer, final Map<Zahlart, Map<Month, List<RechnungDTO>>> rechnungProZahlartMonat)
             throws IOException {
         writeHeadline(writer);
         writeLineJeZahlungsart(writer, rechnungProZahlartMonat);
@@ -79,13 +78,13 @@ public class KassenbuchStatistikUtils {
         writer.write("\n\r");
     }
 
-    private void writeLineJeZahlungsart(final FileWriter writer, final Map<Zahlart, Map<Month, List<Rechnung>>> rechnungProZahlartMonat)
+    private void writeLineJeZahlungsart(final FileWriter writer, final Map<Zahlart, Map<Month, List<RechnungDTO>>> rechnungProZahlartMonat)
             throws IOException {
-        for (final Entry<Zahlart, Map<Month, List<Rechnung>>> entry : rechnungProZahlartMonat.entrySet()) {
+        for (final Entry<Zahlart, Map<Month, List<RechnungDTO>>> entry : rechnungProZahlartMonat.entrySet()) {
             writer.write(entry.getKey().getBezeichnung());
             writer.write(TRENNZEICHEN);
-            for (final Entry<Month, List<Rechnung>> entry2 : entry.getValue().entrySet()) {
-                final BigDecimal betrag = entry2.getValue().stream().map(Rechnung::getRechnungsbetrag).reduce(BigDecimal::add)
+            for (final Entry<Month, List<RechnungDTO>> entry2 : entry.getValue().entrySet()) {
+                final BigDecimal betrag = entry2.getValue().stream().map(RechnungDTO::getRechnungsbetrag).reduce(BigDecimal::add)
                         .orElse(BigDecimal.ZERO);
                 writer.write(CurrencyUtils.format(betrag));
                 writer.write(TRENNZEICHEN);
@@ -95,16 +94,16 @@ public class KassenbuchStatistikUtils {
         writer.write("\n\r");
     }
 
-    private void writeFootline(final FileWriter writer, final Map<Zahlart, Map<Month, List<Rechnung>>> rechnungProZahlartMonat)
+    private void writeFootline(final FileWriter writer, final Map<Zahlart, Map<Month, List<RechnungDTO>>> rechnungProZahlartMonat)
             throws IOException {
         writer.write("Gesamt");
         writer.write(TRENNZEICHEN);
         final Map<Month, BigDecimal> result = new TreeMap<>();
-        for (final Entry<Zahlart, Map<Month, List<Rechnung>>> entry : rechnungProZahlartMonat.entrySet()) {
-            for (final Entry<Month, List<Rechnung>> entry2 : entry.getValue().entrySet()) {
+        for (final Entry<Zahlart, Map<Month, List<RechnungDTO>>> entry : rechnungProZahlartMonat.entrySet()) {
+            for (final Entry<Month, List<RechnungDTO>> entry2 : entry.getValue().entrySet()) {
                 BigDecimal betrag = result.get(entry2.getKey()) == null ? BigDecimal.ZERO : result.get(entry2.getKey());
-                betrag = betrag
-                        .add(entry2.getValue().stream().map(Rechnung::getRechnungsbetrag).reduce(BigDecimal::add).orElse(BigDecimal.ZERO));
+                betrag = betrag.add(
+                        entry2.getValue().stream().map(RechnungDTO::getRechnungsbetrag).reduce(BigDecimal::add).orElse(BigDecimal.ZERO));
                 result.put(entry2.getKey(), betrag);
             }
         }
@@ -126,10 +125,10 @@ public class KassenbuchStatistikUtils {
         return new File(ablageverzeichnis, DateUtils.nowDatetime() + name + jahr + ".xls");
     }
 
-    private static Map<Zahlart, Map<Month, List<Rechnung>>> getStatistikProZahlungsartMonat(final List<Rechnung> rechnungen) {
-        final Map<Zahlart, List<Rechnung>> rechnungJeZahlart = getStatistikProZahlungsart(rechnungen);
-        final Map<Zahlart, Map<Month, List<Rechnung>>> result = new TreeMap<>();
-        for (final Entry<Zahlart, List<Rechnung>> entry : rechnungJeZahlart.entrySet()) {
+    private static Map<Zahlart, Map<Month, List<RechnungDTO>>> getStatistikProZahlungsartMonat(final List<RechnungDTO> rechnungen) {
+        final Map<Zahlart, List<RechnungDTO>> rechnungJeZahlart = getStatistikProZahlungsart(rechnungen);
+        final Map<Zahlart, Map<Month, List<RechnungDTO>>> result = new TreeMap<>();
+        for (final Entry<Zahlart, List<RechnungDTO>> entry : rechnungJeZahlart.entrySet()) {
             result.put(entry.getKey(), getStatistikProMonat(entry.getValue()));
         }
         for (final Zahlart zahlart : Zahlart.values()) {
@@ -138,39 +137,39 @@ public class KassenbuchStatistikUtils {
         return result;
     }
 
-    private static Map<Month, List<Rechnung>> getStatistikProMonat(final List<Rechnung> rechnungen) {
-        final Map<Month, List<Rechnung>> rechnungJeMonat = new TreeMap<>(
-                rechnungen.stream().collect(Collectors.groupingBy(Rechnung::getRechnungsmonat)));
+    private static Map<Month, List<RechnungDTO>> getStatistikProMonat(final List<RechnungDTO> rechnungen) {
+        final Map<Month, List<RechnungDTO>> rechnungJeMonat = new TreeMap<>(
+                rechnungen.stream().collect(Collectors.groupingBy(RechnungDTO::getRechnungsmonat)));
         for (final Month month : Month.values()) {
             rechnungJeMonat.computeIfAbsent(month, k -> new ArrayList<>());
         }
         return rechnungJeMonat;
     }
 
-    private static Map<Month, List<Rechnung>> getEmptyStatitsikProMonat() {
+    private static Map<Month, List<RechnungDTO>> getEmptyStatitsikProMonat() {
         return Arrays.asList(Month.values()).stream().collect(Collectors.toMap(m -> m, m -> new ArrayList<>()));
     }
 
-    private static Map<Zahlart, List<Rechnung>> getStatistikProZahlungsart(final List<Rechnung> rechnungen) {
-        return rechnungen.stream().filter(r -> Objects.nonNull(r.getArt())).collect(Collectors.groupingBy(Rechnung::getArt));
+    private static Map<Zahlart, List<RechnungDTO>> getStatistikProZahlungsart(final List<RechnungDTO> rechnungen) {
+        return rechnungen.stream().filter(r -> Objects.nonNull(r.getArt())).collect(Collectors.groupingBy(RechnungDTO::getArt));
     }
 
-    public static Map<Integer, Map<String, Map<Month, BigDecimal>>> getStatistikProJahrPostenMonat(final List<Rechnung> rechnungen,
+    public static Map<Integer, Map<String, Map<Month, BigDecimal>>> getStatistikProJahrPostenMonat(final List<RechnungDTO> rechnungen,
             final String postenfilter) {
         final Map<Integer, Map<String, Map<Month, BigDecimal>>> result = new TreeMap<>();
-        for (final Entry<Date, List<Rechnung>> entry : getRechnungenJeJahr(rechnungen).entrySet()) {
-            final int year = entry.getKey().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
+        for (final Entry<LocalDate, List<RechnungDTO>> entry : getRechnungenJeJahr(rechnungen).entrySet()) {
+            final int year = entry.getKey().getYear();
             result.put(year, getStatistikProPostenMonat(entry.getValue(), postenfilter));
         }
         return result;
     }
 
-    public static Map<Month, BigDecimal> getStatistikPostenProMonat(final List<Rechnung> rechnungen, final String postenfilter) {
+    public static Map<Month, BigDecimal> getStatistikPostenProMonat(final List<RechnungDTO> rechnungen, final String postenfilter) {
         final Map<Month, BigDecimal> result = new TreeMap<>();
-        for (final Entry<Month, List<Rechnung>> entry : getStatistikProMonat(rechnungen).entrySet()) {
+        for (final Entry<Month, List<RechnungDTO>> entry : getStatistikProMonat(rechnungen).entrySet()) {
             log.debug("Monat: {}", entry.getKey());
             final List<Rechnungsposten> list = entry.getValue().stream().filter(r -> Objects.nonNull(r.getPosten()))
-                    .map(Rechnung::getPosten).flatMap(Collection::stream)
+                    .map(RechnungDTO::getPosten).flatMap(Collection::stream)
                     .filter(p -> StringUtils.containsIgnoreCase(p.getBezeichnung(), postenfilter)).collect(Collectors.toList());
             for (final Rechnungsposten posten : list) {
                 log.debug("{} {}", posten.getBezeichnung(), CurrencyUtils.format(posten.getGesamt()));
@@ -193,22 +192,22 @@ public class KassenbuchStatistikUtils {
         }
     }
 
-    public void createUeberweisungenUebersichtFile(final File ablageverzeichnis, final List<Rechnung> ueberweisungen,
+    public void createUeberweisungenUebersichtFile(final File ablageverzeichnis, final List<RechnungDTO> ueberweisungen,
             final String zeitraumVon, final String zeitraumBis) throws IOException {
         final File file = new File(ablageverzeichnis, DateUtils.nowDatetime() + "_uebersicht_ueberweisungen.xls");
         try (final FileWriter writer = new FileWriter(file.getAbsoluteFile())) {
             writer.write("Rechnungszeitraum von " + zeitraumVon + " (inkl.) bis " + zeitraumBis + " (inkl.)\n\r\n\r");
             writer.write("Rechnungsnummer|Name|Betrag|Rechnungsdatum\n\r");
-            for (final Rechnung rechnung : ueberweisungen) {
+            for (final RechnungDTO rechnung : ueberweisungen) {
                 writeUeberweisungToFile(writer, rechnung);
             }
             writer.flush();
         }
     }
 
-    private void writeUeberweisungToFile(final FileWriter writer, final Rechnung rechnung) throws IOException {
-        writer.write(Joiner.on("|").join(rechnung.getRechnungsnummer(), rechnung.getAdressfeld(),
-                CurrencyUtils.format(rechnung.getRechnungsbetrag()), DateUtils.format(rechnung.getRechnungsdatum())));
+    private void writeUeberweisungToFile(final FileWriter writer, final RechnungDTO rechnung) throws IOException {
+        writer.write(Joiner.on("|").join(rechnung.getRechnung().getNummer(), rechnung.getKundenAdresse(),
+                CurrencyUtils.format(rechnung.getRechnungsbetrag()), DateUtils.format(rechnung.getRechnung().getDatum())));
         writer.write("\n\r");
     }
 
@@ -260,10 +259,10 @@ public class KassenbuchStatistikUtils {
         }
     }
 
-    private static Map<String, Map<Month, BigDecimal>> getStatistikProPostenMonat(final List<Rechnung> rechnungen,
+    private static Map<String, Map<Month, BigDecimal>> getStatistikProPostenMonat(final List<RechnungDTO> rechnungen,
             final String postenfilter) {
         final Map<String, Map<Month, BigDecimal>> result = new TreeMap<>();
-        for (final Entry<Month, List<Rechnung>> entry : getStatistikProMonat(rechnungen).entrySet()) {
+        for (final Entry<Month, List<RechnungDTO>> entry : getStatistikProMonat(rechnungen).entrySet()) {
             log.debug("Monat: {}", entry.getKey());
             for (final Entry<String, List<Rechnungsposten>> posten : getStatistikProPosten(entry.getValue(), postenfilter).entrySet()) {
                 log.debug("{} {}", posten.getKey(), CurrencyUtils.format(getBetragPosten(posten.getValue())));
@@ -286,8 +285,8 @@ public class KassenbuchStatistikUtils {
         return posten.stream().map(Rechnungsposten::getGesamt).filter(Objects::nonNull).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
     }
 
-    private static Map<String, List<Rechnungsposten>> getStatistikProPosten(final List<Rechnung> rechnungen, final String postenfilter) {
-        return rechnungen.stream().filter(r -> Objects.nonNull(r.getPosten())).map(Rechnung::getPosten).flatMap(Collection::stream)
+    private static Map<String, List<Rechnungsposten>> getStatistikProPosten(final List<RechnungDTO> rechnungen, final String postenfilter) {
+        return rechnungen.stream().filter(r -> Objects.nonNull(r.getPosten())).map(RechnungDTO::getPosten).flatMap(Collection::stream)
                 .filter(p -> StringUtils.containsIgnoreCase(p.getBezeichnung(), postenfilter))
                 .collect(Collectors.groupingBy(Rechnungsposten::getBezeichnung));
     }

@@ -52,20 +52,8 @@ public class EinstellungenService {
         return getEinstellung("kassenbuch.ausgangsbetrag");
     }
 
-    public Einstellungen getLetzteCsvDateiPfad() {
-        return getEinstellung("kassenbuch.letztecsvdateipfad");
-    }
-
-    public Einstellungen getLetztePdfDateiPfad() {
-        return getEinstellung("kassenbuch.letztepdfdateipfad");
-    }
-
     public Einstellungen getAblageverzeichnis() {
         return getEinstellung("kassenbuch.ablageverzeichnis");
-    }
-
-    public Einstellungen getRechnungsverzeichnis() {
-        return getEinstellung("kassenbuch.rechnungsverzeichnis");
     }
 
     public Einstellungen getReparaturnummer() {

@@ -1,5 +1,7 @@
 package de.sg.computerinsel.tools.rechnung.model;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang3.StringUtils;
 
 import lombok.AllArgsConstructor;
@@ -11,19 +13,17 @@ public enum Zahlart {
 
     BAR(0, "BAR"), EC(1, "EC"), UEBERWEISUNG(2, "ÜBERWEISUNG"), PAYPAL(3, "PAYPAL");
 
-    final int code;
+    private final int code;
 
-    final String bezeichnung;
+    private final String bezeichnung;
 
     public static Zahlart getByBezeichnung(final String bezeichnung) {
-        Zahlart art = null;
-        for (final Zahlart zahlart : Zahlart.values()) {
-            if (StringUtils.endsWithIgnoreCase(bezeichnung, zahlart.getBezeichnung())) {
-                art = zahlart;
-                break;
-            }
-        }
-        return art;
+        return Arrays.asList(Zahlart.values()).stream().filter(z -> StringUtils.endsWithIgnoreCase(bezeichnung, z.getBezeichnung()))
+                .findFirst().orElse(null);
+    }
+
+    public static Zahlart getByCode(final int code) {
+        return Arrays.asList(Zahlart.values()).stream().filter(z -> code == z.getCode()).findFirst().orElse(null);
     }
 
 }

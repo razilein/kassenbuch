@@ -44,15 +44,10 @@ public class ValidationUtils {
         return result;
     }
 
-    public static Map<String, Object> validateVerzeichnisse(final String rechnungsverzeichnis, final String ablageverzeichnis) {
+    public static Map<String, Object> validateVerzeichnisse(final String ablageverzeichnis) {
         final Map<String, Object> messages = new HashMap<>();
 
-        String message = ValidationUtils.validatePath(rechnungsverzeichnis, "Rechnungsverzeichnis");
-        if (StringUtils.isNotBlank(message)) {
-            messages.put(Message.ERROR.getCode(), message);
-        }
-
-        message = ValidationUtils.validatePath(ablageverzeichnis, "Ablageverzeichnis");
+        final String message = ValidationUtils.validatePath(ablageverzeichnis, "Ablageverzeichnis");
         if (StringUtils.isNotBlank(message)) {
             messages.put(Message.ERROR.getCode(), message);
         }
