@@ -1,0 +1,22 @@
+body {
+  background-color: white;
+  font-family: sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #999;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+th {
+  background-color: silver;
+}
+
+td.right, th.right {
+  text-align: right;
+}

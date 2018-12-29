@@ -17,7 +17,7 @@ var vm = new Vue({
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.kunde && hasAllProperties(this.entity, ['kunde.id']) && this.entity.geprueft !== 0;
+      return this.entity && this.entity.kunde && hasAllProperties(this.entity, ['kunde.id']) && this.entity.funktionsfaehig !== 0;
     },
     init: function() {
       showLoader();
@@ -54,7 +54,7 @@ var vm = new Vue({
     },
     openDsgvoFile: function(kunde) {
       if (!kunde.dsgvo) {
-        window.open('reparatur/kunde/download-dsgvo/' + kunde.id);
+        window.open('kunde/download-dsgvo/' + kunde.id);
       }
     },
     openReparatur: function(response) {

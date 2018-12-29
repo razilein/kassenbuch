@@ -1,91 +1,78 @@
 var vm = new Vue({
   el: '#kassenbuch',
   data: {
-    manuell: {
-      csvDatei: null,
-      eintragungen: [],
+    editEntity: {},
+    gesamt: 0.00,
+    model: {
+      kassenbuch: {},
+      posten: []
     },
-    model: {},
     result: {},
     showDialog: false,
+    showEditDialog: false,
   },
   methods: {
-
-    addEintragung: function() {
-      vm.manuell.eintragungen.push({
-        betrag: 0,
-        datum: getDateAsString(),
+    
+    openAddEintragungDialog: function() {
+      vm.editEntity = {
+        betrag: 0.00,
         eintragungsart: -1,
-        gespeichert: false,
         verwendungszweck: null,
+      };
+      vm.showEditDialog = true;
+    },
+    
+    areRequiredFieldsNotEmpty: function() {
+      return this.model && this.model.posten.length > 0 && hasAllPropertiesAndNotEmpty(this.model, ['kassenbuch.ausgangsbetrag', 'kassenbuch.datum']);
+    },
+    
+    berechneGesamt: function() {
+      var gesamt = 0;
+      vm.model.posten.forEach(function(element) {
+        gesamt = gesamt + Number((element.betrag).toFixed(2));
       });
+      var ausgangsbetrag = vm.model.kassenbuch.ausgangsbetrag || 0;
+      gesamt = gesamt || 0;
+      vm.gesamt = parseFloat(ausgangsbetrag) + gesamt;
+    },
+    
+    executeSave: function() {
+      return axios.put('/kassenbuch', vm.model);
+    },
+    
+    handleEditResponse: function(response) {
+      vm.editEntity = response;
+      vm.editEntity.betrag = vm.editEntity.betrag * vm.editEntity.eintragungsart;
+      vm.model.posten.push(vm.editEntity);
+      vm.showEditDialog = false;
+      vm.berechneGesamt();
+    },
+    
+    openKassenbuch: function(response) {
+      var data = response.data;
+      if (data.success) {
+        var id = data.kassenbuch.id;
+        window.open('/kassenbuch-drucken.html?id=' + id);
+        vm.init();
+      }
+      vm.result = data;
+      vm.showDialog = true;
+    },
+    
+    saveFunc: function() {
+      vm.executeSave().then(vm.openKassenbuch);
     },
 
-    anzeigen: function() {
-      window.open('kassenbuch/download/');
-    },
-
-    erstellen: function() {
-      showLoader();
-      vm.erstellenExecute()
-        .then(vm.setMessages)
-        .then(hideLoader);
-    },
-
-    erstellenExecute: function() {
-      return axios.post('kassenbuch/erstellen', vm.model);
-    },
-
-    downloadFile: function(response) {
-      var newBlob = new Blob([response.data], {type: 'application/pdf'});
-      const data = window.URL.createObjectURL(newBlob);
-      var link = document.createElement('a');
-      link.href = data;
-      link.download='kassenbuch.pdf';
-      link.click();
+    suchen: function() {
+      vm.getPosten().then(vm.setPosten);
     },
 
     init: function() {
       showLoader();
-      vm.getAusgangsbetrag()
-        .then(vm.setAusgangsbetrag)
-        .then(vm.getCsvDatei)
-        .then(vm.setCsvDatei)
+      vm.getModel()
+        .then(vm.setModel)
+        .then(vm.berechneGesamt)
         .then(hideLoader);
-    },
-
-    initModel: function() {
-      var today = getDateAsString();
-      vm.model = {
-        ausgangsbetrag : null,
-        ausgangsbetragDatum: today,
-        zeitraumBis: today,
-        zeitraumVon: today
-      }
-    },
-
-    saveEintragungen: function() {
-      showLoader();
-      vm.saveEintragungenExecute()
-        .then(vm.markSavedEintragungen)
-        .then(hideLoader);
-    },
-
-    saveEintragungenExecute: function() {
-      return axios.post('kassenbuch/eintragungen/erstellen', vm.manuell);
-    },
-
-    markSavedEintragungen: function(response) {
-      vm.setMessages(response);
-      if (response.data.success) {
-        for (var i = 0; i < vm.manuell.eintragungen.length; i++) { 
-          vm.manuell.eintragungen[i].gespeichert = true;
-        }
-      }
-    },
-
-    removeEintragung: function(index) {
-      vm.manuell.eintragungen.splice(index, 1);
     },
 
     getAusgangsbetrag: function() {
@@ -93,25 +80,26 @@ var vm = new Vue({
     },
 
     setAusgangsbetrag: function(response) {
-      vm.model.ausgangsbetrag = response.data;
+      vm.model.kassenbuch.ausgangsbetrag = response.data;
     },
-
-    getCsvDatei: function() {
-      return axios.get('kassenbuch/csv');
+    
+    getModel: function() {
+      return axios.get('kassenbuch');
     },
-
-    setCsvDatei: function(response) {
-      vm.manuell.csvDatei = response.data;
+    
+    setModel: function(response) {
+      vm.model = response.data;
     },
-
-    setMessages: function(response) {
-      vm.result = response.data;
-      vm.init();
-      vm.showDialog = true;
+    
+    getPosten: function() {
+      return axios.get('kassenbuch/' + vm.model.kassenbuch.datum);
+    },
+    
+    setPosten: function(response) {
+      vm.model.posten = response.data;
     },
 
   }
 });
 
-vm.initModel();
 vm.init();

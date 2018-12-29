@@ -1,0 +1,177 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Rechnung erstellen - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/rechnung.png">
+    <link rel="stylesheet" href="/themes/css/button.css">
+    <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/grid.css">
+    <link rel="stylesheet" href="/themes/css/loading.css">
+    <link rel="stylesheet" href="/themes/css/radio.css">
+    <link rel="stylesheet" href="/themes/css/raster.css">
+    <link rel="stylesheet" href="/themes/css/style.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
+  </head>
+  <body>
+    <div id="rechnungErstellen">
+      <page-header></page-header>
+      <page-header-rechnung v-bind:marker="'Erstellen'"></page-header-rechnung>
+      <div id="content">
+        <div class="form m1">
+          <div class="m1">
+            <div class="m2m">
+              <label for="searchForm_kategorie">Kategorie</label>
+              <select class="m2" id="searchForm_kategorie" v-model="grid.searchQuery.kategorie" v-on:change="updateGruppen()">
+                <option value=""></option>
+                <option :value="k.key" v-for="k in kategorien">{{k.value}}</option>
+              </select>
+            </div>
+            <div class="m2">
+              <label for="searchForm_gruppe">Gruppe</label>
+              <select class="m2" id="searchForm_gruppe" v-model="grid.searchQuery.gruppe">
+                <option value=""></option>
+                <option :value="g.key" v-for="g in gruppen">{{g.value}}</option>
+              </select>
+            </div>
+            <div class="m1">
+              <label for="searchForm_bezeichnung">Bezeichnung</label>
+              <input class="m1" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung" />
+            </div>
+            <div class="m1">
+              <div class="m2m">
+                <label for="searchForm_ean">EAN</label>
+                <input class="m2" id="searchForm_ean" type="text" v-model="grid.searchQuery.ean" />
+              </div>
+            </div>
+          </div>
+          <div class="m1">
+            <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
+          </div>
+        </div>
+        <div style="height: 250px;"></div>
+        <div id="gridDiv" v-if="grid.gridColumns.length > 0">
+          <grid
+            :actions="grid.actions"
+            :columns="grid.gridColumns"
+            :filter-key="grid.searchQuery"
+            :rest-url="grid.restUrl"
+            :reload="grid.reload"
+            :search-query="grid.searchQuery"
+            @reloaded="grid.reload = false"
+          ></grid>
+        </div>
+        <div class="form" style="width: 1000px;">
+          <h3>Gewählte Posten:</h3>
+          <table>
+            <thead>
+              <th style="width: 100px;">Funktionen</th>
+              <th style="width: 30px;">Pos.</th>
+              <th style="width: 550px;">Bezeichnung</th>
+              <th style="width: 120px;">S/N</th>
+              <th style="width: 120px;">Hinweis</th>
+              <th style="width: 50px;">Menge</th>
+              <th style="width: 100px;">Preis</th>
+              <th style="width: 100px;">Rabatt</th>
+              <th style="width: 100px;">Gesamt</th>
+            </thead>
+            <tbody>
+              <tr v-for="(posten, index) in entity.posten">
+                <td>
+                  <button class="add" title="Menge um 1 erhöhen" v-on:click="addItem(index)"></button>
+                  <button class="minus" title="Menge um 1 verringern" v-on:click="removeItem(index)"></button>
+                  <button class="edit" title="Posten bearbeiten" v-on:click="editPosten(index)"></button>
+                  <button class="euro" title="Rabatt geben" v-on:click="openRabattDialog(index)"></button>
+                </td>
+                <td>{{posten.position}}</td>
+                <td>{{posten.bezeichnung}}</td>
+                <td>{{posten.seriennummer}}</td>
+                <td>{{posten.hinweis}}</td>
+                <td>{{posten.menge}}</td>
+                <td>{{ formatMoney(posten.preis) }}</td>
+                <td>{{ formatMoney(posten.rabatt) }}</td>
+                <td>{{ formatMoney(posten.menge * posten.preis - posten.rabatt) }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="m6 right">
+            <label for="rechnungEditForm_endpreis">Endpreis</label>
+            <input class="m6" readonly type="number" v-model="endpreis" />
+          </div>
+        </div>
+        <div class="form m1">
+          <div class="m1">
+            <label class="container radio" v-for="art in zahlarten">
+              <input
+                :checked="entity.rechnung.art === art.key"
+                name="art"
+                type="radio"
+                :value="art.key"
+                v-model="entity.rechnung.art"
+              >{{art.value}}</input>
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="m1" v-if="entity.rechnung.reparatur">
+            <label for="rechnungEditForm_reparatur">Reparaturauftrag</label>
+            <button class="zahnrad" title="Reparaturauftrag suchen" @click="showReparaturDialog = true"></button>
+            <button class="delete" title="Reparaturauftrag deselektieren" @click="entity.rechnung.reparatur = {}"></button>
+            <input class="m1" id="rechnungEditForm_reparatur" readonly type="text" v-model="entity.rechnung.reparatur.nummer" />
+          </div>
+          <div class="m1">
+            <label class="container checkbox">Soll der Name auf die Rechnung gedruckt werden?
+              <input id="rechnungEditForm_name_drucken" type="checkbox" v-model="entity.rechnung.nameDrucken" />
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="m1" v-if="entity.rechnung.kunde">
+            <label for="rechnungEditForm_kunde">Kunde</label>
+            <button class="kunde" title="Kunde suchen" @click="showKundeDialog = true"></button>
+            <button class="delete" title="Kunde deselektieren" @click="entity.rechnung.kunde = {}"></button>
+            <textarea class="m1" id="rechnungEditForm_kunde" readonly v-model="entity.rechnung.kunde.completeWithAdress"></textarea>
+          </div>
+          <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">Speichern</button>
+          <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmpty()">Speichern</button>
+        </div>
+        <div style="height: 280px;"></div>
+      </div>
+      <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+      <kunde-suchen-dialog
+        :kunde="entity.rechnung.kunde"
+        v-if="showKundeDialog"
+        @close="showKundeDialog = false"
+        @saved="handleKundeResponse"
+      ></kunde-suchen-dialog>
+      <reparatur-suchen-dialog
+        :kunde="entity.rechnung.kunde"
+        v-if="showReparaturDialog"
+        @close="showReparaturDialog = false"
+        @saved="handleReparaturResponse"
+      ></reparatur-suchen-dialog>
+      <rabatt-dialog
+        :entity="rabattEntity"
+        v-if="showRabattDialog"
+        @close="showRabattDialog = false"
+        @saved="handleRabattResponse"
+      ></rabatt-dialog>
+      <posten-edit-dialog
+        :entity="editEntity"
+        v-if="showEditDialog"
+        @close="showEditDialog = false"
+        @saved="handleEditResponse"
+      ></posten-edit-dialog>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/grid.component.js"></script>
+  <script src="/scripts/reparatur/reparatur.suchen.dialog.component.js"></script>
+  <script src="/scripts/kunde/kunde.suchen.dialog.component.js"></script>
+  <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>
+  <script src="/scripts/rechnung/rechnungsposten.edit.dialog.component.js"></script>
+  <script src="/scripts/rechnung/rechnung.rabatt.dialog.component.js"></script>
+  <script src="/scripts/rechnung/rechnung.header.component.js"></script>
+  <script src="/scripts/rechnung/rechnung.js"></script>
+</html>

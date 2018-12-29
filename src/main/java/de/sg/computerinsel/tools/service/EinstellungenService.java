@@ -37,8 +37,6 @@ public class EinstellungenService {
 
     private static final String DSGVO_FILENAME = "Einwilligung_DSGVO.pdf";
 
-    private static final String SALT_FILENAME = "salt.txt";
-
     private static final List<String> KASSENBESTAND_SETTING_KEYS = ImmutableList.of("500", "200", "100", "50", "20", "10", "5", "2", "1",
             "050", "020", "010", "005", "002", "001");
 
@@ -54,25 +52,56 @@ public class EinstellungenService {
         return getEinstellung("kassenbuch.ausgangsbetrag");
     }
 
-    public Einstellungen getLetzteCsvDateiPfad() {
-        return getEinstellung("kassenbuch.letztecsvdateipfad");
-    }
-
-    public Einstellungen getLetztePdfDateiPfad() {
-        return getEinstellung("kassenbuch.letztepdfdateipfad");
-    }
-
     public Einstellungen getAblageverzeichnis() {
         return getEinstellung("kassenbuch.ablageverzeichnis");
     }
 
-    public Einstellungen getRechnungsverzeichnis() {
-        return getEinstellung("kassenbuch.rechnungsverzeichnis");
+    public Einstellungen getReparaturnummer() {
+        return getEinstellung("reparatur.nummer");
+    }
+
+    public Einstellungen getRechnungsnummer() {
+        return getEinstellung("rechnung.nummer");
+    }
+
+    public String getAndSaveNextRechnungsnummer() {
+        final Einstellungen einstellung = getRechnungsnummer();
+
+        final String nummer = StringUtils.defaultIfBlank(einstellung.getWert(), "0");
+        if (StringUtils.isNumeric(nummer)) {
+            einstellung.setWert(String.valueOf(Ints.tryParse(nummer) + 1));
+            save(einstellung);
+            return StringUtils.leftPad(einstellung.getWert(), 4, "0");
+        }
+        return "0";
+    }
+
+    public String getAndSaveNextReparaturnummer() {
+        final Einstellungen einstellung = getReparaturnummer();
+
+        final String nummer = StringUtils.defaultIfBlank(einstellung.getWert(), "0");
+        if (StringUtils.isNumeric(nummer)) {
+            einstellung.setWert(String.valueOf(Ints.tryParse(nummer) + 1));
+            save(einstellung);
+            return StringUtils.leftPad(einstellung.getWert(), 4, "0");
+        }
+        return "0";
     }
 
     public String getDsgvoFilepath() {
         final File ablageverzeichnis = new File(getAblageverzeichnis().getWert());
         return new File(new File(ablageverzeichnis.getParent()), DSGVO_FILENAME).getAbsolutePath();
+    }
+
+    public String getFilialeKuerzel() {
+        final Einstellungen einstellung = getFiliale();
+        if (StringUtils.isNumeric(einstellung.getWert())) {
+            final Optional<Filiale> optional = getFiliale(Ints.tryParse(einstellung.getWert()));
+            if (optional.isPresent()) {
+                return optional.get().getKuerzel();
+            }
+        }
+        return StringUtils.EMPTY;
     }
 
     public Einstellungen getFiliale() {

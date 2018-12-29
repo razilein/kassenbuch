@@ -32,7 +32,8 @@ public class Protokoll extends IntegerBaseObject {
     @AllArgsConstructor
     @Getter
     public enum Protokolltabelle {
-        REPARATUR("R"), KUNDE("K"), MITARBEITER("M"), FILIALE("F"), RECHTE("RE"), KATEGORIE("IK"), GRUPPE("IG"), PRODUKT("IP");
+        REPARATUR("R"), KUNDE("K"), MITARBEITER("M"), FILIALE("F"), RECHTE("RE"), KATEGORIE("IK"), GRUPPE("IG"), PRODUKT("IP"), RECHNUNG(
+                "I");
 
         private final String code;
     }

@@ -94,18 +94,22 @@ public class InventarService {
         final String bezeichnung = SearchQueryUtils.getAndReplaceJoker(conditions, "bezeichnung");
         final String kategorieId = conditions.get("kategorie");
         final String gruppeId = conditions.get("gruppe");
+        final String ean = conditions.get("ean");
 
-        if (!StringUtils.isNumeric(kategorieId) && !StringUtils.isNumeric(gruppeId) && StringUtils.isBlank(bezeichnung)) {
+        if (!StringUtils.isNumeric(kategorieId) && !StringUtils.isNumeric(gruppeId) && StringUtils.isBlank(bezeichnung)
+                && StringUtils.isBlank(ean)) {
             return produktRepository.findAll(pagination);
         } else {
             final FindAllByConditionsExecuter<Produkt> executer = new FindAllByConditionsExecuter<>();
-            return executer.findByParams(produktRepository, pagination, buildMethodnameForQueryProdukt(bezeichnung, kategorieId, gruppeId),
-                    bezeichnung, StringUtils.isNumeric(kategorieId) ? Ints.tryParse(kategorieId) : null,
-                    StringUtils.isNumeric(gruppeId) ? Ints.tryParse(gruppeId) : null);
+            return executer.findByParams(produktRepository, pagination,
+                    buildMethodnameForQueryProdukt(bezeichnung, kategorieId, gruppeId, ean), bezeichnung,
+                    StringUtils.isNumeric(kategorieId) ? Ints.tryParse(kategorieId) : null,
+                    StringUtils.isNumeric(gruppeId) ? Ints.tryParse(gruppeId) : null, ean);
         }
     }
 
-    private String buildMethodnameForQueryProdukt(final String bezeichnung, final String kategorieId, final String gruppeId) {
+    private String buildMethodnameForQueryProdukt(final String bezeichnung, final String kategorieId, final String gruppeId,
+            final String ean) {
         String methodName = "findBy";
         if (StringUtils.isNotBlank(bezeichnung)) {
             methodName += "BezeichnungLikeAnd";
@@ -115,6 +119,9 @@ public class InventarService {
         }
         if (StringUtils.isNumeric(gruppeId)) {
             methodName += "GruppeIdAnd";
+        }
+        if (StringUtils.isNotBlank(ean)) {
+            methodName += "EanAnd";
         }
         return StringUtils.removeEnd(methodName, "And");
     }

@@ -157,7 +157,9 @@ Vue.component('grid', {
     getEntryByKey: function(entry, key) {
       var result = entry;
       key.split('.').forEach(function(item) {
-        result = result[item];
+        if (result) {
+          result = result[item];
+        }
       });
       return result;
     },

@@ -37,7 +37,7 @@ CREATE TABLE mitarbeiter (
 CREATE TABLE reparatur (
    id INTEGER IDENTITY NOT NULL PRIMARY KEY,
    mitarbeiter VARCHAR(200) NOT NULL,
-   kunde_id INTEGER NOT NULL,
+   kunde_id INTEGER,
    nummer VARCHAR(20),
    art TINYINT NOT NULL,
    geraet VARCHAR(200),
@@ -53,7 +53,7 @@ CREATE TABLE reparatur (
    erledigungsdatum DATETIME,
    erstellt_am DATETIME,
    bemerkung VARCHAR(4000),
-   FOREIGN KEY (kunde_id) REFERENCES kunde(id) ON DELETE CASCADE
+   FOREIGN KEY (kunde_id) REFERENCES kunde(id) ON DELETE SET NULL
 );
 
 CREATE TABLE einstellungen (
@@ -69,6 +69,8 @@ CREATE TABLE rolle (
 );
 --Müssen mit ROLE_ starten, da spring-security diese sonst nicht erkennt
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_ERSTELLEN', 'Zugriff auf die Seite: Kassenbuch erstellen');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_UEBERSICHT', 'Zugriff auf die Seite: Übersicht Kassenbücher');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_KASSENBUCH', 'Ermöglicht das Anzeigen der Druckansicht eines Kassenbuches');
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_KASSENSTAND', 'Zugriff auf die Seite: Kassenstand berechnen');
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_KASSENBUCH_STATISTIK', 'Zugriff auf die Seite: Statistik');
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_EINSTELLUNGEN_ALLGEMEIN', 'Zugriff auf die Seite: Einstellungen allgemein');
@@ -103,5 +105,3 @@ CREATE TABLE protokoll (
   mitarbeiter VARCHAR(200) NOT NULL,
   typ TINYINT NOT NULL
 );
-
-CREATE SEQUENCE PUBLIC.R_NUMMER_SEQUENCE START WITH 5000 INCREMENT BY 1;

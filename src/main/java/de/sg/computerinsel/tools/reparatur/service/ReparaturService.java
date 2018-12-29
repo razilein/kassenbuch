@@ -1,5 +1,7 @@
 package de.sg.computerinsel.tools.reparatur.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.primitives.Ints;
 
-import de.sg.computerinsel.tools.reparatur.dao.KundeRepository;
 import de.sg.computerinsel.tools.reparatur.dao.ReparaturRepository;
-import de.sg.computerinsel.tools.reparatur.model.Filiale;
-import de.sg.computerinsel.tools.reparatur.model.Kunde;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
 import de.sg.computerinsel.tools.service.EinstellungenService;
@@ -31,56 +30,7 @@ public class ReparaturService {
 
     private final EinstellungenService einstellungenService;
 
-    private final KundeRepository kundeRepository;
-
     private final ReparaturRepository reparaturRepository;
-
-    public Page<Kunde> listKunden(final PageRequest pagination, final Map<String, String> conditions) {
-        final String nachname = SearchQueryUtils.getAndReplaceJoker(conditions, "nachname");
-        final String vorname = SearchQueryUtils.getAndReplaceJoker(conditions, "vorname");
-        final String plz = SearchQueryUtils.getAndReplaceJoker(conditions, "plz");
-
-        if (StringUtils.isBlank(nachname) && StringUtils.isBlank(vorname) && StringUtils.isBlank(plz)) {
-            return kundeRepository.findAll(pagination);
-        } else {
-            final FindAllByConditionsExecuter<Kunde> executer = new FindAllByConditionsExecuter<>();
-            return executer.findByParams(kundeRepository, pagination, buildMethodnameForQueryKunde(nachname, vorname, plz), nachname,
-                    vorname, plz);
-        }
-    }
-
-    private String buildMethodnameForQueryKunde(final String nachname, final String vorname, final String plz) {
-        String methodName = "findBy";
-        if (StringUtils.isNotBlank(nachname)) {
-            methodName += "NachnameLikeAnd";
-        }
-        if (StringUtils.isNotBlank(vorname)) {
-            methodName += "VornameLikeAnd";
-        }
-        if (StringUtils.isNotBlank(plz)) {
-            methodName += "PlzLikeAnd";
-        }
-        return StringUtils.removeEnd(methodName, "And");
-    }
-
-    public Optional<Kunde> getKunde(final Integer id) {
-        return kundeRepository.findById(id);
-    }
-
-    public void saveDsgvo(final Integer id) {
-        getKunde(id).ifPresent(k -> {
-            k.setDsgvo(true);
-            save(k);
-        });
-    }
-
-    public Kunde save(final Kunde kunde) {
-        return kundeRepository.save(kunde);
-    }
-
-    public void deleteKunde(final Integer id) {
-        kundeRepository.deleteById(id);
-    }
 
     public Page<Reparatur> listReparaturen(final PageRequest pagination, final Map<String, String> conditions) {
         final String nachname = SearchQueryUtils.getAndReplaceJoker(conditions, "nachname");
@@ -118,16 +68,16 @@ public class ReparaturService {
                 .collect(Collectors.toList());
     }
 
+    public Reparatur reparaturErledigen(final Reparatur reparatur, final boolean erledigt) {
+        reparatur.setGeraetepasswort(null);
+        reparatur.setErledigt(erledigt);
+        reparatur.setErledigungsdatum(erledigt ? LocalDateTime.now() : null);
+        return save(reparatur);
+    }
+
     public Reparatur save(final Reparatur reparatur) {
         if (StringUtils.isBlank(reparatur.getNummer())) {
-            final String id = einstellungenService.getFiliale().getWert();
-            final Optional<Filiale> filiale = einstellungenService.getFiliale(id == null ? null : Ints.tryParse(id));
-
-            final String nummer = StringUtils.leftPad(String.valueOf(reparaturRepository.getNextAuftragsnummer()), 4, "0");
-            if (filiale.isPresent()) {
-                reparatur.setNummer(filiale.get().getKuerzel());
-            }
-            reparatur.setNummer(reparatur.getNummer() + nummer);
+            reparatur.setNummer(LocalDate.now().getYear() + einstellungenService.getAndSaveNextReparaturnummer());
         }
         return reparaturRepository.save(reparatur);
     }

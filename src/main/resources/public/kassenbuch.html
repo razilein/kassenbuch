@@ -5,12 +5,14 @@
     <link rel="icon" href="/themes/icons/kasse.png">
     <link rel="stylesheet" href="/themes/css/button.css">
     <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/grid.css">
     <link rel="stylesheet" href="/themes/css/loading.css">
     <link rel="stylesheet" href="/themes/css/radio.css">
     <link rel="stylesheet" href="/themes/css/raster.css">
     <link rel="stylesheet" href="/themes/css/style.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
   <body>
     <div id="kassenbuch">
@@ -18,71 +20,69 @@
       <page-header-kassenbuch v-bind:marker="'Kassenbuch'"></page-header-kassenbuch>
       <div id="content">
         <div class="form">
-          <h1>Kassenbuch erstellen</h1>
-          <div class="m2m">
-            <label>Rechnungsdatum von</label>
-            <input class="m2" type="date" v-model="model.zeitraumVon" />
-          </div>
-          <div class="m2">
-            <label>Rechnungsdatum bis</label>
-            <input class="m2" type="date" v-model="model.zeitraumBis" />
-          </div>
-          <label>Kassenstand vom Vortag als Ausgangsbetrag für den</label>
           <div class="m1">
-            <input class="m3m" type="number" step=".01" v-model="model.ausgangsbetrag" />
-            <input class="m3" type="date" v-model="model.ausgangsbetragDatum" />
+            <div class="m4m">
+              <label class="required" for="kassenbuch_datum">Rechnungsdatum</label>
+              <input class="m4" id="kassenbuch_datum" type="date" v-model="model.kassenbuch.datum" />
+            </div>
+            <div class="m1">
+              <div class="m1">
+                <label class="required" for="kassenbuch_ausgangsbetrag">Kassenstand vom Vortag als Ausgangsbetrag</label>
+              </div>
+              <input class="m4" id="kassenbuch_ausgangsbetrag" type="number" step=".01" v-model="model.kassenbuch.ausgangsbetrag" v-on:change="berechneGesamt()" />
+            </div>
           </div>
           <div class="m1">
-            <button class="right" title="Kassenbuch erstellen" v-on:click="erstellen">Kassenbuch erstellen</button>
-            <button class="right" title="Erstelltes Kassenbuch anzeigen" v-on:click="anzeigen">Anzeigen</button>
+            <button class="right" title="Suchen" v-on:click="suchen">Suchen</button>
           </div>
         </div>
-        <h1>
-          Kassenbuch bearbeiten
-          <button class="add" title="Neue Eintragung erstellen" v-on:click="addEintragung"></button>
-          <button class="ok" title="Alle Eintragungen speichern" v-if="manuell.eintragungen.length > 0" v-on:click="saveEintragungen"></button>
-        </h1>
-        <div class="form">
-          <label>Zu bearbeitende CSV-Datei (mit Dateipfad)</label>
-          <input class="m1" type="text" v-model="manuell.csvDatei" />
-        </div>
-        <div class="form" v-for="(eintragung, index) in manuell.eintragungen" v-bind:id="'eintrag_' + index">
-          <div class="right">
-            <button class="delete" title="Diese Eintragung l&ouml;schen" v-if="!manuell.eintragungen[index].gespeichert" v-on:click="removeEintragung(index)"></button>
+        <div class="form m1">
+          <table>
+            <thead>
+              <tr>
+                <th class="tableNavi">
+                  <button class="add" title="Eintragung hinzufügen" v-on:click="openAddEintragungDialog()"></button>
+                </th>
+              </tr>
+            </thead>
+            <thead>
+              <th style="width: 200px;">Verwendungszweck</th>
+              <th style="width: 100px;">Einnahme</th>
+              <th style="width: 100px;">Ausgabe</th>
+            </thead>
+            <tbody>
+              <tr v-for="(posten, index) in model.posten">
+                <td>{{ posten.verwendungszweck }}</td>
+                <td v-if="posten.betrag > 0">{{ formatMoney(posten.betrag) }}</td>
+                <td></td>
+                <td v-if="posten.betrag < 0">{{ formatMoney(posten.betrag) }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="m1" style="height: 10px;"></div>
+          <div class="m1">
+            <label for="kassenbuchForm_gesamt">Gesamt (inkl. Ausgangsbetrag)</label>
+            <input class="m5 right" readonly type="number" v-model="gesamt" />
           </div>
           <div class="m1">
-            <label>Verwendungszweck</label>
-            <input class="m1" type="text" v-model="manuell.eintragungen[index].verwendungszweck" v-bind:readonly="manuell.eintragungen[index].gespeichert" />
+            <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">Speichern</button>
+            <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmpty()">Speichern</button>
           </div>
-          <br>
-          <div class="m3m">
-            <label>Eintragungsdatum</label>
-            <input class="m3" type="date" v-model="manuell.eintragungen[index].datum" v-bind:readonly="manuell.eintragungen[index].gespeichert" />
-          </div>
-          <div class="m6">
-            <label>&nbsp;</label><br>
-            <label class="container radio">-
-              <input id="eintragungsartAusgang" type="radio" value="-1" v-model="manuell.eintragungen[index].eintragungsart" v-name="'eintragungsart_' + index">
-              <span class="checkmark"></span>
-            </label>
-            <label class="container radio">+
-              <input id="eintragungsartEingang" type="radio" value="1" v-model="manuell.eintragungen[index].eintragungsart" v-name="'eintragungsart_' + index">
-              <span class="checkmark"></span>
-            </label>
-          </div>
-          <div class="m4">
-            <label>Betrag</label>
-            <input class="m4" type="number" step=".01" v-model="manuell.eintragungen[index].betrag" v-bind:readonly="manuell.eintragungen[index].gespeichert" />
-          </div>
-          <br>
         </div>
-        <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+        <posten-edit-dialog
+          :entity="editEntity"
+          v-if="showEditDialog"
+          @close="showEditDialog = false"
+          @saved="handleEditResponse"
+        ></posten-edit-dialog>
       </div>
+      <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
     </div>
   </body>
   <script src="/scripts/util.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/kassenbuch/kassenbuch.posten.edit.dialog.component.js"></script>
   <script src="/scripts/kassenbuch/kassenbuch.header.component.js"></script>
   <script src="/scripts/kassenbuch/kassenbuch.js"></script>
 </html>

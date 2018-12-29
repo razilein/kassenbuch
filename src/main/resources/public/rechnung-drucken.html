@@ -1,0 +1,187 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Rechnung drucken - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/zahnrad.png">
+    <link rel="stylesheet" href="/themes/css/reparaturauftrag.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/de.js"></script>
+  </head>
+  <body>
+    <div id="rechnung-drucken">
+      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%">
+        <tr>
+          <td width="200%" align="center" colspan="2">
+            <img border="0" src="/themes/icons/auftrag_logo.png" width="413" height="135">
+          </td>
+        </tr>
+        <tr>
+          <td width="200%" align="center" colspan="2"><font face="Arial" style="font-size: 9pt">
+            Computer-Insel GbR<br>
+            <br>
+            Gesellschafter: Stefan Weiske, Peer Dernoscheck<br>
+            &nbsp;</font>
+          </td>
+        </tr>
+        <tr>
+          <td width="5%" align="left" valign="top">
+            <p align="left">
+              <font SIZE="2" STYLE="font-size: 9pt" FACE="Arial, sans-serif" COLOR="#000000">
+              {{filiale.strasse}},
+              {{filiale.plz}} {{filiale.ort}}</font><font FACE="Arial, sans-serif" SIZE="2" style="font-size: 9pt"><span LANG="de-DE"><font COLOR="#000000"><br>
+              </font></span>
+              </font>
+              <font COLOR="#000000" FACE="Arial, sans-serif" SIZE="2" style="font-size: 9pt">
+              <span LANG="de-DE" style="text-decoration: none">
+              Tel: </span>
+              <span style="text-decoration: none">
+              {{filiale.telefon}}</span><span LANG="de-DE" style="text-decoration: none"><br>
+              Steuernr.: 232/167/37105<br>
+              &nbsp;</span></font>
+          </td>
+          <td width="145%" align="right"><font FACE="Arial, sans-serif" SIZE="2" style="font-size: 9pt">
+            <span STYLE="text-decoration: none"><font COLOR="#000000">
+            <span LANG="de-DE">Internet: </span></font></span></font>
+            <font COLOR="#000080">
+            <span LANG="de-DE" style="text-decoration: none">
+            <font COLOR="#000000" FACE="Arial, sans-serif" SIZE="2" style="font-size: 9pt">www.computer-insel.net</font></span></font><br>
+            <font COLOR="#000000" FACE="Arial, sans-serif" SIZE="2" style="font-size: 9pt">
+            <span LANG="de-DE" style="text-decoration: none">Email: {{filiale.email}}</span></font>
+          </td>
+        </tr>
+        <tr>
+          <td width="150%" align="left" valign="top" colspan="2">
+            <div style="border-bottom-style: solid; border-bottom-width: 1; padding-bottom: 1">
+              <p align="center"><font COLOR="#000080">
+                <span LANG="de-DE" style="font-style: normal; text-decoration: none">
+                <font COLOR="#000000" FACE="Arial, sans-serif" SIZE="2" style="font-size: 9pt">
+                Verkauf von Neu- und Gebrauchtware. Hardware, Software, Zubeh&ouml;r, Reparatur,
+                Beratung, Service<br>
+                &nbsp;</font></span></font>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td width="55%" align="center" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>
+          <td width="145%" align="center" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="200%" align="left" style="border-top-style: none; border-top-width: medium" colspan="2">
+            <p style="align: left" v-if="entity.rechnung.kunde && entity.rechnung.nameDrucken"><font style="font-size: 11pt">{{entity.rechnung.kunde.vorname}} {{entity.rechnung.kunde.nachname}}<br>{{entity.rechnung.kunde.strasse}}<br>{{entity.rechnung.kunde.plz}} {{entity.rechnung.kunde.ort}}</font></p>
+            <p>&nbsp;</p>
+            <p><b><font face="Arial" size="4">Rechnung <span v-if="entity.rechnung.reparatur"> zum Auftrag {{entity.rechnung.reparatur.nummer}}</span></font></b></p>
+            <table border="0" width="685">
+              <tr>
+                <td>
+                  <font face="Arial" style="font-size: 9pt">
+                  Rechnungsnummer: {{filiale.kuerzel}}{{entity.rechnung.nummer}}
+                  </font>
+                </td>
+                <td>&nbsp;</td>
+                <td>
+                  <p align="right"><font face="Arial" style="font-size: 9pt">
+                    Rechnungsdatum: {{entity.rechnung.datum}}</font>
+                </td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+            <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="685" height="77">
+              <tr>
+                <td width="75" align="center" style="border-bottom-style: solid; border-bottom-width: 1" height="19">
+                  <p align="center"><font face="Arial" style="font-size: 11pt"><i><b>Menge</b></i></font>
+                </td>
+                <td width="587" style="border-bottom-style: solid; border-bottom-width: 1" align="center" height="19">
+                  <p align="center"><font face="Arial" style="font-size: 11pt"><i><b>Produkt</b></i></font>
+                </td>
+                <td width="100" style="border-bottom-style: solid; border-bottom-width: 1" align="right" height="19">
+                  <p align="right"><font face="Arial" style="font-size: 11pt"><i><b>Preis</b></i></font>
+                </td>
+                <td width="116" style="border-bottom-style: solid; border-bottom-width: 1" align="right" height="19">
+                  <b><i><font face="Arial" style="font-size: 11pt">Rabatt</font></i></b>
+                </td>
+                <td width="116" style="border-bottom-style: solid; border-bottom-width: 1" align="right" height="19">
+                  <font face="Arial" style="font-size: 11pt"><i><b>Gesamt</b></i></font>
+                </td>
+              </tr>
+              <tr>
+                <td width="75" align="center" style="border-top-style: solid; border-top-width: 1" height="20">&nbsp;</td>
+                <td width="587" style="border-top-style: solid; border-top-width: 1" align="center" height="20">&nbsp;</td>
+                <td width="100" style="border-top-style: solid; border-top-width: 1" align="right" height="20">&nbsp;</td>
+                <td width="116" style="border-top-style: solid; border-top-width: 1" align="right" height="20">&nbsp;</td>
+                <td width="116" style="border-top-style: solid; border-top-width: 1" align="right" height="20">&nbsp;</td>
+              </tr>
+              <tr v-for="posten in entity.posten">
+                <td width="75" align="center" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{posten.menge}}</font></td>
+                <td width="587" align="center" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{posten.bezeichnung}} {{posten.seriennummer}} {{posten.hinweis}}</font></td>
+                <td width="100" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{ formatMoney(posten.preis) }}</font></td>
+                <td width="116" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{ formatMoney(posten.rabatt) }}</font></td>
+                <td width="116" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{ formatMoney(posten.gesamt) }}</font></td>
+              </tr>
+              <tr>
+                <td width="75" align="center" valign="top" height="1"></td>
+                <td width="587" align="center" valign="top" height="1"></td>
+                <td width="100" align="right" valign="top" height="1"></td>
+                <td width="116" align="right" valign="top" height="1"></td>
+                <td width="116" align="right" valign="top" height="1"></td>
+              </tr>
+              <tr>
+                <td width="75" align="center" valign="top" height="19">&nbsp;</td>
+                <td width="587" align="center" valign="top" height="19" style="border-right-style: none; border-right-width: medium">&nbsp;</td>
+                <td width="100" align="right" valign="top" height="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: solid; border-bottom-width: 1">
+                  &nbsp;
+                </td>
+                <td width="116" align="right" valign="top" height="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: solid; border-bottom-width: 1">
+                  <span style="font-weight: 700"><font face="Arial" size="2">Rechnungsbetrag</font>
+                </td>
+                <td width="116" align="right" valign="top" height="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: solid; border-bottom-width: 1">
+                  <span style="font-weight: 700">
+                    <font face="Arial" size="2">{{ formatMoney(gesamtsumme) }}</font>
+                </td>
+              </tr>
+              <tr>
+              <td width="75" align="center" valign="top" height="19">&nbsp;</td>
+              <td width="587" align="center" valign="top" height="19" style="border-right-style: none; border-right-width: medium">&nbsp;</td>
+              <td width="216" align="right" valign="top" height="20" style="border-style:none; border-width:medium; " colspan="2">
+              <font face="Arial" style="font-size: 9pt">Nettosumme</font></td>
+              <td width="116" align="right" valign="top" height="20" style="border-style:none; border-width:medium; ">
+              <font face="Arial" style="font-size: 9pt">{{ formatMoney(gesamtnetto) }}</font></td>
+              </tr>
+              <tr>
+              <td width="75" align="center" valign="top" height="19">&nbsp;</td>
+              <td width="587" align="center" valign="top" height="19" style="border-right-style: none; border-right-width: medium">&nbsp;</td>
+              <td width="216" align="right" valign="top" height="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: solid; border-bottom-width: 1" colspan="2">
+              <font face="Arial" style="font-size: 9pt">enth. MwSt. (19%):</font></span></td>
+              <td width="116" align="right" valign="top" height="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: solid; border-bottom-width: 1">
+              <font face="Arial" style="font-size: 9pt">{{ formatMoney(gesamtmwst) }}</font></td>
+              </tr>
+            </table>
+            <p><font face="Arial" style="font-size: 9pt"><br>
+              Zahlungsart: {{art}}</font>
+            </p>
+            <p><font face="Arial" style="font-size: 9pt">Rechnungsdatum entspricht
+              Lieferdatum!</font>
+            </p>
+            <p><br>
+              &nbsp;
+            </p>
+        <tr>
+          <td width="200%" align="center" colspan="2"><font face="Arial">
+            <p><font face="Arial" style="font-size: 9pt">Besuchen Sie uns auch in unserer
+              Filiale in Leipzig - Marktstraße 10.</font>
+            </p>
+            <font style="font-size: 9pt"><br>
+            Firmensitz: Marktstraße 10, 04177 Leipzig<br>
+            Bankverbindung: Computer-Insel GbR . Commerzbank Leipzig . BLZ: 860 40 000
+            . KTO: </font><span LANG="de-DE"><font style="font-size: 9pt">
+            0521666800<br>IBAN: DE50 8604 0000 0521 6668 00 . BIC: COBADEFFXXX</font></span></font>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/rechnung/rechnung-drucken.js"></script>
+</html>
