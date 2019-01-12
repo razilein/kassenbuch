@@ -2,6 +2,7 @@ Vue.component('page-header', {
   template: `<div id="header">
      <a class="logoutLink" href="/logout" v-if="username">ausloggen</a>
      <a class="logoutLink" href="/mitarbeiter-profil.html" v-if="username">Mein Profil</a>
+    <a class="logoutLink" href="/hilfe.html">Hilfe</a>
      <span class="right" style="padding-right: 10px" v-if="username">
        Eingeloggt als {{username}}
       <br><span style="font-size: 25px;">Filiale: {{filiale}}</span>
