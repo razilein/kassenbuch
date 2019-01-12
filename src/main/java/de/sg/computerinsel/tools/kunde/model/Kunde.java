@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.StringUtils;
@@ -27,14 +26,16 @@ public class Kunde extends IntegerBaseObject {
     private Integer nummer;
 
     @Column(name = "nachname")
-    @NotEmpty(message = "Bitte geben Sie den Nachnamen an.")
     @Size(max = 100, message = "Der Nachname darf nicht länger als 100 Zeichen sein.")
     private String nachname;
 
     @Column(name = "vorname")
-    @NotEmpty(message = "Bitte geben Sie den Vornamen an.")
     @Size(max = 50, message = "Der Vorname darf nicht länger als 50 Zeichen sein.")
     private String vorname;
+
+    @Column(name = "firmenname")
+    @Size(max = 200, message = "Der Firmenname darf nicht länger als 200 Zeichen sein.")
+    private String firmenname;
 
     @Column(name = "strasse")
     @Size(max = 100, message = "Die Straße darf nicht länger als 100 Zeichen sein.")
@@ -66,13 +67,24 @@ public class Kunde extends IntegerBaseObject {
     @Column(name = "erstellt_am")
     private LocalDateTime erstelltAm;
 
-    public String getCompleteWithAdress() {
+    public String getNameKomplett() {
         final StringBuilder builder = new StringBuilder();
-        builder.append(StringUtils.defaultString(nachname));
+        if (StringUtils.isNotBlank(firmenname)) {
+            builder.append(StringUtils.defaultString(firmenname));
+            builder.append(System.lineSeparator());
+        }
+        if (StringUtils.isNotBlank(nachname)) {
+            builder.append(StringUtils.defaultString(nachname));
+        }
         if (StringUtils.isNotBlank(vorname)) {
             builder.append(", ");
             builder.append(vorname);
         }
+        return builder.toString();
+    }
+
+    public String getCompleteWithAdress() {
+        final StringBuilder builder = new StringBuilder(getNameKomplett());
         builder.append(System.lineSeparator());
         if (StringUtils.isNotBlank(strasse)) {
             builder.append(strasse);

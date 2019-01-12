@@ -1,5 +1,3 @@
-
-
 # Tools für die Computerinsel
 
 Dieses Programm beinhaltet verschiedene Tools, welche für die Computerinsel benötigt werden.
@@ -247,8 +245,8 @@ Ist beispielsweise heute der 31.12.2018 und die fortlaufende Nummer 455, dann la
 In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.
 
 #### Filiale
-In diesem Feld ist die Filiale zu wählen, dabei handelt es sich um eine globale Einstellung, welche für alle Mitarbeiter gilt.
-Diese Einstellung wirkt sich darauf aus, welche Adressdaten auf den Rechnungen und Reparaturaufträgen angezeigt werden.
+In diesem Feld ist die Filiale zu wählen, dabei handelt es sich um eine globale Einstellung.
+Diese Einstellung wirkt sich darauf aus, welche Filiale gewählt wird, wenn ein Mitarbeiter erzeugt wird.
 Ist in der Auswahlliste keine Filiale verfügbar, muss zuerst unter *Einstellungen* > *Filialen* eine Filiale definiert werden.
 
 ## Filialen
@@ -276,6 +274,8 @@ Der Mitarbeiter wird ohne Berechtigungen erstellt.
 Durch Klick auf das *Schlüssel-Icon* kann nach erneuter Bestätigung das Passwort des Mitarbeiters zurückgesetzt werden. Dieses wird auf den Benutzernamen gesetzt.
 
 Durch Klick auf das *Bearbeiten-Icon* können die Daten des Mitarbeiters bearbeitet werden.
+Die gewählte Filiale wirkt sich dabei auf das Anzeigen von Reparaturaufträgen und Rechnungen aus. Je nachdem welche Filiale gewählt wurde, werden auf den
+Rechnungen und Reparaturaufträgen andere Adressdaten zur Filiale gedruckt.
 
 Durch Klick auf das *Löschen-Icon* kann der Mitarbeiter nach erneuter Bestätigung gelöscht werden. Dies hat keine Auswirkungen auf bestehende Verknüpfungen zu Rechnungen, Reparaturaufträgen oder Kassenbüchern, da der Mitarbeitername gesondert gespeichert wird.
 
@@ -315,9 +315,11 @@ Folgende Rechte sind verfügbar:
 - **RECHNUNG** - Ermöglicht das Anzeigen der Druckansicht einer Rechnung
 - **RECHNUNG_VERWALTEN** - Rechnungen dürfen angelegt, bearbeitet oder gelöscht werden
 
- ## Mein Profil
- Jeder Mitarbeiter kann diese Seite rechts oben auf jeder Seite aufrufen.
- 
- Im Reiter Allgemein kann der Name, sowie weitere persönliche Daten angepasst werden.
- Im Reiter Anmeldedaten kann der Benutzername und das Passwort geändert werden. Dabei muss im Feld *Passwort* zur Bestätigung immer das aktuelle Passwort angegeben werden.
+## Mein Profil
+Jeder Mitarbeiter kann diese Seite rechts oben auf jeder Seite aufrufen.
+
+Im Reiter Allgemein kann der Name, sowie weitere persönliche Daten angepasst werden.
+Zudem kann die zugehörige Filiale angepasst werden. Die Daten der Filiale werden in Rechnungen und Reparaturaufträgen dargestellt.
+
+Im Reiter Anmeldedaten kann der Benutzername und das Passwort geändert werden. Dabei muss im Feld *Passwort* zur Bestätigung immer das aktuelle Passwort angegeben werden.
  

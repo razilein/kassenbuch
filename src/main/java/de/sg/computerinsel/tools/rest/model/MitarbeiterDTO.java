@@ -2,6 +2,7 @@ package de.sg.computerinsel.tools.rest.model;
 
 import org.apache.commons.lang3.Validate;
 
+import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,8 @@ public class MitarbeiterDTO {
 
     private String telefon;
 
+    private Filiale filiale;
+
     public MitarbeiterDTO(final Mitarbeiter mitarbeiter) {
         Validate.notNull(mitarbeiter, "Mitarbeiter darf nicht null sein.");
         this.id = mitarbeiter.getId();
@@ -32,6 +35,7 @@ public class MitarbeiterDTO {
         this.email = mitarbeiter.getEmail();
         this.emailPrivat = mitarbeiter.getEmailPrivat();
         this.telefon = mitarbeiter.getTelefon();
+        this.filiale = mitarbeiter.getFiliale();
     }
 
     public String getCompleteName() {

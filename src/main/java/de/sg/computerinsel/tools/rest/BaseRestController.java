@@ -42,4 +42,10 @@ public class BaseRestController {
         return mitarbeiterService.getAngemeldeterMitarbeiter().orElse(new Mitarbeiter()).getCompleteName();
     }
 
+    @GetMapping("/current-filiale")
+    public String getCurrentFiliale() {
+        final Mitarbeiter mitarbeiter = mitarbeiterService.getAngemeldeterMitarbeiter().orElse(new Mitarbeiter());
+        return mitarbeiter.getFiliale() == null ? null : mitarbeiter.getFiliale().getKuerzel();
+    }
+
 }

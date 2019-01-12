@@ -2,7 +2,7 @@ Vue.component('kunde-suchen-dialog', {
   template: createEditDialogTemplateWithoutSaveButton(`
   <div class="m2m">
     <div class="m2m">
-      <label for="searchFormKunde_nachname">Nachname</label>
+      <label for="searchFormKunde_nachname">Nachname/Firmenname</label>
       <input class="m2" id="searchFormKunde_nachname" type="text" v-model="grid.searchQuery.nachname"></input>
     </div>
     <div class="m2m">
@@ -16,6 +16,10 @@ Vue.component('kunde-suchen-dialog', {
   </div>
   <h5 class="m3">
     Gewählter Kunde *:
+    <span v-if="entity.firmenname">
+      {{entity.firmenname}}
+      <br>
+    </span>
     <br>
     {{entity.nachname}} {{entity.vorname}}
     <br>
@@ -78,6 +82,7 @@ Vue.component('kunde-suchen-dialog', {
             { clazz: 'edit', disabled: this.hasNotRoleVerwalten, title: 'Kunde bearbeiten', clickFunc: this.editFunction },
           ] },
           { name: 'nummer', title: 'Nr.', width: 50 },
+          { name: 'firmenname', title: 'Firma', width: 150 },
           { name: 'nachname', title: 'Nachname', width: 150 },
           { name: 'vorname', title: 'Vorname', width: 100 },
           { name: 'strasse', title: 'Straße', width: 100 },
@@ -86,7 +91,7 @@ Vue.component('kunde-suchen-dialog', {
         reload: false,
         restUrl: 'kunde',
         searchQuery: {
-          nachname: this.kunde ? this.kunde.nachname : null,
+          nachname: this.kunde ? this.kunde.firmenname || this.kunde.nachname : null,
           vorname: this.kunde ? this.kunde.vorname : null
         },
       },
@@ -109,7 +114,7 @@ Vue.component('kunde-suchen-dialog', {
     },
     editFunction: function(row) {
       this.editRow.restUrlGet = '/kunde/' + row.id;
-      this.editRow.title = 'Kunde ' + row.nachname + ' bearbeiten';
+      this.editRow.title = 'Kunde ' + row.nummer + ' bearbeiten';
       this.showEditDialog = true;
     },
     handleEditResponse: function(data) {

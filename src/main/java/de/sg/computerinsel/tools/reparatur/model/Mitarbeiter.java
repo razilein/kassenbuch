@@ -2,6 +2,8 @@ package de.sg.computerinsel.tools.reparatur.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -27,6 +29,10 @@ public class Mitarbeiter extends IntegerBaseObject {
     public static final int MAX_LENGTH_BENUTZERNAME = 50;
 
     public static final int MIN_LENGTH_BENUTZERNAME = 6;
+
+    @ManyToOne
+    @JoinColumn(name = "filiale_id", referencedColumnName = "id")
+    private Filiale filiale;
 
     @NotEmpty(message = "Bitte geben Sie den Nachnamen an.")
     @Size(max = 50, message = "Der Nachname darf nicht länger als 50 Zeichen sein.")

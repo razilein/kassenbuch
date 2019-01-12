@@ -1,9 +1,12 @@
 var vm = new Vue({
   el: '#mitarbeiterProfil',
   data: {
+    filialen: [],
     model: {
       anmeldedaten: {},
-      profildaten: {}
+      profildaten: {
+        filiale: {}
+      }
     },
     result: {},
     showDialog: false,
@@ -27,6 +30,8 @@ var vm = new Vue({
         .then(vm.setAnmeldedaten)
         .then(vm.getProfildaten)
         .then(vm.setProfildaten)
+        .then(vm.getFilialen)
+        .then(vm.setFilialen)
         .then(hideLoader);
     },
     
@@ -59,6 +64,14 @@ var vm = new Vue({
     
     setAnmeldedaten: function(response) {
       vm.model.anmeldedaten = response.data;
+    },
+    
+    getFilialen: function() {
+      return axios.get('einstellungen/filiale');
+    },
+    
+    setFilialen: function(response) {
+      vm.filialen = response.data;
     },
     
     getProfildaten: function() {

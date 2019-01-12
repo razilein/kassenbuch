@@ -91,6 +91,7 @@ var vm = new Vue({
         { name: 'gruppe.bezeichnung', title: 'Gruppe', width: 150 },
         { name: 'bezeichnung', title: 'Bezeichnung', width: 500 },
         { name: 'ean', title: 'EAN', width: 120 },
+        { name: 'bestand', title: 'Bestand', width: 100 },
         { name: 'hersteller', title: 'Hersteller', width: 150 },
       ];
     },

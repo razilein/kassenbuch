@@ -1,6 +1,10 @@
 Vue.component('kunde-edit-dialog', {
   template: createEditDialogTemplate(`
   <div class="m1">
+      <label class="required" for="kundeEditForm_firmenname">Firmenname</label>
+      <input class="m1" id="kundeEditForm_firmenname" maxlength="200" type="text" v-model="entity.firmenname"></input>
+  </div>
+  <div class="m1">
     <div class="m2m">
       <label class="required" for="kundeEditForm_nachname">Nachname</label>
       <input class="m2" id="kundeEditForm_nachname" maxlength="100" type="text" v-model="entity.nachname"></input>
@@ -53,7 +57,7 @@ Vue.component('kunde-edit-dialog', {
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && hasAllProperties(this.entity, ['nachname']);
+      return this.entity && (this.entity.nachname || this.entity.firmenname);
     },
     loadEntity: function() {
       showLoader();

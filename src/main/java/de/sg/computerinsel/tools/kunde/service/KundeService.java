@@ -30,14 +30,14 @@ public class KundeService {
         } else {
             final FindAllByConditionsExecuter<Kunde> executer = new FindAllByConditionsExecuter<>();
             return executer.findByParams(kundeRepository, pagination, buildMethodnameForQueryKunde(nachname, vorname, plz), nachname,
-                    vorname, plz);
+                    nachname, vorname, plz);
         }
     }
 
     private String buildMethodnameForQueryKunde(final String nachname, final String vorname, final String plz) {
         String methodName = "findBy";
         if (StringUtils.isNotBlank(nachname)) {
-            methodName += "NachnameLikeAnd";
+            methodName += "NachnameLikeOrFirmennameLikeAnd";
         }
         if (StringUtils.isNotBlank(vorname)) {
             methodName += "VornameLikeAnd";

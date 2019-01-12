@@ -69,7 +69,14 @@
         </tr>
         <tr>
           <td width="200%" align="left" style="border-top-style: none; border-top-width: medium" colspan="2">
-            <p style="align: left" v-if="entity.rechnung.kunde && entity.rechnung.nameDrucken"><font style="font-size: 11pt">{{entity.rechnung.kunde.vorname}} {{entity.rechnung.kunde.nachname}}<br>{{entity.rechnung.kunde.strasse}}<br>{{entity.rechnung.kunde.plz}} {{entity.rechnung.kunde.ort}}</font></p>
+            <p style="align: left" v-if="entity.rechnung.kunde && entity.rechnung.nameDrucken">
+              <font style="font-size: 11pt">
+                <span v-if="entity.rechnung.kunde.firmenname">{{entity.rechnung.kunde.firmenname}}<br></span>
+                <span v-if="entity.rechnung.kunde.nachname">{{entity.rechnung.kunde.vorname}} {{entity.rechnung.kunde.nachname}}<br></span>
+                {{entity.rechnung.kunde.strasse}}<br>
+                {{entity.rechnung.kunde.plz}} {{entity.rechnung.kunde.ort}}
+              </font>
+            </p>
             <p>&nbsp;</p>
             <p><b><font face="Arial" size="4">Rechnung <span v-if="entity.rechnung.reparatur"> zum Auftrag {{entity.rechnung.reparatur.nummer}}</span></font></b></p>
             <table border="0" width="685">

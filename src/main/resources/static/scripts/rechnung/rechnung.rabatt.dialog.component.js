@@ -7,11 +7,11 @@ Vue.component('rabatt-dialog', {
   <div class="m1">
     <div class="m4m">
       <label for="rabattForm_preisEk">Preis EK</label>
-      <input class="m4" id="rabattForm_preisEk" readonly step="0.01" type="number" v-model="entity.produkt.preisEk"></input>
+      <input class="m4" id="rabattForm_preisEkBrutto" readonly step="0.01" type="number" v-model="entity.produkt.preisEkBrutto"></input>
     </div>
     <div class="m4">
       <label for="rabattForm_preisVk">Preis VK</label>
-      <input class="m4" id="rabattForm_preisVk" readonly step="0.01" type="number" v-model="entity.produkt.preisVk"></input>
+      <input class="m4" id="rabattForm_preisVkBrutto" readonly step="0.01" type="number" v-model="entity.produkt.preisVkBrutto"></input>
     </div>
   </div>
   <div class="m1" v-if="entity.menge > 1">
@@ -49,9 +49,9 @@ Vue.component('rabatt-dialog', {
     entity: Object,
   },
   data: function() {
-    var gesamt = this.entity.produkt.preisVk * this.entity.menge - this.entity.rabatt;
-    var preisEk = this.entity.produkt.preisEk * this.entity.menge;
-    var preisVk = this.entity.produkt.preisVk * this.entity.menge;
+    var gesamt = this.entity.produkt.preisVkBrutto * this.entity.menge - this.entity.rabatt;
+    var preisEk = this.entity.produkt.preisEkBrutto * this.entity.menge;
+    var preisVk = this.entity.produkt.preisVkBrutto * this.entity.menge;
     var rabatt = this.entity.rabatt || 0;
     var gewinn = Number((gesamt - rabatt - preisEk).toFixed(2));
     return {
