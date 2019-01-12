@@ -97,7 +97,7 @@ var vm = new Vue({
         { name: 'nummer', title: 'Rechnungsnummer', width: 150 },
         { name: 'reparatur.nummer', title: 'Auftragsnummer', width: 150 },
         { name: 'kunde.nummer', title: 'Kundennummer', width: 100 },
-        { name: 'kunde.nachname', title: 'Name', width: 100 },
+        { name: 'kunde.nameKomplett', title: 'Kunde', width: 100 },
         { name: 'datum', title: 'Datum', width: 120, formatter: ['date'] },
         { name: 'ersteller', title: 'Ersteller', width: 150 },
       ];

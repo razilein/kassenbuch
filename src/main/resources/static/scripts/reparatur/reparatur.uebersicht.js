@@ -120,7 +120,8 @@ var vm = new Vue({
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Reparaturauftrag löschen', clickFunc: vm.deleteFunction }
         ] },
         { name: 'nummer', title: 'Auftragsnummer', width: 150 },
-        { name: 'kunde.nachname', title: 'Kunde', width: 100 },
+        { name: 'kunde.nummer', title: 'Kundennummer', width: 100 },
+        { name: 'kunde.nameKomplett', sortable: false, title: 'Kunde', width: 100 },
         { name: 'geraet', title: 'Gerät', width: 100 },
         { name: 'expressbearbeitung', title: 'Express', width: 90, formatter: ['boolean'] },
         { name: 'abholdatum', title: 'Abholdatum', width: 120, formatter: ['date'] },

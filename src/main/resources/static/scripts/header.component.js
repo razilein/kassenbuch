@@ -2,7 +2,10 @@ Vue.component('page-header', {
   template: `<div id="header">
      <a class="logoutLink" href="/logout" v-if="username">ausloggen</a>
      <a class="logoutLink" href="/mitarbeiter-profil.html" v-if="username">Mein Profil</a>
-     <span class="right" style="padding-right: 10px" v-if="username">Eingeloggt als {{username}}</span>
+     <span class="right" style="padding-right: 10px" v-if="username">
+       Eingeloggt als {{username}}
+      <br><span style="font-size: 25px;">Filiale: {{filiale}}</span>
+     </span>
      <div class="loading hide" id="loader">Loading&#8230;</div>
      <img src="themes/icons/logo.png" height="100" />
      <div id="navigation">
@@ -30,12 +33,22 @@ Vue.component('page-header', {
   data: function() {
     this.loadUser();
     return {
-      username: null
+      username: null,
+      filiale: null
     };
   },
   methods: {
     loadUser: function() {
-      this.getUsername().then(this.setUsername);
+      this.getUsername()
+        .then(this.setUsername)
+        .then(this.getFiliale)
+        .then(this.setFiliale);
+    },
+    getFiliale: function() {
+      return axios.get('/current-filiale');
+    },
+    setFiliale: function(response) {
+      this.filiale = response.data;
     },
     getUsername: function() {
       return axios.get('/current-user');

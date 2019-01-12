@@ -64,7 +64,7 @@ var vm = new Vue({
         bezeichnung: row.bezeichnung,
         seriennummer: null,
         hinweis: null,
-        preis: row.preisVk,
+        preis: row.preisVkBrutto,
         rabatt: 0
       };
       vm.entity.posten.push(produkt);
@@ -93,7 +93,7 @@ var vm = new Vue({
         bezeichnung: row.bezeichnung,
         seriennummer: null,
         hinweis: null,
-        preis: row.preisVk,
+        preis: row.preisVkBrutto,
         rabatt: 0
       };
       vm.showEditDialog = true;

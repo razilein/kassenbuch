@@ -57,6 +57,14 @@
                 </div>
               </div>
               <div class="m1">
+                <div class="m2m">
+                  <label for="profildatenForm_filiale">Filiale</label>
+                  <select class="m2" id="profildatenForm_filiale" v-model="model.profildaten.filiale.id">
+                    <option :value="f.key" v-for="f in filialen">{{f.value}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="m1">
                 <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmptyProfildaten()" v-on:click="saveProfildatenFunc();">Speichern</button>
                 <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmptyProfildaten()">Speichern</button>
               </div>

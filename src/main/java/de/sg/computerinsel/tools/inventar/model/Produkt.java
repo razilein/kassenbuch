@@ -43,10 +43,16 @@ public class Produkt extends IntegerBaseObject {
     @Column(name = "hersteller")
     private String hersteller;
 
-    @Column(name = "preis_ek")
-    private BigDecimal preisEk = BigDecimal.ZERO;
+    @Column(name = "preis_ek_brutto")
+    private BigDecimal preisEkBrutto = BigDecimal.ZERO;
 
-    @Column(name = "preis_vk")
-    private BigDecimal preisVk = BigDecimal.ZERO;
+    @Column(name = "preis_vk_brutto")
+    private BigDecimal preisVkBrutto = BigDecimal.ZERO;
+
+    @Column(name = "preis_ek_netto")
+    private BigDecimal preisEkNetto = BigDecimal.ZERO;
+
+    @Column(name = "preis_vk_netto")
+    private BigDecimal preisVkNetto = BigDecimal.ZERO;
 
 }

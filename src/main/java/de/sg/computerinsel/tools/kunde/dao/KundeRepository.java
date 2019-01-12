@@ -11,15 +11,16 @@ public interface KundeRepository extends CrudRepository<Kunde, Integer> {
 
     Page<Kunde> findAll(Pageable pagination);
 
-    Page<Kunde> findByNachnameLikeAndVornameLikeAndPlzLike(String nachname, String vorname, String plz, Pageable pagination);
+    Page<Kunde> findByNachnameLikeOrFirmennameLikeAndVornameLikeAndPlzLike(String nachname, String firmenname, String vorname, String plz,
+            Pageable pagination);
 
-    Page<Kunde> findByNachnameLikeAndPlzLike(String nachname, String plz, Pageable pagination);
+    Page<Kunde> findByNachnameLikeOrFirmennameLikeAndPlzLike(String nachname, String firmenname, String plz, Pageable pagination);
 
-    Page<Kunde> findByNachnameLikeAndVornameLike(String nachname, String vorname, Pageable pagination);
+    Page<Kunde> findByNachnameLikeOrFirmennameLikeAndVornameLike(String nachname, String firmenname, String vorname, Pageable pagination);
 
     Page<Kunde> findByVornameLikeAndPlzLike(String vorname, String plz, Pageable pagination);
 
-    Page<Kunde> findByNachnameLike(String nachname, Pageable pagination);
+    Page<Kunde> findByNachnameLikeOrFirmennameLike(String nachname, String firmenname, Pageable pagination);
 
     Page<Kunde> findByVornameLike(String vorname, Pageable pagination);
 

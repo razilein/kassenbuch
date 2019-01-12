@@ -35,15 +35,15 @@
                 <option :value="g.key" v-for="g in gruppen">{{g.value}}</option>
               </select>
             </div>
-            <div class="m1">
-              <label for="searchForm_bezeichnung">Bezeichnung</label>
-              <input class="m1" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung" />
-            </div>
-            <div class="m1">
-              <div class="m2m">
-                <label for="searchForm_ean">EAN</label>
-                <input class="m2" id="searchForm_ean" type="text" v-model="grid.searchQuery.ean" />
-              </div>
+          </div>
+          <div class="m1">
+            <label for="searchForm_bezeichnung">Bezeichnung</label>
+            <input class="m1" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung" />
+          </div>
+          <div class="m1">
+            <div class="m2m">
+              <label for="searchForm_ean">EAN</label>
+              <input class="m2" id="searchForm_ean" type="text" v-model="grid.searchQuery.ean" />
             </div>
           </div>
           <div class="m1">

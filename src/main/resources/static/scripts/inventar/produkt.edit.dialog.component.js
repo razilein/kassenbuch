@@ -33,7 +33,7 @@ Vue.component('edit-dialog', {
   <div class="m1">
     <div class="m4m" style="margin-top: 15px;">
       <label class="container checkbox">Unbegrenzt
-        <input id="produktEditForm_bestandUnendlich" type="checkbox" v-model="entity.bestandUnendlich" v-on:change="if (entity.bestandUnendlich) { entity.bestand = 0; }" />
+        <input id="produktEditForm_bestandUnendlich" type="checkbox" v-model="entity.bestandUnendlich" v-on:change="if (entity.bestandUnendlich) { entity.bestand = 0; entity.preisEkNetto = null; entity.preisEkBrutto = null; }" />
         <span class="checkmark"></span>
       </label>
     </div>
@@ -42,12 +42,24 @@ Vue.component('edit-dialog', {
       <input class="m4" id="produktEditForm_ean" min="0" step="1" type="number" v-model="entity.bestand" :readonly="entity.bestandUnendlich" />
     </div>
     <div class="m4m">
-      <label for="produktEditForm_preisEk">EK-Preis (brutto)</label>
-      <input class="m4" id="produktEditForm_preisEk" min="0.00" step="1.00" type="number" v-model="entity.preisEk" />
+      <label for="produktEditForm_preisEkNetto">EK-Preis (netto)</label>
+      <input class="m4" id="produktEditForm_preisEkNetto" min="0.00" step="1.00" type="number" v-model="entity.preisEkNetto" :readonly="entity.bestandUnendlich" />
     </div>
     <div class="m4">
-      <label for="produktEditForm_preisVk">VK-Preis (brutto)</label>
-      <input class="m4" id="produktEditForm_preisVk" min="0.00" step="1.00" type="number" v-model="entity.preisVk" />
+      <label for="produktEditForm_preisEkBrutto">EK-Preis (brutto)</label>
+      <input class="m4" id="produktEditForm_preisEkBrutto" min="0.00" step="1.00" type="number" v-model="entity.preisEkBrutto" :readonly="entity.bestandUnendlich" />
+    </div>
+  </div>
+  <div class="m1">
+    <div class="m2 right">
+      <div class="m4m">
+        <label for="produktEditForm_preisVkNetto">VK-Preis (netto)</label>
+        <input class="m4" id="produktEditForm_preisVkNetto" min="0.00" step="1.00" type="number" v-model="entity.preisVkNetto" />
+      </div>
+      <div class="m4">
+        <label for="produktEditForm_preisVkBrutto">VK-Preis (brutto)</label>
+        <input class="m4" id="produktEditForm_preisVkBrutto" min="0.00" step="1.00" type="number" v-model="entity.preisVkBrutto" />
+      </div>
     </div>
   </div>
       `),

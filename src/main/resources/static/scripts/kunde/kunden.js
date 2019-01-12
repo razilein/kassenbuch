@@ -107,6 +107,7 @@ var vm = new Vue({
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Kunde löschen', clickFunc: vm.deleteFunction }
         ] },
         { name: 'nummer', title: 'Nr.', width: 50 },
+        { name: 'firmenname', title: 'Firma', width: 150 },
         { name: 'nachname', title: 'Nachname', width: 150 },
         { name: 'vorname', title: 'Vorname', width: 100 },
         { name: 'strasse', title: 'Straße', width: 100 },

@@ -70,6 +70,12 @@ public class EinstellungenRestController {
         return getFiliale(id == null ? null : Ints.tryParse(id));
     }
 
+    @GetMapping("/standardfiliale-mitarbeiter")
+    public Filiale getStandardFilialeMitarbeiter() {
+        final Mitarbeiter mitarbeiter = mitarbeiterService.getAngemeldeterMitarbeiter().orElseGet(Mitarbeiter::new);
+        return mitarbeiter.getFiliale() == null ? getStandardFiliale() : mitarbeiter.getFiliale();
+    }
+
     @PutMapping
     public Map<String, Object> saveEinstellungen(@RequestBody final EinstellungenData data) {
         final Map<String, Object> result = new HashMap<>();
@@ -139,7 +145,13 @@ public class EinstellungenRestController {
         if (optional.isPresent()) {
             protokollService.write(optional.get().getId(), MITARBEITER, optional.get().getCompleteName(), ANGESEHEN);
         }
-        return optional.map(MitarbeiterDTO::new).orElseGet(MitarbeiterDTO::new);
+        return optional.map(MitarbeiterDTO::new).orElseGet(this::createMitarbeiter);
+    }
+
+    private MitarbeiterDTO createMitarbeiter() {
+        final MitarbeiterDTO dto = new MitarbeiterDTO();
+        dto.setFiliale(getStandardFiliale());
+        return dto;
     }
 
     @PutMapping("/mitarbeiter")

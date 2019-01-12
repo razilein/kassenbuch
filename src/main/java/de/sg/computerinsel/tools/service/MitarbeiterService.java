@@ -68,6 +68,7 @@ public class MitarbeiterService {
             mitarbeiter.setEmail(dto.getEmail());
             mitarbeiter.setEmailPrivat(dto.getEmailPrivat());
             mitarbeiter.setTelefon(dto.getTelefon());
+            mitarbeiter.setFiliale(dto.getFiliale());
 
             ValidationUtils.validate(mitarbeiter);
             if (result.isEmpty()) {

@@ -65,7 +65,7 @@ var vm = new Vue({
     },
     
     getFiliale: function() {
-      return axios.get('/einstellungen/standardfiliale');
+      return axios.get('/einstellungen/standardfiliale-mitarbeiter');
     },
     
     setFiliale: function(response) {
