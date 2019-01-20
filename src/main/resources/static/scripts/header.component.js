@@ -2,10 +2,17 @@ Vue.component('page-header', {
   template: `<div id="header">
      <a class="logoutLink" href="/logout" v-if="username">ausloggen</a>
      <a class="logoutLink" href="/mitarbeiter-profil.html" v-if="username">Mein Profil</a>
-    <a class="logoutLink" href="/hilfe.html">Hilfe</a>
+     <a class="logoutLink" href="/hilfe.html">Hilfe</a>
      <span class="right" style="padding-right: 10px" v-if="username">
        Eingeloggt als {{username}}
-      <br><span style="font-size: 25px;">Filiale: {{filiale}}</span>
+       <br>
+       <span style="font-size: 25px;">
+         Filiale: {{filiale}}
+       </span>
+       <span v-if="showInventurHinweis">
+         <br>
+         <a class="logoutLink" href="/inventur.html" style="font-size: 25px; color: red;">Inventur erstellen</a>
+       </span>
      </span>
      <div class="loading hide" id="loader">Loading&#8230;</div>
      <img src="themes/icons/logo.png" height="100" />
@@ -35,7 +42,8 @@ Vue.component('page-header', {
     this.loadUser();
     return {
       username: null,
-      filiale: null
+      filiale: null,
+      showInventurHinweis: false
     };
   },
   methods: {
@@ -43,13 +51,21 @@ Vue.component('page-header', {
       this.getUsername()
         .then(this.setUsername)
         .then(this.getFiliale)
-        .then(this.setFiliale);
+        .then(this.setFiliale)
+        .then(this.getShowInventurHinweis)
+        .then(this.setShowInventurHinweis);
     },
     getFiliale: function() {
       return axios.get('/current-filiale');
     },
     setFiliale: function(response) {
       this.filiale = response.data;
+    },
+    getShowInventurHinweis: function() {
+      return axios.get('/show-inventur-hinweis');
+    },
+    setShowInventurHinweis: function(response) {
+      this.showInventurHinweis = response.data;
     },
     getUsername: function() {
       return axios.get('/current-user');

@@ -1,5 +1,7 @@
 package de.sg.computerinsel.tools.inventar.dao;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
@@ -41,5 +43,7 @@ public interface ProduktRepository extends CrudRepository<Produkt, Integer> {
     Page<Produkt> findByGruppeId(Integer gruppeId, Pageable pagination);
 
     Page<Produkt> findByEan(String ean, Pageable pagination);
+
+    List<Produkt> findByBestandGreaterThanAndBestandUnendlichOrderByBezeichnungAsc(int bestand, boolean bestandUnendlich);
 
 }
