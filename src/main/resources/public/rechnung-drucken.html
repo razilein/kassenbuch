@@ -164,8 +164,11 @@
               <font face="Arial" style="font-size: 9pt">{{ formatMoney(gesamtmwst) }}</font></td>
               </tr>
             </table>
-            <p><font face="Arial" style="font-size: 9pt"><br>
-              Zahlungsart: {{art}}</font>
+            <p>
+              <font face="Arial" style="font-size: 9pt">
+              <br>
+                Zahlungsart: {{art}} <span v-if="art === 'BAR'">(Betrag in Bar erhalten)</span>
+              </font>
             </p>
             <p><font face="Arial" style="font-size: 9pt">Rechnungsdatum entspricht
               Lieferdatum!</font>
