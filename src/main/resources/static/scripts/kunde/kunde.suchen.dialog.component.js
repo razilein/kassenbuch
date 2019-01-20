@@ -56,6 +56,13 @@ Vue.component('kunde-suchen-dialog', {
   },
   created: function() {
     this.prepareRoles();
+
+    window.addEventListener('keydown', e => {
+      var isDialogOpened = this.showDialog || this.showEditDialog;
+      if (e.key == 'Enter' && !isDialogOpened) {
+        this.grid.reload = true;
+      }
+    });
   },
   data: function() {
     return {
