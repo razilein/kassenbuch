@@ -137,6 +137,10 @@ Um Produkte Anlegen, Bearbeiten oder Löschen zu können, wird das Recht *INVENT
 
 Auf dieser Seite werden alle Produkte angezeigt. Mit Hilfe der Suchfilter kann die Anzeige weiter eingeschränkt werden.
 
+Wird das Kontrollkästchen *Schnellerfassung* aktiviert, wird nach jedem Drücken der *Enter*-Taste oder Klicken auf *Suchen* die Anzahl des gefunden Produktes
+um 1 erhöht, wenn es nur ein einziges Suchergebnis gibt und das Produkt nicht die Einstellung *Unbegrenzt* gesetzt hat.
+Zusätzlich ist es nach Aktivieren der *Schnellerfassung* möglich, mit Hilfe der *Entf*-Taste das Feld EAN zu leeren.
+
 Durch Klick auf das *Plus-Icon* kann ein neues Produkt angelegt werden.
 
 Durch Klick auf das *Bearbeiten-Icon* können die Produktdaten bearbeitet werden. Dabei ist es auch möglich, das Produkt einer anderen Produktgruppe oder -kategorie zuzuordnen.

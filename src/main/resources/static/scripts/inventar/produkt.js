@@ -6,6 +6,9 @@ var vm = new Vue({
       if (e.key == 'Enter' && !isDialogOpened) {
         vm.grid.reload = true;
       }
+      if (e.key == 'Delete' && !isDialogOpened && vm.grid.searchQuery.schnellerfassung) {
+        vm.grid.searchQuery.ean = null;
+      }
     });
   },
   data: {
