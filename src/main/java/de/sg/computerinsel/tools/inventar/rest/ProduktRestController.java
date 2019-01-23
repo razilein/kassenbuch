@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -55,7 +56,16 @@ public class ProduktRestController {
 
     @PostMapping
     public Page<Produkt> list(@RequestBody final SearchData data) {
-        return service.listProdukte(data.getData().getPagination(), data.getConditions());
+        Page<Produkt> produkte = service.listProdukte(data.getData().getPagination(), data.getConditions());
+        if (BooleanUtils.toBoolean(data.getConditions().get("schnellerfassung")) && produkte.getContent().size() == 1) {
+            final Produkt produkt = produkte.getContent().get(0);
+            if (!produkt.isBestandUnendlich()) {
+                produkt.setBestand(produkt.getBestand() + 1);
+                save(produkt);
+                produkte = service.listProdukte(data.getData().getPagination(), data.getConditions());
+            }
+        }
+        return produkte;
     }
 
     @GetMapping("/{id}")

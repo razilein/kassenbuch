@@ -1,5 +1,13 @@
 var vm = new Vue({
   el: '#kassenbuch',
+  created() {
+    window.addEventListener('keydown', e => {
+      var isDialogOpened = vm.showDialog || vm.showEditDialog;
+      if (e.key == 'Enter' && !isDialogOpened) {
+        vm.suchen();
+      }
+    });
+  },
   data: {
     editEntity: {},
     gesamt: 0.00,

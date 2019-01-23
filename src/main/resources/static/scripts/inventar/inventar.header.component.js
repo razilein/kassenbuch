@@ -8,5 +8,7 @@ Vue.component('page-header-inventar', {
      <a class="navigationLink2" href="gruppe.html" v-if="marker !== 'Gruppe'">Gruppen</a>
      <a class="navigationLink2" href="kategorie.html" v-if="marker === 'Kategorie'">&#11089; Kategorien</a>
      <a class="navigationLink2" href="kategorie.html" v-if="marker !== 'Kategorie'">Kategorien</a>
+     <a class="navigationLink2" href="inventur.html" v-if="marker === 'Inventur'">&#11089; Inventur</a>
+     <a class="navigationLink2" href="inventur.html" v-if="marker !== 'Inventur'">Inventur</a>
   </div>`
 });

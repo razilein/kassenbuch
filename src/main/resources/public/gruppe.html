@@ -20,7 +20,7 @@
       <div id="content">
         <div class="form m1">
           <div class="m1">
-            <label class="required" for="searchForm_kategorie">Kategorie</label>
+            <label for="searchForm_kategorie">Kategorie</label>
             <select class="m1" id="searchForm_kategorie" v-model="grid.searchQuery.kategorie">
               <option value=""></option>
               <option :value="k.key" v-for="k in kategorien">{{k.value}}</option>

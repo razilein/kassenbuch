@@ -1,5 +1,13 @@
 var vm = new Vue({
   el: '#kassenbuecher',
+  created() {
+    window.addEventListener('keydown', e => {
+      var isDialogOpened = vm.showDialog;
+      if (e.key == 'Enter' && !isDialogOpened) {
+        vm.grid.reload = true;
+      }
+    });
+  },
   data: {
     rechte: {},
     result: {},

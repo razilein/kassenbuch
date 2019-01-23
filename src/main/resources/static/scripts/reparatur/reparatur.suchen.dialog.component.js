@@ -31,6 +31,12 @@ Vue.component('reparatur-suchen-dialog', {
     kunde: Object,
   },
   created: function() {
+    window.addEventListener('keydown', e => {
+      var isDialogOpened = this.showDialog;
+      if (e.key == 'Enter' && !isDialogOpened) {
+        this.grid.reload = true;
+      }
+    });
   },
   data: function() {
     return {

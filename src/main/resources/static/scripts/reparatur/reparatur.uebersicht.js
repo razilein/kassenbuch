@@ -1,5 +1,13 @@
 var vm = new Vue({
   el: '#reparaturen',
+  created() {
+    window.addEventListener('keydown', e => {
+      var isDialogOpened = vm.showDialog || vm.showConfirmDialog || vm.showDeleteDialog || vm.showEditDialog;
+      if (e.key == 'Enter' && !isDialogOpened) {
+        vm.grid.reload = true;
+      }
+    });
+  },
   data: {
     kundeId: getParamFromCurrentUrl('id') || null,
     rechte: {},

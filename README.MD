@@ -129,13 +129,17 @@ Durch Klick auf das *Bearbeiten-Icon* können die Kundendaten bearbeitet werden.
 Durch Klick auf das *Löschen-Icon* kann nach erneuter Bestätigung der Kunde gelöscht werden. Dabei werden keine Reparaturaufträge oder Rechnungen gelöscht. Jedoch wird die Verknüpfung zum Kunden entfernt, sodass diese Daten beim Ansehen der Aufträge/Rechnungen nicht mehr ersichtlich sind.
 
 ## Inventar
-Die Seite Inventar unterteilt sich in die drei Unterseiten **Produkte**, **Gruppen** und **Kategorien**.
+Die Seite Inventar unterteilt sich in die vier Unterseiten **Produkte**, **Gruppen**, **Kategorien** und **Inventur**.
 
 ### Produkte
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_INVENTAR_PRODUKT* benötigt.
 Um Produkte Anlegen, Bearbeiten oder Löschen zu können, wird das Recht *INVENTAR_PRODUKT_VERWALTEN* benötigt.
 
 Auf dieser Seite werden alle Produkte angezeigt. Mit Hilfe der Suchfilter kann die Anzeige weiter eingeschränkt werden.
+
+Wird das Kontrollkästchen *Schnellerfassung* aktiviert, wird nach jedem Drücken der *Enter*-Taste oder Klicken auf *Suchen* die Anzahl des gefunden Produktes
+um 1 erhöht, wenn es nur ein einziges Suchergebnis gibt und das Produkt nicht die Einstellung *Unbegrenzt* gesetzt hat.
+Zusätzlich ist es nach Aktivieren der *Schnellerfassung* möglich, mit Hilfe der *Entf*-Taste das Feld EAN zu leeren.
 
 Durch Klick auf das *Plus-Icon* kann ein neues Produkt angelegt werden.
 
@@ -172,6 +176,19 @@ Durch Klick auf das *Plus-Icon* kann eine neue Kategorie angelegt werden.
 Durch Klick auf das *Bearbeiten-Icon* kann die Kategorie bearbeitet werden.
 
 Durch Klick auf das *Löschen-Icon* kann nach erneuter Bestätigung die Kategorie gelöscht werden. Dabei werden ebenfalls alle Produkte und Produktgruppen, die zu dieser Kategorie gehören, gelöscht.
+
+### Inventur
+Um diese Seite öffnen zu können und die Inventur durchführen zu können, wird das Recht *ZUGRIFF_INVENTAR_INVENTUR* benötigt.
+
+Auf dieser Seite kann die Inventur durchgeführt werden.
+Dabei werden alle Produkte deren Bestand größer 0 ist und welche nicht die Einstellung *Unbegrenzt* berücksichtigt.
+Die Anzahl, die Bezeichnung, der Netto-Einkaufspreis und der Netto-Einkaufspreis * Anzahl, werden alphabetisch in einer Excel-Datei ins Ablageverzeichnis abgelegt.
+Am Ende der Datei wird die Gesamtsumme angezeigt.
+
+Besitzt das Produkt keinen Netto-Einkaufspreis, wird dieser folgendermaßen errechnet: Netto-Verkaufspreis - 10% des Netto-Verkaufspreis.
+Besitzt das Produkt keinen Netto-Verkaufspreis, wird das Produkt nicht berücksichtigt.
+
+Zwischen dem 26. Dezember und 5. Januar wird unabhängig davon, ob die Inventur bereits durchgeführt wurde, eine Erinnerungsmeldung angezeigt.
 
 ## Kassenbuch
 Die Seite Kassenbuch unterteilt sich in die vier Unterseiten **Erstellen**, **Kassenbücher**, **Kassenstand** und **Statistiken**.

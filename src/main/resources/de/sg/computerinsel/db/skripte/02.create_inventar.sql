@@ -31,3 +31,5 @@ CREATE TABLE produkt (
 
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_INVENTAR_PRODUKT', 'Zugriff auf die Seite: Produkt');
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_INVENTAR_PRODUKT_VERWALTEN', 'Produkte können angelegt, bearbeitet oder gelöscht werden');
+
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_INVENTAR_INVENTUR', 'Zugriff auf die Seite: Inventur');

@@ -1,5 +1,13 @@
 var vm = new Vue({
   el: '#gruppe',
+  created() {
+    window.addEventListener('keydown', e => {
+      var isDialogOpened = vm.showDialog || vm.showEditDialog || vm.showDeleteDialog;
+      if (e.key == 'Enter' && !isDialogOpened) {
+        vm.grid.reload = true;
+      }
+    });
+  },
   data: {
     kategorien: [],
     rechte: {},

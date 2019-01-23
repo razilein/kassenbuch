@@ -1,5 +1,13 @@
 var vm = new Vue({
   el: '#rechnungen',
+  created() {
+    window.addEventListener('keydown', e => {
+      var isDialogOpened = vm.showDialog || vm.showEditDialog || vm.showDeleteDialog;
+      if (e.key == 'Enter' && !isDialogOpened) {
+        vm.grid.reload = true;
+      }
+    });
+  },
   data: {
     kundeId: getParamFromCurrentUrl('id') || null,
     rechte: {},

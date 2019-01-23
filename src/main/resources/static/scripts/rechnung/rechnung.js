@@ -2,7 +2,9 @@ var vm = new Vue({
   el: '#rechnungErstellen',
   created() {
     window.addEventListener('keydown', e => {
-      if (e.key == 'Enter') {
+      var isDialogOpened = vm.showDialog || vm.showEditDialog || vm.showRabattDialog;
+      isDialogOpened = isDialogOpened || vm.showKundeDialog || vm.showRechnungspositionDialog || vm.showReparaturDialog;
+      if (e.key == 'Enter' && !isDialogOpened) {
         vm.grid.reload = true;
       }
     });

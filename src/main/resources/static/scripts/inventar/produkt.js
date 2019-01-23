@@ -1,5 +1,16 @@
 var vm = new Vue({
   el: '#produkt',
+  created() {
+    window.addEventListener('keydown', e => {
+      var isDialogOpened = vm.showDialog || vm.showEditDialog || vm.showDeleteDialog;
+      if (e.key == 'Enter' && !isDialogOpened) {
+        vm.grid.reload = true;
+      }
+      if (e.key == 'Delete' && !isDialogOpened && vm.grid.searchQuery.schnellerfassung) {
+        vm.grid.searchQuery.ean = null;
+      }
+    });
+  },
   data: {
     gruppen: [],
     kategorien: [],

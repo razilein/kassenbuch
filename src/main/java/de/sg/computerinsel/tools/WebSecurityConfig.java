@@ -86,6 +86,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/kategorie.html*", "/inventar/kategorie*").hasRole("ZUGRIFF_INVENTAR_KATEGORIE")
             .antMatchers(HttpMethod.PUT, "/inventar/kategorie").hasRole("INVENTAR_KATEGORIE_VERWALTEN")
             .antMatchers(HttpMethod.DELETE, "/inventar/kategorie").hasRole("INVENTAR_KATEGORIE_VERWALTEN")
+            .antMatchers("/inventur.html*").hasRole("ZUGRIFF_INVENTAR_INVENTUR")
+            .antMatchers(HttpMethod.POST, "/inventar/inventur").hasRole("ZUGRIFF_INVENTAR_INVENTUR")
             .anyRequest().authenticated()
             .and()
         .formLogin()

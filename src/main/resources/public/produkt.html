@@ -46,10 +46,16 @@
             </div>
           </div>
           <div class="m1">
+            <label class="container checkbox">Schnellerfassung (Anzahl + 1 bei Suche mit EAN bei 1 Treffer)
+              <input id="searchForm_schnellerfassung" type="checkbox" v-model="grid.searchQuery.schnellerfassung" />
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="m1">
             <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
           </div>
         </div>
-        <div style="height: 250px;"></div>
+        <div style="height: 270px;"></div>
         <div id="gridDiv" v-if="grid.gridColumns.length > 0">
           <grid
             :actions="grid.actions"
@@ -58,7 +64,7 @@
             :rest-url="grid.restUrl"
             :reload="grid.reload"
             :search-query="grid.searchQuery"
-            @reloaded="grid.reload = false"
+            @reloaded="grid.reload = false;"
           ></grid>
         </div>
       </div>
