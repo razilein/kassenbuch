@@ -8,3 +8,5 @@ ALTER TABLE produkt ALTER COLUMN preis_ek RENAME TO preis_ek_brutto;
 ALTER TABLE produkt ALTER COLUMN preis_vk RENAME TO preis_vk_brutto;
 ALTER TABLE produkt ADD COLUMN preis_ek_netto DECIMAL(9,2);
 ALTER TABLE produkt ADD COLUMN preis_vk_netto DECIMAL(9,2);
+
+ALTER TABLE filiale ADD COLUMN RECHNUNG_TEXT_ANDERE_FILIALE VARCHAR(100);

@@ -275,7 +275,8 @@ Auf dieser Seite befindet sich eine Auflistung aller Filialen.
 Durch Klick auf das *Plus-Icon* kann eine neue Filiale angelegt werden.
 Durch Klick auf das *Bearbeiten-Icon* kann die Filiale bearbeitet werden.
 
-Die Adressdaten, sowie Telefon, E-Mail und das Kürzel erscheinen auf den Rechnungen und Reparaturaufträgen. Eine Änderung dieser Daten wirkt sich auf bestehende Rechnungen und Aufträge aus.
+Die Adressdaten, sowie Telefon, E-Mail, Kürzel und der Text "Besuchen Sie uns auch in unserer Filiale in" erscheinen auf den Rechnungen und Reparaturaufträgen.
+Eine Änderung dieser Daten wirkt sich auf bestehende Rechnungen und Aufträge aus.
 
 ## Mitarbeiter
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_EINSTELLUNGEN_MITARBEITER* benötigt.

@@ -34,6 +34,10 @@ Vue.component('edit-dialog', {
       <input class="m2" id="filialeEditForm_email" type="text" v-model="entity.email"></input>
     </div>
   </div>
+  <div class="m1">
+    <label for="filialeEditForm_rechnung_text_andere_filiale">Rechnungstext: Besuchen Sie uns auch in unserer Filiale in</label>
+    <input class="m1" id="filialeEditForm_rechnung_text_andere_filiale" type="text" v-model="entity.rechnungTextAndereFiliale"></input>
+  </div>
       `),
   props: {
     restUrlGet: String,
