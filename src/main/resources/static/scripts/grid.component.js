@@ -106,6 +106,7 @@ Vue.component('grid', {
       },
       function(newVal, oldVal) {
         if (newVal === true && oldVal === false) {
+          this.page = 0;
           this.reloadTabledata();
           this.$emit('reloaded');
         }

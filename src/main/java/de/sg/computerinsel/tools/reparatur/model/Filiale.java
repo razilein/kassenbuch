@@ -53,4 +53,8 @@ public class Filiale extends IntegerBaseObject {
     @Column(name = "kuerzel")
     private String kuerzel;
 
+    @Size(max = 100, message = "Der Text 'Besuchen Sie uns auch in unserer Filiale in' darf nicht länger als 100 Zeichen sein.")
+    @Column(name = "rechnung_text_andere_filiale")
+    private String rechnungTextAndereFiliale;
+
 }

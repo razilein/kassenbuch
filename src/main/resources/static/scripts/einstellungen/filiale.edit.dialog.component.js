@@ -3,36 +3,40 @@ Vue.component('edit-dialog', {
   <div class="m1">
     <div class="m2m">
       <label class="required" for="filialeEditForm_name">Name</label>
-      <input class="m2" id="filialeEditForm_name" type="text" v-model="entity.name"></input>
+      <input class="m2" id="filialeEditForm_name" maxlength="50" type="text" v-model="entity.name"></input>
     </div>
     <div class="m2">
       <label class="required" for="filialeEditForm_kuerzel">Kürzel für Aufträge</label>
-      <input class="m2" id="filialeEditForm_kuerzel" type="text" v-model="entity.kuerzel"></input>
+      <input class="m2" id="filialeEditForm_kuerzel" maxlength="3" type="text" v-model="entity.kuerzel"></input>
     </div>
   </div>
   <div class="m1">
     <div class="m2m">
       <label class="required" for="filialeEditForm_strasse">Straße</label>
-      <input class="m2" id="filialeEditForm_strasse" type="text" v-model="entity.strasse"></input>
+      <input class="m2" id="filialeEditForm_strasse" maxlength="100" type="text" v-model="entity.strasse"></input>
     </div>
     <div class="m6m">
       <label class="required" for="filialeEditForm_plz">PLZ</label>
-      <input class="m6" id="filialeEditForm_plz" type="text" v-model="entity.plz"></input>
+      <input class="m6" id="filialeEditForm_plz" maxlength="8" type="text" v-model="entity.plz"></input>
     </div>
     <div class="m3">
       <label class="required" for="filialeEditForm_ort">Ort</label>
-      <input class="m3" id="filialeEditForm_ort" type="text" v-model="entity.ort"></input>
+      <input class="m3" id="filialeEditForm_ort" maxlength="50" type="text" v-model="entity.ort"></input>
     </div>
   </div>
   <div class="m1">
     <div class="m2m">
       <label class="required" for="filialeEditForm_telefon">Telefon</label>
-      <input class="m2" id="filialeEditForm_telefon" type="text" v-model="entity.telefon"></input>
+      <input class="m2" id="filialeEditForm_telefon" maxlength="50" type="text" v-model="entity.telefon"></input>
     </div>
     <div class="m2">
       <label class="required" for="filialeEditForm_email">E-Mail</label>
-      <input class="m2" id="filialeEditForm_email" type="text" v-model="entity.email"></input>
+      <input class="m2" id="filialeEditForm_email" maxlength="50" type="text" v-model="entity.email"></input>
     </div>
+  </div>
+  <div class="m1">
+    <label for="filialeEditForm_rechnung_text_andere_filiale">Rechnungstext: Besuchen Sie uns auch in unserer Filiale in</label>
+    <input class="m1" id="filialeEditForm_rechnung_text_andere_filiale" maxlength="100" type="text" v-model="entity.rechnungTextAndereFiliale"></input>
   </div>
       `),
   props: {
