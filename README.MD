@@ -292,7 +292,7 @@ Der Mitarbeiter wird ohne Berechtigungen erstellt.
 Durch Klick auf das *Schlüssel-Icon* kann nach erneuter Bestätigung das Passwort des Mitarbeiters zurückgesetzt werden. Dieses wird auf den Benutzernamen gesetzt.
 
 Durch Klick auf das *Bearbeiten-Icon* können die Daten des Mitarbeiters bearbeitet werden.
-Die gewählte Filiale wirkt sich dabei auf das Anzeigen von Reparaturaufträgen und Rechnungen aus. Je nachdem welche Filiale gewählt wurde, werden auf den
+Die gewählte Filiale wirkt sich dabei auf das Erstellen von Reparaturaufträgen und Rechnungen aus. Je nachdem welche Filiale gewählt wurde, werden auf den
 Rechnungen und Reparaturaufträgen andere Adressdaten zur Filiale gedruckt.
 
 Durch Klick auf das *Löschen-Icon* kann der Mitarbeiter nach erneuter Bestätigung gelöscht werden. Dies hat keine Auswirkungen auf bestehende Verknüpfungen zu Rechnungen, Reparaturaufträgen oder Kassenbüchern, da der Mitarbeitername gesondert gespeichert wird.

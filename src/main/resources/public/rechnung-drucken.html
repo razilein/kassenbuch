@@ -29,15 +29,15 @@
           <td width="5%" align="left" valign="top">
             <p align="left">
               <font SIZE="2" STYLE="font-size: 9pt" FACE="Arial, sans-serif" COLOR="#000000">
-              {{filiale.strasse}},
-              {{filiale.plz}} {{filiale.ort}}</font><font FACE="Arial, sans-serif" SIZE="2" style="font-size: 9pt"><span LANG="de-DE"><font COLOR="#000000"><br>
+              {{entity.rechnung.filiale.strasse}},
+              {{entity.rechnung.filiale.plz}} {{entity.rechnung.filiale.ort}}</font><font FACE="Arial, sans-serif" SIZE="2" style="font-size: 9pt"><span LANG="de-DE"><font COLOR="#000000"><br>
               </font></span>
               </font>
               <font COLOR="#000000" FACE="Arial, sans-serif" SIZE="2" style="font-size: 9pt">
               <span LANG="de-DE" style="text-decoration: none">
               Tel: </span>
               <span style="text-decoration: none">
-              {{filiale.telefon}}</span><span LANG="de-DE" style="text-decoration: none"><br>
+              {{entity.rechnung.filiale.telefon}}</span><span LANG="de-DE" style="text-decoration: none"><br>
               Steuernr.: 232/167/37105<br>
               &nbsp;</span></font>
           </td>
@@ -48,7 +48,7 @@
             <span LANG="de-DE" style="text-decoration: none">
             <font COLOR="#000000" FACE="Arial, sans-serif" SIZE="2" style="font-size: 9pt">www.computer-insel.net</font></span></font><br>
             <font COLOR="#000000" FACE="Arial, sans-serif" SIZE="2" style="font-size: 9pt">
-            <span LANG="de-DE" style="text-decoration: none">Email: {{filiale.email}}</span></font>
+            <span LANG="de-DE" style="text-decoration: none">Email: {{entity.rechnung.filiale.email}}</span></font>
           </td>
         </tr>
         <tr>
@@ -78,12 +78,12 @@
               </font>
             </p>
             <p>&nbsp;</p>
-            <p><b><font face="Arial" size="4">Rechnung <span v-if="entity.rechnung.reparatur"> zum Auftrag {{entity.rechnung.reparatur.nummer}}</span></font></b></p>
+            <p><b><font face="Arial" size="4">Rechnung <span v-if="entity.rechnung.reparatur"> zum Auftrag {{entity.rechnung.reparatur.filiale.kuerzel}}{{entity.rechnung.reparatur.nummer}}</span></font></b></p>
             <table border="0" width="685">
               <tr>
                 <td>
                   <font face="Arial" style="font-size: 9pt">
-                  Rechnungsnummer: {{filiale.kuerzel}}{{entity.rechnung.nummer}}
+                  Rechnungsnummer: {{entity.rechnung.filiale.kuerzel}}{{entity.rechnung.nummer}}
                   </font>
                 </td>
                 <td>&nbsp;</td>
@@ -179,7 +179,7 @@
         <tr>
           <td width="200%" align="center" colspan="2"><font face="Arial">
             <p><font face="Arial" style="font-size: 9pt">Besuchen Sie uns auch in unserer
-              Filiale in {{filiale.rechnungTextAndereFiliale}}.</font>
+              Filiale in {{entity.rechnung.filiale.rechnungTextAndereFiliale}}.</font>
             </p>
             <font style="font-size: 9pt"><br>
             Firmensitz: Marktstraße 10, 04177 Leipzig<br>

@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import de.sg.computerinsel.tools.kunde.model.Kunde;
+import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import lombok.Getter;
@@ -34,6 +35,10 @@ public class Rechnung extends IntegerBaseObject {
     @Column(name = "ersteller")
     @Size(max = MAX_LENGTH_MITARBEITER, message = "Der Mitarbeitername darf nicht länger als 200 Zeichen sein")
     private String ersteller;
+
+    @ManyToOne
+    @JoinColumn(name = "filiale_id", referencedColumnName = "id")
+    private Filiale filiale;
 
     @ManyToOne
     @JoinColumn(name = "kunde_id", referencedColumnName = "id")
