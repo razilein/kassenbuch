@@ -27,6 +27,10 @@ public class Reparatur extends IntegerBaseObject {
 
     public static final int MAX_LENGTH_MITARBEITER = 200;
 
+    @ManyToOne
+    @JoinColumn(name = "filiale_id", referencedColumnName = "id")
+    private Filiale filiale;
+
     @Size(max = MAX_LENGTH_MITARBEITER, message = "Der Mitarbeitername darf nicht länger als 200 Zeichen sein.")
     @Column(name = "mitarbeiter")
     private String mitarbeiter;

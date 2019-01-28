@@ -2,13 +2,15 @@ CREATE TABLE rechnung (
   id INTEGER IDENTITY NOT NULL PRIMARY KEY,
   kunde_id INT,
   reparatur_id INT,
+  filiale_id INT NOT NULL,
   art TINYINT NOT NULL,
   datum DATE NOT NULL,
   name_drucken BIT DEFAULT 0 NOT NULL,
   ersteller VARCHAR(200) NOT NULL,
   nummer INT NOT NULL,
   FOREIGN KEY (kunde_id) REFERENCES kunde(id) ON DELETE SET NULL,
-  FOREIGN KEY (reparatur_id) REFERENCES reparatur(id) ON DELETE SET NULL
+  FOREIGN KEY (reparatur_id) REFERENCES reparatur(id) ON DELETE SET NULL,
+  FOREIGN KEY (filiale_id) REFERENCES filiale(id)
 );
 
 CREATE TABLE rechnungsposten (

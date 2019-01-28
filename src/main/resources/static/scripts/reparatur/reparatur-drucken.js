@@ -4,6 +4,7 @@ var vm = new Vue({
     currentDate: null,
     currentDay: null,
     entity: {
+      filiale: {},
       kunde: {},
       mitarbeiter: {},
     },
@@ -16,10 +17,7 @@ var vm = new Vue({
       this.currentDate = moment().format('DD.MM.YYYY');
       this.currentDay = moment().format('dddd');
       
-      this.getEntity()
-        .then(this.setEntity)
-        .then(this.getFiliale)
-        .then(this.setFiliale);
+      this.getEntity().then(this.setEntity);
     },
     
     getEntity: function() {
@@ -29,14 +27,6 @@ var vm = new Vue({
     
     setEntity: function(response) {
       this.entity = response.data;
-    },
-    
-    getFiliale: function() {
-      return axios.get('/einstellungen/standardfiliale-mitarbeiter');
-    },
-    
-    setFiliale: function(response) {
-      this.filiale = response.data;
     },
     
   }

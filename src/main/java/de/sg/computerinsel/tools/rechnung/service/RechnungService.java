@@ -22,6 +22,7 @@ import de.sg.computerinsel.tools.rechnung.model.Rechnung;
 import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.rechnung.model.Zahlart;
 import de.sg.computerinsel.tools.rechnung.rest.model.RechnungDTO;
+import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
@@ -101,6 +102,10 @@ public class RechnungService {
         if (rechnung.getId() == null) {
             rechnung.setErsteller(StringUtils.abbreviate(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname(),
                     Rechnung.MAX_LENGTH_MITARBEITER));
+            final Optional<Mitarbeiter> optional = mitarbeiterService.getAngemeldeterMitarbeiter();
+            if (optional.isPresent()) {
+                rechnung.setFiliale(optional.get().getFiliale());
+            }
             rechnung.setDatum(LocalDate.now());
             final String nummer = String.valueOf(rechnung.getDatum().getYear()) + einstellungenService.getAndSaveNextRechnungsnummer();
             rechnung.setNummer(Ints.tryParse(nummer));

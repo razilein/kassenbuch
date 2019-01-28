@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
+import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
 import de.sg.computerinsel.tools.reparatur.service.FeiertagUtils;
@@ -134,6 +135,10 @@ public class ReparaturRestController {
                 reparatur.setErstelltAm(LocalDateTime.now());
                 reparatur.setMitarbeiter(StringUtils.abbreviate(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname(),
                         Reparatur.MAX_LENGTH_MITARBEITER));
+                final Optional<Mitarbeiter> optional = mitarbeiterService.getAngemeldeterMitarbeiter();
+                if (optional.isPresent()) {
+                    reparatur.setFiliale(optional.get().getFiliale());
+                }
             }
             final Reparatur saved = service.save(reparatur);
             result.put(Message.SUCCESS.getCode(), "Der Reparaturauftrag '" + reparatur.getNummer() + "' wurde erfolgreich gespeichert");

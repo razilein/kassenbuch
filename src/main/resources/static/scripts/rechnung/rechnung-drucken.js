@@ -6,12 +6,12 @@ var vm = new Vue({
     currentDay: null,
     entity: {
       rechnung: {
+        filiale: {},
         kunde: {},
         reparatur: {},
       },
       posten: []
     },
-    filiale: {},
     gesamtnetto: 0.00,
     gesamtmwst: 0.00,
     gesamtsumme: 0.00,
@@ -25,8 +25,6 @@ var vm = new Vue({
       
       vm.getEntity()
         .then(vm.setEntity)
-        .then(vm.getFiliale)
-        .then(vm.setFiliale)
         .then(vm.setZahlart);
     },
     
@@ -62,14 +60,6 @@ var vm = new Vue({
     
     setEntity: function(response) {
       vm.entity = response.data;
-    },
-    
-    getFiliale: function() {
-      return axios.get('/einstellungen/standardfiliale-mitarbeiter');
-    },
-    
-    setFiliale: function(response) {
-      vm.filiale = response.data;
     },
     
   }
