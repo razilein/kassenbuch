@@ -69,11 +69,17 @@ function hasMessages(result) {
 }
 
 function showLoader() {
-  document.getElementById('loader').classList.remove('hide');
+  var loader = document.getElementById('loader');
+  if (loader) {
+    loader.classList.remove('hide');
+  }
 }
 
 function hideLoader() {
-  document.getElementById('loader').classList.add('hide');
+  var loader = document.getElementById('loader');
+  if (loader) {
+    loader.classList.add('hide');
+  }
 }
 
 function createEditDialogTemplate(body) {

@@ -75,28 +75,22 @@ input.warning {
 }
 
 #navigation {
-  background-color: #CEC319;
-  padding: 5 5 5 5;
-}
-
-#navigation {
-  height: 20px;
-  padding: 5 5 5 5;
+  height: 40px;
   top: 100px;
 }
 
 .navigationLink {
+  background-color: #CEC319;
   color: #102759;
-}
-
-.navigationLink {
-  font-size: 20px;
-  margin-right: 20px;
+  display: inline-block;
+  margin-right: -4px;
+  padding: 3 5 3 5;
+  text-align: center;
   text-decoration: none;
 }
 
-.navigationLink:hover {
-  text-decoration: underline;
+.navigationLink:hover, .navigationLink.active {
+  background-color: #ffff99;
 }
 
 .required:after {

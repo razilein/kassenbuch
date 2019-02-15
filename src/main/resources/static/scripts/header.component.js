@@ -1,4 +1,5 @@
 Vue.component('page-header', {
+  props: ['marker'],
   template: `<div id="header">
      <a class="logoutLink" href="/logout" v-if="username">ausloggen</a>
      <a class="logoutLink" href="/mitarbeiter-profil.html" v-if="username">Mein Profil</a>
@@ -17,22 +18,22 @@ Vue.component('page-header', {
      <div class="loading hide" id="loader">Loading&#8230;</div>
      <img src="themes/icons/logo.png" height="100" />
      <div id="navigation">
-       <a class="navigationLink" href="reparatur.html">
+       <a class="navigationLink" :class="marker === 'Reparaturen' ? 'active' : ''" href="reparatur.html">
          <img src="themes/icons/zahnrad.png" height="20" /> Reparaturen
        </a>
-       <a class="navigationLink" href="rechnung.html">
+       <a class="navigationLink" :class="marker === 'Rechnungen' ? 'active' : ''" href="rechnung.html">
          <img src="themes/icons/rechnung.png" height="20" /> Rechnungen
        </a>
-       <a class="navigationLink" href="kunden.html">
+       <a class="navigationLink" :class="marker === 'Kunden' ? 'active' : ''" href="kunden.html">
          <img src="themes/icons/kunde.png" height="20" /> Kunden
        </a>
-       <a class="navigationLink" href="produkt.html">
+       <a class="navigationLink" :class="marker === 'Inventar' ? 'active' : ''" href="produkt.html">
          <img src="themes/icons/inventar.png" height="20" /> Inventar
        </a>
-       <a class="navigationLink" href="kassenbuch.html">
+       <a class="navigationLink" :class="marker === 'Kassenbuch' ? 'active' : ''" href="kassenbuch.html">
          <img src="themes/icons/kasse.png" height="20" /> Kassenbuch
        </a>
-       <a class="navigationLink" href="einstellungen.html">
+       <a class="navigationLink" :class="marker === 'Einstellungen' ? 'active' : ''" href="einstellungen.html">
          <img src="themes/icons/einstellungen.png" height="20" /> Einstellungen
        </a>
       </div>
@@ -41,6 +42,7 @@ Vue.component('page-header', {
   data: function() {
     this.loadUser();
     return {
+      marker: '',
       username: null,
       filiale: null,
       showInventurHinweis: false

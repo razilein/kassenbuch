@@ -17,7 +17,7 @@
   </head>
   <body>
     <div id="rechnungen">
-      <page-header></page-header>
+      <page-header :marker="'Rechnungen'"></page-header>
       <page-header-rechnung v-bind:marker="'Rechnungen'"></page-header-rechnung>
       <div id="content">
         <div class="form m1" v-if="kundeId === null">
