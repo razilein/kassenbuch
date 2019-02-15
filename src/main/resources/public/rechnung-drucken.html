@@ -121,7 +121,7 @@
               </tr>
               <tr v-for="posten in entity.posten">
                 <td width="75" align="center" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{posten.menge}}</font></td>
-                <td width="587" align="center" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{posten.bezeichnung}} {{posten.seriennummer}} {{posten.hinweis}}</font></td>
+                <td width="587" align="center" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{posten.bezeichnung}} <span v-if="posten.seriennummer">SN: {{posten.seriennummer}}</span> <span v-if="posten.hinweis">({{posten.hinweis}})</span></font></td>
                 <td width="100" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{ formatMoney(posten.preis) }} &euro;</font></td>
                 <td width="116" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt" v-if="gesamtrabatt !== 0.00">{{ formatMoney(posten.rabatt) }} &euro;</font></td>
                 <td width="116" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{ formatMoney(posten.gesamt) }} &euro;</font></td>
