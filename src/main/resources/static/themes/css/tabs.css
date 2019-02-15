@@ -24,10 +24,10 @@
 #tab3:checked ~ figure .tab3 { display: block; }
 
 nav label {
-  background: #1A8CFF;
+  background: white;
   border-right: 1px solid silver;
   border-top: 1px solid silver;
-  color: #eee;
+  color: #102759;
   float: left;
   padding: 10px 10px;
 }
@@ -39,9 +39,9 @@ nav label:active { background: #ffffff; }
 #tab1:checked ~ nav label[for="tab1"],
 #tab2:checked ~ nav label[for="tab2"],
 #tab3:checked ~ nav label[for="tab3"] {
-  background: white;
+  background: #1A8CFF;
   border-bottom: none;
-  color: #102759;
+  color: #eee;
   position: relative;
 }
 
