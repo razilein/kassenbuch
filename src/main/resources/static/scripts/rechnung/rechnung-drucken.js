@@ -8,7 +8,9 @@ var vm = new Vue({
       rechnung: {
         filiale: {},
         kunde: {},
-        reparatur: {},
+        reparatur: {
+          filiale: {}
+        },
       },
       posten: []
     },
