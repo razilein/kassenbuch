@@ -43,7 +43,7 @@
             <td>Gesamtbetrag</td>
             <td class="right">{{ formatMoney(gesamtEinnahmen) }} &euro;</td>
             <td class="right">{{ formatMoney(gesamtAusgaben) }} &euro;</td>
-            <td class="right">{{ formatMoney(gesamtEinnahmen - gesamtAusgaben) }} &euro;</td>
+            <td class="right">{{ formatMoney(entity.kassenbuch.ausgangsbetrag + gesamtEinnahmen + gesamtAusgaben) }} &euro;</td>
           </tr>
         </tfoot>
       </table>
