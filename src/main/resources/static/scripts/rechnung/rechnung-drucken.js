@@ -14,6 +14,7 @@ var vm = new Vue({
     },
     gesamtnetto: 0.00,
     gesamtmwst: 0.00,
+    gesamtrabatt: 0.00,
     gesamtsumme: 0.00,
   },
   methods: {
@@ -47,6 +48,7 @@ var vm = new Vue({
       }
       vm.entity.posten.forEach(function(element) {
         vm.gesamtsumme = vm.gesamtsumme + element.gesamt;
+        vm.gesamtrabatt = vm.gesamtrabatt + element.rabatt;
       });
       vm.gesamtmwst = vm.gesamtsumme * 19 / 100;
       vm.gesamtnetto = vm.gesamtsumme - vm.gesamtmwst;

@@ -106,7 +106,7 @@
                   <p align="right"><font face="Arial" style="font-size: 11pt"><i><b>Preis</b></i></font>
                 </td>
                 <td width="116" style="border-bottom-style: solid; border-bottom-width: 1" align="right" height="19">
-                  <b><i><font face="Arial" style="font-size: 11pt">Rabatt</font></i></b>
+                  <b><i><font face="Arial" style="font-size: 11pt" v-if="gesamtrabatt !== 0.00">Rabatt</font></i></b>
                 </td>
                 <td width="116" style="border-bottom-style: solid; border-bottom-width: 1" align="right" height="19">
                   <font face="Arial" style="font-size: 11pt"><i><b>Gesamt</b></i></font>
@@ -123,7 +123,7 @@
                 <td width="75" align="center" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{posten.menge}}</font></td>
                 <td width="587" align="center" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{posten.bezeichnung}} {{posten.seriennummer}} {{posten.hinweis}}</font></td>
                 <td width="100" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{ formatMoney(posten.preis) }} &euro;</font></td>
-                <td width="116" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{ formatMoney(posten.rabatt) }} &euro;</font></td>
+                <td width="116" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt" v-if="gesamtrabatt !== 0.00">{{ formatMoney(posten.rabatt) }} &euro;</font></td>
                 <td width="116" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{ formatMoney(posten.gesamt) }} &euro;</font></td>
               </tr>
               <tr>
