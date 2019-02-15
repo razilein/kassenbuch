@@ -257,7 +257,7 @@ In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfi
 #### Auftragsnummer
 Die Auftragsnummer setzt sich zusammen aus dem Kürzel der Filiale, dem aktuellen Jahr und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.
 
-Ist beispielsweise heute der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Auftragsnummer, wenn das Kürzel der Filiale L ist: *L20180455*
+Ist beispielsweise heute der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Auftragsnummer, wenn das Kürzel der Filiale L ist: *L180455*
 
 In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.
 

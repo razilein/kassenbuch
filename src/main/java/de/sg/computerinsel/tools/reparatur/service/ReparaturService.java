@@ -28,6 +28,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ReparaturService {
 
+    private static final int LAENGE_REPARATURNUMMER_JAHR = 2;
+
     private final EinstellungenService einstellungenService;
 
     private final ReparaturRepository reparaturRepository;
@@ -77,9 +79,13 @@ public class ReparaturService {
 
     public Reparatur save(final Reparatur reparatur) {
         if (StringUtils.isBlank(reparatur.getNummer())) {
-            reparatur.setNummer(LocalDate.now().getYear() + einstellungenService.getAndSaveNextReparaturnummer());
+            reparatur.setNummer(getReparaturJahrZweistellig() + einstellungenService.getAndSaveNextReparaturnummer());
         }
         return reparaturRepository.save(reparatur);
+    }
+
+    private String getReparaturJahrZweistellig() {
+        return StringUtils.right(String.valueOf(LocalDate.now().getYear()), LAENGE_REPARATURNUMMER_JAHR);
     }
 
     public void deleteReparatur(final Integer id) {
