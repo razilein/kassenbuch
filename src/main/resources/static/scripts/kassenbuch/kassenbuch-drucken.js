@@ -29,7 +29,7 @@ var vm = new Vue({
         data.posten[index].gesamt = betrag;
         
         if (element.betrag < 0) {
-          vm.gesamtAusgaben = vm.gesamtAusgaben + element.betrag * -1;
+          vm.gesamtAusgaben = vm.gesamtAusgaben + element.betrag;
         } else {
           vm.gesamtEinnahmen = vm.gesamtEinnahmen + element.betrag;
         }
