@@ -135,7 +135,7 @@
               Annahmezeitpunkt:
             </td>
             <td class="s2" colspan="2">
-              {{entity.wochentagErstelltAm}}, {{entity.erstelltAm}},
+              {{entity.wochentagErstelltAm}}, {{entity.erstelltAm}} Uhr,
               <span v-if="entity.funktionsfaehig">Gerät funktionsfähig</span>
               <span v-if="!entity.funktionsfaehig">Gerät <span class="u">NICHT</span> funktionsfähig ({{entity.bemerkung}})</span>
             </td>
@@ -160,7 +160,7 @@
               Vorraussichtl. Abholbereit:
             </td>
             <td class="s2" colspan="2">
-              {{entity.wochentagAbholdatum}}, {{entity.abholdatum}} {{entity.abholzeit}}
+              {{entity.wochentagAbholdatum}}, {{formatDate(entity.abholdatum)}} {{entity.abholzeit}} Uhr
             </td>
             <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
               <p align=left style="widows: 0; orphans: 0">&nbsp;</p>
@@ -465,7 +465,7 @@
             </td>
             <td width=904 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
               <p align=left>
-                <font face="arial" size="4">{{entity.wochentagErstelltAm}}, {{entity.erstelltAm}}</font>
+                <font face="arial" size="4">{{entity.wochentagErstelltAm}}, {{entity.erstelltAm}} Uhr</font>
               </p>
             </td>
             <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
@@ -495,7 +495,7 @@
               </p>
             </td>
             <td width=904 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
-              <p align=left><font face="arial" size="4"><span lang="de">{{entity.wochentagAbholdatum}}, {{entity.abholdatum}} {{entity.abholzeit}}, <strong>aber erst nach Anruf durch uns!</strong></span></font>
+              <p align=left><font face="arial" size="4"><span lang="de">{{entity.wochentagAbholdatum}}, {{formatDate(entity.abholdatum)}} {{entity.abholzeit}} Uhr, <strong>aber erst nach Anruf durch uns!</strong></span></font>
               </p>
             </td>
             <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
