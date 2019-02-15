@@ -59,6 +59,10 @@ input.success {
   background-color: #DFF2BF !important;
 }
 
+input.warning {
+  background-color: #FEEFB3 !important;
+}
+
 .hide {
   display: none;
 }

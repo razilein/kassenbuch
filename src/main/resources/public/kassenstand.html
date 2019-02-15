@@ -48,7 +48,7 @@
           <div class="m1">
             <div class="m3m">
                <label>Differenz</label>
-               <input class="m3" readonly type="number" v-bind:class="differenz < 0 ? 'error' : 'success'" v-model="differenz" />
+               <input class="m3" readonly type="number" v-bind:class="differenz < 0 ? 'error' : (differenz > 0 ? 'warning' : 'success')" v-model="differenz" />
             </div>
             <div class="m3m">
               <label>Gesamt Kassenbuch</label>
