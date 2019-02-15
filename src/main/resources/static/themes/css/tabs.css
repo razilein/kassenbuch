@@ -21,9 +21,11 @@
 
 #tab1:checked ~ figure .tab1,
 #tab2:checked ~ figure .tab2,
-#tab3:checked ~ figure .tab3 { display: block; }
+#tab3:checked ~ figure .tab3,
+#tab4:checked ~ figure .tab4,
+#tab5:checked ~ figure .tab5 { display: block; }
 
-nav label {
+nav label, nav a {
   background: white;
   border-right: 1px solid silver;
   border-top: 1px solid silver;
@@ -32,13 +34,18 @@ nav label {
   padding: 10px 10px;
 }
 
-nav label:nth-child(1) { border-left: 1px solid silver; }
-nav label:hover { background: #80ccff; }
-nav label:active { background: #ffffff; }
+nav label:nth-child(1), nav a:nth-child(1) { border-left: 1px solid silver; }
+nav label:hover, nav a:hover { background: #80ccff; }
+nav label:active, nav a:active  { background: #ffffff; }
 
 #tab1:checked ~ nav label[for="tab1"],
+#tab1:checked ~ nav a[class="tab1"],
 #tab2:checked ~ nav label[for="tab2"],
-#tab3:checked ~ nav label[for="tab3"] {
+#tab2:checked ~ nav a[class="tab2"],
+#tab3:checked ~ nav label[for="tab3"], 
+#tab3:checked ~ nav a[class="tab3"],
+#tab4:checked ~ nav a[class="tab4"],
+#tab5:checked ~ nav a[class="tab5"] {
   background: #1A8CFF;
   border-bottom: none;
   color: #eee;
@@ -46,8 +53,13 @@ nav label:active { background: #ffffff; }
 }
 
 #tab1:checked ~ nav label[for="tab1"]:after,
+#tab1:checked ~ nav a[class="tab1"]:after,
 #tab2:checked ~ nav label[for="tab2"]:after,
-#tab3:checked ~ nav label[for="tab3"]:after {
+#tab2:checked ~ nav a[class="tab2"]:after,
+#tab3:checked ~ nav label[for="tab3"]:after,
+#tab3:checked ~ nav a[class="tab3"]:after,
+#tab4:checked ~ nav a[class="tab4"]:after,
+#tab5:checked ~ nav a[class="tab5"]:after {
   background: white;
   bottom: -1px;
   display: block;
@@ -55,4 +67,8 @@ nav label:active { background: #ffffff; }
   left: 0;
   position: absolute;
   width: 100%;
+}
+
+nav a {
+  text-decoration: none;
 }

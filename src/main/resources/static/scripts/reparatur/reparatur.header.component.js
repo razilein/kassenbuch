@@ -1,10 +1,18 @@
 Vue.component('page-header-reparatur', {
   props: ['marker'],
   template: 
-  `<div id="navigation2">
-     <a class="navigationLink2" href="reparatur.html" v-if="marker === 'Erstellen'">&#11089; Erstellen</a>
-     <a class="navigationLink2" href="reparatur.html" v-if="marker !== 'Erstellen'">Erstellen</a>
-     <a class="navigationLink2" href="reparatur-uebersicht.html" v-if="marker === 'Reparaturen'">&#11089; Reparaturen</a>
-     <a class="navigationLink2" href="reparatur-uebersicht.html" v-if="marker !== 'Reparaturen'">Reparaturen</a>
-  </div>`
+    `
+    <div class="tabbed">
+      <input checked="checked" id="tab1" type="radio" name="tabs" v-if="marker === 'Erstellen'" />
+      <input id="tab1" type="radio" name="tabs" v-if="marker !== 'Erstellen'" />
+      <input checked="checked" id="tab2" type="radio" name="tabs" v-if="marker === 'Reparaturen'" />
+      <input id="tab2" type="radio" name="tabs" v-if="marker !== 'Reparaturen'" />
+      
+      <nav>
+        <a class="tab1" href="reparatur.html">Erstellen</a>
+        <a class="tab2" href="reparatur-uebersicht.html">Reparaturen</a>
+      </nav>
+      <figure></figure>
+    </div>
+    `
 });

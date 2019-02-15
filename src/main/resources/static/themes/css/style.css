@@ -79,13 +79,7 @@ input.warning {
   padding: 5 5 5 5;
 }
 
-#navigation2 {
-  background-color: #1A8CFF;
-  margin-bottom: 20px;
-  width: 50%;
-}
-
-#navigation, #navigation2 {
+#navigation {
   height: 20px;
   padding: 5 5 5 5;
   top: 100px;
@@ -95,17 +89,13 @@ input.warning {
   color: #102759;
 }
 
-.navigationLink2 {
-  color: white;
-}
-
-.navigationLink, .navigationLink2 {
+.navigationLink {
   font-size: 20px;
   margin-right: 20px;
   text-decoration: none;
 }
 
-.navigationLink:hover, .navigationLink2:hover {
+.navigationLink:hover {
   text-decoration: underline;
 }
 
