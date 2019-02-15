@@ -26,24 +26,24 @@
             <td>Ausgangsbetrag</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td class="right">{{ formatMoney(entity.kassenbuch.ausgangsbetrag) }}</td>
+            <td class="right">{{ formatMoney(entity.kassenbuch.ausgangsbetrag) }} &euro;</td>
           </tr>
           <tr v-for="posten in entity.posten">
             <td>{{ formatDate(entity.kassenbuch.datum) }}</td>
             <td>{{ posten.verwendungszweck }}</td>
-            <td class="right" v-if="posten.betrag > 0">{{ formatMoney(posten.betrag) }}</td>
+            <td class="right" v-if="posten.betrag > 0">{{ formatMoney(posten.betrag) }} &euro;</td>
             <td>&nbsp;</td>
-            <td class="right" v-if="posten.betrag < 0">{{ formatMoney(posten.betrag) }}</td>
-            <td class="right">{{ formatMoney(posten.gesamt) }}</td>
+            <td class="right" v-if="posten.betrag < 0">{{ formatMoney(posten.betrag) }} &euro;</td>
+            <td class="right">{{ formatMoney(posten.gesamt) }} &euro;</td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
             <td>&nbsp;</td>
             <td>Gesamtbetrag</td>
-            <td class="right">{{ formatMoney(gesamtEinnahmen) }}</td>
-            <td class="right">{{ formatMoney(gesamtAusgaben) }}</td>
-            <td class="right">{{ formatMoney(gesamtEinnahmen - gesamtAusgaben) }}</td>
+            <td class="right">{{ formatMoney(gesamtEinnahmen) }} &euro;</td>
+            <td class="right">{{ formatMoney(gesamtAusgaben) }} &euro;</td>
+            <td class="right">{{ formatMoney(gesamtEinnahmen - gesamtAusgaben) }} &euro;</td>
           </tr>
         </tfoot>
       </table>
