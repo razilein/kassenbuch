@@ -3,7 +3,9 @@ var vm = new Vue({
   data: {
     kassenbuchbetrag: 0,
     kassenbetrag: 0,
+    kassenbetragDisplay: '0,00',
     differenz: 0,
+    differenzDisplay: '0,00',
     model: [
       { anzahl: 0, betrag: 0, multi: 500, key: '500' },
       { anzahl: 0, betrag: 0, multi: 200, key: '200' },
@@ -34,6 +36,9 @@ var vm = new Vue({
         vm.kassenbetrag += vm.model[i].betrag;
       }
       vm.differenz = Number((vm.kassenbetrag - vm.kassenbuchbetrag).toFixed(2));
+      
+      vm.differenzDisplay = formatMoney(vm.differenz);
+      vm.kassenbetragDisplay = formatMoney(vm.kassenbetrag);
     },
 
     init: function() {
