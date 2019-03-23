@@ -23,7 +23,8 @@
 #tab2:checked ~ figure .tab2,
 #tab3:checked ~ figure .tab3,
 #tab4:checked ~ figure .tab4,
-#tab5:checked ~ figure .tab5 { display: block; }
+#tab5:checked ~ figure .tab5
+#tab6:checked ~ figure .tab6 { display: block; }
 
 nav label, nav a {
   background: white;
@@ -45,7 +46,8 @@ nav label:active, nav a:active  { background: #ffffff; }
 #tab3:checked ~ nav label[for="tab3"], 
 #tab3:checked ~ nav a[class="tab3"],
 #tab4:checked ~ nav a[class="tab4"],
-#tab5:checked ~ nav a[class="tab5"] {
+#tab5:checked ~ nav a[class="tab5"],
+#tab6:checked ~ nav a[class="tab6"] {
   background: #1A8CFF;
   border-bottom: none;
   color: #eee;
@@ -59,7 +61,8 @@ nav label:active, nav a:active  { background: #ffffff; }
 #tab3:checked ~ nav label[for="tab3"]:after,
 #tab3:checked ~ nav a[class="tab3"]:after,
 #tab4:checked ~ nav a[class="tab4"]:after,
-#tab5:checked ~ nav a[class="tab5"]:after {
+#tab5:checked ~ nav a[class="tab5"]:after,
+#tab6:checked ~ nav a[class="tab6"]:after {
   background: white;
   bottom: -1px;
   display: block;

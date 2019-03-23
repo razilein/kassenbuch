@@ -83,7 +83,11 @@ var vm = new Vue({
     prepareRoles: function() {
       vm.getRecht('ROLE_INVENTAR_PRODUKT_VERWALTEN');
     },
-    
+
+    hasNotRoleVerwalten: function() {
+      return !vm.rechte['ROLE_INVENTAR_PRODUKT_VERWALTEN'];
+    },
+
     updateGruppen: function() {
       vm.getGruppen().then(vm.setGruppen);
     },

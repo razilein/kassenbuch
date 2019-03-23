@@ -48,6 +48,8 @@
           <li><a href="#gruppen">Gruppen</a></li>
           <li><a href="#kategorien">Kategorien</a></li>
           <li><a href="#inventur">Inventur</a></li>
+          <li><a href="#export">Export</a></li>
+          <li><a href="#import">Import</a></li>
         </ul>
       </li>
       <li>
@@ -189,8 +191,7 @@
     </p>
     <p>Durch Klick auf das <em>Löschen-Icon</em> kann nach erneuter Bestätigung der Kunde gelöscht werden. Dabei werden keine Reparaturaufträge oder Rechnungen gelöscht. Jedoch wird die Verknüpfung zum Kunden entfernt, sodass diese Daten beim Ansehen der Aufträge/Rechnungen nicht mehr ersichtlich sind.</p>
     <h2 id="inventar">Inventar</h2>
-    <p>Die Seite Inventar unterteilt sich in die vier Unterseiten <strong>Produkte</strong>, <strong>Gruppen</strong>, <strong>Kategorien</strong> und <strong>Inventur</strong>.</p>
-    <h3 id="produkte">Produkte</h3>
+    <p>Die Seite Inventar unterteilt sich in die sechs Unterseiten <strong>Produkte</strong>, <strong>Gruppen</strong>, <strong>Kategorien</strong>, <strong>Inventur</strong>, <strong>Export</strong> und <strong>Import</strong>.</p>    <h3 id="produkte">Produkte</h3>
     <p>Um diese Seite öffnen zu können, wird das Recht <em>ZUGRIFF_INVENTAR_PRODUKT</em> benötigt.
       Um Produkte Anlegen, Bearbeiten oder Löschen zu können, wird das Recht <em>INVENTAR_PRODUKT_VERWALTEN</em> benötigt.
     </p>
@@ -234,6 +235,25 @@
       Besitzt das Produkt keinen Netto-Verkaufspreis, wird das Produkt nicht berücksichtigt.
     </p>
     <p>Zwischen dem 26. Dezember und 5. Januar wird unabhängig davon, ob die Inventur bereits durchgeführt wurde, eine Erinnerungsmeldung angezeigt.</p>
+    <h3 id="export">Export</h3>
+    <p>Um diese Seite öffnen zu können, wird das Recht <em>ZUGRIFF_INVENTAR_EXPORT</em> benötigt.</p>
+    <p>Auf dieser Seite werden alle im Zeitraum geänderten Produkte angezeigt, welche eine EAN besitzen.
+    Diese können durch Klick auf die <em>Exportieren-Schaltfläche</em> im JSON-Format in das Ablageverzeichnis exportiert werden.
+    Um die angezeigten Produkte exportieren zu können, wird das Recht <em>INVENTAR_EXPORT</em> benötigt.</p>
+    <p>Durch Klick auf das <em>Minus-Icon</em> können Produkte für den Export abgewählt werden.</p>
+    <h3 id="import">Import</h3>
+    <p>Um diese Seite öffnen zu können, wird das Recht <em>ZUGRIFF_INVENTAR_IMPORT</em> benötigt.</p>
+      <p>Auf dieser Seite kann eine zuvor exportierte JSON-Datei mit Produkten eingelesen werden.
+      Nach Auswahl der JSON-Datei werden die Datensätze angezeigt.
+      Diese können durch Klick auf die <em>Importieren-Schaltfläche</em> in den eigenen Produktdatenbestand importiert werden.
+      Um die angezeigten Produkte importieren zu können, wird das Recht <em>INVENTAR_IMPORT</em> benötigt.
+    </p>
+    <p>Durch Klick auf das <em>Minus-Icon</em> können Produkte für den Import abgewählt werden.</p>
+    <p>Es werden nur Produkte importiert, wenn die EAN einmalig vorhanden ist.
+      Werden keine oder mehrere Produkte gefunden, findet keine Anpassung statt.
+      Angepasst werden die Brutto/Netto-Einkaufs/-Verkaufspreise, sowie, ob der Bestand unbegrenzt ist.
+      Die Bezeichnung des Produktes wird nicht angepasst.
+    </p>
     <h2 id="kassenbuch">Kassenbuch</h2>
     <p>Die Seite Kassenbuch unterteilt sich in die vier Unterseiten <strong>Erstellen</strong>, <strong>Kassenbücher</strong>, <strong>Kassenstand</strong> und <strong>Statistiken</strong>.</p>
     <h3 id="erstellen-2">Erstellen</h3>
@@ -345,6 +365,10 @@
       <li><strong>INVENTAR<em>GRUPPE</em>VERWALTEN</strong> - Gruppen können angelegt, bearbeitet oder gelöscht werden</li>
       <li><strong>ZUGRIFF<em>INVENTAR</em>PRODUKT</strong> - Zugriff auf die Seite: Produkt</li>
       <li><strong>INVENTAR<em>PRODUKT</em>VERWALTEN</strong> - Produkte können angelegt, bearbeitet oder gelöscht werden</li>
+      <li><strong>ZUGRIFF<em>INVENTAR</em>EXPORT</strong> - Zugriff auf die Seite: Export</li>
+      <li><strong>INVENTAR_EXPORT</strong> - Produkte können exportiert werden</li>
+      <li><strong>ZUGRIFF<em>INVENTAR</em>IMPORT</strong> - Zugriff auf die Seite: Import</li>
+      <li><strong>INVENTAR_IMPORT</strong> - Produkte können importiert werden</li>
       <li><strong>KUNDEN_RECHNUNG</strong> - Ermöglicht das Anzeigen aller Rechnungen eines Kunden</li>
       <li><strong>ZUGRIFF<em>RECHNUNG</em>ERSTELLEN</strong> - Zugriff auf die Seite Rechnung erstellen</li>
       <li><strong>ZUGRIFF<em>RECHNUNG</em>UEBERSICHT</strong> - Zugriff auf die Seite Übersicht Rechnungen</li>

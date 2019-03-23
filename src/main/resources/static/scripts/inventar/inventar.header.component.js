@@ -11,12 +11,18 @@ Vue.component('page-header-inventar', {
     <input id="tab3" type="radio" name="tabs" v-if="marker !== 'Kategorien'" />
     <input checked="checked" id="tab4" type="radio" name="tabs" v-if="marker === 'Inventur'" />
     <input id="tab4" type="radio" name="tabs" v-if="marker !== 'Inventur'" />
+    <input checked="checked" id="tab5" type="radio" name="tabs" v-if="marker === 'Export'" />
+    <input id="tab5" type="radio" name="tabs" v-if="marker !== 'Export'" />
+    <input checked="checked" id="tab6" type="radio" name="tabs" v-if="marker === 'Import'" />
+    <input id="tab6" type="radio" name="tabs" v-if="marker !== 'Import'" />
     
     <nav>
       <a class="tab1" href="produkt.html">Produkte</a>
       <a class="tab2" href="gruppe.html">Gruppen</a>
       <a class="tab3" href="kategorie.html">Kategorien</a>
       <a class="tab4" href="inventur.html">Inventur</a>
+      <a class="tab5" href="export.html">Export</a>
+      <a class="tab6" href="import.html">Import</a>
     </nav>
     <figure></figure>
   </div>

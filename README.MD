@@ -129,7 +129,7 @@ Durch Klick auf das *Bearbeiten-Icon* können die Kundendaten bearbeitet werden.
 Durch Klick auf das *Löschen-Icon* kann nach erneuter Bestätigung der Kunde gelöscht werden. Dabei werden keine Reparaturaufträge oder Rechnungen gelöscht. Jedoch wird die Verknüpfung zum Kunden entfernt, sodass diese Daten beim Ansehen der Aufträge/Rechnungen nicht mehr ersichtlich sind.
 
 ## Inventar
-Die Seite Inventar unterteilt sich in die vier Unterseiten **Produkte**, **Gruppen**, **Kategorien** und **Inventur**.
+Die Seite Inventar unterteilt sich in die sechs Unterseiten **Produkte**, **Gruppen**, **Kategorien**, **Inventur**, **Export** und **Import**.
 
 ### Produkte
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_INVENTAR_PRODUKT* benötigt.
@@ -189,6 +189,30 @@ Besitzt das Produkt keinen Netto-Einkaufspreis, wird dieser folgendermaßen erre
 Besitzt das Produkt keinen Netto-Verkaufspreis, wird das Produkt nicht berücksichtigt.
 
 Zwischen dem 26. Dezember und 5. Januar wird unabhängig davon, ob die Inventur bereits durchgeführt wurde, eine Erinnerungsmeldung angezeigt.
+
+### Export
+Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_INVENTAR_EXPORT* benötigt.
+
+Auf dieser Seite werden alle im Zeitraum geänderten Produkte angezeigt, welche eine EAN besitzen.
+Diese können durch Klick auf die *Exportieren-Schaltfläche* im JSON-Format in das Ablageverzeichnis exportiert werden.
+Um die angezeigten Produkte exportieren zu können, wird das Recht *INVENTAR_EXPORT* benötigt.
+
+Durch Klick auf das *Minus-Icon* können Produkte für den Export abgewählt werden.
+
+### Import
+Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_INVENTAR_IMPORT* benötigt.
+
+Auf dieser Seite kann eine zuvor exportierte JSON-Datei mit Produkten eingelesen werden.
+Nach Auswahl der JSON-Datei werden die Datensätze angezeigt.
+Diese können durch Klick auf die *Importieren-Schaltfläche* in den eigenen Produktdatenbestand importiert werden.
+Um die angezeigten Produkte importieren zu können, wird das Recht *INVENTAR_IMPORT* benötigt.
+
+Durch Klick auf das *Minus-Icon* können Produkte für den Import abgewählt werden.
+
+Es werden nur Produkte importiert, wenn die EAN einmalig vorhanden ist.
+Werden keine oder mehrere Produkte gefunden, findet keine Anpassung statt.
+Angepasst werden die Brutto/Netto-Einkaufs/-Verkaufspreise, sowie, ob der Bestand unbegrenzt ist.
+Die Bezeichnung des Produktes wird nicht angepasst.
 
 ## Kassenbuch
 Die Seite Kassenbuch unterteilt sich in die vier Unterseiten **Erstellen**, **Kassenbücher**, **Kassenstand** und **Statistiken**.
@@ -327,6 +351,10 @@ Folgende Rechte sind verfügbar:
 - **INVENTAR_GRUPPE_VERWALTEN** - Gruppen können angelegt, bearbeitet oder gelöscht werden
 - **ZUGRIFF_INVENTAR_PRODUKT** - Zugriff auf die Seite: Produkt
 - **INVENTAR_PRODUKT_VERWALTEN** - Produkte können angelegt, bearbeitet oder gelöscht werden
+- **ZUGRIFF_INVENTAR_EXPORT** - Zugriff auf die Seite: Export
+- **INVENTAR_EXPORT** - Produkte können exportiert werden
+- **ZUGRIFF_INVENTAR_IMPORT** - Zugriff auf die Seite: Import
+- **INVENTAR_IMPORT** - Produkte können importiert werden
 - **KUNDEN_RECHNUNG** - Ermöglicht das Anzeigen aller Rechnungen eines Kunden
 - **ZUGRIFF_RECHNUNG_ERSTELLEN** - Zugriff auf die Seite Rechnung erstellen
 - **ZUGRIFF_RECHNUNG_UEBERSICHT** - Zugriff auf die Seite Übersicht Rechnungen

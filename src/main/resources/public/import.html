@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Import - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/inventar.png">
+    <link rel="stylesheet" href="/themes/css/button.css">
+    <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/grid.css">
+    <link rel="stylesheet" href="/themes/css/loading.css">
+    <link rel="stylesheet" href="/themes/css/radio.css">
+    <link rel="stylesheet" href="/themes/css/raster.css">
+    <link rel="stylesheet" href="/themes/css/style.css">
+    <link rel="stylesheet" href="/themes/css/tabs.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+  </head>
+  <body>
+    <div id="import">
+      <page-header :marker="'Inventar'"></page-header>
+      <page-header-inventar v-bind:marker="'Import'"></page-header-inventar>
+      <div id="content">
+        <div class="form m1">
+          <div class="m1">
+            <input accept="application/json" class="m1" id="searchForm_file" name="file" ref="produkteFile" type="file" @change="loadFile">
+          </div>
+          <div class="m1">
+            <div class="m3m right">
+              <button class="right" title="Produkte importieren" v-if="produkte.length > 0 && !vm.hasNotRoleImport()" v-on:click="vm.importProdukte()">Importieren</button>
+              <button class="right disabled" title="Keine Produkte zum Import verfügbar" v-if="produkte.length === 0 || vm.hasNotRoleImport()">Importieren</button>
+            </div>
+          </div>
+        </div>
+        <div style="height: 150px;"></div>
+        <table>
+          <thead>
+            <th style="width: 100px;">Funktionen</th>
+            <th style="width: 550px;">Bezeichnung</th>
+            <th style="width: 120px;">EAN</th>
+            <th style="width: 120px;">Bestand unendlich</th>
+            <th style="width: 100px;">EK Preis brutto</th>
+            <th style="width: 100px;">EK Preis netto</th>
+            <th style="width: 100px;">VK Preis brutto</th>
+            <th style="width: 100px;">VK Preis netto</th>
+          </thead>
+          <tbody>
+            <tr v-for="(produkt, index) in produkte">
+              <td>
+                <button class="minus" title="Produkt nicht importieren" v-on:click="removeItem(index)"></button>
+              </td>
+              <td>{{produkt.bezeichnung}}</td>
+              <td>{{produkt.ean}}</td>
+              <td>{{produkt.bestandUnendlich ? 'X' : ''}}</td>
+              <td>{{ formatMoney(produkt.preisEkBrutto) }}</td>
+              <td>{{ formatMoney(produkt.preisEkNetto) }}</td>
+              <td>{{ formatMoney(produkt.preisVkBrutto) }}</td>
+              <td>{{ formatMoney(produkt.preisVkNetto) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/inventar/inventar.header.component.js"></script>
+  <script src="/scripts/inventar/import.js"></script>
+</html>
