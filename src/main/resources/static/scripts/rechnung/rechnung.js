@@ -25,6 +25,7 @@ var vm = new Vue({
       reload: false,
       restUrl: 'rechnung/produkt',
       searchQuery: {},
+      sort: 'gruppe.kategorie.bezeichnung,gruppe.bezeichnung,bezeichnung'
     },
     gruppen: [],
     kategorien: [],

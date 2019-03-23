@@ -1,6 +1,7 @@
 package de.sg.computerinsel.tools.inventar.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +24,9 @@ public class Produkt extends IntegerBaseObject {
     @ManyToOne
     @JoinColumn(name = "gruppe_id", referencedColumnName = "id")
     private Gruppe gruppe;
+
+    @Column(name = "aenderungsdatum")
+    private LocalDateTime aenderungsdatum;
 
     @Column(name = "bestand")
     private int bestand = 0;

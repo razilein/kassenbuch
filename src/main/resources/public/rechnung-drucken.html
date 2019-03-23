@@ -106,7 +106,7 @@
                   <p align="right"><font face="Arial" style="font-size: 11pt"><i><b>Preis</b></i></font>
                 </td>
                 <td width="116" style="border-bottom-style: solid; border-bottom-width: 1" align="right" height="19">
-                  <b><i><font face="Arial" style="font-size: 11pt">Rabatt</font></i></b>
+                  <b><i><font face="Arial" style="font-size: 11pt" v-if="gesamtrabatt !== 0.00">Rabatt</font></i></b>
                 </td>
                 <td width="116" style="border-bottom-style: solid; border-bottom-width: 1" align="right" height="19">
                   <font face="Arial" style="font-size: 11pt"><i><b>Gesamt</b></i></font>
@@ -121,10 +121,10 @@
               </tr>
               <tr v-for="posten in entity.posten">
                 <td width="75" align="center" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{posten.menge}}</font></td>
-                <td width="587" align="center" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{posten.bezeichnung}} {{posten.seriennummer}} {{posten.hinweis}}</font></td>
-                <td width="100" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{ formatMoney(posten.preis) }}</font></td>
-                <td width="116" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{ formatMoney(posten.rabatt) }}</font></td>
-                <td width="116" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{ formatMoney(posten.gesamt) }}</font></td>
+                <td width="587" align="center" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{posten.bezeichnung}} <span v-if="posten.seriennummer">SN: {{posten.seriennummer}}</span> <span v-if="posten.hinweis">({{posten.hinweis}})</span></font></td>
+                <td width="100" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{ formatMoney(posten.preis) }} &euro;</font></td>
+                <td width="116" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt" v-if="gesamtrabatt !== 0.00">{{ formatMoney(posten.rabatt) }} &euro;</font></td>
+                <td width="116" align="right" height="23" valign="top"><font face="Arial" style="font-size: 9pt">{{ formatMoney(posten.gesamt) }} &euro;</font></td>
               </tr>
               <tr>
                 <td width="75" align="center" valign="top" height="1"></td>
@@ -144,7 +144,7 @@
                 </td>
                 <td width="116" align="right" valign="top" height="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: solid; border-bottom-width: 1">
                   <span style="font-weight: 700">
-                    <font face="Arial" size="2">{{ formatMoney(gesamtsumme) }}</font>
+                    <font face="Arial" size="2">{{ formatMoney(gesamtsumme) }} &euro;</font>
                 </td>
               </tr>
               <tr>
@@ -153,7 +153,7 @@
               <td width="216" align="right" valign="top" height="20" style="border-style:none; border-width:medium; " colspan="2">
               <font face="Arial" style="font-size: 9pt">Nettosumme</font></td>
               <td width="116" align="right" valign="top" height="20" style="border-style:none; border-width:medium; ">
-              <font face="Arial" style="font-size: 9pt">{{ formatMoney(gesamtnetto) }}</font></td>
+              <font face="Arial" style="font-size: 9pt">{{ formatMoney(gesamtnetto) }} &euro;</font></td>
               </tr>
               <tr>
               <td width="75" align="center" valign="top" height="19">&nbsp;</td>
@@ -161,7 +161,7 @@
               <td width="216" align="right" valign="top" height="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: solid; border-bottom-width: 1" colspan="2">
               <font face="Arial" style="font-size: 9pt">enth. MwSt. (19%):</font></span></td>
               <td width="116" align="right" valign="top" height="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: solid; border-bottom-width: 1">
-              <font face="Arial" style="font-size: 9pt">{{ formatMoney(gesamtmwst) }}</font></td>
+              <font face="Arial" style="font-size: 9pt">{{ formatMoney(gesamtmwst) }} &euro;</font></td>
               </tr>
             </table>
             <p>

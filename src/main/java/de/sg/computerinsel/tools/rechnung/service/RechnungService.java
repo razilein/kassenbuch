@@ -33,6 +33,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RechnungService {
 
+    private static final int LAENGE_RECHNUNGSNUMMER_JAHR = 2;
+
     private final EinstellungenService einstellungenService;
 
     private final MitarbeiterService mitarbeiterService;
@@ -107,10 +109,15 @@ public class RechnungService {
                 rechnung.setFiliale(optional.get().getFiliale());
             }
             rechnung.setDatum(LocalDate.now());
-            final String nummer = String.valueOf(rechnung.getDatum().getYear()) + einstellungenService.getAndSaveNextRechnungsnummer();
+            final String nummer = getRechnungsdatumJahrZweistellig(rechnung.getDatum())
+                    + einstellungenService.getAndSaveNextRechnungsnummer();
             rechnung.setNummer(Ints.tryParse(nummer));
         }
         return rechnungRepository.save(rechnung);
+    }
+
+    private String getRechnungsdatumJahrZweistellig(final LocalDate rechnungsdatum) {
+        return StringUtils.right(String.valueOf(rechnungsdatum.getYear()), LAENGE_RECHNUNGSNUMMER_JAHR);
     }
 
     public void savePosten(final Rechnungsposten posten) {

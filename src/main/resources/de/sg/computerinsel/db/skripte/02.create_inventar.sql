@@ -33,3 +33,8 @@ INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_INVENTAR_PRODUKT', 
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_INVENTAR_PRODUKT_VERWALTEN', 'Produkte können angelegt, bearbeitet oder gelöscht werden');
 
 INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_INVENTAR_INVENTUR', 'Zugriff auf die Seite: Inventur');
+
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_INVENTAR_EXPORT', 'Zugriff auf die Seite: Export');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_INVENTAR_EXPORT', 'Produkte können exportiert werden');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_ZUGRIFF_INVENTAR_IMPORT', 'Zugriff auf die Seite: Import');
+INSERT INTO rolle (name, beschreibung) VALUES ('ROLE_INVENTAR_IMPORT', 'Produkte können importiert werden');

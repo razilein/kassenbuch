@@ -1,5 +1,8 @@
 package de.sg.computerinsel.tools.rest.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -40,9 +43,14 @@ public class TableData {
 
     private PageRequest getPagination(final int size, final int page, final String sortorder, final String sort) {
         final Direction direction = StringUtils.equalsIgnoreCase("DESC", sortorder) ? Sort.Direction.DESC : Sort.Direction.ASC;
-        Order order = direction == Sort.Direction.DESC ? Order.desc(sort) : Order.asc(sort);
-        // HSQLDB unterstützt dies nicht
-        order = order.with(NullHandling.NULLS_LAST);
+
+        final List<Order> order = new ArrayList<>();
+        for (final String s : sort.split(",")) {
+            Order o = direction == Sort.Direction.DESC ? Order.desc(s) : Order.asc(s);
+            // HSQLDB unterstützt dies nicht
+            o = o.with(NullHandling.NULLS_LAST);
+            order.add(o);
+        }
         return PageRequest.of(page, size, Sort.by(order));
     }
 

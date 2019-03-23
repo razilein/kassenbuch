@@ -9,12 +9,13 @@
     <link rel="stylesheet" href="/themes/css/loading.css">
     <link rel="stylesheet" href="/themes/css/raster.css">
     <link rel="stylesheet" href="/themes/css/style.css">
+    <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
   </head>
   <body>
     <div id="kassenstand">
-      <page-header></page-header>
+      <page-header :marker="'Kassenbuch'"></page-header>
       <page-header-kassenbuch v-bind:marker="'Kassenstand'"></page-header-kassenbuch>
       <div id="content">
         <div class="form">
@@ -48,7 +49,7 @@
           <div class="m1">
             <div class="m3m">
                <label>Differenz</label>
-               <input class="m3" readonly type="number" v-bind:class="differenz < 0 ? 'error' : 'success'" v-model="differenz" />
+               <input class="m3" readonly type="text" v-bind:class="differenz < 0 ? 'error' : (differenz > 0 ? 'warning' : 'success')" v-model="differenzDisplay" />
             </div>
             <div class="m3m">
               <label>Gesamt Kassenbuch</label>
@@ -56,7 +57,7 @@
             </div>
             <div class="m3">
               <label>Gesamt Kasse</label>
-              <input class="m3" readonly type="number" v-model="kassenbetrag" />
+              <input class="m3" readonly type="text" v-model="kassenbetragDisplay" />
             </div>
           </div>
           <div class="m1">

@@ -1,5 +1,6 @@
 package de.sg.computerinsel.tools.reparatur.service;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -27,6 +28,8 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class ReparaturService {
+
+    private static final int LAENGE_REPARATURNUMMER_JAHR = 2;
 
     private final EinstellungenService einstellungenService;
 
@@ -77,13 +80,22 @@ public class ReparaturService {
 
     public Reparatur save(final Reparatur reparatur) {
         if (StringUtils.isBlank(reparatur.getNummer())) {
-            reparatur.setNummer(LocalDate.now().getYear() + einstellungenService.getAndSaveNextReparaturnummer());
+            reparatur.setNummer(getReparaturJahrZweistellig() + einstellungenService.getAndSaveNextReparaturnummer());
         }
         return reparaturRepository.save(reparatur);
     }
 
+    private String getReparaturJahrZweistellig() {
+        return StringUtils.right(String.valueOf(LocalDate.now().getYear()), LAENGE_REPARATURNUMMER_JAHR);
+    }
+
     public void deleteReparatur(final Integer id) {
         reparaturRepository.deleteById(id);
+    }
+
+    public List<LocalDate> listDaysWithMin5AbholungenAndAuftragNotErledigt() {
+        return reparaturRepository.listDaysWithMin5AbholungenAndAuftragNotErledigt().stream().map(Date::toLocalDate)
+                .collect(Collectors.toList());
     }
 
 }

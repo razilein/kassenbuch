@@ -10,13 +10,14 @@
     <link rel="stylesheet" href="/themes/css/radio.css">
     <link rel="stylesheet" href="/themes/css/raster.css">
     <link rel="stylesheet" href="/themes/css/style.css">
+    <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
   <body>
     <div id="kassenbuecher">
-      <page-header></page-header>
+      <page-header :marker="'Kassenbuch'"></page-header>
       <page-header-kassenbuch v-bind:marker="'Uebersicht'"></page-header-kassenbuch>
       <div id="content">
         <div class="form m1">

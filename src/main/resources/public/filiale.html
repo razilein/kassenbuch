@@ -10,12 +10,13 @@
     <link rel="stylesheet" href="/themes/css/radio.css">
     <link rel="stylesheet" href="/themes/css/raster.css">
     <link rel="stylesheet" href="/themes/css/style.css">
+    <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
   </head>
   <body>
     <div id="filiale">
-      <page-header></page-header>
+      <page-header :marker="'Einstellungen'"></page-header>
       <page-header-einstellungen v-bind:marker="'Filiale'"></page-header-einstellungen>
       <div id="content">
         <div id="gridDiv" v-if="grid.gridColumns.length > 0">
@@ -25,6 +26,7 @@
             :filter-key="grid.searchQuery"
             :rest-url="grid.restUrl"
             :reload="grid.reload"
+            :sort="grid.sort"
             @reloaded="grid.reload = false"
           ></grid>
         </div>

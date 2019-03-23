@@ -6,6 +6,7 @@ import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ERSTELLT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GEAENDERT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GELOESCHT;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +88,11 @@ public class ProduktRestController {
 
     @PutMapping
     public Map<String, Object> save(@RequestBody final Produkt produkt) {
+        produkt.setAenderungsdatum(LocalDateTime.now());
+        return saveProdukt(produkt);
+    }
+
+    private Map<String, Object> saveProdukt(final Produkt produkt) {
         final Map<String, Object> result = new HashMap<>(ValidationUtils.validate(produkt));
         if (result.isEmpty()) {
             final Produkt saved = service.saveProdukt(produkt);

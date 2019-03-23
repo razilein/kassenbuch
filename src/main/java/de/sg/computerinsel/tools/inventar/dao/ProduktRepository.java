@@ -1,5 +1,6 @@
 package de.sg.computerinsel.tools.inventar.dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -44,6 +45,11 @@ public interface ProduktRepository extends CrudRepository<Produkt, Integer> {
 
     Page<Produkt> findByEan(String ean, Pageable pagination);
 
+    List<Produkt> findByEan(String ean);
+
     List<Produkt> findByBestandGreaterThanAndBestandUnendlichOrderByBezeichnungAsc(int bestand, boolean bestandUnendlich);
+
+    List<Produkt> findByAenderungsdatumAfterAndAenderungsdatumBeforeAndEanIsNotNull(LocalDateTime aendarungsdatumVon,
+            LocalDateTime aenderungsdatumBis);
 
 }

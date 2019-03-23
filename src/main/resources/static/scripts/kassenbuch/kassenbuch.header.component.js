@@ -2,14 +2,24 @@ Vue.component('page-header-kassenbuch', {
   data: {},
   props: ['marker'],
   template: 
-  `<div id="navigation2">
-     <a class="navigationLink2" href="kassenbuch.html" v-if="marker === 'Kassenbuch'">&#11089; Erstellen</a>
-     <a class="navigationLink2" href="kassenbuch.html" v-if="marker !== 'Kassenbuch'">Erstellen</a>
-     <a class="navigationLink2" href="kassenbuch-uebersicht.html" v-if="marker === 'Uebersicht'">&#11089; Kassenbücher</a>
-     <a class="navigationLink2" href="kassenbuch-uebersicht.html" v-if="marker !== 'Uebersicht'">Kassenbücher</a>
-     <a class="navigationLink2" href="kassenstand.html" v-if="marker === 'Kassenstand'">&#11089; Kassenstand</a>
-     <a class="navigationLink2" href="kassenstand.html" v-if="marker !== 'Kassenstand'">Kassenstand</a>
-     <a class="navigationLink2" href="statistiken.html" v-if="marker === 'Statistiken'">&#11089; Statistiken</a>
-     <a class="navigationLink2" href="statistiken.html" v-if="marker !== 'Statistiken'">Statistiken</a>
-  </div>`
+  `
+  <div class="tabbed">
+    <input checked="checked" id="tab1" type="radio" name="tabs" v-if="marker === 'Kassenbuch'" />
+    <input id="tab1" type="radio" name="tabs" v-if="marker !== 'Kassenbuch'" />
+    <input checked="checked" id="tab2" type="radio" name="tabs" v-if="marker === 'Uebersicht'" />
+    <input id="tab2" type="radio" name="tabs" v-if="marker !== 'Uebersicht'" />
+    <input checked="checked" id="tab3" type="radio" name="tabs" v-if="marker === 'Kassenstand'" />
+    <input id="tab3" type="radio" name="tabs" v-if="marker !== 'Kassenstand'" />
+    <input checked="checked" id="tab4" type="radio" name="tabs" v-if="marker === 'Statistiken'" />
+    <input id="tab4" type="radio" name="tabs" v-if="marker !== 'Statistiken'" />
+    
+    <nav>
+      <a class="tab1" href="kassenbuch.html">Erstellen</a>
+      <a class="tab2" href="kassenbuch-uebersicht.html">Kassenbücher</a>
+      <a class="tab3" href="kassenstand.html">Kassenstand</a>
+      <a class="tab4" href="statistiken.html">Statistiken</a>
+    </nav>
+    <figure></figure>
+  </div>
+  `
 });

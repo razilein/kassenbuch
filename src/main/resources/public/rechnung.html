@@ -10,13 +10,14 @@
     <link rel="stylesheet" href="/themes/css/radio.css">
     <link rel="stylesheet" href="/themes/css/raster.css">
     <link rel="stylesheet" href="/themes/css/style.css">
+    <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
   <body>
     <div id="rechnungErstellen">
-      <page-header></page-header>
+      <page-header :marker="'Rechnungen'"></page-header>
       <page-header-rechnung v-bind:marker="'Erstellen'"></page-header-rechnung>
       <div id="content">
         <div class="form m1">
@@ -59,6 +60,7 @@
             :rest-url="grid.restUrl"
             :reload="grid.reload"
             :search-query="grid.searchQuery"
+            :sort="grid.sort"
             @reloaded="grid.reload = false"
           ></grid>
         </div>

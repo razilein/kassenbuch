@@ -35,6 +35,7 @@ var vm = new Vue({
       reload: false,
       restUrl: 'inventar/produkt',
       searchQuery: {},
+      sort: 'gruppe.kategorie.bezeichnung,gruppe.bezeichnung,bezeichnung',
     },
   },
   methods: {
@@ -83,7 +84,11 @@ var vm = new Vue({
     prepareRoles: function() {
       vm.getRecht('ROLE_INVENTAR_PRODUKT_VERWALTEN');
     },
-    
+
+    hasNotRoleVerwalten: function() {
+      return !vm.rechte['ROLE_INVENTAR_PRODUKT_VERWALTEN'];
+    },
+
     updateGruppen: function() {
       vm.getGruppen().then(vm.setGruppen);
     },
@@ -103,6 +108,7 @@ var vm = new Vue({
         { name: 'bezeichnung', title: 'Bezeichnung', width: 500 },
         { name: 'ean', title: 'EAN', width: 120 },
         { name: 'bestand', title: 'Bestand', width: 100 },
+        { name: 'preisEkNetto', title: 'EK Netto', width: 100 },
         { name: 'hersteller', title: 'Hersteller', width: 150 },
       ];
     },

@@ -33,6 +33,8 @@ var vm = new Vue({
       reload: false,
       restUrl: 'reparatur',
       searchQuery: {},
+      sort: 'nummer',
+      sortorder: 'desc'
     },
   },
   methods: {

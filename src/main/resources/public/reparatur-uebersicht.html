@@ -10,13 +10,14 @@
     <link rel="stylesheet" href="/themes/css/radio.css">
     <link rel="stylesheet" href="/themes/css/raster.css">
     <link rel="stylesheet" href="/themes/css/style.css">
+    <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
   <body>
     <div id="reparaturen">
-      <page-header></page-header>
+      <page-header :marker="'Reparaturen'"></page-header>
       <page-header-reparatur v-bind:marker="'Reparaturen'"></page-header-reparatur>
       <div id="content">
         <div class="form m1" v-if="kundeId === null">
@@ -41,6 +42,8 @@
             :rest-url="grid.restUrl"
             :reload="grid.reload"
             :search-query="grid.searchQuery"
+            :sort="grid.sort"
+            :sortorder="grid.sortorder"
             @reloaded="grid.reload = false"
           ></grid>
         </div>

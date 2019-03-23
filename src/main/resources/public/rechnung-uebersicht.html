@@ -10,14 +10,15 @@
     <link rel="stylesheet" href="/themes/css/radio.css">
     <link rel="stylesheet" href="/themes/css/raster.css">
     <link rel="stylesheet" href="/themes/css/style.css">
+    <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
   <body>
     <div id="rechnungen">
-      <page-header></page-header>
-      <page-header-rechnung v-bind:marker="'Reparaturen'"></page-header-rechnung>
+      <page-header :marker="'Rechnungen'"></page-header>
+      <page-header-rechnung v-bind:marker="'Rechnungen'"></page-header-rechnung>
       <div id="content">
         <div class="form m1" v-if="kundeId === null">
           <div class="m1">
@@ -53,6 +54,8 @@
             :rest-url="grid.restUrl"
             :reload="grid.reload"
             :search-query="grid.searchQuery"
+            :sort="grid.sort"
+            :sortorder="grid.sortorder"
             @reloaded="grid.reload = false"
           ></grid>
         </div>

@@ -1,5 +1,7 @@
 package de.sg.computerinsel.tools.inventar.service;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,6 +29,10 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class InventarService {
+
+    private static final String CONDITION_DATUM_BIS = "datum_bis";
+
+    private static final String CONDITION_DATUM_VON = "datum_von";
 
     private final GruppeRepository gruppeRepository;
 
@@ -107,6 +113,15 @@ public class InventarService {
                     StringUtils.isNumeric(kategorieId) ? Ints.tryParse(kategorieId) : null,
                     StringUtils.isNumeric(gruppeId) ? Ints.tryParse(gruppeId) : null, ean);
         }
+    }
+
+    public List<Produkt> listProdukteInAenderungszeitraum(final Map<String, LocalDate> conditions) {
+        final LocalDate datumVon = conditions.get(CONDITION_DATUM_VON) == null ? LocalDate.of(2019, Month.JANUARY, 1)
+                : conditions.get(CONDITION_DATUM_VON);
+        final LocalDate datumBis = conditions.get(CONDITION_DATUM_BIS) == null ? LocalDate.now().plusDays(1)
+                : conditions.get(CONDITION_DATUM_BIS);
+        return produktRepository.findByAenderungsdatumAfterAndAenderungsdatumBeforeAndEanIsNotNull(datumVon.atStartOfDay(),
+                datumBis.plusDays(1).atStartOfDay());
     }
 
     private String buildMethodnameForQueryProdukt(final String bezeichnung, final String kategorieId, final String gruppeId,

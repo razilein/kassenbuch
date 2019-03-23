@@ -23,13 +23,12 @@ var vm = new Vue({
       var data = response.data;
       
       var betrag = data.kassenbuch.ausgangsbetrag;
-      vm.gesamtEinnahmen = data.kassenbuch.ausgangsbetrag;
       data.posten.forEach(function(element, index) {
         betrag = betrag + element.betrag;
         data.posten[index].gesamt = betrag;
         
         if (element.betrag < 0) {
-          vm.gesamtAusgaben = vm.gesamtAusgaben + element.betrag * -1;
+          vm.gesamtAusgaben = vm.gesamtAusgaben + element.betrag;
         } else {
           vm.gesamtEinnahmen = vm.gesamtEinnahmen + element.betrag;
         }
