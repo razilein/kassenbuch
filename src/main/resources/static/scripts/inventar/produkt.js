@@ -35,6 +35,7 @@ var vm = new Vue({
       reload: false,
       restUrl: 'inventar/produkt',
       searchQuery: {},
+      sort: 'gruppe.kategorie.bezeichnung,gruppe.bezeichnung,bezeichnung',
     },
   },
   methods: {

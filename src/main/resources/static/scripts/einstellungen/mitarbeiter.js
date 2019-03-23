@@ -32,6 +32,7 @@ var vm = new Vue({
       reload: false,
       restUrl: 'einstellungen/mitarbeiter',
       searchQuery: {},
+      sort: 'nachname,vorname'
     },
   },
   methods: {

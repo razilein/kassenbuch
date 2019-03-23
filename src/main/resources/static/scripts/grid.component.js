@@ -70,6 +70,8 @@ Vue.component('grid', {
     actions: Array,
     clazz: String,
     columns: Array,
+    sort: String,
+    sortorder: String,
     filterKey: Object,
     reload: Boolean,
     restUrl: String,
@@ -87,9 +89,9 @@ Vue.component('grid', {
       page: 0,
       pageElements: 0,
       size: 10,
-      sort: '',
+      sort: this.sort || '',
       sortOrders: order,
-      sortorder: 'asc',
+      sortorder: this.sortorder || 'asc',
       totalElements: 0,
       totalPages: 0
     };

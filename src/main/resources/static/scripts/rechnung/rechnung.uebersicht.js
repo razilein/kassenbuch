@@ -31,6 +31,8 @@ var vm = new Vue({
       reload: false,
       restUrl: 'rechnung',
       searchQuery: {},
+      sort: 'nummer',
+      sortorder: 'desc'
     },
   },
   methods: {

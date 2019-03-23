@@ -30,6 +30,7 @@ var vm = new Vue({
       reload: false,
       restUrl: 'kunde',
       searchQuery: {},
+      sort: 'firmenname,nachname,vorname'
     },
   },
   methods: {

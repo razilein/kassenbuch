@@ -16,6 +16,7 @@ var vm = new Vue({
       reload: false,
       restUrl: 'einstellungen/filiale',
       searchQuery: {},
+      sort: 'kuerzel'
     },
   },
   methods: {
