@@ -1,5 +1,6 @@
 package de.sg.computerinsel.tools.reparatur.service;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -90,6 +91,11 @@ public class ReparaturService {
 
     public void deleteReparatur(final Integer id) {
         reparaturRepository.deleteById(id);
+    }
+
+    public List<LocalDate> listDaysWithMin5AbholungenAndAuftragNotErledigt() {
+        return reparaturRepository.listDaysWithMin5AbholungenAndAuftragNotErledigt().stream().map(Date::toLocalDate)
+                .collect(Collectors.toList());
     }
 
 }

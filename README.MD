@@ -32,6 +32,9 @@ Das Standardabholdatum wird dabei auf das Datum in **3** Tagen und die Abholzeit
 
 Wird die Expressbearbeitung aktiviert und es ist vor **13:30 Uhr** wird das Abholdatum auf den aktuellen Tag um **18:30 Uhr** gesetzt. Ist es nach 13:30 Uhr, wird das Abholdatum auf den nächsten Tag **13:30 Uhr** gesetzt.
 
+Ist das berechnete Abholdatum zu 5 oder mehr nicht erledigten anderen Reparaturaufträgen hinterlegt, wird dieses auf den nächsten Tag gesetzt, an dem weniger
+Abholungen stattfinden sollen.
+
 Fällt das Abholdatum auf einen ein Sonn- oder Feiertag, wird dieses auf den nächst verfügbaren Werktag gesetzt. Dabei werden die sächsischen gesetzlichen Feiertage berücksichtigt.
 
 #### Kunde wählen

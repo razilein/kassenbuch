@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 import org.apache.commons.lang3.BooleanUtils;
@@ -107,10 +108,16 @@ public class ReparaturRestController {
         } else if (!express) {
             date = date.plusDays(3);
         }
-        while (date.getDayOfWeek() == DayOfWeek.SUNDAY || FeiertagUtils.isFeiertag(date)) {
+        final List<LocalDate> notAllowedDays = service.listDaysWithMin5AbholungenAndAuftragNotErledigt();
+        while (date.getDayOfWeek() == DayOfWeek.SUNDAY || FeiertagUtils.isFeiertag(date)
+                || notAllowedDays.stream().anyMatch(dateIsEqual(date))) {
             date = date.plusDays(1);
         }
         return date;
+    }
+
+    private Predicate<? super LocalDate> dateIsEqual(final LocalDate date) {
+        return d -> d.equals(date);
     }
 
     private LocalTime berechneAbholzeit(final boolean express) {
