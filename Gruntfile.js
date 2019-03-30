@@ -48,20 +48,14 @@ module.exports = function(grunt) {
       target: [
         'Gruntfile.js',
         'src/main/resources/static/scripts/*.js',
-        'src/main/resources/static/themes/*.css'
+        'src/main/resources/static/themes/*.css',
+        '!src/main/resources/static/scripts/util.js'
       ]
-    },
-    jshint: {
-      all: ['Gruntfile.js', 'src/main/resources/static/scripts/*.js'],
-      options: {
-        esversion: 6
-      }
     }
   });
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-eslint');
 
-  grunt.registerTask('default', ['jshint', 'eslint']);
+  grunt.registerTask('default', ['eslint']);
   grunt.registerTask('dev', ['copy:dev']);
 };
