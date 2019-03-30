@@ -15,6 +15,14 @@ public class EinstellungenData {
 
     Einstellungen filiale;
 
+    Einstellungen ftpHost;
+
+    Einstellungen ftpPort;
+
+    Einstellungen ftpUser;
+
+    Einstellungen ftpPassword;
+
     Einstellungen rechnungsnummer;
 
     Einstellungen reparaturnummer;

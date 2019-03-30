@@ -41,6 +41,28 @@
               </select>
             </div>
           </div>
+          <hr>
+          <h1>FTP-Server</h1>
+          <div class="m1">
+            <div class="m2m">
+              <label for="einstellungenForm_ftp_host">Host</label>
+              <input class="m2" id="einstellungenForm_ftp_host" type="text" v-model="einstellungen.ftpHost.wert" />
+            </div>
+            <div class="m5">
+              <label for="einstellungenForm_ftp_port">Port</label>
+              <input class="m5" id="einstellungenForm_ftp_port" type="number" v-model="einstellungen.ftpPort.wert" />
+            </div>
+          </div>
+          <div class="m1">
+            <div class="m2m">
+              <label for="einstellungenForm_ftp_user">Benutzername</label>
+              <input class="m2" id="einstellungenForm_ftp_user" type="text" v-model="einstellungen.ftpUser.wert" />
+            </div>
+            <div class="m2">
+              <label for="einstellungenForm_ftp_password">Passwort</label>
+              <input class="m2" id="einstellungenForm_ftp_password" type="password" v-model="einstellungen.ftpPassword.wert" />
+            </div>
+          </div>
           <div class="m1">
             <button class="right" v-on:click="speichernEinstellungen">Speichern</button>
           </div>

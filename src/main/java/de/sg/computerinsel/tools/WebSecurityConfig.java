@@ -92,6 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.PUT, "/inventar/import").hasRole("INVENTAR_IMPORT")
             .antMatchers("/inventur.html*").hasRole("ZUGRIFF_INVENTAR_INVENTUR")
             .antMatchers(HttpMethod.POST, "/inventar/inventur").hasRole("ZUGRIFF_INVENTAR_INVENTUR")
+            .antMatchers("/bestellung.html*", "/bestellung*").hasRole("ZUGRIFF_BESTELLUNG")
             .anyRequest().authenticated()
             .and()
         .formLogin()

@@ -1,4 +1,4 @@
-var vm = new Vue({
+new Vue({
   el: '#no-permission',
   data: {},
   methods: {}

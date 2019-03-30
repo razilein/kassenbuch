@@ -56,6 +56,22 @@ public class EinstellungenService {
         return getEinstellung("kassenbuch.ablageverzeichnis");
     }
 
+    public Einstellungen getFtpHost() {
+        return getEinstellung("ftp.host");
+    }
+
+    public Einstellungen getFtpPort() {
+        return getEinstellung("ftp.port");
+    }
+
+    public Einstellungen getFtpUser() {
+        return getEinstellung("ftp.user");
+    }
+
+    public Einstellungen getFtpPassword() {
+        return getEinstellung("ftp.password");
+    }
+
     public Einstellungen getReparaturnummer() {
         return getEinstellung("reparatur.nummer");
     }

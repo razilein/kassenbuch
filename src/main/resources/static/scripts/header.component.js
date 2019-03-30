@@ -33,6 +33,9 @@ Vue.component('page-header', {
        <a class="navigationLink" :class="marker === 'Kassenbuch' ? 'active' : ''" href="kassenbuch.html">
          <img src="themes/icons/kasse.png" height="20" /> Kassenbuch
        </a>
+       <a class="navigationLink" :class="marker === 'Bestellung' ? 'active' : ''" href="bestellung.html">
+         <img src="themes/icons/bestellung.png" height="20" /> Bestellung
+       </a>
        <a class="navigationLink" :class="marker === 'Einstellungen' ? 'active' : ''" href="einstellungen.html">
          <img src="themes/icons/einstellungen.png" height="20" /> Einstellungen
        </a>

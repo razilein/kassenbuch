@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.sg.computerinsel.tools.bestellung.service.BestellungService;
 import de.sg.computerinsel.tools.inventar.model.Produkt;
 import de.sg.computerinsel.tools.inventar.service.InventarService;
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
@@ -40,6 +41,9 @@ import de.sg.computerinsel.tools.service.ProtokollService;
 @RestController
 @RequestMapping("/rechnung")
 public class RechnungRestController {
+
+    @Autowired
+    private BestellungService bestellungService;
 
     @Autowired
     private InventarService inventarService;
@@ -109,6 +113,7 @@ public class RechnungRestController {
             reparaturErledigen(saved);
             if (isErstellt) {
                 inventarAnpassen(dto);
+                bestellungService.saveBestellung(dto.getPosten());
             }
             result.put(Message.SUCCESS.getCode(), "Die Rechnung " + saved.getNummer() + " erfolgreich gespeichert.");
             result.put("rechnung", saved);
