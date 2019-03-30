@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Bestellungen - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/bestellung.png">
+    <link rel="stylesheet" href="/themes/css/button.css">
+    <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/grid.css">
+    <link rel="stylesheet" href="/themes/css/loading.css">
+    <link rel="stylesheet" href="/themes/css/radio.css">
+    <link rel="stylesheet" href="/themes/css/raster.css">
+    <link rel="stylesheet" href="/themes/css/style.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
+  </head>
+  <body>
+    <div id="bestellung">
+      <page-header :marker="'Bestellung'"></page-header>
+      <div id="content">
+        <div class="m1">
+          <div class="m1">
+            <label for="bestellungForm_bestellung">Vorschlag aus kürzlich verkauften Produkten</label>
+            <textarea class="m1" id="bestellungForm_bestellung" readonly style="height: 200px;" v-model="bestellung"></textarea>
+          </div>
+          <div class="m1">
+            <button class="right" title="Vorschlagsliste leeren" v-on:click="clearBestellung">Vorschlagsliste leeren</button>
+            <button class="right" title="Bestellung auf den FTP-Server hochladen" v-on:click="save">Bestellung hochladen</button>
+          </div>
+          <div class="m1">
+            <textarea class="m1" id="bestellungForm_uploadBestellung" style="height: 800px; max-height: none;" v-model="downloadBestellung"></textarea>
+          </div>
+        </div>
+      </div>
+      <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/grid.component.js"></script>
+  <script src="/scripts/delete.dialog.component.js"></script>
+  <script src="/scripts/bestellung/bestellung.js"></script>
+</html>

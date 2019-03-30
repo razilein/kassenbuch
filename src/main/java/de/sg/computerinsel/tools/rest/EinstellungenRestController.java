@@ -59,6 +59,10 @@ public class EinstellungenRestController {
         final EinstellungenData data = new EinstellungenData();
         data.setAblageverzeichnis(einstellungenService.getAblageverzeichnis());
         data.setFiliale(einstellungenService.getFiliale());
+        data.setFtpHost(einstellungenService.getFtpHost());
+        data.setFtpPort(einstellungenService.getFtpPort());
+        data.setFtpUser(einstellungenService.getFtpUser());
+        data.setFtpPassword(einstellungenService.getFtpPassword());
         data.setRechnungsnummer(einstellungenService.getRechnungsnummer());
         data.setReparaturnummer(einstellungenService.getReparaturnummer());
         return data;
@@ -93,6 +97,10 @@ public class EinstellungenRestController {
         if (result.isEmpty()) {
             einstellungenService.save(data.getAblageverzeichnis());
             einstellungenService.save(data.getFiliale());
+            einstellungenService.save(data.getFtpHost());
+            einstellungenService.save(data.getFtpPort());
+            einstellungenService.save(data.getFtpUser());
+            einstellungenService.save(data.getFtpPassword());
             einstellungenService.save(data.getRechnungsnummer());
             einstellungenService.save(data.getReparaturnummer());
             result.put(Message.SUCCESS.getCode(), "Die Einstellungen wurden erfolgreich gespeichert.");

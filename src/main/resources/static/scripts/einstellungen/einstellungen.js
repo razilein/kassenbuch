@@ -4,6 +4,10 @@ var vm = new Vue({
     einstellungen: {
       ablageverzeichnis: {},
       filiale: {},
+      ftpHost: {},
+      ftpPort: {},
+      ftpUser: {},
+      ftpPassword: {},
       rechnungsnummer: {},
       reparaturnummer: {}
     },
