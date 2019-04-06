@@ -1,6 +1,7 @@
 package de.sg.computerinsel.tools.rechnung.rest;
 
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltabelle.RECHNUNG;
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltabelle.REPARATUR;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ANGESEHEN;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ERSTELLT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GEAENDERT;
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,8 +31,10 @@ import de.sg.computerinsel.tools.inventar.model.Produkt;
 import de.sg.computerinsel.tools.inventar.service.InventarService;
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
 import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
+import de.sg.computerinsel.tools.rechnung.model.Zahlart;
 import de.sg.computerinsel.tools.rechnung.rest.model.RechnungDTO;
 import de.sg.computerinsel.tools.rechnung.service.RechnungService;
+import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.service.ReparaturService;
 import de.sg.computerinsel.tools.rest.Message;
@@ -108,6 +112,10 @@ public class RechnungRestController {
             result.putAll(ValidationUtils.validate(posten));
         }
         if (result.isEmpty()) {
+            final Zahlart zahlart = Zahlart.getByCode(rechnung.getArt());
+            if (isErstellt && (zahlart == Zahlart.BAR || zahlart == Zahlart.EC)) {
+                rechnung.setBezahlt(true);
+            }
             final Rechnung saved = service.saveRechnung(rechnung);
             savePosten(dto.getPosten(), saved);
             reparaturErledigen(saved);
@@ -118,6 +126,24 @@ public class RechnungRestController {
             result.put(Message.SUCCESS.getCode(), "Die Rechnung " + saved.getNummer() + " erfolgreich gespeichert.");
             result.put("rechnung", saved);
             protokollService.write(saved.getId(), RECHNUNG, String.valueOf(rechnung.getNummer()), isErstellt ? ERSTELLT : GEAENDERT);
+        }
+        return result;
+    }
+
+    @PutMapping("/bezahlt")
+    public Map<String, Object> rechnungBezahlt(@RequestBody final IntegerBaseObject obj) {
+        final Map<String, Object> result = new HashMap<>();
+        if (obj.getId() == null) {
+            result.put(Message.ERROR.getCode(), "Ungültige Rechnung");
+        } else {
+            final Rechnung rechnung = service.getRechnung(obj.getId()).getRechnung();
+            if (rechnung.getId() != null) {
+                final boolean bezahlt = !rechnung.isBezahlt();
+                service.rechnungBezahlt(rechnung, bezahlt);
+                protokollService.write(rechnung.getId(), REPARATUR,
+                        rechnung.getNummer() + " Erledigt: " + BooleanUtils.toStringYesNo(bezahlt), GEAENDERT);
+            }
+            result.put(Message.SUCCESS.getCode(), "Die Rechnung '" + rechnung.getNummer() + "' wurde erfolgreich gespeichert");
         }
         return result;
     }

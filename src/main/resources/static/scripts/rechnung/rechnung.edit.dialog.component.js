@@ -66,8 +66,8 @@ Vue.component('edit-dialog', {
     </div>
     <div class="m1" v-if="entity.rechnung.reparatur">
       <label for="rechnungEditForm_reparatur">Reparaturauftrag</label>
-      <button class="zahnrad" title="Reparaturauftrag suchen" @click="showReparaturDialog = true"></button>
-      <button class="delete" title="Reparaturauftrag deselektieren" @click="entity.rechnung.reparatur = {}"></button>
+      <button class="zahnrad btnSmall" title="Reparaturauftrag suchen" @click="showReparaturDialog = true"></button>
+      <button class="delete btnSmall" title="Reparaturauftrag deselektieren" @click="entity.rechnung.reparatur = {}"></button>
       <input class="m1" id="rechnungEditForm_reparatur" readonly type="text" v-model="entity.rechnung.reparatur.nummer" />
     </div>
     <div class="m1">
@@ -78,8 +78,8 @@ Vue.component('edit-dialog', {
     </div>
     <div class="m1" v-if="entity.rechnung.kunde">
       <label for="rechnungEditForm_kunde">Kunde</label>
-      <button class="kunde" title="Kunde suchen" @click="showKundeDialog = true"></button>
-      <button class="delete" title="Kunde deselektieren" @click="entity.rechnung.kunde = {}"></button>
+      <button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
+      <button class="delete btnSmall" title="Kunde deselektieren" @click="entity.rechnung.kunde = {}"></button>
       <textarea class="m1" id="rechnungEditForm_kunde" readonly v-model="entity.rechnung.kunde.completeWithAdress"></textarea>
     </div>
   </div>
@@ -131,7 +131,8 @@ Vue.component('edit-dialog', {
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.rechnung && hasAllPropertiesAndNotEmpty(this.entity, ['rechnung.datum']);
+      var kundeRequired = (this.entity.rechnung.art === 2 || this.entity.rechnung.art === 3);
+      return this.entity && this.entity.rechnung && hasAllPropertiesAndNotEmpty(this.entity, ['rechnung.datum']) && (!kundeRequired || this.entity.rechnung.kunde.nummer);
     },
     berechneEndpreis: function() {
       var endpreis = 0;

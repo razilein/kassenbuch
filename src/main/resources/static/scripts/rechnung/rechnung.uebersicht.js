@@ -13,8 +13,10 @@ var vm = new Vue({
     rechte: {},
     result: {},
     showDialog: false,
+    showConfirmDialog: false,
     showDeleteDialog: false,
     showEditDialog: false,
+    confirmDialog: {},
     deleteRow: {
       id: null,
       restUrl: '/rechnung',
@@ -67,6 +69,28 @@ var vm = new Vue({
       vm.showDialog = true;
     },
     
+    bezahlt: function(row) {
+      return axios.put('/rechnung/bezahlt', { id: row.id });
+    },
+    
+    bezahltFunction: function(row) {
+      var art = row.bezahlt ? ' noch nicht bezahlt' : ' wurde bezahlt';
+      vm.confirmDialog.text = 'Wollen Sie diese Rechnung als' + art + ' markieren?';
+      vm.confirmDialog.title = 'Rechnungsnummer ' + row.nummer + art;
+      vm.confirmDialog.func = vm.bezahlt;
+      vm.confirmDialog.params = row;
+      vm.showConfirmDialog = true;
+    },
+    
+    handleConfirmResponse: function(data) {
+      if (data.success) {
+        vm.showConfirmDialog = false;
+        vm.grid.reload = true;
+      } 
+      vm.result = data;
+      vm.showDialog = true;
+    },
+    
     init: function() {
       vm.prepareRoles();
       if (vm.kundeId) {
@@ -102,6 +126,7 @@ var vm = new Vue({
           formatter: [
           { clazz: 'open-new-tab', disabled: vm.hasNotRoleRechnungAnzeigen, title: 'Rechnung öffnen', clickFunc: vm.openFunction },
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Rechnung bearbeiten', clickFunc: vm.editFunction },
+          { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.bezahltFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Rechnung löschen', clickFunc: vm.deleteFunction }
         ] },
         { name: 'nummer', title: 'Rechnungsnummer', width: 150 },
@@ -111,6 +136,14 @@ var vm = new Vue({
         { name: 'datum', title: 'Datum', width: 120, formatter: ['date'] },
         { name: 'ersteller', title: 'Ersteller', width: 150 },
       ];
+    },
+    
+    getClazzErledigt: function(row) {
+      return row.bezahlt ? 'good' : 'bad';
+    },
+    
+    getTitleErledigt: function(row) {
+      return row.bezahlt ? 'Die Rechnung wurde bezahlt. Rechnung als nicht bezahlt markieren?' : 'Die Rechnung wurde noch nicht bezahlt. Jetzt als bezahlt markieren?';
     },
     
     getRecht: function(role) {

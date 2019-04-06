@@ -4,6 +4,7 @@ CREATE TABLE rechnung (
   reparatur_id INT,
   filiale_id INT NOT NULL,
   art TINYINT NOT NULL,
+  bezahlt BIT DEFAULT 0 NOT NULL,
   datum DATE NOT NULL,
   name_drucken BIT DEFAULT 0 NOT NULL,
   ersteller VARCHAR(200) NOT NULL,
