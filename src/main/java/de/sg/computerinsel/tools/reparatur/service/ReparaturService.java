@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,26 +39,43 @@ public class ReparaturService {
     public Page<Reparatur> listReparaturen(final PageRequest pagination, final Map<String, String> conditions) {
         final String nachname = SearchQueryUtils.getAndReplaceJoker(conditions, "nachname");
         final String nummer = SearchQueryUtils.getAndReplaceJoker(conditions, "nummer");
+        String kundennummer = SearchQueryUtils.getAndReplaceJoker(conditions, "kundennummer");
+        kundennummer = StringUtils.isNumeric(kundennummer) ? kundennummer : null;
         final String kundeId = SearchQueryUtils.getAndReplaceJoker(conditions, "kunde.id");
+        final boolean istNichtErledigt = BooleanUtils.toBoolean(conditions.get("erledigt"));
 
         if (StringUtils.isNumeric(kundeId)) {
             return reparaturRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
-        } else if (StringUtils.isBlank(nachname) && StringUtils.isBlank(nummer)) {
+        } else if (StringUtils.isBlank(nachname) && StringUtils.isBlank(nummer) && !istNichtErledigt) {
             return reparaturRepository.findAll(pagination);
+        } else if (istNichtErledigt) {
+            final FindAllByConditionsExecuter<Reparatur> executer = new FindAllByConditionsExecuter<>();
+            final Integer kdNr = kundennummer == null ? null : Ints.tryParse(kundennummer);
+            return executer.findByParams(reparaturRepository, pagination,
+                    buildMethodnameForQueryReparatur(nachname, nummer, istNichtErledigt, kundennummer), nachname, nummer, !istNichtErledigt,
+                    kdNr);
         } else {
             final FindAllByConditionsExecuter<Reparatur> executer = new FindAllByConditionsExecuter<>();
-            return executer.findByParams(reparaturRepository, pagination, buildMethodnameForQueryReparatur(nachname, nummer), nachname,
-                    nummer);
+            final Integer kdNr = kundennummer == null ? null : Ints.tryParse(kundennummer);
+            return executer.findByParams(reparaturRepository, pagination,
+                    buildMethodnameForQueryReparatur(nachname, nummer, false, kundennummer), nachname, nummer, kdNr);
         }
     }
 
-    private String buildMethodnameForQueryReparatur(final String nachname, final String nummer) {
+    private String buildMethodnameForQueryReparatur(final String nachname, final String nummer, final boolean istNichtErledigt,
+            final String kundennummer) {
         String methodName = "findBy";
         if (StringUtils.isNotBlank(nachname)) {
             methodName += "KundeNachnameLikeAnd";
         }
         if (StringUtils.isNotBlank(nummer)) {
             methodName += "NummerLikeAnd";
+        }
+        if (istNichtErledigt) {
+            methodName += "ErledigtAnd";
+        }
+        if (StringUtils.isNotBlank(kundennummer)) {
+            methodName += "KundeNummerLikeAnd";
         }
         return StringUtils.removeEnd(methodName, "And");
     }
