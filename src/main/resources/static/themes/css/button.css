@@ -8,6 +8,11 @@ button {
   margin-left: 20px;
 }
 
+.btnSmall {
+  height: 20px !important;
+  width: 30px !important;
+}
+
 button.add {
   mask: url("../icons/add.svg") no-repeat center;
   -webkit-mask: url("../icons/add.svg") no-repeat center;

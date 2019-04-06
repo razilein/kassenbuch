@@ -36,7 +36,7 @@ Vue.component('edit-dialog', {
     </div>
   </div>
   <div class="m1" v-if="entity.kunde">
-    <label for="reparaturEditForm_kunde">Kunde</label><button class="kunde" title="Kunde suchen" @click="showKundeDialog = true"></button>
+    <label for="reparaturEditForm_kunde">Kunde</label><button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
     <textarea class="m1" id="reparaturEditForm_kunde" readonly v-model="entity.kunde.completeWithAdressAndPhone"></textarea>
   </div>
   <div class="m1">
