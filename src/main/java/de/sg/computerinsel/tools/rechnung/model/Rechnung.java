@@ -29,6 +29,9 @@ public class Rechnung extends IntegerBaseObject {
     @Column(name = "art")
     private int art = 0;
 
+    @Column(name = "bezahlt")
+    private boolean bezahlt = false;
+
     @Column(name = "datum")
     private LocalDate datum = LocalDate.now();
 

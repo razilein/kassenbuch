@@ -42,10 +42,16 @@
             </div>
           </div>
           <div class="m1">
+            <label class="container checkbox">Nur nicht bezahlte Rechnungen
+              <input id="searchForm_bezahlt" type="checkbox" v-model="grid.searchQuery.bezahlt" />
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="m1">
             <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
           </div>
         </div>
-        <div style="height: 200px;" v-if="kundeId === null"></div>
+        <div style="height: 250px;" v-if="kundeId === null"></div>
         <h3 v-if="kundeId !== null">Rechnungen zum gewählten Kunden:</h3>
         <div id="gridDiv" v-if="grid.gridColumns.length > 0">
           <grid
@@ -60,6 +66,15 @@
           ></grid>
         </div>
       </div>
+      <confirm-dialog
+        :func="confirmDialog.func"
+        :params="confirmDialog.params"
+        :text="confirmDialog.text"
+        :title="confirmDialog.title"
+        v-if="showConfirmDialog"
+        @close="showConfirmDialog = false"
+        @confirmed="handleConfirmResponse"
+      ></confirm-dialog>
       <edit-dialog
         :rest-url-get="editRow.restUrlGet"
         :rest-url-save="editRow.restUrlSave"
