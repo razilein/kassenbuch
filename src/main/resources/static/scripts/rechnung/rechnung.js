@@ -78,7 +78,7 @@ var vm = new Vue({
       vm.editEntity = {
         id: posten.id,
         position: posten.position,
-        produkt: posten.row,
+        produkt: posten.produkt,
         menge: posten.menge,
         bezeichnung: posten.bezeichnung,
         seriennummer: posten.seriennummer,
