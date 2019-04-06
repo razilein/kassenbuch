@@ -87,34 +87,18 @@ Vue.component('edit-dialog', {
     berechnePreisByVkNetto: function() {
       var preisVkNetto = this.entity.preisVkNetto;
       this.entity.preisVkBrutto = Number((preisVkNetto * 1.19).toFixed(2));
-      
-      if (!this.entity.bestandUnendlich) {
-        this.entity.preisEkNetto = Number((preisVkNetto / 1.1).toFixed(2));
-        this.entity.preisEkBrutto = Number((this.entity.preisEkNetto * 1.19).toFixed(2));
-      }
     },
     berechnePreisByVkBrutto: function() {
       var preisVkbrutto = this.entity.preisVkBrutto;
       this.entity.preisVkNetto = Number((preisVkbrutto / 1.19).toFixed(2));
-      
-      if (!this.entity.bestandUnendlich) {
-        this.entity.preisEkNetto = Number((this.entity.preisVkNetto / 1.1).toFixed(2));
-        this.entity.preisEkBrutto = Number((this.entity.preisEkNetto * 1.19).toFixed(2));
-      }
     },
     berechnePreisByEkNetto: function() {
       var preisEkNetto = this.entity.preisEkNetto;
       this.entity.preisEkBrutto = Number((this.entity.preisEkNetto * 1.19).toFixed(2));
-      
-      this.entity.preisVkNetto = Number((preisEkNetto * 1.1).toFixed(2));
-      this.entity.preisVkBrutto = Number((this.entity.preisVkNetto * 1.19).toFixed(2));
     },
     berechnePreisByEkBrutto: function() {
       var preisEkBrutto = this.entity.preisEkBrutto;
       this.entity.preisEkNetto = Number((preisEkBrutto / 1.19).toFixed(2));
-      
-      this.entity.preisVkNetto = Number((this.entity.preisEkNetto * 1.1).toFixed(2));
-      this.entity.preisVkBrutto = Number((this.entity.preisVkNetto * 1.19).toFixed(2));
     },
     loadEntity: function() {
       showLoader();
