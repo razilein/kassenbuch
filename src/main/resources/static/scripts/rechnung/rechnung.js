@@ -47,7 +47,8 @@ var vm = new Vue({
       vm.berechneEndpreis();
     },
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.posten.length > 0;
+      var kundeRequired = (this.entity.rechnung.art === 2 || this.entity.rechnung.art === 3);
+      return this.entity && this.entity.posten.length > 0 && (!kundeRequired || this.entity.rechnung.kunde.nummer);
     },
     berechneEndpreis: function() {
       var endpreis = 0;

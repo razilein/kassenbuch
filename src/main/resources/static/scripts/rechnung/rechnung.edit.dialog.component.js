@@ -131,7 +131,8 @@ Vue.component('edit-dialog', {
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.rechnung && hasAllPropertiesAndNotEmpty(this.entity, ['rechnung.datum']);
+      var kundeRequired = (this.entity.rechnung.art === 2 || this.entity.rechnung.art === 3);
+      return this.entity && this.entity.rechnung && hasAllPropertiesAndNotEmpty(this.entity, ['rechnung.datum']) && (!kundeRequired || this.entity.rechnung.kunde.nummer);
     },
     berechneEndpreis: function() {
       var endpreis = 0;
