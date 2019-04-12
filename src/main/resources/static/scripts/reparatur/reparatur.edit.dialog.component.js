@@ -12,26 +12,26 @@ Vue.component('edit-dialog', {
     </label>
   </div>
   <div class="m1">
-    <label for="reparaturEditForm_geraet">Gerät / Zubehör</label>
-    <input class="m1" id="reparaturEditForm_geraet" maxlength="200" type="text" v-model="entity.geraet"></input>
+    <zeichenzaehler-label :elem="entity.geraet" :forid="'reparaturEditForm_geraet'" :label="'Gerät / Zubehör'" :maxlength="'500'"></zeichenzaehler-label>
+    <input class="m1" id="reparaturEditForm_geraet" maxlength="500" type="text" v-model="entity.geraet"></input>
   </div>
   <div class="m1">
     <div class="m2m">
-      <label for="reparaturEditForm_seriennummer">Seriennummer</label>
-      <input class="m2" id="reparaturEditForm_seriennummer" maxlength="200" type="text" v-model="entity.seriennummer"></input>
+      <zeichenzaehler-label :elem="entity.seriennummer" :forid="'reparaturEditForm_seriennummer'" :label="'Seriennummer'" :maxlength="'500'"></zeichenzaehler-label>
+      <input class="m2" id="reparaturEditForm_seriennummer" maxlength="500" type="text" v-model="entity.seriennummer"></input>
     </div>
   </div>
   <div class="m1">
-    <label for="reparaturEditForm_symptome">Symptome / Fehler</label>
-    <textarea class="m1" id="reparaturEditForm_symptome" maxlength="4000" v-model="entity.symptome"></textarea>
+    <zeichenzaehler-label :elem="entity.symptome" :forid="'reparaturEditForm_symptome'" :label="'Symptome / Fehler'" :maxlength="'1000'"></zeichenzaehler-label>
+    <textarea class="m1" id="reparaturEditForm_symptome" maxlength="1000" v-model="entity.symptome"></textarea>
   </div>
   <div class="m1">
-    <label for="reparaturEditForm_aufgaben">Geplante Aufgaben</label>
-    <textarea class="m1" id="reparaturEditForm_aufgaben" maxlength="4000" v-model="entity.aufgaben"></textarea>
+    <zeichenzaehler-label :elem="entity.aufgaben" :forid="'reparaturEditForm_aufgaben'" :label="'Geplante Aufgaben'" :maxlength="'1000'"></zeichenzaehler-label>
+    <textarea class="m1" id="reparaturEditForm_aufgaben" maxlength="1000" v-model="entity.aufgaben"></textarea>
   </div>
   <div class="m1">
     <div class="m2">
-      <label for="reparaturEditForm_geraetepasswort">Gerätepasswort</label>
+      <zeichenzaehler-label :elem="entity.geraetepasswort" :forid="'reparaturEditForm_geraetepasswort'" :label="'Gerätepasswort'" :maxlength="'50'"></zeichenzaehler-label>
       <input class="m2" id="reparaturEditForm_geraetepasswort" maxlength="50" type="text" v-model="entity.geraetepasswort"></input>
     </div>
   </div>
@@ -56,10 +56,8 @@ Vue.component('edit-dialog', {
     </div>
   </div>
   <div class="m1">
-    <div class="m2m">
-      <label for="reparaturEditForm_kostenvoranschlag">Kostenvoranschlag</label>
-      <input class="m2" id="reparaturEditForm_kostenvoranschlag" maxlength="100" type="text" v-model="entity.kostenvoranschlag"></input>
-    </div>
+    <zeichenzaehler-label :elem="entity.kostenvoranschlag" :forid="'reparaturEditForm_kostenvoranschlag'" :label="'Kostenvoranschlag'" :maxlength="'300'"></zeichenzaehler-label>
+    <input class="m1" id="reparaturEditForm_kostenvoranschlag" maxlength="300" type="text" v-model="entity.kostenvoranschlag"></input>
   </div>
   <div class="m1">
     <label class="container radio" v-for="status in pruefstatus">
@@ -73,7 +71,7 @@ Vue.component('edit-dialog', {
     </label>
   </div>
   <div class="m1">
-    <label for="reparaturEditForm_bemerkung">Bemerkungen</label>
+    <zeichenzaehler-label :elem="entity.bemerkung" :forid="'reparaturEditForm_bemerkung'" :label="'Bemerkungen'" :maxlength="'4000'"></zeichenzaehler-label>
     <textarea class="m1" id="reparaturEditForm_bemerkung" maxlength="4000" v-model="entity.bemerkung"></textarea>
   </div>
   <div class="m1">

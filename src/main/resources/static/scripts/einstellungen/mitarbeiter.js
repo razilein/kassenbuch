@@ -100,6 +100,7 @@ var vm = new Vue({
     handleDeleteResponse: function(data) {
       vm.showDeleteDialog = false;
       vm.result = data;
+      vm.grid.reload = true;
       vm.showDialog = true;
     },
     

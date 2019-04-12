@@ -11,15 +11,15 @@ Vue.component('posten-edit-dialog', {
     </div>
   </div>
   <div class="m1">
-    <label class="required" for="postenEditForm_bezeichnung">Bezeichnung</label>
+    <zeichenzaehler-label :elem="entity.bezeichnung" :forid="'postenEditForm_bezeichnung'" :label="'Bezeichnung'" :maxlength="'500'"></zeichenzaehler-label>
     <textarea class="m1" id="postenEditForm_bezeichnung" maxlength="500" v-model="entity.bezeichnung"></textarea>
   </div>
   <div class="m1">
-    <label for="postenEditForm_seriennummer">Seriennummer</label>
+    <zeichenzaehler-label :elem="entity.seriennummer" :forid="'postenEditForm_seriennummer'" :label="'Seriennummer'" :maxlength="'100'"></zeichenzaehler-label>
     <input class="m1" id="postenEditForm_seriennummer" maxlength="100" type="text" v-model="entity.seriennummer" />
   </div>
   <div class="m1">
-    <label for="postenEditForm_hinweis">Hinweis</label>
+    <zeichenzaehler-label :elem="entity.hinweis" :forid="'postenEditForm_hinweis'" :label="'Hinweis'" :maxlength="'100'"></zeichenzaehler-label>
     <input class="m1" id="postenEditForm_hinweis" maxlength="100" type="text" v-model="entity.hinweis" />
   </div>
       `),

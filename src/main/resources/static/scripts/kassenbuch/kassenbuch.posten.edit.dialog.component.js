@@ -1,7 +1,7 @@
 Vue.component('posten-edit-dialog', {
   template: createEditDialogTemplate(`
   <div class="m1">
-    <label class="required" for="kassenbuchEditForm_verwendungszweck">Verwendungszweck</label>
+    <zeichenzaehler-label :elem="entity.verwendungszweck" :forid="'kassenbuchEditForm_verwendungszweck'" :label="'Bezeichnung'" :maxlength="'200'" :required="true"></zeichenzaehler-label>
     <input class="m1" id="kassenbuchEditForm_verwendungszweck" maxlength="200" type="text" v-model="entity.verwendungszweck" />
   </div>
   <div class="m6">

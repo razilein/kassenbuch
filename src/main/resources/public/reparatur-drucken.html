@@ -104,6 +104,7 @@
               Name:
             </td>
             <td class="s2" colspan="2">
+              {{entity.kunde.firmenname}}
               {{entity.kunde.vorname}} {{entity.kunde.nachname}}
             </td>
             <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35"></td>
@@ -241,7 +242,7 @@
         <div align="right">
           <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-left-width:0; border-top-width:0; border-bottom-width:0" bordercolor="#111111" width="100%" height="0">
             <tr>
-              <td width="45%" rowspan="5" style="border-left-style: none; border-left-width: medium; border-right-style: solid; border-right-width: 1; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" align="left" valign="top">
+              <td width="45%" rowspan="6" style="border-left-style: none; border-left-width: medium; border-right-style: solid; border-right-width: 1; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" align="left" valign="top">
                 <font face="Arial" size="2"><span lang="de">Notizen (vom Personal auszufüllen):</span></font>
               </td>
               <td width="100%" colspan="7" style="border-top-color: #111111; border-top-width: 1">
@@ -257,7 +258,7 @@
               <td width="20%"><font size="2">nicht<br>erreicht</font></td>
               <td width="20%"><font size="2">Angehör.<br>inform.</font></td>
             </tr>
-            <tr v-for="index in 2">
+            <tr v-for="index in 3">
               <td width="62%" height="45" colspan="3">&nbsp;</td>
               <td width="20%" height="45">&nbsp;</td>
               <td width="20%" height="45">&nbsp;</td>
@@ -274,22 +275,30 @@
           </table>
         </div>
         <hr noshade color="#000000">
-        <table width="100%" cellpadding=4 cellspacing=0 frame=void rules=none style="border-collapse: collapse" bordercolor="#111111" height="100">
+        <table>
           <tr>
-            <td width=226 height=1 valign=bottom style="border-left:1px solid; border-right:medium none; border-top:1px solid; border-bottom:1px solid; padding:0cm;">
-              <p align=left style="widows: 0; orphans: 0">
-                <font size=4 face="arial, sans-serif" color="#000000">Gerät ausgehändigt am, Unterschrift Kunde:</font>
-              </p>
-            </td>
-            <td width=928 valign=top style="; border-top: 1px solid; border-bottom: 1px solid #000000; border-left: medium none; border-right: 1px solid; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" height="1">
+            <td>
               <p align=left>
                 <font face="arial">
                   Hiermit bestätige ich (Kunde), das oben genannte Gerät inkl. Zubehör vollständig<br>
-                  <span class="auto-style1" style="width: 100%">&#9675; repariert zurück erhalten zu haben.</span><br>
-                  <span class="auto-style1" style="width: 100%">&#9675; nicht repariert zurück erhalten zu haben.</span><br>
-                  <span class="auto-style1" style="width: 100%">&#9675; zur Entsorgung überlassen zu haben.</span><br>
+                  <span class="auto-style1">&#9675; repariert zurück erhalten zu haben.</span>
+                  <span class="auto-style1">&#9675; nicht repariert zurück erhalten zu haben.</span>
+                  <span class="auto-style1">&#9675; zur Entsorgung überlassen zu haben.</span>
                 </font>
                 <br>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <hr style="border-color: black;">
+              <p align=left style="widows: 0; orphans: 0">
+                <font size=4 face="arial, sans-serif" color="#000000">Gerät ausgehändigt am, Unterschrift Kunde:</font>
+                <span style="margin-left: 110px;">
+                  <font size=5 face="arial, sans-serif">
+                    <b>X</b>
+                  </font>
+                </span>
               </p>
             </td>
           </tr>
