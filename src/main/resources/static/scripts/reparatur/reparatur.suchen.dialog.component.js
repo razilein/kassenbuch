@@ -2,11 +2,15 @@ Vue.component('reparatur-suchen-dialog', {
   template: createEditDialogTemplateWithoutSaveButton(`
   <div class="m1">
     <div class="m6m">
-      <label for="searchFormReparatur_nummer">Nummer</label>
-      <input class="m6" id="searchFormReparatur_nachname" type="text" v-model="grid.searchQuery.nummer"></input>
+      <label for="searchFormReparatur_nummer">Rep.-Nr.</label>
+      <input class="m6" id="searchFormReparatur_nummer" type="text" v-model="grid.searchQuery.nummer"></input>
+    </div>
+    <div class="m6m">
+      <label for="searchForm_kundennummer">Kd.-Nr.</label>
+      <input class="m6" id="searchForm_kundennummer" type="text" v-model="grid.searchQuery.kundennummer"></input>
     </div>
     <div class="m2m">
-      <label for="searchFormReparatur_nachname">Nachname</label>
+      <label for="searchFormReparatur_nachname">Nachname/Firmenname</label>
       <input class="m2" id="searchFormReparatur_nachname" type="text" v-model="grid.searchQuery.nachname"></input>
     </div>
     <div class="m2">
@@ -55,15 +59,14 @@ Vue.component('reparatur-suchen-dialog', {
             formatter: [
             { clazz: 'ok', title: 'Diesen Reparaturauftrag wählen', clickFunc: this.chooseFunction },
           ] },
-          { name: 'nummer', title: 'Auftragsnummer', width: 150 },
+          { name: 'nummer', title: 'Rep.-Nr.', width: 150 },
           { name: 'kunde.nachname', title: 'Kunde', width: 100 },
           { name: 'geraet', title: 'Gerät', width: 100 },
-          { name: 'kostenvoranschlag', title: 'Kosten', width: 90 },
         ],
         reload: false,
         restUrl: 'reparatur',
         searchQuery: {
-          nachname: this.kunde ? this.kunde.nachname : null,
+          nachname: this.kunde ? (this.kunde.nachname || this.kunde.firmenname) : null,
         },
       },
       result: {},

@@ -2,33 +2,33 @@ Vue.component('edit-dialog', {
   template: createEditDialogTemplate(`
   <div class="m1">
     <div class="m2m">
-      <label class="required" for="mitarbeiterEditForm_name">Nachname</label>
+      <zeichenzaehler-label :elem="entity.nachname" :forid="'mitarbeiterEditForm_name'" :label="'Nachname'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
       <input class="m2" id="mitarbeiterEditForm_name" maxlength="50" type="text" v-model="entity.nachname"></input>
     </div>
     <div class="m2">
-      <label class="required" for="mitarbeiterEditForm_vorname">Vorname</label>
+      <zeichenzaehler-label :elem="entity.vorname" :forid="'mitarbeiterEditForm_vorname'" :label="'Vorname'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
       <input class="m2" id="mitarbeiterEditForm_vorname" maxlength="50" type="text" v-model="entity.vorname"></input>
     </div>
   </div>
   <div class="m1">
     <div class="m2m">
-      <label for="mitarbeiterEditForm_email">E-Mail (geschäftlich)</label>
+      <zeichenzaehler-label :elem="entity.email" :forid="'mitarbeiterEditForm_email'" :label="'E-Mail (geschäftlich)'" :maxlength="'50'"></zeichenzaehler-label>
       <input class="m2" id="mitarbeiterEditForm_email" maxlength="50" type="text" v-model="entity.email"></input>
     </div>
     <div class="m2">
-      <label for="mitarbeiterEditForm_email_privat">E-Mail (privat)</label>
+      <zeichenzaehler-label :elem="entity.emailPrivat" :forid="'mitarbeiterEditForm_email_privat'" :label="'E-Mail (privat)'" :maxlength="'50'"></zeichenzaehler-label>
       <input class="m2" id="mitarbeiterEditForm_email_privat" maxlength="50" type="text" v-model="entity.emailPrivat"></input>
     </div>
   </div>
   <div class="m1">
     <div class="m2m">
-      <label for="mitarbeiterEditForm_telefon">Telefon (privat)</label>
+      <zeichenzaehler-label :elem="entity.telefon" :forid="'mitarbeiterEditForm_telefon'" :label="'Telefon (privat)'" :maxlength="'50'"></zeichenzaehler-label>
       <input class="m2" id="mitarbeiterEditForm_telefon" maxlength="50" type="text" v-model="entity.telefon"></input>
     </div>
   </div>
   <div class="m1">
     <div class="m2m">
-      <label for="mitarbeiterEditForm_filiale">Filiale</label>
+      <label class="required" for="mitarbeiterEditForm_filiale">Filiale</label>
       <select class="m2" id="mitarbeiterEditForm_filiale" v-model="entity.filiale.id">
         <option :value="f.key" v-for="f in filialen">{{f.value}}</option>
       </select>

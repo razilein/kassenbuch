@@ -22,19 +22,19 @@
       <div id="content">
         <div class="form m1" v-if="kundeId === null">
           <div class="m6m">
-            <label for="searchForm_nummer">Rep.-Nr</label>
+            <label for="searchForm_nummer">Rep.-Nr.</label>
             <input class="m6" id="searchForm_nummer" type="text" v-model="grid.searchQuery.nummer"></input>
           </div>
           <div class="m6m">
-            <label for="searchForm_kundennummer">Kd.-Nr</label>
+            <label for="searchForm_kundennummer">Kd.-Nr.</label>
             <input class="m6" id="searchForm_kundennummer" type="text" v-model="grid.searchQuery.kundennummer"></input>
           </div>
           <div class="m2m">
-            <label for="searchForm_nachname">Nachname</label>
+            <label for="searchForm_nachname">Nachname/Firmenname</label>
             <input class="m2" id="searchForm_nachname" type="text" v-model="grid.searchQuery.nachname"></input>
           </div>
           <div class="m1">
-             <label class="container checkbox">Nur nicht erledigte Aufträge
+             <label class="container checkbox">Nur nicht erledigte Aufträge anzeigen
               <input id="searchForm_erledigt" type="checkbox" v-model="grid.searchQuery.erledigt" />
               <span class="checkmark"></span>
             </label>
@@ -91,6 +91,7 @@
   <script src="/scripts/confirm.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/grid.component.js"></script>
+  <script src="/scripts/zeichenzaehler.component.js"></script>
   <script src="/scripts/delete.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>

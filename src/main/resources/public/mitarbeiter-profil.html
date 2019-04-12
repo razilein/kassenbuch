@@ -32,33 +32,33 @@
             <div class="tab1">
               <div class="m1">
                 <div class="m2m">
-                  <label class="required" for="profildatenForm_name">Nachname</label>
-                  <input class="m2" id="profildatenForm_name" type="text" v-model="model.profildaten.nachname"></input>
+                  <zeichenzaehler-label :elem="model.profildaten.nachname" :forid="'profildatenForm_name'" :label="'Nachname'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
+                  <input class="m2" id="profildatenForm_name" maxlength="50" type="text" v-model="model.profildaten.nachname"></input>
                 </div>
                 <div class="m2">
-                  <label class="required" for="profildatenForm_vorname">Vorname</label>
-                  <input class="m2" id="profildatenForm_vorname" type="text" v-model="model.profildaten.vorname"></input>
+                  <zeichenzaehler-label :elem="model.profildaten.vorname" :forid="'profildatenForm_vorname'" :label="'Vorname'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
+                  <input class="m2" id="profildatenForm_vorname" maxlength="50" type="text" v-model="model.profildaten.vorname"></input>
                 </div>
               </div>
               <div class="m1">
                 <div class="m2m">
-                  <label for="profildatenForm_email">E-Mail (geschäftlich)</label>
-                  <input class="m2" id="profildatenForm_email" type="text" v-model="model.profildaten.email"></input>
+                  <zeichenzaehler-label :elem="model.profildaten.email" :forid="'profildatenForm_email'" :label="'E-Mail (geschäftlich)'" :maxlength="'50'"></zeichenzaehler-label>
+                  <input class="m2" id="profildatenForm_email" maxlength="50" type="text" v-model="model.profildaten.email"></input>
                 </div>
                 <div class="m2">
-                  <label for="profildatenForm_email_privat">E-Mail (privat)</label>
-                  <input class="m2" id="profildatenForm_email_privat" type="text" v-model="model.profildaten.emailPrivat"></input>
+                  <zeichenzaehler-label :elem="model.profildaten.emailPrivat" :forid="'profildatenForm_email_privat'" :label="'E-Mail (privat)'" :maxlength="'50'"></zeichenzaehler-label>
+                  <input class="m2" id="profildatenForm_email_privat" maxlength="50" type="text" v-model="model.profildaten.emailPrivat"></input>
                 </div>
               </div>
               <div class="m1">
                 <div class="m2m">
-                  <label for="profildatenForm_telefon">Telefon (privat)</label>
-                  <input class="m2" id="profildatenForm_telefon" type="text" v-model="model.profildaten.telefon"></input>
+                  <zeichenzaehler-label :elem="model.profildaten.telefon" :forid="'profildatenForm_telefon'" :label="'Telefon (privat)'" :maxlength="'50'"></zeichenzaehler-label>
+                  <input class="m2" id="profildatenForm_telefon" maxlength="50" type="text" v-model="model.profildaten.telefon"></input>
                 </div>
               </div>
               <div class="m1">
                 <div class="m2m">
-                  <label for="profildatenForm_filiale">Filiale</label>
+                  <label class="required" for="profildatenForm_filiale">Filiale</label>
                   <select class="m2" id="profildatenForm_filiale" v-model="model.profildaten.filiale.id">
                     <option :value="f.key" v-for="f in filialen">{{f.value}}</option>
                   </select>
@@ -73,8 +73,8 @@
             <div class="tab2">
               <div class="m1">
                 <div class="m2">
-                  <label for="anmeldedatenForm_benutzername" class="required">Benutzername</label>
-                  <input class="m2" id="anmeldedatenForm_benutzername" type="text" v-model="model.anmeldedaten.username" />
+                  <zeichenzaehler-label :elem="model.anmeldedaten.username" :forid="'anmeldedatenForm_benutzername'" :label="'Benutzername'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
+                  <input class="m2" id="anmeldedatenForm_benutzername" maxlength="50" type="text" v-model="model.anmeldedaten.username" />
                 </div>
               </div>
               <div class="m1">
@@ -107,5 +107,6 @@
   <script src="/scripts/util.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/zeichenzaehler.component.js"></script>
   <script src="/scripts/einstellungen/mitarbeiter-profil.js"></script>
 </html>

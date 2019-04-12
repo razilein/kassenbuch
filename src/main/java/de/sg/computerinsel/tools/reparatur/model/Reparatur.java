@@ -46,11 +46,11 @@ public class Reparatur extends IntegerBaseObject {
     @Column(name = "art")
     private Integer art;
 
-    @Size(max = 200, message = "Der Gerätename darf nicht länger als 200 Zeichen sein.")
+    @Size(max = 500, message = "Der Gerätename darf nicht länger als 500 Zeichen sein.")
     @Column(name = "geraet")
     private String geraet;
 
-    @Size(max = 200, message = "Die Seriennummer darf nicht länger als 200 Zeichen sein.")
+    @Size(max = 500, message = "Die Seriennummer darf nicht länger als 500 Zeichen sein.")
     @Column(name = "seriennummer")
     private String seriennummer;
 
@@ -80,7 +80,7 @@ public class Reparatur extends IntegerBaseObject {
     @Column(name = "abholzeit")
     private LocalTime abholzeit;
 
-    @Size(max = 100, message = "Der im Feld 'Kostenvoranschlag' eingetragene Text darf nicht länger als 100 Zeichen sein.")
+    @Size(max = 300, message = "Der im Feld 'Kostenvoranschlag' eingetragene Text darf nicht länger als 300 Zeichen sein.")
     @Column(name = "kostenvoranschlag")
     private String kostenvoranschlag;
 

@@ -2,40 +2,40 @@ Vue.component('edit-dialog', {
   template: createEditDialogTemplate(`
   <div class="m1">
     <div class="m2m">
-      <label class="required" for="filialeEditForm_name">Name</label>
+      <zeichenzaehler-label :elem="entity.name" :forid="'filialeEditForm_name'" :label="'Name'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
       <input class="m2" id="filialeEditForm_name" maxlength="50" type="text" v-model="entity.name"></input>
     </div>
     <div class="m2">
-      <label class="required" for="filialeEditForm_kuerzel">Kürzel für Aufträge</label>
+      <zeichenzaehler-label :elem="entity.kuerzel" :forid="'filialeEditForm_kuerzel'" :label="'Kürzel für Aufträge'" :maxlength="'3'" :required="true"></zeichenzaehler-label>
       <input class="m2" id="filialeEditForm_kuerzel" maxlength="3" type="text" v-model="entity.kuerzel"></input>
     </div>
   </div>
   <div class="m1">
     <div class="m2m">
-      <label class="required" for="filialeEditForm_strasse">Straße</label>
+      <zeichenzaehler-label :elem="entity.strasse" :forid="'filialeEditForm_strasse'" :label="'Straße'" :maxlength="'100'" :required="true"></zeichenzaehler-label>
       <input class="m2" id="filialeEditForm_strasse" maxlength="100" type="text" v-model="entity.strasse"></input>
     </div>
     <div class="m6m">
-      <label class="required" for="filialeEditForm_plz">PLZ</label>
+      <zeichenzaehler-label :elem="entity.plz" :forid="'filialeEditForm_plz'" :label="'PLZ'" :maxlength="'8'" :required="true"></zeichenzaehler-label>
       <input class="m6" id="filialeEditForm_plz" maxlength="8" type="text" v-model="entity.plz"></input>
     </div>
     <div class="m3">
-      <label class="required" for="filialeEditForm_ort">Ort</label>
+      <zeichenzaehler-label :elem="entity.ort" :forid="'filialeEditForm_ort'" :label="'Ort'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
       <input class="m3" id="filialeEditForm_ort" maxlength="50" type="text" v-model="entity.ort"></input>
     </div>
   </div>
   <div class="m1">
     <div class="m2m">
-      <label class="required" for="filialeEditForm_telefon">Telefon</label>
+      <zeichenzaehler-label :elem="entity.telefon" :forid="'filialeEditForm_telefon'" :label="'Telefon'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
       <input class="m2" id="filialeEditForm_telefon" maxlength="50" type="text" v-model="entity.telefon"></input>
     </div>
     <div class="m2">
-      <label class="required" for="filialeEditForm_email">E-Mail</label>
+      <zeichenzaehler-label :elem="entity.email" :forid="'filialeEditForm_email'" :label="'E-Mail'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
       <input class="m2" id="filialeEditForm_email" maxlength="50" type="text" v-model="entity.email"></input>
     </div>
   </div>
   <div class="m1">
-    <label for="filialeEditForm_rechnung_text_andere_filiale">Rechnungstext: Besuchen Sie uns auch in unserer Filiale in</label>
+    <zeichenzaehler-label :elem="entity.rechnungTextAndereFiliale" :forid="'filialeEditForm_rechnung_text_andere_filiale'" :label="'Rechnungstext: Besuchen Sie uns auch in unserer Filiale in'" :maxlength="'100'" :required="true"></zeichenzaehler-label>
     <input class="m1" id="filialeEditForm_rechnung_text_andere_filiale" maxlength="100" type="text" v-model="entity.rechnungTextAndereFiliale"></input>
   </div>
       `),

@@ -17,16 +17,16 @@ Vue.component('edit-dialog', {
     </div>
   </div>
   <div class="m1">
-    <label class="required" for="produktEditForm_bezeichnung">Bezeichnung</label>
+    <zeichenzaehler-label :elem="entity.bezeichnung" :forid="'produktEditForm_bezeichnung'" :label="'Bezeichnung'" :maxlength="'500'" :required="true"></zeichenzaehler-label>
     <textarea class="m1" id="gruppeEditForm_bezeichnung" maxlength="500" v-model="entity.bezeichnung"></textarea>
   </div>
   <div class="m1">
     <div class="m2m">
-      <label for="produktEditForm_hersteller">Hersteller</label>
-      <input class="m2" id="produktEditForm_hersteller" type="text" v-model="entity.hersteller" />
+      <zeichenzaehler-label :elem="entity.hersteller" :forid="'produktEditForm_hersteller'" :label="'Hersteller'" :maxlength="'100'"></zeichenzaehler-label>
+      <input class="m2" id="produktEditForm_hersteller" maxlength="100" type="text" v-model="entity.hersteller" />
     </div>
     <div class="m2">
-      <label for="produktEditForm_ean">EAN</label>
+      <zeichenzaehler-label :elem="entity.ean" :forid="'produktEditForm_ean'" :label="'EAN'" :maxlength="'100'"></zeichenzaehler-label>
       <input class="m2" id="produktEditForm_ean" maxlength="100" v-model="entity.ean" />
     </div>
   </div>
