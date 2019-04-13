@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import de.sg.computerinsel.tools.kunde.model.Kunde;
@@ -60,6 +62,11 @@ public class Rechnung extends IntegerBaseObject {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate getDatum() {
         return datum;
+    }
+
+    public String getNummerAnzeige() {
+        final String nummerAnzeige = String.valueOf(this.nummer);
+        return StringUtils.left(nummerAnzeige, 2) + "-" + StringUtils.substring(nummerAnzeige, 2);
     }
 
 }
