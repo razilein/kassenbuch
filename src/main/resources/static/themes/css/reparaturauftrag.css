@@ -43,7 +43,7 @@ table.reparaturart {
   padding-left: 0cm;
   padding-right: 0cm;
   padding-top: 0cm;
-  valign: bottom;
+  vertical-align: bottom;
   width: 904px;
 }
 
@@ -58,7 +58,7 @@ table.reparaturart {
   padding-left: 0cm;
   padding-right: 0cm;
   padding-top: 0cm;
-  valign: bottom;
+  vertical-align: bottom;
   width: 929px;
 }
 
