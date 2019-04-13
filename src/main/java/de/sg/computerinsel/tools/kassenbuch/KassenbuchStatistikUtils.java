@@ -206,7 +206,7 @@ public class KassenbuchStatistikUtils {
     }
 
     private void writeUeberweisungToFile(final FileWriter writer, final RechnungDTO rechnung) throws IOException {
-        writer.write(Joiner.on("|").join(rechnung.getRechnung().getNummer(), rechnung.getKundenAdresse(),
+        writer.write(Joiner.on("|").join(rechnung.getRechnung().getNummerAnzeige(), rechnung.getKundenAdresse(),
                 CurrencyUtils.format(rechnung.getRechnungsbetrag()), DateUtils.format(rechnung.getRechnung().getDatum())));
         writer.write("\n\r");
     }
