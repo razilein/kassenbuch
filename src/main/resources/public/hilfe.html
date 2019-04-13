@@ -61,6 +61,7 @@
           <li><a href="#statistiken">Statistiken</a></li>
         </ul>
       </li>
+      <li><a href="#bestellung">Bestellung</a></li>
       <li>
         <a href="#einstellungen">Einstellungen</a>
         <ul>
@@ -70,6 +71,7 @@
               <li><a href="#ablageverzeichnis">Ablageverzeichnis</a></li>
               <li><a href="#rechnungsnummer">Rechnungsnummer</a></li>
               <li><a href="#auftragsnummer">Auftragsnummer</a></li>
+              <li><a href="#ftpserver">FTP-Server</a></li>
               <li><a href="#filiale">Filiale</a></li>
             </ul>
           </li>
@@ -95,6 +97,7 @@
       <li>Kassenstand berechnen</li>
       <li>Statistiken erstellen</li>
       <li>Inventar verwalten</li>
+      <li>Bestellungen aufgeben</li>
     </ul>
     <p>Um allgemein auf die Tools zugreifen zu können wird ein gültiger Login benötigt.
       Die verschiedenen Seiten und Funktionen sind durch Berechtigungen, die den Mitarbeitern zugeteilt werden müssen, abgesichert.
@@ -293,6 +296,10 @@
       Diese wird ebenfalls in das Ablageverzeichnis gelegt und zeigt die Rechnungsnummer, die Kundenanschrift und Telefonnummer, sowie den Rechnungsbetrag.
       Das Feld <em>Posten</em> wird dabei nicht berücksichtigt.
     </p>
+    <h2 id="bestellung">Bestellung</h2>
+    <p>Um diese Seite öffnen zu können, wird das Recht <em>ZUGRIFF_BESTELLUNG</em> benötigt.</p>
+    <p>Bei jeder Rechnung die geschrieben wird, werden die verkauften Produkte aus dem Inventar vorgemerkt und mit Anzahl, EAN und Produktbezeichnung vorgeblendet. Diese Liste kann genutzt werden um die Produkte zur Bestellung hinzuzufügen.</p>
+    <p>Die Bestelliste wird angezeigt und kann bearbeitet und gespeichert werden. Die zum Mitarbeiter hinterlegte Filiale ist ausschlaggebend, welche Bestellliste geladen und bearbeitet wird. Dabei wird der Ortsname der Filiale als Dateiname verwendet.</p>
     <h2 id="einstellungen">Einstellungen</h2>
     <p>Die Seite Kassenbuch unterteilt sich in die drei Unterseiten <strong>Allgemein</strong>, <strong>Filiale</strong> und <strong>Mitarbeiter</strong>.</p>
     <h3 id="allgemein">Allgemein</h3>
@@ -303,10 +310,14 @@
     <p>Die Rechnungsnummer setzt sich zusammen aus dem Kürzel der Filiale, dem Jahr des Rechnungsdatums und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.</p>
     <p>Ist beispielsweise das Rechnungsdatum der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Rechnungsnummer, wenn das Kürzel der Filiale L ist: <em>L180455</em></p>
     <p>In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.</p>
+    <p>Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).</p>
     <h4 id="auftragsnummer">Auftragsnummer</h4>
     <p>Die Auftragsnummer setzt sich zusammen aus dem Kürzel der Filiale, dem aktuellen Jahr und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.</p>
     <p>Ist beispielsweise heute der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Auftragsnummer, wenn das Kürzel der Filiale L ist: <em>L180455</em></p>
     <p>In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.</p>
+    <p>Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).</p>
+    <h4 id="ftpserver">FTP-Server</h4>
+    <p>Die hier hinterlegten FTP-Verbindungsdaten dienen zur Ablage der Bestellliste.</p>
     <h4 id="filiale">Filiale</h4>
     <p>In diesem Feld ist die Filiale zu wählen, dabei handelt es sich um eine globale Einstellung.
       Diese Einstellung wirkt sich darauf aus, welche Filiale gewählt wird, wenn ein Mitarbeiter erzeugt wird.
@@ -377,6 +388,7 @@
       <li><strong>ZUGRIFF<em>RECHNUNG</em>UEBERSICHT</strong> - Zugriff auf die Seite Übersicht Rechnungen</li>
       <li><strong>RECHNUNG</strong> - Ermöglicht das Anzeigen der Druckansicht einer Rechnung</li>
       <li><strong>RECHNUNG_VERWALTEN</strong> - Rechnungen dürfen angelegt, bearbeitet oder gelöscht werden</li>
+      <li><strong>ZUGRIFF_BESTELLUNG</strong> - Zugriff auf die Seite: Bestellung</li>
     </ul>
     <h2 id="meinprofil">Mein Profil</h2>
     <p>Jeder Mitarbeiter kann diese Seite rechts oben auf jeder Seite aufrufen.</p>
