@@ -154,16 +154,10 @@ var vm = new Vue({
         vm.entity.rechnung.nameDrucken = true;
       }
     },
-    openDsgvoFile: function(kunde) {
-      if (kunde && !kunde.dsgvo) {
-        window.open('kunde/download-dsgvo/' + kunde.id);
-      }
-    },
     openRechnung: function(response) {
       var data = response.data;
-      if (data.success) {
+      if (data.success || data.info) {
         var kunde = data.reparatur ? data.reparatur.kunde : data.kunde;
-        vm.openDsgvoFile(kunde);
         var id = data.rechnung.id;
         window.open('/rechnung-drucken.html?id=' + id, '_blank', 'resizable=yes');
         vm.init();

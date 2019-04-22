@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.sg.computerinsel.tools.kunde.model.Kunde;
+import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
@@ -54,6 +55,9 @@ public class ReparaturRestController {
 
     @Autowired
     private EinstellungenService einstellungenService;
+
+    @Autowired
+    private KundeService kundeService;
 
     @Autowired
     private MitarbeiterService mitarbeiterService;
@@ -148,7 +152,13 @@ public class ReparaturRestController {
                 }
             }
             final Reparatur saved = service.save(reparatur);
-            result.put(Message.SUCCESS.getCode(), "Der Reparaturauftrag '" + reparatur.getNummer() + "' wurde erfolgreich gespeichert");
+            if (isErstellen && reparatur.getKunde() != null && !reparatur.getKunde().isDsgvo()) {
+                kundeService.saveDsgvo(reparatur.getKunde().getId());
+                result.put(Message.INFO.getCode(),
+                        "Bitte händigen Sie dem Kunden zum Unterzeichnen die 'Einverständniserklärung in die Erhebung und Verarbeitung von Daten' aus.");
+            } else {
+                result.put(Message.SUCCESS.getCode(), "Der Reparaturauftrag '" + reparatur.getNummer() + "' wurde erfolgreich gespeichert");
+            }
             result.put("reparatur", saved);
             protokollService.write(saved.getId(), REPARATUR, saved.getNummer(), isErstellen ? ERSTELLT : GEAENDERT);
         }

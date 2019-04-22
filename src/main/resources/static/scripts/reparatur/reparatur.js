@@ -52,15 +52,9 @@ var vm = new Vue({
       vm.showKundeDialog = false;
       vm.entity.kunde = kunde;
     },
-    openDsgvoFile: function(kunde) {
-      if (!kunde.dsgvo) {
-        window.open('kunde/download-dsgvo/' + kunde.id);
-      }
-    },
     openReparatur: function(response) {
       var data = response.data;
-      if (data.success) {
-        vm.openDsgvoFile(data.reparatur.kunde);
+      if (data.success || data.info) {
         var id = data.reparatur.id;
         window.open('/reparatur-drucken.html?id=' + id, '_blank', 'resizable=yes');
         vm.init();
