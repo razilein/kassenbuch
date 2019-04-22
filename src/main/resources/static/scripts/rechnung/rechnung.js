@@ -192,11 +192,11 @@ var vm = new Vue({
           { clazz: 'ok2', title: 'Dieses Produkt wählen', clickFunc: vm.chooseFunction },
           { clazz: 'ok', title: 'Seriennummer und Hinweise ergänzen und wählen', clickFunc: vm.editFunction },
         ] },
-        { name: 'gruppe.kategorie.bezeichnung', title: 'Kategorie', width: 120 },
-        { name: 'gruppe.bezeichnung', title: 'Gruppe', width: 150 },
+        { name: 'hersteller', title: 'Hersteller', width: 150 },
         { name: 'bezeichnung', title: 'Bezeichnung', width: 500 },
         { name: 'ean', title: 'EAN', width: 120 },
-        { name: 'hersteller', title: 'Hersteller', width: 150 },
+        { name: 'bestand', title: 'Bestand', width: 100 },
+        { name: 'preisVkBrutto', title: 'VK Brutto', width: 100 }
       ];
     },
     getEntity: function() {
