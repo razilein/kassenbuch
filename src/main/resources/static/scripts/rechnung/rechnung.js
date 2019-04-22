@@ -61,11 +61,12 @@ var vm = new Vue({
       vm.endpreis = endpreis;
     },
     chooseFunction: function(row) {
+      var bezeichnung = row.hersteller ? row.hersteller + '-' + row.bezeichnung : row.bezeichnung;
       var produkt = {
         position: vm.entity.posten.length + 1,
         produkt: row,
         menge: 1,
-        bezeichnung: row.bezeichnung,
+        bezeichnung: bezeichnung,
         seriennummer: null,
         hinweis: null,
         preis: row.preisVkBrutto,
@@ -90,11 +91,12 @@ var vm = new Vue({
       vm.showEditDialog = true;
     },
     editFunction: function(row) {
+      var bezeichnung = row.hersteller ? row.hersteller + '-' + row.bezeichnung : row.bezeichnung;
       vm.editEntity = {
         position: vm.entity.posten.length + 1,
         produkt: row,
         menge: 1,
-        bezeichnung: row.bezeichnung,
+        bezeichnung: bezeichnung,
         seriennummer: null,
         hinweis: null,
         preis: row.preisVkBrutto,
