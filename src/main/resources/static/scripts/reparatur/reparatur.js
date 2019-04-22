@@ -62,7 +62,7 @@ var vm = new Vue({
       if (data.success) {
         vm.openDsgvoFile(data.reparatur.kunde);
         var id = data.reparatur.id;
-        window.open('/reparatur-drucken.html?id=' + id);
+        window.open('/reparatur-drucken.html?id=' + id, '_blank', 'resizable=yes');
         vm.init();
       }
       vm.result = data;

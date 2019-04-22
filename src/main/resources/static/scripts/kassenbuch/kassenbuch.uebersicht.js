@@ -36,7 +36,7 @@ var vm = new Vue({
     },
     
     openFunction: function(row) {
-      window.open('/kassenbuch-drucken.html?id=' + row.id);
+      window.open('/kassenbuch-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
     },
     
     setGridColumns: function() {

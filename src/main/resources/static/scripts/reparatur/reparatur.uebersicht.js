@@ -114,7 +114,7 @@ var vm = new Vue({
     },
     
     openFunction: function(row) {
-      window.open('/reparatur-drucken.html?id=' + row.id);
+      window.open('/reparatur-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
     },
     
     setGridColumns: function() {

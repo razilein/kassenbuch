@@ -60,7 +60,7 @@ var vm = new Vue({
       var data = response.data;
       if (data.success) {
         var id = data.kassenbuch.id;
-        window.open('/kassenbuch-drucken.html?id=' + id);
+        window.open('/kassenbuch-drucken.html?id=' + id, '_blank', 'resizable=yes');
         vm.init();
       }
       vm.result = data;

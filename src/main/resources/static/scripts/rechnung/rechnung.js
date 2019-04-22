@@ -165,7 +165,7 @@ var vm = new Vue({
         var kunde = data.reparatur ? data.reparatur.kunde : data.kunde;
         vm.openDsgvoFile(kunde);
         var id = data.rechnung.id;
-        window.open('/rechnung-drucken.html?id=' + id);
+        window.open('/rechnung-drucken.html?id=' + id, '_blank', 'resizable=yes');
         vm.init();
       }
       vm.result = data;
