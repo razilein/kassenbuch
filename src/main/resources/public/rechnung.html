@@ -24,14 +24,14 @@
           <div class="m1">
             <div class="m2m">
               <label for="searchForm_kategorie">Kategorie</label>
-              <select class="m2" id="searchForm_kategorie" v-model="grid.searchQuery.kategorie" v-on:change="updateGruppen()">
+              <select class="m2" id="searchForm_kategorie" v-model="grid.searchQuery.kategorie" v-on:change="updateGruppen()" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false">
                 <option value=""></option>
                 <option :value="k.key" v-for="k in kategorien">{{k.value}}</option>
               </select>
             </div>
             <div class="m2">
               <label for="searchForm_gruppe">Gruppe</label>
-              <select class="m2" id="searchForm_gruppe" v-model="grid.searchQuery.gruppe">
+              <select class="m2" id="searchForm_gruppe" v-model="grid.searchQuery.gruppe" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false">
                 <option value=""></option>
                 <option :value="g.key" v-for="g in gruppen">{{g.value}}</option>
               </select>
@@ -39,8 +39,9 @@
           </div>
           <div class="m1">
             <label for="searchForm_bezeichnung">Bezeichnung</label>
-            <input class="m1" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung" />
+            <input class="m1" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false" />
           </div>
+          <hr>
           <div class="m1">
             <div class="m2m">
               <label for="searchForm_ean">EAN</label>

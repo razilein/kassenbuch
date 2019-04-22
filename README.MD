@@ -73,6 +73,7 @@ Nach dem Speichern öffnet sich eine neue Seite für den Druck der Rechnung.
 Ebenfalls wird ein Informationsblatt zur DSGVO geöffnet, wenn der Kunde diese noch nicht erhalten hat.
 
 In der oberen Tabelle werden alle vorhandenen Produkte aufgezeigt. Mit Hilfe der Suchfilter können diese weiter eingeschränkt werden. Durch Drücken der Enter-Taste wird eine Suche ausgelöst.
+Dabei ist zu beachten, dass sobald das Suchfeld EAN ausgefüllt ist, die weiteren Suchfelder ignoriert werden.
 
 Wenn ein Produkt gewählt werden soll, kann das *Doppel-Häkchen-Icon* geklickt werden für eine Direktübernahme in die gewählten Posten. Alternativ kann das *OK-Icon* geklickt werden, um die Menge, den Rabatt, die Bezeichnung, die Seriennummer und den Hinweis vor der Übernahme in die gewählten Posten anzupassen.
 
@@ -140,6 +141,7 @@ Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_INVENTAR_PRODUKT* ben
 Um Produkte Anlegen, Bearbeiten oder Löschen zu können, wird das Recht *INVENTAR_PRODUKT_VERWALTEN* benötigt.
 
 Auf dieser Seite werden alle Produkte angezeigt. Mit Hilfe der Suchfilter kann die Anzeige weiter eingeschränkt werden.
+Dabei ist zu beachten, dass sobald das Suchfeld EAN ausgefüllt ist, die weiteren Suchfelder ignoriert werden.
 
 Wird das Kontrollkästchen *Schnellerfassung* aktiviert, wird nach jedem Drücken der *Enter*-Taste oder Klicken auf *Suchen* die Anzahl des gefunden Produktes
 um 1 erhöht, wenn es nur ein einziges Suchergebnis gibt und das Produkt nicht die Einstellung *Unbegrenzt* gesetzt hat.

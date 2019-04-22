@@ -21,6 +21,10 @@ h1 {
   height: 25px;
 }
 
+hr {
+  border-color: #80ccff;
+}
+
 #header {
   background-color: #102759;
   color: white;
