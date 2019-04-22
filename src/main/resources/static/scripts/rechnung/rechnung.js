@@ -144,11 +144,15 @@ var vm = new Vue({
     handleKundeResponse: function(kunde) {
       vm.showKundeDialog = false;
       vm.entity.rechnung.kunde = kunde;
+      vm.entity.rechnung.nameDrucken = true;
     },
     handleReparaturResponse: function(reparatur) {
       vm.showReparaturDialog = false;
       vm.entity.rechnung.reparatur = reparatur;
       vm.entity.rechnung.kunde = reparatur.kunde;
+      if (reparatur.kunde) {
+        vm.entity.rechnung.nameDrucken = true;
+      }
     },
     openDsgvoFile: function(kunde) {
       if (kunde && !kunde.dsgvo) {

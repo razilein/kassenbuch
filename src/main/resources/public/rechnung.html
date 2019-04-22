@@ -130,7 +130,7 @@
           <div class="m1" v-if="entity.rechnung.kunde">
             <label for="rechnungEditForm_kunde">Kunde</label>
             <button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
-            <button class="delete btnSmall" title="Kunde deselektieren" @click="entity.rechnung.kunde = {}"></button>
+            <button class="delete btnSmall" title="Kunde deselektieren" @click="entity.rechnung.kunde = {}; entity.rechnung.nameDrucken = false;"></button>
             <textarea class="m1" id="rechnungEditForm_kunde" readonly v-model="entity.rechnung.kunde.completeWithAdress"></textarea>
           </div>
           <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">Speichern</button>
