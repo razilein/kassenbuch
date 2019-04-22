@@ -114,7 +114,7 @@ var vm = new Vue({
     },
     
     openFunction: function(row) {
-      window.open('/rechnung-drucken.html?id=' + row.id);
+      window.open('/rechnung-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
     },
     
     setGridColumns: function() {

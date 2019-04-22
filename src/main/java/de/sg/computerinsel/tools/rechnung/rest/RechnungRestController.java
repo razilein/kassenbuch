@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.sg.computerinsel.tools.bestellung.service.BestellungService;
 import de.sg.computerinsel.tools.inventar.model.Produkt;
 import de.sg.computerinsel.tools.inventar.service.InventarService;
+import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
 import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.rechnung.model.Zahlart;
@@ -51,6 +52,9 @@ public class RechnungRestController {
 
     @Autowired
     private InventarService inventarService;
+
+    @Autowired
+    private KundeService kundeService;
 
     @Autowired
     private RechnungService service;
@@ -123,7 +127,13 @@ public class RechnungRestController {
                 inventarAnpassen(dto);
                 bestellungService.saveBestellung(dto.getPosten());
             }
-            result.put(Message.SUCCESS.getCode(), "Die Rechnung " + saved.getNummer() + " erfolgreich gespeichert.");
+            if (isErstellt && rechnung.getKunde() != null && !rechnung.getKunde().isDsgvo()) {
+                kundeService.saveDsgvo(rechnung.getKunde().getId());
+                result.put(Message.INFO.getCode(),
+                        "Bitte händigen Sie dem Kunden zum Unterzeichnen die 'Einverständniserklärung in die Erhebung und Verarbeitung von Daten' aus.");
+            } else {
+                result.put(Message.SUCCESS.getCode(), "Die Rechnung " + saved.getNummer() + " erfolgreich gespeichert.");
+            }
             result.put("rechnung", saved);
             protokollService.write(saved.getId(), RECHNUNG, String.valueOf(rechnung.getNummer()), isErstellt ? ERSTELLT : GEAENDERT);
         }

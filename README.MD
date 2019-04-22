@@ -25,7 +25,7 @@ Um den Reparaturauftrag nach der Erstellung ansehen und drucken zu können, wird
 
 Auf dieser Seite befinden sich verschiedene Felder die beim Erstellen eines Reparaturauftrages zu befüllen sind.
 Nach dem Speichern öffnet sich eine neue Seite für den Druck des Auftrages.
-Ebenfalls wird ein Informationsblatt zur DSGVO geöffnet, wenn der Kunde diese noch nicht erhalten hat.
+Ebenfalls wird ein Hinweis geöffnet, dass das DSGVO-Informationsblatt vom Kunden zu Unterzeichnen ist, wenn er dies noch nicht getan hat.
 
 #### Abholdatum/-zeit
 Das Abholdatum und die Abholzeit werden dabei automatisch gefüllt.
@@ -70,9 +70,10 @@ Um die Rechnung nach der Erstellung ansehen und drucken zu können, wird das Rec
 
 Auf dieser Seite befinden sich verschiedene Felder die beim Erstellen einer Rechnung zu befüllen sind.
 Nach dem Speichern öffnet sich eine neue Seite für den Druck der Rechnung.
-Ebenfalls wird ein Informationsblatt zur DSGVO geöffnet, wenn der Kunde diese noch nicht erhalten hat.
+Ebenfalls wird ein Hinweis geöffnet, dass das DSGVO-Informationsblatt vom Kunden zu Unterzeichnen ist, wenn er dies noch nicht getan hat.
 
 In der oberen Tabelle werden alle vorhandenen Produkte aufgezeigt. Mit Hilfe der Suchfilter können diese weiter eingeschränkt werden. Durch Drücken der Enter-Taste wird eine Suche ausgelöst.
+Dabei ist zu beachten, dass sobald das Suchfeld EAN ausgefüllt ist, die weiteren Suchfelder ignoriert werden.
 
 Wenn ein Produkt gewählt werden soll, kann das *Doppel-Häkchen-Icon* geklickt werden für eine Direktübernahme in die gewählten Posten. Alternativ kann das *OK-Icon* geklickt werden, um die Menge, den Rabatt, die Bezeichnung, die Seriennummer und den Hinweis vor der Übernahme in die gewählten Posten anzupassen.
 
@@ -140,6 +141,7 @@ Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_INVENTAR_PRODUKT* ben
 Um Produkte Anlegen, Bearbeiten oder Löschen zu können, wird das Recht *INVENTAR_PRODUKT_VERWALTEN* benötigt.
 
 Auf dieser Seite werden alle Produkte angezeigt. Mit Hilfe der Suchfilter kann die Anzeige weiter eingeschränkt werden.
+Dabei ist zu beachten, dass sobald das Suchfeld EAN ausgefüllt ist, die weiteren Suchfelder ignoriert werden.
 
 Wird das Kontrollkästchen *Schnellerfassung* aktiviert, wird nach jedem Drücken der *Enter*-Taste oder Klicken auf *Suchen* die Anzahl des gefunden Produktes
 um 1 erhöht, wenn es nur ein einziges Suchergebnis gibt und das Produkt nicht die Einstellung *Unbegrenzt* gesetzt hat.
@@ -282,7 +284,7 @@ Die Seite Kassenbuch unterteilt sich in die drei Unterseiten **Allgemein**, **Fi
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_EINSTELLUNGEN_ALLGEMEIN* benötigt.
 
 #### Ablageverzeichnis
-Das hier definierte Verzeichnis wird verwendet, um die Statistiken und Kassenstände abzulegen. Zudem muss das DSGVO-Informationsblatt ausgehend dieses Verzeichnisses eine Ebene höher mit dem Dateinamen **Einwilligung_DSGVO.pdf** abgelegt werden.
+Das hier definierte Verzeichnis wird verwendet, um die Statistiken und Kassenstände abzulegen.
 
 #### Rechnungsnummer
 Die Rechnungsnummer setzt sich zusammen aus dem Kürzel der Filiale, dem Jahr des Rechnungsdatums und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.

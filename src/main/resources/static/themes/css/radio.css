@@ -28,6 +28,7 @@
 }
 
 .checkmark {
+  border: 1px solid #80ccff;;
   position: absolute;
   top: 0;
   left: 0;

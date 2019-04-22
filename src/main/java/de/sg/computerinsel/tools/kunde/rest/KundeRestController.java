@@ -6,11 +6,6 @@ import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ERSTELLT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GEAENDERT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GELOESCHT;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,12 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,15 +28,11 @@ import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
 import de.sg.computerinsel.tools.rest.ValidationUtils;
-import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.ProtokollService;
 
 @RestController
 @RequestMapping("/kunde")
 public class KundeRestController {
-
-    @Autowired
-    private EinstellungenService einstellungenService;
 
     @Autowired
     private ProtokollService protokollService;
@@ -57,19 +43,6 @@ public class KundeRestController {
     @PostMapping
     public Page<Kunde> getKunden(@RequestBody final SearchData data) {
         return service.listKunden(data.getData().getPagination(), data.getConditions());
-    }
-
-    @GetMapping("/download-dsgvo/{id}")
-    public ResponseEntity<Resource> getFile(@PathVariable final Integer id) throws IOException {
-        service.saveDsgvo(id);
-        final File file = new File(einstellungenService.getDsgvoFilepath());
-        final Path path = Paths.get(einstellungenService.getDsgvoFilepath()).toAbsolutePath();
-        final ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
-
-        final HttpHeaders header = new HttpHeaders();
-        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Einwilligung_DSGVO.pdf");
-        return ResponseEntity.ok().headers(header).contentLength(file.length()).contentType(MediaType.parseMediaType("application/pdf"))
-                .body(resource);
     }
 
     @GetMapping("/{id}")

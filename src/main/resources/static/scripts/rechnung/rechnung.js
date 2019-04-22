@@ -61,11 +61,12 @@ var vm = new Vue({
       vm.endpreis = endpreis;
     },
     chooseFunction: function(row) {
+      var bezeichnung = row.hersteller ? row.hersteller + '-' + row.bezeichnung : row.bezeichnung;
       var produkt = {
         position: vm.entity.posten.length + 1,
         produkt: row,
         menge: 1,
-        bezeichnung: row.bezeichnung,
+        bezeichnung: bezeichnung,
         seriennummer: null,
         hinweis: null,
         preis: row.preisVkBrutto,
@@ -90,11 +91,12 @@ var vm = new Vue({
       vm.showEditDialog = true;
     },
     editFunction: function(row) {
+      var bezeichnung = row.hersteller ? row.hersteller + '-' + row.bezeichnung : row.bezeichnung;
       vm.editEntity = {
         position: vm.entity.posten.length + 1,
         produkt: row,
         menge: 1,
-        bezeichnung: row.bezeichnung,
+        bezeichnung: bezeichnung,
         seriennummer: null,
         hinweis: null,
         preis: row.preisVkBrutto,
@@ -142,24 +144,22 @@ var vm = new Vue({
     handleKundeResponse: function(kunde) {
       vm.showKundeDialog = false;
       vm.entity.rechnung.kunde = kunde;
+      vm.entity.rechnung.nameDrucken = true;
     },
     handleReparaturResponse: function(reparatur) {
       vm.showReparaturDialog = false;
       vm.entity.rechnung.reparatur = reparatur;
       vm.entity.rechnung.kunde = reparatur.kunde;
-    },
-    openDsgvoFile: function(kunde) {
-      if (kunde && !kunde.dsgvo) {
-        window.open('kunde/download-dsgvo/' + kunde.id);
+      if (reparatur.kunde) {
+        vm.entity.rechnung.nameDrucken = true;
       }
     },
     openRechnung: function(response) {
       var data = response.data;
-      if (data.success) {
+      if (data.success || data.info) {
         var kunde = data.reparatur ? data.reparatur.kunde : data.kunde;
-        vm.openDsgvoFile(kunde);
         var id = data.rechnung.id;
-        window.open('/rechnung-drucken.html?id=' + id);
+        window.open('/rechnung-drucken.html?id=' + id, '_blank', 'resizable=yes');
         vm.init();
       }
       vm.result = data;
@@ -190,11 +190,11 @@ var vm = new Vue({
           { clazz: 'ok2', title: 'Dieses Produkt wählen', clickFunc: vm.chooseFunction },
           { clazz: 'ok', title: 'Seriennummer und Hinweise ergänzen und wählen', clickFunc: vm.editFunction },
         ] },
-        { name: 'gruppe.kategorie.bezeichnung', title: 'Kategorie', width: 120 },
-        { name: 'gruppe.bezeichnung', title: 'Gruppe', width: 150 },
+        { name: 'hersteller', title: 'Hersteller', width: 150 },
         { name: 'bezeichnung', title: 'Bezeichnung', width: 500 },
         { name: 'ean', title: 'EAN', width: 120 },
-        { name: 'hersteller', title: 'Hersteller', width: 150 },
+        { name: 'bestand', title: 'Bestand', width: 100 },
+        { name: 'preisVkBrutto', title: 'VK Brutto', width: 100 }
       ];
     },
     getEntity: function() {
