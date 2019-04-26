@@ -28,7 +28,12 @@ var vm = new Vue({
       
       vm.getEntity()
         .then(vm.setEntity)
-        .then(vm.setZahlart);
+        .then(vm.setZahlart)
+        .then(vm.openPrint);
+    },
+    
+    openPrint: function() {
+      window.print();
     },
     
     setZahlart: function() {

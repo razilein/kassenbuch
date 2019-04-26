@@ -17,7 +17,13 @@ var vm = new Vue({
       this.currentDate = moment().format('DD.MM.YYYY');
       this.currentDay = moment().format('dddd');
       
-      this.getEntity().then(this.setEntity);
+      this.getEntity()
+        .then(this.setEntity)
+        .then(this.openPrint);
+    },
+    
+    openPrint: function() {
+      window.print();
     },
     
     getEntity: function() {
