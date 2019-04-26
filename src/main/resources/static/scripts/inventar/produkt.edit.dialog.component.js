@@ -51,7 +51,14 @@ Vue.component('edit-dialog', {
     </div>
   </div>
   <div class="m1">
-    <div class="m2 right">
+    <div class="m2m">
+      <div class="m3 right" v-if="!entity.bestandUnendlich">
+        Vorschlag VK-Preis:<br>
+        <span v-if="entity.preisEkBrutto">EK-Brutto + 10%: {{formatMoney(entity.preisEkBrutto * 1.10)}}<br></span>
+        <span v-if="entity.preisEkBrutto">Aufgerundet: {{formatMoney(Math.ceil(entity.preisEkBrutto * 1.10))}}</span>
+      </div>
+    </div>
+    <div class="m2">
       <div class="m4m">
         <label for="produktEditForm_preisVkNetto">VK-Preis (netto)</label>
         <input class="m4" id="produktEditForm_preisVkNetto" min="0.00" step="1.00" type="number" v-model="entity.preisVkNetto" v-on:change="berechnePreisByVkNetto()" />
