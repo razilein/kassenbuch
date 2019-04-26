@@ -14,6 +14,7 @@ var vm = new Vue({
     result: {},
     showDialog: false,
     showKundeDialog: false,
+    wochentagabholdatum: ''
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
@@ -66,6 +67,7 @@ var vm = new Vue({
       return axios.get('/reparatur/abholdatum/' + vm.entity.expressbearbeitung);
     },
     setAbholdatumZeit: function(response) {
+      vm.wochentagabholdatum = formatDayOfWeek(response.data.abholdatum);
       vm.entity.abholdatum = response.data.abholdatum;
       vm.entity.abholzeit = response.data.abholzeit;
     },
@@ -73,6 +75,7 @@ var vm = new Vue({
       return axios.get('/reparatur/' + -1);
     },
     setEntity: function(response) {
+      vm.wochentagabholdatum = formatDayOfWeek(response.data.abholdatum);
       response.data.funktionsfaehig = 0;
       vm.entity = response.data;
     },

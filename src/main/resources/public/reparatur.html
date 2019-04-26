@@ -65,9 +65,13 @@
             </label>
           </div>
           <div class="m1">
-            <div class="m2m">
+            <div class="m4m">
               <label for="reparaturEditForm_abholdatum">Abholdatum</label>
-              <input class="m2" id="reparaturEditForm_abholdatum" type="date" v-model="entity.abholdatum" />
+              <input class="m4" id="reparaturEditForm_abholdatum" type="date" v-model="entity.abholdatum" v-on:change="wochentagabholdatum = formatDayOfWeek(entity.abholdatum);"/>
+            </div>
+            <div class="m4m">
+              <label for="reparaturEditForm_wochentag_abholdatum">Wochentag</label>
+              <input class="m4" id="reparaturEditForm_wochentag_abholdatum" readonly type="text" v-model="vm.wochentagabholdatum" />
             </div>
             <div class="m2">
               <label for="reparaturEditForm_abholzeit">Abholzeit</label>
