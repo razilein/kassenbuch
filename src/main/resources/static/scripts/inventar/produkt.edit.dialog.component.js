@@ -71,6 +71,7 @@ Vue.component('edit-dialog', {
   </div>
       `),
   props: {
+    duplicate: Boolean,
     restUrlGet: String,
     restUrlSave: String,
     title: String,
@@ -100,7 +101,6 @@ Vue.component('edit-dialog', {
       this.entity.preisVkNetto = Number((preisVkbrutto / 1.19).toFixed(2));
     },
     berechnePreisByEkNetto: function() {
-      var preisEkNetto = this.entity.preisEkNetto;
       this.entity.preisEkBrutto = Number((this.entity.preisEkNetto * 1.19).toFixed(2));
     },
     berechnePreisByEkBrutto: function() {
@@ -134,6 +134,9 @@ Vue.component('edit-dialog', {
       return axios.get(this.restUrlGet);
     },
     setEntity: function(response) {
+      if (this.duplicate) {
+        response.data.id = null;
+      }
       this.entity = response.data;
     },
     getGruppen: function() {
