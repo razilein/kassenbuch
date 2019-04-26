@@ -82,11 +82,14 @@ function hideLoader() {
   }
 }
 
-function createEditDialogTemplate(body) {
+function createEditDialogTemplate(body, big) {
+  var style = big ? 'style="width: 1000px !important;"' : '';
   return (
     `<div class="dialog-mask">
   <div class="dialog-wrapper">
-    <div class="dialog-container info">
+    <div class="dialog-container info" ` +
+      style +
+    `>
       <h3 class="dialog-header">{{title}}</h3>
       <div class="dialog-body">` +
     body +
@@ -106,11 +109,14 @@ function createEditDialogTemplate(body) {
   );
 }
 
-function createEditDialogTemplateWithoutSaveButton(body) {
+function createEditDialogTemplateWithoutSaveButton(body, big) {
+  var style = big ? 'style="width: 1000px !important;"' : '';
   return (
     `<div class="dialog-mask">
   <div class="dialog-wrapper">
-    <div class="dialog-container info">
+    <div class="dialog-container info" ` +
+    style +
+    `>
       <h3 class="dialog-header">{{title}}</h3>
       <div class="dialog-body">` +
     body +
