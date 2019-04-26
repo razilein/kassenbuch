@@ -100,8 +100,11 @@ public class ReparaturRestController {
     @GetMapping("/abholdatum/{express}")
     public Map<String, Object> getAbholdatumUndZeit(@PathVariable final boolean express) {
         final Map<String, Object> result = new HashMap<>();
-        result.put("abholdatum", berechneAbholdatum(express));
-        result.put("abholzeit", berechneAbholzeit(express).format(DateTimeFormatter.ofPattern("HH:mm")));
+        final LocalDate abholdatum = berechneAbholdatum(express);
+        result.put("abholdatum", abholdatum);
+
+        final LocalTime abholzeit = abholdatum.getDayOfWeek() == DayOfWeek.SATURDAY ? LocalTime.of(12, 0) : berechneAbholzeit(express);
+        result.put("abholzeit", abholzeit.format(DateTimeFormatter.ofPattern("HH:mm")));
         return result;
     }
 
