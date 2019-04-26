@@ -26,6 +26,8 @@ Vue.component('reparatur-suchen-dialog', {
       :rest-url="grid.restUrl"
       :reload="grid.reload"
       :search-query="grid.searchQuery"
+      :sort="grid.sort"
+      :sortorder="grid.sortorder"
       @reloaded="grid.reload = false"
     ></grid>
   </div>
@@ -68,6 +70,8 @@ Vue.component('reparatur-suchen-dialog', {
         searchQuery: {
           nachname: this.kunde ? (this.kunde.nachname || this.kunde.firmenname) : null,
         },
+        sort: 'nummer',
+        sortorder: 'desc'
       },
       result: {},
       title: 'Reparaturauftrag suchen'
