@@ -17,6 +17,28 @@ function formatDate(date) {
   return formatDatetimeByFormatter(date, 'DD.MM.YYYY');
 }
 
+function formatDayOfWeek(date) {
+  var dayOfWeek = moment(date, 'YYYY-MM-DD').format('d');
+  switch (dayOfWeek) {
+    case '1':
+      return 'Montag';
+    case '2':
+      return 'Dienstag';
+    case '3':
+      return 'Mittwoch';
+    case '4':
+      return 'Donnerstag';
+    case '5':
+      return 'Freitag';
+    case '6':
+      return 'Samstag';
+    case '7':
+      return 'Sonntag';
+    default:
+      return '';
+  }
+}
+
 function formatDatetime(datetime) {
   return formatDatetimeByFormatter(datetime, 'DD.MM.YYYY HH:mm');
 }
@@ -82,11 +104,14 @@ function hideLoader() {
   }
 }
 
-function createEditDialogTemplate(body) {
+function createEditDialogTemplate(body, big) {
+  var style = big ? 'style="width: 1000px !important;"' : '';
   return (
     `<div class="dialog-mask">
   <div class="dialog-wrapper">
-    <div class="dialog-container info">
+    <div class="dialog-container info" ` +
+      style +
+    `>
       <h3 class="dialog-header">{{title}}</h3>
       <div class="dialog-body">` +
     body +
@@ -106,11 +131,14 @@ function createEditDialogTemplate(body) {
   );
 }
 
-function createEditDialogTemplateWithoutSaveButton(body) {
+function createEditDialogTemplateWithoutSaveButton(body, big) {
+  var style = big ? 'style="width: 1000px !important;"' : '';
   return (
     `<div class="dialog-mask">
   <div class="dialog-wrapper">
-    <div class="dialog-container info">
+    <div class="dialog-container info" ` +
+    style +
+    `>
       <h3 class="dialog-header">{{title}}</h3>
       <div class="dialog-body">` +
     body +

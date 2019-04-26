@@ -122,7 +122,7 @@ var vm = new Vue({
         { name: 'functions',
           title: 'Funktionen',
           sortable: false,
-          width: 120,
+          width: 170,
           formatter: [
           { clazz: 'open-new-tab', disabled: vm.hasNotRoleRechnungAnzeigen, title: 'Rechnung öffnen', clickFunc: vm.openFunction },
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Rechnung bearbeiten', clickFunc: vm.editFunction },
@@ -132,7 +132,7 @@ var vm = new Vue({
         { name: 'nummer', title: 'Rechn.-Nr.', width: 80 },
         { name: 'reparatur.nummer', title: 'Rep.-Nr.', width: 80 },
         { name: 'kunde.nummer', title: 'Kd.-Nr.', width: 80 },
-        { name: 'kunde.nameKomplett', title: 'Kunde', width: 100 },
+        { name: 'kunde.nameKomplett', title: 'Kunde', width: 200 },
         { name: 'datum', title: 'Datum', width: 120, formatter: ['date'] },
         { name: 'ersteller', title: 'Ersteller', width: 150 },
       ];

@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import de.sg.computerinsel.tools.CurrencyUtils;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import lombok.Getter;
 import lombok.Setter;
@@ -58,5 +59,20 @@ public class Produkt extends IntegerBaseObject {
 
     @Column(name = "preis_vk_netto")
     private BigDecimal preisVkNetto = BigDecimal.ZERO;
+
+    public String getPreise() {
+        final StringBuilder builder = new StringBuilder();
+        appendPreis(builder, "EK Nto: ", preisEkNetto);
+        appendPreis(builder, "VK Bto: ", preisVkBrutto);
+        return builder.toString();
+    }
+
+    private void appendPreis(final StringBuilder builder, final String text, final BigDecimal preis) {
+        if (preis != null) {
+            builder.append(text);
+            builder.append(CurrencyUtils.format(preis));
+            builder.append(System.lineSeparator());
+        }
+    }
 
 }

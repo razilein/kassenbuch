@@ -21,9 +21,9 @@ public class KundeService {
     private final KundeRepository kundeRepository;
 
     public Page<Kunde> listKunden(final PageRequest pagination, final Map<String, String> conditions) {
-        final String nachname = SearchQueryUtils.getAndReplaceJoker(conditions, "nachname");
-        final String vorname = SearchQueryUtils.getAndReplaceJoker(conditions, "vorname");
-        final String plz = SearchQueryUtils.getAndReplaceJoker(conditions, "plz");
+        final String nachname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "nachname");
+        final String vorname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "vorname");
+        final String plz = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "plz");
 
         if (StringUtils.isBlank(nachname) && StringUtils.isBlank(vorname) && StringUtils.isBlank(plz)) {
             return kundeRepository.findAll(pagination);

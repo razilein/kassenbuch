@@ -45,11 +45,11 @@ public class RechnungService {
     private final RechnungspostenRepository rechnungspostenRepository;
 
     public Page<Rechnung> listRechnungen(final PageRequest pagination, final Map<String, String> conditions) {
-        final String nummer = SearchQueryUtils.getAndReplaceJoker(conditions, "nummer");
-        final String reparaturnummer = SearchQueryUtils.getAndReplaceJoker(conditions, "reparaturnummer");
-        final String kundennummer = SearchQueryUtils.getAndReplaceJoker(conditions, "kundenummer");
-        final String ersteller = SearchQueryUtils.getAndReplaceJoker(conditions, "ersteller");
-        final String kundeId = SearchQueryUtils.getAndReplaceJoker(conditions, "kunde.id");
+        final String nummer = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "nummer");
+        final String reparaturnummer = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "reparaturnummer");
+        final String kundennummer = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "kundenummer");
+        final String ersteller = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "ersteller");
+        final String kundeId = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "kunde.id");
         final boolean istNichtBezahlt = BooleanUtils.toBoolean(conditions.get("bezahlt"));
 
         if (StringUtils.isNumeric(kundeId)) {

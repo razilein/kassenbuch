@@ -29,6 +29,11 @@ button.delete {
   -webkit-mask: url("../icons/delete.svg") no-repeat center;
 }
 
+button.duplicate {
+  mask: url("../icons/duplicate.svg") no-repeat center;
+  -webkit-mask: url("../icons/duplicate.svg") no-repeat center;
+}
+
 button.edit {
   mask: url("../icons/edit.svg") no-repeat center;
   -webkit-mask: url("../icons/edit.svg") no-repeat center;
@@ -98,7 +103,7 @@ button.zahnrad {
   -webkit-mask: url("../icons/zahnrad.svg") no-repeat center;
 }
 
-button.add, button.bad, button.delete, button.edit, button.euro, button.good, button.key, button.kunde, button.minus,
+button.add, button.bad, button.delete, button.duplicate, button.edit, button.euro, button.good, button.key, button.kunde, button.minus,
 button.ok, button.ok2, button.open-new-tab, button.recht, button.zahnrad {
   background-color: #1a8cff;
   float: none;

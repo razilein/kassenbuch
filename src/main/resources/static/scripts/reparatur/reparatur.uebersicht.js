@@ -122,7 +122,7 @@ var vm = new Vue({
         { name: 'functions',
           title: 'Funktionen',
           sortable: false,
-          width: 120,
+          width: 170,
           formatter: [
           { clazz: 'open-new-tab', disabled: vm.hasNotRoleReparaturAnzeigen, title: 'Reparaturauftrag öffnen', clickFunc: vm.openFunction },
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Reparaturauftrag bearbeiten', clickFunc: vm.editFunction },
@@ -131,8 +131,8 @@ var vm = new Vue({
         ] },
         { name: 'nummer', title: 'Rep.-Nr.', width: 80 },
         { name: 'kunde.nummer', title: 'Kd.-Nr.', width: 80 },
-        { name: 'kunde.nameKomplett', sortable: false, title: 'Kunde', width: 100 },
-        { name: 'geraet', title: 'Gerät', width: 100 },
+        { name: 'kunde.nameKomplett', sortable: false, title: 'Kunde', width: 200 },
+        { name: 'geraet', title: 'Gerät', width: 350 },
         { name: 'expressbearbeitung', title: 'Express', width: 90, formatter: ['boolean'] },
         { name: 'abholdatum', title: 'Abholdatum', width: 120, formatter: ['date'] },
         { name: 'erstelltAm', title: 'Erstellt am', width: 100 }

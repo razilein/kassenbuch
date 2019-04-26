@@ -151,6 +151,8 @@ Durch Klick auf das *Plus-Icon* kann ein neues Produkt angelegt werden.
 
 Durch Klick auf das *Bearbeiten-Icon* können die Produktdaten bearbeitet werden. Dabei ist es auch möglich, das Produkt einer anderen Produktgruppe oder -kategorie zuzuordnen.
 
+Durch Klick auf das *Duplizieren-Icon* kann das gewählte Produkt dupliziert werden. Erst durch Bestätigen mit *Speichern* wird das Produkt als neuer Datensatz angelegt.
+
 Durch Klick auf das *Löschen-Icon* kann nach erneuter Bestätigung das Produkt gelöscht werden. Dabei werden keine Posten aus den Rechnungen gelöscht. Die Bezeichnung der Posten wird in der Rechnung weiterhin angezeigt, da diese gesondert gespeichert wird.
 
 #### Ungebrenzter Bestand

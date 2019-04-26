@@ -18,6 +18,7 @@ Vue.component('reparatur-suchen-dialog', {
       <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
     </div>
   </div>
+  <div style="width: 1000px; height: 120px;"></div>
   <div id="gridDiv" v-if="grid.gridColumns.length > 0">
     <grid
       :actions="grid.actions"
@@ -26,11 +27,13 @@ Vue.component('reparatur-suchen-dialog', {
       :rest-url="grid.restUrl"
       :reload="grid.reload"
       :search-query="grid.searchQuery"
+      :sort="grid.sort"
+      :sortorder="grid.sortorder"
       @reloaded="grid.reload = false"
     ></grid>
   </div>
   <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
-      `),
+      `, true),
   props: {
     kunde: Object,
   },
@@ -59,15 +62,17 @@ Vue.component('reparatur-suchen-dialog', {
             formatter: [
             { clazz: 'ok', title: 'Diesen Reparaturauftrag wählen', clickFunc: this.chooseFunction },
           ] },
-          { name: 'nummer', title: 'Rep.-Nr.', width: 150 },
-          { name: 'kunde.nachname', title: 'Kunde', width: 100 },
-          { name: 'geraet', title: 'Gerät', width: 100 },
+          { name: 'nummer', title: 'Rep.-Nr.', width: 80 },
+          { name: 'geraet', title: 'Gerät', width: 400 },
+          { name: 'kunde.nameKomplett', title: 'Kunde', width: 200 },
         ],
         reload: false,
         restUrl: 'reparatur',
         searchQuery: {
           nachname: this.kunde ? (this.kunde.nachname || this.kunde.firmenname) : null,
         },
+        sort: 'nummer',
+        sortorder: 'desc'
       },
       result: {},
       title: 'Reparaturauftrag suchen'

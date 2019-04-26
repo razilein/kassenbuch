@@ -102,7 +102,7 @@ Vue.component('edit-dialog', {
   @close="showEditDialog = false"
   @saved="handleEditResponse"
 ></posten-edit-dialog>
-      `),
+      `, true),
   props: {
     restUrlGet: String,
     restUrlSave: String,

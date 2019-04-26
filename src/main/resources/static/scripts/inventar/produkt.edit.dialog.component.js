@@ -51,7 +51,14 @@ Vue.component('edit-dialog', {
     </div>
   </div>
   <div class="m1">
-    <div class="m2 right">
+    <div class="m2m">
+      <div class="m3 right" v-if="!entity.bestandUnendlich">
+        Vorschlag VK-Preis:<br>
+        <span v-if="entity.preisEkBrutto">EK-Brutto + 10%: {{formatMoney(entity.preisEkBrutto * 1.10)}}<br></span>
+        <span v-if="entity.preisEkBrutto">Aufgerundet: {{formatMoney(Math.ceil(entity.preisEkBrutto * 1.10))}}</span>
+      </div>
+    </div>
+    <div class="m2">
       <div class="m4m">
         <label for="produktEditForm_preisVkNetto">VK-Preis (netto)</label>
         <input class="m4" id="produktEditForm_preisVkNetto" min="0.00" step="1.00" type="number" v-model="entity.preisVkNetto" v-on:change="berechnePreisByVkNetto()" />
@@ -64,6 +71,7 @@ Vue.component('edit-dialog', {
   </div>
       `),
   props: {
+    duplicate: Boolean,
     restUrlGet: String,
     restUrlSave: String,
     title: String,
@@ -93,7 +101,6 @@ Vue.component('edit-dialog', {
       this.entity.preisVkNetto = Number((preisVkbrutto / 1.19).toFixed(2));
     },
     berechnePreisByEkNetto: function() {
-      var preisEkNetto = this.entity.preisEkNetto;
       this.entity.preisEkBrutto = Number((this.entity.preisEkNetto * 1.19).toFixed(2));
     },
     berechnePreisByEkBrutto: function() {
@@ -127,6 +134,9 @@ Vue.component('edit-dialog', {
       return axios.get(this.restUrlGet);
     },
     setEntity: function(response) {
+      if (this.duplicate) {
+        response.data.id = null;
+      }
       this.entity = response.data;
     },
     getGruppen: function() {

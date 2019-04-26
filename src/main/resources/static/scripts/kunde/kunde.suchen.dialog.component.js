@@ -50,7 +50,7 @@ Vue.component('kunde-suchen-dialog', {
     @saved="handleEditResponse"
   ></kunde-edit-dialog>
   <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
-      `),
+      `, true),
   props: {
     kunde: Object,
   },
@@ -88,12 +88,13 @@ Vue.component('kunde-suchen-dialog', {
             { clazz: 'ok', title: 'Diesen Kunden wählen', clickFunc: this.chooseFunction },
             { clazz: 'edit', disabled: this.hasNotRoleVerwalten, title: 'Kunde bearbeiten', clickFunc: this.editFunction },
           ] },
-          { name: 'nummer', title: 'Nr.', width: 50 },
+          { name: 'telefon', title: 'Telefon', width: 100 },
           { name: 'firmenname', title: 'Firma', width: 150 },
           { name: 'nachname', title: 'Nachname', width: 150 },
           { name: 'vorname', title: 'Vorname', width: 100 },
           { name: 'strasse', title: 'Straße', width: 100 },
           { name: 'ort', title: 'Ort', width: 100 },
+          { name: 'nummer', title: 'Nr.', width: 50 },
         ],
         reload: false,
         restUrl: 'kunde',

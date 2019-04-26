@@ -49,7 +49,7 @@ Vue.component('grid', {
         <tr v-for="entry in data">
           <td
             :title="getEntryByKey(entry, key.name)"
-            v-for="key in columns">
+            v-for="key in columns" :style="{ width: key.width }">
               <button
                 @click="clickFunc(entry, form.clickFunc)"
                 :class="getStringOrFuncResult(form.clazz, entry)"

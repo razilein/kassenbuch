@@ -37,11 +37,11 @@ public class ReparaturService {
     private final ReparaturRepository reparaturRepository;
 
     public Page<Reparatur> listReparaturen(final PageRequest pagination, final Map<String, String> conditions) {
-        final String nachname = SearchQueryUtils.getAndReplaceJoker(conditions, "nachname");
-        final String nummer = SearchQueryUtils.getAndReplaceJoker(conditions, "nummer");
-        String kundennummer = SearchQueryUtils.getAndReplaceJoker(conditions, "kundennummer");
+        final String nachname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "nachname");
+        final String nummer = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "nummer");
+        String kundennummer = SearchQueryUtils.getAndRemoveJoker(conditions, "kundennummer");
         kundennummer = StringUtils.isNumeric(kundennummer) ? kundennummer : null;
-        final String kundeId = SearchQueryUtils.getAndReplaceJoker(conditions, "kunde.id");
+        final String kundeId = SearchQueryUtils.getAndRemoveJoker(conditions, "kunde.id");
         final boolean istNichtErledigt = BooleanUtils.toBoolean(conditions.get("erledigt"));
 
         if (StringUtils.isNumeric(kundeId)) {

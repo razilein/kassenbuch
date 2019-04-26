@@ -49,6 +49,14 @@ var vm = new Vue({
     editFunction: function(row) {
       vm.editRow.restUrlGet = '/inventar/produkt/' + row.id;
       vm.editRow.title = 'Produkt ' + row.bezeichnung + ' bearbeiten';
+      vm.editRow.duplicate = false;
+      vm.showEditDialog = true;
+    },
+    
+    duplicateFunction: function(row) {
+      vm.editRow.restUrlGet = '/inventar/produkt/' + row.id;
+      vm.editRow.title = 'Produkt ' + row.bezeichnung + ' bearbeiten';
+      vm.editRow.duplicate = true;
       vm.showEditDialog = true;
     },
     
@@ -98,9 +106,10 @@ var vm = new Vue({
         { name: 'functions',
           title: 'Funktionen',
           sortable: false,
-          width: 50,
+          width: 130,
           formatter: [
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Produkt bearbeiten', clickFunc: vm.editFunction },
+          { clazz: 'duplicate', disabled: vm.hasNotRoleVerwalten, title: 'Produkt duplizieren', clickFunc: vm.duplicateFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Produkt löschen', clickFunc: vm.deleteFunction }
         ] },
         { name: 'gruppe.kategorie.bezeichnung', title: 'Kategorie', width: 120 },
@@ -108,7 +117,7 @@ var vm = new Vue({
         { name: 'bezeichnung', title: 'Bezeichnung', width: 500 },
         { name: 'ean', title: 'EAN', width: 120 },
         { name: 'bestand', title: 'Bestand', width: 100 },
-        { name: 'preisEkNetto', title: 'EK Netto', width: 100 },
+        { name: 'preise', sortable: false, title: 'Preise', width: 110 },
         { name: 'hersteller', title: 'Hersteller', width: 150 },
       ];
     },
