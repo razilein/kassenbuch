@@ -46,7 +46,7 @@ public class InventarService {
     }
 
     public Page<Kategorie> listKategorien(final PageRequest pagination, final Map<String, String> conditions) {
-        final String bezeichnung = SearchQueryUtils.getAndReplaceJoker(conditions, "bezeichnung");
+        final String bezeichnung = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "bezeichnung");
 
         if (StringUtils.isNotBlank(bezeichnung)) {
             return kategorieRepository.findAllByBezeichnungLike(pagination, bezeichnung);
@@ -72,7 +72,7 @@ public class InventarService {
     }
 
     public Page<Gruppe> listGruppen(final PageRequest pagination, final Map<String, String> conditions) {
-        final String bezeichnung = SearchQueryUtils.getAndReplaceJoker(conditions, "bezeichnung");
+        final String bezeichnung = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "bezeichnung");
         final String kategorieId = conditions.get("kategorie");
 
         if (StringUtils.isNumeric(kategorieId) && StringUtils.isNotBlank(bezeichnung)) {
@@ -98,7 +98,7 @@ public class InventarService {
     }
 
     public Page<Produkt> listProdukte(final PageRequest pagination, final Map<String, String> conditions) {
-        final String bezeichnung = SearchQueryUtils.getAndReplaceJoker(conditions, "bezeichnung");
+        final String bezeichnung = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "bezeichnung");
         final String kategorieId = conditions.get("kategorie");
         final String gruppeId = conditions.get("gruppe");
         final String ean = conditions.get("ean");
