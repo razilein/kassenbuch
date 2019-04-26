@@ -194,7 +194,7 @@ var vm = new Vue({
         { name: 'bezeichnung', title: 'Bezeichnung', width: 500 },
         { name: 'ean', title: 'EAN', width: 120 },
         { name: 'bestand', title: 'Bestand', width: 100 },
-        { name: 'preisVkBrutto', title: 'VK Brutto', width: 100 }
+        { name: 'preise', title: 'Preise', width: 100 }
       ];
     },
     getEntity: function() {

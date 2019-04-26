@@ -108,7 +108,7 @@ var vm = new Vue({
         { name: 'functions',
           title: 'Funktionen',
           sortable: false,
-          width: 120,
+          width: 170,
           formatter: [
           { clazz: 'zahnrad', disabled: vm.hasNotRoleReparaturAnzeigen, title: 'Reparaturaufträge anzeigen', clickFunc: vm.openReparaturFunction },
           { clazz: 'euro', disabled: vm.hasNotRoleRechnungAnzeigen, title: 'Rechnungen anzeigen', clickFunc: vm.openRechnungFunction },
