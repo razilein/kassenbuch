@@ -59,6 +59,9 @@ Durch Klick auf das *Bearbeiten-Icon* kann der Reparaturauftrag beliebig bearbei
 Durch Klick auf das *Smilie-Icon* kann der Reparaturauftrag erledigt oder geöffnet werden. Durch das Erledigen des Auftrags wird das Gerätepasswort gelöscht und eine Bearbeitung ist nicht mehr möglich.
 Das erneute Öffnen des Auftrages stellt das Gerätepasswort **nicht** wieder her.
 
+Durch Klick auf das *E-Mail-Icon* kann der Kunde informiert werden, dass der Auftrag abgeschlossen ist und dieser in die Filiale kommen soll.
+Dieses Icon ist nur sichtbar, wenn zum Kunden eine E-Mail-Adresse hinterlegt ist.
+
 Durch Klick auf das *Löschen-Icon* wird nach erneuter Bestätigung der Reparaturauftrag komplett gelöscht.
 
 ## Rechnungen
@@ -115,6 +118,10 @@ Durch Klick auf das *Bearbeiten-Icon* kann die Rechnung bearbeitet werden.
 Dabei ist es nur möglich das Rechnungsdatum, die Zahlart, den Kunden und Reparaturauftrag zu ändern.
 Zudem darf die Menge, Bezeichnung, der Hinweis, die Seriennummer und der Rabatt von bestehenden Posten geändert werden. Es dürfen jedoch keine neuen Posten hinzugefügt oder bestehende entfernt werden.
 Das Bearbeiten der Menge nimmt keinen Einfluss auf den Bestand im Inventar. Dies wird lediglich beim Erstellen beeinflusst.
+
+Durch Klick auf das *E-Mail-Icon* kann dem Kunden die Rechnung zugesendet werden. Dazu muss die Rechnung zuerst als PDF gedruckt und im
+sich öffnenden Dialog gewählt werden.
+Dieses Icon ist nur sichtbar, wenn zum Kunden eine E-Mail-Adresse hinterlegt ist.
 
 Durch Klick auf das *Löschen-Icon* kann eine Rechnung nach nochmaliger Bestätigung gelöscht werden.
 
@@ -303,6 +310,18 @@ Ist beispielsweise heute der 31.12.2018 und die fortlaufende Nummer 455, dann la
 
 In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.
 Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).
+
+#### FTP-Server
+Hier sind die Verbindungsdaten zum FTP-Server anzugeben.
+Diese Daten dienen dazu, um die Bestellliste lesen/schreiben zu können.
+
+#### SMTP-Server
+Hier sind die Verbindungsdaten zum SMTP-Server anzugeben.
+Dabei sind beim Benutzernamen/Passwort die Daten der Filialenadresse anzugeben.
+Die Daten werden benötigt, um den Kunden per E-Mail über einen abgeschlossenen Reparaturauftrag zu informieren oder eine Rechnung zu senden.
+Mit Hilfe der E-Mail-Inhalt-Felder kann allgemein gültig der Inhalt der E-Mail bestimmt werden. Als Platzhalter kann #NUMMER# verwendet werden,
+um die Rechnungs- oder Reparaturnummer in den Text einzufügen.
+Die Signatur wird immer im Fuß der E-Mail hinzugefügt.
 
 #### Filiale
 In diesem Feld ist die Filiale zu wählen, dabei handelt es sich um eine globale Einstellung.

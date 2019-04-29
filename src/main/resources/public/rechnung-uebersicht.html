@@ -91,6 +91,12 @@
         @close="showDeleteDialog = false"
         @deleted="handleDeleteResponse"
       ></delete-dialog>
+      <rechnung-versenden-dialog
+        :row="versendenDialog.row"
+        v-if="showVersendenDialog"
+        @close="showVersendenDialog = false"
+        @sended="handleSendResponse"
+      ></rechnung-versenden-dialog>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
     </div>
   </body>
@@ -105,6 +111,7 @@
   <script src="/scripts/kunde/kunde.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>
   <script src="/scripts/rechnung/rechnungsposten.edit.dialog.component.js"></script>
+  <script src="/scripts/rechnung/rechnung.versenden.dialog.component.js"></script>
   <script src="/scripts/rechnung/rechnung.edit.dialog.component.js"></script>
   <script src="/scripts/rechnung/rechnung.header.component.js"></script>
   <script src="/scripts/rechnung/rechnung.uebersicht.js"></script>

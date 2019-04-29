@@ -39,6 +39,11 @@ button.edit {
   -webkit-mask: url("../icons/edit.svg") no-repeat center;
 }
 
+button.email {
+  mask: url("../icons/email.svg") no-repeat center;
+  -webkit-mask: url("../icons/email.svg") no-repeat center;
+}
+
 button.euro {
   mask: url("../icons/euro.svg") no-repeat center;
   -webkit-mask: url("../icons/euro.svg") no-repeat center;
@@ -103,7 +108,8 @@ button.zahnrad {
   -webkit-mask: url("../icons/zahnrad.svg") no-repeat center;
 }
 
-button.add, button.bad, button.delete, button.duplicate, button.edit, button.euro, button.good, button.key, button.kunde, button.minus,
+button.add, button.bad, button.delete, button.duplicate, button.edit, button.email,
+button.euro, button.good, button.key, button.kunde, button.minus,
 button.ok, button.ok2, button.open-new-tab, button.recht, button.zahnrad {
   background-color: #1a8cff;
   float: none;

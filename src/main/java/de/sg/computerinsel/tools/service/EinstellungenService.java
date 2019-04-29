@@ -56,6 +56,34 @@ public class EinstellungenService {
         return getEinstellung("kassenbuch.ablageverzeichnis");
     }
 
+    public Einstellungen getSmtpHost() {
+        return getEinstellung("smtp.host");
+    }
+
+    public Einstellungen getSmtpPort() {
+        return getEinstellung("smtp.port");
+    }
+
+    public Einstellungen getSmtpUser() {
+        return getEinstellung("smtp.user");
+    }
+
+    public Einstellungen getSmtpPassword() {
+        return getEinstellung("smtp.password");
+    }
+
+    public Einstellungen getMailSignatur() {
+        return getEinstellung("mail.signatur");
+    }
+
+    public Einstellungen getMailBodyRechnung() {
+        return getEinstellung("mail.body.rechnung");
+    }
+
+    public Einstellungen getMailBodyReparaturauftrag() {
+        return getEinstellung("mail.body.reparatur");
+    }
+
     public Einstellungen getFtpHost() {
         return getEinstellung("ftp.host");
     }

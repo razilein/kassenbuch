@@ -8,6 +8,13 @@ var vm = new Vue({
       ftpPort: {},
       ftpUser: {},
       ftpPassword: {},
+      mailBodyRechnung: {},
+      mailBodyReparatur: {},
+      mailSignatur: {},
+      smtpHost: {},
+      smtpPort: {},
+      smtpUser: {},
+      smtpPassword: {},
       rechnungsnummer: {},
       reparaturnummer: {}
     },
