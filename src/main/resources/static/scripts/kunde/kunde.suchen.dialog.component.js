@@ -29,6 +29,7 @@ Vue.component('kunde-suchen-dialog', {
     <br>
     {{entity.telefon}}
   </h5>
+  <div style="width: 150px;">&nbsp;</div>
   <div id="gridDiv" v-if="grid.gridColumns.length > 0">
     <grid
       :actions="grid.actions"
