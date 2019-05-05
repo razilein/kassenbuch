@@ -62,6 +62,39 @@
               <label for="einstellungenForm_ftp_password">Passwort</label>
               <input class="m2" id="einstellungenForm_ftp_password" type="password" v-model="einstellungen.ftpPassword.wert" />
             </div>
+          <hr>
+          <h1>SMTP-Server</h1>
+          <div class="m1">
+            <div class="m2m">
+              <label for="einstellungenForm_smtp_host">Host</label>
+              <input class="m2" id="einstellungenForm_smtp_host" type="text" v-model="einstellungen.smtpHost.wert" />
+            </div>
+            <div class="m5">
+              <label for="einstellungenForm_smtp_port">Port</label>
+              <input class="m5" id="einstellungenForm_smtp_port" type="number" v-model="einstellungen.smtpPort.wert" />
+            </div>
+          </div>
+          <div class="m1">
+            <div class="m2m">
+              <label for="einstellungenForm_smtp_user">Benutzername</label>
+              <input class="m2" id="einstellungenForm_smtp_user" type="text" v-model="einstellungen.smtpUser.wert" />
+            </div>
+            <div class="m2">
+              <label for="einstellungenForm_smtp_password">Passwort</label>
+              <input class="m2" id="einstellungenForm_smtp_password" type="password" v-model="einstellungen.smtpPassword.wert" />
+            </div>
+          </div>
+          <div class="m1">
+            <label for="einstellungenForm_mail_body_rechnung">E-Mail Inhalt Rechnung versenden</label>
+            <textarea class="m1" id="einstellungenForm_mail_body_rechnung" v-model="einstellungen.mailBodyRechnung.wert"></textarea>
+          </div>
+          <div class="m1">
+            <label for="einstellungenForm_mail_body_reparatur">E-Mail Inhalt Reparaturauftrag erledigt</label>
+            <textarea class="m1" id="einstellungenForm_mail_body_reparatur" v-model="einstellungen.mailBodyReparatur.wert"></textarea>
+          </div>
+          <div class="m1">
+            <label for="einstellungenForm_mail_signatur">E-Mail Signatur</label>
+            <textarea class="m1" id="einstellungenForm_mail_signatur" v-model="einstellungen.mailSignatur.wert"></textarea>
           </div>
           <div class="m1">
             <button class="right" v-on:click="speichernEinstellungen">Speichern</button>

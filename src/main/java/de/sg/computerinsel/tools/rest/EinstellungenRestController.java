@@ -63,6 +63,13 @@ public class EinstellungenRestController {
         data.setFtpPort(einstellungenService.getFtpPort());
         data.setFtpUser(einstellungenService.getFtpUser());
         data.setFtpPassword(einstellungenService.getFtpPassword());
+        data.setSmtpHost(einstellungenService.getSmtpHost());
+        data.setSmtpPort(einstellungenService.getSmtpPort());
+        data.setSmtpUser(einstellungenService.getSmtpUser());
+        data.setSmtpPassword(einstellungenService.getSmtpPassword());
+        data.setMailSignatur(einstellungenService.getMailSignatur());
+        data.setMailBodyRechnung(einstellungenService.getMailBodyRechnung());
+        data.setMailBodyReparatur(einstellungenService.getMailBodyReparaturauftrag());
         data.setRechnungsnummer(einstellungenService.getRechnungsnummer());
         data.setReparaturnummer(einstellungenService.getReparaturnummer());
         return data;
@@ -101,6 +108,13 @@ public class EinstellungenRestController {
             einstellungenService.save(data.getFtpPort());
             einstellungenService.save(data.getFtpUser());
             einstellungenService.save(data.getFtpPassword());
+            einstellungenService.save(data.getSmtpHost());
+            einstellungenService.save(data.getSmtpPort());
+            einstellungenService.save(data.getSmtpUser());
+            einstellungenService.save(data.getSmtpPassword());
+            einstellungenService.save(data.getMailSignatur());
+            einstellungenService.save(data.getMailBodyRechnung());
+            einstellungenService.save(data.getMailBodyReparatur());
             einstellungenService.save(data.getRechnungsnummer());
             einstellungenService.save(data.getReparaturnummer());
             result.put(Message.SUCCESS.getCode(), "Die Einstellungen wurden erfolgreich gespeichert.");

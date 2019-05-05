@@ -29,21 +29,21 @@ public class KundeService {
             return kundeRepository.findAll(pagination);
         } else {
             final FindAllByConditionsExecuter<Kunde> executer = new FindAllByConditionsExecuter<>();
-            return executer.findByParams(kundeRepository, pagination, buildMethodnameForQueryKunde(nachname, vorname, plz), nachname,
-                    nachname, vorname, plz);
+            return executer.findByParams(kundeRepository, pagination, buildMethodnameForQueryKunde(nachname, vorname, plz), vorname, plz,
+                    nachname, nachname);
         }
     }
 
     private String buildMethodnameForQueryKunde(final String nachname, final String vorname, final String plz) {
         String methodName = "findBy";
-        if (StringUtils.isNotBlank(nachname)) {
-            methodName += "NachnameLikeOrFirmennameLikeAnd";
-        }
         if (StringUtils.isNotBlank(vorname)) {
             methodName += "VornameLikeAnd";
         }
         if (StringUtils.isNotBlank(plz)) {
             methodName += "PlzLikeAnd";
+        }
+        if (StringUtils.isNotBlank(nachname)) {
+            methodName += "NachnameLikeOrFirmennameLikeAnd";
         }
         return StringUtils.removeEnd(methodName, "And");
     }

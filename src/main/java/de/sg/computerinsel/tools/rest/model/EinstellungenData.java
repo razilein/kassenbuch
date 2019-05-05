@@ -23,6 +23,20 @@ public class EinstellungenData {
 
     Einstellungen ftpPassword;
 
+    Einstellungen mailSignatur;
+
+    Einstellungen mailBodyRechnung;
+
+    Einstellungen mailBodyReparatur;
+
+    Einstellungen smtpHost;
+
+    Einstellungen smtpPort;
+
+    Einstellungen smtpUser;
+
+    Einstellungen smtpPassword;
+
     Einstellungen rechnungsnummer;
 
     Einstellungen reparaturnummer;

@@ -6,21 +6,21 @@ Vue.component('rabatt-dialog', {
   </div>
   <div class="m1">
     <div class="m4m">
-      <label for="rabattForm_preisEk">Preis EK</label>
+      <label for="rabattForm_preisEk">Preis EK Brutto</label>
       <input class="m4" id="rabattForm_preisEkBrutto" readonly step="0.01" type="number" v-model="entity.produkt.preisEkBrutto"></input>
     </div>
     <div class="m4">
-      <label for="rabattForm_preisVk">Preis VK</label>
+      <label for="rabattForm_preisVk">Preis VK Brutto</label>
       <input class="m4" id="rabattForm_preisVkBrutto" readonly step="0.01" type="number" v-model="entity.produkt.preisVkBrutto"></input>
     </div>
   </div>
   <div class="m1" v-if="entity.menge > 1">
     <div class="m4m">
-      <label for="rabattForm_gesamt_preisEk">Gesamtpreis EK</label>
+      <label for="rabattForm_gesamt_preisEk">Gesamtpreis EK Brutto</label>
       <input class="m4" id="rabattForm_gesamt_preisEk" readonly step="0.01" type="number" v-model="calculatedEntity.preisEk"></input>
     </div>
     <div class="m4">
-      <label for="rabattForm_gesamt_preisVk">Gesamtpreis VK</label>
+      <label for="rabattForm_gesamt_preisVk">Gesamtpreis VK Brutto</label>
       <input class="m4" id="rabattForm_gesamt_preisVk" readonly step="0.01" type="number" v-model="calculatedEntity.preisVk"></input>
     </div>
   </div>
@@ -78,6 +78,7 @@ Vue.component('rabatt-dialog', {
         this.calculatedEntity.rabatt = Number((this.calculatedEntity.gesamt * rabattProzent / 100).toFixed(2));
       }
       this.berechneGewinn();
+      this.berechneGesamt();
     },
     berechneRabattProzent: function() {
       var rabatt = this.calculatedEntity.rabatt;
@@ -87,9 +88,15 @@ Vue.component('rabatt-dialog', {
         this.calculatedEntity.rabattProzent = Number((rabatt * 100 / this.calculatedEntity.preisVk).toFixed(2));
       }
       this.berechneGewinn();
+      this.berechneGesamt();
     },
     berechneGewinn: function() {
-      this.calculatedEntity.gewinn = Number((this.calculatedEntity.gesamt - this.calculatedEntity.rabatt - this.calculatedEntity.preisEk).toFixed(2));
+      var gesamt = this.calculatedEntity.preisVk * this.entity.menge;
+      this.calculatedEntity.gewinn = Number((gesamt - this.calculatedEntity.rabatt - this.calculatedEntity.preisEk).toFixed(2));
+    },
+    berechneGesamt: function() {
+      var gesamt = this.calculatedEntity.preisVk * this.entity.menge;
+      this.calculatedEntity.gesamt = Number((gesamt - this.calculatedEntity.rabatt).toFixed(2));
     },
     saveFunc: function() {
       this.$emit('saved', this.calculatedEntity.rabatt);

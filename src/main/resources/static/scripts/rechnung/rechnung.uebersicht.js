@@ -16,6 +16,7 @@ var vm = new Vue({
     showConfirmDialog: false,
     showDeleteDialog: false,
     showEditDialog: false,
+    showVersendenDialog: false,
     confirmDialog: {},
     deleteRow: {
       id: null,
@@ -27,6 +28,7 @@ var vm = new Vue({
       restUrlSave: '/rechnung/',
       title: 'Rechnung bearbeiten',
     },
+    versendenDialog: {},
     grid: {
       actions: [],
       gridColumns: [],
@@ -50,6 +52,25 @@ var vm = new Vue({
         vm.showEditDialog = false;
         vm.grid.reload = true;
       } 
+      vm.result = data;
+      vm.showDialog = true;
+    },
+    
+    canSendEmail: function(row) {
+      return !row.kunde || !row.kunde.email;
+    },
+    
+    sendMailFunction: function(row) {
+      vm.versendenDialog.row = row;
+      vm.showVersendenDialog = true;
+      vm.openFunction(row);
+    },
+    
+    handleSendResponse: function(data) {
+      hideLoader();
+      if (data.success) {
+        vm.showVersendenDialog = false;
+      }
       vm.result = data;
       vm.showDialog = true;
     },
@@ -122,11 +143,12 @@ var vm = new Vue({
         { name: 'functions',
           title: 'Funktionen',
           sortable: false,
-          width: 170,
+          width: 200,
           formatter: [
           { clazz: 'open-new-tab', disabled: vm.hasNotRoleRechnungAnzeigen, title: 'Rechnung öffnen', clickFunc: vm.openFunction },
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Rechnung bearbeiten', clickFunc: vm.editFunction },
           { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.bezahltFunction },
+          { clazz: 'email', disabled: vm.canSendEmail, title: 'Rechnung per E-Mail an den Kunden versenden', clickFunc: vm.sendMailFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Rechnung löschen', clickFunc: vm.deleteFunction }
         ] },
         { name: 'nummer', title: 'Rechn.-Nr.', width: 80 },
