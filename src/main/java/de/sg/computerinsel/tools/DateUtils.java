@@ -1,5 +1,6 @@
 package de.sg.computerinsel.tools;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -59,6 +60,23 @@ public class DateUtils {
 
     public static Date getYear(final Date date) {
         return org.apache.commons.lang3.time.DateUtils.truncate(date, Calendar.YEAR);
+    }
+
+    public LocalDate plusWorkdays(final LocalDate date, final int days) {
+        if (days < 1) {
+            return date;
+        }
+
+        LocalDate result = date;
+        int addedDays = 0;
+        while (addedDays < days) {
+            result = result.plusDays(1);
+            if (!(result.getDayOfWeek() == DayOfWeek.SATURDAY || result.getDayOfWeek() == DayOfWeek.SUNDAY)) {
+                ++addedDays;
+            }
+        }
+
+        return result;
     }
 
 }

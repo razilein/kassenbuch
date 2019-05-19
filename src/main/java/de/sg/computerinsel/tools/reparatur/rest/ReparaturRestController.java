@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
@@ -111,12 +112,12 @@ public class ReparaturRestController {
     private LocalDate berechneAbholdatum(final boolean express) {
         LocalDate date = LocalDate.now();
         if (express && LocalTime.now().isAfter(LocalTime.of(13, 30))) {
-            date = date.plusDays(1);
+            date = DateUtils.plusWorkdays(date, 1);
         } else if (!express) {
-            date = date.plusDays(3);
+            date = DateUtils.plusWorkdays(date, 3);
         }
         final List<LocalDate> notAllowedDays = service.listDaysWithMin5AbholungenAndAuftragNotErledigt();
-        while (date.getDayOfWeek() == DayOfWeek.SUNDAY || FeiertagUtils.isFeiertag(date)
+        while (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY || FeiertagUtils.isFeiertag(date)
                 || notAllowedDays.stream().anyMatch(dateIsEqual(date))) {
             date = date.plusDays(1);
         }

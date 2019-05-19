@@ -29,7 +29,7 @@ Ebenfalls wird ein Hinweis geöffnet, dass das DSGVO-Informationsblatt vom Kunde
 
 #### Abholdatum/-zeit
 Das Abholdatum und die Abholzeit werden dabei automatisch gefüllt.
-Das Standardabholdatum wird dabei auf das Datum in **3** Tagen und die Abholzeit auf **16:30 Uhr** gesetzt.
+Das Standardabholdatum wird dabei auf das Datum in **3** Werktagen (Samstag ausgenommen) und die Abholzeit auf **16:30 Uhr** gesetzt.
 
 Wird die Expressbearbeitung aktiviert und es ist vor **13:30 Uhr** wird das Abholdatum auf den aktuellen Tag um **18:30 Uhr** gesetzt. Ist es nach 13:30 Uhr, wird das Abholdatum auf den nächsten Tag **13:30 Uhr** gesetzt.
 
