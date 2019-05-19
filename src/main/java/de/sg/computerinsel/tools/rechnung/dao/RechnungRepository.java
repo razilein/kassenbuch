@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
 
@@ -93,4 +95,8 @@ public interface RechnungRepository extends CrudRepository<Rechnung, Integer> {
 
     List<Rechnung> findAllByDatumGreaterThanEqualAndDatumLessThanEqualAndArtOrderByDatumAscNummerAsc(LocalDate datumVon, LocalDate datumBis,
             Integer art);
+
+    @Query(value = "SELECT * FROM rechnung WHERE EXISTS ( SELECT 1 FROM rechnungsposten WHERE rechnungsposten.rechnung_id = rechnung.id AND (bezeichnung LIKE :bezeichnung OR seriennummer LIKE :seriennummer OR hinweis LIKE :hinweis))", countQuery = "SELECT COUNT(*) FROM rechnung WHERE EXISTS ( SELECT 1 FROM rechnungsposten WHERE rechnungsposten.rechnung_id = rechnung.id AND (bezeichnung LIKE :bezeichnung OR seriennummer LIKE :seriennummer OR hinweis LIKE :hinweis))", nativeQuery = true)
+    Page<Rechnung> findByPostenBezeichnungLikeOrPostenSeriennummerLikeOrPostenHinweisLike(@Param("bezeichnung") String bezeichnung,
+            @Param("seriennummer") String seriennummer, @Param("hinweis") String hinweis, Pageable pagination);
 }

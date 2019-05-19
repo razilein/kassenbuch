@@ -51,12 +51,16 @@ public class RechnungService {
         final String ersteller = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "ersteller");
         final String kundeId = SearchQueryUtils.getAndRemoveJoker(conditions, "kunde.id");
         final boolean istNichtBezahlt = BooleanUtils.toBoolean(conditions.get("bezahlt"));
+        final String posten = SearchQueryUtils.getAndRemoveJoker(conditions, "posten");
 
         if (StringUtils.isNumeric(kundeId)) {
             return rechnungRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
         } else if (!StringUtils.isNumeric(nummer) && StringUtils.isBlank(reparaturnummer) && StringUtils.isBlank(ersteller)
-                && !StringUtils.isNumeric(kundennummer) && !istNichtBezahlt) {
+                && !StringUtils.isNumeric(kundennummer) && !istNichtBezahlt && StringUtils.isBlank(posten)) {
             return rechnungRepository.findAll(pagination);
+        } else if (StringUtils.isNotBlank(posten)) {
+            return rechnungRepository.findByPostenBezeichnungLikeOrPostenSeriennummerLikeOrPostenHinweisLike(posten, posten, posten,
+                    pagination);
         } else if (!istNichtBezahlt) {
             final FindAllByConditionsExecuter<Rechnung> executer = new FindAllByConditionsExecuter<>();
             return executer.findByParams(rechnungRepository, pagination,

@@ -47,6 +47,11 @@
               <span class="checkmark"></span>
             </label>
           </div>
+          <hr>
+          <div class="m1">
+            <label for="searchForm_posten">Rechnungsposten durchsuchen nach Bezeichnung / Seriennummer / Hinweis</label>
+            <input class="m1" id="searchForm_posten" type="text" v-model="grid.searchQuery.posten"></input>
+          </div>
           <div class="m1">
             <div class="m2 right">
               <button class="delete" title="Suchfelder leeren" v-on:click="grid.searchQuery = {}; grid.reload = true;"></button>
@@ -54,7 +59,7 @@
             </div>
           </div>
         </div>
-        <div style="height: 250px;" v-if="kundeId === null"></div>
+        <div style="height: 280px;" v-if="kundeId === null"></div>
         <h3 v-if="kundeId !== null">Rechnungen zum gewählten Kunden:</h3>
         <div id="gridDiv" v-if="grid.gridColumns.length > 0">
           <grid
