@@ -34,9 +34,7 @@
               <label for="searchForm_kunde_nummer">Kd.-Nr.</label>
               <input class="m6" id="searchForm_kunde_nummer" type="text" v-model="grid.searchQuery.kundenummer"></input>
             </div>
-          </div>
-          <div class="m1">
-            <div class="m2m">
+            <div class="m2">
               <label for="searchForm_ersteller">Ersteller</label>
               <input class="m2" id="searchForm_ersteller" type="text" v-model="grid.searchQuery.ersteller"></input>
             </div>
@@ -59,7 +57,7 @@
             </div>
           </div>
         </div>
-        <div style="height: 280px;" v-if="kundeId === null"></div>
+        <div style="height: 230px;" v-if="kundeId === null"></div>
         <h3 v-if="kundeId !== null">Rechnungen zum gewählten Kunden:</h3>
         <div id="gridDiv" v-if="grid.gridColumns.length > 0">
           <grid
