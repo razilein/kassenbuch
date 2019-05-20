@@ -11,7 +11,13 @@ var vm = new Vue({
   methods: {
     
     init: function() {
-      this.getEntity().then(this.setEntity)
+      this.getEntity()
+        .then(this.setEntity)
+        .then(vm.openPrint);
+    },
+    
+    openPrint: function() {
+      window.print();
     },
     
     getEntity: function() {

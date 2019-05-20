@@ -37,6 +37,7 @@ Vue.component('kunde-suchen-dialog', {
       :filter-key="grid.searchQuery"
       :rest-url="grid.restUrl"
       :reload="grid.reload"
+      :size="20"
       :search-query="grid.searchQuery"
       @reloaded="grid.reload = false"
     ></grid>

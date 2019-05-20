@@ -27,6 +27,7 @@ Vue.component('reparatur-suchen-dialog', {
       :rest-url="grid.restUrl"
       :reload="grid.reload"
       :search-query="grid.searchQuery"
+      :size="20"
       :sort="grid.sort"
       :sortorder="grid.sortorder"
       @reloaded="grid.reload = false"
