@@ -51,7 +51,7 @@ public class RechnungService {
         final String ersteller = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "ersteller");
         final String kundeId = SearchQueryUtils.getAndRemoveJoker(conditions, "kunde.id");
         final boolean istNichtBezahlt = BooleanUtils.toBoolean(conditions.get("bezahlt"));
-        final String posten = SearchQueryUtils.getAndRemoveJoker(conditions, "posten");
+        final String posten = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "posten");
 
         if (StringUtils.isNumeric(kundeId)) {
             return rechnungRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
