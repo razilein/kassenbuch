@@ -128,6 +128,10 @@ public class RechnungService {
                     + einstellungenService.getAndSaveNextRechnungsnummer();
             rechnung.setNummer(Ints.tryParse(nummer));
         }
+        // Bei Überweisungen oder Paypal muss der Name auf der Rechnung stehen
+        if (rechnung.getArt() == Zahlart.UEBERWEISUNG.getCode() || rechnung.getArt() == Zahlart.PAYPAL.getCode()) {
+            rechnung.setNameDrucken(true);
+        }
         return rechnungRepository.save(rechnung);
     }
 
