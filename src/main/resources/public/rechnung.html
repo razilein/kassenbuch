@@ -71,6 +71,9 @@
         </div>
         <div class="form" style="width: 1000px;">
           <h3>Gewählte Posten:</h3>
+          <div class="error" v-if="entity.posten.length > 15">
+            <h3>Achtung! Es sind zu viele Posten auf der Rechnung. Bitte auf zwei Rechnungen aufteilen!</h3>
+          </div>
           <table>
             <thead>
               <th style="width: 100px;">Funktionen</th>
