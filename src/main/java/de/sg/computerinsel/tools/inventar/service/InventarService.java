@@ -99,20 +99,22 @@ public class InventarService {
 
     public Page<Produkt> listProdukte(final PageRequest pagination, final Map<String, String> conditions) {
         final String bezeichnung = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "bezeichnung");
+        final String hersteller = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "hersteller");
         final String kategorieId = conditions.get("kategorie");
         final String gruppeId = conditions.get("gruppe");
         final String ean = conditions.get("ean");
 
         if (!StringUtils.isNumeric(kategorieId) && !StringUtils.isNumeric(gruppeId) && StringUtils.isBlank(bezeichnung)
-                && StringUtils.isBlank(ean)) {
+                && StringUtils.isBlank(ean) && StringUtils.isBlank(hersteller)) {
             return produktRepository.findAll(pagination);
         } else if (StringUtils.isNotBlank(ean)) {
             return produktRepository.findByEan(ean, pagination);
         } else {
             final FindAllByConditionsExecuter<Produkt> executer = new FindAllByConditionsExecuter<>();
-            return executer.findByParams(produktRepository, pagination, buildMethodnameForQueryProdukt(bezeichnung, kategorieId, gruppeId),
-                    bezeichnung, StringUtils.isNumeric(kategorieId) ? Ints.tryParse(kategorieId) : null,
-                    StringUtils.isNumeric(gruppeId) ? Ints.tryParse(gruppeId) : null);
+            return executer.findByParams(produktRepository, pagination,
+                    buildMethodnameForQueryProdukt(bezeichnung, kategorieId, gruppeId, hersteller), bezeichnung,
+                    StringUtils.isNumeric(kategorieId) ? Ints.tryParse(kategorieId) : null,
+                    StringUtils.isNumeric(gruppeId) ? Ints.tryParse(gruppeId) : null, hersteller);
         }
     }
 
@@ -125,7 +127,8 @@ public class InventarService {
                 datumBis.plusDays(1).atStartOfDay());
     }
 
-    private String buildMethodnameForQueryProdukt(final String bezeichnung, final String kategorieId, final String gruppeId) {
+    private String buildMethodnameForQueryProdukt(final String bezeichnung, final String kategorieId, final String gruppeId,
+            final String hersteller) {
         String methodName = "findBy";
         if (StringUtils.isNotBlank(bezeichnung)) {
             methodName += "BezeichnungLikeAnd";
@@ -135,6 +138,9 @@ public class InventarService {
         }
         if (StringUtils.isNumeric(gruppeId)) {
             methodName += "GruppeIdAnd";
+        }
+        if (StringUtils.isNotBlank(hersteller)) {
+            methodName += "HerstellerLikeAnd";
         }
         return StringUtils.removeEnd(methodName, "And");
     }
