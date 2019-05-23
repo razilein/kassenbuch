@@ -51,7 +51,7 @@ public class RechnungService {
         final String ersteller = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "ersteller");
         final String kundeId = SearchQueryUtils.getAndRemoveJoker(conditions, "kunde.id");
         final boolean istNichtBezahlt = BooleanUtils.toBoolean(conditions.get("bezahlt"));
-        final String posten = SearchQueryUtils.getAndRemoveJoker(conditions, "posten");
+        final String posten = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "posten");
 
         if (StringUtils.isNumeric(kundeId)) {
             return rechnungRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
@@ -127,6 +127,10 @@ public class RechnungService {
             final String nummer = getRechnungsdatumJahrZweistellig(rechnung.getDatum())
                     + einstellungenService.getAndSaveNextRechnungsnummer();
             rechnung.setNummer(Ints.tryParse(nummer));
+        }
+        // Bei Überweisungen oder Paypal muss der Name auf der Rechnung stehen
+        if (rechnung.getArt() == Zahlart.UEBERWEISUNG.getCode() || rechnung.getArt() == Zahlart.PAYPAL.getCode()) {
+            rechnung.setNameDrucken(true);
         }
         return rechnungRepository.save(rechnung);
     }

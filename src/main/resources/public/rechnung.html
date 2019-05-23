@@ -37,9 +37,13 @@
               </select>
             </div>
           </div>
-          <div class="m1">
+          <div class="m2m">
             <label for="searchForm_bezeichnung">Bezeichnung</label>
-            <input class="m1" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false" />
+            <input class="m2" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false" />
+          </div>
+          <div class="m2">
+            <label for="searchForm_hersteller">Hersteller</label>
+            <input class="m2" id="searchForm_hersteller" type="text" v-model="grid.searchQuery.hersteller" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false" ></input>
           </div>
           <hr>
           <div class="m1">
@@ -71,6 +75,9 @@
         </div>
         <div class="form" style="width: 1000px;">
           <h3>Gewählte Posten:</h3>
+          <div class="error" v-if="entity.posten.length > 15">
+            <h3>Achtung! Es sind zu viele Posten auf der Rechnung. Bitte auf zwei Rechnungen aufteilen!</h3>
+          </div>
           <table>
             <thead>
               <th style="width: 100px;">Funktionen</th>

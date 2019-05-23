@@ -2,23 +2,29 @@ Vue.component('kunde-suchen-dialog', {
   template: createEditDialogTemplateWithoutSaveButton(`
   <div class="m2m">
     <div class="m2m">
-      <label for="searchFormKunde_nachname">Nachname/Firmenname</label>
-      <input class="m2" id="searchFormKunde_nachname" type="text" v-model="grid.searchQuery.nachname"></input>
+      <label for="searchForm_firmenname">Firmenname</label>
+      <input class="m2" id="searchForm_firmenname" type="text" v-model="grid.searchQuery.firmenname"></input>
     </div>
-    <div class="m2m">
-      <label for="searchForm_vorname">Vorname</label>
-      <input class="m2" id="searchForm_vorname" type="text" v-model="grid.searchQuery.vorname"></input>
+    <div class="m1">
+      <div class="m2m">
+        <label for="searchForm_nachname">Nachname</label>
+        <input class="m2" id="searchForm_nachname" type="text" v-model="grid.searchQuery.nachname"></input>
+      </div>
+      <div class="m3m">
+        <label for="searchForm_vorname">Vorname</label>
+        <input class="m3" id="searchForm_vorname" type="text" v-model="grid.searchQuery.vorname"></input>
+      </div>
     </div>
     <div class="m2">
       <button class="delete right" title="Suchfelder leeren" v-on:click="grid.searchQuery = {}; grid.reload = true;"></button>
       <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
     </div>
   </div>
-  <h5 class="m3">
+  <h5 class="m3 right">
     Gewählter Kunde *:
     <span v-if="entity.firmenname">
-      {{entity.firmenname}}
       <br>
+      {{entity.firmenname}}
     </span>
     <br>
     {{entity.nachname}} {{entity.vorname}}
@@ -101,7 +107,8 @@ Vue.component('kunde-suchen-dialog', {
         reload: false,
         restUrl: 'kunde',
         searchQuery: {
-          nachname: this.kunde ? this.kunde.firmenname || this.kunde.nachname : null,
+          firmenname: this.kunde ? this.kunde.firmenname : null,
+          nachname: this.kunde ? this.kunde.nachname : null,
           vorname: this.kunde ? this.kunde.vorname : null
         },
       },
