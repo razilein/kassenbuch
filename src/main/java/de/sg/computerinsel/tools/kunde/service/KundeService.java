@@ -21,20 +21,21 @@ public class KundeService {
     private final KundeRepository kundeRepository;
 
     public Page<Kunde> listKunden(final PageRequest pagination, final Map<String, String> conditions) {
+        final String firmenname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "firmenname");
         final String nachname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "nachname");
         final String vorname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "vorname");
         final String plz = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "plz");
 
-        if (StringUtils.isBlank(nachname) && StringUtils.isBlank(vorname) && StringUtils.isBlank(plz)) {
+        if (StringUtils.isBlank(firmenname) && StringUtils.isBlank(nachname) && StringUtils.isBlank(vorname) && StringUtils.isBlank(plz)) {
             return kundeRepository.findAll(pagination);
         } else {
             final FindAllByConditionsExecuter<Kunde> executer = new FindAllByConditionsExecuter<>();
-            return executer.findByParams(kundeRepository, pagination, buildMethodnameForQueryKunde(nachname, vorname, plz), vorname, plz,
-                    nachname, nachname);
+            return executer.findByParams(kundeRepository, pagination, buildMethodnameForQueryKunde(vorname, plz, nachname, firmenname),
+                    vorname, plz, nachname, firmenname);
         }
     }
 
-    private String buildMethodnameForQueryKunde(final String nachname, final String vorname, final String plz) {
+    private String buildMethodnameForQueryKunde(final String vorname, final String plz, final String nachname, final String firmenname) {
         String methodName = "findBy";
         if (StringUtils.isNotBlank(vorname)) {
             methodName += "VornameLikeAnd";
@@ -43,7 +44,10 @@ public class KundeService {
             methodName += "PlzLikeAnd";
         }
         if (StringUtils.isNotBlank(nachname)) {
-            methodName += "NachnameLikeOrFirmennameLikeAnd";
+            methodName += "NachnameLikeAnd";
+        }
+        if (StringUtils.isNotBlank(firmenname)) {
+            methodName += "FirmennameLikeAnd";
         }
         return StringUtils.removeEnd(methodName, "And");
     }
