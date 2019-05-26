@@ -17,10 +17,9 @@
         </div>
         <div class="center">
           Computer-Insel GbR
-          <br><br>
+          <br>
           Gesellschafter: Stefan Weiske, Peer Dernoscheck
         </div>
-        <br>
         <br>
         <div class="mFull">
           <span class="left">{{entity.rechnung.filiale.strasse}}, {{entity.rechnung.filiale.plz}} {{entity.rechnung.filiale.ort}}</span>
@@ -39,13 +38,16 @@
         <hr class="header">
       </header>
       <header>
-        <div class="font15">
+        <div class="font15" v-if="entity.rechnung.kunde && entity.rechnung.nameDrucken" style="width: 350px;">
           <span v-if="entity.rechnung.kunde.firmenname">{{entity.rechnung.kunde.firmenname}}<br></span>
           <span v-if="entity.rechnung.kunde.nachname">{{entity.rechnung.kunde.vorname}} {{entity.rechnung.kunde.nachname}}<br></span>
           {{entity.rechnung.kunde.strasse}}
           <br>
           {{entity.rechnung.kunde.plz}} {{entity.rechnung.kunde.ort}}
         </div>
+        <div v-if="!entity.rechnung.kunde || !entity.rechnung.nameDrucken" style="height: 70px;">&nbsp;</div>
+        <br>
+        <br>
         <br>
         <br>
         <div class="rechnungHeader">
