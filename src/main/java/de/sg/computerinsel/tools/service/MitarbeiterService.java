@@ -92,6 +92,11 @@ public class MitarbeiterService {
             } else if (!StringUtils.isAllBlank(dto.getPassword(), dto.getPasswordRepeat())
                     && !checkPasswordBefore(mitarbeiter, dto.getPasswordBefore())) {
                 result.put(Message.ERROR.getCode(), "Das alte Passwort stimmt nicht überein.");
+            } else if (!StringUtils.isAllBlank(dto.getPassword(), dto.getPasswordRepeat()) && dto.getPassword().length() < 10) {
+                result.put(Message.ERROR.getCode(), "Das Passwort darf nicht kürzer als 10 Zeichen sein.");
+            } else if (dto.getUsername().length() < Mitarbeiter.MIN_LENGTH_BENUTZERNAME
+                    || dto.getUsername().length() > Mitarbeiter.MAX_LENGTH_BENUTZERNAME) {
+                result.put(Message.ERROR.getCode(), "Der Benutzername darf nicht kürzer als 6 und nicht länger als 50 Zeichen sein.");
             } else {
                 saveUsernameAndPassword(dto, mitarbeiter);
                 result.put(Message.SUCCESS.getCode(), "Die Anmeldedaten wurden geändert.");
