@@ -5,6 +5,10 @@ table {
   background-color: #fff;
 }
 
+table tr:nth-child(even) td {
+  background-color: #CECECE;
+}
+
 .tableNavi {
   background-color: #f9f9f9;
   color: black;
@@ -59,4 +63,3 @@ th.active .arrow {
   border-right: 4px solid transparent;
   border-top: 4px solid #fff;
 }
-
