@@ -129,6 +129,7 @@ var vm = new Vue({
         .then(vm.setZahlarten)
         .then(vm.getKategorien)
         .then(vm.setKategorien)
+        .then(vm.gridReload)
         .then(hideLoader);
     },
     updateGruppen: function() {
@@ -154,10 +155,13 @@ var vm = new Vue({
         vm.entity.rechnung.nameDrucken = true;
       }
     },
+    gridReload: function() {
+      vm.grid.searchQuery = {};
+      vm.grid.reload = true;
+    },
     openRechnung: function(response) {
       var data = response.data;
       if (data.success || data.info) {
-        var kunde = data.reparatur ? data.reparatur.kunde : data.kunde;
         var id = data.rechnung.id;
         window.open('/rechnung-drucken.html?id=' + id, '_blank', 'resizable=yes');
         vm.init();
