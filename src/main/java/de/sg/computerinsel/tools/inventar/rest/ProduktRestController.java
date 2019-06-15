@@ -15,8 +15,10 @@ import java.util.Optional;
 
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,6 +59,7 @@ public class ProduktRestController {
 
     @PostMapping
     public Page<Produkt> list(@RequestBody final SearchData data) {
+        checkAndSetSortierungAnzahlVerkaeufe(data);
         Page<Produkt> produkte = service.listProdukte(data.getData().getPagination(), data.getConditions());
         if (BooleanUtils.toBoolean(data.getConditions().get("schnellerfassung")) && produkte.getContent().size() == 1) {
             final Produkt produkt = produkte.getContent().get(0);
@@ -67,6 +70,13 @@ public class ProduktRestController {
             }
         }
         return produkte;
+    }
+
+    private void checkAndSetSortierungAnzahlVerkaeufe(final SearchData data) {
+        if (StringUtils.equals("true", data.getConditions().get("sortierung"))) {
+            data.getData().setSort("anzahlVerkaeufe");
+            data.getData().setSortorder(Sort.Direction.DESC.toString());
+        }
     }
 
     @GetMapping("/{id}")

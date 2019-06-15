@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Formula;
+
 import de.sg.computerinsel.tools.CurrencyUtils;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import lombok.Getter;
@@ -59,6 +61,9 @@ public class Produkt extends IntegerBaseObject {
 
     @Column(name = "preis_vk_netto")
     private BigDecimal preisVkNetto = BigDecimal.ZERO;
+
+    @Formula("(SELECT COUNT(*) FROM rechnungsposten WHERE rechnungsposten.produkt_id = id)")
+    private int anzahlVerkaeufe;
 
     public String getPreise() {
         final StringBuilder builder = new StringBuilder();

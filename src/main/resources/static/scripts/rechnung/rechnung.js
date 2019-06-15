@@ -135,6 +135,9 @@ var vm = new Vue({
     updateGruppen: function() {
       vm.getGruppen().then(vm.setGruppen);
     },
+    saveSearchQuerySortierung: function() {
+      saveInLocalstorage(SUCHE.PRODUKT.SORT_VERKAEUFE, vm.grid.searchQuery.sortierung);
+    },
     saveFunc: function() {
       vm.executeSave()
         .then(vm.openRechnung);
@@ -157,6 +160,7 @@ var vm = new Vue({
     },
     gridReload: function() {
       vm.grid.searchQuery = {};
+      vm.setGridSearch();
       vm.grid.reload = true;
     },
     openRechnung: function(response) {
@@ -200,6 +204,9 @@ var vm = new Vue({
         { name: 'bestand', title: 'Bestand', width: 100 },
         { name: 'preise', title: 'Preise', width: 100 }
       ];
+    },
+    setGridSearch: function() {
+      vm.grid.searchQuery.sortierung = getFromLocalstorage(SUCHE.PRODUKT.SORT_VERKAEUFE) === 'true';
     },
     getEntity: function() {
       return axios.get('/rechnung/' + -1);
