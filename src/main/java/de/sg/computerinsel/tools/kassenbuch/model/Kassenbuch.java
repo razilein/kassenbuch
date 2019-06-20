@@ -23,11 +23,11 @@ import lombok.Setter;
 public class Kassenbuch extends IntegerBaseObject {
 
     @Column(name = "ausgangsbetrag")
-    @NotNull(message = "Bitte geben Sie den Ausgangsbetrag an")
+    @NotNull(message = "kassenbuch.ausgangsbetrag.error")
     private BigDecimal ausgangsbetrag;
 
     @Column(name = "datum")
-    @NotNull(message = "Bitte geben Sie das Datum von an")
+    @NotNull(message = "kassenbuch.datum.error")
     private LocalDate datum;
 
     @Column(name = "ersteller")

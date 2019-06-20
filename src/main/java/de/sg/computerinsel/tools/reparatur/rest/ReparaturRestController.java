@@ -45,10 +45,11 @@ import de.sg.computerinsel.tools.reparatur.service.FeiertagUtils;
 import de.sg.computerinsel.tools.reparatur.service.ReparaturService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
-import de.sg.computerinsel.tools.rest.ValidationUtils;
 import de.sg.computerinsel.tools.service.EinstellungenService;
+import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.ProtokollService;
+import de.sg.computerinsel.tools.service.ValidationService;
 
 @RestController
 @RequestMapping("/reparatur")
@@ -61,6 +62,9 @@ public class ReparaturRestController {
     private KundeService kundeService;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     private MitarbeiterService mitarbeiterService;
 
     @Autowired
@@ -68,6 +72,9 @@ public class ReparaturRestController {
 
     @Autowired
     private ReparaturService service;
+
+    @Autowired
+    private ValidationService validationService;
 
     @PostMapping
     public Page<Reparatur> getReparaturen(@RequestBody final SearchData data) {
@@ -142,8 +149,7 @@ public class ReparaturRestController {
 
     @PutMapping
     public Map<String, Object> saveReparatur(@RequestBody final Reparatur reparatur) {
-        final Map<String, Object> result = new HashMap<>();
-        result.putAll(ValidationUtils.validate(reparatur));
+        final Map<String, Object> result = new HashMap<>(validationService.validate(reparatur));
         if (result.isEmpty()) {
             final boolean isErstellen = reparatur.getId() == null;
             if (isErstellen) {
@@ -158,10 +164,9 @@ public class ReparaturRestController {
             final Reparatur saved = service.save(reparatur);
             if (isErstellen && reparatur.getKunde() != null && !reparatur.getKunde().isDsgvo()) {
                 kundeService.saveDsgvo(reparatur.getKunde().getId());
-                result.put(Message.INFO.getCode(),
-                        "Bitte händigen Sie dem Kunden zum Unterzeichnen die 'Einverständniserklärung in die Erhebung und Verarbeitung von Daten' aus.");
+                result.put(Message.INFO.getCode(), messageService.get("dsgvo.info"));
             } else {
-                result.put(Message.SUCCESS.getCode(), "Der Reparaturauftrag '" + reparatur.getNummer() + "' wurde erfolgreich gespeichert");
+                result.put(Message.SUCCESS.getCode(), messageService.get("reparatur.save.success", reparatur.getNummer()));
             }
             result.put("reparatur", saved);
             protokollService.write(saved.getId(), REPARATUR, saved.getNummer(), isErstellen ? ERSTELLT : GEAENDERT);
@@ -173,7 +178,7 @@ public class ReparaturRestController {
     public Map<String, Object> reparaturErledigen(@RequestBody final IntegerBaseObject obj) {
         final Map<String, Object> result = new HashMap<>();
         if (obj.getId() == null) {
-            result.put(Message.ERROR.getCode(), "Ungültiger Reparaturauftrag");
+            result.put(Message.ERROR.getCode(), messageService.get("reparatur.save.error"));
         } else {
             final Optional<Reparatur> optional = service.getReparatur(obj.getId());
             if (optional.isPresent()) {
@@ -181,8 +186,8 @@ public class ReparaturRestController {
                 final boolean erledigt = !reparatur.isErledigt();
                 service.reparaturErledigen(reparatur, erledigt);
                 protokollService.write(reparatur.getId(), REPARATUR,
-                        reparatur.getNummer() + " Erledigt: " + BooleanUtils.toStringYesNo(erledigt), GEAENDERT);
-                result.put(Message.SUCCESS.getCode(), "Der Reparaturauftrag '" + reparatur.getNummer() + "' wurde erfolgreich gespeichert");
+                        messageService.get("protokoll.erledigt", reparatur.getNummer(), BooleanUtils.toStringYesNo(erledigt)), GEAENDERT);
+                result.put(Message.SUCCESS.getCode(), messageService.get("reparatur.save.success", reparatur.getNummer()));
             }
         }
         return result;
@@ -196,7 +201,7 @@ public class ReparaturRestController {
         if (optional.isPresent()) {
             protokollService.write(optional.get().getId(), REPARATUR, optional.get().getNummer(), GELOESCHT);
         }
-        return Collections.singletonMap(Message.SUCCESS.getCode(), "Der Reparaturauftrag wurde erfolgreich gelöscht.");
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("reparatur.delete.success"));
     }
 
     @GetMapping("/mitarbeiter")

@@ -23,9 +23,10 @@ import de.sg.computerinsel.tools.kassenbuch.rest.model.KassenbuchDTO;
 import de.sg.computerinsel.tools.kassenbuch.service.KassenbuchService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
-import de.sg.computerinsel.tools.rest.ValidationUtils;
 import de.sg.computerinsel.tools.service.EinstellungenService;
+import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.ProtokollService;
+import de.sg.computerinsel.tools.service.ValidationService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -43,7 +44,13 @@ public class KassenbuchRestController {
     private KassenbuchService kassenbuchService;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     private ProtokollService protokollService;
+
+    @Autowired
+    private ValidationService validationService;
 
     @PostMapping
     public Page<Kassenbuch> list(@RequestBody final SearchData data) {
@@ -80,13 +87,13 @@ public class KassenbuchRestController {
 
     @PutMapping
     public Map<String, Object> erstelleKassenbuch(@RequestBody final KassenbuchDTO dto) {
-        final Map<String, Object> result = new HashMap<>(ValidationUtils.validate(dto.getKassenbuch()));
+        final Map<String, Object> result = new HashMap<>(validationService.validate(dto.getKassenbuch()));
         if (!result.containsKey(Message.ERROR.getCode())) {
             kassenbuchService.saveAusgangsbetrag(dto);
             result.put("kassenbuch", kassenbuchService.saveKassenbuch(dto));
-            result.put(Message.SUCCESS.getCode(), "Das Kassenbuch wurde erfolgreich erstellt.");
-            protokollService.write("Kassenbuch erstellt: " + dto.getKassenbuch().getDatum() + " mit Ausgangsbetrag: "
-                    + dto.getKassenbuch().getAusgangsbetrag());
+            result.put(Message.SUCCESS.getCode(), messageService.get("kassenbuch.save.success"));
+            protokollService.write(
+                    messageService.get("protokoll.kassenbuch", dto.getKassenbuch().getDatum(), dto.getKassenbuch().getAusgangsbetrag()));
         }
         return result;
     }

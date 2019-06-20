@@ -16,8 +16,8 @@ import lombok.Setter;
 @Setter
 public class Kategorie extends IntegerBaseObject {
 
-    @NotEmpty(message = "Bitte geben Sie die Bezeichnung der Kategorie an.")
-    @Size(max = 100, message = "Die Bezeichnung der Kategorie darf nicht länger als 100 Zeichen sein.")
+    @NotEmpty(message = "inventar.kategorie.bezeichnung.error.empty")
+    @Size(max = 100, message = "inventar.kategorie.bezeichnung.error.size")
     @Column(name = "bezeichnung")
     private String bezeichnung;
 

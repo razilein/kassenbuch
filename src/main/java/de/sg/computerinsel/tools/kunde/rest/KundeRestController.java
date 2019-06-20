@@ -27,18 +27,25 @@ import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
-import de.sg.computerinsel.tools.rest.ValidationUtils;
+import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.ProtokollService;
+import de.sg.computerinsel.tools.service.ValidationService;
 
 @RestController
 @RequestMapping("/kunde")
 public class KundeRestController {
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     private ProtokollService protokollService;
 
     @Autowired
     private KundeService service;
+
+    @Autowired
+    private ValidationService validationService;
 
     @PostMapping
     public Page<Kunde> getKunden(@RequestBody final SearchData data) {
@@ -56,16 +63,14 @@ public class KundeRestController {
 
     @PutMapping
     public Map<String, Object> saveKunde(@RequestBody final Kunde kunde) {
-        final Map<String, Object> result = new HashMap<>();
-        result.putAll(ValidationUtils.validate(kunde));
-
+        final Map<String, Object> result = new HashMap<>(validationService.validate(kunde));
         if (result.isEmpty()) {
             final boolean isErstellen = kunde.getId() == null;
             if (isErstellen) {
                 kunde.setErstelltAm(LocalDateTime.now());
             }
             final Kunde saved = service.save(kunde);
-            result.put(Message.SUCCESS.getCode(), "Der Kunde '" + saved.getNummer() + "' wurde erfolgreich gespeichert");
+            result.put(Message.SUCCESS.getCode(), messageService.get("kunde.save.success", saved.getNummer()));
             result.put("kunde", saved);
             protokollService.write(saved.getId(), KUNDE, saved.getNummer().toString(), isErstellen ? ERSTELLT : GEAENDERT);
         }
@@ -81,7 +86,7 @@ public class KundeRestController {
             protokollService.write(optional.get().getId(), KUNDE, optional.get().getNummer().toString(), GELOESCHT);
         }
         service.deleteKunde(id);
-        return Collections.singletonMap(Message.SUCCESS.getCode(), "Der Kunde wurde erfolgreich gelöscht.");
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("kunde.delete.success"));
     }
 
 }

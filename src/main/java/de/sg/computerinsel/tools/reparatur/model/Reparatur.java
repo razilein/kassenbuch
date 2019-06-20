@@ -31,7 +31,7 @@ public class Reparatur extends IntegerBaseObject {
     @JoinColumn(name = "filiale_id", referencedColumnName = "id")
     private Filiale filiale;
 
-    @Size(max = MAX_LENGTH_MITARBEITER, message = "Der Mitarbeitername darf nicht länger als 200 Zeichen sein.")
+    @Size(max = MAX_LENGTH_MITARBEITER, message = "reparatur.mitarbeiter.error.size")
     @Column(name = "mitarbeiter")
     private String mitarbeiter;
 
@@ -39,30 +39,30 @@ public class Reparatur extends IntegerBaseObject {
     @JoinColumn(name = "kunde_id", referencedColumnName = "id")
     private Kunde kunde;
 
-    @Size(max = 20, message = "Die Auftragsnummer darf nicht länger als 20 Zeichen sein.")
+    @Size(max = 20, message = "reparatur.nummer.error.size")
     @Column(name = "nummer")
     private String nummer;
 
     @Column(name = "art")
     private Integer art;
 
-    @Size(max = 500, message = "Der Gerätename darf nicht länger als 500 Zeichen sein.")
+    @Size(max = 500, message = "reparatur.geraet.error.size")
     @Column(name = "geraet")
     private String geraet;
 
-    @Size(max = 500, message = "Die Seriennummer darf nicht länger als 500 Zeichen sein.")
+    @Size(max = 500, message = "reparatur.seriennummer.error.size")
     @Column(name = "seriennummer")
     private String seriennummer;
 
-    @Size(max = 1000, message = "Der im Feld 'Symptome' eingetragene Text darf nicht länger als 1000 Zeichen sein.")
+    @Size(max = 1000, message = "reparatur.symptome.error.size")
     @Column(name = "symptome")
     private String symptome;
 
-    @Size(max = 1000, message = "Der im Feld 'Aufgaben' eingetragene Text darf nicht länger als 1000 Zeichen sein.")
+    @Size(max = 1000, message = "reparatur.aufgaben.error.size")
     @Column(name = "aufgaben")
     private String aufgaben;
 
-    @Size(max = 50, message = "Der im Feld 'Gerätepasswort' eingetragene Text darf nicht länger als 50 Zeichen sein.")
+    @Size(max = 50, message = "reparatur.geraetepsw.error.size")
     @Column(name = "geraetepasswort")
     private String geraetepasswort;
 
@@ -80,7 +80,7 @@ public class Reparatur extends IntegerBaseObject {
     @Column(name = "abholzeit")
     private LocalTime abholzeit;
 
-    @Size(max = 300, message = "Der im Feld 'Kostenvoranschlag' eingetragene Text darf nicht länger als 300 Zeichen sein.")
+    @Size(max = 300, message = "reparatur.kostenvoranschlag.error.size")
     @Column(name = "kostenvoranschlag")
     private String kostenvoranschlag;
 

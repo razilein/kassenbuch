@@ -22,8 +22,8 @@ public class Gruppe extends IntegerBaseObject {
     @JoinColumn(name = "kategorie_id", referencedColumnName = "id")
     private Kategorie kategorie;
 
-    @NotEmpty(message = "Bitte geben Sie die Bezeichnung der Gruppe an.")
-    @Size(max = 100, message = "Die Bezeichnung der Gruppe darf nicht länger als 100 Zeichen sein.")
+    @NotEmpty(message = "inventar.gruppe.bezeichnung.error.empty")
+    @Size(max = 100, message = "inventar.gruppe.bezeichnung.error.size")
     @Column(name = "bezeichnung")
     private String bezeichnung;
 

@@ -26,8 +26,9 @@ import de.sg.computerinsel.tools.inventar.model.Kategorie;
 import de.sg.computerinsel.tools.inventar.service.InventarService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
-import de.sg.computerinsel.tools.rest.ValidationUtils;
+import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.ProtokollService;
+import de.sg.computerinsel.tools.service.ValidationService;
 
 @RestController
 @RequestMapping("/inventar/kategorie")
@@ -37,7 +38,13 @@ public class KategorieRestController {
     private InventarService service;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     private ProtokollService protokollService;
+
+    @Autowired
+    private ValidationService validationService;
 
     @PostMapping
     public Page<Kategorie> list(@RequestBody final SearchData data) {
@@ -55,10 +62,10 @@ public class KategorieRestController {
 
     @PutMapping
     public Map<String, Object> save(@RequestBody final Kategorie kategorie) {
-        final Map<String, Object> result = new HashMap<>(ValidationUtils.validate(kategorie));
+        final Map<String, Object> result = new HashMap<>(validationService.validate(kategorie));
         if (result.isEmpty()) {
             final Kategorie saved = service.saveKategorie(kategorie);
-            result.put(Message.SUCCESS.getCode(), "Die Kategorie wurde erfolgreich gespeichert.");
+            result.put(Message.SUCCESS.getCode(), messageService.get("inventar.kategorie.save.success"));
             protokollService.write(saved.getId(), KATEGORIE, kategorie.getBezeichnung(), kategorie.getId() == null ? ERSTELLT : GEAENDERT);
         }
         return result;
@@ -72,7 +79,7 @@ public class KategorieRestController {
         if (optional.isPresent()) {
             protokollService.write(optional.get().getId(), KATEGORIE, optional.get().getBezeichnung(), GELOESCHT);
         }
-        return Collections.singletonMap(Message.SUCCESS.getCode(), "Die Kategorie wurde erfolgreich gelöscht.");
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("inventar.kategorie.delete.success"));
     }
 
 }

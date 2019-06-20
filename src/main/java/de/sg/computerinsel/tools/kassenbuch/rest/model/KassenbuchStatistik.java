@@ -12,10 +12,10 @@ import lombok.Data;
 @Data
 public class KassenbuchStatistik {
 
-    @NotNull(message = "Bitte geben Sie den Rechnungszeitraum von an.")
+    @NotNull(message = "kassenbuch.statistik.zeitraum.von.error")
     private Date zeitraumVon;
 
-    @NotNull(message = "Bitte geben Sie den Rechnungszeitraum bis an.")
+    @NotNull(message = "kassenbuch.statistik.zeitraum.bis.error")
     private Date zeitraumBis;
 
     private String posten;

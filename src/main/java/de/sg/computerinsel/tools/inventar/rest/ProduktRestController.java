@@ -34,8 +34,9 @@ import de.sg.computerinsel.tools.inventar.model.Produkt;
 import de.sg.computerinsel.tools.inventar.service.InventarService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
-import de.sg.computerinsel.tools.rest.ValidationUtils;
+import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.ProtokollService;
+import de.sg.computerinsel.tools.service.ValidationService;
 
 @RestController
 @RequestMapping("/inventar/produkt")
@@ -45,7 +46,13 @@ public class ProduktRestController {
     private InventarService service;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     private ProtokollService protokollService;
+
+    @Autowired
+    private ValidationService validationService;
 
     @GetMapping("/kategorie")
     public List<DefaultKeyValue<Integer, String>> listKategorien() {
@@ -103,10 +110,10 @@ public class ProduktRestController {
     }
 
     private Map<String, Object> saveProdukt(final Produkt produkt) {
-        final Map<String, Object> result = new HashMap<>(ValidationUtils.validate(produkt));
+        final Map<String, Object> result = new HashMap<>(validationService.validate(produkt));
         if (result.isEmpty()) {
             final Produkt saved = service.saveProdukt(produkt);
-            result.put(Message.SUCCESS.getCode(), "Das Produkt wurde erfolgreich gespeichert.");
+            result.put(Message.SUCCESS.getCode(), messageService.get("inventar.produkt.save.success"));
             protokollService.write(saved.getId(), PRODUKT, produkt.getBezeichnung(), produkt.getId() == null ? ERSTELLT : GEAENDERT);
         }
         return result;
@@ -120,7 +127,7 @@ public class ProduktRestController {
         if (optional.isPresent()) {
             protokollService.write(optional.get().getId(), PRODUKT, optional.get().getBezeichnung(), GELOESCHT);
         }
-        return Collections.singletonMap(Message.SUCCESS.getCode(), "Das Produkt wurde erfolgreich gelöscht.");
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("inventar.delete.save.success"));
     }
 
 }

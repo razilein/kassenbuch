@@ -18,13 +18,13 @@ import lombok.Setter;
 @Setter
 public class Rolle extends IntegerBaseObject {
 
-    @NotEmpty(message = "Bitte geben Sie den Namen an.")
-    @Size(max = 50, message = "Der Name darf nicht länger als 50 Zeichen sein.")
+    @NotEmpty(message = "rolle.name.error.empty")
+    @Size(max = 50, message = "rolle.name.error.size")
     @Column(name = "name")
     private String name;
 
-    @NotEmpty(message = "Bitte geben Sie die Beschreibung an.")
-    @Size(max = 200, message = "Die Beschreibung darf nicht länger als 200 Zeichen sein.")
+    @NotEmpty(message = "rolle.beschreibung.error.empty")
+    @Size(max = 200, message = "rolle.beschreibung.error.size")
     @Column(name = "beschreibung")
     private String beschreibung;
 

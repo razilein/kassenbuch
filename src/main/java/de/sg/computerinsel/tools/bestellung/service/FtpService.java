@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.primitives.Ints;
 
 import de.sg.computerinsel.tools.service.EinstellungenService;
+import de.sg.computerinsel.tools.service.MessageService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,6 +56,8 @@ public class FtpService {
     /* @formatter:on */
 
     private final EinstellungenService einstellungenService;
+
+    private final MessageService messageService;
 
     public Optional<FTPClient> connect() {
         final FTPClient client = new FTPClient();
@@ -105,10 +108,10 @@ public class FtpService {
             try {
                 client.get().storeFile(dateiname, stream);
             } catch (final IOException e) {
-                throw new IllegalStateException("Fehler bem Hochladen der Datei: " + e.getMessage(), e);
+                throw new IllegalStateException(messageService.get("bestellliste.put.error.upload", e.getMessage()), e);
             }
         } else {
-            throw new IllegalStateException("Der FTP-Server ist nicht erreichbar.");
+            throw new IllegalStateException(messageService.get("bestellliste.put.error.unavailable"));
         }
     }
 

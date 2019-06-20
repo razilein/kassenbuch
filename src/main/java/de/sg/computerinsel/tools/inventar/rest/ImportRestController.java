@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import de.sg.computerinsel.tools.inventar.model.ProduktDTO;
 import de.sg.computerinsel.tools.inventar.service.ExportImportService;
 import de.sg.computerinsel.tools.rest.Message;
+import de.sg.computerinsel.tools.service.MessageService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -28,6 +29,9 @@ public class ImportRestController {
 
     @Autowired
     private ExportImportService service;
+
+    @Autowired
+    private MessageService messageService;
 
     @PostMapping
     public @ResponseBody List<ProduktDTO> list(@RequestParam("file") final MultipartFile file) {
@@ -42,7 +46,7 @@ public class ImportRestController {
     @PutMapping
     public Map<String, Object> export(@RequestBody final List<ProduktDTO> produkte) {
         service.importProdukte(produkte);
-        return Collections.singletonMap(Message.SUCCESS.getCode(), "Die Produkte wurden erfolgreich importiert.");
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("inventar.import.success"));
     }
 
 }

@@ -15,6 +15,7 @@ import de.sg.computerinsel.tools.kassenbuch.rest.model.Kassenstand;
 import de.sg.computerinsel.tools.kassenbuch.service.KassenstandService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.service.EinstellungenService;
+import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.ProtokollService;
 
 /**
@@ -31,11 +32,14 @@ public class KassenstandRestController {
     private KassenstandService service;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     private ProtokollService protokollService;
 
     @GetMapping
     public List<Kassenstand> get() {
-        protokollService.write("Kassenstand eingesehen");
+        protokollService.write(messageService.get("protokoll.kassenbuch.kassenstand.read"));
         return einstellungenService.getKassenstand();
     }
 
@@ -43,8 +47,8 @@ public class KassenstandRestController {
     public Map<String, Object> save(@RequestBody final List<Kassenstand> kassenstaende) {
         einstellungenService.saveKassenstand(kassenstaende);
         service.ablegen(kassenstaende);
-        protokollService.write("Kassenstand gespeichert");
-        return Collections.singletonMap(Message.SUCCESS.getCode(), "Der Kassenstand wurde erfolgreich gespeichert.");
+        protokollService.write(messageService.get("protokoll.kassenbuch.kassenstand.save"));
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("kassenbuch.kassenstand.save.success"));
     }
 
 }

@@ -37,16 +37,16 @@ public class Produkt extends IntegerBaseObject {
     @Column(name = "bestand_unendlich")
     private boolean bestandUnendlich;
 
-    @NotEmpty(message = "Bitte geben Sie die Bezeichnung des Produktes an")
-    @Size(max = 500, message = "Die Bezeichnung des Produktes darf nicht länger als 500 Zeichen sein")
+    @NotEmpty(message = "inventar.produkt.bezeichnung.error.empty")
+    @Size(max = 500, message = "inventar.produkt.bezeichnung.error.size")
     @Column(name = "bezeichnung")
     private String bezeichnung;
 
-    @Size(max = 100, message = "Die EAN darf nicht länger als 100 Zeichen sein")
+    @Size(max = 100, message = "inventar.produkt.ean.error.size")
     @Column(name = "ean")
     private String ean;
 
-    @Size(max = 100, message = "Der Herstellername darf nicht länger als 100 Zeichen sein")
+    @Size(max = 100, message = "inventar.produkt.hersteller.error.size")
     @Column(name = "hersteller")
     private String hersteller;
 

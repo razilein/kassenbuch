@@ -26,39 +26,39 @@ public class Kunde extends IntegerBaseObject {
     private Integer nummer;
 
     @Column(name = "nachname")
-    @Size(max = 100, message = "Der Nachname darf nicht länger als 100 Zeichen sein.")
+    @Size(max = 100, message = "kunde.nachname.error")
     private String nachname;
 
     @Column(name = "vorname")
-    @Size(max = 50, message = "Der Vorname darf nicht länger als 50 Zeichen sein.")
+    @Size(max = 50, message = "kunde.vorname.error")
     private String vorname;
 
     @Column(name = "firmenname")
-    @Size(max = 200, message = "Der Firmenname darf nicht länger als 200 Zeichen sein.")
+    @Size(max = 200, message = "kunde.firmenname.error")
     private String firmenname;
 
     @Column(name = "strasse")
-    @Size(max = 100, message = "Die Straße darf nicht länger als 100 Zeichen sein.")
+    @Size(max = 100, message = "kunde.strasse.error")
     private String strasse;
 
     @Column(name = "plz")
-    @Size(max = 8, message = "Die PLZ darf nicht länger als 8 Zeichen sein.")
+    @Size(max = 8, message = "kunde.plz.error")
     private String plz;
 
     @Column(name = "ort")
-    @Size(max = 50, message = "Der Ort darf nicht länger als 50 Zeichen sein.")
+    @Size(max = 50, message = "kunde.ort.error")
     private String ort;
 
     @Column(name = "telefon")
-    @Size(max = 50, message = "Die Telefonnummer darf nicht länger als 50 Zeichen sein.")
+    @Size(max = 50, message = "kunde.telefon.error")
     private String telefon;
 
     @Column(name = "email")
-    @Size(max = 100, message = "Die E-Mail-Adresse darf nicht länger als 100 Zeichen sein.")
+    @Size(max = 100, message = "kunde.email.error")
     private String email;
 
     @Column(name = "bemerkung")
-    @Size(max = 4000, message = "Das Bemerkungsfeld darf nicht länger als 4000 Zeichen sein.")
+    @Size(max = 4000, message = "kunde.bemerkung.error")
     private String bemerkung;
 
     @Column(name = "dsgvo")

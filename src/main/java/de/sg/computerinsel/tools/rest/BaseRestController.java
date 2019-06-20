@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.rest.model.UserDTO;
+import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.SecurityService;
 
@@ -23,6 +24,9 @@ public class BaseRestController {
     private static final int DECEMBER_26 = 26;
 
     private static final int JANUARY_5 = 5;
+
+    @Autowired
+    private MessageService messageService;
 
     @Autowired
     private SecurityService securityService;
@@ -36,9 +40,9 @@ public class BaseRestController {
         try {
             securityService.autologin(model.getUsername(), model.getPassword());
             result.put(Message.SUCCESS.getCode(),
-                    "Erfolgreich eingeloggt! Willkommen " + SecurityContextHolder.getContext().getAuthentication().getName());
+                    messageService.get("login.success", SecurityContextHolder.getContext().getAuthentication().getName()));
         } catch (final Exception e) {
-            result.put(Message.ERROR.getCode(), "Der Login war nicht erfolgreich. Bitte prüfen Sie Ihre Anmeldedaten.");
+            result.put(Message.ERROR.getCode(), messageService.get("login.error"));
         }
         return result;
     }

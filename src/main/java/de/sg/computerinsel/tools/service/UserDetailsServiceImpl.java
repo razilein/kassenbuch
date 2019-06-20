@@ -31,13 +31,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final MitarbeiterRolleRepository mitarbeiterRolleRepository;
 
+    private final MessageService messageService;
+
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(final String username) {
         final Optional<Mitarbeiter> mitarbeiter = mitarbeiterRepository.findByBenutzername(username);
 
         if (!mitarbeiter.isPresent()) {
-            throw new IllegalStateException("Benutzername " + username + " ungültig. Anmeldung fehlgeschlagen!");
+            throw new IllegalStateException(messageService.get("login.username.error", username));
         }
 
         final Mitarbeiter m = mitarbeiter.get();

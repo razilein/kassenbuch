@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.sg.computerinsel.tools.inventar.service.InventurService;
 import de.sg.computerinsel.tools.rest.Message;
+import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.ProtokollService;
 
 @RestController
@@ -20,13 +21,16 @@ public class InventurRestController {
     private InventurService service;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     private ProtokollService protokollService;
 
     @PostMapping
     public Map<String, Object> startInventur() {
         service.starteInventur();
-        protokollService.write("Inventur durchgeführt");
-        return Collections.singletonMap(Message.SUCCESS.getCode(), "Die Inventur wurde durchgeführt und im Ablageverzeichnis abgelegt.");
+        protokollService.write(messageService.get("protokoll.inventur"));
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("inventar.inventur.success"));
     }
 
 }

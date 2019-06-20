@@ -19,7 +19,6 @@ import de.sg.computerinsel.tools.dao.RolleRepository;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.reparatur.model.MitarbeiterRolle;
 import de.sg.computerinsel.tools.rest.Message;
-import de.sg.computerinsel.tools.rest.ValidationUtils;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterDTO;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterRollenDTO;
 import de.sg.computerinsel.tools.rest.model.RolleDTO;
@@ -35,11 +34,15 @@ public class MitarbeiterService {
 
     private final EinstellungenService einstellungenService;
 
+    private final MessageService messageService;
+
     private final MitarbeiterRepository mitarbeiterRepository;
 
     private final MitarbeiterRolleRepository mitarbeiterRolleRepository;
 
     private final RolleRepository rolleRepository;
+
+    private final ValidationService validationService;
 
     public Optional<Mitarbeiter> getAngemeldeterMitarbeiter() {
         return mitarbeiterRepository.findByBenutzername(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -70,13 +73,14 @@ public class MitarbeiterService {
             mitarbeiter.setTelefon(dto.getTelefon());
             mitarbeiter.setFiliale(dto.getFiliale());
 
-            ValidationUtils.validate(mitarbeiter);
+            result.putAll(validationService.validate(mitarbeiter));
+
             if (result.isEmpty()) {
                 einstellungenService.save(mitarbeiter);
-                result.put(Message.SUCCESS.getCode(), "Der Mitarbeiter '" + dto.getCompleteName() + "' wurde erfolgreich gespeichert");
+                result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.mitarbeiter.save.success", dto.getCompleteName()));
             }
         } else {
-            result.put(Message.ERROR.getCode(), "Ungültige Anmeldedaten.");
+            result.put(Message.ERROR.getCode(), messageService.get("einstellungen.mitarbeiter.save.error"));
         }
 
         return result;
@@ -88,21 +92,21 @@ public class MitarbeiterService {
         if (optional.isPresent()) {
             final Mitarbeiter mitarbeiter = optional.get();
             if (geaenderterBenutzernameExistiertBereits(dto, mitarbeiter)) {
-                result.put(Message.ERROR.getCode(), "Der gewählte Benutzername ist bereits vergeben.");
+                result.put(Message.ERROR.getCode(), messageService.get("einstellungen.mitarbeiter.benutzername.error.used"));
             } else if (!StringUtils.isAllBlank(dto.getPassword(), dto.getPasswordRepeat())
                     && !checkPasswordBefore(mitarbeiter, dto.getPasswordBefore())) {
-                result.put(Message.ERROR.getCode(), "Das alte Passwort stimmt nicht überein.");
+                result.put(Message.ERROR.getCode(), messageService.get("einstellungen.mitarbeiter.psw.error.wrong"));
             } else if (!StringUtils.isAllBlank(dto.getPassword(), dto.getPasswordRepeat()) && dto.getPassword().length() < 10) {
-                result.put(Message.ERROR.getCode(), "Das Passwort darf nicht kürzer als 10 Zeichen sein.");
+                result.put(Message.ERROR.getCode(), messageService.get("einstellungen.mitarbeiter.psw.error.size"));
             } else if (dto.getUsername().length() < Mitarbeiter.MIN_LENGTH_BENUTZERNAME
                     || dto.getUsername().length() > Mitarbeiter.MAX_LENGTH_BENUTZERNAME) {
-                result.put(Message.ERROR.getCode(), "Der Benutzername darf nicht kürzer als 6 und nicht länger als 50 Zeichen sein.");
+                result.put(Message.ERROR.getCode(), messageService.get("einstellungen.mitarbeiter.benutzername.error.size"));
             } else {
                 saveUsernameAndPassword(dto, mitarbeiter);
-                result.put(Message.SUCCESS.getCode(), "Die Anmeldedaten wurden geändert.");
+                result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.mitarbeiter.psw.save.success"));
             }
         } else {
-            result.put(Message.ERROR.getCode(), "Ungültige Anmeldedaten.");
+            result.put(Message.ERROR.getCode(), messageService.get("einstellungen.mitarbeiter.save.error"));
         }
         return result;
     }
