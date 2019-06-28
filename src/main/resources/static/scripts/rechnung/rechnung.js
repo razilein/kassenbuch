@@ -139,8 +139,10 @@ var vm = new Vue({
       saveInLocalstorage(SUCHE.PRODUKT.SORT_VERKAEUFE, vm.grid.searchQuery.sortierung);
     },
     saveFunc: function() {
+      showLoader();
       vm.executeSave()
-        .then(vm.openRechnung);
+        .then(vm.openRechnung)
+        .then(hideLoader);
     },
     executeSave: function() {
       return axios.put('/rechnung/', vm.entity);

@@ -19,7 +19,10 @@ var vm = new Vue({
     },
 
     save: function() {
-      vm.executeSave().then(vm.handleResponse);
+      showLoader();
+      vm.executeSave()
+        .then(vm.handleResponse)
+        .then(hideLoader);
     },
 
     executeSave: function() {
@@ -32,10 +35,12 @@ var vm = new Vue({
     },
 
     init: function() {
+      showLoader();
       vm.getBestellung()
         .then(vm.setBestellung)
         .then(vm.getDownloadBestellung)
-        .then(vm.setDownloadBestellung);
+        .then(vm.setDownloadBestellung)
+        .then(hideLoader);
     },
 
     getBestellung: function() {
