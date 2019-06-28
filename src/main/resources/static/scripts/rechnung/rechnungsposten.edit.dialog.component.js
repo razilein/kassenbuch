@@ -32,6 +32,8 @@ Vue.component('posten-edit-dialog', {
       return this.entity && hasAllPropertiesAndNotEmpty(this.entity, ['bezeichnung', 'menge', 'rabatt']) && this.entity.menge > 0 && this.entity.rabatt > -0.01;
     },
     saveFunc: function() {
+      this.entity.menge = Number(this.entity.menge);
+      this.entity.rabatt = Number(this.entity.rabatt);
       this.$emit('saved', this.entity);
     },
   }
