@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -116,6 +118,7 @@ public class RechnungRestController {
         return dto;
     }
 
+    @Transactional
     @PutMapping
     public Map<String, Object> save(@RequestBody final RechnungDTO dto) {
         final Rechnung rechnung = dto.getRechnung();
