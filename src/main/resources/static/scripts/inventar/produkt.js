@@ -84,6 +84,7 @@ var vm = new Vue({
     
     init: function() {
       vm.prepareRoles();
+      vm.setGridSearch();
       vm.setGridActions();
       vm.setGridColumns();
       this.getKategorien().then(this.setKategorien);
@@ -99,6 +100,10 @@ var vm = new Vue({
 
     updateGruppen: function() {
       vm.getGruppen().then(vm.setGruppen);
+    },
+    
+    saveSearchQuerySortierung: function() {
+      saveInLocalstorage(SUCHE.PRODUKT.SORT_VERKAEUFE, vm.grid.searchQuery.sortierung);
     },
     
     setGridColumns: function() {
@@ -126,6 +131,10 @@ var vm = new Vue({
       vm.grid.actions = [
         { clazz: 'add', disabled: vm.hasNotRoleVerwalten, title: 'Produkt hinzufügen', clickFunc: vm.addFunction }
       ]
+    },
+    
+    setGridSearch: function() {
+      vm.grid.searchQuery.sortierung = getFromLocalstorage(SUCHE.PRODUKT.SORT_VERKAEUFE) === 'true';
     },
     
     getKategorien: function() {

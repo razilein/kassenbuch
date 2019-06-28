@@ -29,8 +29,10 @@ var vm = new Vue({
         .then(hideLoader);
     },
     saveFunc: function() {
+      showLoader();
       vm.executeSave()
-        .then(vm.openReparatur);
+        .then(vm.openReparatur)
+        .then(hideLoader);
     },
     executeSave: function() {
       return axios.put('/reparatur/', vm.entity);

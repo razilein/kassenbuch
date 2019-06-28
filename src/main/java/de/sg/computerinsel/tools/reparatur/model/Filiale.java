@@ -18,42 +18,42 @@ import lombok.Setter;
 @Setter
 public class Filiale extends IntegerBaseObject {
 
-    @NotEmpty(message = "Bitte geben Sie den Namen der Filiale an.")
-    @Size(max = 50, message = "Der Name der Filiale darf nicht länger als 50 Zeichen sein.")
+    @NotEmpty(message = "einstellungen.filiale.name.error.empty")
+    @Size(max = 50, message = "einstellungen.filiale.name.error.size")
     @Column(name = "name")
     private String name;
 
-    @NotEmpty(message = "Bitte geben Sie den Straßennamen, sowie die Hausnummer der Filiale an.")
-    @Size(max = 100, message = "Der Straßennamen darf nicht länger als 50 Zeichen sein.")
+    @NotEmpty(message = "einstellungen.filiale.strasse.error.empty")
+    @Size(max = 100, message = "einstellungen.filiale.strasse.error.size")
     @Column(name = "strasse")
     private String strasse;
 
-    @NotEmpty(message = "Bitte geben Sie die PLZ der Filiale an.")
-    @Size(max = 8, message = "Die PLZ darf nicht länger als 8 Zeichen sein.")
+    @NotEmpty(message = "einstellungen.filiale.plz.error.empty")
+    @Size(max = 8, message = "einstellungen.filiale.plz.error.size")
     @Column(name = "plz")
     private String plz;
 
-    @NotEmpty(message = "Bitte geben Sie den Standort der Filiale an.")
-    @Size(max = 50, message = "Der Ortsname darf nicht länger als 50 Zeichen sein.")
+    @NotEmpty(message = "einstellungen.filiale.ort.error.empty")
+    @Size(max = 50, message = "einstellungen.filiale.ort.error.size")
     @Column(name = "ort")
     private String ort;
 
-    @NotEmpty(message = "Bitte geben Sie die Telefonnummer der Filiale an.")
-    @Size(max = 50, message = "Die Telefonnummer darf nicht länger als 50 Zeichen sein.")
+    @NotEmpty(message = "einstellungen.filiale.telefon.error.empty")
+    @Size(max = 50, message = "einstellungen.filiale.telefon.error.size")
     @Column(name = "telefon")
     private String telefon;
 
-    @NotEmpty(message = "Bitte geben Sie die E-Mail-Adresse der Filiale an.")
-    @Size(max = 50, message = "Die E-Mail-Adresse darf nicht länger als 100 Zeichen sein.")
+    @NotEmpty(message = "einstellungen.filiale.email.error.empty")
+    @Size(max = 50, message = "einstellungen.filiale.email.error.size")
     @Column(name = "email")
     private String email;
 
-    @NotEmpty(message = "Bitte geben Sie das Kürzel der Filiale an. Dieses wird den Auftragsnummer vorangestellt.")
-    @Size(max = 3, message = "Das Kürzel darf nicht länger als 3 Zeichen sein.")
+    @NotEmpty(message = "einstellungen.filiale.kuerzel.error.empty")
+    @Size(max = 3, message = "einstellungen.filiale.kuerzel.error.size")
     @Column(name = "kuerzel")
     private String kuerzel;
 
-    @Size(max = 100, message = "Der Text 'Besuchen Sie uns auch in unserer Filiale in' darf nicht länger als 100 Zeichen sein.")
+    @Size(max = 100, message = "einstellungen.filiale.rechnungTextAndereFiliale.error.size")
     @Column(name = "rechnung_text_andere_filiale")
     private String rechnungTextAndereFiliale;
 

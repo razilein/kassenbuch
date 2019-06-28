@@ -18,6 +18,7 @@ import de.sg.computerinsel.tools.rechnung.model.Zahlart;
 import de.sg.computerinsel.tools.rechnung.rest.model.RechnungDTO;
 import de.sg.computerinsel.tools.rechnung.service.RechnungService;
 import de.sg.computerinsel.tools.service.EinstellungenService;
+import de.sg.computerinsel.tools.service.MessageService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 public class StatistikService {
 
     private final EinstellungenService einstellungenService;
+
+    private final MessageService messageService;
 
     private final RechnungRepository rechnungRepository;
 
@@ -51,7 +54,7 @@ public class StatistikService {
                     .getStatistikProJahrPostenMonat(rechnungen, statistik.getPosten());
             KassenbuchStatistikUtils.createPostenFile(ablageverzeichnis, statistikProJahrPostenMonat);
         } catch (final IOException e) {
-            throw new IllegalArgumentException("Fehler beim Erzeugen der Statistik. Näheres ist der Log-Datei zu entnehmen.", e);
+            throw new IllegalArgumentException(messageService.get("kassenbuch.statistik.error"), e);
         }
     }
 
@@ -61,7 +64,6 @@ public class StatistikService {
                         DateUtils.convert(statistik.getZeitraumVon()), DateUtils.convert(statistik.getZeitraumBis()),
                         Zahlart.UEBERWEISUNG.getCode())
                 .stream().map(r -> rechnungService.getRechnung(r.getId())).collect(Collectors.toList());
-        ;
         log.debug("{} Rechnungen ausgelesen", ueberweisungen.size());
         final File ablageverzeichnis = new File(einstellungenService.getAblageverzeichnis().getWert());
         try {
@@ -69,7 +71,7 @@ public class StatistikService {
             final String zeitraumBis = DateUtils.format(statistik.getZeitraumBis());
             KassenbuchStatistikUtils.createUeberweisungenUebersichtFile(ablageverzeichnis, ueberweisungen, zeitraumVon, zeitraumBis);
         } catch (final IOException e) {
-            throw new IllegalArgumentException("Fehler beim Erzeugen der Statistik. Näheres ist der Log-Datei zu entnehmen.", e);
+            throw new IllegalArgumentException(messageService.get("kassenbuch.statistik.error"), e);
         }
     }
 

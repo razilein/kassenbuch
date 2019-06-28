@@ -68,7 +68,10 @@ var vm = new Vue({
     },
     
     saveFunc: function() {
-      vm.executeSave().then(vm.openKassenbuch);
+      showLoader();
+      vm.executeSave()
+        .then(vm.openKassenbuch)
+        .then(hideLoader);
     },
 
     suchen: function() {

@@ -18,6 +18,7 @@ import de.sg.computerinsel.tools.rechnung.service.RechnungService;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.service.ReparaturService;
 import de.sg.computerinsel.tools.rest.Message;
+import de.sg.computerinsel.tools.service.MessageService;
 
 @RestController
 @RequestMapping("/email")
@@ -25,6 +26,9 @@ public class KundeEmailRestController {
 
     @Autowired
     private EmailService service;
+
+    @Autowired
+    private MessageService messageService;
 
     @Autowired
     private RechnungService rechnungService;
@@ -38,7 +42,7 @@ public class KundeEmailRestController {
 
         final Rechnung rechnung = rechnungService.getRechnung(id).getRechnung();
         service.sendeEmail(file, rechnung);
-        result.put(Message.SUCCESS.getCode(), "Die E-Mail wurde erfolgreich versendet.");
+        result.put(Message.SUCCESS.getCode(), messageService.get("email.success"));
         return result;
     }
 
@@ -50,10 +54,9 @@ public class KundeEmailRestController {
         final Optional<Reparatur> optional = reparaturService.getReparatur(id);
         if (optional.isPresent()) {
             service.sendeEmail(optional.get());
-            result.put(Message.SUCCESS.getCode(), "Die E-Mail wurde erfolgreich versendet.");
+            result.put(Message.SUCCESS.getCode(), messageService.get("email.success"));
         } else {
-            result.put(Message.ERROR.getCode(), "Der Auftrag mit ID " + id
-                    + " konnte nicht mehr gefunden werden, möglicherweise wurde der Auftrag zwischenzeitlich gelöscht.");
+            result.put(Message.ERROR.getCode(), messageService.get("email.reparatur.error", id));
         }
         return result;
     }

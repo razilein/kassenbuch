@@ -29,8 +29,9 @@ import de.sg.computerinsel.tools.inventar.model.Kategorie;
 import de.sg.computerinsel.tools.inventar.service.InventarService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
-import de.sg.computerinsel.tools.rest.ValidationUtils;
+import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.ProtokollService;
+import de.sg.computerinsel.tools.service.ValidationService;
 
 @RestController
 @RequestMapping("/inventar/gruppe")
@@ -40,7 +41,13 @@ public class GruppeRestController {
     private InventarService service;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     private ProtokollService protokollService;
+
+    @Autowired
+    private ValidationService validationService;
 
     @GetMapping("/kategorie")
     public List<DefaultKeyValue<Integer, String>> listKategorien() {
@@ -69,10 +76,10 @@ public class GruppeRestController {
 
     @PutMapping
     public Map<String, Object> save(@RequestBody final Gruppe gruppe) {
-        final Map<String, Object> result = new HashMap<>(ValidationUtils.validate(gruppe));
+        final Map<String, Object> result = new HashMap<>(validationService.validate(gruppe));
         if (result.isEmpty()) {
             final Gruppe saved = service.saveGruppe(gruppe);
-            result.put(Message.SUCCESS.getCode(), "Die Gruppe wurde erfolgreich gespeichert.");
+            result.put(Message.SUCCESS.getCode(), messageService.get("inventar.gruppe.save.success"));
             protokollService.write(saved.getId(), GRUPPE, gruppe.getBezeichnung(), gruppe.getId() == null ? ERSTELLT : GEAENDERT);
         }
         return result;
@@ -86,7 +93,7 @@ public class GruppeRestController {
         if (optional.isPresent()) {
             protokollService.write(optional.get().getId(), GRUPPE, optional.get().getBezeichnung(), GELOESCHT);
         }
-        return Collections.singletonMap(Message.SUCCESS.getCode(), "Die Gruppe wurde erfolgreich gelöscht.");
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("inventar.gruppe.delete.success"));
     }
 
 }

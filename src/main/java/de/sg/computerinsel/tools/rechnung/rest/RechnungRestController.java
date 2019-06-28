@@ -13,10 +13,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,8 +44,9 @@ import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.service.ReparaturService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
-import de.sg.computerinsel.tools.rest.ValidationUtils;
+import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.ProtokollService;
+import de.sg.computerinsel.tools.service.ValidationService;
 
 @RestController
 @RequestMapping("/rechnung")
@@ -57,6 +62,9 @@ public class RechnungRestController {
     private KundeService kundeService;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     private RechnungService service;
 
     @Autowired
@@ -65,6 +73,9 @@ public class RechnungRestController {
     @Autowired
     private ProtokollService protokollService;
 
+    @Autowired
+    private ValidationService validationService;
+
     @PostMapping
     public Page<Rechnung> list(@RequestBody final SearchData data) {
         return service.listRechnungen(data.getData().getPagination(), data.getConditions());
@@ -72,7 +83,15 @@ public class RechnungRestController {
 
     @PostMapping("/produkt")
     public Page<Produkt> listProdukte(@RequestBody final SearchData data) {
+        checkAndSetSortierungAnzahlVerkaeufe(data);
         return inventarService.listProdukte(data.getData().getPagination(), data.getConditions());
+    }
+
+    private void checkAndSetSortierungAnzahlVerkaeufe(final SearchData data) {
+        if (StringUtils.equals("true", data.getConditions().get("sortierung"))) {
+            data.getData().setSort("anzahlVerkaeufe");
+            data.getData().setSortorder(Sort.Direction.DESC.toString());
+        }
     }
 
     @GetMapping("/zahlarten")
@@ -99,10 +118,11 @@ public class RechnungRestController {
         return dto;
     }
 
+    @Transactional
     @PutMapping
     public Map<String, Object> save(@RequestBody final RechnungDTO dto) {
         final Rechnung rechnung = dto.getRechnung();
-        final Map<String, Object> result = new HashMap<>(ValidationUtils.validate(rechnung));
+        final Map<String, Object> result = new HashMap<>(validationService.validate(rechnung));
 
         final boolean isErstellt = dto.getRechnung().getId() == null;
         if (rechnung.getReparatur() != null && rechnung.getReparatur().getId() == null) {
@@ -113,7 +133,7 @@ public class RechnungRestController {
         }
 
         for (final Rechnungsposten posten : dto.getPosten()) {
-            result.putAll(ValidationUtils.validate(posten));
+            result.putAll(validationService.validate(posten));
         }
         if (result.isEmpty()) {
             final Zahlart zahlart = Zahlart.getByCode(rechnung.getArt());
@@ -129,10 +149,9 @@ public class RechnungRestController {
             }
             if (isErstellt && rechnung.getKunde() != null && !rechnung.getKunde().isDsgvo()) {
                 kundeService.saveDsgvo(rechnung.getKunde().getId());
-                result.put(Message.INFO.getCode(),
-                        "Bitte händigen Sie dem Kunden zum Unterzeichnen die 'Einverständniserklärung in die Erhebung und Verarbeitung von Daten' aus.");
+                result.put(Message.INFO.getCode(), messageService.get("dsgvo.info"));
             } else {
-                result.put(Message.SUCCESS.getCode(), "Die Rechnung " + saved.getNummer() + " erfolgreich gespeichert.");
+                result.put(Message.SUCCESS.getCode(), messageService.get("rechnung.save.success", saved.getNummer()));
             }
             result.put("rechnung", saved);
             protokollService.write(saved.getId(), RECHNUNG, String.valueOf(rechnung.getNummer()), isErstellt ? ERSTELLT : GEAENDERT);
@@ -144,16 +163,16 @@ public class RechnungRestController {
     public Map<String, Object> rechnungBezahlt(@RequestBody final IntegerBaseObject obj) {
         final Map<String, Object> result = new HashMap<>();
         if (obj.getId() == null) {
-            result.put(Message.ERROR.getCode(), "Ungültige Rechnung");
+            result.put(Message.ERROR.getCode(), messageService.get("rechnung.save.error"));
         } else {
             final Rechnung rechnung = service.getRechnung(obj.getId()).getRechnung();
             if (rechnung.getId() != null) {
                 final boolean bezahlt = !rechnung.isBezahlt();
                 service.rechnungBezahlt(rechnung, bezahlt);
                 protokollService.write(rechnung.getId(), REPARATUR,
-                        rechnung.getNummer() + " Erledigt: " + BooleanUtils.toStringYesNo(bezahlt), GEAENDERT);
+                        messageService.get("protokoll.erledigt", rechnung.getNummer(), BooleanUtils.toStringYesNo(bezahlt)), GEAENDERT);
             }
-            result.put(Message.SUCCESS.getCode(), "Die Rechnung '" + rechnung.getNummer() + "' wurde erfolgreich gespeichert");
+            result.put(Message.SUCCESS.getCode(), messageService.get("rechnung.save.success", rechnung.getNummer()));
         }
         return result;
     }
@@ -187,7 +206,7 @@ public class RechnungRestController {
             protokollService.write(dto.getRechnung().getId(), RECHNUNG, String.valueOf(dto.getRechnung().getNummer()), GELOESCHT);
         }
         return Collections.singletonMap(Message.SUCCESS.getCode(),
-                "Die Rechnung " + dto.getRechnung().getNummer() + " wurde erfolgreich gelöscht.");
+                messageService.get("rechnung.delete.success", dto.getRechnung().getNummer()));
     }
 
 }

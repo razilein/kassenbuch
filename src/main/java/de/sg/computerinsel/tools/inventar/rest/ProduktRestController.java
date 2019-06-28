@@ -15,8 +15,10 @@ import java.util.Optional;
 
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,8 +34,9 @@ import de.sg.computerinsel.tools.inventar.model.Produkt;
 import de.sg.computerinsel.tools.inventar.service.InventarService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
-import de.sg.computerinsel.tools.rest.ValidationUtils;
+import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.ProtokollService;
+import de.sg.computerinsel.tools.service.ValidationService;
 
 @RestController
 @RequestMapping("/inventar/produkt")
@@ -43,7 +46,13 @@ public class ProduktRestController {
     private InventarService service;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     private ProtokollService protokollService;
+
+    @Autowired
+    private ValidationService validationService;
 
     @GetMapping("/kategorie")
     public List<DefaultKeyValue<Integer, String>> listKategorien() {
@@ -57,6 +66,7 @@ public class ProduktRestController {
 
     @PostMapping
     public Page<Produkt> list(@RequestBody final SearchData data) {
+        checkAndSetSortierungAnzahlVerkaeufe(data);
         Page<Produkt> produkte = service.listProdukte(data.getData().getPagination(), data.getConditions());
         if (BooleanUtils.toBoolean(data.getConditions().get("schnellerfassung")) && produkte.getContent().size() == 1) {
             final Produkt produkt = produkte.getContent().get(0);
@@ -67,6 +77,13 @@ public class ProduktRestController {
             }
         }
         return produkte;
+    }
+
+    private void checkAndSetSortierungAnzahlVerkaeufe(final SearchData data) {
+        if (StringUtils.equals("true", data.getConditions().get("sortierung"))) {
+            data.getData().setSort("anzahlVerkaeufe");
+            data.getData().setSortorder(Sort.Direction.DESC.toString());
+        }
     }
 
     @GetMapping("/{id}")
@@ -93,10 +110,10 @@ public class ProduktRestController {
     }
 
     private Map<String, Object> saveProdukt(final Produkt produkt) {
-        final Map<String, Object> result = new HashMap<>(ValidationUtils.validate(produkt));
+        final Map<String, Object> result = new HashMap<>(validationService.validate(produkt));
         if (result.isEmpty()) {
             final Produkt saved = service.saveProdukt(produkt);
-            result.put(Message.SUCCESS.getCode(), "Das Produkt wurde erfolgreich gespeichert.");
+            result.put(Message.SUCCESS.getCode(), messageService.get("inventar.produkt.save.success"));
             protokollService.write(saved.getId(), PRODUKT, produkt.getBezeichnung(), produkt.getId() == null ? ERSTELLT : GEAENDERT);
         }
         return result;
@@ -110,7 +127,7 @@ public class ProduktRestController {
         if (optional.isPresent()) {
             protokollService.write(optional.get().getId(), PRODUKT, optional.get().getBezeichnung(), GELOESCHT);
         }
-        return Collections.singletonMap(Message.SUCCESS.getCode(), "Das Produkt wurde erfolgreich gelöscht.");
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("inventar.delete.save.success"));
     }
 
 }

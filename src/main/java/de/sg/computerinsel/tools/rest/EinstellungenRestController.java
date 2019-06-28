@@ -36,8 +36,10 @@ import de.sg.computerinsel.tools.rest.model.EinstellungenData;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterDTO;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterRollenDTO;
 import de.sg.computerinsel.tools.service.EinstellungenService;
+import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.ProtokollService;
+import de.sg.computerinsel.tools.service.ValidationService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -49,10 +51,16 @@ public class EinstellungenRestController {
     private EinstellungenService einstellungenService;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     private MitarbeiterService mitarbeiterService;
 
     @Autowired
     private ProtokollService protokollService;
+
+    @Autowired
+    private ValidationService validationService;
 
     @GetMapping
     public EinstellungenData getEinstellungen() {
@@ -93,12 +101,11 @@ public class EinstellungenRestController {
         result.putAll(ValidationUtils.validateVerzeichnisse(data.getAblageverzeichnis().getWert()));
 
         if (StringUtils.isBlank(data.getFiliale().getWert())) {
-            result.put(Message.ERROR.getCode(), "Bitte wählen Sie eine Filiale aus."
-                    + " Sollte keine Filiale zur Auswahl stehen müssen Sie diese zuerst in den Einstellungen unter Filiale eine Filiale anlegen");
+            result.put(Message.ERROR.getCode(), messageService.get("einstellungen.save.filiale.error"));
         }
 
         if (!StringUtils.isNumeric(data.getRechnungsnummer().getWert()) || !StringUtils.isNumeric(data.getReparaturnummer().getWert())) {
-            result.put(Message.ERROR.getCode(), "Rechnungs- und Reparaturnummer müssen nummerisch sein.");
+            result.put(Message.ERROR.getCode(), messageService.get("einstellungen.save.nummern.error"));
         }
 
         if (result.isEmpty()) {
@@ -117,8 +124,8 @@ public class EinstellungenRestController {
             einstellungenService.save(data.getMailBodyReparatur());
             einstellungenService.save(data.getRechnungsnummer());
             einstellungenService.save(data.getReparaturnummer());
-            result.put(Message.SUCCESS.getCode(), "Die Einstellungen wurden erfolgreich gespeichert.");
-            protokollService.write("Einstellungen gespeichert");
+            result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.save.success"));
+            protokollService.write(messageService.get("protokoll.einstellungen.save"));
         }
 
         return result;
@@ -145,13 +152,11 @@ public class EinstellungenRestController {
 
     @PutMapping("/filiale")
     public Map<String, Object> saveFiliale(@RequestBody final Filiale filiale) {
-        final Map<String, Object> result = new HashMap<>();
-        result.putAll(ValidationUtils.validate(filiale));
-
+        final Map<String, Object> result = new HashMap<>(validationService.validate(filiale));
         if (result.isEmpty()) {
             final Filiale saved = einstellungenService.save(filiale);
             protokollService.write(saved.getId(), FILIALE, saved.getName(), filiale.getId() == null ? ERSTELLT : GEAENDERT);
-            result.put(Message.SUCCESS.getCode(), "Die Filiale " + filiale.getName() + " wurde erfolgreich gespeichert");
+            result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.filiale.save.success", filiale.getName()));
         }
         return result;
     }
@@ -181,7 +186,8 @@ public class EinstellungenRestController {
         final Optional<Mitarbeiter> optional = dto.getId() == null ? Optional.of(new Mitarbeiter(dto))
                 : einstellungenService.getMitarbeiter(dto.getId());
         if (optional.isPresent()) {
-            protokollService.write(optional.get().getId(), MITARBEITER, "Profildaten geändert für: " + optional.get().getCompleteName(),
+            protokollService.write(optional.get().getId(), MITARBEITER,
+                    messageService.get("protokoll.einstellungen.profildaten.save", optional.get().getCompleteName()),
                     dto.getId() == null ? ERSTELLT : GEAENDERT);
         }
         return mitarbeiterService.saveMitarbeiterProfil(dto, optional);
@@ -195,7 +201,7 @@ public class EinstellungenRestController {
         if (optional.isPresent()) {
             protokollService.write(optional.get().getId(), MITARBEITER, optional.get().getCompleteName(), GELOESCHT);
         }
-        return Collections.singletonMap(Message.SUCCESS.getCode(), "Der Mitarbeiter wurde erfolgreich gelöscht.");
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("einstellungen.mitarbeiter.delete.success"));
     }
 
     @PutMapping("/mitarbeiter/reset")
@@ -206,12 +212,12 @@ public class EinstellungenRestController {
             final Mitarbeiter mitarbeiter = optional.get();
             mitarbeiter.setPasswort(null);
             einstellungenService.save(mitarbeiter);
-            protokollService.write(mitarbeiter.getId(), MITARBEITER, "Passwort zurückgesetzt für: " + optional.get().getCompleteName(),
-                    GEAENDERT);
-            result.put(Message.SUCCESS.getCode(), "Das Passwort wurde zurückgesetzt.");
+            protokollService.write(mitarbeiter.getId(), MITARBEITER,
+                    messageService.get("protokoll.einstellungen.mitarbeiter.psw.reset", optional.get().getCompleteName()), GEAENDERT);
+            result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.mitarbeiter.psw.reset.success"));
             log.debug("Passwort für Benutzer '{}' zurückgesetzt.", mitarbeiter.getBenutzername());
         } else {
-            result.put(Message.ERROR.getCode(), "Der Benutzer konnte nicht gefunden werden.");
+            result.put(Message.ERROR.getCode(), messageService.get("einstellungen.mitarbeiter.psw.reset.error"));
             log.debug("Benutzer mit ID '{}' nicht gefunden.", obj.getId());
         }
         return result;
@@ -228,7 +234,7 @@ public class EinstellungenRestController {
         final Map<String, Object> result = new HashMap<>();
         mitarbeiterService.saveRollen(dto);
         protokollService.write(dto.getMitarbeiterId(), RECHTE, GEAENDERT);
-        result.put(Message.SUCCESS.getCode(), "Die Berechtigungen wurden erfolgreich gespeichert.");
+        result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.mitarbeiter.rechte.save.success"));
         return result;
     }
 

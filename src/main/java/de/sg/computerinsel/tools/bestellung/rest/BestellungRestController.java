@@ -18,6 +18,7 @@ import de.sg.computerinsel.tools.bestellung.service.BestellungService;
 import de.sg.computerinsel.tools.bestellung.service.FtpService;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.rest.Message;
+import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +32,9 @@ public class BestellungRestController {
 
     @Autowired
     private FtpService ftpService;
+
+    @Autowired
+    private MessageService messageService;
 
     @Autowired
     private MitarbeiterService mitarbeiterService;
@@ -63,14 +67,13 @@ public class BestellungRestController {
             final String dateiname = getDateinameByFiliale(optional.get());
             try {
                 ftpService.uploadBestellliste(dateiname, text);
-                result.put(Message.SUCCESS.getCode(), "Die Bestelliste wurde hochgeladen auf den FTP-Server.");
+                result.put(Message.SUCCESS.getCode(), messageService.get("bestellliste.put.success"));
             } catch (final IllegalStateException e) {
                 log.debug(e.getMessage(), e);
                 result.put(Message.ERROR.getCode(), e.getMessage());
             }
         } else {
-            result.put(Message.ERROR.getCode(),
-                    "Die Bestellliste konnte nicht hochgeladen werden, da die Filiale des angemeldeten Benutzers nicht ermittelt werden konnte.");
+            result.put(Message.ERROR.getCode(), messageService.get("bestellliste.put.error.filiale"));
         }
         return result;
     }
@@ -78,6 +81,6 @@ public class BestellungRestController {
     @DeleteMapping
     public Map<String, Object> clearBestellungen() {
         bestellungService.deleteAllBestellungen();
-        return Collections.singletonMap(Message.SUCCESS.getCode(), "Die Bestellliste wurde geleert.");
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("bestellliste.clear.success"));
     }
 }

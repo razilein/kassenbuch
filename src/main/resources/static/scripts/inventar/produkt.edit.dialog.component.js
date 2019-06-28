@@ -118,8 +118,10 @@ Vue.component('edit-dialog', {
         .then(hideLoader);
     },
     saveFunc: function() {
+      showLoader();
       this.executeSave()
-        .then(this.closeAndReturnResponse);
+        .then(this.closeAndReturnResponse)
+        .then(hideLoader);
     },
     executeSave: function() {
       return axios.put(this.restUrlSave, this.entity);

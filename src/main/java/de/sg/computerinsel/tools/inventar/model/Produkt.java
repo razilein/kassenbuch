@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Formula;
+
 import de.sg.computerinsel.tools.CurrencyUtils;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import lombok.Getter;
@@ -35,16 +37,16 @@ public class Produkt extends IntegerBaseObject {
     @Column(name = "bestand_unendlich")
     private boolean bestandUnendlich;
 
-    @NotEmpty(message = "Bitte geben Sie die Bezeichnung des Produktes an")
-    @Size(max = 500, message = "Die Bezeichnung des Produktes darf nicht länger als 500 Zeichen sein")
+    @NotEmpty(message = "inventar.produkt.bezeichnung.error.empty")
+    @Size(max = 500, message = "inventar.produkt.bezeichnung.error.size")
     @Column(name = "bezeichnung")
     private String bezeichnung;
 
-    @Size(max = 100, message = "Die EAN darf nicht länger als 100 Zeichen sein")
+    @Size(max = 100, message = "inventar.produkt.ean.error.size")
     @Column(name = "ean")
     private String ean;
 
-    @Size(max = 100, message = "Der Herstellername darf nicht länger als 100 Zeichen sein")
+    @Size(max = 100, message = "inventar.produkt.hersteller.error.size")
     @Column(name = "hersteller")
     private String hersteller;
 
@@ -59,6 +61,9 @@ public class Produkt extends IntegerBaseObject {
 
     @Column(name = "preis_vk_netto")
     private BigDecimal preisVkNetto = BigDecimal.ZERO;
+
+    @Formula("(SELECT COUNT(*) FROM rechnungsposten WHERE rechnungsposten.produkt_id = id)")
+    private int anzahlVerkaeufe;
 
     public String getPreise() {
         final StringBuilder builder = new StringBuilder();

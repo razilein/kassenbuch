@@ -38,7 +38,7 @@ public class Rechnung extends IntegerBaseObject {
     private LocalDate datum = LocalDate.now();
 
     @Column(name = "ersteller")
-    @Size(max = MAX_LENGTH_MITARBEITER, message = "Der Mitarbeitername darf nicht länger als 200 Zeichen sein")
+    @Size(max = MAX_LENGTH_MITARBEITER, message = "rechnung.ersteller.error")
     private String ersteller;
 
     @ManyToOne

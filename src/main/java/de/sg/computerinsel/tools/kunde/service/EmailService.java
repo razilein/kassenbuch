@@ -27,6 +27,7 @@ import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.service.EinstellungenService;
+import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
 import lombok.AllArgsConstructor;
 
@@ -35,6 +36,8 @@ import lombok.AllArgsConstructor;
 public class EmailService {
 
     private final EinstellungenService einstellungService;
+
+    private final MessageService messageService;
 
     private final MitarbeiterService mitarbeiterService;
 
@@ -111,7 +114,7 @@ public class EmailService {
     private void setMailFooter(final StringBuilder builder) {
         builder.append(System.lineSeparator());
         builder.append(System.lineSeparator());
-        builder.append("Mit freundlichen Grüßen,");
+        builder.append(messageService.get("email.signature"));
         builder.append(System.lineSeparator());
         builder.append(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname());
         builder.append(System.lineSeparator());
@@ -121,9 +124,9 @@ public class EmailService {
 
     private void setMailHeader(final Kunde kunde, final StringBuilder builder) {
         if (StringUtils.isBlank(kunde.getNachname())) {
-            builder.append("Sehr geehrte Damen und Herren,");
+            builder.append(messageService.get("email.greeting"));
         } else {
-            builder.append("Sehr geehrte/r ");
+            builder.append(messageService.get("email.greeting.direct"));
             if (StringUtils.isNotBlank(kunde.getVorname())) {
                 builder.append(kunde.getVorname());
                 builder.append(StringUtils.SPACE);

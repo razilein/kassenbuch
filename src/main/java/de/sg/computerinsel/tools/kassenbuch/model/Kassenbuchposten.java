@@ -29,11 +29,11 @@ public class Kassenbuchposten extends IntegerBaseObject {
     private Kassenbuch kassenbuch;
 
     @Column(name = "verwendungszweck")
-    @Size(max = 200, message = "Der Verwendungszweck darf nicht länger als 100 Zeichen sein")
+    @Size(max = 200, message = "kassenbuch.posten.verwendungszweck.error")
     private String verwendungszweck;
 
     @Column(name = "betrag")
-    @NotNull(message = "Der Betrag darf nicht leer sein")
+    @NotNull(message = "kassenbuch.posten.betrag.error")
     private BigDecimal betrag;
 
 }

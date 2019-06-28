@@ -20,6 +20,7 @@ import de.sg.computerinsel.tools.inventar.model.ProduktDTO;
 import de.sg.computerinsel.tools.inventar.service.ExportImportService;
 import de.sg.computerinsel.tools.inventar.service.InventarService;
 import de.sg.computerinsel.tools.rest.Message;
+import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.ProtokollService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,6 +36,9 @@ public class ExportRestController {
     private ExportImportService exportImportService;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     private ProtokollService protokollService;
 
     @PostMapping
@@ -46,14 +50,12 @@ public class ExportRestController {
     public Map<String, Object> export(@RequestBody final List<ProduktDTO> produkte) {
         try {
             exportImportService.export(produkte.stream().filter(p -> StringUtils.isNotBlank(p.getEan())).collect(Collectors.toList()));
-            protokollService.write("Export Produkte. Anzahl: " + produkte.size());
+            protokollService.write(messageService.get("protokoll.inventar.export", produkte.size()));
         } catch (final IOException e) {
             log.debug(e.getMessage(), e);
-            return Collections.singletonMap(Message.ERROR.getCode(),
-                    "Beim Schreiben der Exportdatei ist ein Fehler aufgetreten: " + e.getMessage());
+            return Collections.singletonMap(Message.ERROR.getCode(), messageService.get("inventar.export.error", e.getMessage()));
         }
-        return Collections.singletonMap(Message.SUCCESS.getCode(),
-                "Die Produkte wurden erfolgreich exportiert und im Ablageverzeichnis abgelegt.");
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("inventar.export.success"));
     }
 
 }
