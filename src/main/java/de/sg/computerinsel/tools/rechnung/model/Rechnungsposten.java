@@ -36,7 +36,7 @@ public class Rechnungsposten extends IntegerBaseObject {
 
     @Column(name = "menge")
     @Min(value = 1, message = "rechnung.posten.menge.error.min")
-    @Max(value = 99, message = "rechnung.posten.menge.error.max")
+    @Max(value = 32767, message = "rechnung.posten.menge.error.max")
     private int menge = 1;
 
     @Column(name = "bezeichnung")
