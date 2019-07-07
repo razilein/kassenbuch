@@ -155,6 +155,7 @@ var vm = new Vue({
         { name: 'reparatur.nummer', title: 'Rep.-Nr.', width: 80 },
         { name: 'kunde.nummer', title: 'Kd.-Nr.', width: 80 },
         { name: 'kunde.nameKomplett', title: 'Kunde', width: 200 },
+        { name: 'rechnungsbetrag', title: 'Betrag', width: 100, formatter: ['money'] },
         { name: 'datum', title: 'Datum', width: 120, formatter: ['date'] },
         { name: 'ersteller', title: 'Ersteller', width: 150 },
       ];

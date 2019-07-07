@@ -60,6 +60,7 @@ Vue.component('grid', {
               <span v-for="form in key.formatter" v-if="form === 'datetime'">{{formatDatetime(getEntryByKey(entry, key.name))}}</span>
               <span v-for="form in key.formatter" v-if="form === 'date'">{{formatDate(getEntryByKey(entry, key.name))}}</span>
               <span v-for="form in key.formatter" v-if="form === 'boolean'">{{formatBooleanJaNein(getEntryByKey(entry, key.name))}}</span>
+              <span v-for="form in key.formatter" v-if="form === 'money'">{{formatMoney(getEntryByKey(entry, key.name))}}</span>
               <span v-if="!key.formatter">{{getEntryByKey(entry, key.name)}}</span>
           </td>
         </tr>
