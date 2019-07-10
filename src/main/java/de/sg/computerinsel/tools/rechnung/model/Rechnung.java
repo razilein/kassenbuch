@@ -1,5 +1,6 @@
 package de.sg.computerinsel.tools.rechnung.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.Formula;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -54,6 +56,9 @@ public class Rechnung extends IntegerBaseObject {
 
     @Column(name = "nummer")
     private int nummer;
+
+    @Formula("(SELECT SUM(rp.menge * rp.preis - rp.rabatt) FROM rechnungsposten rp WHERE rp.rechnung_id = id)")
+    private BigDecimal rechnungsbetrag;
 
     @ManyToOne
     @JoinColumn(name = "reparatur_id", referencedColumnName = "id")

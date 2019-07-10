@@ -132,8 +132,9 @@
         </tr>
       </table>
       <br>
-      <div class="left">
-        Zahlungsart: {{art}} <span v-if="art === 'BAR'">(Betrag in Bar erhalten)</span>
+      <div class="left" style="width: 100%">
+        Zahlungsart: {{art}}<span v-if="art === 'ÜBERWEISUNG'">, zahlbar ohne Abzüge innerhalb von 7 Tagen.</span>
+        <span v-if="art === 'BAR'"> (Betrag in Bar erhalten)</span>
         <br>
         <br>
         Rechnungsdatum entspricht Lieferdatum!
