@@ -35,6 +35,7 @@ import de.sg.computerinsel.tools.inventar.model.Produkt;
 import de.sg.computerinsel.tools.inventar.service.InventarService;
 import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
+import de.sg.computerinsel.tools.rechnung.model.RechnungView;
 import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.rechnung.model.Zahlart;
 import de.sg.computerinsel.tools.rechnung.rest.model.RechnungDTO;
@@ -77,7 +78,7 @@ public class RechnungRestController {
     private ValidationService validationService;
 
     @PostMapping
-    public Page<Rechnung> list(@RequestBody final SearchData data) {
+    public Page<RechnungView> list(@RequestBody final SearchData data) {
         return service.listRechnungen(data.getData().getPagination(), data.getConditions());
     }
 
