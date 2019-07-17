@@ -122,6 +122,7 @@ var vm = new Vue({
     },
     init: function() {
       showLoader();
+      vm.endpreis = 0.00;
       vm.setGridColumns();
       vm.getEntity()
         .then(vm.setEntity)
