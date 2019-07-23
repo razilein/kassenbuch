@@ -72,6 +72,8 @@ public class MitarbeiterService {
             mitarbeiter.setEmailPrivat(dto.getEmailPrivat());
             mitarbeiter.setTelefon(dto.getTelefon());
             mitarbeiter.setFiliale(dto.getFiliale());
+            mitarbeiter.setDruckansichtNeuesFenster(dto.isDruckansichtNeuesFenster());
+            mitarbeiter.setDruckansichtDruckdialog(dto.isDruckansichtDruckdialog());
 
             result.putAll(validationService.validate(mitarbeiter));
 

@@ -66,6 +66,12 @@ public class Mitarbeiter extends IntegerBaseObject {
     @Column(name = "passwort")
     private String passwort;
 
+    @Column(name = "druckansicht_neues_fenster")
+    private boolean druckansichtNeuesFenster = true;
+
+    @Column(name = "druckansicht_druckdialog")
+    private boolean druckansichtDruckdialog = true;
+
     public Mitarbeiter(final MitarbeiterDTO mitarbeiter) {
         Validate.notNull(mitarbeiter, "mitarbeiter darf nicht null sein.");
         this.nachname = mitarbeiter.getNachname();
@@ -73,6 +79,8 @@ public class Mitarbeiter extends IntegerBaseObject {
         this.email = mitarbeiter.getEmail();
         this.emailPrivat = mitarbeiter.getEmailPrivat();
         this.telefon = mitarbeiter.getTelefon();
+        this.druckansichtNeuesFenster = mitarbeiter.isDruckansichtNeuesFenster();
+        this.druckansichtDruckdialog = mitarbeiter.isDruckansichtDruckdialog();
     }
 
     public Mitarbeiter(final UserDTO anmeldedaten) {

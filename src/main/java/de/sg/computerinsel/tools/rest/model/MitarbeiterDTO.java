@@ -27,6 +27,10 @@ public class MitarbeiterDTO {
 
     private Filiale filiale;
 
+    private boolean druckansichtNeuesFenster;
+
+    private boolean druckansichtDruckdialog;
+
     public MitarbeiterDTO(final Mitarbeiter mitarbeiter) {
         Validate.notNull(mitarbeiter, "Mitarbeiter darf nicht null sein.");
         this.id = mitarbeiter.getId();
@@ -36,6 +40,8 @@ public class MitarbeiterDTO {
         this.emailPrivat = mitarbeiter.getEmailPrivat();
         this.telefon = mitarbeiter.getTelefon();
         this.filiale = mitarbeiter.getFiliale();
+        this.druckansichtNeuesFenster = mitarbeiter.isDruckansichtNeuesFenster();
+        this.druckansichtDruckdialog = mitarbeiter.isDruckansichtDruckdialog();
     }
 
     public String getCompleteName() {

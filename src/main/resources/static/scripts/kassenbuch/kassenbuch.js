@@ -15,6 +15,7 @@ var vm = new Vue({
       kassenbuch: {},
       posten: []
     },
+    einstellungDruckansichtNeuesFenster: true,
     result: {},
     showDialog: false,
     showEditDialog: false,
@@ -60,7 +61,11 @@ var vm = new Vue({
       var data = response.data;
       if (data.success) {
         var id = data.kassenbuch.id;
-        window.open('/kassenbuch-drucken.html?id=' + id, '_blank', 'resizable=yes');
+        if (vm.einstellungDruckansichtNeuesFenster) {
+          window.open('/kassenbuch-drucken.html?id=' + id, '_blank', 'resizable=yes');
+        } else {
+          window.open('/kassenbuch-drucken.html?id=' + id);
+        }
         vm.init();
       }
       vm.result = data;
@@ -82,6 +87,8 @@ var vm = new Vue({
       showLoader();
       vm.getModel()
         .then(vm.setModel)
+        .then(vm.getEinstellungDruckansichtNeuesFenster)
+        .then(vm.setEinstellungDruckansichtNeuesFenster)
         .then(vm.berechneGesamt)
         .then(hideLoader);
     },
@@ -92,6 +99,14 @@ var vm = new Vue({
     
     setModel: function(response) {
       vm.model = response.data;
+    },
+    
+    getEinstellungDruckansichtNeuesFenster: function() {
+      return axios.get('/mitarbeiter-profil');
+    },
+    
+    setEinstellungDruckansichtNeuesFenster: function(response) {
+      vm.einstellungDruckansichtNeuesFenster = response.data.druckansichtNeuesFenster;
     },
     
     getPosten: function() {

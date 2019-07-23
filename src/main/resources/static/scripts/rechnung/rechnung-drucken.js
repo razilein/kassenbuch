@@ -14,6 +14,7 @@ var vm = new Vue({
       },
       posten: []
     },
+    einstellungDruckansichtDruckdialog: true,
     gesamtnetto: 0.00,
     gesamtmwst: 0.00,
     gesamtrabatt: 0.00,
@@ -28,12 +29,16 @@ var vm = new Vue({
       
       vm.getEntity()
         .then(vm.setEntity)
+        .then(vm.getEinstellungDruckansichtDruckdialog)
+        .then(vm.setEinstellungDruckansichtDruckdialog)
         .then(vm.setZahlart)
         .then(vm.openPrint);
     },
     
     openPrint: function() {
-      window.print();
+      if (vm.einstellungDruckansichtDruckdialog) {
+        window.print();
+      }
     },
     
     setZahlart: function() {
@@ -69,6 +74,14 @@ var vm = new Vue({
     
     setEntity: function(response) {
       vm.entity = response.data;
+    },
+    
+    getEinstellungDruckansichtDruckdialog: function() {
+      return axios.get('/mitarbeiter-profil');
+    },
+    
+    setEinstellungDruckansichtDruckdialog: function(response) {
+      this.einstellungDruckansichtDruckdialog = response.data.druckansichtDruckdialog;
     },
     
   }

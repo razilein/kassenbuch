@@ -64,6 +64,19 @@
                   </select>
                 </div>
               </div>
+              <hr>
+              <div class="m1">
+                <label class="container checkbox">Druckansicht in neuem Fenster öffnen
+                  <input id="profildatenForm_druckansichtNeuesFenster" type="checkbox" v-model="model.profildaten.druckansichtNeuesFenster" />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div class="m1">
+                <label class="container checkbox">Druckdialog beim Öffnen der Druckansicht anzeigen
+                  <input id="profildatenForm_druckansichtDruckdialog" type="checkbox" v-model="model.profildaten.druckansichtDruckdialog" />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
               <div class="m1">
                 <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmptyProfildaten()" v-on:click="saveProfildatenFunc();">Speichern</button>
                 <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmptyProfildaten()">Speichern</button>
