@@ -38,6 +38,7 @@ var vm = new Vue({
       sort: 'nummer',
       sortorder: 'desc'
     },
+    zahlarten: [],
   },
   methods: {
     
@@ -118,6 +119,7 @@ var vm = new Vue({
         vm.grid.searchQuery['kunde.id'] = vm.kundeId;
         vm.grid.reload = true;
       }
+      vm.getZahlarten().then(vm.setZahlarten);
       vm.setGridColumns();
     },
     
@@ -177,7 +179,14 @@ var vm = new Vue({
       return function(response) {
         vm.rechte[role] = response.data;
       }
-    }
+    },
+    
+    getZahlarten: function() {
+      return axios.get('/rechnung/zahlarten');
+    },
+    setZahlarten: function(response) {
+      vm.zahlarten = response.data;
+    },
     
   }
 });
