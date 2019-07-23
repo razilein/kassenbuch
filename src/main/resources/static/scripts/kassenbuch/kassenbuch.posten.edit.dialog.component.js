@@ -37,7 +37,7 @@ Vue.component('posten-edit-dialog', {
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && hasAllPropertiesAndNotEmpty(this.entity, ['betrag', 'verwendungszweck']);
+      return this.entity && hasAllPropertiesAndNotEmpty(this.entity, ['betrag', 'verwendungszweck']) && this.entity.betrag != 0;
     },
     saveFunc: function() {
       this.$emit('saved', this.entity);
