@@ -19,6 +19,7 @@ var vm = new Vue({
       },
       posten: []
     },
+    einstellungDruckansichtNeuesFenster: true,
     grid: {
       actions: [],
       gridColumns: [],
@@ -122,9 +123,12 @@ var vm = new Vue({
     },
     init: function() {
       showLoader();
+      vm.endpreis = 0.00;
       vm.setGridColumns();
       vm.getEntity()
         .then(vm.setEntity)
+        .then(vm.getEinstellungDruckansichtNeuesFenster)
+        .then(vm.setEinstellungDruckansichtNeuesFenster)
         .then(vm.getZahlarten)
         .then(vm.setZahlarten)
         .then(vm.getKategorien)
@@ -169,7 +173,11 @@ var vm = new Vue({
       var data = response.data;
       if (data.success || data.info) {
         var id = data.rechnung.id;
-        window.open('/rechnung-drucken.html?id=' + id, '_blank', 'resizable=yes');
+        if (vm.einstellungDruckansichtNeuesFenster) {
+          window.open('/rechnung-drucken.html?id=' + id, '_blank', 'resizable=yes');
+        } else {
+          window.open('/rechnung-drucken.html?id=' + id);
+        }
         vm.init();
       }
       vm.result = data;
@@ -215,6 +223,12 @@ var vm = new Vue({
     },
     setEntity: function(response) {
       vm.entity = response.data;
+    },
+    getEinstellungDruckansichtNeuesFenster: function() {
+      return axios.get('/mitarbeiter-profil');
+    },
+    setEinstellungDruckansichtNeuesFenster: function(response) {
+      vm.einstellungDruckansichtNeuesFenster = response.data.druckansichtNeuesFenster;
     },
     getKategorien: function() {
       return axios.get('/rechnung/kategorie');

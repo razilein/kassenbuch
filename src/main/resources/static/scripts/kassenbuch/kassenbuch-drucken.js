@@ -5,6 +5,7 @@ var vm = new Vue({
       kassenbuch: {},
       posten: []
     },
+    einstellungDruckansichtDruckdialog: true,
     gesamtAusgaben: 0.00,
     gesamtEinnahmen: 0.00
   },
@@ -13,11 +14,15 @@ var vm = new Vue({
     init: function() {
       this.getEntity()
         .then(this.setEntity)
+        .then(this.getEinstellungDruckansichtDruckdialog)
+        .then(this.setEinstellungDruckansichtDruckdialog)
         .then(vm.openPrint);
     },
     
     openPrint: function() {
-      window.print();
+      if (this.einstellungDruckansichtDruckdialog) {
+        window.print();
+      }
     },
     
     getEntity: function() {
@@ -40,6 +45,14 @@ var vm = new Vue({
         }
       });
       this.entity = data;
+    },
+    
+    getEinstellungDruckansichtDruckdialog: function() {
+      return axios.get('/mitarbeiter-profil');
+    },
+    
+    setEinstellungDruckansichtDruckdialog: function(response) {
+      this.einstellungDruckansichtDruckdialog = response.data.druckansichtDruckdialog;
     },
     
   }

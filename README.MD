@@ -406,5 +406,10 @@ Jeder Mitarbeiter kann diese Seite rechts oben auf jeder Seite aufrufen.
 Im Reiter Allgemein kann der Name, sowie weitere persönliche Daten angepasst werden.
 Zudem kann die zugehörige Filiale angepasst werden. Die Daten der Filiale werden in Rechnungen und Reparaturaufträgen dargestellt.
 
+Ist die Einstellung *Druckansicht in neuem Fenster öffnen* aktiv, wird beim Öffnen der Druckansicht von Rechnungen, Reparaturaufträgen und Kassenbüchern
+ein neues Browserfenster geöffnet. Ist die Einstellung deaktiviert, öffnet sich die Druckansicht in einem neuen Browsertab.
+
+Ist die Einstellung *Druckdialog beim Öffnen der Druckansicht anzeigen* aktiv, wird beim Öffnen der Druckansicht von Rechnungen, Reparaturaufträgen und Kassenbüchern der Drucken-Dialog des Browsers geöffnet. Ist die Einstellung deaktiviert, wird der Drucken-Dialog nicht geöffnet.
+
 Im Reiter Anmeldedaten kann der Benutzername und das Passwort geändert werden. Dabei muss im Feld *Passwort* zur Bestätigung immer das aktuelle Passwort angegeben werden.
  

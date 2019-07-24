@@ -8,6 +8,7 @@ var vm = new Vue({
       kunde: {},
       mitarbeiter: {},
     },
+    einstellungDruckansichtDruckdialog: true,
     filiale: {},
   },
   methods: {
@@ -19,11 +20,15 @@ var vm = new Vue({
       
       this.getEntity()
         .then(this.setEntity)
+        .then(this.getEinstellungDruckansichtDruckdialog)
+        .then(this.setEinstellungDruckansichtDruckdialog)
         .then(this.openPrint);
     },
     
     openPrint: function() {
-      window.print();
+      if (vm.einstellungDruckansichtDruckdialog) {
+        window.print();
+      }
     },
     
     getEntity: function() {
@@ -33,6 +38,14 @@ var vm = new Vue({
     
     setEntity: function(response) {
       this.entity = response.data;
+    },
+    
+    getEinstellungDruckansichtDruckdialog: function() {
+      return axios.get('/mitarbeiter-profil');
+    },
+    
+    setEinstellungDruckansichtDruckdialog: function(response) {
+      this.einstellungDruckansichtDruckdialog = response.data.druckansichtDruckdialog;
     },
     
   }

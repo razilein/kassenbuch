@@ -18,8 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.primitives.Ints;
 
 import de.sg.computerinsel.tools.rechnung.dao.RechnungRepository;
+import de.sg.computerinsel.tools.rechnung.dao.RechnungViewRepository;
 import de.sg.computerinsel.tools.rechnung.dao.RechnungspostenRepository;
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
+import de.sg.computerinsel.tools.rechnung.model.RechnungView;
 import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.rechnung.model.Zahlart;
 import de.sg.computerinsel.tools.rechnung.rest.model.RechnungDTO;
@@ -42,42 +44,47 @@ public class RechnungService {
 
     private final RechnungRepository rechnungRepository;
 
+    private final RechnungViewRepository rechnungViewRepository;
+
     private final RechnungspostenRepository rechnungspostenRepository;
 
-    public Page<Rechnung> listRechnungen(final PageRequest pagination, final Map<String, String> conditions) {
+    public Page<RechnungView> listRechnungen(final PageRequest pagination, final Map<String, String> conditions) {
         final String nummer = SearchQueryUtils.getAndRemoveJoker(conditions, "nummer");
         final String reparaturnummer = SearchQueryUtils.getAndRemoveJoker(conditions, "reparaturnummer");
         final String kundennummer = SearchQueryUtils.getAndRemoveJoker(conditions, "kundenummer");
         final String ersteller = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "ersteller");
         final String kundeId = SearchQueryUtils.getAndRemoveJoker(conditions, "kunde.id");
         final boolean istNichtBezahlt = BooleanUtils.toBoolean(conditions.get("bezahlt"));
+        final String art = SearchQueryUtils.getAndRemoveJoker(conditions, "art");
         final String posten = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "posten");
 
         if (StringUtils.isNumeric(kundeId)) {
-            return rechnungRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
+            return rechnungViewRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
         } else if (!StringUtils.isNumeric(nummer) && StringUtils.isBlank(reparaturnummer) && StringUtils.isBlank(ersteller)
-                && !StringUtils.isNumeric(kundennummer) && !istNichtBezahlt && StringUtils.isBlank(posten)) {
-            return rechnungRepository.findAll(pagination);
+                && !StringUtils.isNumeric(kundennummer) && !istNichtBezahlt && StringUtils.isBlank(posten) && !StringUtils.isNumeric(art)) {
+            return rechnungViewRepository.findAll(pagination);
         } else if (StringUtils.isNotBlank(posten)) {
-            return rechnungRepository.findByPostenBezeichnungLikeOrPostenSeriennummerLikeOrPostenHinweisLike(posten, posten, posten,
+            return rechnungViewRepository.findByPostenBezeichnungLikeOrPostenSeriennummerLikeOrPostenHinweisLike(posten, posten, posten,
                     pagination);
         } else if (!istNichtBezahlt) {
-            final FindAllByConditionsExecuter<Rechnung> executer = new FindAllByConditionsExecuter<>();
-            return executer.findByParams(rechnungRepository, pagination,
-                    buildMethodnameForQueryRechnungen(nummer, reparaturnummer, kundennummer, ersteller, false),
+            final FindAllByConditionsExecuter<RechnungView> executer = new FindAllByConditionsExecuter<>();
+            final Integer zahlart = StringUtils.isNumeric(art) ? Ints.tryParse(art) : null;
+            return executer.findByParams(rechnungViewRepository, pagination,
+                    buildMethodnameForQueryRechnungen(nummer, reparaturnummer, kundennummer, ersteller, false, art),
                     StringUtils.isNumeric(nummer) ? Ints.tryParse(nummer) : null, reparaturnummer,
-                    StringUtils.isNumeric(kundennummer) ? Ints.tryParse(kundennummer) : null, ersteller);
+                    StringUtils.isNumeric(kundennummer) ? Ints.tryParse(kundennummer) : null, ersteller, zahlart);
         } else {
-            final FindAllByConditionsExecuter<Rechnung> executer = new FindAllByConditionsExecuter<>();
-            return executer.findByParams(rechnungRepository, pagination,
-                    buildMethodnameForQueryRechnungen(nummer, reparaturnummer, kundennummer, ersteller, istNichtBezahlt),
+            final FindAllByConditionsExecuter<RechnungView> executer = new FindAllByConditionsExecuter<>();
+            final Integer zahlart = StringUtils.isNumeric(art) ? Ints.tryParse(art) : null;
+            return executer.findByParams(rechnungViewRepository, pagination,
+                    buildMethodnameForQueryRechnungen(nummer, reparaturnummer, kundennummer, ersteller, istNichtBezahlt, art),
                     StringUtils.isNumeric(nummer) ? Ints.tryParse(nummer) : null, reparaturnummer,
-                    StringUtils.isNumeric(kundennummer) ? Ints.tryParse(kundennummer) : null, ersteller, !istNichtBezahlt);
+                    StringUtils.isNumeric(kundennummer) ? Ints.tryParse(kundennummer) : null, ersteller, !istNichtBezahlt, zahlart);
         }
     }
 
     private String buildMethodnameForQueryRechnungen(final String nummer, final String reparaturnummer, final String kundennummer,
-            final String ersteller, final boolean istNichtBezahlt) {
+            final String ersteller, final boolean istNichtBezahlt, final String art) {
         String methodName = "findBy";
         if (StringUtils.isNumeric(nummer)) {
             methodName += "NummerAnd";
@@ -93,6 +100,9 @@ public class RechnungService {
         }
         if (istNichtBezahlt) {
             methodName += "BezahltAnd";
+        }
+        if (StringUtils.isNumeric(art)) {
+            methodName += "ArtAnd";
         }
         return StringUtils.removeEnd(methodName, "And");
     }

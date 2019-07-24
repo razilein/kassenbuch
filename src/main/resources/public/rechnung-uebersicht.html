@@ -40,10 +40,19 @@
             </div>
           </div>
           <div class="m1">
-            <label class="container checkbox">Nur nicht bezahlte Rechnungen anzeigen
-              <input id="searchForm_bezahlt" type="checkbox" v-model="grid.searchQuery.bezahlt" />
-              <span class="checkmark"></span>
-            </label>
+            <div class="m2m">
+              <label class="container checkbox">Nur nicht bezahlte Rechnungen anzeigen
+                <input id="searchForm_bezahlt" type="checkbox" v-model="grid.searchQuery.bezahlt" />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <div class="m2">
+              <label for="searchForm_art">Zahlart</label>
+              <select class="m2" v-model="grid.searchQuery.art">
+                <option></option>
+                <option :value="a.key" v-for="a in zahlarten">{{a.value}}</option>
+              </select>
+            </div>
           </div>
           <hr>
           <div class="m1">
@@ -57,7 +66,7 @@
             </div>
           </div>
         </div>
-        <div style="height: 230px;" v-if="kundeId === null"></div>
+        <div style="height: 250px;" v-if="kundeId === null"></div>
         <h3 v-if="kundeId !== null">Rechnungen zum gewählten Kunden:</h3>
         <div id="gridDiv" v-if="grid.gridColumns.length > 0">
           <grid

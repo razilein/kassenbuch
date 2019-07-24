@@ -4,6 +4,7 @@ var vm = new Vue({
     entity: {
       kunde: {},
     },
+    einstellungDruckansichtNeuesFenster: true,
     mitarbeiter: [],
     pruefstatus: [
       { key: 0, value: 'Gerät nicht geprüft' },
@@ -24,6 +25,8 @@ var vm = new Vue({
       showLoader();
       vm.getEntity()
         .then(vm.setEntity)
+        .then(vm.getEinstellungDruckansichtNeuesFenster)
+        .then(vm.setEinstellungDruckansichtNeuesFenster)
         .then(vm.getReparaturarten)
         .then(vm.setReparaturarten)
         .then(hideLoader);
@@ -59,7 +62,11 @@ var vm = new Vue({
       var data = response.data;
       if (data.success || data.info) {
         var id = data.reparatur.id;
-        window.open('/reparatur-drucken.html?id=' + id, '_blank', 'resizable=yes');
+        if (vm.einstellungDruckansichtNeuesFenster) {
+          window.open('/reparatur-drucken.html?id=' + id, '_blank', 'resizable=yes');
+        } else {
+          window.open('/reparatur-drucken.html?id=' + id);
+        }
         vm.init();
       }
       vm.result = data;
@@ -80,6 +87,12 @@ var vm = new Vue({
       vm.wochentagabholdatum = formatDayOfWeek(response.data.abholdatum);
       response.data.funktionsfaehig = 0;
       vm.entity = response.data;
+    },
+    getEinstellungDruckansichtNeuesFenster: function() {
+      return axios.get('/mitarbeiter-profil');
+    },
+    setEinstellungDruckansichtNeuesFenster: function(response) {
+      vm.einstellungDruckansichtNeuesFenster = response.data.druckansichtNeuesFenster;
     },
     getReparaturarten: function() {
       return axios.get('/reparatur/reparaturarten');
