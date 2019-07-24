@@ -12,6 +12,7 @@ var vm = new Vue({
     kundeId: getParamFromCurrentUrl('id') || null,
     rechte: {},
     result: {},
+    einstellungDruckansichtNeuesFenster: true,
     showDialog: false,
     showConfirmDialog: false,
     showDeleteDialog: false,
@@ -117,6 +118,7 @@ var vm = new Vue({
         vm.grid.searchQuery['kunde.id'] = vm.kundeId;
         vm.grid.reload = true;
       }
+      vm.getEinstellungDruckansichtNeuesFenster().then(vm.setEinstellungDruckansichtNeuesFenster);
       vm.setGridColumns();
     },
     
@@ -134,7 +136,11 @@ var vm = new Vue({
     },
     
     openFunction: function(row) {
-      window.open('/reparatur-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
+      if (vm.einstellungDruckansichtNeuesFenster) {
+        window.open('/reparatur-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
+      } else {
+        window.open('/reparatur-drucken.html?id=' + row.id);
+      }
     },
     
     setGridColumns: function() {
@@ -176,7 +182,15 @@ var vm = new Vue({
       return function(response) {
         vm.rechte[role] = response.data;
       }
-    }
+    },
+    
+    getEinstellungDruckansichtNeuesFenster: function() {
+      return axios.get('/mitarbeiter-profil');
+    },
+    
+    setEinstellungDruckansichtNeuesFenster: function(response) {
+      vm.einstellungDruckansichtNeuesFenster = response.data.druckansichtNeuesFenster;
+    },
     
   }
 });

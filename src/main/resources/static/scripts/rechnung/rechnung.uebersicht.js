@@ -12,6 +12,7 @@ var vm = new Vue({
     kundeId: getParamFromCurrentUrl('id') || null,
     rechte: {},
     result: {},
+    einstellungDruckansichtNeuesFenster: true,
     showDialog: false,
     showConfirmDialog: false,
     showDeleteDialog: false,
@@ -119,7 +120,10 @@ var vm = new Vue({
         vm.grid.searchQuery['kunde.id'] = vm.kundeId;
         vm.grid.reload = true;
       }
-      vm.getZahlarten().then(vm.setZahlarten);
+      vm.getZahlarten()
+        .then(vm.setZahlarten)
+        .then(vm.getEinstellungDruckansichtNeuesFenster)
+        .then(vm.setEinstellungDruckansichtNeuesFenster);
       vm.setGridColumns();
     },
     
@@ -137,7 +141,11 @@ var vm = new Vue({
     },
     
     openFunction: function(row) {
-      window.open('/rechnung-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
+      if (vm.einstellungDruckansichtNeuesFenster) {
+        window.open('/rechnung-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
+      } else {
+        window.open('/rechnung-drucken.html?id=' + row.id);
+      }
     },
     
     setGridColumns: function() {
@@ -181,9 +189,18 @@ var vm = new Vue({
       }
     },
     
+    getEinstellungDruckansichtNeuesFenster: function() {
+      return axios.get('/mitarbeiter-profil');
+    },
+    
+    setEinstellungDruckansichtNeuesFenster: function(response) {
+      vm.einstellungDruckansichtNeuesFenster = response.data.druckansichtNeuesFenster;
+    },
+    
     getZahlarten: function() {
       return axios.get('/rechnung/zahlarten');
     },
+    
     setZahlarten: function(response) {
       vm.zahlarten = response.data;
     },

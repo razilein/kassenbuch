@@ -11,6 +11,7 @@ var vm = new Vue({
   data: {
     rechte: {},
     result: {},
+    einstellungDruckansichtNeuesFenster: true,
     showDialog: false,
     grid: {
       actions: [],
@@ -25,6 +26,7 @@ var vm = new Vue({
     init: function() {
       vm.prepareRoles();
       vm.setGridColumns();
+      vm.getEinstellungDruckansichtNeuesFenster().then(vm.setEinstellungDruckansichtNeuesFenster);
     },
     
     prepareRoles: function() {
@@ -36,7 +38,11 @@ var vm = new Vue({
     },
     
     openFunction: function(row) {
-      window.open('/kassenbuch-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
+      if (vm.einstellungDruckansichtNeuesFenster) {
+        window.open('/kassenbuch-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
+      } else {
+        window.open('/kassenbuch-drucken.html?id=' + row.id);
+      }
     },
     
     setGridColumns: function() {
@@ -62,7 +68,15 @@ var vm = new Vue({
       return function(response) {
         vm.rechte[role] = response.data;
       }
-    }
+    },
+    
+    getEinstellungDruckansichtNeuesFenster: function() {
+      return axios.get('/mitarbeiter-profil');
+    },
+    
+    setEinstellungDruckansichtNeuesFenster: function(response) {
+      vm.einstellungDruckansichtNeuesFenster = response.data.druckansichtNeuesFenster;
+    },
     
   }
 });
