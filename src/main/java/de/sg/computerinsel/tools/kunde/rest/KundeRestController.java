@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.sg.computerinsel.tools.kunde.model.Kunde;
+import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
 import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
@@ -73,6 +74,22 @@ public class KundeRestController {
             result.put(Message.SUCCESS.getCode(), messageService.get("kunde.save.success", saved.getNummer()));
             result.put("kunde", saved);
             protokollService.write(saved.getId(), KUNDE, saved.getNummer().toString(), isErstellen ? ERSTELLT : GEAENDERT);
+        }
+        return result;
+    }
+
+    @PutMapping("/duplikat")
+    public Map<String, Object> duplikateZusammenfuehren(@RequestBody final KundeDuplikatDto dto) {
+        final Map<String, Object> result = new HashMap<>();
+        if (dto.getKunde().getId().equals(dto.getDuplikat().getId())) {
+            result.put(Message.ERROR.getCode(), messageService.get("kunde.duplikat.error"));
+        }
+        if (result.isEmpty()) {
+            service.duplikatZusammenfuehren(dto);
+            result.put(Message.SUCCESS.getCode(),
+                    messageService.get("kunde.duplikat.success", dto.getKunde().getNummer(), dto.getDuplikat().getNummer()));
+            protokollService.write(dto.getKunde().getId(), KUNDE, "Reparaturaufträge und Rechnungen von " + dto.getDuplikat().getNummer()
+                    + " auf " + dto.getKunde().getNummer() + " geändert", GEAENDERT);
         }
         return result;
     }

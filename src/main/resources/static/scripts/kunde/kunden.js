@@ -13,11 +13,16 @@ var vm = new Vue({
     result: {},
     showDialog: false,
     showDeleteDialog: false,
+    showDuplicateDialog: false,
     showEditDialog: false,
     deleteRow: {
       id: null,
       restUrl: '/kunde',
       title: 'Kunde löschen',
+    },
+    duplicateRow: {
+      kunde: {},
+      title: 'Duplizierende Kunden mit gewählten Kundendatensatz zusammenführen'
     },
     editRow: {
       restUrlGet: '/kunde/',
@@ -70,7 +75,35 @@ var vm = new Vue({
       vm.result = data;
       vm.showDialog = true;
     },
-
+    
+    duplicateFunction: function(row) {
+      vm.duplicateRow.kunde = row;
+      vm.duplicateRow.title = 'Duplizierende Kunden suchen und mit gewählten Kundendatensatz (' + row.nummer + ') zusammenführen';
+      vm.showDuplicateDialog = true;
+    },
+    
+    duplikateZusammenfuehren: function(data) {
+      var dto = {
+        kunde: vm.duplicateRow.kunde,
+        duplikat: data
+      };
+      vm.executeDuplikateZusammenfuehren(dto).then(vm.handleDuplicateResponse);
+    },
+    
+    executeDuplikateZusammenfuehren: function(data) {
+      return axios.put('/kunde/duplikat', data);
+    },
+    
+    handleDuplicateResponse: function(response) {
+      var data = response.data;
+      if (data.success) {
+        vm.grid.reload = true;
+        vm.showDuplicateDialog = false;
+      }
+      vm.result = data;
+      vm.showDialog = true;
+    },
+    
     init: function() {
       vm.prepareRoles();
       vm.setGridActions();
@@ -113,6 +146,7 @@ var vm = new Vue({
           { clazz: 'zahnrad', disabled: vm.hasNotRoleReparaturAnzeigen, title: 'Reparaturaufträge anzeigen', clickFunc: vm.openReparaturFunction },
           { clazz: 'euro', disabled: vm.hasNotRoleRechnungAnzeigen, title: 'Rechnungen anzeigen', clickFunc: vm.openRechnungFunction },
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Kunde bearbeiten', clickFunc: vm.editFunction },
+          { clazz: 'kunden', disabled: vm.hasNotRoleVerwalten, title: 'Duplizierende Kunden suchen und mit diesen Kundenatensatz zusammenführen', clickFunc: vm.duplicateFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Kunde löschen', clickFunc: vm.deleteFunction }
         ] },
         { name: 'nummer', title: 'Kd.-Nr.', width: 70 },

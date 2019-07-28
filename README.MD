@@ -138,6 +138,10 @@ Durch Klick auf das *Reparatur-Icon* können alle Reparaturaufträge des Kunden 
 Durch Klick auf das *Euro-Icon* können alle Rechnungen des Kunden angezeigt werden.
 Durch Klick auf das *Bearbeiten-Icon* können die Kundendaten bearbeitet werden.
 
+Durch Klick auf das *Duplikat-Icon* werden alle Kundendatensätze mit demselben Namen vorgefiltert.
+Durch Auswahl eines der Kundendatensätze werden alle Rechnungen und Reparaturaufträge dieses Kunden in den in der Hauptansicht gewählten
+Kundendatensatz übernommen. Der Kundendatensatz wird anschließend gelöscht.
+
 Durch Klick auf das *Löschen-Icon* kann nach erneuter Bestätigung der Kunde gelöscht werden. Dabei werden keine Reparaturaufträge oder Rechnungen gelöscht. Jedoch wird die Verknüpfung zum Kunden entfernt, sodass diese Daten beim Ansehen der Aufträge/Rechnungen nicht mehr ersichtlich sind.
 
 ## Inventar

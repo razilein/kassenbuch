@@ -53,6 +53,8 @@ public interface ReparaturRepository extends CrudRepository<Reparatur, Integer> 
 
     Page<Reparatur> findByKundeId(Integer kundeId, Pageable pagination);
 
+    List<Reparatur> findByKundeId(Integer id);
+
     @Query(value = "SELECT abholdatum FROM reparatur WHERE erledigt = 0 GROUP BY abholdatum HAVING COUNT(abholdatum) >= 5", nativeQuery = true)
     List<Date> listDaysWithMin5AbholungenAndAuftragNotErledigt();
 

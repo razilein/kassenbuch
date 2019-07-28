@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.primitives.Ints;
 
+import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
 import de.sg.computerinsel.tools.rechnung.dao.RechnungRepository;
 import de.sg.computerinsel.tools.rechnung.dao.RechnungViewRepository;
 import de.sg.computerinsel.tools.rechnung.dao.RechnungspostenRepository;
@@ -169,6 +170,13 @@ public class RechnungService {
     public Rechnung rechnungBezahlt(final Rechnung rechnung, final boolean bezahlt) {
         rechnung.setBezahlt(bezahlt);
         return rechnungRepository.save(rechnung);
+    }
+
+    public void duplikateZusammenfuehren(final KundeDuplikatDto dto) {
+        rechnungRepository.findByKundeId(dto.getDuplikat().getId()).forEach(rechnung -> {
+            rechnung.setKunde(dto.getKunde());
+            rechnungRepository.save(rechnung);
+        });
     }
 
 }

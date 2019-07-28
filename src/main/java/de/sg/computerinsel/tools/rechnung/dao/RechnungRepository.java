@@ -16,4 +16,6 @@ public interface RechnungRepository extends CrudRepository<Rechnung, Integer> {
     List<Rechnung> findAllByDatumGreaterThanEqualAndDatumLessThanEqualAndArtOrderByDatumAscNummerAsc(LocalDate datumVon, LocalDate datumBis,
             Integer art);
 
+    List<Rechnung> findByKundeId(Integer id);
+
 }
