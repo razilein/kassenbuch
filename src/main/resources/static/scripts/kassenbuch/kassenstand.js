@@ -34,6 +34,7 @@ var vm = new Vue({
         vm.model[i].anzahl = parseInt(vm.model[i].anzahl || 0);
         vm.model[i].betrag = parseFloat(vm.model[i].betrag || vm.model[i].anzahl * vm.model[i].multi);
         vm.kassenbetrag += vm.model[i].betrag;
+        vm.model[i].betrag = (vm.model[i].betrag).toFixed(2);
       }
       vm.differenz = Number((vm.kassenbetrag - vm.kassenbuchbetrag).toFixed(2));
       
