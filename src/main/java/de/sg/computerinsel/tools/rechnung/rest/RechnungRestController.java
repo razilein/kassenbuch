@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.sg.computerinsel.tools.bestellung.service.BestellungService;
 import de.sg.computerinsel.tools.inventar.model.Produkt;
 import de.sg.computerinsel.tools.inventar.service.InventarService;
+import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
 import de.sg.computerinsel.tools.rechnung.model.RechnungView;
@@ -132,12 +133,14 @@ public class RechnungRestController {
         if (rechnung.getKunde() != null && rechnung.getKunde().getId() == null) {
             rechnung.setKunde(null);
         }
-
+        final Zahlart zahlart = Zahlart.getByCode(rechnung.getArt());
+        if (zahlart == Zahlart.UEBERWEISUNG && relevanteFelderNichtGefuellt(rechnung.getKunde())) {
+            result.put(Message.ERROR.getCode(), messageService.get("rechnung.kunde.error"));
+        }
         for (final Rechnungsposten posten : dto.getPosten()) {
             result.putAll(validationService.validate(posten));
         }
         if (result.isEmpty()) {
-            final Zahlart zahlart = Zahlart.getByCode(rechnung.getArt());
             if (isErstellt && (zahlart == Zahlart.BAR || zahlart == Zahlart.EC)) {
                 rechnung.setBezahlt(true);
             }
@@ -156,6 +159,15 @@ public class RechnungRestController {
             }
             result.put("rechnung", saved);
             protokollService.write(saved.getId(), RECHNUNG, String.valueOf(rechnung.getNummer()), isErstellt ? ERSTELLT : GEAENDERT);
+        }
+        return result;
+    }
+
+    private boolean relevanteFelderNichtGefuellt(final Kunde kunde) {
+        boolean result = kunde == null;
+        if (kunde != null) {
+            result = StringUtils.isBlank(kunde.getNameKomplett()) || StringUtils.isBlank(kunde.getStrasse())
+                    || StringUtils.isBlank(kunde.getPlz()) || StringUtils.isBlank(kunde.getOrt());
         }
         return result;
     }
