@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -80,6 +81,7 @@ public class Reparatur extends IntegerBaseObject {
     @Column(name = "abholzeit")
     private LocalTime abholzeit;
 
+    @NotEmpty(message = "reparatur.kostenvoranschlag.error.empty")
     @Size(max = 300, message = "reparatur.kostenvoranschlag.error.size")
     @Column(name = "kostenvoranschlag")
     private String kostenvoranschlag;

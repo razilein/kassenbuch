@@ -19,7 +19,7 @@ var vm = new Vue({
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.kunde && hasAllProperties(this.entity, ['kunde.id']) && this.entity.funktionsfaehig !== 0;
+      return this.entity && this.entity.kunde && hasAllPropertiesAndNotEmpty(this.entity, ['kunde.id', 'kostenvoranschlag']) && this.entity.funktionsfaehig !== 0;
     },
     init: function() {
       showLoader();

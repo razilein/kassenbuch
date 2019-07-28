@@ -56,7 +56,7 @@ Vue.component('edit-dialog', {
     </div>
   </div>
   <div class="m1">
-    <zeichenzaehler-label :elem="entity.kostenvoranschlag" :forid="'reparaturEditForm_kostenvoranschlag'" :label="'Kostenvoranschlag'" :maxlength="'300'"></zeichenzaehler-label>
+    <zeichenzaehler-label :elem="entity.kostenvoranschlag" :forid="'reparaturEditForm_kostenvoranschlag'" :label="'Kostenvoranschlag'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
     <input class="m1" id="reparaturEditForm_kostenvoranschlag" maxlength="300" type="text" v-model="entity.kostenvoranschlag"></input>
   </div>
   <div class="m1">
@@ -107,7 +107,7 @@ Vue.component('edit-dialog', {
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.kunde && hasAllProperties(this.entity, ['kunde.id']) && !this.entity.erledigt;
+      return this.entity && this.entity.kunde && hasAllPropertiesAndNotEmpty(this.entity, ['kunde.id', 'kostenvoranschlag']) && !this.entity.erledigt;
     },
     changeAbholdatumZeit: function() {
       this.getAbholdatumZeit()
