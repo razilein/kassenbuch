@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/razilein/kassenbuch#readme",
   "devDependencies": {
-    "eslint": "5.16.0",
+    "eslint": "6.3.0",
     "eslint-config-prettier": "4.3.0",
     "eslint-plugin-prettier": "3.1.0",
     "grunt": "1.0.4",
