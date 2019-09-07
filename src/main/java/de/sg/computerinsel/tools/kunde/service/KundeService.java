@@ -7,9 +7,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.sg.computerinsel.tools.kunde.dao.KundeRepository;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
+import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
+import de.sg.computerinsel.tools.rechnung.service.RechnungService;
+import de.sg.computerinsel.tools.reparatur.service.ReparaturService;
 import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
 import de.sg.computerinsel.tools.service.SearchQueryUtils;
 import lombok.AllArgsConstructor;
@@ -19,6 +23,10 @@ import lombok.AllArgsConstructor;
 public class KundeService {
 
     private final KundeRepository kundeRepository;
+
+    private final RechnungService rechnungService;
+
+    private final ReparaturService reparaturService;
 
     public Page<Kunde> listKunden(final PageRequest pagination, final Map<String, String> conditions) {
         final String firmenname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "firmenname");
@@ -72,6 +80,13 @@ public class KundeService {
 
     public void deleteKunde(final Integer id) {
         kundeRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void duplikatZusammenfuehren(final KundeDuplikatDto dto) {
+        rechnungService.duplikateZusammenfuehren(dto);
+        reparaturService.duplikateZusammenfuehren(dto);
+        deleteKunde(dto.getDuplikat().getId());
     }
 
 }

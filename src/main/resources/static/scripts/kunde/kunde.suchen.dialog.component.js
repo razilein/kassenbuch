@@ -1,9 +1,9 @@
 Vue.component('kunde-suchen-dialog', {
   template: createEditDialogTemplateWithoutSaveButton(`
   <div class="m2m">
-    <div class="m2m">
+    <div class="m1">
       <label for="searchForm_firmenname">Firmenname</label>
-      <input class="m2" id="searchForm_firmenname" type="text" v-model="grid.searchQuery.firmenname"></input>
+      <input class="m1" id="searchForm_firmenname" type="text" v-model="grid.searchQuery.firmenname"></input>
     </div>
     <div class="m1">
       <div class="m2m">
@@ -61,6 +61,7 @@ Vue.component('kunde-suchen-dialog', {
       `, true),
   props: {
     kunde: Object,
+    dialogTitel: String,
   },
   created: function() {
     this.prepareRoles();
@@ -73,6 +74,7 @@ Vue.component('kunde-suchen-dialog', {
     });
   },
   data: function() {
+    var dialogTitle = this.dialogTitel || 'Kunde suchen';
     return {
       rechte: this.rechte || {},
       entity: this.kunde || {},
@@ -113,7 +115,7 @@ Vue.component('kunde-suchen-dialog', {
         },
       },
       result: {},
-      title: 'Kunde suchen'
+      title: dialogTitle
     };
   },
   methods: {

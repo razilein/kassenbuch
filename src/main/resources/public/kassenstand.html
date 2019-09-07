@@ -32,7 +32,7 @@
                 v-on:change="model[index].betrag = model[index].anzahl * model[index].multi; berechne();"
               />
             </div>
-            <div class="m7m">x{{model[index].multi}} = </div>
+            <div class="m6m">x{{formatMoney(model[index].multi)}} = </div>
             <div class="m5">
               <input
                 class="m5"

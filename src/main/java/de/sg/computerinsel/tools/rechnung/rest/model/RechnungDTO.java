@@ -26,7 +26,7 @@ public class RechnungDTO {
 
     public RechnungDTO() {
         rechnung = new Rechnung();
-        rechnung.setArt(0);
+        rechnung.setArt(-1);
         rechnung.setNameDrucken(false);
         rechnung.setDatum(LocalDate.now());
         rechnung.setKunde(new Kunde());

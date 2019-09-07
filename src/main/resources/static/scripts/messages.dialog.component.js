@@ -26,7 +26,7 @@ Vue.component('messages-box', {
         </div>
         <div class="dialog-container error" v-if="text.error">
             <h3 class="dialog-header">Fehler</h3>
-            <div class="dialog-body">{{text.error}}</div>
+            <div class="dialog-body" v-html="text.error"></div>
             <div class="dialog-footer">
               <button class="dialog-default-button error" @click="$emit('close')">OK</button>
             </div>

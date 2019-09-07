@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.primitives.Ints;
 
+import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
 import de.sg.computerinsel.tools.reparatur.dao.ReparaturRepository;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
@@ -114,6 +115,13 @@ public class ReparaturService {
     public List<LocalDate> listDaysWithMin5AbholungenAndAuftragNotErledigt() {
         return reparaturRepository.listDaysWithMin5AbholungenAndAuftragNotErledigt().stream().map(Date::toLocalDate)
                 .collect(Collectors.toList());
+    }
+
+    public void duplikateZusammenfuehren(final KundeDuplikatDto dto) {
+        reparaturRepository.findByKundeId(dto.getDuplikat().getId()).forEach(reparatur -> {
+            reparatur.setKunde(dto.getKunde());
+            reparaturRepository.save(reparatur);
+        });
     }
 
 }

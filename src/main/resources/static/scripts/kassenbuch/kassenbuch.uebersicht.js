@@ -56,7 +56,7 @@ var vm = new Vue({
         ] },
         { name: 'datum', title: 'Datum', width: 120, formatter: ['date'] },
         { name: 'ersteller', title: 'Ersteller', width: 150 },
-        { name: 'ausgangsbetrag', title: 'Ausgangsbetrag', width: 150 }
+        { name: 'ausgangsbetrag', title: 'Ausgangsbetrag', width: 150, formatter: ['money'] }
       ];
     },
     
