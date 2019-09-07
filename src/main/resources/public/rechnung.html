@@ -60,7 +60,7 @@
               </label>
             </div>
             <div class="m2 right">
-              <button class="delete" title="Suchfelder leeren" v-on:click="grid.searchQuery = {}; grid.reload = true;"></button>
+              <button class="delete" title="Suchfelder leeren" v-on:click="grid.searchQuery = {}; setGridSearch(); grid.reload = true;"></button>
               <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
             </div>
           </div>
