@@ -49,7 +49,7 @@ var vm = new Vue({
     },
     areRequiredFieldsNotEmpty: function() {
       var kundeRequired = (this.entity.rechnung.art === 2 || this.entity.rechnung.art === 3);
-      return this.entity && this.entity.posten.length > 0 && (!kundeRequired || this.entity.rechnung.kunde.nummer);
+      return this.entity && this.entity.posten.length > 0 && (!kundeRequired || this.entity.rechnung.kunde.nummer) && this.entity.rechnung.art >= 0;
     },
     berechneEndpreis: function() {
       var endpreis = 0;
@@ -251,6 +251,7 @@ var vm = new Vue({
       return axios.get('/rechnung/zahlarten');
     },
     setZahlarten: function(response) {
+      response.data.unshift({key: -1, value: 'Bitte auswählen'});
       vm.zahlarten = response.data;
     }
   }
