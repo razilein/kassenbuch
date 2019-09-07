@@ -55,11 +55,11 @@ var vm = new Vue({
       var endpreis = 0;
       vm.entity.posten.forEach(function(element) {
         var postenPreis = (element.menge || 1) * (element.preis || 0) - (element.rabatt || 0);  
-        endpreis = endpreis + Number((postenPreis).toFixed(2));
+        endpreis = endpreis + postenPreis;
       });
       endpreis = endpreis || 0;
       endpreis = endpreis < 0 ? 0 : endpreis;
-      vm.endpreis = endpreis;
+      vm.endpreis = formatMoney(endpreis, 2, '.', ',');
     },
     chooseFunction: function(row) {
       var bezeichnung = row.hersteller ? row.hersteller + '-' + row.bezeichnung : row.bezeichnung;
