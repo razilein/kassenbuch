@@ -21,7 +21,7 @@ Vue.component('grid', {
             Zeige:
             <select
               @change="changePageSize()"
-              v-model="size"
+              v-model="pagesize"
             >
               <option v-for="val in pageSizes" :value="val">{{val}}</option>
             </select>
@@ -37,7 +37,7 @@ Vue.component('grid', {
         <tr>
           <th v-for="key in columns"
             @click="sortBy(key)"
-            :class="{ active: sort == key.name }"
+            :class="{ active: pagesort == key.name }"
             :style="{ width: key.width }"
           >
             {{ key.title }}
@@ -90,10 +90,10 @@ Vue.component('grid', {
       data: this.data,
       page: 0,
       pageElements: 0,
-      size: this.size || 10,
-      sort: this.sort || '',
+      pagesize: this.size || 10,
+      pagesort: this.sort || '',
       sortOrders: order,
-      sortorder: this.sortorder || 'asc',
+      pagesortorder: this.sortorder || 'asc',
       totalElements: 0,
       totalPages: 0
     };
@@ -121,13 +121,14 @@ Vue.component('grid', {
   methods: {
     sortBy: function(key) {
       if (key.sortable !== false) {
-        this.sort = key.name;
+        this.pagesort = key.name;
         this.sortOrders[key.name] = this.sortOrders[key.name] * -1;
-        this.sortorder = this.sortorder === 'asc' ? 'desc' : 'asc';
+        this.pagesortorder = this.pagesortorder === 'asc' ? 'desc' : 'asc';
         this.reloadTabledata();
       }
     },
     changePageSize: function() {
+      this.page = 0;
       this.reloadTabledata();
     },
     clickFunc: function(row, func) {
@@ -173,9 +174,9 @@ Vue.component('grid', {
         conditions: this.searchQuery,
         data: {
           page: this.page,
-          size: this.size,
-          sort: this.sort,
-          sortorder: this.sortorder
+          size: this.pagesize,
+          sort: this.pagesort,
+          sortorder: this.pagesortorder
         }
       };
       return axios.post(this.restUrl, params);
