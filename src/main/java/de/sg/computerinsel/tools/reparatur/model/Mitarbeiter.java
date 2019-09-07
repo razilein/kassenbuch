@@ -30,6 +30,9 @@ public class Mitarbeiter extends IntegerBaseObject {
 
     public static final int MIN_LENGTH_BENUTZERNAME = 6;
 
+    public interface MitarbeiterAnmeldedaten {
+    }
+
     @ManyToOne
     @JoinColumn(name = "filiale_id", referencedColumnName = "id")
     private Filiale filiale;
@@ -56,13 +59,13 @@ public class Mitarbeiter extends IntegerBaseObject {
     @Column(name = "telefon")
     private String telefon;
 
-    @NotEmpty(message = "einstellungen.mitarbeiter.benutzername.error.empty")
-    @Size(min = MIN_LENGTH_BENUTZERNAME, max = MAX_LENGTH_BENUTZERNAME, message = "einstellungen.mitarbeiter.benutzername.error.size")
+    @NotEmpty(message = "einstellungen.mitarbeiter.benutzername.error.empty", groups = MitarbeiterAnmeldedaten.class)
+    @Size(min = MIN_LENGTH_BENUTZERNAME, max = MAX_LENGTH_BENUTZERNAME, message = "einstellungen.mitarbeiter.benutzername.error.size", groups = MitarbeiterAnmeldedaten.class)
     @Column(name = "benutzername")
     private String benutzername;
 
-    @NotEmpty(message = "einstellungen.mitarbeiter.psw.error.empty")
-    @Size(min = 10, max = 500, message = "einstellungen.mitarbeiter.psw.error.size")
+    @NotEmpty(message = "einstellungen.mitarbeiter.psw.error.empty", groups = MitarbeiterAnmeldedaten.class)
+    @Size(min = 10, max = 500, message = "einstellungen.mitarbeiter.psw.error.size", groups = MitarbeiterAnmeldedaten.class)
     @Column(name = "passwort")
     private String passwort;
 

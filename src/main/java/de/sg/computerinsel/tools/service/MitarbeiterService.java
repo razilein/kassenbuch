@@ -17,6 +17,7 @@ import de.sg.computerinsel.tools.dao.MitarbeiterRepository;
 import de.sg.computerinsel.tools.dao.MitarbeiterRolleRepository;
 import de.sg.computerinsel.tools.dao.RolleRepository;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
+import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter.MitarbeiterAnmeldedaten;
 import de.sg.computerinsel.tools.reparatur.model.MitarbeiterRolle;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterDTO;
@@ -75,7 +76,11 @@ public class MitarbeiterService {
             mitarbeiter.setDruckansichtNeuesFenster(dto.isDruckansichtNeuesFenster());
             mitarbeiter.setDruckansichtDruckdialog(dto.isDruckansichtDruckdialog());
 
-            result.putAll(validationService.validate(mitarbeiter));
+            if (mitarbeiter.getId() == null) {
+                result.putAll(validationService.validate(mitarbeiter));
+            } else {
+                result.putAll(validationService.validate(mitarbeiter, MitarbeiterAnmeldedaten.class));
+            }
 
             if (result.isEmpty()) {
                 einstellungenService.save(mitarbeiter);
