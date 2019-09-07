@@ -42,7 +42,7 @@ public class KassenbuchService {
     private final MitarbeiterService mitarbeiterService;
 
     public Page<Kassenbuch> listKassenbuch(final PageRequest pagination, final Map<String, String> conditions) {
-        final String datum = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "datum");
+        final String datum = SearchQueryUtils.getAndRemoveJoker(conditions, "datum");
         if (StringUtils.isBlank(datum)) {
             return kassenbuchRepository.findAll(pagination);
         } else {
