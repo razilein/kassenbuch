@@ -1,6 +1,7 @@
 package de.sg.computerinsel.tools.rechnung.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -135,6 +136,7 @@ public class RechnungService {
                 rechnung.setFiliale(optional.get().getFiliale());
             }
             rechnung.setDatum(LocalDate.now());
+            rechnung.setErstelltAm(LocalDateTime.now());
             final String nummer = getRechnungsdatumJahrZweistellig(rechnung.getDatum())
                     + einstellungenService.getAndSaveNextRechnungsnummer();
             rechnung.setNummer(Ints.tryParse(nummer));

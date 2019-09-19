@@ -168,6 +168,7 @@ var vm = new Vue({
         { name: 'rechnungsbetrag', title: 'Betrag', width: 100, formatter: ['money'] },
         { name: 'datum', title: 'Datum', width: 120, formatter: ['date'] },
         { name: 'ersteller', title: 'Ersteller', width: 150 },
+        { name: 'erstelltAm', title: 'Erstellt am', width: 150 },
       ];
     },
     

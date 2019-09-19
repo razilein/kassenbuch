@@ -1,6 +1,7 @@
 package de.sg.computerinsel.tools.rechnung.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
@@ -57,9 +58,17 @@ public class BaseRechnung extends IntegerBaseObject {
     @JoinColumn(name = "reparatur_id", referencedColumnName = "id")
     private Reparatur reparatur;
 
+    @Column(name = "erstellt_am")
+    private LocalDateTime erstelltAm;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate getDatum() {
         return datum;
+    }
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss")
+    public LocalDateTime getErstelltAm() {
+        return erstelltAm;
     }
 
     public String getNummerAnzeige() {
