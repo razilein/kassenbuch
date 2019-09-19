@@ -23,7 +23,7 @@ var vm = new Vue({
       vm.result = response.data;
       vm.showDialog = true;
       if (response.data.success) {
-        window.open('/index.html');
+        window.location.replace('/index.html');
       }
     }
   }
