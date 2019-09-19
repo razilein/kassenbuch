@@ -22,9 +22,11 @@ import de.sg.computerinsel.tools.dao.FilialeRepository;
 import de.sg.computerinsel.tools.dao.MitarbeiterRepository;
 import de.sg.computerinsel.tools.dao.RolleRepository;
 import de.sg.computerinsel.tools.kassenbuch.rest.model.Kassenstand;
+import de.sg.computerinsel.tools.reparatur.dao.FilialeKontenRepository;
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.reparatur.model.Rolle;
+import de.sg.computerinsel.tools.rest.model.FilialeDto;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterDTO;
 import lombok.AllArgsConstructor;
 
@@ -43,6 +45,8 @@ public class EinstellungenService {
     private final EinstellungenRepository einstellungen;
 
     private final FilialeRepository filialeRepository;
+
+    private final FilialeKontenRepository filialeKontenRepository;
 
     private final MitarbeiterRepository mitarbeiterRepository;
 
@@ -198,8 +202,18 @@ public class EinstellungenService {
         return filialeRepository.findById(id);
     }
 
-    public Filiale save(final Filiale filiale) {
-        return filialeRepository.save(filiale);
+    public FilialeDto getFilialeDto(final Integer id) {
+        final FilialeDto dto = new FilialeDto();
+        filialeRepository.findById(id).ifPresent(dto::setFiliale);
+        filialeKontenRepository.findByFilialeId(id).ifPresent(dto::setFilialeKonten);
+        return dto;
+    }
+
+    public FilialeDto save(final FilialeDto dto) {
+        dto.setFiliale(filialeRepository.save(dto.getFiliale()));
+        dto.getFilialeKonten().setFiliale(dto.getFiliale());
+        filialeKontenRepository.save(dto.getFilialeKonten());
+        return dto;
     }
 
     public Page<MitarbeiterDTO> listMitarbeiter(final PageRequest pageRequest) {

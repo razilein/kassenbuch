@@ -65,7 +65,7 @@ Dieses Icon ist nur sichtbar, wenn zum Kunden eine E-Mail-Adresse hinterlegt ist
 Durch Klick auf das *Löschen-Icon* wird nach erneuter Bestätigung der Reparaturauftrag komplett gelöscht.
 
 ## Rechnungen
-Die Seite Rechnungen unterteilt sich in die zwei Unterseiten **Erstellen** und **Rechnungen**.
+Die Seite Rechnungen unterteilt sich in die drei Unterseiten **Erstellen**, **Rechnungen** und **Export**.
 
 ### Erstellen
 Um diese Seite öffnen zu können wird das Recht *ZUGRIFF_RECHNUNG_ERSTELLEN* benötigt.
@@ -124,6 +124,20 @@ sich öffnenden Dialog gewählt werden.
 Dieses Icon ist nur sichtbar, wenn zum Kunden eine E-Mail-Adresse hinterlegt ist.
 
 Durch Klick auf das *Löschen-Icon* kann eine Rechnung nach nochmaliger Bestätigung gelöscht werden.
+
+### Export
+Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_RECHNUNG_EXPORT* benötigt.
+Das Recht *RECHNUNG_EXPORT* wird benötigt, um die Exportieren-Schaltfläche zu aktivieren.
+
+Auf dieser Seite muss der Monat und das Jahr gewählt werden.
+Es wird immer der aktuelle Monat und das aktuelle Jahr vorgeblendet.
+
+Nach dem Klick auf die Exportieren-Schaltfläche werden alle Rechnungen mit dem Rechnungsdatum im gewählten Monat/Jahr exportiert.
+Dabei wird je Zahlart eine eigene Datei erzeugt und in das Ablageverzeichnis gewählt.
+
+Das Dateiformat ist hierbei TXT und besitzt ein fest definiertes Muster.
+Die Konten werden aus den zur Rechnungen hinterlegten Filialen ermittelt.
+Die Konten können in den Einstellung angepasst werden.
 
 ## Kunden
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_KUNDEN* benötigt.
@@ -400,6 +414,8 @@ Folgende Rechte sind verfügbar:
 - **KUNDEN_RECHNUNG** - Ermöglicht das Anzeigen aller Rechnungen eines Kunden
 - **ZUGRIFF_RECHNUNG_ERSTELLEN** - Zugriff auf die Seite Rechnung erstellen
 - **ZUGRIFF_RECHNUNG_UEBERSICHT** - Zugriff auf die Seite Übersicht Rechnungen
+- **ZUGRIFF_RECHNUNG_EXPORT** - Zugriff auf die Seite Übersicht Export (Rechnungen)
+- **RECHNUNG_EXPORT** - Rechnungen können exportiert werden
 - **RECHNUNG** - Ermöglicht das Anzeigen der Druckansicht einer Rechnung
 - **RECHNUNG_VERWALTEN** - Rechnungen dürfen angelegt, bearbeitet oder gelöscht werden
 - **ZUGRIFF_BESTELLUNG** - Zugriff auf die Seite: Bestellung

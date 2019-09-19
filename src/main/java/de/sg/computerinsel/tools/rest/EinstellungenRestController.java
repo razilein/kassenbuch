@@ -33,6 +33,7 @@ import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.rest.model.EinstellungenData;
+import de.sg.computerinsel.tools.rest.model.FilialeDto;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterDTO;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterRollenDTO;
 import de.sg.computerinsel.tools.service.EinstellungenService;
@@ -86,7 +87,7 @@ public class EinstellungenRestController {
     @GetMapping("/standardfiliale")
     public Filiale getStandardFiliale() {
         final String id = einstellungenService.getFiliale().getWert();
-        return getFiliale(id == null ? null : Ints.tryParse(id));
+        return getFiliale(id == null ? null : Ints.tryParse(id)).getFiliale();
     }
 
     @GetMapping("/standardfiliale-mitarbeiter")
@@ -142,21 +143,22 @@ public class EinstellungenRestController {
     }
 
     @GetMapping("/filiale/{id}")
-    public Filiale getFiliale(@PathVariable final Integer id) {
-        final Optional<Filiale> optional = einstellungenService.getFiliale(id);
-        if (optional.isPresent()) {
-            protokollService.write(optional.get().getId(), FILIALE, optional.get().getName(), ANGESEHEN);
+    public FilialeDto getFiliale(@PathVariable final Integer id) {
+        final FilialeDto dto = einstellungenService.getFilialeDto(id);
+        if (dto.getFiliale().getId() != null) {
+            protokollService.write(id, FILIALE, dto.getFiliale().getName(), ANGESEHEN);
         }
-        return optional.orElse(new Filiale());
+        return dto;
     }
 
     @PutMapping("/filiale")
-    public Map<String, Object> saveFiliale(@RequestBody final Filiale filiale) {
+    public Map<String, Object> saveFiliale(@RequestBody final FilialeDto filiale) {
         final Map<String, Object> result = new HashMap<>(validationService.validate(filiale));
         if (result.isEmpty()) {
-            final Filiale saved = einstellungenService.save(filiale);
-            protokollService.write(saved.getId(), FILIALE, saved.getName(), filiale.getId() == null ? ERSTELLT : GEAENDERT);
-            result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.filiale.save.success", filiale.getName()));
+            final FilialeDto saved = einstellungenService.save(filiale);
+            protokollService.write(saved.getFiliale().getId(), FILIALE, saved.getFiliale().getName(),
+                    filiale.getFiliale().getId() == null ? ERSTELLT : GEAENDERT);
+            result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.filiale.save.success", filiale.getFiliale().getName()));
         }
         return result;
     }

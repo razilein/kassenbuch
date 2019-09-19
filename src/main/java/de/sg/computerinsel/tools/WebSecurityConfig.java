@@ -78,6 +78,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/rechnung.html*").hasRole("ZUGRIFF_RECHNUNG_ERSTELLEN")
             .antMatchers("/rechnung-uebersicht.html?id=*").hasRole("KUNDEN_RECHNUNG")
             .antMatchers("/rechnung-uebersicht.html*", "/rechnung*").hasRole("ZUGRIFF_RECHNUNG_UEBERSICHT")
+            .antMatchers("/rechnung-export.html*", "/rechnung/export").hasRole("ZUGRIFF_RECHNUNG_EXPORT")
+            .antMatchers(HttpMethod.PUT, "/rechnung/export").hasRole("RECHNUNG_EXPORT")
             .antMatchers("/produkt.html*", "/inventar/produkt*").hasRole("ZUGRIFF_INVENTAR_PRODUKT")
             .antMatchers(HttpMethod.PUT, "/inventar/produkt").hasRole("INVENTAR_PRODUKT_VERWALTEN")
             .antMatchers(HttpMethod.DELETE, "/inventar/produkt").hasRole("INVENTAR_PRODUKT_VERWALTEN")

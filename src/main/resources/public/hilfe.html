@@ -33,6 +33,7 @@
             </ul>
           </li>
           <li><a href="#rechnungen-1">Rechnungen</a></li>
+          <li><a href="#rechnungen-export">Export</a></li>
         </ul>
       </li>
       <li><a href="#kunden">Kunden</a></li>
@@ -191,6 +192,16 @@
       Dieses Icon ist nur sichtbar, wenn zum Kunden eine E-Mail-Adresse hinterlegt ist.
     </p>
     <p>Durch Klick auf das <em>Löschen-Icon</em> kann eine Rechnung nach nochmaliger Bestätigung gelöscht werden.</p>
+    <h3 id="rechnungen-export">Export</h3>
+    <p>Um diese Seite öffnen zu können, wird das Recht <em>ZUGRIFF_RECHNUNG_EXPORT</em> benötigt.
+      Das Recht <em>RECHNUNG_EXPORT</em> wird benötigt, um die Exportieren-Schaltfläche zu aktivieren.</p>
+    <p>Auf dieser Seite muss der Monat und das Jahr gewählt werden.
+      Es wird immer der aktuelle Monat und das aktuelle Jahr vorgeblendet.</p>
+    <p>Nach dem Klick auf die Exportieren-Schaltfläche werden alle Rechnungen mit dem Rechnungsdatum im gewählten Monat/Jahr exportiert.
+      Dabei wird je Zahlart eine eigene Datei erzeugt und in das Ablageverzeichnis gewählt.</p>
+    <p>Das Dateiformat ist hierbei TXT und besitzt ein fest definiertes Muster.</p>
+    <p>Die Konten werden aus den zur Rechnungen hinterlegten Filialen ermittelt.</p>
+    <p>Die Konten können in den Einstellung angepasst werden.</p>
     <h2 id="kunden">Kunden</h2>
     <p>Um diese Seite öffnen zu können, wird das Recht <em>ZUGRIFF_KUNDEN</em> benötigt.
       Um Kunden Anlegen, Bearbeiten oder Löschen zu können, wird das Recht <em>KUNDEN_VERWALTEN</em> benötigt.
@@ -411,6 +422,8 @@
       <li><strong>ZUGRIFF<em>RECHNUNG</em>UEBERSICHT</strong> - Zugriff auf die Seite Übersicht Rechnungen</li>
       <li><strong>RECHNUNG</strong> - Ermöglicht das Anzeigen der Druckansicht einer Rechnung</li>
       <li><strong>RECHNUNG_VERWALTEN</strong> - Rechnungen dürfen angelegt, bearbeitet oder gelöscht werden</li>
+      <li><strong>ZUGRIFF_RECHNUNG_EXPORT</strong> - Zugriff auf die Seite Übersicht Export (Rechnungen)</li>
+      <li><strong>RECHNUNG_EXPORT</strong> - Rechnungen können exportiert werden</li>
       <li><strong>ZUGRIFF_BESTELLUNG</strong> - Zugriff auf die Seite: Bestellung</li>
     </ul>
     <h2 id="meinprofil">Mein Profil</h2>

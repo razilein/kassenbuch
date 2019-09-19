@@ -7,9 +7,14 @@ import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ERSTELLT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GEAENDERT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GELOESCHT;
 
+import java.io.IOException;
+import java.text.DateFormatSymbols;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -40,6 +45,8 @@ import de.sg.computerinsel.tools.rechnung.model.RechnungView;
 import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.rechnung.model.Zahlart;
 import de.sg.computerinsel.tools.rechnung.rest.model.RechnungDTO;
+import de.sg.computerinsel.tools.rechnung.rest.model.RechnungExportDto;
+import de.sg.computerinsel.tools.rechnung.service.RechnungExportService;
 import de.sg.computerinsel.tools.rechnung.service.RechnungService;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
@@ -49,9 +56,11 @@ import de.sg.computerinsel.tools.rest.SearchData;
 import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.ProtokollService;
 import de.sg.computerinsel.tools.service.ValidationService;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/rechnung")
+@Slf4j
 public class RechnungRestController {
 
     @Autowired
@@ -71,6 +80,9 @@ public class RechnungRestController {
 
     @Autowired
     private ReparaturService reparaturService;
+
+    @Autowired
+    private RechnungExportService exportService;
 
     @Autowired
     private ProtokollService protokollService;
@@ -220,6 +232,30 @@ public class RechnungRestController {
         }
         return Collections.singletonMap(Message.SUCCESS.getCode(),
                 messageService.get("rechnung.delete.success", dto.getRechnung().getNummer()));
+    }
+
+    @GetMapping("/monate")
+    public List<DefaultKeyValue<Integer, String>> getMonate() {
+        final List<DefaultKeyValue<Integer, String>> result = new ArrayList<>();
+
+        final List<String> monate = Arrays.asList(new DateFormatSymbols(Locale.GERMANY).getMonths());
+        for (int i = 0; i < monate.size() - 1; i++) {
+            result.add(new DefaultKeyValue<>(i + 1, monate.get(i)));
+        }
+        return result;
+    }
+
+    @PutMapping("/export")
+    public Map<String, Object> export(@RequestBody final RechnungExportDto dto) {
+        final Map<String, Object> result = new HashMap<>();
+        try {
+            exportService.export(dto);
+            result.put(Message.SUCCESS.getCode(), messageService.get("rechnung.export.success"));
+        } catch (final IOException e) {
+            log.error(e.getMessage(), e);
+            result.put(Message.ERROR.getCode(), messageService.get("rechung.export.error", e.getMessage()));
+        }
+        return result;
     }
 
 }

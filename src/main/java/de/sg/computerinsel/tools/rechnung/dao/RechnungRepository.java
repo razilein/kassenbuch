@@ -13,6 +13,8 @@ public interface RechnungRepository extends CrudRepository<Rechnung, Integer> {
 
     List<Rechnung> findAllByDatumGreaterThanEqualAndDatumLessThanEqual(LocalDate datumVon, LocalDate datumBis);
 
+    List<Rechnung> findAllByDatumGreaterThanEqualAndDatumLessThanEqualOrderByNummerAsc(LocalDate datumVon, LocalDate datumBis);
+
     List<Rechnung> findAllByDatumGreaterThanEqualAndDatumLessThanEqualAndArtOrderByDatumAscNummerAsc(LocalDate datumVon, LocalDate datumBis,
             Integer art);
 
