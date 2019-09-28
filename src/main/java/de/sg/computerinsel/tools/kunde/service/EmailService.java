@@ -41,7 +41,7 @@ public class EmailService {
 
     private final MitarbeiterService mitarbeiterService;
 
-    public void sendeEmail(final MultipartFile file, final Rechnung rechnung) {
+    public void sendeEmail(final MultipartFile file, final Rechnung rechnung, final String anrede) {
         final String nummer = rechnung.getFiliale().getKuerzel() + rechnung.getNummerAnzeige();
         File rechnungFile = null;
         try {
@@ -53,7 +53,7 @@ public class EmailService {
             message.setSubject("Rechnung " + nummer);
 
             final StringBuilder builder = new StringBuilder();
-            setMailHeader(kunde, builder);
+            setMailHeader(kunde, anrede, builder);
             builder.append(RegExUtils.replaceAll(einstellungService.getMailBodyRechnung().getWert(), "#NUMMER#", nummer));
             setMailFooter(builder);
 
@@ -81,7 +81,7 @@ public class EmailService {
 
     }
 
-    public void sendeEmail(final Reparatur reparatur) {
+    public void sendeEmail(final Reparatur reparatur, final String anrede) {
         final String nummer = reparatur.getFiliale().getKuerzel() + reparatur.getNummer();
         try {
             final Kunde kunde = reparatur.getKunde();
@@ -92,7 +92,7 @@ public class EmailService {
             message.setSubject("Reparaturauftrag " + nummer);
 
             final StringBuilder builder = new StringBuilder();
-            setMailHeader(kunde, builder);
+            setMailHeader(kunde, anrede, builder);
             builder.append(RegExUtils.replaceAll(einstellungService.getMailBodyReparaturauftrag().getWert(), "#NUMMER#", nummer));
             setMailFooter(builder);
 
@@ -122,18 +122,8 @@ public class EmailService {
         builder.append(einstellungService.getMailSignatur().getWert());
     }
 
-    private void setMailHeader(final Kunde kunde, final StringBuilder builder) {
-        if (StringUtils.isBlank(kunde.getNachname())) {
-            builder.append(messageService.get("email.greeting"));
-        } else {
-            builder.append(messageService.get("email.greeting.direct"));
-            if (StringUtils.isNotBlank(kunde.getVorname())) {
-                builder.append(kunde.getVorname());
-                builder.append(StringUtils.SPACE);
-            }
-            builder.append(kunde.getNachname());
-            builder.append(",");
-        }
+    private void setMailHeader(final Kunde kunde, final String anrede, final StringBuilder builder) {
+        builder.append(StringUtils.isNotBlank(anrede) ? anrede : kunde.getBriefanrede());
         builder.append(System.lineSeparator());
         builder.append(System.lineSeparator());
     }

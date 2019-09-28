@@ -1,0 +1,1 @@
+ALTER TABLE kunde ADD COLUMN anrede TINYINT;

@@ -22,6 +22,9 @@ import lombok.Setter;
 @Setter
 public class Kunde extends IntegerBaseObject {
 
+    @Column(name = "anrede")
+    private Integer anrede;
+
     @Column(name = "nummer")
     private Integer nummer;
 
@@ -102,6 +105,28 @@ public class Kunde extends IntegerBaseObject {
         final StringBuilder builder = new StringBuilder(getCompleteWithAdress());
         builder.append(System.lineSeparator());
         builder.append(StringUtils.defaultString(telefon));
+        return builder.toString();
+    }
+
+    public String getBriefanrede() {
+        final StringBuilder builder = new StringBuilder();
+        if (anrede != null) {
+            final Anrede a = Anrede.getByCode(anrede);
+            builder.append(a.getBriefAnrede());
+            if (a == Anrede.FRAU || a == Anrede.HERR) {
+                builder.append(nachname);
+            }
+        } else if (StringUtils.isBlank(nachname)) {
+            builder.append(Anrede.FIRMA.getBriefAnrede());
+        } else {
+            builder.append(Anrede.ALLGEMEIN.getBriefAnrede());
+            if (StringUtils.isNotBlank(vorname)) {
+                builder.append(vorname);
+                builder.append(StringUtils.SPACE);
+            }
+            builder.append(nachname);
+        }
+        builder.append(",");
         return builder.toString();
     }
 

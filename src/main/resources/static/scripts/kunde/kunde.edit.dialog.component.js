@@ -1,6 +1,14 @@
 Vue.component('kunde-edit-dialog', {
   template: createEditDialogTemplate(`
   <div class="m1">
+    <div class="m2m">
+      <label for="kundeEditForm_anrede">Anrede</label>
+      <select class="m2" id="kundeEditForm_anrede" v-model="entity.anrede">
+        <option :value="a.key" v-for="a in anreden">{{a.value}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="m1">
       <zeichenzaehler-label :elem="entity.firmenname" :forid="'kundeEditForm_firmenname'" :label="'Firmenname'" :maxlength="'200'" :required="true"></zeichenzaehler-label>
       <input class="m1" id="kundeEditForm_firmenname" maxlength="200" type="text" v-model="entity.firmenname"></input>
   </div>
@@ -52,6 +60,7 @@ Vue.component('kunde-edit-dialog', {
   data: function() {
     this.loadEntity();
     return {
+      anreden: [],
       entity: {},
     };
   },
@@ -61,7 +70,9 @@ Vue.component('kunde-edit-dialog', {
     },
     loadEntity: function() {
       showLoader();
-      this.getEntity()
+      this.getAnrede()
+        .then(this.setAnrede)
+        .then(this.getEntity)
         .then(this.setEntity)
         .then(this.initEntityIfEmpty)
         .then(hideLoader);
@@ -82,6 +93,12 @@ Vue.component('kunde-edit-dialog', {
       if (!hasAllProperties(this.entity, ['id'])) {
         this.entity = this.initialEntity || {};
       }
+    },
+    getAnrede: function() {
+      return axios.get('/kunde/anreden');
+    },
+    setAnrede: function(response) {
+      this.anreden = response.data;
     },
     getEntity: function() {
       return axios.get(this.restUrlGet);
