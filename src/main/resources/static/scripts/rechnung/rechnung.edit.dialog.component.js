@@ -76,6 +76,12 @@ Vue.component('edit-dialog', {
         <span class="checkmark"></span>
       </label>
     </div>
+    <div class="m1" v-if="entity.rechnung.kunde && entity.rechnung.kunde.firmenname && entity.rechnung.kunde.nachname">
+      <label class="container checkbox">Sollen zusätzlich zum Firmannamen der Nachname/Vorname auf die Rechnung gedruckt werden?
+        <input id="rechnungEditForm_name_drucken_bei_firma" type="checkbox" v-model="entity.rechnung.nameDruckenBeiFirma" />
+        <span class="checkmark"></span>
+      </label>
+    </div>
     <div class="m1" v-if="entity.rechnung.kunde">
       <label for="rechnungEditForm_kunde">Kunde</label>
       <button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
@@ -168,11 +174,13 @@ Vue.component('edit-dialog', {
     handleKundeResponse: function(kunde) {
       this.showKundeDialog = false;
       this.entity.rechnung.kunde = kunde;
+      this.entity.rechnung.nameDruckenBeiFirma = this.entity.rechnung.kunde.nameDruckenBeiFirma;
     },
     handleReparaturResponse: function(reparatur) {
       this.showReparaturDialog = false;
       this.entity.rechnung.reparatur = reparatur;
       this.entity.rechnung.kunde = reparatur.kunde;
+      this.entity.rechnung.nameDruckenBeiFirma = this.entity.rechnung.kunde.nameDruckenBeiFirma;
     },
     loadEntity: function() {
       showLoader();

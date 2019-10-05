@@ -40,7 +40,7 @@
       <header>
         <div class="font15" v-if="entity.rechnung.kunde && entity.rechnung.nameDrucken" style="width: 350px;">
           <span v-if="entity.rechnung.kunde.firmenname">{{entity.rechnung.kunde.firmenname}}<br></span>
-          <span v-if="entity.rechnung.kunde.nachname">{{entity.rechnung.kunde.vorname}} {{entity.rechnung.kunde.nachname}}<br></span>
+          <span v-if="entity.rechnung.kunde.nachname && entity.rechnung.nameDruckenBeiFirma">{{entity.rechnung.kunde.vorname}} {{entity.rechnung.kunde.nachname}}<br></span>
           {{entity.rechnung.kunde.strasse}}
           <br>
           {{entity.rechnung.kunde.plz}} {{entity.rechnung.kunde.ort}}

@@ -1,5 +1,6 @@
 package de.sg.computerinsel.tools.rechnung.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -11,5 +12,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Rechnung extends BaseRechnung {
+
+    @Column(name = "name_drucken_bei_firma")
+    private boolean nameDruckenBeiFirma = true;
 
 }

@@ -70,6 +70,9 @@ public class Kunde extends IntegerBaseObject {
     @Column(name = "erstellt_am")
     private LocalDateTime erstelltAm;
 
+    @Column(name = "name_drucken_bei_firma")
+    private boolean nameDruckenBeiFirma = true;
+
     public String getNameKomplett() {
         final StringBuilder builder = new StringBuilder();
         if (StringUtils.isNotBlank(firmenname)) {

@@ -22,6 +22,12 @@ Vue.component('kunde-edit-dialog', {
       <input class="m2" id="kundeEditForm_vorname" maxlength="50" type="text" v-model="entity.vorname"></input>
     </div>
   </div>
+  <div class="m1" v-if="entity.firmenname && entity.nachname">
+    <label class="container checkbox">Sollen zusätzlich zum Firmannamen der Nachname/Vorname auf die Rechnung gedruckt werden?
+      <input id="kundeEditForm_name_drucken_bei_firma" type="checkbox" v-model="entity.nameDruckenBeiFirma" />
+      <span class="checkmark"></span>
+    </label>
+  </div>
   <div class="m1">
     <div class="m2m">
       <zeichenzaehler-label :elem="entity.strasse" :forid="'kundeEditForm_strasse'" :label="'Straße'" :maxlength="'100'"></zeichenzaehler-label>

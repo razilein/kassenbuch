@@ -155,6 +155,7 @@ var vm = new Vue({
       vm.showKundeDialog = false;
       vm.entity.rechnung.kunde = kunde;
       vm.entity.rechnung.nameDrucken = true;
+      vm.entity.rechnung.nameDruckenBeiFirma = vm.entity.rechnung.kunde.nameDruckenBeiFirma;
     },
     handleReparaturResponse: function(reparatur) {
       vm.showReparaturDialog = false;
@@ -162,6 +163,7 @@ var vm = new Vue({
       vm.entity.rechnung.kunde = reparatur.kunde;
       if (reparatur.kunde) {
         vm.entity.rechnung.nameDrucken = true;
+        vm.entity.rechnung.nameDruckenBeiFirma = vm.entity.rechnung.kunde.nameDruckenBeiFirma;
       }
     },
     gridReload: function() {
