@@ -175,8 +175,8 @@ Vue.component('grid', {
         data: {
           page: this.page,
           size: this.pagesize,
-          sort: this.pagesort,
-          sortorder: this.pagesortorder
+          sort: this.pagesort || this.sort,
+          sortorder: this.pagesortorder || this.sortorder
         }
       };
       return axios.post(this.restUrl, params);
