@@ -74,7 +74,7 @@ public class KassenbuchService {
     private Kassenbuchposten createPosten(final Kassenbuch kassenbuch, final Rechnung rechnung) {
         final BigDecimal betrag = rechnungService.listRechnungspostenByRechnungId(rechnung.getId()).stream().map(Rechnungsposten::getGesamt)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        final String nummer = einstellungenService.getFilialeKuerzel() + rechnung.getNummerAnzeige();
+        final String nummer = rechnung.getFiliale().getKuerzel() + rechnung.getNummerAnzeige();
         return new Kassenbuchposten(kassenbuch, nummer, betrag);
     }
 
