@@ -25,6 +25,10 @@ public class Kunde extends IntegerBaseObject {
     @Column(name = "anrede")
     private Integer anrede;
 
+    @Column(name = "akademischer_titel")
+    @Size(max = 50, message = "kunde.akademischer_titel.error")
+    private String akademischerTitel;
+
     @Column(name = "nummer")
     private Integer nummer;
 
@@ -79,6 +83,10 @@ public class Kunde extends IntegerBaseObject {
             builder.append(StringUtils.defaultString(firmenname));
             builder.append(System.lineSeparator());
         }
+        if (StringUtils.isNotBlank(akademischerTitel)) {
+            builder.append(StringUtils.defaultString(akademischerTitel));
+            builder.append(StringUtils.SPACE);
+        }
         if (StringUtils.isNotBlank(nachname)) {
             builder.append(StringUtils.defaultString(nachname));
         }
@@ -117,12 +125,20 @@ public class Kunde extends IntegerBaseObject {
             final Anrede a = Anrede.getByCode(anrede);
             builder.append(a.getBriefAnrede());
             if (a == Anrede.FRAU || a == Anrede.HERR) {
+                if (StringUtils.isNotBlank(akademischerTitel)) {
+                    builder.append(akademischerTitel);
+                    builder.append(StringUtils.SPACE);
+                }
                 builder.append(nachname);
             }
         } else if (StringUtils.isBlank(nachname)) {
             builder.append(Anrede.FIRMA.getBriefAnrede());
         } else {
             builder.append(Anrede.ALLGEMEIN.getBriefAnrede());
+            if (StringUtils.isNotBlank(akademischerTitel)) {
+                builder.append(akademischerTitel);
+                builder.append(StringUtils.SPACE);
+            }
             if (StringUtils.isNotBlank(vorname)) {
                 builder.append(vorname);
                 builder.append(StringUtils.SPACE);

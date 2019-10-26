@@ -7,6 +7,10 @@ Vue.component('kunde-edit-dialog', {
         <option :value="a.key" v-for="a in anreden">{{a.value}}</option>
       </select>
     </div>
+    <div class="m2">
+      <zeichenzaehler-label :elem="entity.akademischerTitel" :forid="'kundeEditForm_akademischer_titel'" :label="'Akademischer Titel'" :maxlength="'50'"></zeichenzaehler-label>
+      <input class="m2" id="kundeEditForm_akademischerTitel" maxlength="50" type="text" v-model="entity.akademischerTitel"></input>
+    </div>
   </div>
   <div class="m1">
       <zeichenzaehler-label :elem="entity.firmenname" :forid="'kundeEditForm_firmenname'" :label="'Firmenname'" :maxlength="'200'" :required="true"></zeichenzaehler-label>
