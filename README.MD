@@ -269,12 +269,14 @@ Durch Klick auf die Schaltfläche *Speichern* wird das Kassenbuch gespeichert un
 ### Kassenbücher
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_KASSENBUCH_UEBERSICHT* benötigt.
 Um die Kassenbücher öffnen zu können, wird das Recht *KASSENBUCH* benötigt.
+Um ein Kassenbuch löschen zu können, wird das Recht *KASSENBUCH_VERWALTEN* benötigt.
 
 Auf dieser Seite befindet sich eine Übersicht aller erstellten Kassenbücher. Mit Hilfe der Suchfilter kann die Anzeige weiter eingeschränkt werden.
 
 Durch Klick auf das *Öffnen-Icon* kann die Druckansicht des Kassenbuchs geöffnet werden.
+Durch Klick auf das *Löschen-Icon* kann nach erneuter Bestätigung das Kassenbuch gelöscht werden.
 
-Das Bearbeiten oder Löschen ist nicht möglich, um eine Manipulation zu verhindern.
+Das Bearbeiten ist nicht möglich, um eine Manipulation zu verhindern.
 
 ### Kassenstand
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_KASSENBUCH_KASSENSTAND* benötigt.

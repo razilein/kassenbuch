@@ -99,4 +99,8 @@ public class KassenbuchService {
         einstellungenService.save(einstellung);
     }
 
+    public void delete(final Integer id) {
+        kassenbuchRepository.deleteById(id);
+    }
+
 }

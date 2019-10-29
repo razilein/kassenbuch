@@ -3,7 +3,10 @@ package de.sg.computerinsel.tools.service;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import de.sg.computerinsel.tools.CurrencyUtils;
+import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.dao.ProtokollRepository;
+import de.sg.computerinsel.tools.kassenbuch.rest.model.KassenbuchDTO;
 import de.sg.computerinsel.tools.model.Protokoll;
 import de.sg.computerinsel.tools.model.Protokoll.Protokolltabelle;
 import de.sg.computerinsel.tools.model.Protokoll.Protokolltyp;
@@ -33,6 +36,11 @@ public class ProtokollService {
     private String getMitarbeiter() {
         return mitarbeiterService.getAngemeldeterMitarbeiter().map(Mitarbeiter::getCompleteName)
                 .orElseGet(() -> SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
+    public static String getBezeichnungKassenbuch(final KassenbuchDTO dto) {
+        return "Ausgangsbetrag: ".concat(DateUtils.format(dto.getKassenbuch().getDatum())).concat(", Ausgangsbetrag: ")
+                .concat(CurrencyUtils.format(dto.getKassenbuch().getAusgangsbetrag()));
     }
 
 }

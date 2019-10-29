@@ -42,6 +42,14 @@
           ></grid>
         </div>
       </div>
+      <delete-dialog
+        :title="deleteRow.title"
+        :rest-url="deleteRow.restUrl"
+        :id="deleteRow.id"
+        v-if="showDeleteDialog"
+        @close="showDeleteDialog = false"
+        @deleted="handleDeleteResponse"
+      ></delete-dialog>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
     </div>
   </body>
@@ -49,6 +57,7 @@
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/grid.component.js"></script>
+  <script src="/scripts/delete.dialog.component.js"></script>
   <script src="/scripts/kassenbuch/kassenbuch.header.component.js"></script>
   <script src="/scripts/kassenbuch/kassenbuch.uebersicht.js"></script>
 </html>

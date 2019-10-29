@@ -51,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/kassenbuch-uebersicht.html*", "/kassenbuch*").hasRole("ZUGRIFF_KASSENBUCH_UEBERSICHT")
             .antMatchers("/kassenbuch-drucken.html*").hasRole("KASSENBUCH")
             .antMatchers(HttpMethod.PUT, "/kassenbuch").hasRole("ZUGRIFF_KASSENBUCH_ERSTELLEN")
+            .antMatchers(HttpMethod.DELETE, "/kassenbuch").hasRole("KASSENBUCH_VERWALTEN")
             .antMatchers("/kassenstand.html*", "/kassenbuch/kassenstand*").hasRole("ZUGRIFF_KASSENBUCH_KASSENSTAND")
             .antMatchers("/statistiken.html*", "/kassenbuch/statistiken*").hasRole("ZUGRIFF_KASSENBUCH_STATISTIK")
             .antMatchers("/einstellungen.html*", "/einstellungen").hasRole("ZUGRIFF_EINSTELLUNGEN_ALLGEMEIN")

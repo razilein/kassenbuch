@@ -1,7 +1,11 @@
 package de.sg.computerinsel.tools.kassenbuch.rest;
 
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltabelle.KASSENBERICHT;
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GELOESCHT;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +13,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,6 +73,16 @@ public class KassenbuchRestController {
             betrag = BigDecimal.ZERO;
         }
         return kassenbuchService.createKassenbuch(LocalDate.now(), betrag);
+    }
+
+    @DeleteMapping
+    public Map<String, Object> deleteKunde(@RequestBody final Map<String, Object> data) {
+        final int id = (int) data.get("id");
+
+        final KassenbuchDTO dto = getKassenbuch(id);
+        protokollService.write(dto.getKassenbuch().getId(), KASSENBERICHT, ProtokollService.getBezeichnungKassenbuch(dto), GELOESCHT);
+        kassenbuchService.delete(id);
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("kassenbuch.delete.success"));
     }
 
     @GetMapping("/drucken/{id}")
