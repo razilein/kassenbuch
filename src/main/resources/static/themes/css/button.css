@@ -18,6 +18,11 @@ button.add {
   -webkit-mask: url("../icons/add.svg") no-repeat center;
 }
 
+button.auftrag {
+  mask: url("../icons/auftrag.svg") no-repeat center;
+  -webkit-mask: url("../icons/auftrag.svg") no-repeat center;
+}
+
 button.bad {
   background-color: #D8000C !important;
   mask: url("../icons/bad.svg") no-repeat center;
@@ -113,7 +118,7 @@ button.zahnrad {
   -webkit-mask: url("../icons/zahnrad.svg") no-repeat center;
 }
 
-button.add, button.bad, button.delete, button.duplicate, button.edit, button.email,
+button.add, button.auftrag, button.bad, button.delete, button.duplicate, button.edit, button.email,
 button.euro, button.good, button.key, button.kunde, button.kunden, button.minus,
 button.ok, button.ok2, button.open-new-tab, button.recht, button.zahnrad {
   background-color: #1a8cff;

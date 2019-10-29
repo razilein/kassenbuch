@@ -1,6 +1,5 @@
 package de.sg.computerinsel.tools.reparatur.service;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.primitives.Ints;
 
+import de.sg.computerinsel.tools.auftrag.service.AuftragService;
 import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
 import de.sg.computerinsel.tools.reparatur.dao.ReparaturRepository;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
@@ -32,6 +32,8 @@ import lombok.AllArgsConstructor;
 public class ReparaturService {
 
     private static final int LAENGE_REPARATURNUMMER_JAHR = 2;
+
+    private final AuftragService auftragService;
 
     private final EinstellungenService einstellungenService;
 
@@ -113,8 +115,7 @@ public class ReparaturService {
     }
 
     public List<LocalDate> listDaysWithMin5AbholungenAndAuftragNotErledigt() {
-        return reparaturRepository.listDaysWithMin5AbholungenAndAuftragNotErledigt().stream().map(Date::toLocalDate)
-                .collect(Collectors.toList());
+        return auftragService.listDaysWithMin5AbholungenAndAuftragNotErledigt();
     }
 
     public void duplikateZusammenfuehren(final KundeDuplikatDto dto) {

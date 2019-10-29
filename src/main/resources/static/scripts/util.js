@@ -20,6 +20,8 @@ function formatDate(date) {
 function formatDayOfWeek(date) {
   var dayOfWeek = moment(date, 'YYYY-MM-DD').format('d');
   switch (dayOfWeek) {
+    case '0':
+      return 'Sonntag';
     case '1':
       return 'Montag';
     case '2':
@@ -32,8 +34,6 @@ function formatDayOfWeek(date) {
       return 'Freitag';
     case '6':
       return 'Samstag';
-    case '7':
-      return 'Sonntag';
     default:
       return '';
   }

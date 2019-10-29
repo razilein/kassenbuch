@@ -35,6 +35,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.sg.computerinsel.tools.auftrag.model.Auftrag;
+import de.sg.computerinsel.tools.auftrag.service.AuftragService;
 import de.sg.computerinsel.tools.bestellung.service.BestellungService;
 import de.sg.computerinsel.tools.inventar.model.Produkt;
 import de.sg.computerinsel.tools.inventar.service.InventarService;
@@ -62,6 +64,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/rechnung")
 @Slf4j
 public class RechnungRestController {
+
+    @Autowired
+    private AuftragService auftragService;
 
     @Autowired
     private BestellungService bestellungService;
@@ -159,6 +164,7 @@ public class RechnungRestController {
             final Rechnung saved = service.saveRechnung(rechnung);
             savePosten(dto.getPosten(), saved);
             reparaturErledigen(saved);
+            auftragErledigen(saved);
             if (isErstellt) {
                 inventarAnpassen(dto);
                 bestellungService.saveBestellung(dto.getPosten());
@@ -210,6 +216,15 @@ public class RechnungRestController {
         for (final Rechnungsposten posten : list) {
             posten.setRechnung(rechnung);
             service.savePosten(posten);
+        }
+    }
+
+    private void auftragErledigen(final Rechnung saved) {
+        if (saved.getAuftrag() != null && saved.getAuftrag().getId() != null) {
+            final Optional<Auftrag> optional = auftragService.getAuftrag(saved.getAuftrag().getId());
+            if (optional.isPresent()) {
+                auftragService.auftragErledigen(optional.get(), true);
+            }
         }
     }
 

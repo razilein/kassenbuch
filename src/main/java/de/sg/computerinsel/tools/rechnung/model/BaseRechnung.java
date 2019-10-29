@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import de.sg.computerinsel.tools.auftrag.model.Auftrag;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
@@ -26,6 +27,10 @@ import lombok.Setter;
 public class BaseRechnung extends IntegerBaseObject {
 
     public static final int MAX_LENGTH_MITARBEITER = 200;
+
+    @ManyToOne
+    @JoinColumn(name = "auftrag_id", referencedColumnName = "id")
+    private Auftrag auftrag;
 
     @Column(name = "art")
     private int art = 0;

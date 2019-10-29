@@ -36,6 +36,18 @@
           <li><a href="#rechnungen-export">Export</a></li>
         </ul>
       </li>
+      <li>
+        <a href="#auftraege">Aufträge</a>
+        <ul>
+          <li>
+            <a href="#auftraege-erstellen">Erstellen</a>
+            <ul>
+              <li><a href="#auftraege-kundewhlen">Kunde wählen</a></li>
+            </ul>
+          </li>
+          <li><a href="#auftraege-1">Aufträge</a></li>
+        </ul>
+      </li>
       <li><a href="#kunden">Kunden</a></li>
       <li>
         <a href="#inventar">Inventar</a>
@@ -94,6 +106,7 @@
     <ul>
       <li>Reparaturaufträge verwalten</li>
       <li>Rechnungen verwalten</li>
+      <li>Aufträge verwalten</li>
       <li>Kunden verwalten</li>
       <li>Kassenbücher verwalten</li>
       <li>Kassenstand berechnen</li>
@@ -202,6 +215,25 @@
     <p>Das Dateiformat ist hierbei TXT und besitzt ein fest definiertes Muster.</p>
     <p>Die Konten werden aus den zur Rechnungen hinterlegten Filialen ermittelt.</p>
     <p>Die Konten können in den Einstellung angepasst werden.</p>
+    <h2 id="auftraege">Aufträge</h2>
+    <p>Die Seite Aufträge unterteilt sich in die zwei Unterseiten <strong>Erstellen</strong> und <strong>Aufträge</strong>.</p>
+    <h3 id="auftraege-erstellen">Erstellen</h3>
+    <p>Um diese Seite öffnen zu können wird das Recht <em>ZUGRIFF_AUFTRAG_ERSTELLEN</em> benötigt.
+    Um den Auftrag nach der Erstellung ansehen und drucken zu können, wird das Recht <em>AUFTRAG</em> benötigt.</p>
+    <p>Auf dieser Seite befinden sich verschiedene Felder die beim Erstellen eines Auftrags zu befüllen sind.
+    Nach dem Speichern öffnet sich eine neue Seite für den Druck des Auftrags.
+    Ebenfalls wird ein Hinweis geöffnet, dass das DSGVO-Informationsblatt vom Kunden zu Unterzeichnen ist, wenn er dies noch nicht getan hat.</p>
+    <h4 id="auftraege-kundewhlen">Kunde wählen</h4>
+    <p>Um den Kunden zu wählen muss neben dem Label <em>Kunde</em> das <em>Kunde-Icon</em> geklickt werden. Anschließend öffnet sich ein Dialog in dem der entsprechende Kunde gesucht werden kann.
+    Durch Klick auf das <em>OK-Icon</em> wird der Kunde ausgewählt und der Dialog schließt sich.</p>
+    <p>Ist das Recht <em>KUNDEN_VERWALTEN</em> gesetzt, können in diesem Dialog neue Kunden angelegt oder bestehende Kunden editiert werden.</p>
+    <h3 id="auftraege-1">Aufträge</h3>
+    <p>Um diese Seite öffnen zu können, wird das Recht <em>ZUGRIFF_AUFTRAG_UEBERSICHT</em> benötigt.
+    Das Recht <em>AUFTRAG_VERWALTEN</em> wird benötigt um Aufträge zu bearbeiten oder zu löschen.</p>
+    <p>Auf dieser Seite befindet sich eine Auflistung aller Aufträge. Mit Hilfe der Suchfilter kann die Anzeige weiter eingeschränkt werden.</p>
+    <p>Durch Klick auf das <em>Öffnen-Icon</em> kann der Auftrag in der Druckansicht angezeigt werden. Dazu wird das Recht <em>AUFTRAG</em> benötigt.</p>
+    <p>Durch Klick auf das <em>Bearbeiten-Icon</em> kann der Auftrag bearbeitet werden.</p>
+    <p>Durch Klick auf das <em>Löschen-Icon</em> kann ein Auftrag nach nochmaliger Bestätigung gelöscht werden.</p>
     <h2 id="kunden">Kunden</h2>
     <p>Um diese Seite öffnen zu können, wird das Recht <em>ZUGRIFF_KUNDEN</em> benötigt.
       Um Kunden Anlegen, Bearbeiten oder Löschen zu können, wird das Recht <em>KUNDEN_VERWALTEN</em> benötigt.
@@ -427,6 +459,11 @@
       <li><strong>ZUGRIFF_RECHNUNG_EXPORT</strong> - Zugriff auf die Seite Übersicht Export (Rechnungen)</li>
       <li><strong>RECHNUNG_EXPORT</strong> - Rechnungen können exportiert werden</li>
       <li><strong>ZUGRIFF_BESTELLUNG</strong> - Zugriff auf die Seite: Bestellung</li>
+      <li><strong>KUNDEN_AUFTRAEGE</strong> - Ermöglicht das Anzeigen aller Aufträge eines Kunden</li>
+      <li><strong>ZUGRIFF<em>AUFTRAG</em>ERSTELLEN</strong> - Zugriff auf die Seite Aufträge erstellen</li>
+      <li><strong>ZUGRIFF<em>AUFTRAG</em>UEBERSICHT</strong> - Zugriff auf die Seite Übersicht Aufträge</li>
+      <li><strong>AUFTRAG</strong> - Ermöglicht das Anzeigen der Druckansicht eines Auftrags</li>
+      <li><strong>AUFTRAG_VERWALTEN</strong> - Aufträge dürfen angelegt, bearbeitet oder gelöscht werden</li>
     </ul>
     <h2 id="meinprofil">Mein Profil</h2>
     <p>Jeder Mitarbeiter kann diese Seite rechts oben auf jeder Seite aufrufen.</p>

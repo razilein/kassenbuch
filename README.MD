@@ -5,6 +5,7 @@ Dieses Programm beinhaltet verschiedene Tools, welche für die Computerinsel ben
 Dazu zählen:
 - Reparaturaufträge verwalten
 - Rechnungen verwalten
+- Aufträge verwalten
 - Kunden verwalten
 - Kassenbücher verwalten
 - Kassenstand berechnen
@@ -138,6 +139,35 @@ Dabei wird je Zahlart eine eigene Datei erzeugt und in das Ablageverzeichnis gew
 Das Dateiformat ist hierbei TXT und besitzt ein fest definiertes Muster.
 Die Konten werden aus den zur Rechnungen hinterlegten Filialen ermittelt.
 Die Konten können in den Einstellung angepasst werden.
+
+## Aufträge
+Die Seite Aufträge unterteilt sich in die zwei Unterseiten **Erstellen** und **Aufträge**.
+
+### Erstellen
+Um diese Seite öffnen zu können wird das Recht *ZUGRIFF_AUFTRAG_ERSTELLEN* benötigt.
+Um den Auftrag nach der Erstellung ansehen und drucken zu können, wird das Recht *AUFTRAG* benötigt.
+
+Auf dieser Seite befinden sich verschiedene Felder die beim Erstellen eines Auftrags zu befüllen sind.
+Nach dem Speichern öffnet sich eine neue Seite für den Druck des Auftrags.
+Ebenfalls wird ein Hinweis geöffnet, dass das DSGVO-Informationsblatt vom Kunden zu Unterzeichnen ist, wenn er dies noch nicht getan hat.
+
+#### Kunde wählen
+Um den Kunden zu wählen muss neben dem Label *Kunde* das *Kunde-Icon* geklickt werden. Anschließend öffnet sich ein Dialog in dem der entsprechende Kunde gesucht werden kann.
+Durch Klick auf das *OK-Icon* wird der Kunde ausgewählt und der Dialog schließt sich.
+
+Ist das Recht *KUNDEN_VERWALTEN* gesetzt, können in diesem Dialog neue Kunden angelegt oder bestehende Kunden editiert werden.
+
+### Aufträge
+Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_AUFTRAG_UEBERSICHT* benötigt.
+Das Recht *AUFTRAG_VERWALTEN* wird benötigt um Aufträge zu bearbeiten oder zu löschen.
+
+Auf dieser Seite befindet sich eine Auflistung aller Aufträge. Mit Hilfe der Suchfilter kann die Anzeige weiter eingeschränkt werden.
+
+Durch Klick auf das *Öffnen-Icon* kann der Auftrag in der Druckansicht angezeigt werden. Dazu wird das Recht *AUFTRAG* benötigt.
+
+Durch Klick auf das *Bearbeiten-Icon* kann der Auftrag bearbeitet werden.
+
+Durch Klick auf das *Löschen-Icon* kann ein Auftrag nach nochmaliger Bestätigung gelöscht werden.
 
 ## Kunden
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_KUNDEN* benötigt.
@@ -421,6 +451,11 @@ Folgende Rechte sind verfügbar:
 - **RECHNUNG** - Ermöglicht das Anzeigen der Druckansicht einer Rechnung
 - **RECHNUNG_VERWALTEN** - Rechnungen dürfen angelegt, bearbeitet oder gelöscht werden
 - **ZUGRIFF_BESTELLUNG** - Zugriff auf die Seite: Bestellung
+- **KUNDEN_AUFTRAEGE** - Ermöglicht das Anzeigen aller Aufträge eines Kunden
+- **ZUGRIFF_AUFTRAG_ERSTELLEN** - Zugriff auf die Seite Aufträge erstellen
+- **ZUGRIFF_AUFTRAG_UEBERSICHT** - Zugriff auf die Seite Übersicht Aufträge
+- **AUFTRAG** - Ermöglicht das Anzeigen der Druckansicht eines Auftrags
+- **AUFTRAG_VERWALTEN** - Aufträge dürfen angelegt, bearbeitet oder gelöscht werden
 
 ## Mein Profil
 Jeder Mitarbeiter kann diese Seite rechts oben auf jeder Seite aufrufen.

@@ -111,9 +111,14 @@ var vm = new Vue({
     },
     
     prepareRoles: function() {
+      vm.getRecht('ROLE_KUNDEN_AUFTRAEGE');
       vm.getRecht('ROLE_KUNDEN_REPARATUR');
       vm.getRecht('ROLE_KUNDEN_RECHNUNG');
       vm.getRecht('ROLE_KUNDEN_VERWALTEN');
+    },
+    
+    hasNotRoleAuftraegeAnzeigen: function() {
+      return !vm.rechte['ROLE_KUNDEN_AUFTRAEGE'];
     },
     
     hasNotRoleReparaturAnzeigen: function() {
@@ -126,6 +131,10 @@ var vm = new Vue({
     
     hasNotRoleVerwalten: function() {
       return !vm.rechte['ROLE_KUNDEN_VERWALTEN'];
+    },
+    
+    openAuftragFunction: function(row) {
+      window.open('/auftrag-uebersicht.html?id=' + row.id);
     },
     
     openReparaturFunction: function(row) {
@@ -145,6 +154,7 @@ var vm = new Vue({
           formatter: [
           { clazz: 'zahnrad', disabled: vm.hasNotRoleReparaturAnzeigen, title: 'Reparaturaufträge anzeigen', clickFunc: vm.openReparaturFunction },
           { clazz: 'euro', disabled: vm.hasNotRoleRechnungAnzeigen, title: 'Rechnungen anzeigen', clickFunc: vm.openRechnungFunction },
+          { clazz: 'auftrag', disabled: vm.hasNotRoleAuftraegeAnzeigen, title: 'Aufträge anzeigen', clickFunc: vm.openAuftragFunction },
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Kunde bearbeiten', clickFunc: vm.editFunction },
           { clazz: 'kunden', disabled: vm.hasNotRoleVerwalten, title: 'Duplizierende Kunden suchen und mit diesen Kundenatensatz zusammenführen', clickFunc: vm.duplicateFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Kunde löschen', clickFunc: vm.deleteFunction }

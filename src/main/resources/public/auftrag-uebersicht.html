@@ -1,8 +1,8 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Übersicht Rechnungen - Computer-Insel Tools by Sita Geßner</title>
-    <link rel="icon" href="/themes/icons/rechnung.png">
+    <title>Übersicht Aufträge - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/auftrag.png">
     <link rel="stylesheet" href="/themes/css/button.css">
     <link rel="stylesheet" href="/themes/css/dialog.css">
     <link rel="stylesheet" href="/themes/css/grid.css">
@@ -16,48 +16,26 @@
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
   <body>
-    <div id="rechnungen">
-      <page-header :marker="'Rechnungen'"></page-header>
-      <page-header-rechnung v-bind:marker="'Rechnungen'"></page-header-rechnung>
+    <div id="auftraege">
+      <page-header :marker="'Auftrag'"></page-header>
+      <page-header-auftrag v-bind:marker="'Auftraege'"></page-header-auftrag>
       <div id="content">
         <div class="form m1" v-if="kundeId === null">
           <div class="m1">
             <div class="m6m">
-              <label for="searchForm_nummer">Rechn.-Nr.</label>
-              <input class="m6" id="searchForm_nummer" type="text" v-model="grid.searchQuery.nummer"></input>
-            </div>
-            <div class="m6m">
-              <label for="searchForm_reparatur_nummer">Rep.-Nr.</label>
-              <input class="m6" id="searchForm_reparatur_nummer" type="text" v-model="grid.searchQuery.reparaturnummer"></input>
-            </div>
-            <div class="m6m">
-              <label for="searchForm_kunde_nummer">Kd.-Nr.</label>
-              <input class="m6" id="searchForm_kunde_nummer" type="text" v-model="grid.searchQuery.kundenummer"></input>
-            </div>
-            <div class="m2">
-              <label for="searchForm_ersteller">Ersteller</label>
-              <input class="m2" id="searchForm_ersteller" type="text" v-model="grid.searchQuery.ersteller"></input>
+              <label for="searchForm_kundennummer">Kd.-Nr.</label>
+              <input class="m6" id="searchForm_kundennummer" type="text" v-model="grid.searchQuery.kundennummer"></input>
             </div>
           </div>
           <div class="m1">
-            <div class="m2m">
-              <label class="container checkbox">Nur nicht bezahlte Rechnungen anzeigen
-                <input id="searchForm_bezahlt" type="checkbox" v-model="grid.searchQuery.bezahlt" />
-                <span class="checkmark"></span>
-              </label>
-            </div>
-            <div class="m2">
-              <label for="searchForm_art">Zahlart</label>
-              <select class="m2" v-model="grid.searchQuery.art">
-                <option></option>
-                <option :value="a.key" v-for="a in zahlarten">{{a.value}}</option>
-              </select>
-            </div>
+            <label for="searchForm_beschreibung">Beschreibung</label>
+            <input class="m1" id="searchForm_beschreibung" type="text" v-model="grid.searchQuery.beschreibung"></input>
           </div>
-          <hr>
           <div class="m1">
-            <label for="searchForm_posten">Rechnungsposten durchsuchen nach Bezeichnung / Seriennummer / Hinweis</label>
-            <input class="m1" id="searchForm_posten" type="text" v-model="grid.searchQuery.posten"></input>
+             <label class="container checkbox">Nur nicht erledigte Aufträge anzeigen
+              <input id="searchForm_erledigt" type="checkbox" v-model="grid.searchQuery.erledigt" />
+              <span class="checkmark"></span>
+            </label>
           </div>
           <div class="m1">
             <div class="m2 right">
@@ -66,8 +44,8 @@
             </div>
           </div>
         </div>
-        <div style="height: 250px;" v-if="kundeId === null"></div>
-        <h3 v-if="kundeId !== null">Rechnungen zum gewählten Kunden:</h3>
+        <div style="height: 220px;" v-if="kundeId === null"></div>
+        <h3 v-if="kundeId !== null">Aufträge zum gewählten Kunden:</h3>
         <div id="gridDiv" v-if="grid.gridColumns.length > 0">
           <grid
             :columns="grid.gridColumns"
@@ -107,12 +85,6 @@
         @close="showDeleteDialog = false"
         @deleted="handleDeleteResponse"
       ></delete-dialog>
-      <rechnung-versenden-dialog
-        :row="versendenDialog.row"
-        v-if="showVersendenDialog"
-        @close="showVersendenDialog = false"
-        @sended="handleSendResponse"
-      ></rechnung-versenden-dialog>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
     </div>
   </body>
@@ -123,13 +95,9 @@
   <script src="/scripts/grid.component.js"></script>
   <script src="/scripts/zeichenzaehler.component.js"></script>
   <script src="/scripts/delete.dialog.component.js"></script>
-  <script src="/scripts/auftrag/auftrag.suchen.dialog.component.js"></script>
-  <script src="/scripts/reparatur/reparatur.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>
-  <script src="/scripts/rechnung/rechnungsposten.edit.dialog.component.js"></script>
-  <script src="/scripts/rechnung/rechnung.versenden.dialog.component.js"></script>
-  <script src="/scripts/rechnung/rechnung.edit.dialog.component.js"></script>
-  <script src="/scripts/rechnung/rechnung.header.component.js"></script>
-  <script src="/scripts/rechnung/rechnung.uebersicht.js"></script>
+  <script src="/scripts/auftrag/auftrag.edit.dialog.component.js"></script>
+  <script src="/scripts/auftrag/auftrag.header.component.js"></script>
+  <script src="/scripts/auftrag/auftrag.uebersicht.js"></script>
 </html>
