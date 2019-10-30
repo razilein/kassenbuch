@@ -39,6 +39,16 @@ Vue.component('edit-dialog', {
     <input class="m1" id="filialeEditForm_rechnung_text_andere_filiale" maxlength="100" type="text" v-model="entity.filiale.rechnungTextAndereFiliale"></input>
   </div>
   <div class="m1">
+    <div class="m4m">
+      <label for="filialeEditForm_zaehlerRechnung">Rechnungsnummer</label>
+      <input class="m4" id="filialeEditForm_zaehlerRechnung" type="number" v-model="entity.filiale.zaehlerRechnung" />
+    </div>
+    <div class="m4">
+      <label for="filialeEditForm_zaehlerReparaturauftrag">Reparaturnummer</label>
+      <input class="m4" id="filialeEditForm_zaehlerReparaturauftrag" type="number" v-model="entity.filiale.zaehlerReparaturauftrag" />
+    </div>
+  </div>
+  <div class="m1">
     <hr>
     <h1>Kontierung</h1>
   </div>

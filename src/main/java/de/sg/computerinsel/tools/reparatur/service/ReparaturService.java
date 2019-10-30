@@ -22,8 +22,8 @@ import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
 import de.sg.computerinsel.tools.reparatur.dao.ReparaturRepository;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
-import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
+import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.SearchQueryUtils;
 import lombok.AllArgsConstructor;
 
@@ -35,7 +35,7 @@ public class ReparaturService {
 
     private final AuftragService auftragService;
 
-    private final EinstellungenService einstellungenService;
+    private final MitarbeiterService mitarbeiterService;
 
     private final ReparaturRepository reparaturRepository;
 
@@ -101,7 +101,7 @@ public class ReparaturService {
 
     public Reparatur save(final Reparatur reparatur) {
         if (StringUtils.isBlank(reparatur.getNummer())) {
-            reparatur.setNummer(getReparaturJahrZweistellig() + einstellungenService.getAndSaveNextReparaturnummer());
+            reparatur.setNummer(getReparaturJahrZweistellig() + mitarbeiterService.getAndSaveNextReparaturnummer());
         }
         return reparaturRepository.save(reparatur);
     }

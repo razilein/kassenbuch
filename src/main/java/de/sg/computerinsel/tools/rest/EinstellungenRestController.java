@@ -79,8 +79,6 @@ public class EinstellungenRestController {
         data.setMailSignatur(einstellungenService.getMailSignatur());
         data.setMailBodyRechnung(einstellungenService.getMailBodyRechnung());
         data.setMailBodyReparatur(einstellungenService.getMailBodyReparaturauftrag());
-        data.setRechnungsnummer(einstellungenService.getRechnungsnummer());
-        data.setReparaturnummer(einstellungenService.getReparaturnummer());
         return data;
     }
 
@@ -105,10 +103,6 @@ public class EinstellungenRestController {
             result.put(Message.ERROR.getCode(), messageService.get("einstellungen.save.filiale.error"));
         }
 
-        if (!StringUtils.isNumeric(data.getRechnungsnummer().getWert()) || !StringUtils.isNumeric(data.getReparaturnummer().getWert())) {
-            result.put(Message.ERROR.getCode(), messageService.get("einstellungen.save.nummern.error"));
-        }
-
         if (result.isEmpty()) {
             einstellungenService.save(data.getAblageverzeichnis());
             einstellungenService.save(data.getFiliale());
@@ -123,8 +117,6 @@ public class EinstellungenRestController {
             einstellungenService.save(data.getMailSignatur());
             einstellungenService.save(data.getMailBodyRechnung());
             einstellungenService.save(data.getMailBodyReparatur());
-            einstellungenService.save(data.getRechnungsnummer());
-            einstellungenService.save(data.getReparaturnummer());
             result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.save.success"));
             protokollService.write(messageService.get("protokoll.einstellungen.save"));
         }

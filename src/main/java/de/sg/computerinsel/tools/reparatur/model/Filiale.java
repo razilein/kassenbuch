@@ -1,5 +1,7 @@
 package de.sg.computerinsel.tools.reparatur.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -56,5 +58,14 @@ public class Filiale extends IntegerBaseObject {
     @Size(max = 100, message = "einstellungen.filiale.rechnungTextAndereFiliale.error.size")
     @Column(name = "rechnung_text_andere_filiale")
     private String rechnungTextAndereFiliale;
+
+    @Column(name = "zaehler_rechnung")
+    private int zaehlerRechnung;
+
+    @Column(name = "zaehler_reparaturauftrag")
+    private int zaehlerReparaturauftrag;
+
+    @Column(name = "ausgangsbetrag")
+    private BigDecimal ausgangsbetrag;
 
 }

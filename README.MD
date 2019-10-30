@@ -345,22 +345,6 @@ Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_EINSTELLUNGEN_ALLGEME
 #### Ablageverzeichnis
 Das hier definierte Verzeichnis wird verwendet, um die Statistiken und Kassenstände abzulegen.
 
-#### Rechnungsnummer
-Die Rechnungsnummer setzt sich zusammen aus dem Kürzel der Filiale, dem Jahr des Rechnungsdatums und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.
-
-Ist beispielsweise das Rechnungsdatum der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Rechnungsnummer, wenn das Kürzel der Filiale L ist: *L18-0455*
-
-In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.
-Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).
-
-#### Auftragsnummer
-Die Auftragsnummer setzt sich zusammen aus dem Kürzel der Filiale, dem aktuellen Jahr und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.
-
-Ist beispielsweise heute der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Auftragsnummer, wenn das Kürzel der Filiale L ist: *L180455*
-
-In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.
-Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).
-
 #### FTP-Server
 Hier sind die Verbindungsdaten zum FTP-Server anzugeben.
 Diese Daten dienen dazu, um die Bestellliste lesen/schreiben zu können.
@@ -389,6 +373,22 @@ Durch Klick auf das *Bearbeiten-Icon* kann die Filiale bearbeitet werden.
 
 Die Adressdaten, sowie Telefon, E-Mail, Kürzel und der Text "Besuchen Sie uns auch in unserer Filiale in" erscheinen auf den Rechnungen und Reparaturaufträgen.
 Eine Änderung dieser Daten wirkt sich auf bestehende Rechnungen und Aufträge aus.
+
+### Rechnungsnummer
+Die Rechnungsnummer setzt sich zusammen aus dem Kürzel der Filiale, dem Jahr des Rechnungsdatums und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.
+
+Ist beispielsweise das Rechnungsdatum der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Rechnungsnummer, wenn das Kürzel der Filiale L ist: *L18-0455*
+
+In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.
+Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).
+
+### Reparaturnummer
+Die Reparaturnummer setzt sich zusammen aus dem Kürzel der Filiale, dem aktuellen Jahr und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.
+
+Ist beispielsweise heute der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Reparaturnummer, wenn das Kürzel der Filiale L ist: *L180455*
+
+In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.
+Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).
 
 ## Mitarbeiter
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_EINSTELLUNGEN_MITARBEITER* benötigt.

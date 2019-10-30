@@ -82,14 +82,18 @@
             <a href="#allgemein">Allgemein</a>
             <ul>
               <li><a href="#ablageverzeichnis">Ablageverzeichnis</a></li>
-              <li><a href="#rechnungsnummer">Rechnungsnummer</a></li>
-              <li><a href="#auftragsnummer">Auftragsnummer</a></li>
               <li><a href="#ftpserver">FTP-Server</a></li>
               <li><a href="#smtpserver">SMTP-Server</a></li>
               <li><a href="#filiale">Filiale</a></li>
             </ul>
           </li>
-          <li><a href="#filialen">Filialen</a></li>
+          <li>
+            <a href="#filialen">Filialen</a>
+            <ul>
+              <li><a href="#rechnungsnummer">Rechnungsnummer</a></li>
+              <li><a href="#reparaturnummer">Reparaturnummer</a></li>
+            </ul>
+          </li>
           <li>
             <a href="#mitarbeiter">Mitarbeiter</a>
             <ul>
@@ -364,16 +368,6 @@
     <p>Um diese Seite öffnen zu können, wird das Recht <em>ZUGRIFF_EINSTELLUNGEN_ALLGEMEIN</em> benötigt.</p>
     <h4 id="ablageverzeichnis">Ablageverzeichnis</h4>
     <p>Das hier definierte Verzeichnis wird verwendet, um die Statistiken und Kassenstände abzulegen.</p>
-    <h4 id="rechnungsnummer">Rechnungsnummer</h4>
-    <p>Die Rechnungsnummer setzt sich zusammen aus dem Kürzel der Filiale, dem Jahr des Rechnungsdatums und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.</p>
-    <p>Ist beispielsweise das Rechnungsdatum der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Rechnungsnummer, wenn das Kürzel der Filiale L ist: <em>L180455</em></p>
-    <p>In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.</p>
-    <p>Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).</p>
-    <h4 id="auftragsnummer">Auftragsnummer</h4>
-    <p>Die Auftragsnummer setzt sich zusammen aus dem Kürzel der Filiale, dem aktuellen Jahr und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.</p>
-    <p>Ist beispielsweise heute der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Auftragsnummer, wenn das Kürzel der Filiale L ist: <em>L180455</em></p>
-    <p>In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.</p>
-    <p>Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).</p>
     <h4 id="ftpserver">FTP-Server</h4>
     <p>Hier sind die Verbindungsdaten zum FTP-Server anzugeben.
       Diese Daten dienen dazu, um die Bestellliste lesen/schreiben zu können.
@@ -402,6 +396,16 @@
     <p>Die Adressdaten, sowie Telefon, E-Mail, Kürzel und der Text "Besuchen Sie uns auch in unserer Filiale in" erscheinen auf den Rechnungen und Reparaturaufträgen.
       Eine Änderung dieser Daten wirkt sich auf bestehende Rechnungen und Aufträge aus.
     </p>
+    <h3 id="rechnungsnummer">Rechnungsnummer</h3>
+    <p>Die Rechnungsnummer setzt sich zusammen aus dem Kürzel der Filiale, dem Jahr des Rechnungsdatums und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.</p>
+    <p>Ist beispielsweise das Rechnungsdatum der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Rechnungsnummer, wenn das Kürzel der Filiale L ist: <em>L180455</em></p>
+    <p>In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.</p>
+    <p>Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).</p>
+    <h3 id="reparaturnummer">Reparaturnummer</h3>
+    <p>Die Reparaturnummer setzt sich zusammen aus dem Kürzel der Filiale, dem aktuellen Jahr und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.</p>
+    <p>Ist beispielsweise heute der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Reparaturnummer, wenn das Kürzel der Filiale L ist: <em>L180455</em></p>
+    <p>In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.</p>
+    <p>Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).</p>
     <h2 id="mitarbeiter">Mitarbeiter</h2>
     <p>Um diese Seite öffnen zu können, wird das Recht <em>ZUGRIFF_EINSTELLUNGEN_MITARBEITER</em> benötigt.
       Um Mitarbeiter Anlegen, Bearbeiten oder Löschen zu können, wird das Recht <em>MITARBEITER_VERWALTEN</em> benötigt.

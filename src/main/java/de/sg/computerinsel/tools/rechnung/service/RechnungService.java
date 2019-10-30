@@ -28,7 +28,6 @@ import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.rechnung.model.Zahlart;
 import de.sg.computerinsel.tools.rechnung.rest.model.RechnungDTO;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
-import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.SearchQueryUtils;
@@ -39,8 +38,6 @@ import lombok.AllArgsConstructor;
 public class RechnungService {
 
     private static final int LAENGE_RECHNUNGSNUMMER_JAHR = 2;
-
-    private final EinstellungenService einstellungenService;
 
     private final MitarbeiterService mitarbeiterService;
 
@@ -138,7 +135,7 @@ public class RechnungService {
             rechnung.setDatum(LocalDate.now());
             rechnung.setErstelltAm(LocalDateTime.now());
             final String nummer = getRechnungsdatumJahrZweistellig(rechnung.getDatum())
-                    + einstellungenService.getAndSaveNextRechnungsnummer();
+                    + mitarbeiterService.getAndSaveNextRechnungsnummer();
             rechnung.setNummer(Ints.tryParse(nummer));
         }
         // Bei Überweisungen oder Paypal muss der Name auf der Rechnung stehen

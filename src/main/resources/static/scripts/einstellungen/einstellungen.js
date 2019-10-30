@@ -15,8 +15,6 @@ var vm = new Vue({
       smtpPort: {},
       smtpUser: {},
       smtpPassword: {},
-      rechnungsnummer: {},
-      reparaturnummer: {}
     },
     filialen: {},
     result: {},

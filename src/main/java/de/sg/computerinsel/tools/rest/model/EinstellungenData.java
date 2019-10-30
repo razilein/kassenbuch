@@ -37,8 +37,4 @@ public class EinstellungenData {
 
     Einstellungen smtpPassword;
 
-    Einstellungen rechnungsnummer;
-
-    Einstellungen reparaturnummer;
-
 }

@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,10 +27,11 @@ import de.sg.computerinsel.tools.kassenbuch.model.Kassenbuch;
 import de.sg.computerinsel.tools.kassenbuch.model.Kassenbuchposten;
 import de.sg.computerinsel.tools.kassenbuch.rest.model.KassenbuchDTO;
 import de.sg.computerinsel.tools.kassenbuch.service.KassenbuchService;
+import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
-import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.MessageService;
+import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.ProtokollService;
 import de.sg.computerinsel.tools.service.ValidationService;
 import lombok.extern.slf4j.Slf4j;
@@ -43,13 +45,13 @@ import lombok.extern.slf4j.Slf4j;
 public class KassenbuchRestController {
 
     @Autowired
-    private EinstellungenService einstellungenService;
-
-    @Autowired
     private KassenbuchService kassenbuchService;
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private MitarbeiterService mitarbeiterService;
 
     @Autowired
     private ProtokollService protokollService;
@@ -97,7 +99,8 @@ public class KassenbuchRestController {
 
     @GetMapping("/ausgangsbetrag")
     public String getAusgangsbetrag() {
-        return einstellungenService.getAusgangsbetrag().getWert();
+        final Optional<Filiale> filiale = mitarbeiterService.getAngemeldeterMitarbeiterFiliale();
+        return filiale.isPresent() ? filiale.get().getAusgangsbetrag().toString() : null;
     }
 
     @PutMapping

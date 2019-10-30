@@ -52,10 +52,6 @@ public class EinstellungenService {
 
     private final RolleRepository rolleRepository;
 
-    public Einstellungen getAusgangsbetrag() {
-        return getEinstellung("kassenbuch.ausgangsbetrag");
-    }
-
     public Einstellungen getAblageverzeichnis() {
         return getEinstellung("kassenbuch.ablageverzeichnis");
     }
@@ -102,38 +98,6 @@ public class EinstellungenService {
 
     public Einstellungen getFtpPassword() {
         return getEinstellung("ftp.password");
-    }
-
-    public Einstellungen getReparaturnummer() {
-        return getEinstellung("reparatur.nummer");
-    }
-
-    public Einstellungen getRechnungsnummer() {
-        return getEinstellung("rechnung.nummer");
-    }
-
-    public String getAndSaveNextRechnungsnummer() {
-        final Einstellungen einstellung = getRechnungsnummer();
-
-        final String nummer = StringUtils.defaultIfBlank(einstellung.getWert(), "0");
-        if (StringUtils.isNumeric(nummer)) {
-            einstellung.setWert(String.valueOf(Ints.tryParse(nummer) + 1));
-            save(einstellung);
-            return StringUtils.leftPad(einstellung.getWert(), 4, "0");
-        }
-        return "0";
-    }
-
-    public String getAndSaveNextReparaturnummer() {
-        final Einstellungen einstellung = getReparaturnummer();
-
-        final String nummer = StringUtils.defaultIfBlank(einstellung.getWert(), "0");
-        if (StringUtils.isNumeric(nummer)) {
-            einstellung.setWert(String.valueOf(Ints.tryParse(nummer) + 1));
-            save(einstellung);
-            return StringUtils.leftPad(einstellung.getWert(), 4, "0");
-        }
-        return "0";
     }
 
     public String getDsgvoFilepath() {
@@ -199,10 +163,14 @@ public class EinstellungenService {
     }
 
     public FilialeDto save(final FilialeDto dto) {
-        dto.setFiliale(filialeRepository.save(dto.getFiliale()));
+        dto.setFiliale(save(dto.getFiliale()));
         dto.getFilialeKonten().setFiliale(dto.getFiliale());
         filialeKontenRepository.save(dto.getFilialeKonten());
         return dto;
+    }
+
+    public Filiale save(final Filiale filiale) {
+        return filialeRepository.save(filiale);
     }
 
     public Page<MitarbeiterDTO> listMitarbeiter(final PageRequest pageRequest) {
