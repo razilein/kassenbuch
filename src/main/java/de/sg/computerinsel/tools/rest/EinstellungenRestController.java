@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,8 +25,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.google.common.primitives.Ints;
 
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
@@ -67,7 +64,6 @@ public class EinstellungenRestController {
     public EinstellungenData getEinstellungen() {
         final EinstellungenData data = new EinstellungenData();
         data.setAblageverzeichnis(einstellungenService.getAblageverzeichnis());
-        data.setFiliale(einstellungenService.getFiliale());
         data.setFtpHost(einstellungenService.getFtpHost());
         data.setFtpPort(einstellungenService.getFtpPort());
         data.setFtpUser(einstellungenService.getFtpUser());
@@ -82,16 +78,9 @@ public class EinstellungenRestController {
         return data;
     }
 
-    @GetMapping("/standardfiliale")
-    public Filiale getStandardFiliale() {
-        final String id = einstellungenService.getFiliale().getWert();
-        return getFiliale(id == null ? null : Ints.tryParse(id)).getFiliale();
-    }
-
     @GetMapping("/standardfiliale-mitarbeiter")
     public Filiale getStandardFilialeMitarbeiter() {
-        final Mitarbeiter mitarbeiter = mitarbeiterService.getAngemeldeterMitarbeiter().orElseGet(Mitarbeiter::new);
-        return mitarbeiter.getFiliale() == null ? getStandardFiliale() : mitarbeiter.getFiliale();
+        return mitarbeiterService.getAngemeldeterMitarbeiterFiliale().orElseGet(Filiale::new);
     }
 
     @PutMapping
@@ -99,13 +88,8 @@ public class EinstellungenRestController {
         final Map<String, Object> result = new HashMap<>();
         result.putAll(ValidationUtils.validateVerzeichnisse(data.getAblageverzeichnis().getWert()));
 
-        if (StringUtils.isBlank(data.getFiliale().getWert())) {
-            result.put(Message.ERROR.getCode(), messageService.get("einstellungen.save.filiale.error"));
-        }
-
         if (result.isEmpty()) {
             einstellungenService.save(data.getAblageverzeichnis());
-            einstellungenService.save(data.getFiliale());
             einstellungenService.save(data.getFtpHost());
             einstellungenService.save(data.getFtpPort());
             einstellungenService.save(data.getFtpUser());
@@ -166,12 +150,12 @@ public class EinstellungenRestController {
         if (optional.isPresent()) {
             protokollService.write(optional.get().getId(), MITARBEITER, optional.get().getCompleteName(), ANGESEHEN);
         }
-        return optional.map(MitarbeiterDTO::new).orElseGet(this::createMitarbeiter);
+        return optional.map(MitarbeiterDTO::new).orElseGet(EinstellungenRestController::createMitarbeiter);
     }
 
-    private MitarbeiterDTO createMitarbeiter() {
+    private static MitarbeiterDTO createMitarbeiter() {
         final MitarbeiterDTO dto = new MitarbeiterDTO();
-        dto.setFiliale(getStandardFiliale());
+        dto.setFiliale(new Filiale());
         return dto;
     }
 

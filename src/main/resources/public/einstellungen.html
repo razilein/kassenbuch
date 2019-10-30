@@ -23,14 +23,6 @@
             <label for="einstellungenForm_ablageverzeichnis">Ablageverzeichnis</label>
             <input class="m1" id="einstellungenForm_ablageverzeichnis" type="text" v-model="einstellungen.ablageverzeichnis.wert" />
           </div>
-          <div class="m1">
-            <div class="m2m">
-              <label for="einstellungenForm_filiale">Filiale</label>
-              <select class="m2" v-model="einstellungen.filiale.wert">
-                <option :value="f.key" v-for="f in filialen">{{f.value}}</option>
-              </select>
-            </div>
-          </div>
           <hr>
           <h1>FTP-Server</h1>
           <div class="m1">

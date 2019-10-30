@@ -3,7 +3,6 @@ var vm = new Vue({
   data: {
     einstellungen: {
       ablageverzeichnis: {},
-      filiale: {},
       ftpHost: {},
       ftpPort: {},
       ftpUser: {},
@@ -16,7 +15,6 @@ var vm = new Vue({
       smtpUser: {},
       smtpPassword: {},
     },
-    filialen: {},
     result: {},
     showDialog: false,
   },
@@ -24,9 +22,7 @@ var vm = new Vue({
 
     init: function() {
       showLoader();
-      vm.getFilialen()
-        .then(vm.setFilialen)
-        .then(vm.getEinstellungen)
+      vm.getEinstellungen()
         .then(vm.setEinstellungen)
         .then(hideLoader);
     },
@@ -40,14 +36,6 @@ var vm = new Vue({
 
     executeSpeichernEinstellungen: function() {
       return axios.put('einstellungen', vm.einstellungen);
-    },
-    
-    getFilialen: function() {
-      return axios.get('einstellungen/filiale');
-    },
-    
-    setFilialen: function(response) {
-      vm.filialen = response.data;
     },
 
     getEinstellungen: function() {

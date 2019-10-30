@@ -357,11 +357,6 @@ Mit Hilfe der E-Mail-Inhalt-Felder kann allgemein gültig der Inhalt der E-Mail 
 um die Rechnungs- oder Reparaturnummer in den Text einzufügen.
 Die Signatur wird immer im Fuß der E-Mail hinzugefügt.
 
-#### Filiale
-In diesem Feld ist die Filiale zu wählen, dabei handelt es sich um eine globale Einstellung.
-Diese Einstellung wirkt sich darauf aus, welche Filiale gewählt wird, wenn ein Mitarbeiter erzeugt wird.
-Ist in der Auswahlliste keine Filiale verfügbar, muss zuerst unter *Einstellungen* > *Filialen* eine Filiale definiert werden.
-
 ## Filialen
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_EINSTELLUNGEN_FILIALEN* benötigt.
 Um Filialen Anlegen oder Bearbeiten zu können, wird das Recht *FILIALEN_VERWALTEN* benötigt.

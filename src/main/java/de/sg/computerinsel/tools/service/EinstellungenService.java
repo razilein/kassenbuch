@@ -105,10 +105,6 @@ public class EinstellungenService {
         return new File(new File(ablageverzeichnis.getParent()), DSGVO_FILENAME).getAbsolutePath();
     }
 
-    public Einstellungen getFiliale() {
-        return getEinstellung("reparatur.filiale");
-    }
-
     private Einstellungen getEinstellung(final String name) {
         return einstellungen.findByName(name).orElse(createEinstellung(name));
     }
