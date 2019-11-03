@@ -13,9 +13,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import de.sg.computerinsel.tools.dao.FilialeRepository;
 import de.sg.computerinsel.tools.dao.MitarbeiterRepository;
 import de.sg.computerinsel.tools.dao.MitarbeiterRolleRepository;
 import de.sg.computerinsel.tools.dao.RolleRepository;
+import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter.MitarbeiterAnmeldedaten;
 import de.sg.computerinsel.tools.reparatur.model.MitarbeiterRolle;
@@ -35,6 +37,8 @@ public class MitarbeiterService {
 
     private final EinstellungenService einstellungenService;
 
+    private final FilialeRepository filialeRepository;
+
     private final MessageService messageService;
 
     private final MitarbeiterRepository mitarbeiterRepository;
@@ -47,6 +51,36 @@ public class MitarbeiterService {
 
     public Optional<Mitarbeiter> getAngemeldeterMitarbeiter() {
         return mitarbeiterRepository.findByBenutzername(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
+    public Optional<Filiale> getAngemeldeterMitarbeiterFiliale() {
+        final Optional<Mitarbeiter> optional = getAngemeldeterMitarbeiter();
+        if (optional.isPresent()) {
+            return filialeRepository.findById(optional.get().getId());
+        }
+        return Optional.empty();
+    }
+
+    public String getAndSaveNextRechnungsnummer() {
+        final Optional<Filiale> optional = getAngemeldeterMitarbeiterFiliale();
+        if (optional.isPresent()) {
+            final Filiale filiale = optional.get();
+            filiale.setZaehlerRechnung(filiale.getZaehlerRechnung() + 1);
+            einstellungenService.save(filiale);
+            return StringUtils.leftPad(String.valueOf(filiale.getZaehlerRechnung()), 4, "0");
+        }
+        return "0";
+    }
+
+    public String getAndSaveNextReparaturnummer() {
+        final Optional<Filiale> optional = getAngemeldeterMitarbeiterFiliale();
+        if (optional.isPresent()) {
+            final Filiale filiale = optional.get();
+            filiale.setZaehlerReparaturauftrag(filiale.getZaehlerReparaturauftrag() + 1);
+            einstellungenService.save(filiale);
+            return StringUtils.leftPad(String.valueOf(filiale.getZaehlerReparaturauftrag()), 4, "0");
+        }
+        return "0";
     }
 
     public String getAngemeldeterMitarbeiterVornameNachname() {

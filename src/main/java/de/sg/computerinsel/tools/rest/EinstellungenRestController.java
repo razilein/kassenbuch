@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,12 +26,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.primitives.Ints;
-
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.rest.model.EinstellungenData;
+import de.sg.computerinsel.tools.rest.model.FilialeDto;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterDTO;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterRollenDTO;
 import de.sg.computerinsel.tools.service.EinstellungenService;
@@ -66,7 +64,6 @@ public class EinstellungenRestController {
     public EinstellungenData getEinstellungen() {
         final EinstellungenData data = new EinstellungenData();
         data.setAblageverzeichnis(einstellungenService.getAblageverzeichnis());
-        data.setFiliale(einstellungenService.getFiliale());
         data.setFtpHost(einstellungenService.getFtpHost());
         data.setFtpPort(einstellungenService.getFtpPort());
         data.setFtpUser(einstellungenService.getFtpUser());
@@ -78,21 +75,12 @@ public class EinstellungenRestController {
         data.setMailSignatur(einstellungenService.getMailSignatur());
         data.setMailBodyRechnung(einstellungenService.getMailBodyRechnung());
         data.setMailBodyReparatur(einstellungenService.getMailBodyReparaturauftrag());
-        data.setRechnungsnummer(einstellungenService.getRechnungsnummer());
-        data.setReparaturnummer(einstellungenService.getReparaturnummer());
         return data;
-    }
-
-    @GetMapping("/standardfiliale")
-    public Filiale getStandardFiliale() {
-        final String id = einstellungenService.getFiliale().getWert();
-        return getFiliale(id == null ? null : Ints.tryParse(id));
     }
 
     @GetMapping("/standardfiliale-mitarbeiter")
     public Filiale getStandardFilialeMitarbeiter() {
-        final Mitarbeiter mitarbeiter = mitarbeiterService.getAngemeldeterMitarbeiter().orElseGet(Mitarbeiter::new);
-        return mitarbeiter.getFiliale() == null ? getStandardFiliale() : mitarbeiter.getFiliale();
+        return mitarbeiterService.getAngemeldeterMitarbeiterFiliale().orElseGet(Filiale::new);
     }
 
     @PutMapping
@@ -100,17 +88,8 @@ public class EinstellungenRestController {
         final Map<String, Object> result = new HashMap<>();
         result.putAll(ValidationUtils.validateVerzeichnisse(data.getAblageverzeichnis().getWert()));
 
-        if (StringUtils.isBlank(data.getFiliale().getWert())) {
-            result.put(Message.ERROR.getCode(), messageService.get("einstellungen.save.filiale.error"));
-        }
-
-        if (!StringUtils.isNumeric(data.getRechnungsnummer().getWert()) || !StringUtils.isNumeric(data.getReparaturnummer().getWert())) {
-            result.put(Message.ERROR.getCode(), messageService.get("einstellungen.save.nummern.error"));
-        }
-
         if (result.isEmpty()) {
             einstellungenService.save(data.getAblageverzeichnis());
-            einstellungenService.save(data.getFiliale());
             einstellungenService.save(data.getFtpHost());
             einstellungenService.save(data.getFtpPort());
             einstellungenService.save(data.getFtpUser());
@@ -122,8 +101,6 @@ public class EinstellungenRestController {
             einstellungenService.save(data.getMailSignatur());
             einstellungenService.save(data.getMailBodyRechnung());
             einstellungenService.save(data.getMailBodyReparatur());
-            einstellungenService.save(data.getRechnungsnummer());
-            einstellungenService.save(data.getReparaturnummer());
             result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.save.success"));
             protokollService.write(messageService.get("protokoll.einstellungen.save"));
         }
@@ -142,21 +119,22 @@ public class EinstellungenRestController {
     }
 
     @GetMapping("/filiale/{id}")
-    public Filiale getFiliale(@PathVariable final Integer id) {
-        final Optional<Filiale> optional = einstellungenService.getFiliale(id);
-        if (optional.isPresent()) {
-            protokollService.write(optional.get().getId(), FILIALE, optional.get().getName(), ANGESEHEN);
+    public FilialeDto getFiliale(@PathVariable final Integer id) {
+        final FilialeDto dto = einstellungenService.getFilialeDto(id);
+        if (dto.getFiliale().getId() != null) {
+            protokollService.write(id, FILIALE, dto.getFiliale().getName(), ANGESEHEN);
         }
-        return optional.orElse(new Filiale());
+        return dto;
     }
 
     @PutMapping("/filiale")
-    public Map<String, Object> saveFiliale(@RequestBody final Filiale filiale) {
+    public Map<String, Object> saveFiliale(@RequestBody final FilialeDto filiale) {
         final Map<String, Object> result = new HashMap<>(validationService.validate(filiale));
         if (result.isEmpty()) {
-            final Filiale saved = einstellungenService.save(filiale);
-            protokollService.write(saved.getId(), FILIALE, saved.getName(), filiale.getId() == null ? ERSTELLT : GEAENDERT);
-            result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.filiale.save.success", filiale.getName()));
+            final FilialeDto saved = einstellungenService.save(filiale);
+            protokollService.write(saved.getFiliale().getId(), FILIALE, saved.getFiliale().getName(),
+                    filiale.getFiliale().getId() == null ? ERSTELLT : GEAENDERT);
+            result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.filiale.save.success", filiale.getFiliale().getName()));
         }
         return result;
     }
@@ -172,12 +150,12 @@ public class EinstellungenRestController {
         if (optional.isPresent()) {
             protokollService.write(optional.get().getId(), MITARBEITER, optional.get().getCompleteName(), ANGESEHEN);
         }
-        return optional.map(MitarbeiterDTO::new).orElseGet(this::createMitarbeiter);
+        return optional.map(MitarbeiterDTO::new).orElseGet(EinstellungenRestController::createMitarbeiter);
     }
 
-    private MitarbeiterDTO createMitarbeiter() {
+    private static MitarbeiterDTO createMitarbeiter() {
         final MitarbeiterDTO dto = new MitarbeiterDTO();
-        dto.setFiliale(getStandardFiliale());
+        dto.setFiliale(new Filiale());
         return dto;
     }
 

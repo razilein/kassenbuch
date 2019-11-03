@@ -1,6 +1,7 @@
 package de.sg.computerinsel.tools.rechnung.rest.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -8,6 +9,9 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import de.sg.computerinsel.tools.auftrag.model.Auftrag;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
 import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
@@ -29,6 +33,7 @@ public class RechnungDTO {
         rechnung.setArt(-1);
         rechnung.setNameDrucken(false);
         rechnung.setDatum(LocalDate.now());
+        rechnung.setAuftrag(new Auftrag());
         rechnung.setKunde(new Kunde());
         rechnung.setReparatur(new Reparatur());
     }
@@ -47,6 +52,16 @@ public class RechnungDTO {
 
     public BigDecimal getRechnungsbetrag() {
         return posten.stream().map(Rechnungsposten::getGesamt).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    @JsonIgnore
+    public BigDecimal getNettobetrag() {
+        return getRechnungsbetrag().divide(new BigDecimal("1.19"), 2, RoundingMode.HALF_UP);
+    }
+
+    @JsonIgnore
+    public BigDecimal getUstBetrag() {
+        return getRechnungsbetrag().subtract(getNettobetrag());
     }
 
     public String getKundenAdresse() {

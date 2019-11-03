@@ -6,6 +6,11 @@ Vue.component('rechnung-versenden-dialog', {
           <h3 class="dialog-header">Rechnung {{row.nummer}} per E-Mail versenden</h3>
           <div class="dialog-body">
             Wollen Sie diese Rechnung als E-Mail an {{row.kunde.nameKomplett}} versenden?
+            <br>
+            <div class="m1">
+              <zeichenzaehler-label :elem="anrede" :forid="'rechnungversenden_anrede'" :label="'Briefanrede'" :maxlength="'1000'"></zeichenzaehler-label>
+              <textarea class="m1" id="rechnungversenden_anrede" maxlength="1000" type="text" v-model="anrede"></textarea>
+            </div>
             <div class="m1">
               <input accept="application/pdf" class="m1" name="file" ref="rechnungFile" type="file" @change="loadFile">
             </div>
@@ -21,6 +26,11 @@ Vue.component('rechnung-versenden-dialog', {
   props: {
     row: Object,
   },
+  data: function() {
+    return {
+      anrede: this.row.kunde.briefanrede
+    };
+  },
   methods: {
     loadFile: function() {
       this.file = this.$refs.rechnungFile.files[0];
@@ -34,6 +44,7 @@ Vue.component('rechnung-versenden-dialog', {
       let fd = new FormData();
       fd.append('file', this.file);
       fd.append('id', this.row.id);
+      fd.append('anrede', this.anrede);
       return axios.post('email/rechnung', fd, config);
     },
     closeAndReturnResponse(response) {

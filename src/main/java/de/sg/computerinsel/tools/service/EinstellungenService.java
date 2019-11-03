@@ -22,9 +22,11 @@ import de.sg.computerinsel.tools.dao.FilialeRepository;
 import de.sg.computerinsel.tools.dao.MitarbeiterRepository;
 import de.sg.computerinsel.tools.dao.RolleRepository;
 import de.sg.computerinsel.tools.kassenbuch.rest.model.Kassenstand;
+import de.sg.computerinsel.tools.reparatur.dao.FilialeKontenRepository;
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.reparatur.model.Rolle;
+import de.sg.computerinsel.tools.rest.model.FilialeDto;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterDTO;
 import lombok.AllArgsConstructor;
 
@@ -44,13 +46,11 @@ public class EinstellungenService {
 
     private final FilialeRepository filialeRepository;
 
+    private final FilialeKontenRepository filialeKontenRepository;
+
     private final MitarbeiterRepository mitarbeiterRepository;
 
     private final RolleRepository rolleRepository;
-
-    public Einstellungen getAusgangsbetrag() {
-        return getEinstellung("kassenbuch.ausgangsbetrag");
-    }
 
     public Einstellungen getAblageverzeichnis() {
         return getEinstellung("kassenbuch.ablageverzeichnis");
@@ -100,56 +100,9 @@ public class EinstellungenService {
         return getEinstellung("ftp.password");
     }
 
-    public Einstellungen getReparaturnummer() {
-        return getEinstellung("reparatur.nummer");
-    }
-
-    public Einstellungen getRechnungsnummer() {
-        return getEinstellung("rechnung.nummer");
-    }
-
-    public String getAndSaveNextRechnungsnummer() {
-        final Einstellungen einstellung = getRechnungsnummer();
-
-        final String nummer = StringUtils.defaultIfBlank(einstellung.getWert(), "0");
-        if (StringUtils.isNumeric(nummer)) {
-            einstellung.setWert(String.valueOf(Ints.tryParse(nummer) + 1));
-            save(einstellung);
-            return StringUtils.leftPad(einstellung.getWert(), 4, "0");
-        }
-        return "0";
-    }
-
-    public String getAndSaveNextReparaturnummer() {
-        final Einstellungen einstellung = getReparaturnummer();
-
-        final String nummer = StringUtils.defaultIfBlank(einstellung.getWert(), "0");
-        if (StringUtils.isNumeric(nummer)) {
-            einstellung.setWert(String.valueOf(Ints.tryParse(nummer) + 1));
-            save(einstellung);
-            return StringUtils.leftPad(einstellung.getWert(), 4, "0");
-        }
-        return "0";
-    }
-
     public String getDsgvoFilepath() {
         final File ablageverzeichnis = new File(getAblageverzeichnis().getWert());
         return new File(new File(ablageverzeichnis.getParent()), DSGVO_FILENAME).getAbsolutePath();
-    }
-
-    public String getFilialeKuerzel() {
-        final Einstellungen einstellung = getFiliale();
-        if (StringUtils.isNumeric(einstellung.getWert())) {
-            final Optional<Filiale> optional = getFiliale(Ints.tryParse(einstellung.getWert()));
-            if (optional.isPresent()) {
-                return optional.get().getKuerzel();
-            }
-        }
-        return StringUtils.EMPTY;
-    }
-
-    public Einstellungen getFiliale() {
-        return getEinstellung("reparatur.filiale");
     }
 
     private Einstellungen getEinstellung(final String name) {
@@ -196,6 +149,20 @@ public class EinstellungenService {
 
     public Optional<Filiale> getFiliale(final Integer id) {
         return filialeRepository.findById(id);
+    }
+
+    public FilialeDto getFilialeDto(final Integer id) {
+        final FilialeDto dto = new FilialeDto();
+        filialeRepository.findById(id).ifPresent(dto::setFiliale);
+        filialeKontenRepository.findByFilialeId(id).ifPresent(dto::setFilialeKonten);
+        return dto;
+    }
+
+    public FilialeDto save(final FilialeDto dto) {
+        dto.setFiliale(save(dto.getFiliale()));
+        dto.getFilialeKonten().setFiliale(dto.getFiliale());
+        filialeKontenRepository.save(dto.getFilialeKonten());
+        return dto;
     }
 
     public Filiale save(final Filiale filiale) {

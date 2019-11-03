@@ -48,7 +48,7 @@ public class Rechnungsposten extends IntegerBaseObject {
     private String seriennummer;
 
     @Column(name = "hinweis")
-    @Size(max = 100, message = "rechnung.posten.hinweis.error")
+    @Size(max = 300, message = "rechnung.posten.hinweis.error")
     private String hinweis;
 
     @Column(name = "preis")

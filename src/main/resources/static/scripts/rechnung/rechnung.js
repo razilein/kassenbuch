@@ -14,6 +14,7 @@ var vm = new Vue({
     endpreis: 0.00,
     entity: {
       rechnung: {
+        auftrag: {},
         kunde: {},
         reparatur: {},
       },
@@ -33,6 +34,7 @@ var vm = new Vue({
     rabattEntity: {},
     result: {},
     showDialog: false,
+    showAuftragDialog: false,
     showEditDialog: false,
     showKundeDialog: false,
     showRabattDialog: false,
@@ -155,6 +157,7 @@ var vm = new Vue({
       vm.showKundeDialog = false;
       vm.entity.rechnung.kunde = kunde;
       vm.entity.rechnung.nameDrucken = true;
+      vm.entity.rechnung.nameDruckenBeiFirma = vm.entity.rechnung.kunde.nameDruckenBeiFirma;
     },
     handleReparaturResponse: function(reparatur) {
       vm.showReparaturDialog = false;
@@ -162,6 +165,16 @@ var vm = new Vue({
       vm.entity.rechnung.kunde = reparatur.kunde;
       if (reparatur.kunde) {
         vm.entity.rechnung.nameDrucken = true;
+        vm.entity.rechnung.nameDruckenBeiFirma = vm.entity.rechnung.kunde.nameDruckenBeiFirma;
+      }
+    },
+    handleAuftragResponse: function(auftrag) {
+      vm.showAuftragDialog = false;
+      vm.entity.rechnung.auftrag = auftrag;
+      vm.entity.rechnung.kunde = auftrag.kunde;
+      if (auftrag.kunde) {
+        vm.entity.rechnung.nameDrucken = true;
+        vm.entity.rechnung.nameDruckenBeiFirma = vm.entity.rechnung.kunde.nameDruckenBeiFirma;
       }
     },
     gridReload: function() {

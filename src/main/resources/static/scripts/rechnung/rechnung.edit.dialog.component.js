@@ -64,6 +64,12 @@ Vue.component('edit-dialog', {
         <span class="checkmark"></span>
       </label>
     </div>
+    <div class="m1" v-if="entity.rechnung.auftrag">
+      <label for="rechnungEditForm_auftrag">Auftrag</label>
+      <button class="auftrag btnSmall" title="Auftrag suchen" @click="showAuftragDialog = true"></button>
+      <button class="delete btnSmall" title="Auftrag deselektieren" @click="entity.rechnung.auftrag = {}"></button>
+      <textarea class="m1" id="rechnungEditForm_auftrag" readonly v-model="entity.rechnung.auftrag.beschreibung"></textarea>
+    </div>
     <div class="m1" v-if="entity.rechnung.reparatur">
       <label for="rechnungEditForm_reparatur">Reparaturauftrag</label>
       <button class="zahnrad btnSmall" title="Reparaturauftrag suchen" @click="showReparaturDialog = true"></button>
@@ -73,6 +79,12 @@ Vue.component('edit-dialog', {
     <div class="m1">
       <label class="container checkbox">Soll der Name auf die Rechnung gedruckt werden?
         <input id="rechnungEditForm_name_drucken" type="checkbox" v-model="entity.rechnung.nameDrucken" />
+        <span class="checkmark"></span>
+      </label>
+    </div>
+    <div class="m1" v-if="entity.rechnung.kunde && entity.rechnung.kunde.firmenname && entity.rechnung.kunde.nachname">
+      <label class="container checkbox">Sollen zusätzlich zum Firmannamen der Nachname/Vorname auf die Rechnung gedruckt werden?
+        <input id="rechnungEditForm_name_drucken_bei_firma" type="checkbox" v-model="entity.rechnung.nameDruckenBeiFirma" />
         <span class="checkmark"></span>
       </label>
     </div>
@@ -90,6 +102,12 @@ Vue.component('edit-dialog', {
   @close="showKundeDialog = false"
   @saved="handleKundeResponse"
 ></kunde-suchen-dialog>
+<auftrag-suchen-dialog
+  :kunde="entity.rechnung.kunde"
+  v-if="showAuftragDialog"
+  @close="showAuftragDialog = false"
+  @saved="handleAuftragResponse"
+></auftrag-suchen-dialog>
 <reparatur-suchen-dialog
   :kunde="entity.rechnung.kunde"
   v-if="showReparaturDialog"
@@ -122,6 +140,7 @@ Vue.component('edit-dialog', {
       },
       rabattEntity: {},
       showDialog: false,
+      showAuftragDialog: false,
       showEditDialog: false,
       showKundeDialog: false,
       showRechnungspositionDialog: false,
@@ -168,11 +187,19 @@ Vue.component('edit-dialog', {
     handleKundeResponse: function(kunde) {
       this.showKundeDialog = false;
       this.entity.rechnung.kunde = kunde;
+      this.entity.rechnung.nameDruckenBeiFirma = this.entity.rechnung.kunde.nameDruckenBeiFirma;
     },
     handleReparaturResponse: function(reparatur) {
       this.showReparaturDialog = false;
       this.entity.rechnung.reparatur = reparatur;
       this.entity.rechnung.kunde = reparatur.kunde;
+      this.entity.rechnung.nameDruckenBeiFirma = this.entity.rechnung.kunde.nameDruckenBeiFirma;
+    },
+    handleAuftragResponse: function(auftrag) {
+      this.showAuftragDialog = false;
+      this.entity.rechnung.auftrag = auftrag;
+      this.entity.rechnung.kunde = auftrag.kunde;
+      this.entity.rechnung.nameDruckenBeiFirma = this.entity.rechnung.kunde.nameDruckenBeiFirma;
     },
     loadEntity: function() {
       showLoader();

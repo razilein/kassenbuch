@@ -2,7 +2,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Rechnung drucken - Computer-Insel Tools by Sita Geßner</title>
-    <link rel="icon" href="/themes/icons/zahnrad.png">
+    <link rel="icon" href="/themes/icons/rechnung.png">
     <link rel="stylesheet" href="/themes/css/rechnung.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
@@ -40,7 +40,7 @@
       <header>
         <div class="font15" v-if="entity.rechnung.kunde && entity.rechnung.nameDrucken" style="width: 350px;">
           <span v-if="entity.rechnung.kunde.firmenname">{{entity.rechnung.kunde.firmenname}}<br></span>
-          <span v-if="entity.rechnung.kunde.nachname">{{entity.rechnung.kunde.vorname}} {{entity.rechnung.kunde.nachname}}<br></span>
+          <span v-if="entity.rechnung.kunde.nachname && entity.rechnung.nameDruckenBeiFirma"><span v-if="entity.rechnung.kunde.akademischerTitel">{{entity.rechnung.kunde.akademischerTitel}} </span>{{entity.rechnung.kunde.vorname}} {{entity.rechnung.kunde.nachname}}<br></span>
           {{entity.rechnung.kunde.strasse}}
           <br>
           {{entity.rechnung.kunde.plz}} {{entity.rechnung.kunde.ort}}

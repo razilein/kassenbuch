@@ -5,6 +5,7 @@ Dieses Programm beinhaltet verschiedene Tools, welche für die Computerinsel ben
 Dazu zählen:
 - Reparaturaufträge verwalten
 - Rechnungen verwalten
+- Aufträge verwalten
 - Kunden verwalten
 - Kassenbücher verwalten
 - Kassenstand berechnen
@@ -65,7 +66,7 @@ Dieses Icon ist nur sichtbar, wenn zum Kunden eine E-Mail-Adresse hinterlegt ist
 Durch Klick auf das *Löschen-Icon* wird nach erneuter Bestätigung der Reparaturauftrag komplett gelöscht.
 
 ## Rechnungen
-Die Seite Rechnungen unterteilt sich in die zwei Unterseiten **Erstellen** und **Rechnungen**.
+Die Seite Rechnungen unterteilt sich in die drei Unterseiten **Erstellen**, **Rechnungen** und **Export**.
 
 ### Erstellen
 Um diese Seite öffnen zu können wird das Recht *ZUGRIFF_RECHNUNG_ERSTELLEN* benötigt.
@@ -124,6 +125,49 @@ sich öffnenden Dialog gewählt werden.
 Dieses Icon ist nur sichtbar, wenn zum Kunden eine E-Mail-Adresse hinterlegt ist.
 
 Durch Klick auf das *Löschen-Icon* kann eine Rechnung nach nochmaliger Bestätigung gelöscht werden.
+
+### Export
+Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_RECHNUNG_EXPORT* benötigt.
+Das Recht *RECHNUNG_EXPORT* wird benötigt, um die Exportieren-Schaltfläche zu aktivieren.
+
+Auf dieser Seite muss der Monat und das Jahr gewählt werden.
+Es wird immer der aktuelle Monat und das aktuelle Jahr vorgeblendet.
+
+Nach dem Klick auf die Exportieren-Schaltfläche werden alle Rechnungen mit dem Rechnungsdatum im gewählten Monat/Jahr exportiert.
+Dabei wird je Zahlart eine eigene Datei erzeugt und in das Ablageverzeichnis gewählt.
+
+Das Dateiformat ist hierbei TXT und besitzt ein fest definiertes Muster.
+Die Konten werden aus den zur Rechnungen hinterlegten Filialen ermittelt.
+Die Konten können in den Einstellung angepasst werden.
+
+## Aufträge
+Die Seite Aufträge unterteilt sich in die zwei Unterseiten **Erstellen** und **Aufträge**.
+
+### Erstellen
+Um diese Seite öffnen zu können wird das Recht *ZUGRIFF_AUFTRAG_ERSTELLEN* benötigt.
+Um den Auftrag nach der Erstellung ansehen und drucken zu können, wird das Recht *AUFTRAG* benötigt.
+
+Auf dieser Seite befinden sich verschiedene Felder die beim Erstellen eines Auftrags zu befüllen sind.
+Nach dem Speichern öffnet sich eine neue Seite für den Druck des Auftrags.
+Ebenfalls wird ein Hinweis geöffnet, dass das DSGVO-Informationsblatt vom Kunden zu Unterzeichnen ist, wenn er dies noch nicht getan hat.
+
+#### Kunde wählen
+Um den Kunden zu wählen muss neben dem Label *Kunde* das *Kunde-Icon* geklickt werden. Anschließend öffnet sich ein Dialog in dem der entsprechende Kunde gesucht werden kann.
+Durch Klick auf das *OK-Icon* wird der Kunde ausgewählt und der Dialog schließt sich.
+
+Ist das Recht *KUNDEN_VERWALTEN* gesetzt, können in diesem Dialog neue Kunden angelegt oder bestehende Kunden editiert werden.
+
+### Aufträge
+Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_AUFTRAG_UEBERSICHT* benötigt.
+Das Recht *AUFTRAG_VERWALTEN* wird benötigt um Aufträge zu bearbeiten oder zu löschen.
+
+Auf dieser Seite befindet sich eine Auflistung aller Aufträge. Mit Hilfe der Suchfilter kann die Anzeige weiter eingeschränkt werden.
+
+Durch Klick auf das *Öffnen-Icon* kann der Auftrag in der Druckansicht angezeigt werden. Dazu wird das Recht *AUFTRAG* benötigt.
+
+Durch Klick auf das *Bearbeiten-Icon* kann der Auftrag bearbeitet werden.
+
+Durch Klick auf das *Löschen-Icon* kann ein Auftrag nach nochmaliger Bestätigung gelöscht werden.
 
 ## Kunden
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_KUNDEN* benötigt.
@@ -255,12 +299,14 @@ Durch Klick auf die Schaltfläche *Speichern* wird das Kassenbuch gespeichert un
 ### Kassenbücher
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_KASSENBUCH_UEBERSICHT* benötigt.
 Um die Kassenbücher öffnen zu können, wird das Recht *KASSENBUCH* benötigt.
+Um ein Kassenbuch löschen zu können, wird das Recht *KASSENBUCH_VERWALTEN* benötigt.
 
 Auf dieser Seite befindet sich eine Übersicht aller erstellten Kassenbücher. Mit Hilfe der Suchfilter kann die Anzeige weiter eingeschränkt werden.
 
 Durch Klick auf das *Öffnen-Icon* kann die Druckansicht des Kassenbuchs geöffnet werden.
+Durch Klick auf das *Löschen-Icon* kann nach erneuter Bestätigung das Kassenbuch gelöscht werden.
 
-Das Bearbeiten oder Löschen ist nicht möglich, um eine Manipulation zu verhindern.
+Das Bearbeiten ist nicht möglich, um eine Manipulation zu verhindern.
 
 ### Kassenstand
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_KASSENBUCH_KASSENSTAND* benötigt.
@@ -299,22 +345,6 @@ Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_EINSTELLUNGEN_ALLGEME
 #### Ablageverzeichnis
 Das hier definierte Verzeichnis wird verwendet, um die Statistiken und Kassenstände abzulegen.
 
-#### Rechnungsnummer
-Die Rechnungsnummer setzt sich zusammen aus dem Kürzel der Filiale, dem Jahr des Rechnungsdatums und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.
-
-Ist beispielsweise das Rechnungsdatum der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Rechnungsnummer, wenn das Kürzel der Filiale L ist: *L18-0455*
-
-In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.
-Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).
-
-#### Auftragsnummer
-Die Auftragsnummer setzt sich zusammen aus dem Kürzel der Filiale, dem aktuellen Jahr und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.
-
-Ist beispielsweise heute der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Auftragsnummer, wenn das Kürzel der Filiale L ist: *L180455*
-
-In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.
-Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).
-
 #### FTP-Server
 Hier sind die Verbindungsdaten zum FTP-Server anzugeben.
 Diese Daten dienen dazu, um die Bestellliste lesen/schreiben zu können.
@@ -327,11 +357,6 @@ Mit Hilfe der E-Mail-Inhalt-Felder kann allgemein gültig der Inhalt der E-Mail 
 um die Rechnungs- oder Reparaturnummer in den Text einzufügen.
 Die Signatur wird immer im Fuß der E-Mail hinzugefügt.
 
-#### Filiale
-In diesem Feld ist die Filiale zu wählen, dabei handelt es sich um eine globale Einstellung.
-Diese Einstellung wirkt sich darauf aus, welche Filiale gewählt wird, wenn ein Mitarbeiter erzeugt wird.
-Ist in der Auswahlliste keine Filiale verfügbar, muss zuerst unter *Einstellungen* > *Filialen* eine Filiale definiert werden.
-
 ## Filialen
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_EINSTELLUNGEN_FILIALEN* benötigt.
 Um Filialen Anlegen oder Bearbeiten zu können, wird das Recht *FILIALEN_VERWALTEN* benötigt.
@@ -343,6 +368,22 @@ Durch Klick auf das *Bearbeiten-Icon* kann die Filiale bearbeitet werden.
 
 Die Adressdaten, sowie Telefon, E-Mail, Kürzel und der Text "Besuchen Sie uns auch in unserer Filiale in" erscheinen auf den Rechnungen und Reparaturaufträgen.
 Eine Änderung dieser Daten wirkt sich auf bestehende Rechnungen und Aufträge aus.
+
+### Rechnungsnummer
+Die Rechnungsnummer setzt sich zusammen aus dem Kürzel der Filiale, dem Jahr des Rechnungsdatums und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.
+
+Ist beispielsweise das Rechnungsdatum der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Rechnungsnummer, wenn das Kürzel der Filiale L ist: *L18-0455*
+
+In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.
+Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).
+
+### Reparaturnummer
+Die Reparaturnummer setzt sich zusammen aus dem Kürzel der Filiale, dem aktuellen Jahr und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.
+
+Ist beispielsweise heute der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Reparaturnummer, wenn das Kürzel der Filiale L ist: *L180455*
+
+In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.
+Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).
 
 ## Mitarbeiter
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_EINSTELLUNGEN_MITARBEITER* benötigt.
@@ -400,9 +441,16 @@ Folgende Rechte sind verfügbar:
 - **KUNDEN_RECHNUNG** - Ermöglicht das Anzeigen aller Rechnungen eines Kunden
 - **ZUGRIFF_RECHNUNG_ERSTELLEN** - Zugriff auf die Seite Rechnung erstellen
 - **ZUGRIFF_RECHNUNG_UEBERSICHT** - Zugriff auf die Seite Übersicht Rechnungen
+- **ZUGRIFF_RECHNUNG_EXPORT** - Zugriff auf die Seite Übersicht Export (Rechnungen)
+- **RECHNUNG_EXPORT** - Rechnungen können exportiert werden
 - **RECHNUNG** - Ermöglicht das Anzeigen der Druckansicht einer Rechnung
 - **RECHNUNG_VERWALTEN** - Rechnungen dürfen angelegt, bearbeitet oder gelöscht werden
 - **ZUGRIFF_BESTELLUNG** - Zugriff auf die Seite: Bestellung
+- **KUNDEN_AUFTRAEGE** - Ermöglicht das Anzeigen aller Aufträge eines Kunden
+- **ZUGRIFF_AUFTRAG_ERSTELLEN** - Zugriff auf die Seite Aufträge erstellen
+- **ZUGRIFF_AUFTRAG_UEBERSICHT** - Zugriff auf die Seite Übersicht Aufträge
+- **AUFTRAG** - Ermöglicht das Anzeigen der Druckansicht eines Auftrags
+- **AUFTRAG_VERWALTEN** - Aufträge dürfen angelegt, bearbeitet oder gelöscht werden
 
 ## Mein Profil
 Jeder Mitarbeiter kann diese Seite rechts oben auf jeder Seite aufrufen.

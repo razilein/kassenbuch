@@ -1,6 +1,5 @@
 package de.sg.computerinsel.tools.reparatur.service;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -18,12 +17,13 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.primitives.Ints;
 
+import de.sg.computerinsel.tools.auftrag.service.AuftragService;
 import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
 import de.sg.computerinsel.tools.reparatur.dao.ReparaturRepository;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
-import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
+import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.SearchQueryUtils;
 import lombok.AllArgsConstructor;
 
@@ -33,7 +33,9 @@ public class ReparaturService {
 
     private static final int LAENGE_REPARATURNUMMER_JAHR = 2;
 
-    private final EinstellungenService einstellungenService;
+    private final AuftragService auftragService;
+
+    private final MitarbeiterService mitarbeiterService;
 
     private final ReparaturRepository reparaturRepository;
 
@@ -99,7 +101,7 @@ public class ReparaturService {
 
     public Reparatur save(final Reparatur reparatur) {
         if (StringUtils.isBlank(reparatur.getNummer())) {
-            reparatur.setNummer(getReparaturJahrZweistellig() + einstellungenService.getAndSaveNextReparaturnummer());
+            reparatur.setNummer(getReparaturJahrZweistellig() + mitarbeiterService.getAndSaveNextReparaturnummer());
         }
         return reparaturRepository.save(reparatur);
     }
@@ -113,8 +115,7 @@ public class ReparaturService {
     }
 
     public List<LocalDate> listDaysWithMin5AbholungenAndAuftragNotErledigt() {
-        return reparaturRepository.listDaysWithMin5AbholungenAndAuftragNotErledigt().stream().map(Date::toLocalDate)
-                .collect(Collectors.toList());
+        return auftragService.listDaysWithMin5AbholungenAndAuftragNotErledigt();
     }
 
     public void duplikateZusammenfuehren(final KundeDuplikatDto dto) {

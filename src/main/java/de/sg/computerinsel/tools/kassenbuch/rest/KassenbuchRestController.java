@@ -1,14 +1,20 @@
 package de.sg.computerinsel.tools.kassenbuch.rest;
 
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltabelle.KASSENBERICHT;
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GELOESCHT;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,10 +27,11 @@ import de.sg.computerinsel.tools.kassenbuch.model.Kassenbuch;
 import de.sg.computerinsel.tools.kassenbuch.model.Kassenbuchposten;
 import de.sg.computerinsel.tools.kassenbuch.rest.model.KassenbuchDTO;
 import de.sg.computerinsel.tools.kassenbuch.service.KassenbuchService;
+import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
-import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.MessageService;
+import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.ProtokollService;
 import de.sg.computerinsel.tools.service.ValidationService;
 import lombok.extern.slf4j.Slf4j;
@@ -38,13 +45,13 @@ import lombok.extern.slf4j.Slf4j;
 public class KassenbuchRestController {
 
     @Autowired
-    private EinstellungenService einstellungenService;
-
-    @Autowired
     private KassenbuchService kassenbuchService;
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private MitarbeiterService mitarbeiterService;
 
     @Autowired
     private ProtokollService protokollService;
@@ -70,6 +77,16 @@ public class KassenbuchRestController {
         return kassenbuchService.createKassenbuch(LocalDate.now(), betrag);
     }
 
+    @DeleteMapping
+    public Map<String, Object> deleteKunde(@RequestBody final Map<String, Object> data) {
+        final int id = (int) data.get("id");
+
+        final KassenbuchDTO dto = getKassenbuch(id);
+        protokollService.write(dto.getKassenbuch().getId(), KASSENBERICHT, ProtokollService.getBezeichnungKassenbuch(dto), GELOESCHT);
+        kassenbuchService.delete(id);
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("kassenbuch.delete.success"));
+    }
+
     @GetMapping("/drucken/{id}")
     public KassenbuchDTO getKassenbuch(@PathVariable final Integer id) {
         return kassenbuchService.get(id);
@@ -82,7 +99,8 @@ public class KassenbuchRestController {
 
     @GetMapping("/ausgangsbetrag")
     public String getAusgangsbetrag() {
-        return einstellungenService.getAusgangsbetrag().getWert();
+        final Optional<Filiale> filiale = mitarbeiterService.getAngemeldeterMitarbeiterFiliale();
+        return filiale.isPresent() ? filiale.get().getAusgangsbetrag().toString() : null;
     }
 
     @PutMapping

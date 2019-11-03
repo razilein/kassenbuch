@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import de.sg.computerinsel.tools.kunde.model.Anrede;
+import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.service.EmailService;
+import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
 import de.sg.computerinsel.tools.rechnung.service.RechnungService;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
@@ -31,34 +34,50 @@ public class KundeEmailRestController {
     private MessageService messageService;
 
     @Autowired
+    private KundeService kundeService;
+
+    @Autowired
     private RechnungService rechnungService;
 
     @Autowired
     private ReparaturService reparaturService;
 
     @PostMapping("/rechnung")
-    public Map<String, Object> sendeMailRechnung(@RequestParam("file") final MultipartFile file, @RequestParam("id") final Integer id) {
+    public Map<String, Object> sendeMailRechnung(@RequestParam("file") final MultipartFile file, @RequestParam("id") final Integer id,
+            @RequestParam("anrede") final String anrede) {
         final Map<String, Object> result = new HashMap<>();
 
         final Rechnung rechnung = rechnungService.getRechnung(id).getRechnung();
-        service.sendeEmail(file, rechnung);
+        service.sendeEmail(file, rechnung, anrede);
         result.put(Message.SUCCESS.getCode(), messageService.get("email.success"));
+        updateKundeAnrede(rechnung.getKunde(), anrede);
         return result;
     }
 
     @PostMapping("/reparatur")
-    public Map<String, Object> sendeMailReparaturauftrag(@RequestBody final Map<String, Integer> params) {
+    public Map<String, Object> sendeMailReparaturauftrag(@RequestBody final Map<String, Object> params) {
         final Map<String, Object> result = new HashMap<>();
 
-        final Integer id = params.get("id");
+        final Integer id = (Integer) params.get("id");
         final Optional<Reparatur> optional = reparaturService.getReparatur(id);
         if (optional.isPresent()) {
-            service.sendeEmail(optional.get());
+            final String anrede = (String) params.get("anrede");
+            service.sendeEmail(optional.get(), anrede);
             result.put(Message.SUCCESS.getCode(), messageService.get("email.success"));
+            updateKundeAnrede(optional.get().getKunde(), anrede);
         } else {
             result.put(Message.ERROR.getCode(), messageService.get("email.reparatur.error", id));
         }
         return result;
+    }
+
+    private void updateKundeAnrede(final Kunde kunde, final String anrede) {
+        if (kunde.getAnrede() == null) {
+            kunde.setAnrede(Anrede.getByBriefAnrede(anrede).getCode());
+            if (kunde.getAnrede() != null) {
+                kundeService.save(kunde);
+            }
+        }
     }
 
 }

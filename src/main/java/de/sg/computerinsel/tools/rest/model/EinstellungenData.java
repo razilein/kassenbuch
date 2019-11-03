@@ -13,8 +13,6 @@ public class EinstellungenData {
 
     Einstellungen ablageverzeichnis;
 
-    Einstellungen filiale;
-
     Einstellungen ftpHost;
 
     Einstellungen ftpPort;
@@ -36,9 +34,5 @@ public class EinstellungenData {
     Einstellungen smtpUser;
 
     Einstellungen smtpPassword;
-
-    Einstellungen rechnungsnummer;
-
-    Einstellungen reparaturnummer;
 
 }

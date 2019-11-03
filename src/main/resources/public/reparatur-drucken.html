@@ -107,7 +107,7 @@
             </td>
             <td class="s2" colspan="2">
               {{entity.kunde.firmenname}}
-              {{entity.kunde.vorname}} {{entity.kunde.nachname}}
+              <span v-if="entity.kunde.akademischerTitel">{{entity.kunde.akademischerTitel}} </span>{{entity.kunde.vorname}} {{entity.kunde.nachname}}
             </td>
             <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35"></td>
           </tr>

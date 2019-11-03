@@ -1,0 +1,92 @@
+#auftrag-drucken {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+}
+
+.font16 {
+  font-size: 16px;
+}
+
+.font30 {
+  font-size: 30px;
+}
+
+td.s1 {
+  align: left;
+  border: none;
+  height: 35px;
+  padding: 0;
+  width: 120px;
+}
+
+td.s5 {
+  align: left;
+  border: none;
+  height: 35px;
+  padding: 0;
+  width: 105px;
+}
+
+td.s2, td.s3, td.s4 {
+  align: left;
+  border-bottom: 1px solid #000000;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  height: 35px;
+  padding-bottom: 0.1cm;
+  padding-left: 0cm;
+  padding-right: 0cm;
+  padding-top: 0cm;
+  vertical-align: bottom;
+}
+
+td.s2 {
+  width: 904px;
+}
+
+td.s3 {
+  width: 120px;
+}
+
+td.s4 {
+  width: 315px;
+}
+
+.center {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.left {
+  float: left;
+  text-align: left;
+}
+
+hr.header {
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+  border-top: 2px solid black;
+}
+
+.right {
+  float: right;
+  text-align: right;
+}
+
+.mHalf, .right, .left {
+  width: 50%;
+}
+
+.mFull, .center {
+  widht: 100%;
+}
+
+footer {
+  background-color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 999;
+}

@@ -7,11 +7,16 @@ import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GEAENDERT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GELOESCHT;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.sg.computerinsel.tools.kunde.model.Anrede;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
 import de.sg.computerinsel.tools.kunde.service.KundeService;
@@ -104,6 +110,17 @@ public class KundeRestController {
         }
         service.deleteKunde(id);
         return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("kunde.delete.success"));
+    }
+
+    @GetMapping("/anreden")
+    public List<DefaultKeyValue<Integer, String>> getAnreden() {
+        return Arrays.asList(Anrede.values()).stream().map(a -> new DefaultKeyValue<>(a.getCode(), getBezeichnungAnrede(a)))
+                .collect(Collectors.toList());
+    }
+
+    private String getBezeichnungAnrede(final Anrede a) {
+        final String briefanrede = a == Anrede.UNBEKANNT ? StringUtils.EMPTY : " (" + a.getBriefAnrede() + ")";
+        return a.getBezeichnung() + briefanrede;
     }
 
 }

@@ -13,6 +13,12 @@ var vm = new Vue({
     result: {},
     einstellungDruckansichtNeuesFenster: true,
     showDialog: false,
+    showDeleteDialog: false,
+    deleteRow: {
+      id: null,
+      restUrl: '/kassenbuch',
+      title: 'Kassenbuch löschen',
+    },
     grid: {
       actions: [],
       gridColumns: [],
@@ -23,6 +29,21 @@ var vm = new Vue({
   },
   methods: {
     
+    deleteFunction: function(row) {
+      vm.deleteRow.id = row.id;
+      vm.deleteRow.title = 'Kassenbuch vom ' + row.datum + ' löschen';
+      vm.showDeleteDialog = true;
+    },
+    
+    handleDeleteResponse: function(data) {
+      if (data.success) {
+        vm.showDeleteDialog = false;
+        vm.grid.reload = true;
+      }
+      vm.result = data;
+      vm.showDialog = true;
+    },
+    
     init: function() {
       vm.prepareRoles();
       vm.setGridColumns();
@@ -31,10 +52,7 @@ var vm = new Vue({
     
     prepareRoles: function() {
       vm.getRecht('ROLE_KASSENBUCH');
-    },
-    
-    hasNotRoleKassenbuchAnzeigen: function() {
-      return !vm.rechte['ROLE_KASSENBUCH'];
+      vm.getRecht('ROLE_KASSENBUCH_VERWALTEN');
     },
     
     openFunction: function(row) {
@@ -53,11 +71,20 @@ var vm = new Vue({
           width: 120,
           formatter: [
           { clazz: 'open-new-tab', disabled: vm.hasNotRoleRechnungAnzeigen, title: 'Kassenbuch öffnen', clickFunc: vm.openFunction },
+          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Kassenbuch löschen', clickFunc: vm.deleteFunction }
         ] },
         { name: 'datum', title: 'Datum', width: 120, formatter: ['date'] },
         { name: 'ersteller', title: 'Ersteller', width: 150 },
         { name: 'ausgangsbetrag', title: 'Ausgangsbetrag', width: 150, formatter: ['money'] }
       ];
+    },
+    
+    hasNotRoleKassenbuchAnzeigen: function() {
+      return !vm.rechte['ROLE_KASSENBUCH'];
+    },
+    
+    hasNotRoleVerwalten: function() {
+      return !vm.rechte['ROLE_KASSENBUCH_VERWALTEN'];
     },
     
     getRecht: function(role) {

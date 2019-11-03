@@ -91,11 +91,11 @@ Vue.component('rabatt-dialog', {
       this.berechneGesamt();
     },
     berechneGewinn: function() {
-      var gesamt = this.calculatedEntity.preisVk * this.entity.menge;
+      var gesamt = this.calculatedEntity.preisVk;
       this.calculatedEntity.gewinn = Number((gesamt - this.calculatedEntity.rabatt - this.calculatedEntity.preisEk).toFixed(2));
     },
     berechneGesamt: function() {
-      var gesamt = this.calculatedEntity.preisVk * this.entity.menge;
+      var gesamt = this.calculatedEntity.preisVk;
       this.calculatedEntity.gesamt = Number((gesamt - this.calculatedEntity.rabatt).toFixed(2));
     },
     saveFunc: function() {

@@ -1,6 +1,18 @@
 Vue.component('kunde-edit-dialog', {
   template: createEditDialogTemplate(`
   <div class="m1">
+    <div class="m2m">
+      <label for="kundeEditForm_anrede">Anrede</label>
+      <select class="m2" id="kundeEditForm_anrede" v-model="entity.anrede">
+        <option :value="a.key" v-for="a in anreden">{{a.value}}</option>
+      </select>
+    </div>
+    <div class="m2">
+      <zeichenzaehler-label :elem="entity.akademischerTitel" :forid="'kundeEditForm_akademischer_titel'" :label="'Akademischer Titel'" :maxlength="'50'"></zeichenzaehler-label>
+      <input class="m2" id="kundeEditForm_akademischerTitel" maxlength="50" type="text" v-model="entity.akademischerTitel"></input>
+    </div>
+  </div>
+  <div class="m1">
       <zeichenzaehler-label :elem="entity.firmenname" :forid="'kundeEditForm_firmenname'" :label="'Firmenname'" :maxlength="'200'" :required="true"></zeichenzaehler-label>
       <input class="m1" id="kundeEditForm_firmenname" maxlength="200" type="text" v-model="entity.firmenname"></input>
   </div>
@@ -13,6 +25,12 @@ Vue.component('kunde-edit-dialog', {
       <zeichenzaehler-label :elem="entity.vorname" :forid="'kundeEditForm_vorname'" :label="'Vorname'" :maxlength="'50'"></zeichenzaehler-label>
       <input class="m2" id="kundeEditForm_vorname" maxlength="50" type="text" v-model="entity.vorname"></input>
     </div>
+  </div>
+  <div class="m1" v-if="entity.firmenname && entity.nachname">
+    <label class="container checkbox">Sollen zusätzlich zum Firmannamen der Nachname/Vorname auf die Rechnung gedruckt werden?
+      <input id="kundeEditForm_name_drucken_bei_firma" type="checkbox" v-model="entity.nameDruckenBeiFirma" />
+      <span class="checkmark"></span>
+    </label>
   </div>
   <div class="m1">
     <div class="m2m">
@@ -52,6 +70,7 @@ Vue.component('kunde-edit-dialog', {
   data: function() {
     this.loadEntity();
     return {
+      anreden: [],
       entity: {},
     };
   },
@@ -61,7 +80,9 @@ Vue.component('kunde-edit-dialog', {
     },
     loadEntity: function() {
       showLoader();
-      this.getEntity()
+      this.getAnrede()
+        .then(this.setAnrede)
+        .then(this.getEntity)
         .then(this.setEntity)
         .then(this.initEntityIfEmpty)
         .then(hideLoader);
@@ -82,6 +103,12 @@ Vue.component('kunde-edit-dialog', {
       if (!hasAllProperties(this.entity, ['id'])) {
         this.entity = this.initialEntity || {};
       }
+    },
+    getAnrede: function() {
+      return axios.get('/kunde/anreden');
+    },
+    setAnrede: function(response) {
+      this.anreden = response.data;
     },
     getEntity: function() {
       return axios.get(this.restUrlGet);

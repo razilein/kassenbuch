@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Übersicht Aufträge - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/auftrag.png">
+    <link rel="stylesheet" href="/themes/css/button.css">
+    <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/grid.css">
+    <link rel="stylesheet" href="/themes/css/loading.css">
+    <link rel="stylesheet" href="/themes/css/radio.css">
+    <link rel="stylesheet" href="/themes/css/raster.css">
+    <link rel="stylesheet" href="/themes/css/style.css">
+    <link rel="stylesheet" href="/themes/css/tabs.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
+  </head>
+  <body>
+    <div id="auftraege">
+      <page-header :marker="'Auftrag'"></page-header>
+      <page-header-auftrag v-bind:marker="'Auftraege'"></page-header-auftrag>
+      <div id="content">
+        <div class="form m1" v-if="kundeId === null">
+          <div class="m1">
+            <div class="m6m">
+              <label for="searchForm_kundennummer">Kd.-Nr.</label>
+              <input class="m6" id="searchForm_kundennummer" type="text" v-model="grid.searchQuery.kundennummer"></input>
+            </div>
+          </div>
+          <div class="m1">
+            <label for="searchForm_beschreibung">Beschreibung</label>
+            <input class="m1" id="searchForm_beschreibung" type="text" v-model="grid.searchQuery.beschreibung"></input>
+          </div>
+          <div class="m1">
+             <label class="container checkbox">Nur nicht erledigte Aufträge anzeigen
+              <input id="searchForm_erledigt" type="checkbox" v-model="grid.searchQuery.erledigt" />
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="m1">
+            <div class="m2 right">
+              <button class="delete" title="Suchfelder leeren" v-on:click="grid.searchQuery = {}; grid.reload = true;"></button>
+              <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
+            </div>
+          </div>
+        </div>
+        <div style="height: 220px;" v-if="kundeId === null"></div>
+        <h3 v-if="kundeId !== null">Aufträge zum gewählten Kunden:</h3>
+        <div id="gridDiv" v-if="grid.gridColumns.length > 0">
+          <grid
+            :columns="grid.gridColumns"
+            :filter-key="grid.searchQuery"
+            :rest-url="grid.restUrl"
+            :reload="grid.reload"
+            :search-query="grid.searchQuery"
+            :size="100"
+            :sort="grid.sort"
+            :sortorder="grid.sortorder"
+            @reloaded="grid.reload = false"
+          ></grid>
+        </div>
+      </div>
+      <confirm-dialog
+        :func="confirmDialog.func"
+        :params="confirmDialog.params"
+        :text="confirmDialog.text"
+        :title="confirmDialog.title"
+        v-if="showConfirmDialog"
+        @close="showConfirmDialog = false"
+        @confirmed="handleConfirmResponse"
+      ></confirm-dialog>
+      <edit-dialog
+        :rest-url-get="editRow.restUrlGet"
+        :rest-url-save="editRow.restUrlSave"
+        :title="editRow.title"
+        v-if="showEditDialog"
+        @close="showEditDialog = false"
+        @saved="handleEditResponse"
+      ></edit-dialog>
+      <delete-dialog
+        :title="deleteRow.title"
+        :rest-url="deleteRow.restUrl"
+        :id="deleteRow.id"
+        v-if="showDeleteDialog"
+        @close="showDeleteDialog = false"
+        @deleted="handleDeleteResponse"
+      ></delete-dialog>
+      <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/confirm.dialog.component.js"></script>
+  <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/grid.component.js"></script>
+  <script src="/scripts/zeichenzaehler.component.js"></script>
+  <script src="/scripts/delete.dialog.component.js"></script>
+  <script src="/scripts/kunde/kunde.suchen.dialog.component.js"></script>
+  <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>
+  <script src="/scripts/auftrag/auftrag.edit.dialog.component.js"></script>
+  <script src="/scripts/auftrag/auftrag.header.component.js"></script>
+  <script src="/scripts/auftrag/auftrag.uebersicht.js"></script>
+</html>

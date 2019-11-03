@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import de.sg.computerinsel.tools.DateUtils;
-import de.sg.computerinsel.tools.Einstellungen;
 import de.sg.computerinsel.tools.kassenbuch.dao.KassenbuchRepository;
 import de.sg.computerinsel.tools.kassenbuch.dao.KassenbuchpostenRepository;
 import de.sg.computerinsel.tools.kassenbuch.model.Kassenbuch;
@@ -74,7 +73,7 @@ public class KassenbuchService {
     private Kassenbuchposten createPosten(final Kassenbuch kassenbuch, final Rechnung rechnung) {
         final BigDecimal betrag = rechnungService.listRechnungspostenByRechnungId(rechnung.getId()).stream().map(Rechnungsposten::getGesamt)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        final String nummer = einstellungenService.getFilialeKuerzel() + rechnung.getNummerAnzeige();
+        final String nummer = rechnung.getFiliale().getKuerzel() + rechnung.getNummerAnzeige();
         return new Kassenbuchposten(kassenbuch, nummer, betrag);
     }
 
@@ -94,9 +93,14 @@ public class KassenbuchService {
         final BigDecimal betrag = dto.getKassenbuch().getAusgangsbetrag();
         final BigDecimal gesamt = dto.getPosten().stream().map(Kassenbuchposten::getBetrag).reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        final Einstellungen einstellung = einstellungenService.getAusgangsbetrag();
-        einstellung.setWert(betrag.add(gesamt).toString());
-        einstellungenService.save(einstellung);
+        mitarbeiterService.getAngemeldeterMitarbeiterFiliale().ifPresent(filiale -> {
+            filiale.setAusgangsbetrag(betrag.add(gesamt));
+            einstellungenService.save(filiale);
+        });
+    }
+
+    public void delete(final Integer id) {
+        kassenbuchRepository.deleteById(id);
     }
 
 }
