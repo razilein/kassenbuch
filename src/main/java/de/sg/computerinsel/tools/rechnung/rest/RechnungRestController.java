@@ -144,6 +144,9 @@ public class RechnungRestController {
         final Map<String, Object> result = new HashMap<>(validationService.validate(rechnung));
 
         final boolean isErstellt = dto.getRechnung().getId() == null;
+        if (rechnung.getAuftrag() != null && rechnung.getAuftrag().getId() == null) {
+            rechnung.setAuftrag(null);
+        }
         if (rechnung.getReparatur() != null && rechnung.getReparatur().getId() == null) {
             rechnung.setReparatur(null);
         }

@@ -5,6 +5,7 @@ CREATE TABLE auftrag (
   beschreibung VARCHAR(2000),
   erledigt BIT DEFAULT 0 NOT NULL,
   erledigungsdatum DATETIME,
+  anzahlung VARCHAR(300) NOT NULL,
   kosten VARCHAR(300) NOT NULL,
   datum DATE NOT NULL,
   ersteller VARCHAR(200) NOT NULL,
