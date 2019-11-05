@@ -56,7 +56,7 @@ public class MitarbeiterService {
     public Optional<Filiale> getAngemeldeterMitarbeiterFiliale() {
         final Optional<Mitarbeiter> optional = getAngemeldeterMitarbeiter();
         if (optional.isPresent()) {
-            return filialeRepository.findById(optional.get().getId());
+            return filialeRepository.findById(optional.get().getFiliale().getId());
         }
         return Optional.empty();
     }
