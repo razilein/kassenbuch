@@ -102,6 +102,16 @@
         </ul>
       </li>
       <li><a href="#meinprofil">Mein Profil</a></li>
+      <li>
+        <a href="#backup">Anleitung zum Einspielen eines Backups</a>
+        <ul>
+          <li><a href="#stoppendestomcatservers">Stoppen des Tomcat-Servers</a></li>
+          <li><a href="#backupderdatenbankwiederherstellen">Backup der Datenbank wiederherstellen</a></li>
+          <li><a href="#temporredatenimtomcatserverbereinigen">Temporäre Daten im Tomcat-Server bereinigen</a></li>
+          <li><a href="#vorherigeprogrammversionwiederherstellen">Vorherige Programmversion wiederherstellen</a></li>
+          <li><a href="#startendestomcatservers">Starten des Tomcat-Servers</a></li>
+        </ul>
+      </li>
     </ul>
     <h2 id="einleitung">Einleitung</h2>
     <p>Dieses Programm beinhaltet verschiedene Tools, welche für die Computerinsel benötigt werden.</p>
@@ -476,5 +486,38 @@
        Reparaturaufträgen und Kassenbüchern der Drucken-Dialog des Browsers geöffnet. Ist die Einstellung deaktiviert, wird der Drucken-Dialog nicht geöffnet.
     </p>
     <p>Im Reiter Anmeldedaten kann der Benutzername und das Passwort geändert werden. Dabei muss im Feld <em>Passwort</em> zur Bestätigung immer das aktuelle Passwort angegeben werden.</p>
+    <h2 id="backup">Anleitung zum Einspielen eines Backups</h2>
+    <p>Vor dem Update auf eine neue Version wird ein Backup des Programms und der Datenbank angefertigt.
+    Sollte eine Arbeit aufgrund von Fehlern nicht möglich sein, kann das Backup eingespielt werden.</p>
+    <p>Durch das Einspielen des Backups geht der Bearbeitungsstand im Zeitraum nach dem Backup verloren.</p>
+    <p>Folgende Schritte müssen der Reihe nach durchgeführt werden:</p>
+    <h3 id="stoppendestomcatservers">Stoppen des Tomcat-Servers</h3>
+    <ul>
+      <li>Folgende EXE öffnen: "C:/CI-Tools Server/Tomcat/bin/Tomcat9w.exe"</li>
+      <li>Unter "General" die Schaltfläche "Stop" betätigen und warten bis der Dienst gestoppt wurde (Start-Schaltfläche wird dann aktiv)</li>
+    </ul>
+    <h3 id="backupderdatenbankwiederherstellen">Backup der Datenbank wiederherstellen</h3>
+    <ul>
+      <li>Das Verzeichnis "C:/CI-Tools Server/Datenbank" zippen und gesondert ablegen</li>
+      <li>Das Verzeichnis "C:/CI-Tools Server/Datenbank" löschen</li>
+      <li>Aus dem Verzeichnis "C:/CI-Tools Server/Backup" die ZIP-Datei "Datenbank.zip" nach "C:/CI-Tools Server/" kopieren und entpacken in den Ordner "Datenbank".</li>
+    </ul>
+    In dem Verzeichnis "Datenbank" müssen, wenn alles richtig durchgeführt wurde, ein Ordner und mehrere Dateien sich befinden.
+    <h3 id="temporredatenimtomcatserverbereinigen">Temporäre Daten im Tomcat-Server bereinigen</h3>
+    <ul>
+      <li>Den Inhalt der Ordner "C:/CI-Tools Server/Tomcat/work" und "C:/CI-Tools Server/Tomcat/temp" löschen. Die Ordner selbst müssen bestehen bleiben.</li>
+    </ul>
+    <h3 id="vorherigeprogrammversionwiederherstellen">Vorherige Programmversion wiederherstellen</h3>
+    <ul>
+      <li>Das Verzeichnis "C:/CI-Tools Server/Tomcat/webapps/ROOT" zippen und gesondert ablegen</li>
+      <li>Das Verzeichnis "C:/CI-Tools Server/Tomcat/webapps/ROOT" löschen</li>
+      <li>Aus dem Verzeichnis "C:/CI-Tools Server/Backup" die ZIP-Datei "ROOT.zip" nach "C:/CI-Tools Server/Tomcat/webapps/" kopieren und entpacken in den Ordner "ROOT"</li>
+    </ul>
+    Im Verzeichnis "ROOT" müssen, wenn alles richtig durchgeführt wurde, drei Unterordner sich befinden.
+    <h3 id="startendestomcatservers">Starten des Tomcat-Servers</h3>
+    <ul>
+      <li>Folgende EXE öffnen: "C:/CI-Tools Server/Tomcat/bin/Tomcat9w.exe"</li>
+      <li>Unter "General" die Schaltfläche "Start" betätigen und warten bis der Dienst gestartet wurde (Stop-Schaltfläche wird dann aktiv)</li>
+    </ul>
   </body>
 </html>

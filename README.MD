@@ -464,4 +464,33 @@ ein neues Browserfenster geöffnet. Ist die Einstellung deaktiviert, öffnet sic
 Ist die Einstellung *Druckdialog beim Öffnen der Druckansicht anzeigen* aktiv, wird beim Öffnen der Druckansicht von Rechnungen, Reparaturaufträgen und Kassenbüchern der Drucken-Dialog des Browsers geöffnet. Ist die Einstellung deaktiviert, wird der Drucken-Dialog nicht geöffnet.
 
 Im Reiter Anmeldedaten kann der Benutzername und das Passwort geändert werden. Dabei muss im Feld *Passwort* zur Bestätigung immer das aktuelle Passwort angegeben werden.
- 
+
+## Anleitung zum Einspielen eines Backups
+Vor dem Update auf eine neue Version wird ein Backup des Programms und der Datenbank angefertigt.
+Sollte eine Arbeit aufgrund von Fehlern nicht möglich sein, kann das Backup eingespielt werden.
+
+Durch das Einspielen des Backups geht der Bearbeitungsstand im Zeitraum nach dem Backup verloren.
+
+Folgende Schritte müssen der Reihe nach durchgeführt werden:
+### Stoppen des Tomcat-Servers
+- Folgende EXE öffnen: "C:/CI-Tools Server/Tomcat/bin/Tomcat9w.exe"
+- Unter "General" die Schaltfläche "Stop" betätigen und warten bis der Dienst gestoppt wurde (Start-Schaltfläche wird dann aktiv)
+
+### Backup der Datenbank wiederherstellen
+- Das Verzeichnis "C:/CI-Tools Server/Datenbank" zippen und gesondert ablegen
+- Das Verzeichnis "C:/CI-Tools Server/Datenbank" löschen
+- Aus dem Verzeichnis "C:/CI-Tools Server/Backup" die ZIP-Datei "Datenbank.zip" nach "C:/CI-Tools Server/" kopieren und entpacken in den Ordner "Datenbank".
+In dem Verzeichnis "Datenbank" müssen, wenn alles richtig durchgeführt wurde, ein Ordner und mehrere Dateien sich befinden.
+
+### Temporäre Daten im Tomcat-Server bereinigen
+- Den Inhalt der Ordner "C:/CI-Tools Server/Tomcat/work" und "C:/CI-Tools Server/Tomcat/temp" löschen. Die Ordner selbst müssen bestehen bleiben.
+
+### Vorherige Programmversion wiederherstellen
+- Das Verzeichnis "C:/CI-Tools Server/Tomcat/webapps/ROOT" zippen und gesondert ablegen
+- Das Verzeichnis "C:/CI-Tools Server/Tomcat/webapps/ROOT" löschen
+- Aus dem Verzeichnis "C:/CI-Tools Server/Backup" die ZIP-Datei "ROOT.zip" nach "C:/CI-Tools Server/Tomcat/webapps/" kopieren und entpacken in den Ordner "ROOT"
+Im Verzeichnis "ROOT" müssen, wenn alles richtig durchgeführt wurde, drei Unterordner sich befinden.
+
+### Starten des Tomcat-Servers
+- Folgende EXE öffnen: "C:/CI-Tools Server/Tomcat/bin/Tomcat9w.exe"
+- Unter "General" die Schaltfläche "Start" betätigen und warten bis der Dienst gestartet wurde (Stop-Schaltfläche wird dann aktiv)
