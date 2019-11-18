@@ -1,5 +1,12 @@
 Vue.component('edit-dialog', {
   template: createEditDialogTemplate(`
+  <div class="m1" v-if="entity.angebot">
+    <label for="auftragEditForm_angebot">Angebot</label>
+    <button class="angebot btnSmall" title="Angebot suchen" @click="showAngebotDialog = true"></button>
+    <button class="delete btnSmall" title="Angebot deselektieren" @click="entity.angebot = {};"></button>
+    <textarea class="m1" id="auftragEditForm_angebot" readonly v-if="entity.angebot.text" v-model="entity.angebot.text"></textarea>
+    <input class="m1" id="auftragEditForm_angebot" readonly v-if="!entity.angebot.text" v-model="entity.angebot.nummer"></textarea>
+  </div>
   <div class="m1" v-if="entity.kunde">
     <label class="required" for="auftragEditForm_kunde">Kunde</label>
     <button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
@@ -17,7 +24,7 @@ Vue.component('edit-dialog', {
   </div>
   <div class="m1">
     <zeichenzaehler-label :elem="entity.beschreibung" :forid="'auftragEditForm_beschreibung'" :label="'Bestellung'" :maxlength="'2000'" :required="true"></zeichenzaehler-label>
-    <textarea class="m1" id="auftragEditForm_beschreibung" maxlength="2000" v-model="entity.beschreibung"></textarea>
+    <textarea class="m1 big" id="auftragEditForm_beschreibung" maxlength="2000" v-model="entity.beschreibung"></textarea>
   </div>
   <div class="m1">
     <zeichenzaehler-label :elem="entity.kosten" :forid="'auftragEditForm_kosten'" :label="'Kosten'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
@@ -33,6 +40,13 @@ Vue.component('edit-dialog', {
       <input class="m2" id="auftragEditForm_ersteller" readonly type="text" :value="entity.ersteller" />
     </div>
   </div>
+  <angebot-suchen-dialog
+    :angebot="entity.angebot"
+    :kunde="entity.kunde"
+    v-if="showAngebotDialog"
+    @close="showAngebotDialog = false"
+    @saved="handleAngebotResponse"
+  ></angebot-suchen-dialog>
   <kunde-suchen-dialog
     :kunde="entity.kunde"
     v-if="showKundeDialog"
@@ -48,8 +62,13 @@ Vue.component('edit-dialog', {
   data: function() {
     this.loadEntity();
     return {
-      entity: {},
+      entity: {
+        angebot: {},
+        kunde: {},
+        filiale: {}
+      },
       mitarbeiter: {},
+      showAngebotDialog: false,
       showKundeDialog: false,
       wochentagdatum: ''
     };
@@ -61,6 +80,12 @@ Vue.component('edit-dialog', {
     changeAbholdatum: function() {
       this.getAbholdatum()
         .then(this.setAbholdatum);
+    },
+    handleAngebotResponse: function(angebot) {
+      this.showAngebotDialog = false;
+      this.entity.angebot = angebot.angebot;
+      this.entity.angebot.text = angebot.text;
+      this.entity.kunde = angebot.angebot.kunde;
     },
     loadEntity: function() {
       showLoader();
@@ -97,7 +122,14 @@ Vue.component('edit-dialog', {
       return axios.get(this.restUrlGet);
     },
     setEntity: function(response) {
-      this.wochentagdatum = formatDayOfWeek(response.data.datum);
+      var data = response.data;
+      this.wochentagdatum = formatDayOfWeek(data.datum);
+      if (!data.angebot) {
+        data.angebot = {};
+      }
+      if (!data.kunde) {
+        data.kunde = {};
+      }
       this.entity = response.data;
     },
     getMitarbeiter: function() {

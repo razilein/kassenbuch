@@ -2,6 +2,7 @@ var vm = new Vue({
   el: '#auftragErstellen',
   data: {
     entity: {
+      angebot: {},
       kunde: {},
       filiale: {}
     },
@@ -9,6 +10,7 @@ var vm = new Vue({
     mitarbeiter: [],
     result: {},
     showDialog: false,
+    showAngebotDialog: false,
     showKundeDialog: false,
     wochentagdatum: ''
   },
@@ -36,6 +38,12 @@ var vm = new Vue({
     changeAbholdatum: function() {
       this.getAbholdatum()
         .then(this.setAbholdatum);
+    },
+    handleAngebotResponse: function(angebot) {
+      vm.showAngebotDialog = false;
+      vm.entity.angebot = angebot.angebot;
+      vm.entity.angebot.text = angebot.text;
+      vm.entity.kunde = angebot.angebot.kunde;
     },
     handleKundeResponse: function(kunde) {
       vm.showKundeDialog = false;

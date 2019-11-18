@@ -5,6 +5,7 @@ Dieses Programm beinhaltet verschiedene Tools, welche für die Computerinsel ben
 Dazu zählen:
 - Reparaturaufträge verwalten
 - Rechnungen verwalten
+- Angebote verwalten
 - Aufträge verwalten
 - Kunden verwalten
 - Kassenbücher verwalten
@@ -140,6 +141,37 @@ Das Dateiformat ist hierbei TXT und besitzt ein fest definiertes Muster.
 Die Konten werden aus den zur Rechnungen hinterlegten Filialen ermittelt.
 Die Konten können in den Einstellung angepasst werden.
 
+## Angebote
+Die Seite Angebote unterteilt sich in die zwei Unterseiten **Erstellen** und **Angebote**.
+
+### Erstellen
+Um diese Seite öffnen zu können wird das Recht *ZUGRIFF_ANGEBOT_ERSTELLEN* benötigt.
+Um das Angebot nach der Erstellung ansehen und drucken zu können, wird das Recht *ANGEBOT* benötigt.
+
+Auf dieser Seite befinden sich eine Tabelle in welcher die einzelnen Posten des Angebots anzugeben sind.
+Die Preise sind dabei in Netto anzugeben.
+Nach dem Speichern öffnet sich eine neue Seite für den Druck des Angebots.
+Ebenfalls wird ein Hinweis geöffnet, dass das DSGVO-Informationsblatt vom Kunden zu Unterzeichnen ist, wenn er dies noch nicht getan hat.
+
+#### Kunde wählen
+Um den Kunden zu wählen muss neben dem Label *Kunde* das *Kunde-Icon* geklickt werden. Anschließend öffnet sich ein Dialog in dem der entsprechende Kunde gesucht werden kann.
+Durch Klick auf das *OK-Icon* wird der Kunde ausgewählt und der Dialog schließt sich.
+
+Ist das Recht *KUNDEN_VERWALTEN* gesetzt, können in diesem Dialog neue Kunden angelegt oder bestehende Kunden editiert werden.
+
+### Angebote
+Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_ANGEBOT_UEBERSICHT* benötigt.
+Das Recht *ANGEBOT_VERWALTEN* wird benötigt um Aufträge zu bearbeiten oder zu löschen.
+
+Auf dieser Seite befindet sich eine Auflistung aller Angebote. Mit Hilfe der Suchfilter kann die Anzeige weiter eingeschränkt werden.
+Ist das Suchfeld *Angebotsposten-Bezeichnung* gefüllt, werden alle anderen Suchfelder ignoriert. Mit Hilfe dieses Suchfeldes können die Angebotsposten durchsucht werden.
+
+Durch Klick auf das *Öffnen-Icon* kann das Angebot in der Druckansicht angezeigt werden. Dazu wird das Recht *ANGEBOT* benötigt.
+
+Durch Klick auf das *Bearbeiten-Icon* kann das Angebot bearbeitet werden.
+
+Durch Klick auf das *Löschen-Icon* kann ein Angebot nach nochmaliger Bestätigung gelöscht werden.
+
 ## Aufträge
 Die Seite Aufträge unterteilt sich in die zwei Unterseiten **Erstellen** und **Aufträge**.
 
@@ -150,6 +182,10 @@ Um den Auftrag nach der Erstellung ansehen und drucken zu können, wird das Rech
 Auf dieser Seite befinden sich verschiedene Felder die beim Erstellen eines Auftrags zu befüllen sind.
 Nach dem Speichern öffnet sich eine neue Seite für den Druck des Auftrags.
 Ebenfalls wird ein Hinweis geöffnet, dass das DSGVO-Informationsblatt vom Kunden zu Unterzeichnen ist, wenn er dies noch nicht getan hat.
+
+#### Angebot wählen
+Um das Angebot zu wählen muss neben dem Label *Angebot* das *Angebot-Icon* geklickt werden. Anschließend öffnet sich ein Dialog in dem das entsprechende Angebot gesucht werden kann.
+Durch Klick auf das *OK-Icon* wird das Angebot ausgewählt und der Dialog schließt sich.
 
 #### Kunde wählen
 Um den Kunden zu wählen muss neben dem Label *Kunde* das *Kunde-Icon* geklickt werden. Anschließend öffnet sich ein Dialog in dem der entsprechende Kunde gesucht werden kann.
@@ -385,6 +421,14 @@ Ist beispielsweise heute der 31.12.2018 und die fortlaufende Nummer 455, dann la
 In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.
 Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).
 
+### Angebotsnummer
+Die Angebotsnummer setzt sich zusammen aus dem Kürzel der Filiale, dem aktuellen Jahr und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.
+
+Ist beispielsweise heute der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Angebotsnummer, wenn das Kürzel der Filiale L ist: *L180455*
+
+In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.
+Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).
+
 ## Mitarbeiter
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_EINSTELLUNGEN_MITARBEITER* benötigt.
 Um Mitarbeiter Anlegen, Bearbeiten oder Löschen zu können, wird das Recht *MITARBEITER_VERWALTEN* benötigt.
@@ -451,6 +495,11 @@ Folgende Rechte sind verfügbar:
 - **ZUGRIFF_AUFTRAG_UEBERSICHT** - Zugriff auf die Seite Übersicht Aufträge
 - **AUFTRAG** - Ermöglicht das Anzeigen der Druckansicht eines Auftrags
 - **AUFTRAG_VERWALTEN** - Aufträge dürfen angelegt, bearbeitet oder gelöscht werden
+- **KUNDEN_ANGEBOTE** - Ermöglicht das Anzeigen aller Angebote eines Kunden
+- **ZUGRIFF_ANGEBOT_ERSTELLEN** - Zugriff auf die Seite Angebote erstellen
+- **ZUGRIFF_ANGEBOT_UEBERSICHT** - Zugriff auf die Seite Übersicht Angebote
+- **ANGEBOT** - Ermöglicht das Anzeigen der Druckansicht eines Angebots
+- **ANGEBOT_VERWALTEN** - Angebote dürfen angelegt, bearbeitet oder gelöscht werden
 
 ## Mein Profil
 Jeder Mitarbeiter kann diese Seite rechts oben auf jeder Seite aufrufen.

@@ -1,8 +1,8 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Übersicht Aufträge - Computer-Insel Tools by Sita Geßner</title>
-    <link rel="icon" href="/themes/icons/auftrag.png">
+    <title>Übersicht Angebote - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/angebot.png">
     <link rel="stylesheet" href="/themes/css/button.css">
     <link rel="stylesheet" href="/themes/css/dialog.css">
     <link rel="stylesheet" href="/themes/css/grid.css">
@@ -16,26 +16,31 @@
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
   <body>
-    <div id="auftraege">
-      <page-header :marker="'Auftrag'"></page-header>
-      <page-header-auftrag v-bind:marker="'Auftraege'"></page-header-auftrag>
+    <div id="angebote">
+      <page-header :marker="'Angebot'"></page-header>
+      <page-header-angebot v-bind:marker="'Angebote'"></page-header-angebot>
       <div id="content">
         <div class="form m1" v-if="kundeId === null">
           <div class="m1">
+            <div class="m6m">
+              <label for="searchForm_nummer">Angebot-Nr.</label>
+              <input class="m6" id="searchForm_nummer" type="text" v-model="grid.searchQuery.nummer"></input>
+            </div>
             <div class="m6m">
               <label for="searchForm_kundennummer">Kd.-Nr.</label>
               <input class="m6" id="searchForm_kundennummer" type="text" v-model="grid.searchQuery.kundennummer"></input>
             </div>
           </div>
           <div class="m1">
-            <label for="searchForm_beschreibung">Beschreibung</label>
-            <input class="m1" id="searchForm_beschreibung" type="text" v-model="grid.searchQuery.beschreibung"></input>
-          </div>
-          <div class="m1">
-             <label class="container checkbox">Nur nicht erledigte Aufträge anzeigen
+             <label class="container checkbox">Nur nicht erledigte Angebote anzeigen
               <input id="searchForm_erledigt" type="checkbox" v-model="grid.searchQuery.erledigt" />
               <span class="checkmark"></span>
             </label>
+          </div>
+          <hr />
+          <div class="m1">
+            <label for="searchForm_bezeichnung">Angebotsposten-Bezeichnung</label>
+            <input class="m1" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung"></input>
           </div>
           <div class="m1">
             <div class="m2 right">
@@ -44,8 +49,8 @@
             </div>
           </div>
         </div>
-        <div style="height: 220px;" v-if="kundeId === null"></div>
-        <h3 v-if="kundeId !== null">Aufträge zum gewählten Kunden:</h3>
+        <div style="height: 250px;" v-if="kundeId === null"></div>
+        <h3 v-if="kundeId !== null">Angebote zum gewählten Kunden:</h3>
         <div id="gridDiv" v-if="grid.gridColumns.length > 0">
           <grid
             :columns="grid.gridColumns"
@@ -95,10 +100,10 @@
   <script src="/scripts/grid.component.js"></script>
   <script src="/scripts/zeichenzaehler.component.js"></script>
   <script src="/scripts/delete.dialog.component.js"></script>
-  <script src="/scripts/angebot/angebot.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>
-  <script src="/scripts/auftrag/auftrag.edit.dialog.component.js"></script>
-  <script src="/scripts/auftrag/auftrag.header.component.js"></script>
-  <script src="/scripts/auftrag/auftrag.uebersicht.js"></script>
+  <script src="/scripts/angebot/angebot.edit.dialog.component.js"></script>
+  <script src="/scripts/angebot/angebotsposten.edit.dialog.component.js"></script>
+  <script src="/scripts/angebot/angebot.header.component.js"></script>
+  <script src="/scripts/angebot/angebot.uebersicht.js"></script>
 </html>

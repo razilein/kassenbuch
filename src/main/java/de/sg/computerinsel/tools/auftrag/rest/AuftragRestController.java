@@ -30,6 +30,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.sg.computerinsel.tools.DateUtils;
+import de.sg.computerinsel.tools.angebot.dto.AngebotDto;
+import de.sg.computerinsel.tools.angebot.model.Angebot;
+import de.sg.computerinsel.tools.angebot.service.AngebotService;
 import de.sg.computerinsel.tools.auftrag.model.Auftrag;
 import de.sg.computerinsel.tools.auftrag.service.AuftragService;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
@@ -48,6 +51,9 @@ import de.sg.computerinsel.tools.service.ValidationService;
 @RestController
 @RequestMapping("/auftrag")
 public class AuftragRestController {
+
+    @Autowired
+    private AngebotService angebotService;
 
     @Autowired
     private KundeService kundeService;
@@ -83,6 +89,7 @@ public class AuftragRestController {
 
     private Auftrag createAuftrag() {
         final Auftrag auftrag = new Auftrag();
+        auftrag.setAngebot(new Angebot());
         auftrag.setErsteller(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname());
         auftrag.setKunde(new Kunde());
         auftrag.setDatum(berechneAbholdatum());
@@ -115,6 +122,12 @@ public class AuftragRestController {
         final Map<String, Object> result = new HashMap<>(validationService.validate(auftrag));
         if (result.isEmpty()) {
             final boolean isErstellen = auftrag.getId() == null;
+            if (auftrag.getAngebot() != null && auftrag.getAngebot().getId() == null) {
+                auftrag.setAngebot(null);
+            }
+            if (auftrag.getKunde() != null && auftrag.getKunde().getId() == null) {
+                auftrag.setKunde(null);
+            }
             if (isErstellen) {
                 auftrag.setErstelltAm(LocalDateTime.now());
                 auftrag.setErsteller(StringUtils.abbreviate(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname(),
@@ -125,6 +138,7 @@ public class AuftragRestController {
                 }
             }
             final Auftrag saved = service.save(auftrag);
+            angebotErledigen(saved);
             if (isErstellen && auftrag.getKunde() != null && !auftrag.getKunde().isDsgvo()) {
                 kundeService.saveDsgvo(auftrag.getKunde().getId());
                 result.put(Message.INFO.getCode(), messageService.get("dsgvo.info"));
@@ -135,6 +149,16 @@ public class AuftragRestController {
             protokollService.write(saved.getId(), AUFTRAG, saved.getKunde().getNameKomplett(), isErstellen ? ERSTELLT : GEAENDERT);
         }
         return result;
+    }
+
+    private void angebotErledigen(final Auftrag saved) {
+        if (saved.getAngebot() != null && saved.getAngebot().getId() != null) {
+            final AngebotDto dto = angebotService.getAngebot(saved.getAngebot().getId());
+            if (dto.getAngebot().getId() != null) {
+                angebotService.angebotErledigen(dto.getAngebot(), true);
+            }
+        }
+
     }
 
     @PutMapping("/erledigen")

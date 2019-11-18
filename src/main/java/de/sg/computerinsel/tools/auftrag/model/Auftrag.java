@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import de.sg.computerinsel.tools.angebot.model.Angebot;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
@@ -24,6 +25,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Auftrag extends IntegerBaseObject {
+
+    @ManyToOne
+    @JoinColumn(name = "angebot_id", referencedColumnName = "id")
+    private Angebot angebot;
 
     @NotEmpty(message = "auftrag.anzahlung.error.empty")
     @Size(max = 300, message = "auftrag.anzahlung.error.size")

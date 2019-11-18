@@ -21,6 +21,12 @@
       <page-header-auftrag v-bind:marker="'Erstellen'"></page-header-auftrag>
       <div id="content">
         <div class="form m1">
+          <div class="m1" v-if="entity.angebot">
+            <label for="auftragEditForm_angebot">Angebot</label>
+            <button class="angebot btnSmall" title="Angebot suchen" @click="showAngebotDialog = true"></button>
+            <button class="delete btnSmall" title="Angebot deselektieren" @click="entity.angebot = {};"></button>
+            <textarea class="m1 big" id="auftragEditForm_angebot" readonly v-model="entity.angebot.text"></textarea>
+          </div>
           <div class="m1" v-if="entity.kunde">
             <label class="required" for="auftragEditForm_kunde">Kunde</label>
             <button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
@@ -38,7 +44,7 @@
           </div>
           <div class="m1">
             <zeichenzaehler-label :elem="entity.beschreibung" :forid="'auftragEditForm_beschreibung'" :label="'Bestellung'" :maxlength="'2000'" :required="true"></zeichenzaehler-label>
-            <textarea class="m1" id="auftragEditForm_beschreibung" maxlength="2000" v-model="entity.beschreibung"></textarea>
+            <textarea class="m1 big" id="auftragEditForm_beschreibung" maxlength="2000" v-model="entity.beschreibung"></textarea>
           </div>
           <div class="m1">
             <zeichenzaehler-label :elem="entity.kosten" :forid="'auftragEditForm_kosten'" :label="'Kosten'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
@@ -54,6 +60,13 @@
         <div style="height: 280px;"></div>
       </div>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+      <angebot-suchen-dialog
+        :angebot="entity.angebot"
+        :kunde="entity.kunde"
+        v-if="showAngebotDialog"
+        @close="showAngebotDialog = false"
+        @saved="handleAngebotResponse"
+      ></angebot-suchen-dialog>
       <kunde-suchen-dialog
         :kunde="entity.kunde"
         v-if="showKundeDialog"
@@ -68,6 +81,7 @@
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/grid.component.js"></script>
   <script src="/scripts/zeichenzaehler.component.js"></script>
+  <script src="/scripts/angebot/angebot.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>
   <script src="/scripts/auftrag/auftrag.header.component.js"></script>

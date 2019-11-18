@@ -1,0 +1,115 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Angebot drucken - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/angebot.png">
+    <link rel="stylesheet" href="/themes/css/auftrag.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/de.js"></script>
+  </head>
+  <body>
+    <div id="angebot-drucken">
+      <header>
+        <div class="center" style="width: 250px; height: 90px;">
+          <img src="/themes/icons/logo.png" width="250" height="90">
+        </div>
+        <div class="center">
+          Computer-Insel GbR
+          <br>
+          Gesellschafter: Stefan Weiske, Peer Dernoscheck
+        </div>
+        <br>
+        <div class="mFull">
+          <span class="left">{{entity.angebot.filiale.strasse}}, {{entity.angebot.filiale.plz}} {{entity.angebot.filiale.ort}}</span>
+          <br>
+          <span class="left">Tel: {{entity.angebot.filiale.telefon}}</span>
+          <span class="right">Internet: www.computer-insel.net</span>
+          <br>
+          <span class="left">Steuernr.: 232/167/37105</span>
+          <span class="right">Email: {{entity.angebot.filiale.email}}</span>
+        </div>
+        <br>
+        <br>
+        <div class="center">
+          Verkauf von Neu- und Gebrauchtware. Hardware, Software, Zubehör, Reparatur, Beratung, Service
+        </div>
+        <hr class="header">
+      </header>
+      <header>
+      <div class="font15 m4 right">{{entity.angebot.filiale.ort}}, den {{entity.angebot.erstelltAm.substring(0, 10)}}</div>
+      <div class="font15" v-if="entity.angebot.kunde" style="width: 350px;">
+        <span v-if="entity.angebot.kunde.firmenname">{{entity.angebot.kunde.firmenname}}<br></span>
+        <span v-if="entity.angebot.kunde.nachname && entity.angebot.nameDruckenBeiFirma"><span v-if="entity.angebot.kunde.akademischerTitel">{{entity.angebot.kunde.akademischerTitel}} </span>{{entity.angebot.kunde.vorname}} {{entity.angebot.kunde.nachname}}<br></span>
+        {{entity.angebot.kunde.strasse}}
+        <br>
+        {{entity.angebot.kunde.plz}} {{entity.angebot.kunde.ort}}
+      </div>
+      </header>
+      <div class="center font30">Angebot</div>
+      <div class="font15">Angebotsnummer: {{entity.angebot.filiale.kuerzel}}{{entity.angebot.nummer}}</div>
+      <br>
+      <br>
+      <table>
+        <thead>
+          <th style="text-align: center; width: 50px;">Menge</th>
+          <th style="width: 500px;">Produkt/Dienstleistung</th>
+          <th style="text-align: right; width: 100px;">Einzelpreis</th>
+          <th style="text-align: right; width: 100px;">Gesamtpreis</th>
+        </thead>
+        <tbody>
+          <tr v-for="posten in entity.angebotsposten">
+            <td style="text-align: center; width: 50px;">{{posten.menge}}</td>
+            <td style="width: 500px;">{{posten.bezeichnung}}</td>
+            <td style="text-align: right; width: 100px;">{{ formatMoney(posten.preis / 1.19) }} &euro;</td>
+            <td style="text-align: right; width: 100px;">{{ formatMoney(posten.preis * posten.menge / 1.19) }} &euro;</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td style="width: 50px;">&nbsp;</td>
+            <td style="text-align: right; width: 500px;">Gesamt:</td>
+            <td style="text-align: right; width: 100px;">&nbsp;</td>
+            <td style="text-align: right; width: 100px;">{{ formatMoney(gesamtNetto) }} &euro;</td>
+          </tr>
+          <tr>
+            <td style="width: 50px;">&nbsp;</td>
+            <td style="text-align: right; width: 500px;">zzgl. 19% MwSt.:</td>
+            <td style="text-align: right; width: 100px;">&nbsp;</td>
+            <td style="text-align: right; width: 100px;">{{ formatMoney(gesamtBrutto - gesamtNetto) }} &euro;</td>
+          </tr>
+          <tr>
+            <td style="width: 50px;">&nbsp;</td>
+            <td style="text-align: right; width: 500px;">Gesamtpreis inkl. MwSt.:</td>
+            <td style="text-align: right; width: 100px;">&nbsp;</td>
+            <td style="text-align: right; width: 100px;">{{ formatMoney(gesamtBrutto) }} &euro;</td>
+          </tr>
+        </tfoot>
+      </table>
+      <div class="font15">
+        <br>
+        Mit freundlichen Grüßen
+        <br>
+        {{entity.angebot.ersteller}}
+        <br>
+        Computer-Insel {{entity.angebot.filiale.ort}}
+      </div>
+      <footer>
+        <div class="center">
+          <br>
+          Besuchen Sie uns auch in unserer Filiale in {{entity.angebot.filiale.rechnungTextAndereFiliale}}.
+          <br>
+          <br>
+          <br>
+          Firmensitz: Marktstraße 10, 04177 Leipzig
+          <br>
+          Bankverbindung: Computer-Insel GbR . Commerzbank Leipzig . IBAN: DE50 8604 0000 0521 6668 00
+        </div>
+      </footer>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/angebot/angebot-drucken.js"></script>
+</html>
