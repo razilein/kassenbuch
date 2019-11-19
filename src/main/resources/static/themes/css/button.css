@@ -136,6 +136,11 @@ button.ok, button.ok2, button.open-new-tab, button.recht, button.zahnrad {
   width: 40px;
 }
 
+button.angebot.disabled, button.auftrag.disabled, button.euro.disabled, button.zahnrad.disabled {
+  background-color: #a9a9a9;
+  cursor: default;
+}
+
 button.pageLeft, button.pageRight {
   background-color: #1a8cff;
   float: none;

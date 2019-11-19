@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.sg.computerinsel.tools.kunde.dao.KundeRepository;
+import de.sg.computerinsel.tools.kunde.dao.VKundeRepository;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
+import de.sg.computerinsel.tools.kunde.model.VKunde;
 import de.sg.computerinsel.tools.rechnung.service.RechnungService;
 import de.sg.computerinsel.tools.reparatur.service.ReparaturService;
 import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
@@ -24,21 +26,23 @@ public class KundeService {
 
     private final KundeRepository kundeRepository;
 
+    private final VKundeRepository vKundeRepository;
+
     private final RechnungService rechnungService;
 
     private final ReparaturService reparaturService;
 
-    public Page<Kunde> listKunden(final PageRequest pagination, final Map<String, String> conditions) {
+    public Page<VKunde> listKunden(final PageRequest pagination, final Map<String, String> conditions) {
         final String firmenname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "firmenname");
         final String nachname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "nachname");
         final String vorname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "vorname");
         final String plz = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "plz");
 
         if (StringUtils.isBlank(firmenname) && StringUtils.isBlank(nachname) && StringUtils.isBlank(vorname) && StringUtils.isBlank(plz)) {
-            return kundeRepository.findAll(pagination);
+            return vKundeRepository.findAll(pagination);
         } else {
-            final FindAllByConditionsExecuter<Kunde> executer = new FindAllByConditionsExecuter<>();
-            return executer.findByParams(kundeRepository, pagination, buildMethodnameForQueryKunde(vorname, plz, nachname, firmenname),
+            final FindAllByConditionsExecuter<VKunde> executer = new FindAllByConditionsExecuter<>();
+            return executer.findByParams(vKundeRepository, pagination, buildMethodnameForQueryKunde(vorname, plz, nachname, firmenname),
                     vorname, plz, nachname, firmenname);
         }
     }
