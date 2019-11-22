@@ -61,7 +61,7 @@ var vm = new Vue({
       });
       endpreis = endpreis || 0;
       endpreis = endpreis < 0 ? 0 : endpreis;
-      vm.endpreis = formatMoney(endpreis, 2, '.', ',');
+      vm.endpreis = formatMoney(endpreis);
     },
     chooseFunction: function(row) {
       var bezeichnung = row.hersteller ? row.hersteller + '-' + row.bezeichnung : row.bezeichnung;
