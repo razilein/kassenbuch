@@ -72,6 +72,9 @@ public class BaseKunde extends IntegerBaseObject {
     @Column(name = "name_drucken_bei_firma")
     private boolean nameDruckenBeiFirma = true;
 
+    @Column(name = "suchfeld_name")
+    private String suchfeldName;
+
     public String getNameKomplett() {
         final StringBuilder builder = new StringBuilder();
         if (StringUtils.isNotBlank(firmenname)) {

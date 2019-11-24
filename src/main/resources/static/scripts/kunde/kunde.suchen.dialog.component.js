@@ -2,25 +2,15 @@ Vue.component('kunde-suchen-dialog', {
   template: createEditDialogTemplateWithoutSaveButton(`
   <div class="m2m">
     <div class="m1">
-      <label for="searchForm_firmenname">Firmenname</label>
-      <input class="m1" id="searchForm_firmenname" type="text" v-model="grid.searchQuery.firmenname"></input>
-    </div>
-    <div class="m1">
-      <div class="m2m">
-        <label for="searchForm_nachname">Nachname</label>
-        <input class="m2" id="searchForm_nachname" type="text" v-model="grid.searchQuery.nachname"></input>
-      </div>
-      <div class="m3m">
-        <label for="searchForm_vorname">Vorname</label>
-        <input class="m3" id="searchForm_vorname" type="text" v-model="grid.searchQuery.vorname"></input>
-      </div>
+      <label for="searchForm_suchfeld_name">Name</label>
+      <input class="m1" id="searchForm_suchfeld_name" type="text" v-model="grid.searchQuery.suchfeld_name"></input>
     </div>
     <div class="m2">
       <button class="delete right" title="Suchfelder leeren" v-on:click="grid.searchQuery = {}; grid.reload = true;"></button>
       <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
     </div>
   </div>
-  <h5 class="m3 right">
+  <h5 class="m2 right">
     Gewählter Kunde *:
     <span v-if="entity.firmenname">
       <br>

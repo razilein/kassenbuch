@@ -9,9 +9,10 @@ Vue.component('angebot-suchen-dialog', {
       <label for="searchForm_kundennummer">Kd.-Nr.</label>
       <input class="m6" id="searchForm_kundennummer" type="text" v-model="grid.searchQuery.kundennummer"></input>
     </div>
-    <div class="m2m">
-      <label for="searchFormAngebot_nachname">Angebotsposten-Bezeichnung</label>
-      <input class="m2" id="searchFormAngebot_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung"></input>
+    <div class="m2">
+      <label for="searchForm_suchfeld_name">Kunde</label>
+      <input class="m2" id="searchForm_suchfeld_name" title="Ermöglicht die Suche nach Firmenname, Vorname oder Nachname"
+        type="text" v-model="grid.searchQuery.suchfeld_name"></input>
     </div>
     <div class="m2">
       <button class="delete right" title="Suchfelder leeren" v-on:click="grid.searchQuery = {}; grid.reload = true;"></button>
@@ -68,7 +69,8 @@ Vue.component('angebot-suchen-dialog', {
           { name: 'nummer', title: 'Angebot-Nr.', width: 80 },
           { name: 'kunde.nummer', sortable: false, title: 'Kd.-Nr.', width: 80 },
           { name: 'kunde.nameKomplett', sortable: false, title: 'Kunde', width: 200 },
-          { name: 'gesamtbetrag', title: 'Gesamtbetrag (Nto)', width: 120, formatter: ['money'] },
+          { name: 'gesamtbetragNetto', title: 'Gesamtbetrag (Nto)', width: 120, formatter: ['money'] },
+          { name: 'gesamtbetrag', title: 'Gesamtbetrag (Bto)', width: 120, formatter: ['money'] },
           { name: 'erstelltAm', sortable: false, title: 'Erstellt am', width: 100 },
         ],
         reload: false,

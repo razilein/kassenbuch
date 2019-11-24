@@ -14,28 +14,25 @@ public interface ReparaturRepository extends CrudRepository<Reparatur, Integer> 
 
     Page<Reparatur> findAll(Pageable pagination);
 
-    Page<Reparatur> findByKundeNachnameLikeOrKundeFirmennameLikeAndNummerLikeAndErledigtAndKundeNummer(String nachname, String firmenname,
-            String nummer, Boolean erledigt, Integer kundennummer, Pageable pagination);
+    Page<Reparatur> findByKundeSuchfeldNameLikeAndNummerLikeAndErledigtAndKundeNummer(String suchfeldName, String nummer, Boolean erledigt,
+            Integer kundennummer, Pageable pagination);
 
-    Page<Reparatur> findByKundeNachnameLikeOrKundeFirmennameLikeAndNummerLikeAndErledigt(String nachname, String firmenname, String nummer,
-            Boolean erledigt, Pageable pagination);
-
-    Page<Reparatur> findByKundeNachnameLikeOrKundeFirmennameLikeAndNummerLikeAndKundeNummer(String nachname, String firmenname,
-            String nummer, Integer kundennummer, Pageable pagination);
-
-    Page<Reparatur> findByKundeNachnameLikeOrKundeFirmennameLikeAndNummerLike(String nachname, String firmenname, String nummer,
+    Page<Reparatur> findByKundeSuchfeldNameLikeAndNummerLikeAndErledigt(String suchfeldName, String nummer, Boolean erledigt,
             Pageable pagination);
 
-    Page<Reparatur> findByKundeNachnameLikeOrKundeFirmennameLikeAndErledigtAndKundeNummer(String nachname, String firmenname,
-            Boolean erledigt, Integer kundennummer, Pageable pagination);
-
-    Page<Reparatur> findByKundeNachnameLikeOrKundeFirmennameLikeAndErledigt(String nachname, String firmenname, Boolean erledigt,
+    Page<Reparatur> findByKundeSuchfeldNameLikeAndNummerLikeAndKundeNummer(String suchfeldName, String nummer, Integer kundennummer,
             Pageable pagination);
 
-    Page<Reparatur> findByKundeNachnameLikeOrKundeFirmennameLikeAndKundeNummer(String nachname, String firmenname, Integer kundennummer,
+    Page<Reparatur> findByKundeSuchfeldNameLikeAndNummerLike(String suchfeldName, String nummer, Pageable pagination);
+
+    Page<Reparatur> findByKundeSuchfeldNameLikeAndErledigtAndKundeNummer(String suchfeldName, Boolean erledigt, Integer kundennummer,
             Pageable pagination);
 
-    Page<Reparatur> findByKundeNachnameLikeOrKundeFirmennameLike(String nachname, String firmenname, Pageable pagination);
+    Page<Reparatur> findByKundeSuchfeldNameLikeAndErledigt(String suchfeldName, Boolean erledigt, Pageable pagination);
+
+    Page<Reparatur> findByKundeSuchfeldNameLikeAndKundeNummer(String suchfeldName, Integer kundennummer, Pageable pagination);
+
+    Page<Reparatur> findByKundeSuchfeldNameLike(String suchfeldName, Pageable pagination);
 
     Page<Reparatur> findByNummerLikeAndErledigtAndKundeNummer(String nummer, Boolean erledigt, Integer kundennummer, Pageable pagination);
 

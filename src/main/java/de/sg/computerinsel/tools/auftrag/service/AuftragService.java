@@ -55,6 +55,7 @@ public class AuftragService {
     }
 
     public Page<Auftrag> listAuftraege(final PageRequest pagination, final Map<String, String> conditions) {
+        final String name = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "suchfeld_name");
         String kundennummer = SearchQueryUtils.getAndRemoveJoker(conditions, "kundennummer");
         kundennummer = StringUtils.isNumeric(kundennummer) ? kundennummer : null;
         final String kundeId = SearchQueryUtils.getAndRemoveJoker(conditions, "kunde.id");
@@ -63,23 +64,28 @@ public class AuftragService {
 
         if (StringUtils.isNumeric(kundeId)) {
             return auftragRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
-        } else if (StringUtils.isBlank(beschreibung) && !istNichtErledigt && kundennummer == null) {
+        } else if (StringUtils.isBlank(name) && StringUtils.isBlank(beschreibung) && !istNichtErledigt && kundennummer == null) {
             return auftragRepository.findAll(pagination);
         } else if (istNichtErledigt) {
             final FindAllByConditionsExecuter<Auftrag> executer = new FindAllByConditionsExecuter<>();
             final Integer kdNr = kundennummer == null ? null : Ints.tryParse(kundennummer);
             return executer.findByParams(auftragRepository, pagination,
-                    buildMethodnameForQueryAuftrag(beschreibung, kundennummer, istNichtErledigt), beschreibung, kdNr, !istNichtErledigt);
+                    buildMethodnameForQueryAuftrag(name, beschreibung, kundennummer, istNichtErledigt), name, beschreibung, kdNr,
+                    !istNichtErledigt);
         } else {
             final FindAllByConditionsExecuter<Auftrag> executer = new FindAllByConditionsExecuter<>();
             final Integer kdNr = kundennummer == null ? null : Ints.tryParse(kundennummer);
-            return executer.findByParams(auftragRepository, pagination, buildMethodnameForQueryAuftrag(beschreibung, kundennummer, false),
-                    beschreibung, kdNr);
+            return executer.findByParams(auftragRepository, pagination,
+                    buildMethodnameForQueryAuftrag(name, beschreibung, kundennummer, false), name, beschreibung, kdNr);
         }
     }
 
-    private String buildMethodnameForQueryAuftrag(final String beschreibung, final String kundennummer, final boolean istNichtErledigt) {
+    private String buildMethodnameForQueryAuftrag(final String name, final String beschreibung, final String kundennummer,
+            final boolean istNichtErledigt) {
         String methodName = "findBy";
+        if (StringUtils.isNotBlank(name)) {
+            methodName += "KundeSuchfeldNameLikeAnd";
+        }
         if (StringUtils.isNotBlank(beschreibung)) {
             methodName += "BeschreibungLikeAnd";
         }

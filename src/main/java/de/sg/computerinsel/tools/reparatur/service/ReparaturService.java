@@ -40,7 +40,7 @@ public class ReparaturService {
     private final ReparaturRepository reparaturRepository;
 
     public Page<Reparatur> listReparaturen(final PageRequest pagination, final Map<String, String> conditions) {
-        final String nachname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "nachname");
+        final String name = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "suchfeld_name");
         final String nummer = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "nummer");
         String kundennummer = SearchQueryUtils.getAndRemoveJoker(conditions, "kundennummer");
         kundennummer = StringUtils.isNumeric(kundennummer) ? kundennummer : null;
@@ -49,19 +49,18 @@ public class ReparaturService {
 
         if (StringUtils.isNumeric(kundeId)) {
             return reparaturRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
-        } else if (StringUtils.isBlank(nachname) && StringUtils.isBlank(nummer) && !istNichtErledigt && kundennummer == null) {
+        } else if (StringUtils.isBlank(name) && StringUtils.isBlank(nummer) && !istNichtErledigt && kundennummer == null) {
             return reparaturRepository.findAll(pagination);
         } else if (istNichtErledigt) {
             final FindAllByConditionsExecuter<Reparatur> executer = new FindAllByConditionsExecuter<>();
             final Integer kdNr = kundennummer == null ? null : Ints.tryParse(kundennummer);
             return executer.findByParams(reparaturRepository, pagination,
-                    buildMethodnameForQueryReparatur(nachname, nummer, istNichtErledigt, kundennummer), nachname, nachname, nummer,
-                    !istNichtErledigt, kdNr);
+                    buildMethodnameForQueryReparatur(name, nummer, istNichtErledigt, kundennummer), name, nummer, !istNichtErledigt, kdNr);
         } else {
             final FindAllByConditionsExecuter<Reparatur> executer = new FindAllByConditionsExecuter<>();
             final Integer kdNr = kundennummer == null ? null : Ints.tryParse(kundennummer);
             return executer.findByParams(reparaturRepository, pagination,
-                    buildMethodnameForQueryReparatur(nachname, nummer, false, kundennummer), nachname, nachname, nummer, kdNr);
+                    buildMethodnameForQueryReparatur(name, nummer, false, kundennummer), name, nummer, kdNr);
         }
     }
 
@@ -69,7 +68,7 @@ public class ReparaturService {
             final String kundennummer) {
         String methodName = "findBy";
         if (StringUtils.isNotBlank(nachname)) {
-            methodName += "KundeNachnameLikeOrKundeFirmennameLikeAnd";
+            methodName += "KundeSuchfeldNameLikeAnd";
         }
         if (StringUtils.isNotBlank(nummer)) {
             methodName += "NummerLikeAnd";

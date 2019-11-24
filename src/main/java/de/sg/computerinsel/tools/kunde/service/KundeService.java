@@ -3,6 +3,7 @@ package de.sg.computerinsel.tools.kunde.service;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,33 +34,24 @@ public class KundeService {
     private final ReparaturService reparaturService;
 
     public Page<VKunde> listKunden(final PageRequest pagination, final Map<String, String> conditions) {
-        final String firmenname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "firmenname");
-        final String nachname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "nachname");
-        final String vorname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "vorname");
+        final String name = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "suchfeld_name");
         final String plz = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "plz");
 
-        if (StringUtils.isBlank(firmenname) && StringUtils.isBlank(nachname) && StringUtils.isBlank(vorname) && StringUtils.isBlank(plz)) {
+        if (StringUtils.isBlank(name) && StringUtils.isBlank(plz)) {
             return vKundeRepository.findAll(pagination);
         } else {
             final FindAllByConditionsExecuter<VKunde> executer = new FindAllByConditionsExecuter<>();
-            return executer.findByParams(vKundeRepository, pagination, buildMethodnameForQueryKunde(vorname, plz, nachname, firmenname),
-                    vorname, plz, nachname, firmenname);
+            return executer.findByParams(vKundeRepository, pagination, buildMethodnameForQueryKunde(name, plz), name, plz);
         }
     }
 
-    private String buildMethodnameForQueryKunde(final String vorname, final String plz, final String nachname, final String firmenname) {
+    private String buildMethodnameForQueryKunde(final String name, final String plz) {
         String methodName = "findBy";
-        if (StringUtils.isNotBlank(vorname)) {
-            methodName += "VornameLikeAnd";
+        if (StringUtils.isNotBlank(name)) {
+            methodName += "SuchfeldNameLikeAnd";
         }
         if (StringUtils.isNotBlank(plz)) {
             methodName += "PlzLikeAnd";
-        }
-        if (StringUtils.isNotBlank(nachname)) {
-            methodName += "NachnameLikeAnd";
-        }
-        if (StringUtils.isNotBlank(firmenname)) {
-            methodName += "FirmennameLikeAnd";
         }
         return StringUtils.removeEnd(methodName, "And");
     }
@@ -79,6 +71,8 @@ public class KundeService {
         if (kunde.getNummer() == null) {
             kunde.setNummer(kundeRepository.getNextNummer());
         }
+        kunde.setSuchfeldName(RegExUtils.removeAll(StringUtils.trimToEmpty(kunde.getFirmenname()).concat(kunde.getVorname())
+                .concat(StringUtils.trimToEmpty(kunde.getNachname())), StringUtils.SPACE));
         return kundeRepository.save(kunde);
     }
 
