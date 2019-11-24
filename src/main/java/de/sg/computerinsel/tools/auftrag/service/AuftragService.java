@@ -19,7 +19,10 @@ import de.sg.computerinsel.tools.auftrag.dao.AuftragRepository;
 import de.sg.computerinsel.tools.auftrag.dao.VAuftraegeJeTagRepository;
 import de.sg.computerinsel.tools.auftrag.model.Auftrag;
 import de.sg.computerinsel.tools.auftrag.model.VAuftraegeJeTag;
+import de.sg.computerinsel.tools.reparatur.model.Filiale;
+import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
+import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.SearchQueryUtils;
 import lombok.AllArgsConstructor;
 
@@ -27,7 +30,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuftragService {
 
+    private static final int LAENGE_AUFTRAGNUMMER_JAHR = 2;
+
     private final AuftragRepository auftragRepository;
+
+    private final MitarbeiterService mitarbeiterService;
 
     private final VAuftraegeJeTagRepository vAuftraegeJeTagRepository;
 
@@ -41,7 +48,20 @@ public class AuftragService {
     }
 
     public Auftrag save(final Auftrag auftrag) {
+        final boolean isErstellen = auftrag.getId() == null;
+        if (isErstellen) {
+            auftrag.setErstelltAm(LocalDateTime.now());
+            auftrag.setErsteller(StringUtils.abbreviate(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname(),
+                    Reparatur.MAX_LENGTH_MITARBEITER));
+            auftrag.setFiliale(mitarbeiterService.getAngemeldeterMitarbeiterFiliale().orElseGet(Filiale::new));
+            final String nummer = getAngebotJahrZweistellig() + mitarbeiterService.getAndSaveNextAuftragsnummer();
+            auftrag.setNummer(Ints.tryParse(nummer));
+        }
         return auftragRepository.save(auftrag);
+    }
+
+    private String getAngebotJahrZweistellig() {
+        return StringUtils.right(String.valueOf(LocalDate.now().getYear()), LAENGE_AUFTRAGNUMMER_JAHR);
     }
 
     public void deleteAuftrag(final Integer id) {
@@ -56,6 +76,7 @@ public class AuftragService {
 
     public Page<Auftrag> listAuftraege(final PageRequest pagination, final Map<String, String> conditions) {
         final String name = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "suchfeld_name");
+        final String nummer = SearchQueryUtils.getAndRemoveJoker(conditions, "nummer");
         String kundennummer = SearchQueryUtils.getAndRemoveJoker(conditions, "kundennummer");
         kundennummer = StringUtils.isNumeric(kundennummer) ? kundennummer : null;
         final String kundeId = SearchQueryUtils.getAndRemoveJoker(conditions, "kunde.id");
@@ -64,24 +85,27 @@ public class AuftragService {
 
         if (StringUtils.isNumeric(kundeId)) {
             return auftragRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
-        } else if (StringUtils.isBlank(name) && StringUtils.isBlank(beschreibung) && !istNichtErledigt && kundennummer == null) {
+        } else if (!StringUtils.isNumeric(nummer) && StringUtils.isBlank(name) && StringUtils.isBlank(beschreibung) && !istNichtErledigt
+                && kundennummer == null) {
             return auftragRepository.findAll(pagination);
         } else if (istNichtErledigt) {
             final FindAllByConditionsExecuter<Auftrag> executer = new FindAllByConditionsExecuter<>();
+            final Integer nr = StringUtils.isNumeric(nummer) ? Ints.tryParse(nummer) : null;
             final Integer kdNr = kundennummer == null ? null : Ints.tryParse(kundennummer);
             return executer.findByParams(auftragRepository, pagination,
-                    buildMethodnameForQueryAuftrag(name, beschreibung, kundennummer, istNichtErledigt), name, beschreibung, kdNr,
-                    !istNichtErledigt);
+                    buildMethodnameForQueryAuftrag(name, beschreibung, kundennummer, istNichtErledigt, nummer), name, beschreibung, kdNr,
+                    !istNichtErledigt, nr);
         } else {
             final FindAllByConditionsExecuter<Auftrag> executer = new FindAllByConditionsExecuter<>();
+            final Integer nr = StringUtils.isNumeric(nummer) ? Ints.tryParse(nummer) : null;
             final Integer kdNr = kundennummer == null ? null : Ints.tryParse(kundennummer);
             return executer.findByParams(auftragRepository, pagination,
-                    buildMethodnameForQueryAuftrag(name, beschreibung, kundennummer, false), name, beschreibung, kdNr);
+                    buildMethodnameForQueryAuftrag(name, beschreibung, kundennummer, false, nummer), name, beschreibung, kdNr, nr);
         }
     }
 
     private String buildMethodnameForQueryAuftrag(final String name, final String beschreibung, final String kundennummer,
-            final boolean istNichtErledigt) {
+            final boolean istNichtErledigt, final String nummer) {
         String methodName = "findBy";
         if (StringUtils.isNotBlank(name)) {
             methodName += "KundeSuchfeldNameLikeAnd";
@@ -94,6 +118,9 @@ public class AuftragService {
         }
         if (istNichtErledigt) {
             methodName += "ErledigtAnd";
+        }
+        if (StringUtils.isNumeric(nummer)) {
+            methodName += "NummerAnd";
         }
         return StringUtils.removeEnd(methodName, "And");
     }

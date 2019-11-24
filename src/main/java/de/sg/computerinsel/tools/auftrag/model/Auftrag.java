@@ -67,6 +67,9 @@ public class Auftrag extends IntegerBaseObject {
     @Column(name = "kosten")
     private String kosten;
 
+    @Column(name = "nummer")
+    private int nummer;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate getDatum() {
         return datum;

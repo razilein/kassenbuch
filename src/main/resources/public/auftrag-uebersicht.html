@@ -23,6 +23,10 @@
         <div class="form m1" v-if="kundeId === null">
           <div class="m1">
             <div class="m6m">
+              <label for="searchForm_nummer">Auftrag-Nr.</label>
+              <input class="m6" id="searchForm_nummer" type="text" v-model="grid.searchQuery.nummer"></input>
+            </div>
+            <div class="m6m">
               <label for="searchForm_kundennummer">Kd.-Nr.</label>
               <input class="m6" id="searchForm_kundennummer" type="text" v-model="grid.searchQuery.kundennummer"></input>
             </div>
