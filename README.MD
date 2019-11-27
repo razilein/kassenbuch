@@ -135,7 +135,8 @@ Auf dieser Seite muss der Monat und das Jahr gewählt werden.
 Es wird immer der aktuelle Monat und das aktuelle Jahr vorgeblendet.
 
 Nach dem Klick auf die Exportieren-Schaltfläche werden alle Rechnungen mit dem Rechnungsdatum im gewählten Monat/Jahr exportiert.
-Dabei wird je Zahlart eine eigene Datei erzeugt und in das Ablageverzeichnis gewählt.
+Zusätzlich werden alle Posten aus den Kassenbüchern des Monats exportiert, welche nicht identisch mit einer Rechnungsnummer in dem Monat sind.
+Aus diesem Grund ist es notwendig, mehrfach vorhandene Kassenbucheinträge für einen Tag zu löschen, sodass je Tag nur ein Eintrag vorhanden ist.
 
 Das Dateiformat ist hierbei TXT und besitzt ein fest definiertes Muster.
 Die Konten werden aus den zur Rechnungen hinterlegten Filialen ermittelt.
