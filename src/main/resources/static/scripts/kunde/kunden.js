@@ -111,21 +111,26 @@ var vm = new Vue({
     },
     
     prepareRoles: function() {
+      vm.getRecht('ROLE_KUNDEN_ANGEBOTE');
       vm.getRecht('ROLE_KUNDEN_AUFTRAEGE');
       vm.getRecht('ROLE_KUNDEN_REPARATUR');
       vm.getRecht('ROLE_KUNDEN_RECHNUNG');
       vm.getRecht('ROLE_KUNDEN_VERWALTEN');
     },
     
-    hasNotRoleAuftraegeAnzeigen: function() {
+    hasNotRoleAngeboteAnzeigen: function(row) {
+      return !vm.rechte['ROLE_KUNDEN_ANGEBOTE'];
+    },
+    
+    hasNotRoleAuftraegeAnzeigen: function(row) {
       return !vm.rechte['ROLE_KUNDEN_AUFTRAEGE'];
     },
     
-    hasNotRoleReparaturAnzeigen: function() {
+    hasNotRoleReparaturAnzeigen: function(row) {
       return !vm.rechte['ROLE_KUNDEN_REPARATUR'];
     },
     
-    hasNotRoleRechnungAnzeigen: function() {
+    hasNotRoleRechnungAnzeigen: function(row) {
       return !vm.rechte['ROLE_KUNDEN_RECHNUNG'];
     },
     
@@ -133,16 +138,44 @@ var vm = new Vue({
       return !vm.rechte['ROLE_KUNDEN_VERWALTEN'];
     },
     
+    openAngebotFunction: function(row) {
+      if (row.anzahlAngebote > 0) {
+        window.open('/angebot-uebersicht.html?id=' + row.id);
+      }
+    },
+    
     openAuftragFunction: function(row) {
-      window.open('/auftrag-uebersicht.html?id=' + row.id);
+      if (row.anzahlAuftraege > 0) {
+        window.open('/auftrag-uebersicht.html?id=' + row.id);
+      }
     },
     
     openReparaturFunction: function(row) {
-      window.open('/reparatur-uebersicht.html?id=' + row.id);
+      if (row.anzahlReparaturen > 0) {
+        window.open('/reparatur-uebersicht.html?id=' + row.id);
+      }
     },
     
     openRechnungFunction: function(row) {
-      window.open('/rechnung-uebersicht.html?id=' + row.id);
+      if (row.anzahlRechnungen > 0) {
+        window.open('/rechnung-uebersicht.html?id=' + row.id);
+      }
+    },
+    
+    getAngebotClass: function(row) {
+      return row.anzahlAngebote === 0 ? 'angebot disabled' : 'angebot';
+    },
+    
+    getAuftragClass: function(row) {
+      return row.anzahlAuftraege === 0 ? 'auftrag disabled' : 'auftrag';
+    },
+    
+    getReparaturClass: function(row) {
+      return row.anzahlReparaturen === 0 ? 'zahnrad disabled' : 'zahnrad';
+    },
+    
+    getRechnungClass: function(row) {
+      return row.anzahlRechnungen === 0 ? 'euro disabled' : 'euro';
     },
     
     setGridColumns: function() {
@@ -152,9 +185,10 @@ var vm = new Vue({
           sortable: false,
           width: 170,
           formatter: [
-          { clazz: 'zahnrad', disabled: vm.hasNotRoleReparaturAnzeigen, title: 'Reparaturaufträge anzeigen', clickFunc: vm.openReparaturFunction },
-          { clazz: 'euro', disabled: vm.hasNotRoleRechnungAnzeigen, title: 'Rechnungen anzeigen', clickFunc: vm.openRechnungFunction },
-          { clazz: 'auftrag', disabled: vm.hasNotRoleAuftraegeAnzeigen, title: 'Aufträge anzeigen', clickFunc: vm.openAuftragFunction },
+          { clazz: vm.getReparaturClass, disabled: vm.hasNotRoleReparaturAnzeigen, title: 'Reparaturaufträge anzeigen', clickFunc: vm.openReparaturFunction },
+          { clazz: vm.getRechnungClass, disabled: vm.hasNotRoleRechnungAnzeigen, title: 'Rechnungen anzeigen', clickFunc: vm.openRechnungFunction },
+          { clazz: vm.getAngebotClass, disabled: vm.hasNotRoleAngeboteAnzeigen, title: 'Angebote anzeigen', clickFunc: vm.openAngebotFunction },
+          { clazz: vm.getAuftragClass, disabled: vm.hasNotRoleAuftraegeAnzeigen, title: 'Aufträge anzeigen', clickFunc: vm.openAuftragFunction },
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Kunde bearbeiten', clickFunc: vm.editFunction },
           { clazz: 'kunden', disabled: vm.hasNotRoleVerwalten, title: 'Duplizierende Kunden suchen und mit diesen Kundenatensatz zusammenführen', clickFunc: vm.duplicateFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Kunde löschen', clickFunc: vm.deleteFunction }

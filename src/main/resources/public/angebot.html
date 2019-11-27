@@ -1,0 +1,113 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Angebot erstellen - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/angebot.png">
+    <link rel="stylesheet" href="/themes/css/button.css">
+    <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/grid.css">
+    <link rel="stylesheet" href="/themes/css/loading.css">
+    <link rel="stylesheet" href="/themes/css/radio.css">
+    <link rel="stylesheet" href="/themes/css/raster.css">
+    <link rel="stylesheet" href="/themes/css/style.css">
+    <link rel="stylesheet" href="/themes/css/tabs.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
+  </head>
+  <body>
+    <div id="angebotErstellen">
+      <page-header :marker="'Angebot'"></page-header>
+      <page-header-angebot v-bind:marker="'Erstellen'"></page-header-angebot>
+      <div id="content">
+        <div class="form" style="width: 1000px;">
+          <h3>Gewählte Posten:</h3>
+          <table>
+            <thead>
+              <tr>
+                <th class="tableNavi">
+                  <button
+                    class="add"
+                    title="Posten hinzufügen"
+                    v-on:click="addNewItem()"
+                  ></button>
+                </th>
+              </tr>
+            </thead>
+            <thead>
+              <th style="width: 100px;">Funktionen</th>
+              <th style="width: 30px;">Pos.</th>
+              <th style="width: 550px;">Bezeichnung</th>
+              <th style="width: 50px;">Menge</th>
+              <th style="width: 100px;">Preis (Nto)</th>
+              <th style="width: 100px;">Gesamt (Nto)</th>
+              <th style="width: 100px;">Preis (Bto)</th>
+              <th style="width: 100px;">Gesamt (Bto)</th>
+            </thead>
+            <tbody>
+              <tr v-for="(posten, index) in entity.angebotsposten">
+                <td>
+                  <button class="add" title="Menge um 1 erhöhen" v-on:click="addItem(index)"></button>
+                  <button class="minus" title="Menge um 1 verringern" v-on:click="removeItem(index)"></button>
+                  <button class="edit" title="Posten bearbeiten" v-on:click="editPosten(index)"></button>
+                </td>
+                <td>{{posten.position}}</td>
+                <td>{{posten.bezeichnung}}</td>
+                <td>{{posten.menge}}</td>
+                <td>{{ formatMoney(posten.preis / 1.19) }}</td>
+                <td>{{ formatMoney(posten.menge * posten.preis / 1.19) }}</td>
+                <td>{{ formatMoney(posten.preis) }}</td>
+                <td>{{ formatMoney(posten.menge * posten.preis) }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="m2 right">
+            <div class="m6m">
+              <label for="angebotEditForm_endpreis">Endpreis (Nto)</label>
+              <input class="m6" readonly type="text" v-model="endpreisNto" />
+            </div>
+            <div class="m6m">&nbsp;</div>
+            <div class="m6">
+              <label for="angebotEditForm_endpreis">Endpreis (Bto)</label>
+              <input class="m6" readonly type="text" v-model="endpreis" />
+            </div>
+          </div>
+        </div>
+        <div class="form m1">
+          <div class="m1" v-if="entity.angebot.kunde">
+            <label class="required" for="angebotEditForm_angebot_kunde">Kunde</label>
+            <button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
+            <textarea class="m1" id="angebotEditForm_angebot_kunde" readonly v-model="entity.angebot.kunde.completeWithAdress"></textarea>
+          </div>
+          <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">Speichern</button>
+          <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmpty()">Speichern</button>
+        </div>
+        <div style="height: 280px;"></div>
+      </div>
+      <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+      <kunde-suchen-dialog
+        :kunde="entity.kunde"
+        v-if="showKundeDialog"
+        @close="showKundeDialog = false"
+        @saved="handleKundeResponse"
+      ></kunde-suchen-dialog>
+      <posten-edit-dialog
+        :entity="editEntity"
+        v-if="showEditDialog"
+        @close="showEditDialog = false"
+        @saved="handleEditResponse"
+      ></posten-edit-dialog>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/localstorage.service.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/grid.component.js"></script>
+  <script src="/scripts/zeichenzaehler.component.js"></script>
+  <script src="/scripts/kunde/kunde.suchen.dialog.component.js"></script>
+  <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>
+  <script src="/scripts/angebot/angebot.header.component.js"></script>
+  <script src="/scripts/angebot/angebot.js"></script>
+  <script src="/scripts/angebot/angebotsposten.edit.dialog.component.js"></script>
+</html>

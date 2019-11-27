@@ -4,7 +4,7 @@
     <title>Dokumentation - Computer-Insel Tools by Sita Geßner</title>
   </head>
   <body>
-    <h1 id="toolsfrdiecomputerinsel">Tools für die Computerinsel - Version 2.1.2</h1>
+    <h1 id="toolsfrdiecomputerinsel">Tools für die Computerinsel - Version 2.2.0</h1>
     <h2 id="index">Index</h2>
     <ul>
       <li><a href="#einleitung">Einleitung</a></li>
@@ -37,11 +37,24 @@
         </ul>
       </li>
       <li>
+        <a href="#angebote">Angebote</a>
+        <ul>
+          <li>
+            <a href="#angebote-erstellen">Erstellen</a>
+            <ul>
+              <li><a href="#angebote-kundewhlen">Kunde wählen</a></li>
+            </ul>
+          </li>
+          <li><a href="#angebote-1">Angebote</a></li>
+        </ul>
+      </li>
+      <li>
         <a href="#auftraege">Aufträge</a>
         <ul>
           <li>
             <a href="#auftraege-erstellen">Erstellen</a>
             <ul>
+              <li><a href="#auftraege-angebotwhlen">Angebot wählen</a></li>
               <li><a href="#auftraege-kundewhlen">Kunde wählen</a></li>
             </ul>
           </li>
@@ -91,6 +104,7 @@
             <ul>
               <li><a href="#rechnungsnummer">Rechnungsnummer</a></li>
               <li><a href="#reparaturnummer">Reparaturnummer</a></li>
+              <li><a href="#angebotsnummer">Angebotsnummer</a></li>
             </ul>
           </li>
           <li>
@@ -119,6 +133,7 @@
     <ul>
       <li>Reparaturaufträge verwalten</li>
       <li>Rechnungen verwalten</li>
+      <li>Angebote verwalten</li>
       <li>Aufträge verwalten</li>
       <li>Kunden verwalten</li>
       <li>Kassenbücher verwalten</li>
@@ -223,11 +238,34 @@
       Das Recht <em>RECHNUNG_EXPORT</em> wird benötigt, um die Exportieren-Schaltfläche zu aktivieren.</p>
     <p>Auf dieser Seite muss der Monat und das Jahr gewählt werden.
       Es wird immer der aktuelle Monat und das aktuelle Jahr vorgeblendet.</p>
-    <p>Nach dem Klick auf die Exportieren-Schaltfläche werden alle Rechnungen mit dem Rechnungsdatum im gewählten Monat/Jahr exportiert.
-      Dabei wird je Zahlart eine eigene Datei erzeugt und in das Ablageverzeichnis gewählt.</p>
+    <p>Nach dem Klick auf die Exportieren-Schaltfläche werden alle Rechnungen mit dem Rechnungsdatum im gewählten Monat/Jahr exportiert.</p>
+    <p>Zusätzlich werden alle Posten aus den Kassenbüchern des Monats exportiert, welche nicht identisch mit einer Rechnungsnummer in dem Monat sind.
+      Aus diesem Grund ist es notwendig, mehrfach vorhandene Kassenbucheinträge für einen Tag zu löschen, sodass je Tag nur ein Eintrag vorhanden ist.
+    </p>
     <p>Das Dateiformat ist hierbei TXT und besitzt ein fest definiertes Muster.</p>
     <p>Die Konten werden aus den zur Rechnungen hinterlegten Filialen ermittelt.</p>
     <p>Die Konten können in den Einstellung angepasst werden.</p>
+    <h2 id="angebote">Angebote</h2>
+    <p>Die Seite Angebote unterteilt sich in die zwei Unterseiten <strong>Erstellen</strong> und <strong>Angebote</strong>.</p>
+    <h3 id="angebote-erstellen">Erstellen</h3>
+    <p>Um diese Seite öffnen zu können wird das Recht <em>ZUGRIFF_ANGEBOT_ERSTELLEN</em> benötigt.
+    Um das Angebot nach der Erstellung ansehen und drucken zu können, wird das Recht <em>ANGEBOT</em> benötigt.</p>
+    <p>Auf dieser Seite befinden sich eine Tabelle in welcher die einzelnen Posten des Angebots anzugeben sind.
+    Die Preise sind dabei in Netto anzugeben.
+    Nach dem Speichern öffnet sich eine neue Seite für den Druck des Angebots.
+    Ebenfalls wird ein Hinweis geöffnet, dass das DSGVO-Informationsblatt vom Kunden zu Unterzeichnen ist, wenn er dies noch nicht getan hat.</p>
+    <h4 id="angebote-kundewhlen">Kunde wählen</h4>
+    <p>Um den Kunden zu wählen muss neben dem Label <em>Kunde</em> das <em>Kunde-Icon</em> geklickt werden. Anschließend öffnet sich ein Dialog in dem der entsprechende Kunde gesucht werden kann.
+    Durch Klick auf das <em>OK-Icon</em> wird der Kunde ausgewählt und der Dialog schließt sich.</p>
+    <p>Ist das Recht <em>KUNDEN_VERWALTEN</em> gesetzt, können in diesem Dialog neue Kunden angelegt oder bestehende Kunden editiert werden.</p>
+    <h3 id="angebote-1">Angebote</h3>
+    <p>Um diese Seite öffnen zu können, wird das Recht <em>ZUGRIFF_ANGEBOT_UEBERSICHT</em> benötigt.
+    Das Recht <em>ANGEBOT_VERWALTEN</em> wird benötigt um Aufträge zu bearbeiten oder zu löschen.</p>
+    <p>Auf dieser Seite befindet sich eine Auflistung aller Angebote. Mit Hilfe der Suchfilter kann die Anzeige weiter eingeschränkt werden.
+    Ist das Suchfeld <em>Angebotsposten-Bezeichnung</em> gefüllt, werden alle anderen Suchfelder ignoriert. Mit Hilfe dieses Suchfeldes können die Angebotsposten durchsucht werden.</p>
+    <p>Durch Klick auf das <em>Öffnen-Icon</em> kann das Angebot in der Druckansicht angezeigt werden. Dazu wird das Recht <em>ANGEBOT</em> benötigt.</p>
+    <p>Durch Klick auf das <em>Bearbeiten-Icon</em> kann das Angebot bearbeitet werden.</p>
+    <p>Durch Klick auf das <em>Löschen-Icon</em> kann ein Angebot nach nochmaliger Bestätigung gelöscht werden.</p>
     <h2 id="auftraege">Aufträge</h2>
     <p>Die Seite Aufträge unterteilt sich in die zwei Unterseiten <strong>Erstellen</strong> und <strong>Aufträge</strong>.</p>
     <h3 id="auftraege-erstellen">Erstellen</h3>
@@ -236,6 +274,9 @@
     <p>Auf dieser Seite befinden sich verschiedene Felder die beim Erstellen eines Auftrags zu befüllen sind.
     Nach dem Speichern öffnet sich eine neue Seite für den Druck des Auftrags.
     Ebenfalls wird ein Hinweis geöffnet, dass das DSGVO-Informationsblatt vom Kunden zu Unterzeichnen ist, wenn er dies noch nicht getan hat.</p>
+    <h4 id="auftraege-angebotwhlen">Angebot wählen</h4>
+    <p>Um das Angebot zu wählen muss neben dem Label <em>Angebot</em> das <em>Angebot-Icon</em> geklickt werden. Anschließend öffnet sich ein Dialog in dem das entsprechende Angebot gesucht werden kann.
+    Durch Klick auf das <em>OK-Icon</em> wird das Angebot ausgewählt und der Dialog schließt sich.</p>
     <h4 id="auftraege-kundewhlen">Kunde wählen</h4>
     <p>Um den Kunden zu wählen muss neben dem Label <em>Kunde</em> das <em>Kunde-Icon</em> geklickt werden. Anschließend öffnet sich ein Dialog in dem der entsprechende Kunde gesucht werden kann.
     Durch Klick auf das <em>OK-Icon</em> wird der Kunde ausgewählt und der Dialog schließt sich.</p>
@@ -410,6 +451,11 @@
     <p>Ist beispielsweise heute der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Reparaturnummer, wenn das Kürzel der Filiale L ist: <em>L180455</em></p>
     <p>In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.</p>
     <p>Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).</p>
+    <h3 id="angebotsnummer">Angebotsnummer</h3>
+    <p>Die Angebotsnummer setzt sich zusammen aus dem Kürzel der Filiale, dem aktuellen Jahr und einer fortlaufenden Nummer, welche automatisch immer auf 4 Stellen angepasst wird.</p>
+    <p>Ist beispielsweise heute der 31.12.2018 und die fortlaufende Nummer 455, dann lautet die Angebotsnummer, wenn das Kürzel der Filiale L ist: <em>L180455</em></p>
+    <p>In diesem Feld muss lediglich die fortlaufende Nummer angegeben werden. Es empfiehlt sich beim Jahreswechsel die Nummer manuell zurückzusetzen auf 0.</p>
+    <p>Angezeigt wird immer die zuletzt verwendete Nummer (NICHT die nächste Nummer).</p>
     <h2 id="mitarbeiter">Mitarbeiter</h2>
     <p>Um diese Seite öffnen zu können, wird das Recht <em>ZUGRIFF_EINSTELLUNGEN_MITARBEITER</em> benötigt.
       Um Mitarbeiter Anlegen, Bearbeiten oder Löschen zu können, wird das Recht <em>MITARBEITER_VERWALTEN</em> benötigt.
@@ -472,6 +518,11 @@
       <li><strong>ZUGRIFF<em>AUFTRAG</em>UEBERSICHT</strong> - Zugriff auf die Seite Übersicht Aufträge</li>
       <li><strong>AUFTRAG</strong> - Ermöglicht das Anzeigen der Druckansicht eines Auftrags</li>
       <li><strong>AUFTRAG_VERWALTEN</strong> - Aufträge dürfen angelegt, bearbeitet oder gelöscht werden</li>
+      <li><strong>KUNDEN_ANGEBOTE</strong> - Ermöglicht das Anzeigen aller Angebote eines Kunden</li>
+      <li><strong>ZUGRIFF<em>ANGEBOT</em>ERSTELLEN</strong> - Zugriff auf die Seite Angebote erstellen</li>
+      <li><strong>ZUGRIFF<em>ANGEBOT</em>UEBERSICHT</strong> - Zugriff auf die Seite Übersicht Angebote</li>
+      <li><strong>ANGEBOT</strong> - Ermöglicht das Anzeigen der Druckansicht eines Angebots</li>
+      <li><strong>ANGEBOT_VERWALTEN</strong> - Angebote dürfen angelegt, bearbeitet oder gelöscht werden</li>
     </ul>
     <h2 id="meinprofil">Mein Profil</h2>
     <p>Jeder Mitarbeiter kann diese Seite rechts oben auf jeder Seite aufrufen.</p>

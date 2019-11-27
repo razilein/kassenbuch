@@ -43,7 +43,7 @@ var vm = new Vue({
     
     editFunction: function(row) {
       vm.editRow.restUrlGet = '/auftrag/' + row.id;
-      vm.editRow.title = 'Auftrag ' + row.id + ' bearbeiten';
+      vm.editRow.title = 'Auftrag ' + row.nummer + ' bearbeiten';
       vm.showEditDialog = true;
     },
     
@@ -58,7 +58,7 @@ var vm = new Vue({
     
     deleteFunction: function(row) {
       vm.deleteRow.id = row.id;
-      vm.deleteRow.title = 'Auftrag ' + row.id + ' löschen';
+      vm.deleteRow.title = 'Auftrag ' + row.nummer + ' löschen';
       vm.showDeleteDialog = true;
     },
     
@@ -78,7 +78,7 @@ var vm = new Vue({
     erledigenFunction: function(row) {
       var art = row.erledigt ? ' wiedereröffnen' : ' erledigen';
       vm.confirmDialog.text = 'Wollen Sie diesen Auftrag' + art + '?';
-      vm.confirmDialog.title = 'Auftrag ' + row.id + art;
+      vm.confirmDialog.title = 'Auftrag ' + row.nummer + art;
       vm.confirmDialog.func = vm.erledigen;
       vm.confirmDialog.params = row;
       vm.showConfirmDialog = true;
@@ -136,6 +136,7 @@ var vm = new Vue({
           { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.erledigenFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Auftrag löschen', clickFunc: vm.deleteFunction }
         ] },
+        { name: 'nummer', title: 'Nummer', width: 80 },
         { name: 'kunde.nummer', title: 'Kd.-Nr.', width: 80 },
         { name: 'kunde.nameKomplett', sortable: false, title: 'Kunde', width: 200 },
         { name: 'datum', title: 'Datum', width: 120, formatter: ['date'] },

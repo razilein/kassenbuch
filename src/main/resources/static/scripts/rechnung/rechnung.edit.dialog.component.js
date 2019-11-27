@@ -17,7 +17,7 @@ Vue.component('edit-dialog', {
   <div class="m1">
     <div class="m6m">
       <label for="rechnungEditForm_endpreis">Endpreis</label>
-      <input class="m6" readonly type="number" v-model="endpreis" />
+      <input class="m6" readonly type="text" v-model="endpreis" />
     </div>
   </div>
   <div style="width: 1000px;">
@@ -161,7 +161,7 @@ Vue.component('edit-dialog', {
       });
       endpreis = endpreis || 0;
       endpreis = endpreis < 0 ? 0 : endpreis;
-      this.endpreis = endpreis;
+      this.endpreis = formatMoney(endpreis);
     },
     editPosten: function(index) {
       var posten = this.entity.posten[index];

@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.sg.computerinsel.tools.kunde.model.Anrede;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
+import de.sg.computerinsel.tools.kunde.model.VKunde;
 import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
@@ -55,7 +56,7 @@ public class KundeRestController {
     private ValidationService validationService;
 
     @PostMapping
-    public Page<Kunde> getKunden(@RequestBody final SearchData data) {
+    public Page<VKunde> getKunden(@RequestBody final SearchData data) {
         return service.listKunden(data.getData().getPagination(), data.getConditions());
     }
 

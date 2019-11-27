@@ -30,8 +30,9 @@
             <input class="m6" id="searchForm_kundennummer" type="text" v-model="grid.searchQuery.kundennummer"></input>
           </div>
           <div class="m2m">
-            <label for="searchForm_nachname">Nachname/Firmenname</label>
-            <input class="m2" id="searchForm_nachname" type="text" v-model="grid.searchQuery.nachname"></input>
+            <label for="searchForm_suchfeld_name">Kunde</label>
+            <input class="m2" id="searchForm_suchfeld_name" title="Ermöglicht die Suche nach Firmenname, Vorname oder Nachname"
+              type="text" v-model="grid.searchQuery.suchfeld_name"></input>
           </div>
           <div class="m1">
              <label class="container checkbox">Nur nicht erledigte Aufträge anzeigen

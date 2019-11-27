@@ -61,6 +61,28 @@ public class MitarbeiterService {
         return Optional.empty();
     }
 
+    public String getAndSaveNextAngebotsnummer() {
+        final Optional<Filiale> optional = getAngemeldeterMitarbeiterFiliale();
+        if (optional.isPresent()) {
+            final Filiale filiale = optional.get();
+            filiale.setZaehlerAngebot(filiale.getZaehlerAngebot() + 1);
+            einstellungenService.save(filiale);
+            return StringUtils.leftPad(String.valueOf(filiale.getZaehlerAngebot()), 4, "0");
+        }
+        return "0";
+    }
+
+    public String getAndSaveNextAuftragsnummer() {
+        final Optional<Filiale> optional = getAngemeldeterMitarbeiterFiliale();
+        if (optional.isPresent()) {
+            final Filiale filiale = optional.get();
+            filiale.setZaehlerAuftrag(filiale.getZaehlerAuftrag() + 1);
+            einstellungenService.save(filiale);
+            return StringUtils.leftPad(String.valueOf(filiale.getZaehlerAuftrag()), 4, "0");
+        }
+        return "0";
+    }
+
     public String getAndSaveNextRechnungsnummer() {
         final Optional<Filiale> optional = getAngemeldeterMitarbeiterFiliale();
         if (optional.isPresent()) {

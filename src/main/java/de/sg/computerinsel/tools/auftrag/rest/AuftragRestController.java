@@ -8,7 +8,6 @@ import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GELOESCHT;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,18 +28,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.sg.computerinsel.tools.DateUtils;
+import de.sg.computerinsel.tools.angebot.dto.AngebotDto;
+import de.sg.computerinsel.tools.angebot.model.Angebot;
+import de.sg.computerinsel.tools.angebot.service.AngebotService;
 import de.sg.computerinsel.tools.auftrag.model.Auftrag;
 import de.sg.computerinsel.tools.auftrag.service.AuftragService;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
-import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
-import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.service.FeiertagUtils;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
 import de.sg.computerinsel.tools.service.MessageService;
-import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.ProtokollService;
 import de.sg.computerinsel.tools.service.ValidationService;
 
@@ -50,13 +48,13 @@ import de.sg.computerinsel.tools.service.ValidationService;
 public class AuftragRestController {
 
     @Autowired
+    private AngebotService angebotService;
+
+    @Autowired
     private KundeService kundeService;
 
     @Autowired
     private MessageService messageService;
-
-    @Autowired
-    private MitarbeiterService mitarbeiterService;
 
     @Autowired
     private ProtokollService protokollService;
@@ -76,14 +74,14 @@ public class AuftragRestController {
     public Auftrag getAuftrag(@PathVariable final Integer id) {
         final Optional<Auftrag> optional = service.getAuftrag(id);
         if (optional.isPresent()) {
-            protokollService.write(optional.get().getId(), AUFTRAG, optional.get().getKunde().getNameKomplett(), ANGESEHEN);
+            protokollService.write(optional.get().getId(), AUFTRAG, String.valueOf(optional.get().getNummer()), ANGESEHEN);
         }
         return optional.orElseGet(this::createAuftrag);
     }
 
     private Auftrag createAuftrag() {
         final Auftrag auftrag = new Auftrag();
-        auftrag.setErsteller(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname());
+        auftrag.setAngebot(new Angebot());
         auftrag.setKunde(new Kunde());
         auftrag.setDatum(berechneAbholdatum());
         auftrag.setAnzahlung("Keine");
@@ -114,27 +112,35 @@ public class AuftragRestController {
     public Map<String, Object> saveAuftrag(@RequestBody final Auftrag auftrag) {
         final Map<String, Object> result = new HashMap<>(validationService.validate(auftrag));
         if (result.isEmpty()) {
-            final boolean isErstellen = auftrag.getId() == null;
-            if (isErstellen) {
-                auftrag.setErstelltAm(LocalDateTime.now());
-                auftrag.setErsteller(StringUtils.abbreviate(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname(),
-                        Reparatur.MAX_LENGTH_MITARBEITER));
-                final Optional<Mitarbeiter> optional = mitarbeiterService.getAngemeldeterMitarbeiter();
-                if (optional.isPresent()) {
-                    auftrag.setFiliale(optional.get().getFiliale());
-                }
+            if (auftrag.getAngebot() != null && auftrag.getAngebot().getId() == null) {
+                auftrag.setAngebot(null);
+            }
+            if (auftrag.getKunde() != null && auftrag.getKunde().getId() == null) {
+                auftrag.setKunde(null);
             }
             final Auftrag saved = service.save(auftrag);
+            angebotErledigen(saved);
+            final boolean isErstellen = auftrag.getId() == null;
             if (isErstellen && auftrag.getKunde() != null && !auftrag.getKunde().isDsgvo()) {
                 kundeService.saveDsgvo(auftrag.getKunde().getId());
                 result.put(Message.INFO.getCode(), messageService.get("dsgvo.info"));
             } else {
-                result.put(Message.SUCCESS.getCode(), messageService.get("auftrag.save.success", auftrag.getId()));
+                result.put(Message.SUCCESS.getCode(), messageService.get("auftrag.save.success", auftrag.getNummer()));
             }
             result.put("auftrag", saved);
-            protokollService.write(saved.getId(), AUFTRAG, saved.getKunde().getNameKomplett(), isErstellen ? ERSTELLT : GEAENDERT);
+            protokollService.write(saved.getId(), AUFTRAG, String.valueOf(saved.getNummer()), isErstellen ? ERSTELLT : GEAENDERT);
         }
         return result;
+    }
+
+    private void angebotErledigen(final Auftrag saved) {
+        if (saved.getAngebot() != null && saved.getAngebot().getId() != null) {
+            final AngebotDto dto = angebotService.getAngebot(saved.getAngebot().getId());
+            if (dto.getAngebot().getId() != null) {
+                angebotService.angebotErledigen(dto.getAngebot(), true);
+            }
+        }
+
     }
 
     @PutMapping("/erledigen")
@@ -148,9 +154,10 @@ public class AuftragRestController {
                 final Auftrag auftrag = optional.get();
                 final boolean erledigt = !auftrag.isErledigt();
                 service.auftragErledigen(auftrag, erledigt);
-                protokollService.write(auftrag.getId(), AUFTRAG, messageService.get("protokoll.erledigt",
-                        auftrag.getKunde().getNameKomplett(), BooleanUtils.toStringYesNo(erledigt)), GEAENDERT);
-                result.put(Message.SUCCESS.getCode(), messageService.get("auftrag.save.success", auftrag.getId()));
+                protokollService.write(auftrag.getId(), AUFTRAG,
+                        messageService.get("protokoll.erledigt", String.valueOf(auftrag.getNummer()), BooleanUtils.toStringYesNo(erledigt)),
+                        GEAENDERT);
+                result.put(Message.SUCCESS.getCode(), messageService.get("auftrag.save.success", auftrag.getNummer()));
             }
         }
         return result;
@@ -162,7 +169,7 @@ public class AuftragRestController {
         final Optional<Auftrag> optional = service.getAuftrag(id);
         service.deleteAuftrag(id);
         if (optional.isPresent()) {
-            protokollService.write(optional.get().getId(), AUFTRAG, optional.get().getKunde().getNameKomplett(), GELOESCHT);
+            protokollService.write(optional.get().getId(), AUFTRAG, String.valueOf(optional.get().getNummer()), GELOESCHT);
         }
         return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("auftrag.delete.success"));
     }

@@ -23,8 +23,17 @@
         <div class="form m1" v-if="kundeId === null">
           <div class="m1">
             <div class="m6m">
+              <label for="searchForm_nummer">Auftrag-Nr.</label>
+              <input class="m6" id="searchForm_nummer" type="text" v-model="grid.searchQuery.nummer"></input>
+            </div>
+            <div class="m6m">
               <label for="searchForm_kundennummer">Kd.-Nr.</label>
               <input class="m6" id="searchForm_kundennummer" type="text" v-model="grid.searchQuery.kundennummer"></input>
+            </div>
+            <div class="m2">
+              <label for="searchForm_suchfeld_name">Kunde</label>
+              <input class="m2" id="searchForm_suchfeld_name" title="Ermöglicht die Suche nach Firmenname, Vorname oder Nachname"
+                type="text" v-model="grid.searchQuery.suchfeld_name"></input>
             </div>
           </div>
           <div class="m1">
@@ -95,6 +104,7 @@
   <script src="/scripts/grid.component.js"></script>
   <script src="/scripts/zeichenzaehler.component.js"></script>
   <script src="/scripts/delete.dialog.component.js"></script>
+  <script src="/scripts/angebot/angebot.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>
   <script src="/scripts/auftrag/auftrag.edit.dialog.component.js"></script>

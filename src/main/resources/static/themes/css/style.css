@@ -47,6 +47,10 @@ input, select, textarea {
   height: 25px;
 }
 
+textarea.big {
+  height: 150px;
+}
+
 input.error {
   background-color: #FFD2D2 !important;
 }
