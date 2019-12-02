@@ -71,9 +71,14 @@ public class KundeService {
         if (kunde.getNummer() == null) {
             kunde.setNummer(kundeRepository.getNextNummer());
         }
-        kunde.setSuchfeldName(RegExUtils.removeAll(StringUtils.trimToEmpty(kunde.getFirmenname()).concat(kunde.getVorname())
-                .concat(StringUtils.trimToEmpty(kunde.getNachname())), StringUtils.SPACE));
+        kunde.setSuchfeldName(createSuchfeldName(kunde.getFirmenname(), kunde.getVorname(), kunde.getNachname()));
         return kundeRepository.save(kunde);
+    }
+
+    private static String createSuchfeldName(final String firmenname, final String vorname, final String nachname) {
+        return RegExUtils.removeAll(
+                StringUtils.trimToEmpty(firmenname).concat(StringUtils.trimToEmpty(vorname)).concat(StringUtils.trimToEmpty(nachname)),
+                StringUtils.SPACE);
     }
 
     public void deleteKunde(final Integer id) {
