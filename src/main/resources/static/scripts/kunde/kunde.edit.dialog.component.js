@@ -101,7 +101,14 @@ Vue.component('kunde-edit-dialog', {
     },
     initEntityIfEmpty: function() {
       if (!hasAllProperties(this.entity, ['id'])) {
-        this.entity = this.initialEntity || {};
+        this.entity
+        if (this.initialEntity && this.initialEntity.suchfeld_name) {
+          this.entity = {
+            firmenname: this.initialEntity.suchfeld_name
+          };
+        } else {
+          this.entity = this.initialEntity || {};
+        }
       }
     },
     getAnrede: function() {

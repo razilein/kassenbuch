@@ -34,7 +34,8 @@ public class KundeService {
     private final ReparaturService reparaturService;
 
     public Page<VKunde> listKunden(final PageRequest pagination, final Map<String, String> conditions) {
-        final String name = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "suchfeld_name");
+        String name = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "suchfeld_name");
+        name = RegExUtils.replaceAll(name, StringUtils.SPACE, "%");
         final String plz = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "plz");
 
         if (StringUtils.isBlank(name) && StringUtils.isBlank(plz)) {

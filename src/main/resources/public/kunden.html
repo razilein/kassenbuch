@@ -60,6 +60,7 @@
         @saved="duplikateZusammenfuehren"
       ></kunde-suchen-dialog>
       <kunde-edit-dialog
+        :initial-entity="grid.searchQuery"
         :rest-url-get="editRow.restUrlGet"
         :rest-url-save="editRow.restUrlSave"
         :title="editRow.title"
