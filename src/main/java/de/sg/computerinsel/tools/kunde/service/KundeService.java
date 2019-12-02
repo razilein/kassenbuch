@@ -34,24 +34,43 @@ public class KundeService {
     private final ReparaturService reparaturService;
 
     public Page<VKunde> listKunden(final PageRequest pagination, final Map<String, String> conditions) {
-        final String name = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "suchfeld_name");
+        String name = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "suchfeld_name");
+        name = RegExUtils.replaceAll(name, StringUtils.SPACE, "%");
         final String plz = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "plz");
+        final String telefon = createSuchfeldTelefon(conditions.get("telefon"));
 
-        if (StringUtils.isBlank(name) && StringUtils.isBlank(plz)) {
+        if (StringUtils.isBlank(name) && StringUtils.isBlank(plz) && StringUtils.isBlank(telefon)) {
             return vKundeRepository.findAll(pagination);
         } else {
             final FindAllByConditionsExecuter<VKunde> executer = new FindAllByConditionsExecuter<>();
-            return executer.findByParams(vKundeRepository, pagination, buildMethodnameForQueryKunde(name, plz), name, plz);
+            return executer.findByParams(vKundeRepository, pagination, buildMethodnameForQueryKunde(name, plz, telefon), name, plz,
+                    telefon);
         }
     }
 
-    private String buildMethodnameForQueryKunde(final String name, final String plz) {
+    private static String createSuchfeldTelefon(final String telefon) {
+        String tel = StringUtils.trimToNull(telefon);
+        if (StringUtils.isNotBlank(tel)) {
+            tel = RegExUtils.replaceAll(tel, StringUtils.SPACE, StringUtils.EMPTY);
+            tel = RegExUtils.replaceAll(tel, "\\*", StringUtils.EMPTY);
+            tel = RegExUtils.replaceAll(tel, "/", StringUtils.EMPTY);
+            tel = RegExUtils.replaceAll(tel, "\\\\", StringUtils.EMPTY);
+            tel = RegExUtils.replaceAll(tel, "-", StringUtils.EMPTY);
+            tel = RegExUtils.replaceAll(tel, StringUtils.EMPTY, "%");
+        }
+        return tel;
+    }
+
+    private String buildMethodnameForQueryKunde(final String name, final String plz, final String telefon) {
         String methodName = "findBy";
         if (StringUtils.isNotBlank(name)) {
             methodName += "SuchfeldNameLikeAnd";
         }
         if (StringUtils.isNotBlank(plz)) {
             methodName += "PlzLikeAnd";
+        }
+        if (StringUtils.isNotBlank(telefon)) {
+            methodName += "TelefonLikeAnd";
         }
         return StringUtils.removeEnd(methodName, "And");
     }
@@ -71,9 +90,14 @@ public class KundeService {
         if (kunde.getNummer() == null) {
             kunde.setNummer(kundeRepository.getNextNummer());
         }
-        kunde.setSuchfeldName(RegExUtils.removeAll(StringUtils.trimToEmpty(kunde.getFirmenname()).concat(kunde.getVorname())
-                .concat(StringUtils.trimToEmpty(kunde.getNachname())), StringUtils.SPACE));
+        kunde.setSuchfeldName(createSuchfeldName(kunde.getFirmenname(), kunde.getVorname(), kunde.getNachname()));
         return kundeRepository.save(kunde);
+    }
+
+    private static String createSuchfeldName(final String firmenname, final String vorname, final String nachname) {
+        return RegExUtils.removeAll(
+                StringUtils.trimToEmpty(firmenname).concat(StringUtils.trimToEmpty(vorname)).concat(StringUtils.trimToEmpty(nachname)),
+                StringUtils.SPACE);
     }
 
     public void deleteKunde(final Integer id) {

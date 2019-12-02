@@ -11,7 +11,7 @@ import lombok.experimental.UtilityClass;
 public class SearchQueryUtils {
 
     public static String getAndReplaceOrAddJoker(final Map<String, String> conditions, final String key) {
-        String cond = StringUtils.replace(conditions.get(key), "*", "%");
+        String cond = RegExUtils.replaceAll(conditions.get(key), "\\*", "%");
         if (StringUtils.isNotBlank(cond)) {
             cond = "%" + cond + "%";
         }
