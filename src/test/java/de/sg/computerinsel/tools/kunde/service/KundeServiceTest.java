@@ -30,4 +30,13 @@ class KundeServiceTest {
         assertEquals("abcdefghijk", method.invoke(service, "a b c d", " e f g ", "h i j k     "));
     }
 
+    @Test
+    void testCreateSuchfeldTelefon() throws Exception {
+        final Method method = service.getClass().getDeclaredMethod("createSuchfeldTelefon", String.class);
+        method.setAccessible(true);
+        assertEquals(null, method.invoke(service, (String) null));
+        assertEquals(null, method.invoke(service, StringUtils.EMPTY));
+        assertEquals("%0%1%2%3%4%5%6%7%8%9%0%", method.invoke(service, "01-2  345/ 67*89\\0"));
+    }
+
 }
