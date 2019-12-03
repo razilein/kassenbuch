@@ -102,7 +102,7 @@ public class InventarService {
         final String hersteller = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "hersteller");
         final String kategorieId = conditions.get("kategorie");
         final String gruppeId = conditions.get("gruppe");
-        final String ean = conditions.get("ean");
+        final String ean = StringUtils.trimToNull(conditions.get("ean"));
 
         if (!StringUtils.isNumeric(kategorieId) && !StringUtils.isNumeric(gruppeId) && StringUtils.isBlank(bezeichnung)
                 && StringUtils.isBlank(ean) && StringUtils.isBlank(hersteller)) {
