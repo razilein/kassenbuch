@@ -248,7 +248,11 @@
                 <font face="Arial" size="2"><span lang="de">Notizen (vom Personal auszufüllen):</span></font>
               </td>
               <td width="100%" colspan="7" style="border-top-color: #111111; border-top-width: 1">
-                <b>Anrufprotokoll</b>
+                <strong>Anrufprotokoll</strong>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NR: {{entity.filiale.kuerzel}}{{entity.nummer}}</span>
+                <span v-if="entity.kunde.telefon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9990; {{entity.kunde.telefon}}</span>
+                <span v-if="entity.kunde.email">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9993; {{entity.kunde.email}}</span>
+                </font>
               </td>
             </tr>
             <tr>
