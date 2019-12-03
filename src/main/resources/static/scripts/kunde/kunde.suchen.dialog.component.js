@@ -65,7 +65,7 @@ Vue.component('kunde-suchen-dialog', {
   },
   data: function() {
     var dialogTitle = this.dialogTitel || 'Kunde suchen';
-    var suchfeldName = this.buildSuchfeldName();
+    var suchfeldName = this.buildSuchfeldName(this.kunde);
     return {
       rechte: this.rechte || {},
       entity: this.kunde || {},
@@ -116,17 +116,17 @@ Vue.component('kunde-suchen-dialog', {
       this.editRow.title = 'Kunde hinzufügen';
       this.showEditDialog = true;
     },
-    buildSuchfeldName: function() {
+    buildSuchfeldName: function(kunde) {
       var suchfeld = '';
-      if (this.kunde) {
-        if (this.kunde.firmenname) {
-          suchfeld += this.kunde.firmenname;
+      if (kunde) {
+        if (kunde.firmenname) {
+          suchfeld += kunde.firmenname;
         }
-        if (this.kunde.vorname) {
-          suchfeld += ' ' + this.kunde.vorname;
+        if (kunde.vorname) {
+          suchfeld += ' ' + kunde.vorname;
         }
-        if (this.kunde.nachname) {
-          suchfeld += ' ' + this.kunde.nachname;
+        if (kunde.nachname) {
+          suchfeld += ' ' + kunde.nachname;
         }
       }
       return suchfeld;
@@ -143,6 +143,7 @@ Vue.component('kunde-suchen-dialog', {
     handleEditResponse: function(data) {
       if (data.success) {
         this.showEditDialog = false;
+        this.grid.searchQuery.suchfeld_name = this.buildSuchfeldName(data.kunde);
         this.grid.reload = true;
         this.entity = data.kunde;
       } 
