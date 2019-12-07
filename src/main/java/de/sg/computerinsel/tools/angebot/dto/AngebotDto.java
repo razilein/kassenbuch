@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import de.sg.computerinsel.tools.CurrencyUtils;
 import de.sg.computerinsel.tools.angebot.model.Angebot;
 import de.sg.computerinsel.tools.angebot.model.Angebotsposten;
@@ -45,6 +47,11 @@ public class AngebotDto {
         text.append(CurrencyUtils.format(netto.multiply(new BigDecimal("1.19"))));
         text.append(" EUR");
         return text.toString();
+    }
+
+    public String getNummerAnzeige() {
+        final String nummerAnzeige = String.valueOf(angebot.getNummer());
+        return StringUtils.left(nummerAnzeige, 2) + "-A" + StringUtils.substring(nummerAnzeige, 2);
     }
 
 }

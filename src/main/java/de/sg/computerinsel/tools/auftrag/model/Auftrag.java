@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import de.sg.computerinsel.tools.angebot.model.Angebot;
@@ -78,5 +80,10 @@ public class Auftrag extends IntegerBaseObject {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss")
     public LocalDateTime getErstelltAm() {
         return erstelltAm;
+    }
+
+    public String getNummerAnzeige() {
+        final String nummerAnzeige = String.valueOf(this.getNummer());
+        return StringUtils.left(nummerAnzeige, 2) + "-B" + StringUtils.substring(nummerAnzeige, 2);
     }
 }
