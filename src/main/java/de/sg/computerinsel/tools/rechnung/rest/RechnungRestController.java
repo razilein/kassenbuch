@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.sg.computerinsel.tools.auftrag.model.Auftrag;
 import de.sg.computerinsel.tools.auftrag.service.AuftragService;
-import de.sg.computerinsel.tools.bestellung.service.BestellungService;
+import de.sg.computerinsel.tools.einkauf.service.EinkaufService;
 import de.sg.computerinsel.tools.inventar.model.Produkt;
 import de.sg.computerinsel.tools.inventar.service.InventarService;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
@@ -69,7 +69,7 @@ public class RechnungRestController {
     private AuftragService auftragService;
 
     @Autowired
-    private BestellungService bestellungService;
+    private EinkaufService einkaufService;
 
     @Autowired
     private InventarService inventarService;
@@ -170,7 +170,7 @@ public class RechnungRestController {
             auftragErledigen(saved);
             if (isErstellt) {
                 inventarAnpassen(dto);
-                bestellungService.saveBestellung(dto.getPosten());
+                einkaufService.saveEinkaufsliste(dto.getPosten());
             }
             if (isErstellt && rechnung.getKunde() != null && !rechnung.getKunde().isDsgvo()) {
                 kundeService.saveDsgvo(rechnung.getKunde().getId());

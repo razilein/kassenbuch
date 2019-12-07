@@ -12,7 +12,7 @@ Dazu zählen:
 - Kassenstand berechnen
 - Statistiken erstellen
 - Inventar verwalten
-- Bestellungen aufgeben
+- Einkäufe tätigen
 
 Um allgemein auf die Tools zugreifen zu können wird ein gültiger Login benötigt.
 Die verschiedenen Seiten und Funktionen sind durch Berechtigungen, die den Mitarbeitern zugeteilt werden müssen, abgesichert.
@@ -364,14 +364,14 @@ Alternativ kann mit Hilfe der Schaltfläche *Überweisungen* eine Auflistung all
 Diese wird ebenfalls in das Ablageverzeichnis gelegt und zeigt die Rechnungsnummer, die Kundenanschrift und Telefonnummer, sowie den Rechnungsbetrag.
 Das Feld *Posten* wird dabei nicht berücksichtigt.
 
-## Bestellung
-Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_BESTELLUNG* benötigt.
+## Einkauf
+Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_EINKAUF* benötigt.
 
 Bei jeder Rechnung die geschrieben wird, werden die verkauften Produkte aus dem Inventar vorgemerkt und mit Anzahl, EAN und Produktbezeichnung vorgeblendet.
-Diese Liste kann genutzt werden um die Produkte zur Bestellung hinzuzufügen.
+Diese Liste kann genutzt werden um die Produkte zum Einkauf hinzuzufügen.
 
-Die Bestelliste wird angezeigt und kann bearbeitet und gespeichert werden.
-Die zum Mitarbeiter hinterlegte Filiale ist ausschlaggebend, welche Bestellliste geladen und bearbeitet wird. Dabei wird der Ortsname der Filiale als Dateiname verwendet.
+Die Einkaufsliste wird angezeigt und kann bearbeitet und gespeichert werden.
+Die zum Mitarbeiter hinterlegte Filiale ist ausschlaggebend, welche Einkaufsliste geladen und bearbeitet wird. Dabei wird der Ortsname der Filiale als Dateiname verwendet.
 
 ## Einstellungen
 Die Seite Kassenbuch unterteilt sich in die drei Unterseiten **Allgemein**, **Filiale** und **Mitarbeiter**.
@@ -490,7 +490,7 @@ Folgende Rechte sind verfügbar:
 - **RECHNUNG_EXPORT** - Rechnungen können exportiert werden
 - **RECHNUNG** - Ermöglicht das Anzeigen der Druckansicht einer Rechnung
 - **RECHNUNG_VERWALTEN** - Rechnungen dürfen angelegt, bearbeitet oder gelöscht werden
-- **ZUGRIFF_BESTELLUNG** - Zugriff auf die Seite: Bestellung
+- **ZUGRIFF_EINKAUF** - Zugriff auf die Seite: Einkauf
 - **KUNDEN_AUFTRAEGE** - Ermöglicht das Anzeigen aller Aufträge eines Kunden
 - **ZUGRIFF_AUFTRAG_ERSTELLEN** - Zugriff auf die Seite Aufträge erstellen
 - **ZUGRIFF_AUFTRAG_UEBERSICHT** - Zugriff auf die Seite Übersicht Aufträge

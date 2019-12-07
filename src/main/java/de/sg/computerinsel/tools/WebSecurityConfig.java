@@ -96,7 +96,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.PUT, "/inventar/import").hasRole("INVENTAR_IMPORT")
             .antMatchers("/inventur.html*").hasRole("ZUGRIFF_INVENTAR_INVENTUR")
             .antMatchers(HttpMethod.POST, "/inventar/inventur").hasRole("ZUGRIFF_INVENTAR_INVENTUR")
-            .antMatchers("/bestellung.html*", "/bestellung*").hasRole("ZUGRIFF_BESTELLUNG")
+            .antMatchers("/einkauf.html*", "/einkauf*").hasRole("ZUGRIFF_EINKAUF")
             .antMatchers(HttpMethod.PUT, "/auftrag").hasRole("AUFTRAG_VERWALTEN")
             .antMatchers(HttpMethod.DELETE, "/auftrag").hasRole("AUFTRAG_VERWALTEN")
             .antMatchers("/auftrag-drucken.html*").hasRole("AUFTRAG")

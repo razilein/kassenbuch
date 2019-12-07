@@ -1,8 +1,8 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Bestellungen - Computer-Insel Tools by Sita Geßner</title>
-    <link rel="icon" href="/themes/icons/bestellung.png">
+    <title>Einkauf - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/einkauf.png">
     <link rel="stylesheet" href="/themes/css/button.css">
     <link rel="stylesheet" href="/themes/css/dialog.css">
     <link rel="stylesheet" href="/themes/css/grid.css">
@@ -15,20 +15,20 @@
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
   <body>
-    <div id="bestellung">
-      <page-header :marker="'Bestellung'"></page-header>
+    <div id="einkauf">
+      <page-header :marker="'Einkauf'"></page-header>
       <div id="content">
         <div class="m1">
           <div class="m1">
-            <label for="bestellungForm_bestellung">Vorschlag aus kürzlich verkauften Produkten</label>
-            <textarea class="m1" id="bestellungForm_bestellung" readonly style="height: 200px;" v-model="bestellung"></textarea>
+            <label for="einkaufForm_einkauf">Vorschlag aus kürzlich verkauften Produkten</label>
+            <textarea class="m1" id="einkaufForm_einkauf" readonly style="height: 200px;" v-model="einkauf"></textarea>
           </div>
           <div class="m1">
-            <button class="right" title="Vorschlagsliste leeren" v-on:click="clearBestellung">Vorschlagsliste leeren</button>
-            <button class="right" title="Bestellung auf den FTP-Server hochladen" v-on:click="save">Bestellung hochladen</button>
+            <button class="right" title="Vorschlagsliste leeren" v-on:click="clearEinkauf">Vorschlagsliste leeren</button>
+            <button class="right" title="Einkauf auf den FTP-Server hochladen" v-on:click="save">Einkauf hochladen</button>
           </div>
           <div class="m1">
-            <textarea class="m1" id="bestellungForm_uploadBestellung" style="height: 800px; max-height: none;" v-model="downloadBestellung"></textarea>
+            <textarea class="m1" id="einkaufForm_uploadEinkauf" style="height: 800px; max-height: none;" v-model="downloadEinkauf"></textarea>
           </div>
         </div>
       </div>
@@ -40,5 +40,5 @@
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/grid.component.js"></script>
   <script src="/scripts/delete.dialog.component.js"></script>
-  <script src="/scripts/bestellung/bestellung.js"></script>
+  <script src="/scripts/einkauf/einkauf.js"></script>
 </html>

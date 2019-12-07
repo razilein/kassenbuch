@@ -1,4 +1,4 @@
-package de.sg.computerinsel.tools.bestellung.service;
+package de.sg.computerinsel.tools.einkauf.service;
 
 import java.util.List;
 
@@ -7,21 +7,21 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 
-import de.sg.computerinsel.tools.bestellung.dao.BestellungRepository;
-import de.sg.computerinsel.tools.bestellung.model.Bestellung;
+import de.sg.computerinsel.tools.einkauf.dao.EinkaufRepository;
+import de.sg.computerinsel.tools.einkauf.model.Einkauf;
 import de.sg.computerinsel.tools.inventar.model.Produkt;
 import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Service
-public class BestellungService {
+public class EinkaufService {
 
-    private final BestellungRepository bestellungRepository;
+    private final EinkaufRepository einkaufRepository;
 
-    public String getBestellungenAsText() {
+    public String getEinkaufslisteAsText() {
         final StringBuilder builder = new StringBuilder();
-        Lists.newArrayList(bestellungRepository.findAll()).forEach(b -> {
+        Lists.newArrayList(einkaufRepository.findAll()).forEach(b -> {
             builder.append(b.getMenge());
             builder.append(" x ");
             if (StringUtils.isNotBlank(b.getProdukt().getEan())) {
@@ -34,24 +34,24 @@ public class BestellungService {
         return builder.toString();
     }
 
-    public void saveBestellung(final List<Rechnungsposten> rechnungsposten) {
+    public void saveEinkaufsliste(final List<Rechnungsposten> rechnungsposten) {
         rechnungsposten.stream().filter(r -> !r.getProdukt().isBestandUnendlich()).forEach(r -> {
             final Produkt produkt = r.getProdukt();
 
-            final Bestellung bestellung = bestellungRepository.findByProduktId(produkt.getId()).orElseGet(() -> createBestellung(produkt));
-            bestellung.setMenge(bestellung.getMenge() + r.getMenge());
-            bestellungRepository.save(bestellung);
+            final Einkauf einkauf = einkaufRepository.findByProduktId(produkt.getId()).orElseGet(() -> createEinkauf(produkt));
+            einkauf.setMenge(einkauf.getMenge() + r.getMenge());
+            einkaufRepository.save(einkauf);
         });
     }
 
-    private Bestellung createBestellung(final Produkt produkt) {
-        final Bestellung bestellung = new Bestellung();
-        bestellung.setProdukt(produkt);
-        return bestellung;
+    private Einkauf createEinkauf(final Produkt produkt) {
+        final Einkauf einkauf = new Einkauf();
+        einkauf.setProdukt(produkt);
+        return einkauf;
     }
 
-    public void deleteAllBestellungen() {
-        bestellungRepository.deleteAll();
+    public void deleteAllEinkaeufe() {
+        einkaufRepository.deleteAll();
     }
 
 }

@@ -1,4 +1,4 @@
-package de.sg.computerinsel.tools.bestellung.model;
+package de.sg.computerinsel.tools.einkauf.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,10 +12,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "BESTELLUNG")
+@Table(name = "EINKAUF")
 @Getter
 @Setter
-public class Bestellung extends IntegerBaseObject {
+public class Einkauf extends IntegerBaseObject {
 
     @ManyToOne
     @JoinColumn(name = "produkt_id", referencedColumnName = "id")

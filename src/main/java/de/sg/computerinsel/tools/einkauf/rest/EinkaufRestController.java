@@ -1,4 +1,4 @@
-package de.sg.computerinsel.tools.bestellung.rest;
+package de.sg.computerinsel.tools.einkauf.rest;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.sg.computerinsel.tools.bestellung.service.BestellungService;
-import de.sg.computerinsel.tools.bestellung.service.FtpService;
+import de.sg.computerinsel.tools.einkauf.service.EinkaufService;
+import de.sg.computerinsel.tools.einkauf.service.FtpService;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.service.MessageService;
@@ -23,12 +23,12 @@ import de.sg.computerinsel.tools.service.MitarbeiterService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/bestellung")
+@RequestMapping("/einkauf")
 @Slf4j
-public class BestellungRestController {
+public class EinkaufRestController {
 
     @Autowired
-    private BestellungService bestellungService;
+    private EinkaufService einkaufService;
 
     @Autowired
     private FtpService ftpService;
@@ -41,15 +41,15 @@ public class BestellungRestController {
 
     @GetMapping
     public String getBestellliste() {
-        return bestellungService.getBestellungenAsText();
+        return einkaufService.getEinkaufslisteAsText();
     }
 
     @GetMapping("/download")
-    public String downloadBestellliste() {
+    public String downloadEinkaufsliste() {
         final Optional<Mitarbeiter> optional = mitarbeiterService.getAngemeldeterMitarbeiter();
         if (optional.isPresent()) {
             final String dateiname = getDateinameByFiliale(optional.get());
-            return ftpService.downloadBestellliste(dateiname);
+            return ftpService.downloadEinkaufsliste(dateiname);
         }
         return StringUtils.EMPTY;
     }
@@ -59,28 +59,28 @@ public class BestellungRestController {
     }
 
     @PutMapping
-    public Map<String, Object> uploadBestellliste(@RequestBody final String text) {
+    public Map<String, Object> uploadEinkaufsliste(@RequestBody final String text) {
         final Map<String, Object> result = new HashMap<>();
 
         final Optional<Mitarbeiter> optional = mitarbeiterService.getAngemeldeterMitarbeiter();
         if (optional.isPresent()) {
             final String dateiname = getDateinameByFiliale(optional.get());
             try {
-                ftpService.uploadBestellliste(dateiname, text);
-                result.put(Message.SUCCESS.getCode(), messageService.get("bestellliste.put.success"));
+                ftpService.uploadEinkaufsliste(dateiname, text);
+                result.put(Message.SUCCESS.getCode(), messageService.get("einkaufsliste.put.success"));
             } catch (final IllegalStateException e) {
                 log.debug(e.getMessage(), e);
                 result.put(Message.ERROR.getCode(), e.getMessage());
             }
         } else {
-            result.put(Message.ERROR.getCode(), messageService.get("bestellliste.put.error.filiale"));
+            result.put(Message.ERROR.getCode(), messageService.get("einkaufsliste.put.error.filiale"));
         }
         return result;
     }
 
     @DeleteMapping
-    public Map<String, Object> clearBestellungen() {
-        bestellungService.deleteAllBestellungen();
-        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("bestellliste.clear.success"));
+    public Map<String, Object> clearEinkaeufe() {
+        einkaufService.deleteAllEinkaeufe();
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("einkaufsliste.clear.success"));
     }
 }
