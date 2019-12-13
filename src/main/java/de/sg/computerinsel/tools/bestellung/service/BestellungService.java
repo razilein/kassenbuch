@@ -1,4 +1,4 @@
-package de.sg.computerinsel.tools.auftrag.service;
+package de.sg.computerinsel.tools.bestellung.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.primitives.Ints;
 
-import de.sg.computerinsel.tools.auftrag.dao.AuftragRepository;
-import de.sg.computerinsel.tools.auftrag.dao.VAuftraegeJeTagRepository;
-import de.sg.computerinsel.tools.auftrag.model.Auftrag;
-import de.sg.computerinsel.tools.auftrag.model.VAuftraegeJeTag;
+import de.sg.computerinsel.tools.bestellung.dao.BestellungRepository;
+import de.sg.computerinsel.tools.bestellung.dao.VAuftraegeJeTagRepository;
+import de.sg.computerinsel.tools.bestellung.model.Bestellung;
+import de.sg.computerinsel.tools.bestellung.model.VAuftraegeJeTag;
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
@@ -28,11 +28,11 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class AuftragService {
+public class BestellungService {
 
-    private static final int LAENGE_AUFTRAGNUMMER_JAHR = 2;
+    private static final int LAENGE_BESTELLNUMMER_JAHR = 2;
 
-    private final AuftragRepository auftragRepository;
+    private final BestellungRepository bestellungRepository;
 
     private final MitarbeiterService mitarbeiterService;
 
@@ -43,38 +43,38 @@ public class AuftragService {
                 .map(VAuftraegeJeTag::getDatum).collect(Collectors.toList());
     }
 
-    public Optional<Auftrag> getAuftrag(final Integer id) {
-        return auftragRepository.findById(id);
+    public Optional<Bestellung> getBestellung(final Integer id) {
+        return bestellungRepository.findById(id);
     }
 
-    public Auftrag save(final Auftrag auftrag) {
-        final boolean isErstellen = auftrag.getId() == null;
+    public Bestellung save(final Bestellung bestellung) {
+        final boolean isErstellen = bestellung.getId() == null;
         if (isErstellen) {
-            auftrag.setErstelltAm(LocalDateTime.now());
-            auftrag.setErsteller(StringUtils.abbreviate(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname(),
+            bestellung.setErstelltAm(LocalDateTime.now());
+            bestellung.setErsteller(StringUtils.abbreviate(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname(),
                     Reparatur.MAX_LENGTH_MITARBEITER));
-            auftrag.setFiliale(mitarbeiterService.getAngemeldeterMitarbeiterFiliale().orElseGet(Filiale::new));
-            final String nummer = getAngebotJahrZweistellig() + mitarbeiterService.getAndSaveNextAuftragsnummer();
-            auftrag.setNummer(Ints.tryParse(nummer));
+            bestellung.setFiliale(mitarbeiterService.getAngemeldeterMitarbeiterFiliale().orElseGet(Filiale::new));
+            final String nummer = getBestellungJahrZweistellig() + mitarbeiterService.getAndSaveNextBestellnummer();
+            bestellung.setNummer(Ints.tryParse(nummer));
         }
-        return auftragRepository.save(auftrag);
+        return bestellungRepository.save(bestellung);
     }
 
-    private String getAngebotJahrZweistellig() {
-        return StringUtils.right(String.valueOf(LocalDate.now().getYear()), LAENGE_AUFTRAGNUMMER_JAHR);
+    private String getBestellungJahrZweistellig() {
+        return StringUtils.right(String.valueOf(LocalDate.now().getYear()), LAENGE_BESTELLNUMMER_JAHR);
     }
 
-    public void deleteAuftrag(final Integer id) {
-        auftragRepository.deleteById(id);
+    public void deleteBestellung(final Integer id) {
+        bestellungRepository.deleteById(id);
     }
 
-    public Auftrag auftragErledigen(final Auftrag auftrag, final boolean erledigt) {
-        auftrag.setErledigt(erledigt);
-        auftrag.setErledigungsdatum(erledigt ? LocalDateTime.now() : null);
-        return save(auftrag);
+    public Bestellung bestellungErledigen(final Bestellung besellung, final boolean erledigt) {
+        besellung.setErledigt(erledigt);
+        besellung.setErledigungsdatum(erledigt ? LocalDateTime.now() : null);
+        return save(besellung);
     }
 
-    public Page<Auftrag> listAuftraege(final PageRequest pagination, final Map<String, String> conditions) {
+    public Page<Bestellung> listBestellungen(final PageRequest pagination, final Map<String, String> conditions) {
         final String name = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "suchfeld_name");
         final String nummer = SearchQueryUtils.getAndRemoveJoker(conditions, "nummer");
         String kundennummer = SearchQueryUtils.getAndRemoveJoker(conditions, "kundennummer");
@@ -84,27 +84,27 @@ public class AuftragService {
         final String beschreibung = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "beschreibung");
 
         if (StringUtils.isNumeric(kundeId)) {
-            return auftragRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
+            return bestellungRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
         } else if (!StringUtils.isNumeric(nummer) && StringUtils.isBlank(name) && StringUtils.isBlank(beschreibung) && !istNichtErledigt
                 && kundennummer == null) {
-            return auftragRepository.findAll(pagination);
+            return bestellungRepository.findAll(pagination);
         } else if (istNichtErledigt) {
-            final FindAllByConditionsExecuter<Auftrag> executer = new FindAllByConditionsExecuter<>();
+            final FindAllByConditionsExecuter<Bestellung> executer = new FindAllByConditionsExecuter<>();
             final Integer nr = StringUtils.isNumeric(nummer) ? Ints.tryParse(nummer) : null;
             final Integer kdNr = kundennummer == null ? null : Ints.tryParse(kundennummer);
-            return executer.findByParams(auftragRepository, pagination,
-                    buildMethodnameForQueryAuftrag(name, beschreibung, kundennummer, istNichtErledigt, nummer), name, beschreibung, kdNr,
+            return executer.findByParams(bestellungRepository, pagination,
+                    buildMethodnameForQueryBestellung(name, beschreibung, kundennummer, istNichtErledigt, nummer), name, beschreibung, kdNr,
                     !istNichtErledigt, nr);
         } else {
-            final FindAllByConditionsExecuter<Auftrag> executer = new FindAllByConditionsExecuter<>();
+            final FindAllByConditionsExecuter<Bestellung> executer = new FindAllByConditionsExecuter<>();
             final Integer nr = StringUtils.isNumeric(nummer) ? Ints.tryParse(nummer) : null;
             final Integer kdNr = kundennummer == null ? null : Ints.tryParse(kundennummer);
-            return executer.findByParams(auftragRepository, pagination,
-                    buildMethodnameForQueryAuftrag(name, beschreibung, kundennummer, false, nummer), name, beschreibung, kdNr, nr);
+            return executer.findByParams(bestellungRepository, pagination,
+                    buildMethodnameForQueryBestellung(name, beschreibung, kundennummer, false, nummer), name, beschreibung, kdNr, nr);
         }
     }
 
-    private String buildMethodnameForQueryAuftrag(final String name, final String beschreibung, final String kundennummer,
+    private String buildMethodnameForQueryBestellung(final String name, final String beschreibung, final String kundennummer,
             final boolean istNichtErledigt, final String nummer) {
         String methodName = "findBy";
         if (StringUtils.isNotBlank(name)) {

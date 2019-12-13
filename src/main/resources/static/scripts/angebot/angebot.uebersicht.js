@@ -108,7 +108,7 @@ var vm = new Vue({
       vm.getRecht('ROLE_ANGEBOT_VERWALTEN');
     },
     
-    hasNotRoleAuftragAnzeigen: function() {
+    hasNotRoleAngebotAnzeigen: function() {
       return !vm.rechte['ROLE_ANGEBOT'];
     },
     
@@ -131,7 +131,7 @@ var vm = new Vue({
           sortable: false,
           width: 170,
           formatter: [
-          { clazz: 'open-new-tab', disabled: vm.hasNotRoleReparaturAnzeigen, title: 'Angebot öffnen', clickFunc: vm.openFunction },
+          { clazz: 'open-new-tab', disabled: vm.hasNotRoleAngebotAnzeigen, title: 'Angebot öffnen', clickFunc: vm.openFunction },
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Angebot bearbeiten', clickFunc: vm.editFunction },
           { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.erledigenFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Angebot löschen', clickFunc: vm.deleteFunction }
@@ -151,7 +151,7 @@ var vm = new Vue({
     },
     
     getTitleErledigt: function(row) {
-      return row.erledigt ? 'Der Auftrag wurde erledigt. Auftrag wiedereröffnen?' : 'Der Auftrag wurde noch nicht erledigt. Jetzt erledigen?';
+      return row.erledigt ? 'Das Angebot wurde erledigt. Angebot wiedereröffnen?' : 'Das Angebot wurde noch nicht erledigt. Jetzt erledigen?';
     },
     
     getRecht: function(role) {

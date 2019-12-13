@@ -17,7 +17,7 @@ public class VKunde extends BaseKunde {
 
     private int anzahlAngebote;
 
-    private int anzahlAuftraege;
+    private int anzahlBestellungen;
 
     private int anzahlRechnungen;
 

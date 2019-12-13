@@ -14,7 +14,7 @@ var vm = new Vue({
     endpreis: 0.00,
     entity: {
       rechnung: {
-        auftrag: {},
+        bestellung: {},
         kunde: {},
         reparatur: {},
       },
@@ -34,7 +34,7 @@ var vm = new Vue({
     rabattEntity: {},
     result: {},
     showDialog: false,
-    showAuftragDialog: false,
+    showBestellungDialog: false,
     showEditDialog: false,
     showKundeDialog: false,
     showRabattDialog: false,
@@ -168,11 +168,11 @@ var vm = new Vue({
         vm.entity.rechnung.nameDruckenBeiFirma = vm.entity.rechnung.kunde.nameDruckenBeiFirma;
       }
     },
-    handleAuftragResponse: function(auftrag) {
-      vm.showAuftragDialog = false;
-      vm.entity.rechnung.auftrag = auftrag;
-      vm.entity.rechnung.kunde = auftrag.kunde;
-      if (auftrag.kunde) {
+    handleBestellungResponse: function(bestellung) {
+      vm.showBestellungDialog = false;
+      vm.entity.rechnung.bestellung = bestellung;
+      vm.entity.rechnung.kunde = bestellung.kunde;
+      if (bestellung.kunde) {
         vm.entity.rechnung.nameDrucken = true;
         vm.entity.rechnung.nameDruckenBeiFirma = vm.entity.rechnung.kunde.nameDruckenBeiFirma;
       }

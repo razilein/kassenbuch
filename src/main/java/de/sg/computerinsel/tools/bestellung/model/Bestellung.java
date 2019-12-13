@@ -1,4 +1,4 @@
-package de.sg.computerinsel.tools.auftrag.model;
+package de.sg.computerinsel.tools.bestellung.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,21 +23,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "AUFTRAG")
+@Table(name = "BESTELLUNG")
 @Getter
 @Setter
-public class Auftrag extends IntegerBaseObject {
+public class Bestellung extends IntegerBaseObject {
 
     @ManyToOne
     @JoinColumn(name = "angebot_id", referencedColumnName = "id")
     private Angebot angebot;
 
-    @NotEmpty(message = "auftrag.anzahlung.error.empty")
-    @Size(max = 300, message = "auftrag.anzahlung.error.size")
+    @NotEmpty(message = "bestellung.anzahlung.error.empty")
+    @Size(max = 300, message = "bestellung.anzahlung.error.size")
     @Column(name = "anzahlung")
     private String anzahlung;
 
-    @Size(max = 2000, message = "auftrag.beschreibung.error.size")
+    @Size(max = 2000, message = "bestellung.beschreibung.error.size")
     @Column(name = "beschreibung")
     private String beschreibung;
 
@@ -64,8 +64,8 @@ public class Auftrag extends IntegerBaseObject {
     @JoinColumn(name = "kunde_id", referencedColumnName = "id")
     private Kunde kunde;
 
-    @NotEmpty(message = "auftrag.kosten.error.empty")
-    @Size(max = 300, message = "auftrag.kosten.error.size")
+    @NotEmpty(message = "bestellung.kosten.error.empty")
+    @Size(max = 300, message = "bestellung.kosten.error.size")
     @Column(name = "kosten")
     private String kosten;
 

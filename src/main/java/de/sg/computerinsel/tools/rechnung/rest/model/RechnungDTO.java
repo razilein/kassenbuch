@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import de.sg.computerinsel.tools.auftrag.model.Auftrag;
+import de.sg.computerinsel.tools.bestellung.model.Bestellung;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
 import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
@@ -33,7 +33,7 @@ public class RechnungDTO {
         rechnung.setArt(-1);
         rechnung.setNameDrucken(false);
         rechnung.setDatum(LocalDate.now());
-        rechnung.setAuftrag(new Auftrag());
+        rechnung.setBestellung(new Bestellung());
         rechnung.setKunde(new Kunde());
         rechnung.setReparatur(new Reparatur());
     }

@@ -1,8 +1,8 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Auftrag erstellen - Computer-Insel Tools by Sita Geßner</title>
-    <link rel="icon" href="/themes/icons/auftrag.png">
+    <title>Bestellung erstellen - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/bestellung.png">
     <link rel="stylesheet" href="/themes/css/button.css">
     <link rel="stylesheet" href="/themes/css/dialog.css">
     <link rel="stylesheet" href="/themes/css/grid.css">
@@ -16,43 +16,43 @@
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
   <body>
-    <div id="auftragErstellen">
-      <page-header :marker="'Auftrag'"></page-header>
-      <page-header-auftrag v-bind:marker="'Erstellen'"></page-header-auftrag>
+    <div id="bestellungErstellen">
+      <page-header :marker="'Bestellung'"></page-header>
+      <page-header-bestellung v-bind:marker="'Erstellen'"></page-header-bestellung>
       <div id="content">
         <div class="form m1">
           <div class="m1" v-if="entity.angebot">
-            <label for="auftragEditForm_angebot">Angebot</label>
+            <label for="bestellungEditForm_angebot">Angebot</label>
             <button class="angebot btnSmall" title="Angebot suchen" @click="showAngebotDialog = true"></button>
             <button class="delete btnSmall" title="Angebot deselektieren" @click="entity.angebot = {};"></button>
-            <textarea class="m1 big" id="auftragEditForm_angebot" readonly v-model="entity.angebot.text"></textarea>
+            <textarea class="m1 big" id="bestellungEditForm_angebot" readonly v-model="entity.angebot.text"></textarea>
           </div>
           <div class="m1" v-if="entity.kunde">
-            <label class="required" for="auftragEditForm_kunde">Kunde</label>
+            <label class="required" for="bestellungEditForm_kunde">Kunde</label>
             <button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
-            <textarea class="m1" id="auftragEditForm_kunde" readonly v-model="entity.kunde.completeWithAdress"></textarea>
+            <textarea class="m1" id="bestellungEditForm_kunde" readonly v-model="entity.kunde.completeWithAdress"></textarea>
           </div>
           <div class="m1">
             <div class="m4m">
-              <label class="required" for="auftragEditForm_datum">Lieferdatum</label>
-              <input class="m4" id="auftragEditForm_datum" type="date" v-model="entity.datum" v-on:change="wochentagdatum = formatDayOfWeek(entity.datum);"/>
+              <label class="required" for="bestellungEditForm_datum">Lieferdatum</label>
+              <input class="m4" id="bestellungEditForm_datum" type="date" v-model="entity.datum" v-on:change="wochentagdatum = formatDayOfWeek(entity.datum);"/>
             </div>
             <div class="m4m">
-              <label for="auftragEditForm_wochentag_datum">Wochentag</label>
-              <input class="m4" id="auftragEditForm_wochentag_datum" readonly type="text" v-model="wochentagdatum" />
+              <label for="bestellungEditForm_wochentag_datum">Wochentag</label>
+              <input class="m4" id="bestellungEditForm_wochentag_datum" readonly type="text" v-model="wochentagdatum" />
             </div>
           </div>
           <div class="m1">
-            <zeichenzaehler-label :elem="entity.beschreibung" :forid="'auftragEditForm_beschreibung'" :label="'Bestellung'" :maxlength="'2000'" :required="true"></zeichenzaehler-label>
-            <textarea class="m1 big" id="auftragEditForm_beschreibung" maxlength="2000" v-model="entity.beschreibung"></textarea>
+            <zeichenzaehler-label :elem="entity.beschreibung" :forid="'bestellungEditForm_beschreibung'" :label="'Bestellung'" :maxlength="'2000'" :required="true"></zeichenzaehler-label>
+            <textarea class="m1 big" id="bestellungEditForm_beschreibung" maxlength="2000" v-model="entity.beschreibung"></textarea>
           </div>
           <div class="m1">
-            <zeichenzaehler-label :elem="entity.kosten" :forid="'auftragEditForm_kosten'" :label="'Kosten'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
-            <input class="m1" id="auftragEditForm_kosten" maxlength="300" type="text" v-model="entity.kosten"></input>
+            <zeichenzaehler-label :elem="entity.kosten" :forid="'bestellungEditForm_kosten'" :label="'Kosten'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
+            <input class="m1" id="bestellungEditForm_kosten" maxlength="300" type="text" v-model="entity.kosten"></input>
           </div>
           <div class="m1">
-            <zeichenzaehler-label :elem="entity.anzahlung" :forid="'auftragEditForm_anzahlung'" :label="'Anzahlung'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
-            <input class="m1" id="auftragEditForm_anzahlung" maxlength="300" type="text" v-model="entity.anzahlung"></input>
+            <zeichenzaehler-label :elem="entity.anzahlung" :forid="'bestellungEditForm_anzahlung'" :label="'Anzahlung'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
+            <input class="m1" id="bestellungEditForm_anzahlung" maxlength="300" type="text" v-model="entity.anzahlung"></input>
           </div>
           <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">Speichern</button>
           <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmpty()">Speichern</button>
@@ -84,6 +84,6 @@
   <script src="/scripts/angebot/angebot.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>
-  <script src="/scripts/auftrag/auftrag.header.component.js"></script>
-  <script src="/scripts/auftrag/auftrag.js"></script>
+  <script src="/scripts/bestellung/bestellung.header.component.js"></script>
+  <script src="/scripts/bestellung/bestellung.js"></script>
 </html>

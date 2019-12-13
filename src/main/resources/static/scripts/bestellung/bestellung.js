@@ -1,5 +1,5 @@
 var vm = new Vue({
-  el: '#auftragErstellen',
+  el: '#bestellungErstellen',
   data: {
     entity: {
       angebot: {},
@@ -29,11 +29,11 @@ var vm = new Vue({
     saveFunc: function() {
       showLoader();
       vm.executeSave()
-        .then(vm.openAuftrag)
+        .then(vm.openBestellung)
         .then(hideLoader);
     },
     executeSave: function() {
-      return axios.put('/auftrag/', vm.entity);
+      return axios.put('/bestellung/', vm.entity);
     },
     changeAbholdatum: function() {
       this.getAbholdatum()
@@ -49,14 +49,14 @@ var vm = new Vue({
       vm.showKundeDialog = false;
       vm.entity.kunde = kunde;
     },
-    openAuftrag: function(response) {
+    openBestellung: function(response) {
       var data = response.data;
       if (data.success || data.info) {
-        var id = data.auftrag.id;
+        var id = data.bestellung.id;
         if (vm.einstellungDruckansichtNeuesFenster) {
-          window.open('/auftrag-drucken.html?id=' + id, '_blank', 'resizable=yes');
+          window.open('/bestellung-drucken.html?id=' + id, '_blank', 'resizable=yes');
         } else {
-          window.open('/auftrag-drucken.html?id=' + id);
+          window.open('/bestellung-drucken.html?id=' + id);
         }
         vm.init();
       }
@@ -64,14 +64,14 @@ var vm = new Vue({
       vm.showDialog = true;
     },
     getAbholdatum: function() {
-      return axios.get('/auftrag/datum/');
+      return axios.get('/bestellung/datum/');
     },
     setAbholdatum: function(response) {
       vm.wochentagdatum = formatDayOfWeek(response.data.datum);
       vm.entity.abholdatum = response.data.datum;
     },
     getEntity: function() {
-      return axios.get('/auftrag/' + -1);
+      return axios.get('/bestellung/' + -1);
     },
     setEntity: function(response) {
       vm.wochentagdatum = formatDayOfWeek(response.data.datum);

@@ -27,8 +27,8 @@ Vue.component('page-header', {
        <a class="navigationLink" :class="marker === 'Angebot' ? 'active' : ''" href="angebot.html">
          <img src="themes/icons/angebot.png" height="20" /> Angebote
        </a>
-       <a class="navigationLink" :class="marker === 'Auftrag' ? 'active' : ''" href="auftrag.html">
-         <img src="themes/icons/auftrag.png" height="20" /> Aufträge
+       <a class="navigationLink" :class="marker === 'Bestellung' ? 'active' : ''" href="bestellung.html">
+         <img src="themes/icons/bestellung.png" height="20" /> Bestellung
        </a>
        <a class="navigationLink" :class="marker === 'Kunden' ? 'active' : ''" href="kunden.html">
          <img src="themes/icons/kunde.png" height="20" /> Kunden

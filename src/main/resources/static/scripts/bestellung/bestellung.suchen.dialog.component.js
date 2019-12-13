@@ -1,4 +1,4 @@
-Vue.component('auftrag-suchen-dialog', {
+Vue.component('bestellung-suchen-dialog', {
   template: createEditDialogTemplateWithoutSaveButton(`
   <div class="m1">
     <div class="m6m">
@@ -58,13 +58,13 @@ Vue.component('auftrag-suchen-dialog', {
             sortable: false,
             width: 80,
             formatter: [
-            { clazz: 'ok', title: 'Diesen Auftrag wählen', clickFunc: this.chooseFunction },
+            { clazz: 'ok', title: 'Diese Bestellung wählen', clickFunc: this.chooseFunction },
           ] },
           { name: 'beschreibung', title: 'Bestellung', width: 400 },
           { name: 'kunde.nameKomplett', title: 'Kunde', width: 200 },
         ],
         reload: false,
-        restUrl: 'auftrag',
+        restUrl: 'bestellung',
         searchQuery: {
           nachname: this.kunde ? (this.kunde.nachname || this.kunde.firmenname) : null,
         },
@@ -72,7 +72,7 @@ Vue.component('auftrag-suchen-dialog', {
         sortorder: 'desc'
       },
       result: {},
-      title: 'Auftrag suchen'
+      title: 'Bestellung suchen'
     };
   },
   methods: {

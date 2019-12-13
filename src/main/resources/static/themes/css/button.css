@@ -23,9 +23,9 @@ button.angebot {
   -webkit-mask: url("../icons/angebot.svg") no-repeat center;
 }
 
-button.auftrag {
-  mask: url("../icons/auftrag.svg") no-repeat center;
-  -webkit-mask: url("../icons/auftrag.svg") no-repeat center;
+button.bestellung {
+  mask: url("../icons/bestellung.svg") no-repeat center;
+  -webkit-mask: url("../icons/bestellung.svg") no-repeat center;
 }
 
 button.bad {
@@ -123,7 +123,7 @@ button.zahnrad {
   -webkit-mask: url("../icons/zahnrad.svg") no-repeat center;
 }
 
-button.add, button.angebot, button.auftrag, button.bad, button.delete, button.duplicate, button.edit, button.email,
+button.add, button.angebot, button.bestellung, button.bad, button.delete, button.duplicate, button.edit, button.email,
 button.euro, button.good, button.key, button.kunde, button.kunden, button.minus,
 button.ok, button.ok2, button.open-new-tab, button.recht, button.zahnrad {
   background-color: #1a8cff;
@@ -136,7 +136,7 @@ button.ok, button.ok2, button.open-new-tab, button.recht, button.zahnrad {
   width: 40px;
 }
 
-button.angebot.disabled, button.auftrag.disabled, button.euro.disabled, button.zahnrad.disabled {
+button.angebot.disabled, button.bestellung.disabled, button.euro.disabled, button.zahnrad.disabled {
   background-color: #a9a9a9;
   cursor: default;
 }

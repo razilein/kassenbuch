@@ -129,7 +129,7 @@ var vm = new Vue({
     
     prepareRoles: function() {
       vm.getRecht('ROLE_KUNDEN_ANGEBOTE');
-      vm.getRecht('ROLE_KUNDEN_AUFTRAEGE');
+      vm.getRecht('ROLE_KUNDEN_BESTELLUNGEN');
       vm.getRecht('ROLE_KUNDEN_REPARATUR');
       vm.getRecht('ROLE_KUNDEN_RECHNUNG');
       vm.getRecht('ROLE_KUNDEN_VERWALTEN');
@@ -139,8 +139,8 @@ var vm = new Vue({
       return !vm.rechte['ROLE_KUNDEN_ANGEBOTE'];
     },
     
-    hasNotRoleAuftraegeAnzeigen: function(row) {
-      return !vm.rechte['ROLE_KUNDEN_AUFTRAEGE'];
+    hasNotRoleBestellungenAnzeigen: function(row) {
+      return !vm.rechte['ROLE_KUNDEN_BESTELLUNGEN'];
     },
     
     hasNotRoleReparaturAnzeigen: function(row) {
@@ -161,9 +161,9 @@ var vm = new Vue({
       }
     },
     
-    openAuftragFunction: function(row) {
-      if (row.anzahlAuftraege > 0) {
-        window.open('/auftrag-uebersicht.html?id=' + row.id);
+    openBestellungFunction: function(row) {
+      if (row.anzahlBestellungen > 0) {
+        window.open('/bestellung-uebersicht.html?id=' + row.id);
       }
     },
     
@@ -183,8 +183,8 @@ var vm = new Vue({
       return row.anzahlAngebote === 0 ? 'angebot disabled' : 'angebot';
     },
     
-    getAuftragClass: function(row) {
-      return row.anzahlAuftraege === 0 ? 'auftrag disabled' : 'auftrag';
+    getBestellungClass: function(row) {
+      return row.anzahlBestellungen === 0 ? 'bestellung disabled' : 'bestellung';
     },
     
     getReparaturClass: function(row) {
@@ -205,7 +205,7 @@ var vm = new Vue({
           { clazz: vm.getReparaturClass, disabled: vm.hasNotRoleReparaturAnzeigen, title: 'Reparaturaufträge anzeigen', clickFunc: vm.openReparaturFunction },
           { clazz: vm.getRechnungClass, disabled: vm.hasNotRoleRechnungAnzeigen, title: 'Rechnungen anzeigen', clickFunc: vm.openRechnungFunction },
           { clazz: vm.getAngebotClass, disabled: vm.hasNotRoleAngeboteAnzeigen, title: 'Angebote anzeigen', clickFunc: vm.openAngebotFunction },
-          { clazz: vm.getAuftragClass, disabled: vm.hasNotRoleAuftraegeAnzeigen, title: 'Aufträge anzeigen', clickFunc: vm.openAuftragFunction },
+          { clazz: vm.getBestellungClass, disabled: vm.hasNotRoleBestellungenAnzeigen, title: 'Bestellungen anzeigen', clickFunc: vm.openBestellungFunction },
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Kunde bearbeiten', clickFunc: vm.editFunction },
           { clazz: 'kunden', disabled: vm.hasNotRoleVerwalten, title: 'Duplizierende Kunden suchen und mit diesen Kundenatensatz zusammenführen', clickFunc: vm.duplicateFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Kunde löschen', clickFunc: vm.deleteFunction }

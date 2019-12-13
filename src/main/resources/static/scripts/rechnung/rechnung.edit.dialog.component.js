@@ -64,11 +64,11 @@ Vue.component('edit-dialog', {
         <span class="checkmark"></span>
       </label>
     </div>
-    <div class="m1" v-if="entity.rechnung.auftrag">
-      <label for="rechnungEditForm_auftrag">Auftrag</label>
-      <button class="auftrag btnSmall" title="Auftrag suchen" @click="showAuftragDialog = true"></button>
-      <button class="delete btnSmall" title="Auftrag deselektieren" @click="entity.rechnung.auftrag = {}"></button>
-      <textarea class="m1" id="rechnungEditForm_auftrag" readonly v-model="entity.rechnung.auftrag.beschreibung"></textarea>
+    <div class="m1" v-if="entity.rechnung.bestellung">
+      <label for="rechnungEditForm_bestellung">Bestellung</label>
+      <button class="bestellung btnSmall" title="Bestellung suchen" @click="showBestellungDialog = true"></button>
+      <button class="delete btnSmall" title="Bestellung deselektieren" @click="entity.rechnung.bestellung = {}"></button>
+      <textarea class="m1" id="rechnungEditForm_bestellung" readonly v-model="entity.rechnung.bestellung.beschreibung"></textarea>
     </div>
     <div class="m1" v-if="entity.rechnung.reparatur">
       <label for="rechnungEditForm_reparatur">Reparaturauftrag</label>
@@ -102,12 +102,12 @@ Vue.component('edit-dialog', {
   @close="showKundeDialog = false"
   @saved="handleKundeResponse"
 ></kunde-suchen-dialog>
-<auftrag-suchen-dialog
+<bestellung-suchen-dialog
   :kunde="entity.rechnung.kunde"
-  v-if="showAuftragDialog"
-  @close="showAuftragDialog = false"
-  @saved="handleAuftragResponse"
-></auftrag-suchen-dialog>
+  v-if="showBestellungDialog"
+  @close="showBestellungDialog = false"
+  @saved="handleBestellungResponse"
+></bestellung-suchen-dialog>
 <reparatur-suchen-dialog
   :kunde="entity.rechnung.kunde"
   v-if="showReparaturDialog"
@@ -140,7 +140,7 @@ Vue.component('edit-dialog', {
       },
       rabattEntity: {},
       showDialog: false,
-      showAuftragDialog: false,
+      showBestellungDialog: false,
       showEditDialog: false,
       showKundeDialog: false,
       showRechnungspositionDialog: false,
@@ -195,10 +195,10 @@ Vue.component('edit-dialog', {
       this.entity.rechnung.kunde = reparatur.kunde;
       this.entity.rechnung.nameDruckenBeiFirma = this.entity.rechnung.kunde.nameDruckenBeiFirma;
     },
-    handleAuftragResponse: function(auftrag) {
-      this.showAuftragDialog = false;
-      this.entity.rechnung.auftrag = auftrag;
-      this.entity.rechnung.kunde = auftrag.kunde;
+    handleBestellungResponse: function(bestellung) {
+      this.showBestellungDialog = false;
+      this.entity.rechnung.bestellung = bestellung;
+      this.entity.rechnung.kunde = bestellung.kunde;
       this.entity.rechnung.nameDruckenBeiFirma = this.entity.rechnung.kunde.nameDruckenBeiFirma;
     },
     loadEntity: function() {

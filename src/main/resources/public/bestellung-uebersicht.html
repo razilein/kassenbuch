@@ -1,8 +1,8 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Übersicht Aufträge - Computer-Insel Tools by Sita Geßner</title>
-    <link rel="icon" href="/themes/icons/auftrag.png">
+    <title>Übersicht Bestellungen - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/bestellung.png">
     <link rel="stylesheet" href="/themes/css/button.css">
     <link rel="stylesheet" href="/themes/css/dialog.css">
     <link rel="stylesheet" href="/themes/css/grid.css">
@@ -16,14 +16,14 @@
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
   <body>
-    <div id="auftraege">
-      <page-header :marker="'Auftrag'"></page-header>
-      <page-header-auftrag v-bind:marker="'Auftraege'"></page-header-auftrag>
+    <div id="bestellungen">
+      <page-header :marker="'Bestellung'"></page-header>
+      <page-header-bestellung v-bind:marker="'Bestellungen'"></page-header-bestellung>
       <div id="content">
         <div class="form m1" v-if="kundeId === null">
           <div class="m1">
             <div class="m6m">
-              <label for="searchForm_nummer">Auftrag-Nr.</label>
+              <label for="searchForm_nummer">Bestell-Nr.</label>
               <input class="m6" id="searchForm_nummer" type="text" v-model="grid.searchQuery.nummer"></input>
             </div>
             <div class="m6m">
@@ -54,7 +54,7 @@
           </div>
         </div>
         <div style="height: 220px;" v-if="kundeId === null"></div>
-        <h3 v-if="kundeId !== null">Aufträge zum gewählten Kunden:</h3>
+        <h3 v-if="kundeId !== null">Bestellungen zum gewählten Kunden:</h3>
         <div id="gridDiv" v-if="grid.gridColumns.length > 0">
           <grid
             :columns="grid.gridColumns"
@@ -107,7 +107,7 @@
   <script src="/scripts/angebot/angebot.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>
-  <script src="/scripts/auftrag/auftrag.edit.dialog.component.js"></script>
-  <script src="/scripts/auftrag/auftrag.header.component.js"></script>
-  <script src="/scripts/auftrag/auftrag.uebersicht.js"></script>
+  <script src="/scripts/bestellung/bestellung.edit.dialog.component.js"></script>
+  <script src="/scripts/bestellung/bestellung.header.component.js"></script>
+  <script src="/scripts/bestellung/bestellung.uebersicht.js"></script>
 </html>

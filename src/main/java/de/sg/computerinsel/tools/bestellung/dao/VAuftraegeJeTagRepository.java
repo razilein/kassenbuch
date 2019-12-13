@@ -1,11 +1,11 @@
-package de.sg.computerinsel.tools.auftrag.dao;
+package de.sg.computerinsel.tools.bestellung.dao;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import de.sg.computerinsel.tools.auftrag.model.VAuftraegeJeTag;
+import de.sg.computerinsel.tools.bestellung.model.VAuftraegeJeTag;
 
 public interface VAuftraegeJeTagRepository extends CrudRepository<VAuftraegeJeTag, Integer> {
 

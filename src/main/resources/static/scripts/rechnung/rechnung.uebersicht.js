@@ -163,6 +163,7 @@ var vm = new Vue({
         ] },
         { name: 'nummer', title: 'Rechn.-Nr.', width: 80 },
         { name: 'reparatur.nummer', title: 'Rep.-Nr.', width: 80 },
+        { name: 'bestellung.nummer', title: 'Best.-Nr.', width: 80 },
         { name: 'kunde.nummer', title: 'Kd.-Nr.', width: 80 },
         { name: 'kunde.nameKomplett', title: 'Kunde', width: 200 },
         { name: 'rechnungsbetrag', title: 'Betrag', width: 100, formatter: ['money'] },
