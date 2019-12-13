@@ -55,29 +55,15 @@ var vm = new Vue({
     handleEditResponse: function(data) {
       if (data.success) {
         vm.showEditDialog = false;
-        vm.grid.searchQuery.suchfeld_name = vm.buildSuchfeldName(data.kunde);
+        vm.grid.searchQuery.firmenname = data.kunde.firmenname;
+        vm.grid.searchQuery.nachname = data.kunde.nachname;
+        vm.grid.searchQuery.vorname = data.kunde.vorname;
         vm.grid.reload = true;
       } 
       vm.result = data;
       vm.showDialog = true;
     },
-    
-    buildSuchfeldName: function(kunde) {
-      var suchfeld = '';
-      if (kunde) {
-        if (kunde.firmenname) {
-          suchfeld += kunde.firmenname;
-        }
-        if (kunde.vorname) {
-          suchfeld += ' ' + kunde.vorname;
-        }
-        if (kunde.nachname) {
-          suchfeld += ' ' + kunde.nachname;
-        }
-      }
-      return suchfeld;
-    },
-    
+
     deleteFunction: function(row) {
       vm.deleteRow.id = row.id;
       vm.deleteRow.title = 'Kunde ' + row.nummer + ' löschen';

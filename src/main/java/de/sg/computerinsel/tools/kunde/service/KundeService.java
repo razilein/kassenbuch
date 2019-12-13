@@ -34,17 +34,19 @@ public class KundeService {
     private final ReparaturService reparaturService;
 
     public Page<VKunde> listKunden(final PageRequest pagination, final Map<String, String> conditions) {
-        String name = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "suchfeld_name");
-        name = RegExUtils.replaceAll(name, StringUtils.SPACE, "%");
+        final String vorname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "vorname");
+        final String nachname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "nachname");
+        final String firmenname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "firmenname");
         final String plz = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "plz");
         final String telefon = createSuchfeldTelefon(conditions.get("telefon"));
 
-        if (StringUtils.isBlank(name) && StringUtils.isBlank(plz) && StringUtils.isBlank(telefon)) {
+        if (StringUtils.isBlank(vorname) && StringUtils.isBlank(nachname) && StringUtils.isBlank(firmenname) && StringUtils.isBlank(plz)
+                && StringUtils.isBlank(telefon)) {
             return vKundeRepository.findAll(pagination);
         } else {
             final FindAllByConditionsExecuter<VKunde> executer = new FindAllByConditionsExecuter<>();
-            return executer.findByParams(vKundeRepository, pagination, buildMethodnameForQueryKunde(name, plz, telefon), name, plz,
-                    telefon);
+            return executer.findByParams(vKundeRepository, pagination,
+                    buildMethodnameForQueryKunde(vorname, nachname, firmenname, plz, telefon), vorname, nachname, firmenname, plz, telefon);
         }
     }
 
@@ -61,10 +63,17 @@ public class KundeService {
         return tel;
     }
 
-    private String buildMethodnameForQueryKunde(final String name, final String plz, final String telefon) {
+    private String buildMethodnameForQueryKunde(final String vorname, final String nachname, final String firmenname, final String plz,
+            final String telefon) {
         String methodName = "findBy";
-        if (StringUtils.isNotBlank(name)) {
-            methodName += "SuchfeldNameLikeAnd";
+        if (StringUtils.isNotBlank(vorname)) {
+            methodName += "VornameLikeAnd";
+        }
+        if (StringUtils.isNotBlank(nachname)) {
+            methodName += "NachnameLikeAnd";
+        }
+        if (StringUtils.isNotBlank(firmenname)) {
+            methodName += "FirmennameLikeAnd";
         }
         if (StringUtils.isNotBlank(plz)) {
             methodName += "PlzLikeAnd";
