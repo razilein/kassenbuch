@@ -1,5 +1,6 @@
 package de.sg.computerinsel.tools.kunde.service;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -10,6 +11,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+
 import de.sg.computerinsel.tools.kunde.dao.KundeRepository;
 import de.sg.computerinsel.tools.kunde.dao.VKundeRepository;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
@@ -19,10 +25,10 @@ import de.sg.computerinsel.tools.rechnung.service.RechnungService;
 import de.sg.computerinsel.tools.reparatur.service.ReparaturService;
 import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
 import de.sg.computerinsel.tools.service.SearchQueryUtils;
-import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
-@AllArgsConstructor
+@Slf4j
 public class KundeService {
 
     private final KundeRepository kundeRepository;
@@ -32,6 +38,17 @@ public class KundeService {
     private final RechnungService rechnungService;
 
     private final ReparaturService reparaturService;
+
+    private final PhoneNumberUtil phoneNumberUtil;
+
+    public KundeService(final KundeRepository kundeRepository, final VKundeRepository vKundeRepository,
+            final RechnungService rechnungService, final ReparaturService reparaturService) {
+        this.kundeRepository = kundeRepository;
+        this.vKundeRepository = vKundeRepository;
+        this.rechnungService = rechnungService;
+        this.reparaturService = reparaturService;
+        phoneNumberUtil = PhoneNumberUtil.getInstance();
+    }
 
     public Page<VKunde> listKunden(final PageRequest pagination, final Map<String, String> conditions) {
         final String vorname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "vorname");
@@ -99,8 +116,24 @@ public class KundeService {
         if (kunde.getNummer() == null) {
             kunde.setNummer(kundeRepository.getNextNummer());
         }
+        if (kunde.getTelefon() != null) {
+            kunde.setTelefon(formatTelefonnummer(kunde.getTelefon()));
+        }
         kunde.setSuchfeldName(createSuchfeldName(kunde.getFirmenname(), kunde.getVorname(), kunde.getNachname()));
         return kundeRepository.save(kunde);
+    }
+
+    private String formatTelefonnummer(final String telefon) {
+        String result = telefon;
+        try {
+            final PhoneNumber number = phoneNumberUtil.parseAndKeepRawInput(telefon, Locale.GERMANY.getLanguage().toUpperCase());
+            if (phoneNumberUtil.isValidNumber(number)) {
+                result = phoneNumberUtil.format(number, PhoneNumberFormat.NATIONAL);
+            }
+        } catch (final NumberParseException e) {
+            log.debug("Telefonnummer: '{}' kann nicht formatiert werden.", telefon, e);
+        }
+        return result;
     }
 
     private static String createSuchfeldName(final String firmenname, final String vorname, final String nachname) {
