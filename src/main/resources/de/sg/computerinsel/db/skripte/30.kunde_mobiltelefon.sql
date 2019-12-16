@@ -1,0 +1,1 @@
+ALTER TABLE kunde ADD COLUMN mobiltelefon VARCHAR(50) NULL;

@@ -55,6 +55,10 @@ public class BaseKunde extends IntegerBaseObject {
     @Size(max = 50, message = "kunde.telefon.error")
     private String telefon;
 
+    @Column(name = "mobiltelefon")
+    @Size(max = 50, message = "kunde.mobiltelefon.error")
+    private String mobiltelefon;
+
     @Column(name = "email")
     @Size(max = 100, message = "kunde.email.error")
     private String email;

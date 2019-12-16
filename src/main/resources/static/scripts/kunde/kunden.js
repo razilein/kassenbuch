@@ -203,7 +203,7 @@ var vm = new Vue({
         { name: 'strasse', title: 'Straße', width: 100 },
         { name: 'plz', title: 'PLZ', width: 50 },
         { name: 'ort', title: 'Ort', width: 100 },
-        { name: 'telefon', title: 'Telefonnummer', width: 140 },
+        { name: 'suchfeldTelefon', title: 'Telefon / Mobil', width: 140 },
         { name: 'bemerkung', title: 'Bemerkungen', width: 200 },
         { name: 'erstelltAm', title: 'Erstellt am', width: 100, formatter: ['datetime'] }
       ];

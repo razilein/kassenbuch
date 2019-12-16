@@ -10,7 +10,7 @@ public interface VKundeRepository extends CrudRepository<VKunde, Integer> {
 
     Page<VKunde> findAll(Pageable pagination);
 
-    Page<VKunde> findByNachnameLikeAndPlzLikeAndTelefonLike(String nachname, String plz, String telefon, Pageable pagination);
+    Page<VKunde> findByNachnameLikeAndPlzLikeAndSuchfeldTelefonLike(String nachname, String plz, String telefon, Pageable pagination);
 
     Page<VKunde> findByFirmennameLike(String firmenname, Pageable pagination);
 
@@ -20,26 +20,26 @@ public interface VKundeRepository extends CrudRepository<VKunde, Integer> {
 
     Page<VKunde> findByNachnameLikeAndPlzLike(String nachname, String plz, Pageable pagination);
 
-    Page<VKunde> findByNachnameLikeAndFirmennameLikeAndPlzLikeAndTelefonLike(String nachname, String firmenname, String plz, String telefon,
-            Pageable pagination);
+    Page<VKunde> findByNachnameLikeAndFirmennameLikeAndPlzLikeAndSuchfeldTelefonLike(String nachname, String firmenname, String plz,
+            String telefon, Pageable pagination);
 
-    Page<VKunde> findByVornameLikeAndNachnameLikeAndPlzLikeAndTelefonLike(String vorname, String nachname, String plz, String telefon,
-            Pageable pagination);
+    Page<VKunde> findByVornameLikeAndNachnameLikeAndPlzLikeAndSuchfeldTelefonLike(String vorname, String nachname, String plz,
+            String telefon, Pageable pagination);
 
-    Page<VKunde> findByVornameLikeAndPlzLikeAndTelefonLike(String vorname, String plz, String telefon, Pageable pagination);
+    Page<VKunde> findByVornameLikeAndPlzLikeAndSuchfeldTelefonLike(String vorname, String plz, String telefon, Pageable pagination);
 
     Page<VKunde> findByVornameLikeAndFirmennameLike(String vorname, String firmenname, Pageable pagination);
 
-    Page<VKunde> findByVornameLikeAndNachnameLikeAndFirmennameLikeAndTelefonLike(String vorname, String nachname, String firmenname,
+    Page<VKunde> findByVornameLikeAndNachnameLikeAndFirmennameLikeAndSuchfeldTelefonLike(String vorname, String nachname, String firmenname,
             String telefon, Pageable pagination);
 
     Page<VKunde> findByPlzLike(String plz, Pageable pagination);
 
     Page<VKunde> findByVornameLikeAndPlzLike(String vorname, String plz, Pageable pagination);
 
-    Page<VKunde> findByFirmennameLikeAndPlzLikeAndTelefonLike(String firmenname, String plz, String telefon, Pageable pagination);
+    Page<VKunde> findByFirmennameLikeAndPlzLikeAndSuchfeldTelefonLike(String firmenname, String plz, String telefon, Pageable pagination);
 
-    Page<VKunde> findByFirmennameLikeAndTelefonLike(String firmenname, String telefon, Pageable pagination);
+    Page<VKunde> findByFirmennameLikeAndSuchfeldTelefonLike(String firmenname, String telefon, Pageable pagination);
 
     Page<VKunde> findByNachnameLike(String nachname, Pageable pagination);
 
@@ -49,16 +49,16 @@ public interface VKundeRepository extends CrudRepository<VKunde, Integer> {
 
     Page<VKunde> findByVornameLikeAndNachnameLike(String vorname, String nachname, Pageable pagination);
 
-    Page<VKunde> findByVornameLikeAndFirmennameLikeAndPlzLikeAndTelefonLike(String vorname, String firmenname, String plz, String telefon,
-            Pageable pagination);
+    Page<VKunde> findByVornameLikeAndFirmennameLikeAndPlzLikeAndSuchfeldTelefonLike(String vorname, String firmenname, String plz,
+            String telefon, Pageable pagination);
 
-    Page<VKunde> findByNachnameLikeAndTelefonLike(String nachname, String telefon, Pageable pagination);
+    Page<VKunde> findByNachnameLikeAndSuchfeldTelefonLike(String nachname, String telefon, Pageable pagination);
 
     Page<VKunde> findByNachnameLikeAndFirmennameLikeAndPlzLike(String nachname, String firmenname, String plz, Pageable pagination);
 
-    Page<VKunde> findByTelefonLike(String telefon, Pageable pagination);
+    Page<VKunde> findBySuchfeldTelefonLike(String telefon, Pageable pagination);
 
-    Page<VKunde> findByVornameLikeAndNachnameLikeAndFirmennameLikeAndPlzLikeAndTelefonLike(String vorname, String nachname,
+    Page<VKunde> findByVornameLikeAndNachnameLikeAndFirmennameLikeAndPlzLikeAndSuchfeldTelefonLike(String vorname, String nachname,
             String firmenname, String plz, String telefon, Pageable pagination);
 
     Page<VKunde> findByFirmennameLikeAndPlzLike(String firmenname, String plz, Pageable pagination);
@@ -66,16 +66,19 @@ public interface VKundeRepository extends CrudRepository<VKunde, Integer> {
     Page<VKunde> findByVornameLikeAndNachnameLikeAndFirmennameLikeAndPlzLike(String vorname, String nachname, String firmenname, String plz,
             Pageable pagination);
 
-    Page<VKunde> findByVornameLikeAndNachnameLikeAndTelefonLike(String vorname, String nachname, String telefon, Pageable pagination);
+    Page<VKunde> findByVornameLikeAndNachnameLikeAndSuchfeldTelefonLike(String vorname, String nachname, String telefon,
+            Pageable pagination);
 
-    Page<VKunde> findByVornameLikeAndFirmennameLikeAndTelefonLike(String vorname, String firmenname, String telefon, Pageable pagination);
+    Page<VKunde> findByVornameLikeAndFirmennameLikeAndSuchfeldTelefonLike(String vorname, String firmenname, String telefon,
+            Pageable pagination);
 
-    Page<VKunde> findByVornameLikeAndTelefonLike(String vorname, String telefon, Pageable pagination);
+    Page<VKunde> findByVornameLikeAndSuchfeldTelefonLike(String vorname, String telefon, Pageable pagination);
 
-    Page<VKunde> findByNachnameLikeAndFirmennameLikeAndTelefonLike(String nachname, String firmenname, String telefon, Pageable pagination);
+    Page<VKunde> findByNachnameLikeAndFirmennameLikeAndSuchfeldTelefonLike(String nachname, String firmenname, String telefon,
+            Pageable pagination);
 
     Page<VKunde> findByNachnameLikeAndFirmennameLike(String nachname, String firmenname, Pageable pagination);
 
-    Page<VKunde> findByPlzLikeAndTelefonLike(String plz, String telefon, Pageable pagination);
+    Page<VKunde> findByPlzLikeAndSuchfeldTelefonLike(String plz, String telefon, Pageable pagination);
 
 }

@@ -23,4 +23,6 @@ public class VKunde extends BaseKunde {
 
     private int anzahlReparaturen;
 
+    private String suchfeldTelefon;
+
 }

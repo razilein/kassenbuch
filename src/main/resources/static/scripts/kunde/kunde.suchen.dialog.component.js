@@ -98,7 +98,7 @@ Vue.component('kunde-suchen-dialog', {
             { clazz: 'ok', title: 'Diesen Kunden wählen', clickFunc: this.chooseFunction },
             { clazz: 'edit', disabled: this.hasNotRoleVerwalten, title: 'Kunde bearbeiten', clickFunc: this.editFunction },
           ] },
-          { name: 'telefon', title: 'Telefon', width: 100 },
+          { name: 'suchfeldTelefon', title: 'Telefon / Mobil', width: 100 },
           { name: 'firmenname', title: 'Firma', width: 150 },
           { name: 'nachname', title: 'Nachname', width: 150 },
           { name: 'vorname', title: 'Vorname', width: 100 },

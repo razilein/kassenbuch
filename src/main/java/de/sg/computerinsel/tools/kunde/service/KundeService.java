@@ -96,7 +96,7 @@ public class KundeService {
             methodName += "PlzLikeAnd";
         }
         if (StringUtils.isNotBlank(telefon)) {
-            methodName += "TelefonLikeAnd";
+            methodName += "SuchfeldTelefonLikeAnd";
         }
         return StringUtils.removeEnd(methodName, "And");
     }
@@ -118,6 +118,9 @@ public class KundeService {
         }
         if (kunde.getTelefon() != null) {
             kunde.setTelefon(formatTelefonnummer(kunde.getTelefon()));
+        }
+        if (kunde.getMobiltelefon() != null) {
+            kunde.setMobiltelefon(formatTelefonnummer(kunde.getMobiltelefon()));
         }
         kunde.setSuchfeldName(createSuchfeldName(kunde.getFirmenname(), kunde.getVorname(), kunde.getNachname()));
         return kundeRepository.save(kunde);
