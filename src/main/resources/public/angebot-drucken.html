@@ -41,7 +41,7 @@
       <div class="font15 m4 right">{{entity.angebot.filiale.ort}}, den {{entity.angebot.erstelltAm.substring(0, 10)}}</div>
       <div class="font15" v-if="entity.angebot.kunde" style="width: 350px;">
         <span v-if="entity.angebot.kunde.firmenname">{{entity.angebot.kunde.firmenname}}<br></span>
-        <span v-if="entity.angebot.kunde.nachname && entity.angebot.nameDruckenBeiFirma"><span v-if="entity.angebot.kunde.akademischerTitel">{{entity.angebot.kunde.akademischerTitel}} </span>{{entity.angebot.kunde.vorname}} {{entity.angebot.kunde.nachname}}<br></span>
+        <span v-if="entity.angebot.kunde.nachname && entity.angebot.kunde.nameDruckenBeiFirma"><span v-if="entity.angebot.kunde.akademischerTitel">{{entity.angebot.kunde.akademischerTitel}} </span>{{entity.angebot.kunde.vorname}} {{entity.angebot.kunde.nachname}}<br></span>
         {{entity.angebot.kunde.strasse}}
         <br>
         {{entity.angebot.kunde.plz}} {{entity.angebot.kunde.ort}}
