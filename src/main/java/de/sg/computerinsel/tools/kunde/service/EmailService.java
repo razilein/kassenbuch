@@ -133,6 +133,7 @@ public class EmailService {
         prop.put("mail.smtp.auth", true);
         prop.put("mail.smtp.host", einstellungService.getSmtpHost().getWert());
         prop.put("mail.smtp.port", einstellungService.getSmtpPort().getWert());
+        prop.put("mail.store.protocol", "imaps");
         prop.put("mail.mime.charset", StandardCharsets.UTF_8.name());
 
         return Session.getInstance(prop, new Authenticator() {
