@@ -1,6 +1,8 @@
 package de.sg.computerinsel.tools.kunde.model;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -149,6 +151,10 @@ public class BaseKunde extends IntegerBaseObject {
         }
         builder.append(",");
         return builder.toString();
+    }
+
+    public String getTelefonAnzeige() {
+        return Arrays.asList(telefon, mobiltelefon).stream().filter(StringUtils::isNotBlank).collect(Collectors.joining(" | "));
     }
 
 }
