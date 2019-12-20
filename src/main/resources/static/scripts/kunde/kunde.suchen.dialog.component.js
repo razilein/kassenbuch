@@ -2,8 +2,18 @@ Vue.component('kunde-suchen-dialog', {
   template: createEditDialogTemplateWithoutSaveButton(`
   <div class="m2m">
     <div class="m1">
-      <label for="searchForm_suchfeld_name">Name</label>
-      <input class="m1" id="searchForm_suchfeld_name" type="text" v-model="grid.searchQuery.suchfeld_name"></input>
+      <label for="searchForm_firmenname">Firmenname</label>
+      <input class="m1" id="searchForm_firmenname" type="text" v-model="grid.searchQuery.firmenname"></input>
+    </div>
+    <div class="m1">
+      <div class="m2m">
+        <label for="searchForm_nachname">Nachname</label>
+        <input class="m2" id="searchForm_nachname" type="text" v-model="grid.searchQuery.nachname"></input>
+      </div>
+      <div class="m2">
+        <label for="searchForm_vorname">Vorname</label>
+        <input class="m2" id="searchForm_vorname" type="text" v-model="grid.searchQuery.vorname"></input>
+      </div>
     </div>
     <div class="m2">
       <button class="delete right" title="Suchfelder leeren" v-on:click="grid.searchQuery = {}; grid.reload = true;"></button>
@@ -65,7 +75,6 @@ Vue.component('kunde-suchen-dialog', {
   },
   data: function() {
     var dialogTitle = this.dialogTitel || 'Kunde suchen';
-    var suchfeldName = this.buildSuchfeldName();
     return {
       rechte: this.rechte || {},
       entity: this.kunde || {},
@@ -89,7 +98,7 @@ Vue.component('kunde-suchen-dialog', {
             { clazz: 'ok', title: 'Diesen Kunden wählen', clickFunc: this.chooseFunction },
             { clazz: 'edit', disabled: this.hasNotRoleVerwalten, title: 'Kunde bearbeiten', clickFunc: this.editFunction },
           ] },
-          { name: 'telefon', title: 'Telefon', width: 100 },
+          { name: 'suchfeldTelefon', title: 'Telefon / Mobil', width: 100 },
           { name: 'firmenname', title: 'Firma', width: 150 },
           { name: 'nachname', title: 'Nachname', width: 150 },
           { name: 'vorname', title: 'Vorname', width: 100 },
@@ -100,7 +109,9 @@ Vue.component('kunde-suchen-dialog', {
         reload: false,
         restUrl: 'kunde',
         searchQuery: {
-          suchfeld_name: suchfeldName
+          firmenname: this.kunde ? this.kunde.firmenname : null,
+          nachname: this.kunde ? this.kunde.nachname : null,
+          vorname: this.kunde ? this.kunde.vorname : null
         },
       },
       result: {},
@@ -116,21 +127,6 @@ Vue.component('kunde-suchen-dialog', {
       this.editRow.title = 'Kunde hinzufügen';
       this.showEditDialog = true;
     },
-    buildSuchfeldName: function() {
-      var suchfeld = '';
-      if (this.kunde) {
-        if (this.kunde.firmenname) {
-          suchfeld += this.kunde.firmenname;
-        }
-        if (this.kunde.vorname) {
-          suchfeld += ' ' + this.kunde.vorname;
-        }
-        if (this.kunde.nachname) {
-          suchfeld += ' ' + this.kunde.nachname;
-        }
-      }
-      return suchfeld;
-    },
     chooseFunction: function(row) {
       this.entity = row;
       this.saveFunc();
@@ -143,6 +139,9 @@ Vue.component('kunde-suchen-dialog', {
     handleEditResponse: function(data) {
       if (data.success) {
         this.showEditDialog = false;
+        this.grid.searchQuery.firmenname = data.kunde.firmenname;
+        this.grid.searchQuery.nachname = data.kunde.nachname;
+        this.grid.searchQuery.vorname = data.kunde.vorname;
         this.grid.reload = true;
         this.entity = data.kunde;
       } 

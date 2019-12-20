@@ -1,5 +1,5 @@
 var vm = new Vue({
-  el: '#auftrag-drucken',
+  el: '#bestellung-drucken',
   data: {
     currentDate: null,
     entity: {
@@ -30,7 +30,7 @@ var vm = new Vue({
     
     getEntity: function() {
       var id = getParamFromCurrentUrl('id');
-      return axios.get('/auftrag/' + id);
+      return axios.get('/bestellung/' + id);
     },
     
     setEntity: function(response) {

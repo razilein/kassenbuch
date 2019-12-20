@@ -72,13 +72,13 @@ public class MitarbeiterService {
         return "0";
     }
 
-    public String getAndSaveNextAuftragsnummer() {
+    public String getAndSaveNextBestellnummer() {
         final Optional<Filiale> optional = getAngemeldeterMitarbeiterFiliale();
         if (optional.isPresent()) {
             final Filiale filiale = optional.get();
-            filiale.setZaehlerAuftrag(filiale.getZaehlerAuftrag() + 1);
+            filiale.setZaehlerBestellung(filiale.getZaehlerBestellung() + 1);
             einstellungenService.save(filiale);
-            return StringUtils.leftPad(String.valueOf(filiale.getZaehlerAuftrag()), 4, "0");
+            return StringUtils.leftPad(String.valueOf(filiale.getZaehlerBestellung()), 4, "0");
         }
         return "0";
     }

@@ -1,4 +1,4 @@
-package de.sg.computerinsel.tools.bestellung.service;
+package de.sg.computerinsel.tools.einkauf.service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,10 +24,10 @@ public class FtpService {
 
     private static final String LINE_SEPARATOR = "\n";
 
-    private static final String BESTELLLISTE_TRENNZEICHEN = LINE_SEPARATOR + "- - - - - - - - - - - -" + LINE_SEPARATOR;
+    private static final String EINKAUFSLISTE_TRENNZEICHEN = LINE_SEPARATOR + "- - - - - - - - - - - -" + LINE_SEPARATOR;
 
     /* @formatter:off */
-    private static final String DEFAULT_BESTELLLISTE =
+    private static final String DEFAULT_EINKAUFSLISTE =
             "* = Rückstand! ============================================"
             + LINE_SEPARATOR
             + LINE_SEPARATOR
@@ -35,24 +35,24 @@ public class FtpService {
             + LINE_SEPARATOR
             + LINE_SEPARATOR
             + "========================================================"
-            + BESTELLLISTE_TRENNZEICHEN
+            + EINKAUFSLISTE_TRENNZEICHEN
             + "PILOT:"
-            + BESTELLLISTE_TRENNZEICHEN
-            + BESTELLLISTE_TRENNZEICHEN
+            + EINKAUFSLISTE_TRENNZEICHEN
+            + EINKAUFSLISTE_TRENNZEICHEN
             + "MAXCOM: "
-            + BESTELLLISTE_TRENNZEICHEN
-            + BESTELLLISTE_TRENNZEICHEN
+            + EINKAUFSLISTE_TRENNZEICHEN
+            + EINKAUFSLISTE_TRENNZEICHEN
             + "ActionEU:"
-            + BESTELLLISTE_TRENNZEICHEN
-            + BESTELLLISTE_TRENNZEICHEN
+            + EINKAUFSLISTE_TRENNZEICHEN
+            + EINKAUFSLISTE_TRENNZEICHEN
             + "Kosatec:"
-            + BESTELLLISTE_TRENNZEICHEN
-            + BESTELLLISTE_TRENNZEICHEN
+            + EINKAUFSLISTE_TRENNZEICHEN
+            + EINKAUFSLISTE_TRENNZEICHEN
             + "Leicke:"
-            + BESTELLLISTE_TRENNZEICHEN
-            + BESTELLLISTE_TRENNZEICHEN
+            + EINKAUFSLISTE_TRENNZEICHEN
+            + EINKAUFSLISTE_TRENNZEICHEN
             + "energy-Ink:"
-            + BESTELLLISTE_TRENNZEICHEN;
+            + EINKAUFSLISTE_TRENNZEICHEN;
     /* @formatter:on */
 
     private final EinstellungenService einstellungenService;
@@ -83,13 +83,13 @@ public class FtpService {
         }
     }
 
-    public String downloadBestellliste(final String dateiname) {
+    public String downloadEinkaufsliste(final String dateiname) {
         final Optional<FTPClient> client = connect();
         if (client.isPresent()) {
             try {
                 final InputStream stream = client.get().retrieveFileStream(dateiname);
                 if (stream == null) {
-                    return DEFAULT_BESTELLLISTE;
+                    return DEFAULT_EINKAUFSLISTE;
                 }
                 return IOUtils.toString(stream, StandardCharsets.ISO_8859_1);
             } catch (final IOException e) {
@@ -97,21 +97,21 @@ public class FtpService {
                 return e.getMessage();
             }
         } else {
-            return DEFAULT_BESTELLLISTE;
+            return DEFAULT_EINKAUFSLISTE;
         }
     }
 
-    public void uploadBestellliste(final String dateiname, final String text) {
+    public void uploadEinkaufsliste(final String dateiname, final String text) {
         final Optional<FTPClient> client = connect();
         if (client.isPresent()) {
             final InputStream stream = IOUtils.toInputStream(text, StandardCharsets.ISO_8859_1);
             try {
                 client.get().storeFile(dateiname, stream);
             } catch (final IOException e) {
-                throw new IllegalStateException(messageService.get("bestellliste.put.error.upload", e.getMessage()), e);
+                throw new IllegalStateException(messageService.get("einkaufsliste.put.error.upload", e.getMessage()), e);
             }
         } else {
-            throw new IllegalStateException(messageService.get("bestellliste.put.error.unavailable"));
+            throw new IllegalStateException(messageService.get("einkaufsliste.put.error.unavailable"));
         }
     }
 

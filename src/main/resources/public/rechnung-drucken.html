@@ -51,7 +51,7 @@
         <br>
         <br>
         <div class="rechnungHeader">
-          Rechnung <span v-if="entity.rechnung.reparatur"> zum Auftrag {{entity.rechnung.reparatur.filiale.kuerzel}}{{entity.rechnung.reparatur.nummer}}</span>
+          Rechnung <span v-if="entity.rechnung.reparatur"> zum Auftrag {{entity.rechnung.reparatur.filiale.kuerzel}}{{entity.rechnung.reparatur.nummer}}</span><span v-if="entity.rechnung.bestellung"> zur Bestellung {{entity.rechnung.bestellung.filiale.kuerzel}}{{entity.rechnung.bestellung.nummerAnzeige}}</span>
         </div>
         <br>
         <div class="rechnungNummer">

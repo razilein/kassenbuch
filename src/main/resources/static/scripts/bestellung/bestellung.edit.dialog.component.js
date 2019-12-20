@@ -1,43 +1,43 @@
 Vue.component('edit-dialog', {
   template: createEditDialogTemplate(`
   <div class="m1" v-if="entity.angebot">
-    <label for="auftragEditForm_angebot">Angebot</label>
+    <label for="bestellungEditForm_angebot">Angebot</label>
     <button class="angebot btnSmall" title="Angebot suchen" @click="showAngebotDialog = true"></button>
     <button class="delete btnSmall" title="Angebot deselektieren" @click="entity.angebot = {};"></button>
-    <textarea class="m1" id="auftragEditForm_angebot" readonly v-if="entity.angebot.text" v-model="entity.angebot.text"></textarea>
-    <input class="m1" id="auftragEditForm_angebot" readonly v-if="!entity.angebot.text" v-model="entity.angebot.nummer"></textarea>
+    <textarea class="m1" id="bestellungEditForm_angebot" readonly v-if="entity.angebot.text" v-model="entity.angebot.text"></textarea>
+    <input class="m1" id="bestellungEditForm_angebot" readonly v-if="!entity.angebot.text" v-model="entity.angebot.nummer"></textarea>
   </div>
   <div class="m1" v-if="entity.kunde">
-    <label class="required" for="auftragEditForm_kunde">Kunde</label>
+    <label class="required" for="bestellungEditForm_kunde">Kunde</label>
     <button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
-    <textarea class="m1" id="auftragEditForm_kunde" readonly v-model="entity.kunde.completeWithAdress"></textarea>
+    <textarea class="m1" id="bestellungEditForm_kunde" readonly v-model="entity.kunde.completeWithAdress"></textarea>
   </div>
   <div class="m1">
     <div class="m4m">
-      <label class="required" for="auftragEditForm_datum">Lieferdatum</label>
-      <input class="m4" id="auftragEditForm_datum" type="date" v-model="entity.datum" v-on:change="wochentagdatum = formatDayOfWeek(entity.datum);"/>
+      <label class="required" for="bestellungEditForm_datum">Lieferdatum</label>
+      <input class="m4" id="bestellungEditForm_datum" type="date" v-model="entity.datum" v-on:change="wochentagdatum = formatDayOfWeek(entity.datum);"/>
     </div>
     <div class="m4m">
-      <label for="auftragEditForm_wochentag_datum">Wochentag</label>
-      <input class="m4" id="auftragEditForm_wochentag_datum" readonly type="text" v-model="wochentagdatum" />
+      <label for="bestellungEditForm_wochentag_datum">Wochentag</label>
+      <input class="m4" id="bestellungEditForm_wochentag_datum" readonly type="text" v-model="wochentagdatum" />
     </div>
   </div>
   <div class="m1">
-    <zeichenzaehler-label :elem="entity.beschreibung" :forid="'auftragEditForm_beschreibung'" :label="'Bestellung'" :maxlength="'2000'" :required="true"></zeichenzaehler-label>
-    <textarea class="m1 big" id="auftragEditForm_beschreibung" maxlength="2000" v-model="entity.beschreibung"></textarea>
+    <zeichenzaehler-label :elem="entity.beschreibung" :forid="'bestellungEditForm_beschreibung'" :label="'Bestellung'" :maxlength="'2000'" :required="true"></zeichenzaehler-label>
+    <textarea class="m1 big" id="bestellungEditForm_beschreibung" maxlength="2000" v-model="entity.beschreibung"></textarea>
   </div>
   <div class="m1">
-    <zeichenzaehler-label :elem="entity.kosten" :forid="'auftragEditForm_kosten'" :label="'Kosten'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
-    <input class="m1" id="auftragEditForm_kosten" maxlength="300" type="text" v-model="entity.kosten"></input>
+    <zeichenzaehler-label :elem="entity.kosten" :forid="'bestellungEditForm_kosten'" :label="'Kosten'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
+    <input class="m1" id="bestellungEditForm_kosten" maxlength="300" type="text" v-model="entity.kosten"></input>
   </div>
   <div class="m1">
-    <zeichenzaehler-label :elem="entity.anzahlung" :forid="'auftragEditForm_anzahlung'" :label="'Anzahlung'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
-    <input class="m1" id="auftragEditForm_anzahlung" maxlength="300" type="text" v-model="entity.anzahlung"></input>
+    <zeichenzaehler-label :elem="entity.anzahlung" :forid="'bestellungEditForm_anzahlung'" :label="'Anzahlung'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
+    <input class="m1" id="bestellungEditForm_anzahlung" maxlength="300" type="text" v-model="entity.anzahlung"></input>
   </div>
   <div class="m1">
     <div class="m2" style="float: right;">
-      <label for="auftragEditForm_ersteller">Mitarbeiter</label>
-      <input class="m2" id="auftragEditForm_ersteller" readonly type="text" :value="entity.ersteller" />
+      <label for="bestellungEditForm_ersteller">Mitarbeiter</label>
+      <input class="m2" id="bestellungEditForm_ersteller" readonly type="text" :value="entity.ersteller" />
     </div>
   </div>
   <angebot-suchen-dialog
@@ -113,7 +113,7 @@ Vue.component('edit-dialog', {
     },
     getAbholdatum: function() {
       this.wochentagdatum = formatDayOfWeek(response.data.datum);
-      return axios.get('/auftrag/datum/');
+      return axios.get('/bestellung/datum/');
     },
     setAbholdatum: function(response) {
       this.entity.datum = response.data.datum;

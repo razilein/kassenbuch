@@ -10,18 +10,75 @@ public interface VKundeRepository extends CrudRepository<VKunde, Integer> {
 
     Page<VKunde> findAll(Pageable pagination);
 
-    Page<VKunde> findBySuchfeldNameLikeAndTelefonLike(String suchfeldName, String telefon, Pageable pagination);
+    Page<VKunde> findByNachnameLikeAndPlzLikeAndSuchfeldTelefonLike(String nachname, String plz, String telefon, Pageable pagination);
 
-    Page<VKunde> findBySuchfeldNameLike(String suchfeldName, Pageable pagination);
+    Page<VKunde> findByFirmennameLike(String firmenname, Pageable pagination);
 
-    Page<VKunde> findByPlzLikeAndTelefonLike(String plz, String telefon, Pageable pagination);
+    Page<VKunde> findByVornameLike(String vorname, Pageable pagination);
+
+    Page<VKunde> findByVornameLikeAndNachnameLikeAndFirmennameLike(String vorname, String nachname, String firmenname, Pageable pagination);
+
+    Page<VKunde> findByNachnameLikeAndPlzLike(String nachname, String plz, Pageable pagination);
+
+    Page<VKunde> findByNachnameLikeAndFirmennameLikeAndPlzLikeAndSuchfeldTelefonLike(String nachname, String firmenname, String plz,
+            String telefon, Pageable pagination);
+
+    Page<VKunde> findByVornameLikeAndNachnameLikeAndPlzLikeAndSuchfeldTelefonLike(String vorname, String nachname, String plz,
+            String telefon, Pageable pagination);
+
+    Page<VKunde> findByVornameLikeAndPlzLikeAndSuchfeldTelefonLike(String vorname, String plz, String telefon, Pageable pagination);
+
+    Page<VKunde> findByVornameLikeAndFirmennameLike(String vorname, String firmenname, Pageable pagination);
+
+    Page<VKunde> findByVornameLikeAndNachnameLikeAndFirmennameLikeAndSuchfeldTelefonLike(String vorname, String nachname, String firmenname,
+            String telefon, Pageable pagination);
 
     Page<VKunde> findByPlzLike(String plz, Pageable pagination);
 
-    Page<VKunde> findBySuchfeldNameLikeAndPlzLikeAndTelefonLike(String suchfeldName, String telefon, Pageable pagination);
+    Page<VKunde> findByVornameLikeAndPlzLike(String vorname, String plz, Pageable pagination);
 
-    Page<VKunde> findBySuchfeldNameLikeAndPlzLike(String suchfeldName, Pageable pagination);
+    Page<VKunde> findByFirmennameLikeAndPlzLikeAndSuchfeldTelefonLike(String firmenname, String plz, String telefon, Pageable pagination);
 
-    Page<VKunde> findByTelefonLike(String telefon, Pageable pagination);
+    Page<VKunde> findByFirmennameLikeAndSuchfeldTelefonLike(String firmenname, String telefon, Pageable pagination);
+
+    Page<VKunde> findByNachnameLike(String nachname, Pageable pagination);
+
+    Page<VKunde> findByVornameLikeAndFirmennameLikeAndPlzLike(String vorname, String firmenname, String plz, Pageable pagination);
+
+    Page<VKunde> findByVornameLikeAndNachnameLikeAndPlzLike(String vorname, String nachname, String plz, Pageable pagination);
+
+    Page<VKunde> findByVornameLikeAndNachnameLike(String vorname, String nachname, Pageable pagination);
+
+    Page<VKunde> findByVornameLikeAndFirmennameLikeAndPlzLikeAndSuchfeldTelefonLike(String vorname, String firmenname, String plz,
+            String telefon, Pageable pagination);
+
+    Page<VKunde> findByNachnameLikeAndSuchfeldTelefonLike(String nachname, String telefon, Pageable pagination);
+
+    Page<VKunde> findByNachnameLikeAndFirmennameLikeAndPlzLike(String nachname, String firmenname, String plz, Pageable pagination);
+
+    Page<VKunde> findBySuchfeldTelefonLike(String telefon, Pageable pagination);
+
+    Page<VKunde> findByVornameLikeAndNachnameLikeAndFirmennameLikeAndPlzLikeAndSuchfeldTelefonLike(String vorname, String nachname,
+            String firmenname, String plz, String telefon, Pageable pagination);
+
+    Page<VKunde> findByFirmennameLikeAndPlzLike(String firmenname, String plz, Pageable pagination);
+
+    Page<VKunde> findByVornameLikeAndNachnameLikeAndFirmennameLikeAndPlzLike(String vorname, String nachname, String firmenname, String plz,
+            Pageable pagination);
+
+    Page<VKunde> findByVornameLikeAndNachnameLikeAndSuchfeldTelefonLike(String vorname, String nachname, String telefon,
+            Pageable pagination);
+
+    Page<VKunde> findByVornameLikeAndFirmennameLikeAndSuchfeldTelefonLike(String vorname, String firmenname, String telefon,
+            Pageable pagination);
+
+    Page<VKunde> findByVornameLikeAndSuchfeldTelefonLike(String vorname, String telefon, Pageable pagination);
+
+    Page<VKunde> findByNachnameLikeAndFirmennameLikeAndSuchfeldTelefonLike(String nachname, String firmenname, String telefon,
+            Pageable pagination);
+
+    Page<VKunde> findByNachnameLikeAndFirmennameLike(String nachname, String firmenname, Pageable pagination);
+
+    Page<VKunde> findByPlzLikeAndSuchfeldTelefonLike(String plz, String telefon, Pageable pagination);
 
 }

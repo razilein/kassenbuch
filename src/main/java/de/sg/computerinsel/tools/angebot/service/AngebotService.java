@@ -62,17 +62,17 @@ public class AngebotService {
             final Integer kdNr = kundennummer == null ? null : Ints.tryParse(kundennummer);
             final Integer nr = StringUtils.isNumeric(nummer) ? Ints.tryParse(nummer) : null;
             return executer.findByParams(vAngebotRepository, pagination,
-                    buildMethodnameForQueryAuftrag(name, nummer, kundennummer, istNichtErledigt), name, nr, kdNr, !istNichtErledigt);
+                    buildMethodnameForQueryAngebot(name, nummer, kundennummer, istNichtErledigt), name, nr, kdNr, !istNichtErledigt);
         } else {
             final FindAllByConditionsExecuter<VAngebot> executer = new FindAllByConditionsExecuter<>();
             final Integer kdNr = kundennummer == null ? null : Ints.tryParse(kundennummer);
             final Integer nr = StringUtils.isNumeric(nummer) ? Ints.tryParse(nummer) : null;
-            return executer.findByParams(vAngebotRepository, pagination, buildMethodnameForQueryAuftrag(name, nummer, kundennummer, false),
+            return executer.findByParams(vAngebotRepository, pagination, buildMethodnameForQueryAngebot(name, nummer, kundennummer, false),
                     name, nr, kdNr);
         }
     }
 
-    private String buildMethodnameForQueryAuftrag(final String name, final String nummer, final String kundennummer,
+    private String buildMethodnameForQueryAngebot(final String name, final String nummer, final String kundennummer,
             final boolean istNichtErledigt) {
         String methodName = "findBy";
         if (StringUtils.isNotBlank(name)) {

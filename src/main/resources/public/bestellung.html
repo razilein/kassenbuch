@@ -1,7 +1,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Bestellungen - Computer-Insel Tools by Sita Geßner</title>
+    <title>Bestellung erstellen - Computer-Insel Tools by Sita Geßner</title>
     <link rel="icon" href="/themes/icons/bestellung.png">
     <link rel="stylesheet" href="/themes/css/button.css">
     <link rel="stylesheet" href="/themes/css/dialog.css">
@@ -10,35 +10,80 @@
     <link rel="stylesheet" href="/themes/css/radio.css">
     <link rel="stylesheet" href="/themes/css/raster.css">
     <link rel="stylesheet" href="/themes/css/style.css">
+    <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
   <body>
-    <div id="bestellung">
+    <div id="bestellungErstellen">
       <page-header :marker="'Bestellung'"></page-header>
+      <page-header-bestellung v-bind:marker="'Erstellen'"></page-header-bestellung>
       <div id="content">
-        <div class="m1">
-          <div class="m1">
-            <label for="bestellungForm_bestellung">Vorschlag aus kürzlich verkauften Produkten</label>
-            <textarea class="m1" id="bestellungForm_bestellung" readonly style="height: 200px;" v-model="bestellung"></textarea>
+        <div class="form m1">
+          <div class="m1" v-if="entity.angebot">
+            <label for="bestellungEditForm_angebot">Angebot</label>
+            <button class="angebot btnSmall" title="Angebot suchen" @click="showAngebotDialog = true"></button>
+            <button class="delete btnSmall" title="Angebot deselektieren" @click="entity.angebot = {};"></button>
+            <textarea class="m1 big" id="bestellungEditForm_angebot" readonly v-model="entity.angebot.text"></textarea>
+          </div>
+          <div class="m1" v-if="entity.kunde">
+            <label class="required" for="bestellungEditForm_kunde">Kunde</label>
+            <button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
+            <textarea class="m1" id="bestellungEditForm_kunde" readonly v-model="entity.kunde.completeWithAdress"></textarea>
           </div>
           <div class="m1">
-            <button class="right" title="Vorschlagsliste leeren" v-on:click="clearBestellung">Vorschlagsliste leeren</button>
-            <button class="right" title="Bestellung auf den FTP-Server hochladen" v-on:click="save">Bestellung hochladen</button>
+            <div class="m4m">
+              <label class="required" for="bestellungEditForm_datum">Lieferdatum</label>
+              <input class="m4" id="bestellungEditForm_datum" type="date" v-model="entity.datum" v-on:change="wochentagdatum = formatDayOfWeek(entity.datum);"/>
+            </div>
+            <div class="m4m">
+              <label for="bestellungEditForm_wochentag_datum">Wochentag</label>
+              <input class="m4" id="bestellungEditForm_wochentag_datum" readonly type="text" v-model="wochentagdatum" />
+            </div>
           </div>
           <div class="m1">
-            <textarea class="m1" id="bestellungForm_uploadBestellung" style="height: 800px; max-height: none;" v-model="downloadBestellung"></textarea>
+            <zeichenzaehler-label :elem="entity.beschreibung" :forid="'bestellungEditForm_beschreibung'" :label="'Bestellung'" :maxlength="'2000'" :required="true"></zeichenzaehler-label>
+            <textarea class="m1 big" id="bestellungEditForm_beschreibung" maxlength="2000" v-model="entity.beschreibung"></textarea>
           </div>
+          <div class="m1">
+            <zeichenzaehler-label :elem="entity.kosten" :forid="'bestellungEditForm_kosten'" :label="'Kosten'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
+            <input class="m1" id="bestellungEditForm_kosten" maxlength="300" type="text" v-model="entity.kosten"></input>
+          </div>
+          <div class="m1">
+            <zeichenzaehler-label :elem="entity.anzahlung" :forid="'bestellungEditForm_anzahlung'" :label="'Anzahlung'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
+            <input class="m1" id="bestellungEditForm_anzahlung" maxlength="300" type="text" v-model="entity.anzahlung"></input>
+          </div>
+          <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">Speichern</button>
+          <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmpty()">Speichern</button>
         </div>
+        <div style="height: 280px;"></div>
       </div>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+      <angebot-suchen-dialog
+        :angebot="entity.angebot"
+        :kunde="entity.kunde"
+        v-if="showAngebotDialog"
+        @close="showAngebotDialog = false"
+        @saved="handleAngebotResponse"
+      ></angebot-suchen-dialog>
+      <kunde-suchen-dialog
+        :kunde="entity.kunde"
+        v-if="showKundeDialog"
+        @close="showKundeDialog = false"
+        @saved="handleKundeResponse"
+      ></kunde-suchen-dialog>
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/localstorage.service.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/grid.component.js"></script>
-  <script src="/scripts/delete.dialog.component.js"></script>
+  <script src="/scripts/zeichenzaehler.component.js"></script>
+  <script src="/scripts/angebot/angebot.suchen.dialog.component.js"></script>
+  <script src="/scripts/kunde/kunde.suchen.dialog.component.js"></script>
+  <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>
+  <script src="/scripts/bestellung/bestellung.header.component.js"></script>
   <script src="/scripts/bestellung/bestellung.js"></script>
 </html>

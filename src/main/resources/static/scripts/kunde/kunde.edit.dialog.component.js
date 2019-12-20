@@ -52,9 +52,13 @@ Vue.component('kunde-edit-dialog', {
       <input class="m2" id="kundeEditForm_telefon" maxlength="50" type="text" v-model="entity.telefon"></input>
     </div>
     <div class="m2">
-      <zeichenzaehler-label :elem="entity.email" :forid="'kundeEditForm_email'" :label="'E-Mail'" :maxlength="'100'"></zeichenzaehler-label>
-      <input class="m2" id="kundeEditForm_email" maxlength="100" type="text" v-model="entity.email"></input>
+      <zeichenzaehler-label :elem="entity.mobiltelefon" :forid="'kundeEditForm_mobiltelefon'" :label="'Mobiltelefon'" :maxlength="'50'"></zeichenzaehler-label>
+      <input class="m2" id="kundeEditForm_mobiltelefon" maxlength="50" type="text" v-model="entity.mobiltelefon"></input>
     </div>
+  </div>
+  <div class="m1">
+    <zeichenzaehler-label :elem="entity.email" :forid="'kundeEditForm_email'" :label="'E-Mail'" :maxlength="'100'"></zeichenzaehler-label>
+    <input class="m1" id="kundeEditForm_email" maxlength="100" type="text" v-model="entity.email"></input>
   </div>
   <div class="m1">
     <zeichenzaehler-label :elem="entity.bemerkung" :forid="'kundeEditForm_bemerkung'" :label="'Bemerkungen'" :maxlength="'4000'"></zeichenzaehler-label>

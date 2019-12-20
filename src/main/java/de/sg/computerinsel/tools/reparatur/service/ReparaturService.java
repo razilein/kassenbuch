@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.primitives.Ints;
 
-import de.sg.computerinsel.tools.auftrag.service.AuftragService;
+import de.sg.computerinsel.tools.bestellung.service.BestellungService;
 import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
 import de.sg.computerinsel.tools.reparatur.dao.ReparaturRepository;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
@@ -33,7 +33,7 @@ public class ReparaturService {
 
     private static final int LAENGE_REPARATURNUMMER_JAHR = 2;
 
-    private final AuftragService auftragService;
+    private final BestellungService bestellungService;
 
     private final MitarbeiterService mitarbeiterService;
 
@@ -114,7 +114,7 @@ public class ReparaturService {
     }
 
     public List<LocalDate> listDaysWithMin5AbholungenAndAuftragNotErledigt() {
-        return auftragService.listDaysWithMin5AbholungenAndAuftragNotErledigt();
+        return bestellungService.listDaysWithMin5AbholungenAndAuftragNotErledigt();
     }
 
     public void duplikateZusammenfuehren(final KundeDuplikatDto dto) {

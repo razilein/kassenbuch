@@ -3,7 +3,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Angebot drucken - Computer-Insel Tools by Sita Geßner</title>
     <link rel="icon" href="/themes/icons/angebot.png">
-    <link rel="stylesheet" href="/themes/css/auftrag.css">
+    <link rel="stylesheet" href="/themes/css/bestellung.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
@@ -41,14 +41,14 @@
       <div class="font15 m4 right">{{entity.angebot.filiale.ort}}, den {{entity.angebot.erstelltAm.substring(0, 10)}}</div>
       <div class="font15" v-if="entity.angebot.kunde" style="width: 350px;">
         <span v-if="entity.angebot.kunde.firmenname">{{entity.angebot.kunde.firmenname}}<br></span>
-        <span v-if="entity.angebot.kunde.nachname && entity.angebot.nameDruckenBeiFirma"><span v-if="entity.angebot.kunde.akademischerTitel">{{entity.angebot.kunde.akademischerTitel}} </span>{{entity.angebot.kunde.vorname}} {{entity.angebot.kunde.nachname}}<br></span>
+        <span v-if="entity.angebot.kunde.nachname && entity.angebot.kunde.nameDruckenBeiFirma"><span v-if="entity.angebot.kunde.akademischerTitel">{{entity.angebot.kunde.akademischerTitel}} </span>{{entity.angebot.kunde.vorname}} {{entity.angebot.kunde.nachname}}<br></span>
         {{entity.angebot.kunde.strasse}}
         <br>
         {{entity.angebot.kunde.plz}} {{entity.angebot.kunde.ort}}
       </div>
       </header>
       <div class="center font30">Angebot</div>
-      <div class="font15">Angebotsnummer: {{entity.angebot.filiale.kuerzel}}{{entity.angebot.nummer}}</div>
+      <div class="font15">Angebotsnummer: {{entity.angebot.filiale.kuerzel}}{{entity.nummerAnzeige}}</div>
       <br>
       <br>
       <table>

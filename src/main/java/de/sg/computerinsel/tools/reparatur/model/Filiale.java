@@ -68,8 +68,8 @@ public class Filiale extends IntegerBaseObject {
     @Column(name = "zaehler_angebot")
     private int zaehlerAngebot;
 
-    @Column(name = "zaehler_auftrag")
-    private int zaehlerAuftrag;
+    @Column(name = "zaehler_bestellung")
+    private int zaehlerBestellung;
 
     @Column(name = "ausgangsbetrag")
     private BigDecimal ausgangsbetrag;

@@ -1,4 +1,4 @@
-package de.sg.computerinsel.tools.auftrag.model;
+package de.sg.computerinsel.tools.bestellung.model;
 
 import java.time.LocalDate;
 
@@ -25,8 +25,8 @@ public class VAuftraegeJeTag extends IntegerBaseObject {
     @Column(name = "anzahl_reparatur")
     private int anzahlReparatur;
 
-    @Column(name = "anzahl_auftrag")
-    private int anzahlAuftrag;
+    @Column(name = "anzahl_bestellung")
+    private int anzahlBestellung;
 
     @Column(name = "anzahl_gesamt")
     private int anzahlGesamt;

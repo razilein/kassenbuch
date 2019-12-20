@@ -27,8 +27,8 @@ Vue.component('page-header', {
        <a class="navigationLink" :class="marker === 'Angebot' ? 'active' : ''" href="angebot.html">
          <img src="themes/icons/angebot.png" height="20" /> Angebote
        </a>
-       <a class="navigationLink" :class="marker === 'Auftrag' ? 'active' : ''" href="auftrag.html">
-         <img src="themes/icons/auftrag.png" height="20" /> Aufträge
+       <a class="navigationLink" :class="marker === 'Bestellung' ? 'active' : ''" href="bestellung.html">
+         <img src="themes/icons/bestellung.png" height="20" /> Bestellung
        </a>
        <a class="navigationLink" :class="marker === 'Kunden' ? 'active' : ''" href="kunden.html">
          <img src="themes/icons/kunde.png" height="20" /> Kunden
@@ -39,8 +39,8 @@ Vue.component('page-header', {
        <a class="navigationLink" :class="marker === 'Kassenbuch' ? 'active' : ''" href="kassenbuch.html">
          <img src="themes/icons/kasse.png" height="20" /> Kassenbuch
        </a>
-       <a class="navigationLink" :class="marker === 'Bestellung' ? 'active' : ''" href="bestellung.html">
-         <img src="themes/icons/bestellung.png" height="20" /> Bestellung
+       <a class="navigationLink" :class="marker === 'Einkauf' ? 'active' : ''" href="einkauf.html">
+         <img src="themes/icons/einkauf.png" height="20" /> Einkauf
        </a>
        <a class="navigationLink" :class="marker === 'Einstellungen' ? 'active' : ''" href="einstellungen.html">
          <img src="themes/icons/einstellungen.png" height="20" /> Einstellungen

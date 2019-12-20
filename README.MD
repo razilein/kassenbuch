@@ -6,13 +6,13 @@ Dazu zählen:
 - Reparaturaufträge verwalten
 - Rechnungen verwalten
 - Angebote verwalten
-- Aufträge verwalten
+- Bestellungen verwalten
 - Kunden verwalten
 - Kassenbücher verwalten
 - Kassenstand berechnen
 - Statistiken erstellen
 - Inventar verwalten
-- Bestellungen aufgeben
+- Einkäufe tätigen
 
 Um allgemein auf die Tools zugreifen zu können wird ein gültiger Login benötigt.
 Die verschiedenen Seiten und Funktionen sind durch Berechtigungen, die den Mitarbeitern zugeteilt werden müssen, abgesichert.
@@ -173,15 +173,15 @@ Durch Klick auf das *Bearbeiten-Icon* kann das Angebot bearbeitet werden.
 
 Durch Klick auf das *Löschen-Icon* kann ein Angebot nach nochmaliger Bestätigung gelöscht werden.
 
-## Aufträge
-Die Seite Aufträge unterteilt sich in die zwei Unterseiten **Erstellen** und **Aufträge**.
+## Bestellung
+Die Seite Bestellung unterteilt sich in die zwei Unterseiten **Erstellen** und **Bestellungen**.
 
 ### Erstellen
-Um diese Seite öffnen zu können wird das Recht *ZUGRIFF_AUFTRAG_ERSTELLEN* benötigt.
-Um den Auftrag nach der Erstellung ansehen und drucken zu können, wird das Recht *AUFTRAG* benötigt.
+Um diese Seite öffnen zu können wird das Recht *ZUGRIFF_BESTELLUNG_ERSTELLEN* benötigt.
+Um die Bestellung nach der Erstellung ansehen und drucken zu können, wird das Recht *BESTELLUNG* benötigt.
 
-Auf dieser Seite befinden sich verschiedene Felder die beim Erstellen eines Auftrags zu befüllen sind.
-Nach dem Speichern öffnet sich eine neue Seite für den Druck des Auftrags.
+Auf dieser Seite befinden sich verschiedene Felder die beim Erstellen einer Bestellung zu befüllen sind.
+Nach dem Speichern öffnet sich eine neue Seite für den Druck der Bestellung.
 Ebenfalls wird ein Hinweis geöffnet, dass das DSGVO-Informationsblatt vom Kunden zu Unterzeichnen ist, wenn er dies noch nicht getan hat.
 
 #### Angebot wählen
@@ -194,17 +194,17 @@ Durch Klick auf das *OK-Icon* wird der Kunde ausgewählt und der Dialog schließ
 
 Ist das Recht *KUNDEN_VERWALTEN* gesetzt, können in diesem Dialog neue Kunden angelegt oder bestehende Kunden editiert werden.
 
-### Aufträge
-Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_AUFTRAG_UEBERSICHT* benötigt.
-Das Recht *AUFTRAG_VERWALTEN* wird benötigt um Aufträge zu bearbeiten oder zu löschen.
+### Bestellungen
+Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_BESTELLUNG_UEBERSICHT* benötigt.
+Das Recht *BESTELLUNG_VERWALTEN* wird benötigt um Bestellungen zu bearbeiten oder zu löschen.
 
-Auf dieser Seite befindet sich eine Auflistung aller Aufträge. Mit Hilfe der Suchfilter kann die Anzeige weiter eingeschränkt werden.
+Auf dieser Seite befindet sich eine Auflistung aller Bestellungen. Mit Hilfe der Suchfilter kann die Anzeige weiter eingeschränkt werden.
 
-Durch Klick auf das *Öffnen-Icon* kann der Auftrag in der Druckansicht angezeigt werden. Dazu wird das Recht *AUFTRAG* benötigt.
+Durch Klick auf das *Öffnen-Icon* kann die Bestellung in der Druckansicht angezeigt werden. Dazu wird das Recht *BESTELLUNG* benötigt.
 
-Durch Klick auf das *Bearbeiten-Icon* kann der Auftrag bearbeitet werden.
+Durch Klick auf das *Bearbeiten-Icon* kann die Bestellung bearbeitet werden.
 
-Durch Klick auf das *Löschen-Icon* kann ein Auftrag nach nochmaliger Bestätigung gelöscht werden.
+Durch Klick auf das *Löschen-Icon* kann eine Bestellung nach nochmaliger Bestätigung gelöscht werden.
 
 ## Kunden
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_KUNDEN* benötigt.
@@ -364,14 +364,14 @@ Alternativ kann mit Hilfe der Schaltfläche *Überweisungen* eine Auflistung all
 Diese wird ebenfalls in das Ablageverzeichnis gelegt und zeigt die Rechnungsnummer, die Kundenanschrift und Telefonnummer, sowie den Rechnungsbetrag.
 Das Feld *Posten* wird dabei nicht berücksichtigt.
 
-## Bestellung
-Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_BESTELLUNG* benötigt.
+## Einkauf
+Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_EINKAUF* benötigt.
 
 Bei jeder Rechnung die geschrieben wird, werden die verkauften Produkte aus dem Inventar vorgemerkt und mit Anzahl, EAN und Produktbezeichnung vorgeblendet.
-Diese Liste kann genutzt werden um die Produkte zur Bestellung hinzuzufügen.
+Diese Liste kann genutzt werden um die Produkte zum Einkauf hinzuzufügen.
 
-Die Bestelliste wird angezeigt und kann bearbeitet und gespeichert werden.
-Die zum Mitarbeiter hinterlegte Filiale ist ausschlaggebend, welche Bestellliste geladen und bearbeitet wird. Dabei wird der Ortsname der Filiale als Dateiname verwendet.
+Die Einkaufsliste wird angezeigt und kann bearbeitet und gespeichert werden.
+Die zum Mitarbeiter hinterlegte Filiale ist ausschlaggebend, welche Einkaufsliste geladen und bearbeitet wird. Dabei wird der Ortsname der Filiale als Dateiname verwendet.
 
 ## Einstellungen
 Die Seite Kassenbuch unterteilt sich in die drei Unterseiten **Allgemein**, **Filiale** und **Mitarbeiter**.
@@ -490,12 +490,12 @@ Folgende Rechte sind verfügbar:
 - **RECHNUNG_EXPORT** - Rechnungen können exportiert werden
 - **RECHNUNG** - Ermöglicht das Anzeigen der Druckansicht einer Rechnung
 - **RECHNUNG_VERWALTEN** - Rechnungen dürfen angelegt, bearbeitet oder gelöscht werden
-- **ZUGRIFF_BESTELLUNG** - Zugriff auf die Seite: Bestellung
-- **KUNDEN_AUFTRAEGE** - Ermöglicht das Anzeigen aller Aufträge eines Kunden
-- **ZUGRIFF_AUFTRAG_ERSTELLEN** - Zugriff auf die Seite Aufträge erstellen
-- **ZUGRIFF_AUFTRAG_UEBERSICHT** - Zugriff auf die Seite Übersicht Aufträge
-- **AUFTRAG** - Ermöglicht das Anzeigen der Druckansicht eines Auftrags
-- **AUFTRAG_VERWALTEN** - Aufträge dürfen angelegt, bearbeitet oder gelöscht werden
+- **ZUGRIFF_EINKAUF** - Zugriff auf die Seite: Einkauf
+- **KUNDEN_BESTELLUNGEN** - Ermöglicht das Anzeigen aller Bestellungen eines Kunden
+- **ZUGRIFF_BESTELLUNG_ERSTELLEN** - Zugriff auf die Seite Bestellung erstellen
+- **ZUGRIFF_BESTELLUNG_UEBERSICHT** - Zugriff auf die Seite Übersicht Bestellungen
+- **BESTELLUNG** - Ermöglicht das Anzeigen der Druckansicht einer Bestellung
+- **BESTELLUNG_VERWALTEN** - Bestellungen dürfen angelegt, bearbeitet oder gelöscht werden
 - **KUNDEN_ANGEBOTE** - Ermöglicht das Anzeigen aller Angebote eines Kunden
 - **ZUGRIFF_ANGEBOT_ERSTELLEN** - Zugriff auf die Seite Angebote erstellen
 - **ZUGRIFF_ANGEBOT_UEBERSICHT** - Zugriff auf die Seite Übersicht Angebote

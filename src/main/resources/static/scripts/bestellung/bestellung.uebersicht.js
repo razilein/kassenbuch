@@ -1,5 +1,5 @@
 var vm = new Vue({
-  el: '#auftraege',
+  el: '#bestellungen',
   created() {
     window.addEventListener('keydown', e => {
       var isDialogOpened = vm.showDialog || vm.showConfirmDialog || vm.showDeleteDialog || vm.showEditDialog;
@@ -21,19 +21,19 @@ var vm = new Vue({
     confirmDialog: {},
     deleteRow: {
       id: null,
-      restUrl: '/auftrag',
-      title: 'Auftrag löschen',
+      restUrl: '/bestellung',
+      title: 'Bestellung löschen',
     },
     editRow: {
-      restUrlGet: '/auftrag/',
-      restUrlSave: '/auftrag/',
-      title: 'Auftrag bearbeiten',
+      restUrlGet: '/bestellung/',
+      restUrlSave: '/bestellung/',
+      title: 'Bestellung bearbeiten',
     },
     grid: {
       actions: [],
       gridColumns: [],
       reload: false,
-      restUrl: 'auftrag',
+      restUrl: 'bestellung',
       searchQuery: {},
       sort: 'datum',
       sortorder: 'desc'
@@ -42,8 +42,8 @@ var vm = new Vue({
   methods: {
     
     editFunction: function(row) {
-      vm.editRow.restUrlGet = '/auftrag/' + row.id;
-      vm.editRow.title = 'Auftrag ' + row.nummer + ' bearbeiten';
+      vm.editRow.restUrlGet = '/bestellung/' + row.id;
+      vm.editRow.title = 'Bestellung ' + row.nummer + ' bearbeiten';
       vm.showEditDialog = true;
     },
     
@@ -58,7 +58,7 @@ var vm = new Vue({
     
     deleteFunction: function(row) {
       vm.deleteRow.id = row.id;
-      vm.deleteRow.title = 'Auftrag ' + row.nummer + ' löschen';
+      vm.deleteRow.title = 'Bestellung ' + row.nummer + ' löschen';
       vm.showDeleteDialog = true;
     },
     
@@ -72,13 +72,13 @@ var vm = new Vue({
     },
     
     erledigen: function(row) {
-      return axios.put('/auftrag/erledigen', { id: row.id });
+      return axios.put('/bestellung/erledigen', { id: row.id });
     },
     
     erledigenFunction: function(row) {
       var art = row.erledigt ? ' wiedereröffnen' : ' erledigen';
-      vm.confirmDialog.text = 'Wollen Sie diesen Auftrag' + art + '?';
-      vm.confirmDialog.title = 'Auftrag ' + row.nummer + art;
+      vm.confirmDialog.text = 'Wollen Sie diese Bestellung' + art + '?';
+      vm.confirmDialog.title = 'Bestellung ' + row.nummer + art;
       vm.confirmDialog.func = vm.erledigen;
       vm.confirmDialog.params = row;
       vm.showConfirmDialog = true;
@@ -104,23 +104,23 @@ var vm = new Vue({
     },
     
     prepareRoles: function() {
-      vm.getRecht('ROLE_AUFTRAG');
-      vm.getRecht('ROLE_AUFTRAG_VERWALTEN');
+      vm.getRecht('ROLE_BESTELLUNG');
+      vm.getRecht('ROLE_BESTELLUNG_VERWALTEN');
     },
     
-    hasNotRoleAuftragAnzeigen: function() {
-      return !vm.rechte['ROLE_AUFTRAG'];
+    hasNotRoleBestellungAnzeigen: function() {
+      return !vm.rechte['ROLE_BESTELLUNG'];
     },
     
     hasNotRoleVerwalten: function() {
-      return !vm.rechte['ROLE_AUFTRAG_VERWALTEN'];
+      return !vm.rechte['ROLE_BESTELLUNG_VERWALTEN'];
     },
     
     openFunction: function(row) {
       if (vm.einstellungDruckansichtNeuesFenster) {
-        window.open('/auftrag-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
+        window.open('/bestellung-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
       } else {
-        window.open('/auftrag-drucken.html?id=' + row.id);
+        window.open('/bestellung-drucken.html?id=' + row.id);
       }
     },
     
@@ -131,10 +131,10 @@ var vm = new Vue({
           sortable: false,
           width: 170,
           formatter: [
-          { clazz: 'open-new-tab', disabled: vm.hasNotRoleReparaturAnzeigen, title: 'Auftrag öffnen', clickFunc: vm.openFunction },
-          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Auftrag bearbeiten', clickFunc: vm.editFunction },
+          { clazz: 'open-new-tab', disabled: vm.hasNotRoleBestellungAnzeigen, title: 'Bestellung öffnen', clickFunc: vm.openFunction },
+          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Bestellung bearbeiten', clickFunc: vm.editFunction },
           { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.erledigenFunction },
-          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Auftrag löschen', clickFunc: vm.deleteFunction }
+          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Bestellung löschen', clickFunc: vm.deleteFunction }
         ] },
         { name: 'nummer', title: 'Nummer', width: 80 },
         { name: 'kunde.nummer', title: 'Kd.-Nr.', width: 80 },
@@ -150,7 +150,7 @@ var vm = new Vue({
     },
     
     getTitleErledigt: function(row) {
-      return row.erledigt ? 'Der Auftrag wurde erledigt. Auftrag wiedereröffnen?' : 'Der Auftrag wurde noch nicht erledigt. Jetzt erledigen?';
+      return row.erledigt ? 'Die Bestellung wurde erledigt. Bestellung wiedereröffnen?' : 'Die Bestellung wurde noch nicht erledigt. Jetzt erledigen?';
     },
     
     getRecht: function(role) {

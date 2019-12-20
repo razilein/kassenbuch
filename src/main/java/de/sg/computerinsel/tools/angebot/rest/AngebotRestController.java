@@ -64,7 +64,7 @@ public class AngebotRestController {
     }
 
     @GetMapping("/{id}")
-    public AngebotDto getAuftrag(@PathVariable final Integer id) {
+    public AngebotDto getAngebot(@PathVariable final Integer id) {
         final AngebotDto dto = service.getAngebot(id);
         if (dto.getAngebot().getId() != null) {
             protokollService.write(dto.getAngebot().getId(), ANGEBOT, String.valueOf(dto.getAngebot().getNummer()), ANGESEHEN);
@@ -122,7 +122,7 @@ public class AngebotRestController {
     }
 
     @DeleteMapping
-    public Map<String, Object> deleteAuftrag(@RequestBody final Map<String, Object> data) {
+    public Map<String, Object> deleteAngebot(@RequestBody final Map<String, Object> data) {
         final int id = (int) data.get("id");
         final AngebotDto dto = service.getAngebot(id);
         final Angebot angebot = dto.getAngebot();
