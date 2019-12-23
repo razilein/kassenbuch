@@ -102,7 +102,6 @@ Vue.component('edit-dialog', {
       editEntity: {},
       endpreisNto: 0.00,
       endpreis: 0.00,
-      mitarbeiter: {},
       showEditDialog: false,
       showKundeDialog: false,
     };
@@ -173,8 +172,6 @@ Vue.component('edit-dialog', {
       showLoader();
       this.getEntity()
         .then(this.setEntity)
-        .then(this.getMitarbeiter)
-        .then(this.setMitarbeiter)
         .then(this.berechneEndpreis)
         .then(hideLoader);
     },
@@ -198,12 +195,6 @@ Vue.component('edit-dialog', {
     setEntity: function(response) {
       this.wochentagdatum = formatDayOfWeek(response.data.datum);
       this.entity = response.data;
-    },
-    getMitarbeiter: function() {
-      return axios.get('/reparatur/mitarbeiter');
-    },
-    setMitarbeiter: function(response) {
-      this.mitarbeiter = response.data;
     },
   }
 });

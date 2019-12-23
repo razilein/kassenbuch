@@ -175,7 +175,8 @@ public class EinstellungenService {
 
     public List<DefaultKeyValue<Integer, String>> getMitarbeiter() {
         final List<DefaultKeyValue<Integer, String>> result = new ArrayList<>();
-        mitarbeiterRepository.findAllByOrderByNachnameAsc().forEach(m -> result.add(new DefaultKeyValue<>(m.getId(), m.getCompleteName())));
+        mitarbeiterRepository.findAllByOrderByNachnameAsc()
+                .forEach(m -> result.add(new DefaultKeyValue<>(m.getId(), m.getCompleteNameReverse())));
         return result;
     }
 

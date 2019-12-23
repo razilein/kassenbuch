@@ -96,7 +96,6 @@ Vue.component('edit-dialog', {
     this.loadEntity();
     return {
       entity: {},
-      mitarbeiter: {},
       pruefstatus: [
         { key: true, value: 'Gerät funktioniert' },
         { key: false, value: 'Gerät funktioniert nicht' }
@@ -127,8 +126,6 @@ Vue.component('edit-dialog', {
       showLoader();
       this.getEntity()
         .then(this.setEntity)
-        .then(this.getMitarbeiter)
-        .then(this.setMitarbeiter)
         .then(this.getReparaturarten)
         .then(this.setReparaturarten)
         .then(hideLoader);
@@ -159,12 +156,6 @@ Vue.component('edit-dialog', {
     },
     setEntity: function(response) {
       this.entity = response.data;
-    },
-    getMitarbeiter: function() {
-      return axios.get('/reparatur/mitarbeiter');
-    },
-    setMitarbeiter: function(response) {
-      this.mitarbeiter = response.data;
     },
     getReparaturarten: function() {
       return axios.get('/reparatur/reparaturarten');

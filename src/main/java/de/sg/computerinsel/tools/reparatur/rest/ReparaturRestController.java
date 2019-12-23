@@ -97,7 +97,6 @@ public class ReparaturRestController {
 
     private Reparatur createReparatur() {
         final Reparatur reparatur = new Reparatur();
-        reparatur.setMitarbeiter(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname());
         reparatur.setKunde(new Kunde());
         reparatur.setAbholdatum(berechneAbholdatum(false));
         reparatur.setAbholzeit(berechneAbholzeit(false));
@@ -154,8 +153,10 @@ public class ReparaturRestController {
             final boolean isErstellen = reparatur.getId() == null;
             if (isErstellen) {
                 reparatur.setErstelltAm(LocalDateTime.now());
-                reparatur.setMitarbeiter(StringUtils.abbreviate(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname(),
-                        Reparatur.MAX_LENGTH_MITARBEITER));
+                if (StringUtils.isBlank(reparatur.getMitarbeiter())) {
+                    reparatur.setMitarbeiter(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname());
+                }
+                reparatur.setMitarbeiter(StringUtils.abbreviate(reparatur.getMitarbeiter(), Reparatur.MAX_LENGTH_MITARBEITER));
                 final Optional<Mitarbeiter> optional = mitarbeiterService.getAngemeldeterMitarbeiter();
                 if (optional.isPresent()) {
                     reparatur.setFiliale(optional.get().getFiliale());

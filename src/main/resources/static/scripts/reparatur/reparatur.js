@@ -19,7 +19,7 @@ var vm = new Vue({
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.kunde && hasAllPropertiesAndNotEmpty(this.entity, ['kunde.id', 'kostenvoranschlag']) && this.entity.funktionsfaehig !== 0;
+      return this.entity && this.entity.kunde && hasAllPropertiesAndNotEmpty(this.entity, ['mitarbeiter', 'kunde.id', 'kostenvoranschlag']) && this.entity.funktionsfaehig !== 0;
     },
     init: function() {
       showLoader();
@@ -29,6 +29,8 @@ var vm = new Vue({
         .then(vm.setEinstellungDruckansichtNeuesFenster)
         .then(vm.getReparaturarten)
         .then(vm.setReparaturarten)
+        .then(vm.getMitarbeiter)
+        .then(vm.setMitarbeiter)
         .then(hideLoader);
     },
     saveFunc: function() {
@@ -99,6 +101,12 @@ var vm = new Vue({
     },
     setReparaturarten: function(response) {
       vm.reparaturarten = response.data;
+    },
+    getMitarbeiter: function() {
+      return axios.get('/reparatur/mitarbeiter');
+    },
+    setMitarbeiter: function(response) {
+      vm.mitarbeiter = response.data;
     },
   }
 });
