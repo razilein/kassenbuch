@@ -39,6 +39,7 @@ import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
+import de.sg.computerinsel.tools.reparatur.model.PruefstatusGeraet;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
 import de.sg.computerinsel.tools.reparatur.service.FeiertagUtils;
@@ -101,6 +102,7 @@ public class ReparaturRestController {
         reparatur.setAbholdatum(berechneAbholdatum(false));
         reparatur.setAbholzeit(berechneAbholzeit(false));
         reparatur.setArt(ReparaturArt.REPARATUR.getCode());
+        reparatur.setFunktionsfaehig(PruefstatusGeraet.NICHT_DEFINIERT.getCode());
         return reparatur;
     }
 
@@ -218,6 +220,11 @@ public class ReparaturRestController {
     @GetMapping("/geraetepasswortarten")
     public List<DefaultKeyValue<Integer, String>> getGeraetepasswortarten() {
         return service.getGeraetepasswortarten();
+    }
+
+    @GetMapping("/pruefstatus")
+    public List<DefaultKeyValue<Integer, String>> getPruefstatus() {
+        return service.getPruefstatus();
     }
 
 }

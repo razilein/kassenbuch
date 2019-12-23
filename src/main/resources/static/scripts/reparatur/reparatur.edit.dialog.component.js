@@ -109,17 +109,15 @@ Vue.component('edit-dialog', {
     return {
       entity: {},
       geraetepasswortarten: [],
-      pruefstatus: [
-        { key: true, value: 'Gerät funktioniert' },
-        { key: false, value: 'Gerät funktioniert nicht' }
-      ],
+      pruefstatus: [],
       reparaturarten: {},
       showKundeDialog: false
     };
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.kunde && hasAllPropertiesAndNotEmpty(this.entity, ['geraetepasswort', 'kunde.id', 'kostenvoranschlag']) && !this.entity.erledigt;
+      return this.entity && this.entity.kunde && hasAllPropertiesAndNotEmpty(this.entity, ['geraetepasswort', 'kunde.id', 'kostenvoranschlag']) &&
+        this.entity.funktionsfaehig !== -1 && !this.entity.erledigt;
     },
     changeAbholdatumZeit: function() {
       this.getAbholdatumZeit()
@@ -143,6 +141,8 @@ Vue.component('edit-dialog', {
         .then(this.setReparaturarten)
         .then(this.getGeraetepasswortarten)
         .then(this.setGeraetepasswortarten)
+        .then(this.getPruefstatus)
+        .then(this.setPruefstatus)
         .then(hideLoader);
     },
     saveFunc: function() {
@@ -190,6 +190,12 @@ Vue.component('edit-dialog', {
     },
     setGeraetepasswortarten: function(response) {
       this.geraetepasswortarten = response.data;
+    },
+    getPruefstatus: function() {
+      return axios.get('/reparatur/pruefstatus');
+    },
+    setPruefstatus: function(response) {
+      this.pruefstatus = response.data;
     },
   }
 });

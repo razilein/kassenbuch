@@ -72,7 +72,7 @@ public class Reparatur extends IntegerBaseObject {
     private int geraetepasswortArt;
 
     @Column(name = "funktionsfaehig")
-    private boolean funktionsfaehig;
+    private int funktionsfaehig;
 
     @Column(name = "expressbearbeitung")
     private boolean expressbearbeitung = false;
