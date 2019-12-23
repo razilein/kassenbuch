@@ -2,6 +2,10 @@ Vue.component('bestellung-suchen-dialog', {
   template: createEditDialogTemplateWithoutSaveButton(`
   <div class="m1">
     <div class="m6m">
+      <label for="searchForm_nummer">Bestell-Nr.</label>
+      <input class="m6" id="searchForm_nummer" type="text" v-model="grid.searchQuery.nummer"></input>
+    </div>
+    <div class="m6m">
       <label for="searchForm_kundennummer">Kd.-Nr.</label>
       <input class="m6" id="searchForm_kundennummer" type="text" v-model="grid.searchQuery.kundennummer"></input>
     </div>
@@ -60,6 +64,7 @@ Vue.component('bestellung-suchen-dialog', {
             formatter: [
             { clazz: 'ok', title: 'Diese Bestellung wählen', clickFunc: this.chooseFunction },
           ] },
+          { name: 'nummer', title: 'Nummer', width: 80 },
           { name: 'beschreibung', title: 'Bestellung', width: 400 },
           { name: 'kunde.nameKomplett', title: 'Kunde', width: 200 },
         ],
