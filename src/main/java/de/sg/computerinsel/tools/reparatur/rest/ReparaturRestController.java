@@ -215,4 +215,9 @@ public class ReparaturRestController {
         return service.getReparaturarten();
     }
 
+    @GetMapping("/geraetepasswortarten")
+    public List<DefaultKeyValue<Integer, String>> getGeraetepasswortarten() {
+        return service.getGeraetepasswortarten();
+    }
+
 }

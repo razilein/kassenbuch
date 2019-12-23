@@ -1,0 +1,1 @@
+ALTER TABLE reparatur ADD COLUMN geraetepasswort_art SMALLINT DEFAULT 0 NOT NULL;

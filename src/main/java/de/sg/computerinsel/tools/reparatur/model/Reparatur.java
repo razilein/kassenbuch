@@ -68,6 +68,9 @@ public class Reparatur extends IntegerBaseObject {
     @Column(name = "geraetepasswort")
     private String geraetepasswort;
 
+    @Column(name = "geraetepasswort_art")
+    private int geraetepasswortArt;
+
     @Column(name = "funktionsfaehig")
     private boolean funktionsfaehig;
 

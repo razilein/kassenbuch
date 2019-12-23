@@ -30,9 +30,21 @@ Vue.component('edit-dialog', {
     <textarea class="m1" id="reparaturEditForm_aufgaben" maxlength="1000" v-model="entity.aufgaben"></textarea>
   </div>
   <div class="m1">
+    <label class="container radio" v-for="art in geraetepasswortarten">
+      <input
+        name="geraetepasswortart"
+        type="radio"
+        :value="art.key"
+        v-model="entity.geraetepasswortArt"
+        v-on:change="setGeraetepasswort();"
+      >{{art.value}}</input>
+      <span class="checkmark"></span>
+    </label>
+  </div>
+  <div class="m1">
     <div class="m2">
-      <zeichenzaehler-label :elem="entity.geraetepasswort" :forid="'reparaturEditForm_geraetepasswort'" :label="'Gerätepasswort'" :maxlength="'50'"></zeichenzaehler-label>
-      <input class="m2" id="reparaturEditForm_geraetepasswort" maxlength="50" type="text" v-model="entity.geraetepasswort"></input>
+      <zeichenzaehler-label :elem="entity.geraetepasswort" :forid="'reparaturEditForm_geraetepasswort'" :label="'Gerätepasswort'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
+      <input class="m2" id="reparaturEditForm_geraetepasswort" maxlength="50" type="text" v-model="entity.geraetepasswort" :readonly="entity.geraetepasswortArt !== 0"></input>
     </div>
   </div>
   <div class="m1" v-if="entity.kunde">
@@ -96,6 +108,7 @@ Vue.component('edit-dialog', {
     this.loadEntity();
     return {
       entity: {},
+      geraetepasswortarten: [],
       pruefstatus: [
         { key: true, value: 'Gerät funktioniert' },
         { key: false, value: 'Gerät funktioniert nicht' }
@@ -106,7 +119,7 @@ Vue.component('edit-dialog', {
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.kunde && hasAllPropertiesAndNotEmpty(this.entity, ['kunde.id', 'kostenvoranschlag']) && !this.entity.erledigt;
+      return this.entity && this.entity.kunde && hasAllPropertiesAndNotEmpty(this.entity, ['geraetepasswort', 'kunde.id', 'kostenvoranschlag']) && !this.entity.erledigt;
     },
     changeAbholdatumZeit: function() {
       this.getAbholdatumZeit()
@@ -128,6 +141,8 @@ Vue.component('edit-dialog', {
         .then(this.setEntity)
         .then(this.getReparaturarten)
         .then(this.setReparaturarten)
+        .then(this.getGeraetepasswortarten)
+        .then(this.setGeraetepasswortarten)
         .then(hideLoader);
     },
     saveFunc: function() {
@@ -143,6 +158,13 @@ Vue.component('edit-dialog', {
     handleKundeResponse: function(kunde) {
       this.showKundeDialog = false;
       this.entity.kunde = kunde;
+    },
+    setGeraetepasswort: function() {
+      if (this.entity.geraetepasswortArt === 0) {
+        this.entity.geraetepasswort = null;
+      } else {
+        this.entity.geraetepasswort = this.geraetepasswortarten[this.entity.geraetepasswortArt].value;
+      }
     },
     getAbholdatumZeit: function() {
       return axios.get('/reparatur/abholdatum/' + this.entity.expressbearbeitung);
@@ -162,6 +184,12 @@ Vue.component('edit-dialog', {
     },
     setReparaturarten: function(response) {
       this.reparaturarten = response.data;
+    },
+    getGeraetepasswortarten: function() {
+      return axios.get('/reparatur/geraetepasswortarten');
+    },
+    setGeraetepasswortarten: function(response) {
+      this.geraetepasswortarten = response.data;
     },
   }
 });

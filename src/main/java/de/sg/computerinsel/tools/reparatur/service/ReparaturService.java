@@ -20,6 +20,7 @@ import com.google.common.primitives.Ints;
 import de.sg.computerinsel.tools.bestellung.service.BestellungService;
 import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
 import de.sg.computerinsel.tools.reparatur.dao.ReparaturRepository;
+import de.sg.computerinsel.tools.reparatur.model.GeraetepasswortArt;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
 import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
@@ -122,6 +123,11 @@ public class ReparaturService {
             reparatur.setKunde(dto.getKunde());
             reparaturRepository.save(reparatur);
         });
+    }
+
+    public List<DefaultKeyValue<Integer, String>> getGeraetepasswortarten() {
+        return Arrays.asList(GeraetepasswortArt.values()).stream().map(r -> new DefaultKeyValue<>(r.getCode(), r.getDescription()))
+                .collect(Collectors.toList());
     }
 
 }
