@@ -267,8 +267,8 @@ public class RechnungRestController {
     public Map<String, Object> export(@RequestBody final RechnungExportDto dto) {
         final Map<String, Object> result = new HashMap<>();
         try {
-            exportService.export(dto);
-            result.put(Message.SUCCESS.getCode(), messageService.get("rechnung.export.success"));
+            final int anzahl = exportService.export(dto);
+            result.put(Message.SUCCESS.getCode(), messageService.get("rechnung.export.success", String.valueOf(anzahl)));
         } catch (final IOException e) {
             log.error(e.getMessage(), e);
             result.put(Message.ERROR.getCode(), messageService.get("rechung.export.error", e.getMessage()));

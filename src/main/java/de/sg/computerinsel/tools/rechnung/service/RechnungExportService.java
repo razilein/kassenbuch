@@ -46,10 +46,11 @@ public class RechnungExportService {
 
     private final RechnungService rechnungService;
 
-    public void export(final RechnungExportDto dto) throws IOException {
+    public int export(final RechnungExportDto dto) throws IOException {
         final List<Rechnung> rechnungen = listRechnungInZeitraum(dto);
         exportRechnungen(rechnungen);
         exportKassenbuch(dto, rechnungen);
+        return rechnungen.size();
     }
 
     private void exportRechnungen(final List<Rechnung> rechnungenInZeitraum) throws IOException {
