@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.base.Splitter;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
@@ -30,6 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class KundeService {
+
+    private static final String DEFAULT_VORWAHL = "0341";
 
     private final KundeRepository kundeRepository;
 
@@ -129,9 +132,20 @@ public class KundeService {
     private String formatTelefonnummer(final String telefon) {
         String result = telefon;
         try {
-            final PhoneNumber number = phoneNumberUtil.parseAndKeepRawInput(telefon, Locale.GERMANY.getLanguage().toUpperCase());
+            if (!StringUtils.startsWithAny(result, "0", "+")) {
+                result = DEFAULT_VORWAHL + result;
+            }
+            final PhoneNumber number = phoneNumberUtil.parseAndKeepRawInput(result, Locale.GERMANY.getLanguage().toUpperCase());
             if (phoneNumberUtil.isValidNumber(number)) {
                 result = phoneNumberUtil.format(number, PhoneNumberFormat.NATIONAL);
+                final String[] splittedPhone = StringUtils.split(result, StringUtils.SPACE);
+                if (splittedPhone.length == 2 && StringUtils.isNumeric(splittedPhone[1])) {
+                    final StringBuilder builder = new StringBuilder(splittedPhone[0]);
+                    builder.append(StringUtils.SPACE);
+                    Splitter.fixedLength(3).split(splittedPhone[1]).forEach(p -> builder.append(p + "-"));
+                    result = StringUtils.substringBeforeLast(builder.toString(), "-");
+
+                }
             }
         } catch (final NumberParseException e) {
             log.debug("Telefonnummer: '{}' kann nicht formatiert werden.", telefon, e);

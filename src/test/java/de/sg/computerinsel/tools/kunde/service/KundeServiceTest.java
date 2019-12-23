@@ -7,6 +7,8 @@ import java.lang.reflect.Method;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class KundeServiceTest {
 
@@ -39,20 +41,28 @@ class KundeServiceTest {
         assertEquals("%0%1%2%3%4%5%6%7%8%9%0%", method.invoke(service, "01-2  345/ 67*89\\0"));
     }
 
-    @Test
-    void testFormatTelefonnummer() throws Exception {
+    @ParameterizedTest
+    /* @formatter:off */
+    @CsvSource({
+        "0341 123-456-7, 1234567",
+        "0341 409-660, 409660",
+        "0341 309-660, 309660",
+        "041 462 66 66, +41414626666",
+        "8 (954) 213-41-47, +79542134147",
+        "8 (912) 836-48-71, 007/9-128364871",
+        "0162 291-111-1, +49 162 2911-111",
+        "0341 123-456-7, 03411234567",
+        "03745 789-789, 03745789789",
+        "0341 123-456-7, 0341-1234/567",
+        "0174 120-078-9, 01741200789",
+        "0174 120-078-9, +491741200789",
+        "0174 120-078-9, 0174 12/007/8-9",
+    })
+    /* @formatter:on */
+    void testFormatTelefonnummer(final String expected, final String number) throws Exception {
         final Method method = service.getClass().getDeclaredMethod("formatTelefonnummer", String.class);
         method.setAccessible(true);
-        assertEquals("1234567", method.invoke(service, "1234567"));
-        assertEquals("041 462 66 66", method.invoke(service, "+41414626666"));
-        assertEquals("8 (954) 213-41-47", method.invoke(service, "+79542134147"));
-        assertEquals("8 (912) 836-48-71", method.invoke(service, "007/9-128364871"));
-        assertEquals("0162 2911111", method.invoke(service, "+49 162 2911-111"));
-        assertEquals("0341 1234567", method.invoke(service, "03411234567"));
-        assertEquals("03745 789789", method.invoke(service, "03745789789"));
-        assertEquals("0341 1234567", method.invoke(service, "0341-1234/567"));
-        assertEquals("0174 1200789", method.invoke(service, "01741200789"));
-        assertEquals("0174 1200789", method.invoke(service, "0174 12/007/8-9"));
+        assertEquals(expected, method.invoke(service, number));
     }
 
 }
