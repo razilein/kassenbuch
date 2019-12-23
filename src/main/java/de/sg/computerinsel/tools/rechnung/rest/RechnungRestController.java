@@ -161,7 +161,7 @@ public class RechnungRestController {
             result.putAll(validationService.validate(posten));
         }
         if (result.isEmpty()) {
-            if (isErstellt && (zahlart == Zahlart.BAR || zahlart == Zahlart.EC)) {
+            if (isErstellt && (zahlart != Zahlart.UEBERWEISUNG)) {
                 rechnung.setBezahlt(true);
             }
             final Rechnung saved = service.saveRechnung(rechnung);
