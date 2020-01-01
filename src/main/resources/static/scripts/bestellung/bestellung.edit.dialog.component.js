@@ -67,7 +67,6 @@ Vue.component('edit-dialog', {
         kunde: {},
         filiale: {}
       },
-      mitarbeiter: {},
       showAngebotDialog: false,
       showKundeDialog: false,
       wochentagdatum: ''
@@ -91,8 +90,6 @@ Vue.component('edit-dialog', {
       showLoader();
       this.getEntity()
         .then(this.setEntity)
-        .then(this.getMitarbeiter)
-        .then(this.setMitarbeiter)
         .then(this.getReparaturarten)
         .then(this.setReparaturarten)
         .then(hideLoader);
@@ -131,12 +128,6 @@ Vue.component('edit-dialog', {
         data.kunde = {};
       }
       this.entity = response.data;
-    },
-    getMitarbeiter: function() {
-      return axios.get('/reparatur/mitarbeiter');
-    },
-    setMitarbeiter: function(response) {
-      this.mitarbeiter = response.data;
     },
   }
 });

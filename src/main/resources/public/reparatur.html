@@ -22,6 +22,13 @@
       <div id="content">
         <div class="form m1">
           <div class="m1">
+            <label class="required" for="reparaturEditForm_mitarbeiter">Ersteller</label>
+            <select class="m1" id="reparaturEditForm_mitarbeiter" v-model="entity.mitarbeiter">
+              <option value=""></option>
+              <option :value="m.value" v-for="m in mitarbeiter">{{m.value}}</option>
+            </select>
+          </div>
+          <div class="m1">
             <label class="container radio" v-for="art in reparaturarten">
               <input
                 name="art"
@@ -49,9 +56,21 @@
             <textarea class="m1" id="reparaturEditForm_aufgaben" maxlength="1000" v-model="entity.aufgaben"></textarea>
           </div>
           <div class="m1">
+            <label class="container radio" v-for="art in geraetepasswortarten">
+              <input
+                name="geraetepasswortart"
+                type="radio"
+                :value="art.key"
+                v-model="entity.geraetepasswortArt"
+                v-on:change="setGeraetepasswort();"
+              >{{art.value}}</input>
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="m1">
             <div class="m2">
-              <zeichenzaehler-label :elem="entity.geraetepasswort" :forid="'reparaturEditForm_geraetepasswort'" :label="'Gerätepasswort'" :maxlength="'50'"></zeichenzaehler-label>
-              <input class="m2" id="reparaturEditForm_geraetepasswort" maxlength="50" type="text" v-model="entity.geraetepasswort"></input>
+              <zeichenzaehler-label :elem="entity.geraetepasswort" :forid="'reparaturEditForm_geraetepasswort'" :label="'Gerätepasswort'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
+              <input class="m2" id="reparaturEditForm_geraetepasswort" maxlength="50" type="text" v-model="entity.geraetepasswort" :readonly="entity.geraetepasswortArt !== 0"></input>
             </div>
           </div>
           <div class="m1" v-if="entity.kunde">

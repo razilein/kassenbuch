@@ -5,12 +5,9 @@ var vm = new Vue({
       kunde: {},
     },
     einstellungDruckansichtNeuesFenster: true,
+    geraetepasswortarten: [],
     mitarbeiter: [],
-    pruefstatus: [
-      { key: 0, value: 'Gerät nicht geprüft' },
-      { key: true, value: 'Gerät funktioniert' },
-      { key: false, value: 'Gerät funktioniert nicht' }
-    ],
+    pruefstatus: [],
     reparaturarten: [],
     result: {},
     showDialog: false,
@@ -19,7 +16,8 @@ var vm = new Vue({
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.kunde && hasAllPropertiesAndNotEmpty(this.entity, ['kunde.id', 'kostenvoranschlag']) && this.entity.funktionsfaehig !== 0;
+      return this.entity && this.entity.kunde && hasAllPropertiesAndNotEmpty(this.entity, ['geraetepasswort', 'mitarbeiter', 'kunde.id', 'kostenvoranschlag']) &&
+        this.entity.funktionsfaehig !== -1;
     },
     init: function() {
       showLoader();
@@ -29,6 +27,12 @@ var vm = new Vue({
         .then(vm.setEinstellungDruckansichtNeuesFenster)
         .then(vm.getReparaturarten)
         .then(vm.setReparaturarten)
+        .then(vm.getMitarbeiter)
+        .then(vm.setMitarbeiter)
+        .then(vm.getGeraetepasswortarten)
+        .then(vm.setGeraetepasswortarten)
+        .then(vm.getPruefstatus)
+        .then(vm.setPruefstatus)
         .then(hideLoader);
     },
     saveFunc: function() {
@@ -72,6 +76,13 @@ var vm = new Vue({
       vm.result = data;
       vm.showDialog = true;
     },
+    setGeraetepasswort: function() {
+      if (vm.entity.geraetepasswortArt === 0) {
+        vm.entity.geraetepasswort = null;
+      } else {
+        vm.entity.geraetepasswort = vm.geraetepasswortarten[vm.entity.geraetepasswortArt].value;
+      }
+    },
     getAbholdatumZeit: function() {
       return axios.get('/reparatur/abholdatum/' + vm.entity.expressbearbeitung);
     },
@@ -85,7 +96,6 @@ var vm = new Vue({
     },
     setEntity: function(response) {
       vm.wochentagabholdatum = formatDayOfWeek(response.data.abholdatum);
-      response.data.funktionsfaehig = 0;
       vm.entity = response.data;
     },
     getEinstellungDruckansichtNeuesFenster: function() {
@@ -99,6 +109,24 @@ var vm = new Vue({
     },
     setReparaturarten: function(response) {
       vm.reparaturarten = response.data;
+    },
+    getMitarbeiter: function() {
+      return axios.get('/reparatur/mitarbeiter');
+    },
+    setMitarbeiter: function(response) {
+      vm.mitarbeiter = response.data;
+    },
+    getGeraetepasswortarten: function() {
+      return axios.get('/reparatur/geraetepasswortarten');
+    },
+    setGeraetepasswortarten: function(response) {
+      vm.geraetepasswortarten = response.data;
+    },
+    getPruefstatus: function() {
+      return axios.get('/reparatur/pruefstatus');
+    },
+    setPruefstatus: function(response) {
+      vm.pruefstatus = response.data;
     },
   }
 });

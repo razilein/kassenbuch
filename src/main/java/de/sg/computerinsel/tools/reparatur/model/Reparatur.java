@@ -33,6 +33,7 @@ public class Reparatur extends IntegerBaseObject {
     private Filiale filiale;
 
     @Size(max = MAX_LENGTH_MITARBEITER, message = "reparatur.mitarbeiter.error.size")
+    @NotEmpty(message = "reparatur.mitarbeiter.error.empty")
     @Column(name = "mitarbeiter")
     private String mitarbeiter;
 
@@ -67,8 +68,11 @@ public class Reparatur extends IntegerBaseObject {
     @Column(name = "geraetepasswort")
     private String geraetepasswort;
 
+    @Column(name = "geraetepasswort_art")
+    private int geraetepasswortArt;
+
     @Column(name = "funktionsfaehig")
-    private boolean funktionsfaehig;
+    private int funktionsfaehig;
 
     @Column(name = "expressbearbeitung")
     private boolean expressbearbeitung = false;

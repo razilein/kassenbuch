@@ -39,6 +39,7 @@ import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
+import de.sg.computerinsel.tools.reparatur.model.PruefstatusGeraet;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
 import de.sg.computerinsel.tools.reparatur.service.FeiertagUtils;
@@ -97,11 +98,11 @@ public class ReparaturRestController {
 
     private Reparatur createReparatur() {
         final Reparatur reparatur = new Reparatur();
-        reparatur.setMitarbeiter(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname());
         reparatur.setKunde(new Kunde());
         reparatur.setAbholdatum(berechneAbholdatum(false));
         reparatur.setAbholzeit(berechneAbholzeit(false));
         reparatur.setArt(ReparaturArt.REPARATUR.getCode());
+        reparatur.setFunktionsfaehig(PruefstatusGeraet.NICHT_DEFINIERT.getCode());
         return reparatur;
     }
 
@@ -154,8 +155,10 @@ public class ReparaturRestController {
             final boolean isErstellen = reparatur.getId() == null;
             if (isErstellen) {
                 reparatur.setErstelltAm(LocalDateTime.now());
-                reparatur.setMitarbeiter(StringUtils.abbreviate(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname(),
-                        Reparatur.MAX_LENGTH_MITARBEITER));
+                if (StringUtils.isBlank(reparatur.getMitarbeiter())) {
+                    reparatur.setMitarbeiter(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname());
+                }
+                reparatur.setMitarbeiter(StringUtils.abbreviate(reparatur.getMitarbeiter(), Reparatur.MAX_LENGTH_MITARBEITER));
                 final Optional<Mitarbeiter> optional = mitarbeiterService.getAngemeldeterMitarbeiter();
                 if (optional.isPresent()) {
                     reparatur.setFiliale(optional.get().getFiliale());
@@ -212,6 +215,16 @@ public class ReparaturRestController {
     @GetMapping("/reparaturarten")
     public List<DefaultKeyValue<Integer, String>> getReparaturarten() {
         return service.getReparaturarten();
+    }
+
+    @GetMapping("/geraetepasswortarten")
+    public List<DefaultKeyValue<Integer, String>> getGeraetepasswortarten() {
+        return service.getGeraetepasswortarten();
+    }
+
+    @GetMapping("/pruefstatus")
+    public List<DefaultKeyValue<Integer, String>> getPruefstatus() {
+        return service.getPruefstatus();
     }
 
 }

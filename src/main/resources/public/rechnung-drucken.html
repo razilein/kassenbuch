@@ -11,7 +11,8 @@
   </head>
   <body>
     <div id="rechnung-drucken">
-      <header>
+    <div v-for="item in 2">
+      <header style="page-break-before: always;">
         <div class="center" style="width: 250px; height: 90px;">
           <img src="/themes/icons/logo.png" width="250" height="90">
         </div>
@@ -137,7 +138,8 @@
         <span v-if="art === 'BAR'"> (Betrag in Bar erhalten)</span>
         <br>
         <br>
-        Rechnungsdatum entspricht Lieferdatum!
+        <span v-if="entity.rechnung.lieferdatum">Lieferdatum: {{entity.rechnung.lieferdatum}}</span>
+        <span v-if="!entity.rechnung.lieferdatum">Rechnungsdatum entspricht Lieferdatum!</span>
       </div>
       <footer style="background-color: white; z-index: 999;">
         <div class="center">
@@ -151,6 +153,7 @@
           Bankverbindung: Computer-Insel GbR . Commerzbank Leipzig . IBAN: DE50 8604 0000 0521 6668 00
         </div>
       </footer>
+    </div>
     </div>
   </body>
   <script src="/scripts/util.js"></script>
