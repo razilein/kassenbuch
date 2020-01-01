@@ -138,7 +138,8 @@
         <span v-if="art === 'BAR'"> (Betrag in Bar erhalten)</span>
         <br>
         <br>
-        Rechnungsdatum entspricht Lieferdatum!
+        <span v-if="entity.rechnung.lieferdatum">Lieferdatum: {{entity.rechnung.lieferdatum}}</span>
+        <span v-if="!entity.rechnung.lieferdatum">Rechnungsdatum entspricht Lieferdatum!</span>
       </div>
       <footer style="background-color: white; z-index: 999;">
         <div class="center">

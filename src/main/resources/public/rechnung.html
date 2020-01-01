@@ -133,6 +133,12 @@
               <span class="checkmark"></span>
             </label>
           </div>
+          <div class="m1">
+            <div class="m4m">
+              <label for="rechnungEditForm_lieferdatum">Lieferdatum</label>
+              <input class="m4" id="rechnungEditForm_lieferdatum" title="Wird das Feld leer gelassen, entspricht das Lieferdatum dem Rechnungsdatum" type="date" v-model="entity.rechnung.lieferdatum" />
+            </div>
+          </div>
           <div class="m1" v-if="entity.rechnung.bestellung">
             <label for="rechnungEditForm_bestellung">Bestellung</label>
             <button class="bestellung btnSmall" title="Bestellung suchen" @click="showBestellungDialog = true"></button>
