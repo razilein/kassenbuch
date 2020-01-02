@@ -21,7 +21,7 @@ Vue.component('posten-edit-dialog', {
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && hasAllPropertiesAndNotEmpty(this.entity, ['bezeichnung', 'menge', 'preis']) && this.entity.menge > 0 && this.entity.preis > 0.00;
+      return this.entity && hasAllPropertiesAndNotEmpty(this.entity, ['bezeichnung', 'menge', 'preis']) && this.entity.menge > 0;
     },
     saveFunc: function() {
       this.entity.menge = Number(this.entity.menge);
