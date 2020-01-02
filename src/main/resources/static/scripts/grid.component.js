@@ -84,6 +84,7 @@ Vue.component('grid', {
     this.columns.forEach(function(key) {
       order[key.name] = 1;
     });
+    this.pagesize = this.size || 10;
     this.reloadTabledata();
     return {
       actions: [],
