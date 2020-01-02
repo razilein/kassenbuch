@@ -54,9 +54,9 @@ public class KundeService {
     }
 
     public Page<VKunde> listKunden(final PageRequest pagination, final Map<String, String> conditions) {
-        final String vorname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "vorname");
-        final String nachname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "nachname");
-        final String firmenname = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "firmenname");
+        final String vorname = StringUtils.trimToNull(SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "vorname"));
+        final String nachname = StringUtils.trimToNull(SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "nachname"));
+        final String firmenname = StringUtils.trimToNull(SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "firmenname"));
         final String plz = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "plz");
         final String telefon = createSuchfeldTelefon(conditions.get("telefon"));
 
@@ -125,6 +125,9 @@ public class KundeService {
         if (kunde.getMobiltelefon() != null) {
             kunde.setMobiltelefon(formatTelefonnummer(kunde.getMobiltelefon()));
         }
+        kunde.setFirmenname(StringUtils.trimToNull(kunde.getFirmenname()));
+        kunde.setNachname(StringUtils.trimToNull(kunde.getNachname()));
+        kunde.setVorname(StringUtils.trimToNull(kunde.getVorname()));
         kunde.setSuchfeldName(createSuchfeldName(kunde.getFirmenname(), kunde.getVorname(), kunde.getNachname()));
         return kundeRepository.save(kunde);
     }
