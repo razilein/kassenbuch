@@ -36,15 +36,15 @@ public class AngebotDto {
             text.append(p.getBezeichnung());
             text.append(" (");
             final BigDecimal preis = p.getPreis().multiply(new BigDecimal(p.getMenge()));
-            text.append(CurrencyUtils.format(preis.multiply(new BigDecimal("1.19"))));
+            text.append(CurrencyUtils.format(preis));
             text.append(" EUR)");
             text.append(System.lineSeparator());
         });
         text.append(System.lineSeparator());
-        final BigDecimal netto = angebotsposten.stream().map(p -> p.getPreis().multiply(new BigDecimal(p.getMenge())))
+        final BigDecimal brutto = angebotsposten.stream().map(p -> p.getPreis().multiply(new BigDecimal(p.getMenge())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         text.append("Gesamt Brutto: ");
-        text.append(CurrencyUtils.format(netto.multiply(new BigDecimal("1.19"))));
+        text.append(CurrencyUtils.format(brutto));
         text.append(" EUR");
         return text.toString();
     }
