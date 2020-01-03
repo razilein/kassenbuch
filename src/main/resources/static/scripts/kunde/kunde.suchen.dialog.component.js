@@ -139,6 +139,7 @@ Vue.component('kunde-suchen-dialog', {
     handleEditResponse: function(data) {
       if (data.success) {
         this.showEditDialog = false;
+        this.grid.searchQuery = {};
         this.grid.searchQuery.firmenname = data.kunde.firmenname ? data.kunde.firmenname.trim() : null;
         this.grid.searchQuery.nachname = data.kunde.nachname ? data.kunde.nachname.trim() : null;
         this.grid.searchQuery.vorname = data.kunde.vorname ? data.kunde.vorname.trim() : null;
