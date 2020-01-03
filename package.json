@@ -1,6 +1,6 @@
 {
   "name": "kassenbuch",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "Kassenbuchprogramm für die Computer-Insel",
   "main": "index.js",
   "scripts": {
