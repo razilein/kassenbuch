@@ -51,7 +51,7 @@
       <div class="font15">Angebotsnummer: {{entity.angebot.filiale.kuerzel}}{{entity.nummerAnzeige}}</div>
       <br>
       <br>
-      <table>
+      <table style="border-collapse: collapse">
         <thead>
           <th style="text-align: center; width: 50px;">Menge</th>
           <th style="width: 500px;">Produkt/Dienstleistung</th>
@@ -59,28 +59,28 @@
           <th style="text-align: right; width: 100px;">Gesamtpreis</th>
         </thead>
         <tbody>
-          <tr v-for="posten in entity.angebotsposten">
-            <td style="text-align: center; width: 50px;">{{posten.menge}}</td>
-            <td style="width: 500px;">{{posten.bezeichnung}}</td>
-            <td style="text-align: right; width: 100px;">{{ formatMoney(posten.preis / 1.19) }} &euro;</td>
-            <td style="text-align: right; width: 100px;">{{ formatMoney(posten.preis * posten.menge / 1.19) }} &euro;</td>
+          <tr v-for="posten in entity.angebotsposten" style="border-bottom: 1px solid black;">
+            <td style="padding: 5px; text-align: center; width: 50px;">{{posten.menge}}</td>
+            <td style="padding: 5px; width: 500px;">{{posten.bezeichnung}}</td>
+            <td style="padding: 5px; text-align: right; width: 100px;">{{ formatMoney(posten.preis / 1.19) }} &euro;</td>
+            <td style="padding: 5px; text-align: right; width: 100px;">{{ formatMoney(posten.preis * posten.menge / 1.19) }} &euro;</td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td style="width: 50px;">&nbsp;</td>
+            <td style="padding: 5px; width: 50px;">&nbsp;</td>
             <td style="text-align: right; width: 500px;">Gesamt:</td>
             <td style="text-align: right; width: 100px;">&nbsp;</td>
             <td style="text-align: right; width: 100px;">{{ formatMoney(gesamtNetto) }} &euro;</td>
           </tr>
           <tr>
-            <td style="width: 50px;">&nbsp;</td>
+            <td style="padding: 3px; width: 50px;">&nbsp;</td>
             <td style="text-align: right; width: 500px;">zzgl. 19% MwSt.:</td>
             <td style="text-align: right; width: 100px;">&nbsp;</td>
             <td style="text-align: right; width: 100px;">{{ formatMoney(gesamtBrutto - gesamtNetto) }} &euro;</td>
           </tr>
           <tr>
-            <td style="width: 50px;">&nbsp;</td>
+            <td style="padding: 3px; width: 50px;">&nbsp;</td>
             <td style="text-align: right; width: 500px;">Gesamtpreis inkl. MwSt.:</td>
             <td style="text-align: right; width: 100px;">&nbsp;</td>
             <td style="text-align: right; width: 100px;">{{ formatMoney(gesamtBrutto) }} &euro;</td>

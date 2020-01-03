@@ -8,6 +8,6 @@ import de.sg.computerinsel.tools.angebot.model.Angebotsposten;
 
 public interface AngebotspostenRepository extends CrudRepository<Angebotsposten, Integer> {
 
-    List<Angebotsposten> findByAngebotId(Integer id);
+    List<Angebotsposten> findByAngebotIdOrderByPositionAsc(Integer id);
 
 }

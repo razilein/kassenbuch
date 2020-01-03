@@ -103,7 +103,7 @@ public class AngebotService {
     }
 
     public List<Angebotsposten> getAngebotsposten(final Integer angebotId) {
-        return angebotspostenRepository.findByAngebotId(angebotId);
+        return angebotspostenRepository.findByAngebotIdOrderByPositionAsc(angebotId);
     }
 
     public Angebot save(final Angebot angebot) {

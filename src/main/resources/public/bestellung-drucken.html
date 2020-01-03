@@ -76,7 +76,7 @@
           </tr>
           <tr>
             <td class="s1" valign="middle">Telefon:</td>
-            <td class="s2">{{entity.kunde.telefonAnzeige}}</td>
+            <td class="s2">{{entity.kunde.telefonAnzeige}} <span v-if="entity.kunde.telefonBemerkung">({{entity.kunde.telefonBemerkung}})</span></td>
             <td>&nbsp;</td>
           </tr>
           <tr>
