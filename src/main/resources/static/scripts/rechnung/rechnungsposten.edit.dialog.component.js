@@ -16,7 +16,7 @@ Vue.component('posten-edit-dialog', {
   </div>
   <div class="m1">
     <zeichenzaehler-label :elem="entity.seriennummer" :forid="'postenEditForm_seriennummer'" :label="'Seriennummer'" :maxlength="'100'"></zeichenzaehler-label>
-    <input class="m1" id="postenEditForm_seriennummer" maxlength="100" type="text" v-model="entity.seriennummer" />
+    <input class="m1" id="postenEditForm_seriennummer" maxlength="100" v-on:blur="removeLastComma" v-on:keyup.enter="entity.seriennummer = entity.seriennummer += ', ';" type="text" v-model="entity.seriennummer" />
   </div>
   <div class="m1">
     <zeichenzaehler-label :elem="entity.hinweis" :forid="'postenEditForm_hinweis'" :label="'Hinweis'" :maxlength="'300'"></zeichenzaehler-label>
@@ -35,6 +35,17 @@ Vue.component('posten-edit-dialog', {
       this.entity.menge = Number(this.entity.menge);
       this.entity.rabatt = Number(this.entity.rabatt);
       this.$emit('saved', this.entity);
+    },
+    removeLastComma: function() {
+      var nummer = this.entity.seriennummer;
+      if (nummer) {
+        nummer = nummer.trim();
+        var lastChar = nummer.substring(nummer.length - 1, nummer.length);
+        if (lastChar === ',') {
+          nummer = nummer.substring(0, nummer.length - 1);
+        }
+      }
+      this.entity.seriennummer = nummer;
     },
   }
 });
