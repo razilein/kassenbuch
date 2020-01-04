@@ -133,9 +133,9 @@ public class KundeService {
     }
 
     private String formatTelefonnummer(final String telefon) {
-        String result = telefon;
+        String result = StringUtils.trim(telefon);
         try {
-            if (!StringUtils.startsWithAny(result, "0", "+")) {
+            if (StringUtils.isNotBlank(telefon) && !StringUtils.startsWithAny(result, "0", "+")) {
                 result = DEFAULT_VORWAHL + result;
             }
             final PhoneNumber number = phoneNumberUtil.parseAndKeepRawInput(result, Locale.GERMANY.getLanguage().toUpperCase());

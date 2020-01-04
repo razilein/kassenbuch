@@ -57,6 +57,9 @@ class KundeServiceTest {
         "0174 120-078-9, 01741200789",
         "0174 120-078-9, +491741200789",
         "0174 120-078-9, 0174 12/007/8-9",
+        "0174 120-078-9, 01741200789 (AB)",
+        ", ",
+        "'', ''",
     })
     /* @formatter:on */
     void testFormatTelefonnummer(final String expected, final String number) throws Exception {
