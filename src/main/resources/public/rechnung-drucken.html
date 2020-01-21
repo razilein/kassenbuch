@@ -52,12 +52,14 @@
         <br>
         <br>
         <div class="rechnungHeader">
-          Rechnung <span v-if="entity.rechnung.reparatur"> zum Auftrag {{entity.rechnung.reparatur.filiale.kuerzel}}{{entity.rechnung.reparatur.nummer}}</span><span v-if="entity.rechnung.bestellung"> zur Bestellung {{entity.rechnung.bestellung.filiale.kuerzel}}{{entity.rechnung.bestellung.nummerAnzeige}}</span>
+          Rechnung {{entity.rechnung.filiale.kuerzel}}{{entity.rechnung.nummerAnzeige}}
         </div>
         <br>
         <div class="rechnungNummer">
-          <span class="left">Rechnungsnummer: {{entity.rechnung.filiale.kuerzel}}{{entity.rechnung.nummerAnzeige}}</span>
           <span class="right">Rechnungsdatum: {{entity.rechnung.datum}}</span>
+          <span class="left" v-if="entity.rechnung.reparatur && !entity.rechnung.bestellung">Auftragsnummer: {{entity.rechnung.reparatur.filiale.kuerzel}}{{entity.rechnung.reparatur.nummer}}</span>
+          <span class="left" v-if="!entity.rechnung.reparatur && entity.rechnung.bestellung">Bestellnummer: {{entity.rechnung.bestellung.filiale.kuerzel}}{{entity.rechnung.bestellung.nummerAnzeige}}</span>
+          <span class="left" v-if="entity.rechnung.reparatur && entity.rechnung.bestellung">Auftrags-/Bestellnummer: {{entity.rechnung.reparatur.filiale.kuerzel}}{{entity.rechnung.reparatur.nummer}} / {{entity.rechnung.bestellung.filiale.kuerzel}}{{entity.rechnung.bestellung.nummerAnzeige}}</span>
         </div>
         <br>
         <br>
@@ -134,7 +136,8 @@
       </table>
       <br>
       <div class="left" style="width: 100%">
-        Zahlungsart: {{art}}<span v-if="art === 'ÜBERWEISUNG'">, zahlbar ohne Abzüge innerhalb von 7 Tagen.</span>
+        Zahlungsart: {{art}}
+        <span v-if="art === 'ÜBERWEISUNG'"><br>Zahlbar ohne Abzüge innerhalb von 7 Tagen auf das unten angegebene Konto mit dem Verwendungszweck {{entity.rechnung.filiale.kuerzel}}{{entity.rechnung.nummerAnzeige}}.</span>
         <span v-if="art === 'BAR'"> (Betrag in Bar erhalten)</span>
         <br>
         <br>
