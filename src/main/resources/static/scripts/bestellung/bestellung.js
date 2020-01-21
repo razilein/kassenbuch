@@ -7,7 +7,6 @@ var vm = new Vue({
       filiale: {}
     },
     einstellungDruckansichtNeuesFenster: true,
-    mitarbeiter: [],
     result: {},
     showDialog: false,
     showAngebotDialog: false,
@@ -16,7 +15,7 @@ var vm = new Vue({
   },
   methods: {
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.kunde && hasAllPropertiesAndNotEmpty(this.entity, ['kunde.id', 'kosten', 'beschreibung']);
+      return this.entity && this.entity.kunde && hasAllPropertiesAndNotEmpty(this.entity, ['kunde.id', 'kosten', 'beschreibung']) && this.entity.ersteller;
     },
     init: function() {
       showLoader();
@@ -82,6 +81,9 @@ var vm = new Vue({
     },
     setEinstellungDruckansichtNeuesFenster: function(response) {
       vm.einstellungDruckansichtNeuesFenster = response.data.druckansichtNeuesFenster;
+    },
+    setMitarbeiter: function(mitarbeiter) {
+      vm.entity.ersteller = mitarbeiter;
     },
   }
 });

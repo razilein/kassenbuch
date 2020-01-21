@@ -7,7 +7,6 @@ var vm = new Vue({
     },
     einstellungDruckansichtNeuesFenster: true,
     geraetepasswortarten: [],
-    mitarbeiter: [],
     pruefstatus: [],
     reparaturarten: [],
     result: {},
@@ -29,8 +28,6 @@ var vm = new Vue({
         .then(vm.setEinstellungDruckansichtNeuesFenster)
         .then(vm.getReparaturarten)
         .then(vm.setReparaturarten)
-        .then(vm.getMitarbeiter)
-        .then(vm.setMitarbeiter)
         .then(vm.getGeraetepasswortarten)
         .then(vm.setGeraetepasswortarten)
         .then(vm.getPruefstatus)
@@ -119,11 +116,8 @@ var vm = new Vue({
     setReparaturarten: function(response) {
       vm.reparaturarten = response.data;
     },
-    getMitarbeiter: function() {
-      return axios.get('/reparatur/mitarbeiter');
-    },
-    setMitarbeiter: function(response) {
-      vm.mitarbeiter = response.data;
+    setMitarbeiter: function(mitarbeiter) {
+      vm.entity.mitarbeiter = mitarbeiter;
     },
     getGeraetepasswortarten: function() {
       return axios.get('/reparatur/geraetepasswortarten');

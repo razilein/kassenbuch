@@ -34,7 +34,8 @@ var vm = new Vue({
       vm.berechneEndpreis();
     },
     areRequiredFieldsNotEmpty: function() {
-      return this.entity && this.entity.angebot.kunde && hasAllPropertiesAndNotEmpty(this.entity, ['angebot.kunde.id']) && this.entity.angebotsposten.length > 0;
+      return this.entity && this.entity.angebot.kunde && hasAllPropertiesAndNotEmpty(this.entity, ['angebot.kunde.id']) &&
+         this.entity.angebotsposten.length > 0 && this.entity.angebot.ersteller;
     },
     berechneEndpreis: function() {
       var endpreis = 0;
@@ -129,6 +130,9 @@ var vm = new Vue({
     },
     setEinstellungDruckansichtNeuesFenster: function(response) {
       vm.einstellungDruckansichtNeuesFenster = response.data.druckansichtNeuesFenster;
+    },
+    setMitarbeiter: function(mitarbeiter) {
+      vm.entity.angebot.ersteller = mitarbeiter;
     },
   }
 });
