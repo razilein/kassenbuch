@@ -198,6 +198,9 @@ Vue.component('edit-dialog', {
       this.entity.rechnung.reparatur = reparatur;
       this.entity.rechnung.kunde = reparatur.kunde;
       this.entity.rechnung.nameDruckenBeiFirma = this.entity.rechnung.kunde.nameDruckenBeiFirma;
+      if (reparatur.bestellung) {
+        this.entity.rechnung.bestellung = reparatur.bestellung;
+      }
     },
     handleBestellungResponse: function(bestellung) {
       this.showBestellungDialog = false;
@@ -229,6 +232,9 @@ Vue.component('edit-dialog', {
     },
     setEntity: function(response) {
       var data = response.data;
+      if (!data.rechnung.bestellung) {
+        data.rechnung.bestellung = {};
+      }
       if (!data.rechnung.reparatur) {
         data.rechnung.reparatur = {};
       }

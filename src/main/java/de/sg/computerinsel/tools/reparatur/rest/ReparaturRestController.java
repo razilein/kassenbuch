@@ -35,6 +35,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.sg.computerinsel.tools.DateUtils;
+import de.sg.computerinsel.tools.bestellung.model.Bestellung;
+import de.sg.computerinsel.tools.bestellung.service.BestellungService;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
@@ -55,6 +57,9 @@ import de.sg.computerinsel.tools.service.ValidationService;
 @RestController
 @RequestMapping("/reparatur")
 public class ReparaturRestController {
+
+    @Autowired
+    private BestellungService bestellungService;
 
     @Autowired
     private EinstellungenService einstellungenService;
@@ -98,6 +103,7 @@ public class ReparaturRestController {
 
     private Reparatur createReparatur() {
         final Reparatur reparatur = new Reparatur();
+        reparatur.setBestellung(new Bestellung());
         reparatur.setKunde(new Kunde());
         reparatur.setAbholdatum(berechneAbholdatum(false));
         reparatur.setAbholzeit(berechneAbholzeit(false));
@@ -152,6 +158,9 @@ public class ReparaturRestController {
     public Map<String, Object> saveReparatur(@RequestBody final Reparatur reparatur) {
         final Map<String, Object> result = new HashMap<>(validationService.validate(reparatur));
         if (result.isEmpty()) {
+            if (reparatur.getBestellung() != null && reparatur.getBestellung().getId() == null) {
+                reparatur.setBestellung(null);
+            }
             final boolean isErstellen = reparatur.getId() == null;
             if (isErstellen) {
                 reparatur.setErstelltAm(LocalDateTime.now());
@@ -165,6 +174,7 @@ public class ReparaturRestController {
                 }
             }
             final Reparatur saved = service.save(reparatur);
+            bestellungErledigen(saved);
             if (isErstellen && reparatur.getKunde() != null && !reparatur.getKunde().isDsgvo()) {
                 kundeService.saveDsgvo(reparatur.getKunde().getId());
                 result.put(Message.INFO.getCode(), messageService.get("dsgvo.info"));
@@ -175,6 +185,15 @@ public class ReparaturRestController {
             protokollService.write(saved.getId(), REPARATUR, saved.getNummer(), isErstellen ? ERSTELLT : GEAENDERT);
         }
         return result;
+    }
+
+    private void bestellungErledigen(final Reparatur saved) {
+        if (saved.getBestellung() != null && saved.getBestellung().getId() != null) {
+            final Optional<Bestellung> optional = bestellungService.getBestellung(saved.getBestellung().getId());
+            if (optional.isPresent()) {
+                bestellungService.bestellungErledigen(optional.get(), true);
+            }
+        }
     }
 
     @PutMapping("/erledigen")

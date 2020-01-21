@@ -167,6 +167,9 @@ var vm = new Vue({
         vm.entity.rechnung.nameDrucken = true;
         vm.entity.rechnung.nameDruckenBeiFirma = vm.entity.rechnung.kunde.nameDruckenBeiFirma;
       }
+      if (reparatur.bestellung) {
+        vm.entity.rechnung.bestellung = reparatur.bestellung;
+      }
     },
     handleBestellungResponse: function(bestellung) {
       vm.showBestellungDialog = false;

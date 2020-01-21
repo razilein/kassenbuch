@@ -2,6 +2,7 @@ var vm = new Vue({
   el: '#reparaturErstellen',
   data: {
     entity: {
+      bestellung: {},
       kunde: {},
     },
     einstellungDruckansichtNeuesFenster: true,
@@ -11,6 +12,7 @@ var vm = new Vue({
     reparaturarten: [],
     result: {},
     showDialog: false,
+    showBestellungDialog: false,
     showKundeDialog: false,
     wochentagabholdatum: ''
   },
@@ -61,6 +63,13 @@ var vm = new Vue({
     handleKundeResponse: function(kunde) {
       vm.showKundeDialog = false;
       vm.entity.kunde = kunde;
+    },
+    handleBestellungResponse: function(bestellung) {
+      vm.showBestellungDialog = false;
+      vm.entity.bestellung = bestellung;
+      vm.entity.kunde = bestellung.kunde;
+      vm.entity.kostenvoranschlag = bestellung.kosten;
+      vm.editKostenvoranschlag();
     },
     openReparatur: function(response) {
       var data = response.data;

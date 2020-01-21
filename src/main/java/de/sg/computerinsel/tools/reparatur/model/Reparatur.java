@@ -16,6 +16,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import de.sg.computerinsel.tools.bestellung.model.Bestellung;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,10 @@ import lombok.Setter;
 public class Reparatur extends IntegerBaseObject {
 
     public static final int MAX_LENGTH_MITARBEITER = 200;
+
+    @ManyToOne
+    @JoinColumn(name = "bestellung_id", referencedColumnName = "id")
+    private Bestellung bestellung;
 
     @ManyToOne
     @JoinColumn(name = "filiale_id", referencedColumnName = "id")
