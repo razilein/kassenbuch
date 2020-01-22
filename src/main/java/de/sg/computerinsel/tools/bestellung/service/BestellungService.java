@@ -51,8 +51,10 @@ public class BestellungService {
         final boolean isErstellen = bestellung.getId() == null;
         if (isErstellen) {
             bestellung.setErstelltAm(LocalDateTime.now());
-            bestellung.setErsteller(StringUtils.abbreviate(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname(),
-                    Reparatur.MAX_LENGTH_MITARBEITER));
+            if (StringUtils.isBlank(bestellung.getErsteller())) {
+                bestellung.setErsteller(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname());
+            }
+            bestellung.setErsteller(StringUtils.abbreviate(bestellung.getErsteller(), Reparatur.MAX_LENGTH_MITARBEITER));
             bestellung.setFiliale(mitarbeiterService.getAngemeldeterMitarbeiterFiliale().orElseGet(Filiale::new));
             final String nummer = getBestellungJahrZweistellig() + mitarbeiterService.getAndSaveNextBestellnummer();
             bestellung.setNummer(Ints.tryParse(nummer));

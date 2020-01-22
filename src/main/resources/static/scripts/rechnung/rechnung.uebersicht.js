@@ -65,7 +65,7 @@ var vm = new Vue({
     sendMailFunction: function(row) {
       vm.versendenDialog.row = row;
       vm.showVersendenDialog = true;
-      vm.openFunction(row);
+      vm.openFunction(row, 1);
     },
     
     handleSendResponse: function(data) {
@@ -140,11 +140,13 @@ var vm = new Vue({
       return !vm.rechte['ROLE_RECHNUNG_VERWALTEN'];
     },
     
-    openFunction: function(row) {
+    openFunction: function(row, anzahl) {
+      var exemplare = anzahl ? anzahl : (row.art === 2 ? 1 : 2);
+      var params = '?id=' + row.id + '&exemplare=' + exemplare;
       if (vm.einstellungDruckansichtNeuesFenster) {
-        window.open('/rechnung-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
+        window.open('/rechnung-drucken.html' + params, '_blank', 'resizable=yes');
       } else {
-        window.open('/rechnung-drucken.html?id=' + row.id);
+        window.open('/rechnung-drucken.html' + params);
       }
     },
     

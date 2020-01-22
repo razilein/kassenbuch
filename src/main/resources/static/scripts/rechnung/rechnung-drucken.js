@@ -15,6 +15,7 @@ var vm = new Vue({
       posten: []
     },
     einstellungDruckansichtDruckdialog: true,
+    exemplare: parseInt(getParamFromCurrentUrl('exemplare') || 2),
     gesamtnetto: 0.00,
     gesamtmwst: 0.00,
     gesamtrabatt: 0.00,

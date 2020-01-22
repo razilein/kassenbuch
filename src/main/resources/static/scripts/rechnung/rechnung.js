@@ -167,6 +167,9 @@ var vm = new Vue({
         vm.entity.rechnung.nameDrucken = true;
         vm.entity.rechnung.nameDruckenBeiFirma = vm.entity.rechnung.kunde.nameDruckenBeiFirma;
       }
+      if (reparatur.bestellung) {
+        vm.entity.rechnung.bestellung = reparatur.bestellung;
+      }
     },
     handleBestellungResponse: function(bestellung) {
       vm.showBestellungDialog = false;
@@ -185,11 +188,12 @@ var vm = new Vue({
     openRechnung: function(response) {
       var data = response.data;
       if (data.success || data.info) {
-        var id = data.rechnung.id;
+        var exemplare = data.rechnung.art === 2 ? 1 : 2;
+        var params = '?id=' + data.rechnung.id + '&exemplare=' + exemplare;
         if (vm.einstellungDruckansichtNeuesFenster) {
-          window.open('/rechnung-drucken.html?id=' + id, '_blank', 'resizable=yes');
+          window.open('/rechnung-drucken.html' + params, '_blank', 'resizable=yes');
         } else {
-          window.open('/rechnung-drucken.html?id=' + id);
+          window.open('/rechnung-drucken.html' + params);
         }
         vm.init();
       }

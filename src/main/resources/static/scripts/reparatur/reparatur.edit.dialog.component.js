@@ -47,6 +47,12 @@ Vue.component('edit-dialog', {
       <input class="m2" id="reparaturEditForm_geraetepasswort" maxlength="50" type="text" v-model="entity.geraetepasswort" :readonly="entity.geraetepasswortArt !== 0"></input>
     </div>
   </div>
+  <div class="m1" v-if="entity.bestellung">
+    <label for="reparaturEditForm_bestellung">Bestellung</label>
+    <button class="bestellung btnSmall" title="Bestellung suchen" @click="showBestellungDialog = true"></button>
+    <button class="delete btnSmall" title="Bestellung deselektieren" @click="entity.bestellung = {}"></button>
+    <textarea class="m1" id="reparaturEditForm_bestellung" readonly v-model="entity.bestellung.beschreibung"></textarea>
+  </div>
   <div class="m1" v-if="entity.kunde">
     <label for="reparaturEditForm_kunde">Kunde</label><button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
     <textarea class="m1" id="reparaturEditForm_kunde" readonly v-model="entity.kunde.completeWithAdressAndPhone"></textarea>
@@ -92,6 +98,12 @@ Vue.component('edit-dialog', {
       <input class="m2" id="reparaturEditForm_mitarbeiter" readonly type="text" :value="entity.mitarbeiter" />
     </div>
   </div>
+  <bestellung-suchen-dialog
+    :kunde="entity.kunde"
+    v-if="showBestellungDialog"
+    @close="showBestellungDialog = false"
+    @saved="handleBestellungResponse"
+  ></bestellung-suchen-dialog>
   <kunde-suchen-dialog
     :kunde="entity.kunde"
     v-if="showKundeDialog"
@@ -107,11 +119,15 @@ Vue.component('edit-dialog', {
   data: function() {
     this.loadEntity();
     return {
-      entity: {},
+      entity: {
+        bestellung: {},
+        kunde: {},
+      },
       geraetepasswortarten: [],
       pruefstatus: [],
       reparaturarten: {},
-      showKundeDialog: false
+      showKundeDialog: false,
+      showBestellungDialog: false
     };
   },
   methods: {
@@ -132,6 +148,13 @@ Vue.component('edit-dialog', {
         kosten = kosten.replace('+ 25,- Expresspauschale', '');
       }
       this.entity.kostenvoranschlag = kosten.trim() || null;
+    },
+    handleBestellungResponse: function(bestellung) {
+      this.showBestellungDialog = false;
+      this.entity.bestellung = bestellung;
+      this.entity.kunde = bestellung.kunde;
+      this.entity.kostenvoranschlag = bestellung.kosten;
+      this.editKostenvoranschlag();
     },
     loadEntity: function() {
       showLoader();
@@ -177,7 +200,11 @@ Vue.component('edit-dialog', {
       return axios.get(this.restUrlGet);
     },
     setEntity: function(response) {
-      this.entity = response.data;
+      var data = response.data;
+      if (!data.bestellung) {
+        data.bestellung = {};
+      }
+      this.entity = data;
     },
     getReparaturarten: function() {
       return axios.get('/reparatur/reparaturarten');

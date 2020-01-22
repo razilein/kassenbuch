@@ -2,15 +2,16 @@ var vm = new Vue({
   el: '#reparaturErstellen',
   data: {
     entity: {
+      bestellung: {},
       kunde: {},
     },
     einstellungDruckansichtNeuesFenster: true,
     geraetepasswortarten: [],
-    mitarbeiter: [],
     pruefstatus: [],
     reparaturarten: [],
     result: {},
     showDialog: false,
+    showBestellungDialog: false,
     showKundeDialog: false,
     wochentagabholdatum: ''
   },
@@ -27,8 +28,6 @@ var vm = new Vue({
         .then(vm.setEinstellungDruckansichtNeuesFenster)
         .then(vm.getReparaturarten)
         .then(vm.setReparaturarten)
-        .then(vm.getMitarbeiter)
-        .then(vm.setMitarbeiter)
         .then(vm.getGeraetepasswortarten)
         .then(vm.setGeraetepasswortarten)
         .then(vm.getPruefstatus)
@@ -61,6 +60,13 @@ var vm = new Vue({
     handleKundeResponse: function(kunde) {
       vm.showKundeDialog = false;
       vm.entity.kunde = kunde;
+    },
+    handleBestellungResponse: function(bestellung) {
+      vm.showBestellungDialog = false;
+      vm.entity.bestellung = bestellung;
+      vm.entity.kunde = bestellung.kunde;
+      vm.entity.kostenvoranschlag = bestellung.kosten;
+      vm.editKostenvoranschlag();
     },
     openReparatur: function(response) {
       var data = response.data;
@@ -110,11 +116,8 @@ var vm = new Vue({
     setReparaturarten: function(response) {
       vm.reparaturarten = response.data;
     },
-    getMitarbeiter: function() {
-      return axios.get('/reparatur/mitarbeiter');
-    },
-    setMitarbeiter: function(response) {
-      vm.mitarbeiter = response.data;
+    setMitarbeiter: function(mitarbeiter) {
+      vm.entity.mitarbeiter = mitarbeiter;
     },
     getGeraetepasswortarten: function() {
       return axios.get('/reparatur/geraetepasswortarten');

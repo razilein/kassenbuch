@@ -110,8 +110,10 @@ public class AngebotService {
         final boolean isErstellen = angebot.getId() == null;
         if (isErstellen) {
             angebot.setErstelltAm(LocalDateTime.now());
-            angebot.setErsteller(StringUtils.abbreviate(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname(),
-                    Reparatur.MAX_LENGTH_MITARBEITER));
+            if (StringUtils.isBlank(angebot.getErsteller())) {
+                angebot.setErsteller(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname());
+            }
+            angebot.setErsteller(StringUtils.abbreviate(angebot.getErsteller(), Reparatur.MAX_LENGTH_MITARBEITER));
             angebot.setFiliale(mitarbeiterService.getAngemeldeterMitarbeiterFiliale().orElseGet(Filiale::new));
             final String nummer = getAngebotJahrZweistellig() + mitarbeiterService.getAndSaveNextAngebotsnummer();
             angebot.setNummer(Ints.tryParse(nummer));

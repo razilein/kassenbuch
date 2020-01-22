@@ -21,13 +21,7 @@
       <page-header-reparatur v-bind:marker="'Erstellen'"></page-header-reparatur>
       <div id="content">
         <div class="form m1">
-          <div class="m1">
-            <label class="required" for="reparaturEditForm_mitarbeiter">Ersteller</label>
-            <select class="m1" id="reparaturEditForm_mitarbeiter" v-model="entity.mitarbeiter">
-              <option value=""></option>
-              <option :value="m.value" v-for="m in mitarbeiter">{{m.value}}</option>
-            </select>
-          </div>
+          <ersteller-select @changed="setMitarbeiter"></ersteller-select>
           <div class="m1">
             <label class="container radio" v-for="art in reparaturarten">
               <input
@@ -72,6 +66,12 @@
               <zeichenzaehler-label :elem="entity.geraetepasswort" :forid="'reparaturEditForm_geraetepasswort'" :label="'Gerätepasswort'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
               <input class="m2" id="reparaturEditForm_geraetepasswort" maxlength="50" type="text" v-model="entity.geraetepasswort" :readonly="entity.geraetepasswortArt !== 0"></input>
             </div>
+          </div>
+          <div class="m1" v-if="entity.bestellung">
+            <label for="reparaturEditForm_bestellung">Bestellung</label>
+            <button class="bestellung btnSmall" title="Bestellung suchen" @click="showBestellungDialog = true"></button>
+            <button class="delete btnSmall" title="Bestellung deselektieren" @click="entity.bestellung = {}"></button>
+            <textarea class="m1" id="reparaturEditForm_bestellung" readonly v-model="entity.bestellung.beschreibung"></textarea>
           </div>
           <div class="m1" v-if="entity.kunde">
             <label for="reparaturEditForm_kunde">Kunde</label><button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
@@ -121,6 +121,12 @@
         </div>
       </div>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+      <bestellung-suchen-dialog
+        :kunde="entity.kunde"
+        v-if="showBestellungDialog"
+        @close="showBestellungDialog = false"
+        @saved="handleBestellungResponse"
+      ></bestellung-suchen-dialog>
       <kunde-suchen-dialog
         :kunde="entity.kunde"
         v-if="showKundeDialog"
@@ -134,6 +140,8 @@
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/grid.component.js"></script>
   <script src="/scripts/zeichenzaehler.component.js"></script>
+  <script src="/scripts/ersteller.select.component.js"></script>
+  <script src="/scripts/bestellung/bestellung.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>
   <script src="/scripts/reparatur/reparatur.header.component.js"></script>
