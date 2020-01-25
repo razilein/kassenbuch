@@ -9,7 +9,7 @@ Vue.component('ersteller-select', {
   </div>
   `,
   props: {
-    entity: String,
+    reset: Boolean,
   },
   data: function() {
     this.loadEntity();
@@ -17,6 +17,20 @@ Vue.component('ersteller-select', {
       mitarbeiter: [],
       selection: '',
     };
+  },
+  mounted() {
+    this.$watch(
+      function() {
+        return this.reset;
+      },
+      function(newVal, oldVal) {
+        if (newVal === true && oldVal === false) {
+          this.selection = '';
+          this.$emit('resetted');
+        }
+      },
+      { deep: true }
+    );
   },
   methods: {
     loadEntity: function() {

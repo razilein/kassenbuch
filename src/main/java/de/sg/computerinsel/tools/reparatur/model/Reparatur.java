@@ -55,6 +55,7 @@ public class Reparatur extends IntegerBaseObject {
 
     @Size(max = 500, message = "reparatur.geraet.error.size")
     @Column(name = "geraet")
+    @NotEmpty(message = "reparatur.geraet.error.empty")
     private String geraet;
 
     @Size(max = 500, message = "reparatur.seriennummer.error.size")

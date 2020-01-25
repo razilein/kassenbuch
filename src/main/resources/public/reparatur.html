@@ -21,7 +21,11 @@
       <page-header-reparatur v-bind:marker="'Erstellen'"></page-header-reparatur>
       <div id="content">
         <div class="form m1">
-          <ersteller-select @changed="setMitarbeiter"></ersteller-select>
+          <ersteller-select
+            :reset="resetErsteller"
+            @changed="setMitarbeiter"
+            @resetted="resetErsteller = false;"
+          ></ersteller-select>
           <div class="m1">
             <label class="container radio" v-for="art in reparaturarten">
               <input
@@ -34,7 +38,7 @@
             </label>
           </div>
           <div class="m1">
-            <zeichenzaehler-label :elem="entity.geraet" :forid="'reparaturEditForm_geraet'" :label="'Gerät / Zubehör'" :maxlength="'500'"></zeichenzaehler-label>
+            <zeichenzaehler-label :elem="entity.geraet" :forid="'reparaturEditForm_geraet'" :label="'Gerät / Zubehör'" :maxlength="'500'" :required="true"></zeichenzaehler-label>
             <input class="m1" id="reparaturEditForm_geraet" maxlength="500" type="text" v-model="entity.geraet"></input>
           </div>
           <div class="m1">

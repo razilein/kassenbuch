@@ -12,7 +12,7 @@ var vm = new Vue({
     endpreis: 0.00,
     einstellungDruckansichtNeuesFenster: true,
     editEntity: {},
-    mitarbeiter: [],
+    resetErsteller: false,
     result: {},
     showDialog: false,
     showEditDialog: false,
@@ -67,6 +67,7 @@ var vm = new Vue({
     },
     init: function() {
       showLoader();
+      vm.resetErsteller = true;
       vm.getEntity()
         .then(vm.setEntity)
         .then(vm.getEinstellungDruckansichtNeuesFenster)
