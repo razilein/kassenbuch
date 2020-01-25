@@ -1,0 +1,2 @@
+UPDATE reparatur SET geraet = '-' WHERE geraet IS NULL;
+ALTER TABLE "PUBLIC"."REPARATUR" ALTER COLUMN geraet SET NOT NULL;

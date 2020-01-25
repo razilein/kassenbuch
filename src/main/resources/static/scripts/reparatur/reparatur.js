@@ -18,7 +18,7 @@ var vm = new Vue({
   methods: {
     areRequiredFieldsNotEmpty: function() {
       return this.entity && this.entity.kunde && hasAllPropertiesAndNotEmpty(this.entity, ['geraetepasswort', 'mitarbeiter', 'kunde.id', 'kostenvoranschlag']) &&
-        this.entity.funktionsfaehig !== -1;
+        this.entity.funktionsfaehig !== -1 && this.entity.geraet;
     },
     init: function() {
       showLoader();
