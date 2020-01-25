@@ -10,6 +10,7 @@ var vm = new Vue({
     pruefstatus: [],
     reparaturarten: [],
     result: {},
+    resetErsteller: false,
     showDialog: false,
     showBestellungDialog: false,
     showKundeDialog: false,
@@ -22,6 +23,7 @@ var vm = new Vue({
     },
     init: function() {
       showLoader();
+      vm.resetErsteller = true;
       vm.getEntity()
         .then(vm.setEntity)
         .then(vm.getEinstellungDruckansichtNeuesFenster)

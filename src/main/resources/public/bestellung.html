@@ -21,7 +21,11 @@
       <page-header-bestellung v-bind:marker="'Erstellen'"></page-header-bestellung>
       <div id="content">
         <div class="form m1">
-          <ersteller-select @changed="setMitarbeiter"></ersteller-select>
+          <ersteller-select
+            :reset="resetErsteller"
+            @changed="setMitarbeiter"
+            @resetted="resetErsteller = false;"
+          ></ersteller-select>
           <div class="m1" v-if="entity.angebot">
             <label for="bestellungEditForm_angebot">Angebot</label>
             <button class="angebot btnSmall" title="Angebot suchen" @click="showAngebotDialog = true"></button>

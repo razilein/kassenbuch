@@ -74,7 +74,11 @@
           </div>
         </div>
         <div class="form m1">
-          <ersteller-select @changed="setMitarbeiter"></ersteller-select>
+          <ersteller-select
+            :reset="resetErsteller"
+            @changed="setMitarbeiter"
+            @resetted="resetErsteller = false;"
+          ></ersteller-select>
           <div class="m1" v-if="entity.angebot.kunde">
             <label class="required" for="angebotEditForm_angebot_kunde">Kunde</label>
             <button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>

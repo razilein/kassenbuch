@@ -8,6 +8,7 @@ var vm = new Vue({
     },
     einstellungDruckansichtNeuesFenster: true,
     result: {},
+    resetErsteller: false,
     showDialog: false,
     showAngebotDialog: false,
     showKundeDialog: false,
@@ -19,6 +20,7 @@ var vm = new Vue({
     },
     init: function() {
       showLoader();
+      vm.resetErsteller = true;
       vm.getEntity()
         .then(vm.setEntity)
         .then(vm.getEinstellungDruckansichtNeuesFenster)
