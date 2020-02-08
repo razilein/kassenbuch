@@ -23,6 +23,8 @@ public class EinstellungenData {
 
     Einstellungen mailSignatur;
 
+    Einstellungen mailBodyAngebot;
+
     Einstellungen mailBodyRechnung;
 
     Einstellungen mailBodyReparatur;

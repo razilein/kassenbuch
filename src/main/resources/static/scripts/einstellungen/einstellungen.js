@@ -7,6 +7,7 @@ var vm = new Vue({
       ftpPort: {},
       ftpUser: {},
       ftpPassword: {},
+      mailBodyAngebot: {},
       mailBodyRechnung: {},
       mailBodyReparatur: {},
       mailSignatur: {},

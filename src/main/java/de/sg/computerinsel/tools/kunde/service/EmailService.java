@@ -6,11 +6,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
+import javax.mail.Flags.Flag;
+import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import javax.mail.Store;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
@@ -23,6 +26,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import de.sg.computerinsel.tools.angebot.dto.AngebotDto;
+import de.sg.computerinsel.tools.angebot.model.Angebot;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
@@ -30,10 +35,14 @@ import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @AllArgsConstructor
 @Service
+@Slf4j
 public class EmailService {
+
+    private static final String PLACEHOLDER_NUMMER = "#NUMMER#";
 
     private final EinstellungenService einstellungService;
 
@@ -47,14 +56,15 @@ public class EmailService {
         try {
             final Kunde kunde = rechnung.getKunde();
 
-            final Message message = new MimeMessage(initSmtpSession());
+            final Session session = initSmtpSession();
+            final Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(rechnung.getFiliale().getEmail()));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(kunde.getEmail()));
             message.setSubject("Rechnung " + nummer);
 
             final StringBuilder builder = new StringBuilder();
             setMailHeader(kunde, anrede, builder);
-            builder.append(RegExUtils.replaceAll(einstellungService.getMailBodyRechnung().getWert(), "#NUMMER#", nummer));
+            builder.append(RegExUtils.replaceAll(einstellungService.getMailBodyRechnung().getWert(), PLACEHOLDER_NUMMER, nummer));
             setMailFooter(builder);
 
             final MimeBodyPart mimeBodyPart = new MimeBodyPart();
@@ -73,6 +83,7 @@ public class EmailService {
             message.setContent(multipart);
 
             Transport.send(message);
+            addToSentFolder(message, session);
         } catch (final MessagingException | IOException e) {
             throw new IllegalArgumentException(e);
         } finally {
@@ -86,14 +97,15 @@ public class EmailService {
         try {
             final Kunde kunde = reparatur.getKunde();
 
-            final Message message = new MimeMessage(initSmtpSession());
+            final Session session = initSmtpSession();
+            final Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(reparatur.getFiliale().getEmail()));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(kunde.getEmail()));
             message.setSubject("Reparaturauftrag " + nummer);
 
             final StringBuilder builder = new StringBuilder();
             setMailHeader(kunde, anrede, builder);
-            builder.append(RegExUtils.replaceAll(einstellungService.getMailBodyReparaturauftrag().getWert(), "#NUMMER#", nummer));
+            builder.append(RegExUtils.replaceAll(einstellungService.getMailBodyReparaturauftrag().getWert(), PLACEHOLDER_NUMMER, nummer));
             setMailFooter(builder);
 
             final MimeBodyPart mimeBodyPart = new MimeBodyPart();
@@ -105,10 +117,67 @@ public class EmailService {
             message.setContent(multipart);
 
             Transport.send(message);
+            addToSentFolder(message, session);
         } catch (final MessagingException e) {
             throw new IllegalArgumentException(e);
         }
 
+    }
+
+    public void sendeEmail(final MultipartFile file, final AngebotDto dto, final String anrede) {
+        final Angebot angebot = dto.getAngebot();
+        final String nummer = angebot.getFiliale().getKuerzel() + angebot.getNummer();
+        File angebotFile = null;
+        try {
+            final Kunde kunde = angebot.getKunde();
+
+            final Session session = initSmtpSession();
+            final Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(angebot.getFiliale().getEmail()));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(kunde.getEmail()));
+            message.setSubject("Angebot " + nummer);
+
+            final StringBuilder builder = new StringBuilder();
+            setMailHeader(kunde, anrede, builder);
+            builder.append(RegExUtils.replaceAll(einstellungService.getMailBodyAngebot().getWert(), PLACEHOLDER_NUMMER, nummer));
+            setMailFooter(builder);
+
+            final MimeBodyPart mimeBodyPart = new MimeBodyPart();
+            mimeBodyPart.setText(builder.toString(), StandardCharsets.UTF_8.name());
+
+            final MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+
+            angebotFile = File.createTempFile("Angebot_" + angebot.getNummer() + "_", ".pdf");
+            FileUtils.writeByteArrayToFile(angebotFile, file.getBytes());
+            attachmentBodyPart.attachFile(angebotFile);
+
+            final Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(mimeBodyPart);
+            multipart.addBodyPart(attachmentBodyPart);
+
+            message.setContent(multipart);
+
+            Transport.send(message);
+            addToSentFolder(message, session);
+        } catch (final MessagingException | IOException e) {
+            throw new IllegalArgumentException(e);
+        } finally {
+            FileUtils.deleteQuietly(angebotFile);
+        }
+
+    }
+
+    private void addToSentFolder(final Message message, final Session session) {
+        try (Store store = session.getStore("imap");) {
+            store.connect(einstellungService.getSmtpHost().getWert(), einstellungService.getSmtpUser().getWert(),
+                    einstellungService.getSmtpPassword().getWert());
+            final Folder folder = store.getFolder("Gesendet");
+            folder.open(Folder.READ_WRITE);
+            message.setFlag(Flag.SEEN, true);
+            folder.appendMessages(new Message[] { message });
+        } catch (final MessagingException e) {
+            log.error("Fehler beim Ablegen der E-Mail im Gesendet-Order", e.getMessage(), e);
+        }
     }
 
     private void setMailFooter(final StringBuilder builder) {

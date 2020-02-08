@@ -95,6 +95,12 @@
         @close="showDeleteDialog = false"
         @deleted="handleDeleteResponse"
       ></delete-dialog>
+      <angebot-versenden-dialog
+        :row="versendenDialog.row"
+        v-if="showVersendenDialog"
+        @close="showVersendenDialog = false"
+        @sended="handleSendResponse"
+      ></angebot-versenden-dialog>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
     </div>
   </body>
@@ -109,6 +115,7 @@
   <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>
   <script src="/scripts/angebot/angebot.edit.dialog.component.js"></script>
   <script src="/scripts/angebot/angebotsposten.edit.dialog.component.js"></script>
+  <script src="/scripts/angebot/angebot.versenden.dialog.component.js"></script>
   <script src="/scripts/angebot/angebot.header.component.js"></script>
   <script src="/scripts/angebot/angebot.uebersicht.js"></script>
 </html>

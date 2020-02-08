@@ -76,6 +76,10 @@ public class EinstellungenService {
         return getEinstellung("mail.signatur");
     }
 
+    public Einstellungen getMailBodyAngebot() {
+        return getEinstellung("mail.body.angebot");
+    }
+
     public Einstellungen getMailBodyRechnung() {
         return getEinstellung("mail.body.rechnung");
     }

@@ -29,6 +29,7 @@ var vm = new Vue({
       restUrlSave: '/angebot/',
       title: 'Angebot bearbeiten',
     },
+    versendenDialog: {},
     grid: {
       actions: [],
       gridColumns: [],
@@ -52,6 +53,25 @@ var vm = new Vue({
         vm.showEditDialog = false;
         vm.grid.reload = true;
       } 
+      vm.result = data;
+      vm.showDialog = true;
+    },
+    
+    canSendEmail: function(row) {
+      return !row.kunde || !row.kunde.email;
+    },
+    
+    sendMailFunction: function(row) {
+      vm.versendenDialog.row = row;
+      vm.showVersendenDialog = true;
+      vm.openFunction(row);
+    },
+    
+    handleSendResponse: function(data) {
+      hideLoader();
+      if (data.success) {
+        vm.showVersendenDialog = false;
+      }
       vm.result = data;
       vm.showDialog = true;
     },
@@ -134,6 +154,7 @@ var vm = new Vue({
           { clazz: 'open-new-tab', disabled: vm.hasNotRoleAngebotAnzeigen, title: 'Angebot öffnen', clickFunc: vm.openFunction },
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Angebot bearbeiten', clickFunc: vm.editFunction },
           { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.erledigenFunction },
+          { clazz: 'email', disabled: vm.canSendEmail, title: 'Angebot per E-Mail an den Kunden versenden', clickFunc: vm.sendMailFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Angebot löschen', clickFunc: vm.deleteFunction }
         ] },
         { name: 'nummer', title: 'Angebot-Nr.', width: 80 },

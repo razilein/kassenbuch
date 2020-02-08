@@ -171,6 +171,10 @@ Durch Klick auf das *Öffnen-Icon* kann das Angebot in der Druckansicht angezeig
 
 Durch Klick auf das *Bearbeiten-Icon* kann das Angebot bearbeitet werden.
 
+Durch Klick auf das *E-Mail-Icon* kann dem Kunden das Angebot zugesendet werden. Dazu muss das Angebot zuerst als PDF gedruckt und im
+sich öffnenden Dialog gewählt werden.
+Dieses Icon ist nur sichtbar, wenn zum Kunden eine E-Mail-Adresse hinterlegt ist.
+
 Durch Klick auf das *Löschen-Icon* kann ein Angebot nach nochmaliger Bestätigung gelöscht werden.
 
 ## Bestellung
@@ -389,9 +393,9 @@ Diese Daten dienen dazu, um die Bestellliste lesen/schreiben zu können.
 #### SMTP-Server
 Hier sind die Verbindungsdaten zum SMTP-Server anzugeben.
 Dabei sind beim Benutzernamen/Passwort die Daten der Filialenadresse anzugeben.
-Die Daten werden benötigt, um den Kunden per E-Mail über einen abgeschlossenen Reparaturauftrag zu informieren oder eine Rechnung zu senden.
+Die Daten werden benötigt, um den Kunden per E-Mail über einen abgeschlossenen Reparaturauftrag zu informieren oder eine Rechnung oder ein Angebot zu senden.
 Mit Hilfe der E-Mail-Inhalt-Felder kann allgemein gültig der Inhalt der E-Mail bestimmt werden. Als Platzhalter kann #NUMMER# verwendet werden,
-um die Rechnungs- oder Reparaturnummer in den Text einzufügen.
+um die Rechnungs-, Reparatur oder Angebotsnummer in den Text einzufügen.
 Die Signatur wird immer im Fuß der E-Mail hinzugefügt.
 
 ## Filialen
