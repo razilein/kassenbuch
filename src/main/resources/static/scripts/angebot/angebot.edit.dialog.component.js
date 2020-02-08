@@ -187,7 +187,7 @@ Vue.component('edit-dialog', {
     },
     handleKundeResponse: function(kunde) {
       this.showKundeDialog = false;
-      this.entity.kunde = kunde;
+      this.entity.angebot.kunde = kunde;
     },
     getEntity: function() {
       return axios.get(this.restUrlGet);
