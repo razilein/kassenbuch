@@ -34,6 +34,9 @@ var vm = new Vue({
     },
     
     setEntity: function(response) {
+      if (!response.data.kunde) {
+        response.data.kunde = {};
+      }
       this.entity = response.data;
     },
     
