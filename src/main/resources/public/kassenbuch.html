@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/themes/css/style.css">
     <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
@@ -23,18 +24,18 @@
         <div class="form">
           <div class="m1">
             <div class="m4m">
-              <label class="required" for="kassenbuch_datum">Rechnungsdatum</label>
+              <label class="required" for="kassenbuch_datum">{{ $t("rechnung.rechnungsdatum") }}</label>
               <input class="m4" id="kassenbuch_datum" type="date" v-model="model.kassenbuch.datum" />
             </div>
             <div class="m1">
               <div class="m1">
-                <label class="required" for="kassenbuch_ausgangsbetrag">Kassenstand vom Vortag als Ausgangsbetrag</label>
+                <label class="required" for="kassenbuch_ausgangsbetrag">{{ $t("kassenbuch.ausgangsbetragVomVortag") }}</label>
               </div>
-              <input class="m4" id="kassenbuch_ausgangsbetrag" type="number" step=".01" v-model="model.kassenbuch.ausgangsbetrag" v-on:change="berechneGesamt()" />
+              <input class="m2" id="kassenbuch_ausgangsbetrag" type="number" step=".01" v-model="model.kassenbuch.ausgangsbetrag" v-on:change="berechneGesamt()" />
             </div>
           </div>
           <div class="m1">
-            <button class="right" title="Suchen" v-on:click="suchen">Suchen</button>
+            <button class="right" :title="$t('general.suchen')" v-on:click="suchen">{{ $t("general.suchen") }}</button>
           </div>
         </div>
         <div class="form m1">
@@ -42,14 +43,14 @@
             <thead>
               <tr>
                 <th class="tableNavi">
-                  <button class="add" title="Eintragung hinzufügen" v-on:click="openAddEintragungDialog()"></button>
+                  <button class="add" :title="$t('kassenbuch.eintragHinzufuegen')" v-on:click="openAddEintragungDialog()"></button>
                 </th>
               </tr>
             </thead>
             <thead>
-              <th style="width: 200px;">Verwendungszweck</th>
-              <th style="width: 100px;">Einnahme</th>
-              <th style="width: 100px;">Ausgabe</th>
+              <th style="width: 200px;">{{ $t("kassenbuch.verwendungszweck") }}</th>
+              <th style="width: 100px;">{{ $t("kassenbuch.einnahme") }}</th>
+              <th style="width: 100px;">{{ $t("kassenbuch.ausgabe") }}</th>
             </thead>
             <tbody>
               <tr v-for="(posten, index) in model.posten">
@@ -62,12 +63,12 @@
           </table>
           <div class="m1" style="height: 10px;"></div>
           <div class="m1">
-            <label for="kassenbuchForm_gesamt">Gesamt (inkl. Ausgangsbetrag)</label>
+            <label for="kassenbuchForm_gesamt">{{ $t("kassenbuch.gesamtInklAusgangsbetrag") }}</label>
             <input class="m5 right" readonly type="number" v-model="gesamt" />
           </div>
           <div class="m1">
-            <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">Speichern</button>
-            <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmpty()">Speichern</button>
+            <button class="right" :title="$t('general.speichern')" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">{{ $t("general.speichern") }}</button>
+            <button class="right disabled" :title="$t('general.pflichtfelder')" v-if="!areRequiredFieldsNotEmpty()">{{ $t("general.speichern") }}</button>
           </div>
         </div>
         <posten-edit-dialog
@@ -81,6 +82,7 @@
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/zeichenzaehler.component.js"></script>

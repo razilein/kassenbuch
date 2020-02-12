@@ -1,7 +1,8 @@
 Vue.component('ersteller-select', {
+  i18n,
   template: `
   <div class="m1">
-    <label class="required" for="editForm_mitarbeiter">Ersteller</label>
+    <label class="required" for="editForm_mitarbeiter">{{ $t("general.ersteller") }}</label>
     <select class="m1" id="editForm_mitarbeiter" v-model="selection" v-on:change="changeMitarbeiter()">
       <option value=""></option>
       <option :value="m.value" v-for="m in mitarbeiter">{{m.value}}</option>

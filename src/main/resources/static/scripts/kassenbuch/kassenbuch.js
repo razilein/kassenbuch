@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#kassenbuch',
   created() {
     window.addEventListener('keydown', e => {

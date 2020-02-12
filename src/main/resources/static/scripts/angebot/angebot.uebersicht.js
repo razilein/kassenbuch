@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#angebote',
   created() {
     window.addEventListener('keydown', e => {
@@ -22,12 +23,12 @@ var vm = new Vue({
     deleteRow: {
       id: null,
       restUrl: '/angebot',
-      title: 'Angebot löschen',
+      title: '',
     },
     editRow: {
       restUrlGet: '/angebot/',
       restUrlSave: '/angebot/',
-      title: 'Angebot bearbeiten',
+      title: '',
     },
     versendenDialog: {},
     grid: {
@@ -44,7 +45,7 @@ var vm = new Vue({
     
     editFunction: function(row) {
       vm.editRow.restUrlGet = '/angebot/' + row.id;
-      vm.editRow.title = 'Angebot ' + row.nummer + ' bearbeiten';
+      vm.editRow.title = this.$t('general.angebot') + ' ' + row.nummer + ' ' + this.$t('general.bearbeiten');
       vm.showEditDialog = true;
     },
     
@@ -78,7 +79,7 @@ var vm = new Vue({
     
     deleteFunction: function(row) {
       vm.deleteRow.id = row.id;
-      vm.deleteRow.title = 'Angebot ' + row.nummer + ' löschen';
+      vm.deleteRow.title = this.$t('general.angebot') + ' ' + row.nummer + ' ' + this.$t('general.loeschen');
       vm.showDeleteDialog = true;
     },
     
@@ -96,9 +97,9 @@ var vm = new Vue({
     },
     
     erledigenFunction: function(row) {
-      var art = row.erledigt ? ' wiedereröffnen' : ' erledigen';
-      vm.confirmDialog.text = 'Wollen Sie dieses Angebot' + art + '?';
-      vm.confirmDialog.title = 'Angebot ' + row.nummer + art;
+      var art = row.erledigt ? this.$t('general.wiedereroeffnen') : this.$t('general.erledigen');
+      vm.confirmDialog.text = this.$t('angebot.erledigen') + art + '?';
+      vm.confirmDialog.title = this.$t('general.angebot') + ' ' + row.nummer + art;
       vm.confirmDialog.func = vm.erledigen;
       vm.confirmDialog.params = row;
       vm.showConfirmDialog = true;
@@ -147,23 +148,23 @@ var vm = new Vue({
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
-          title: 'Funktionen',
+          title: this.$t('general.funktionen'),
           sortable: false,
           width: 170,
           formatter: [
-          { clazz: 'open-new-tab', disabled: vm.hasNotRoleAngebotAnzeigen, title: 'Angebot öffnen', clickFunc: vm.openFunction },
-          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Angebot bearbeiten', clickFunc: vm.editFunction },
+          { clazz: 'open-new-tab', disabled: vm.hasNotRoleAngebotAnzeigen, title: this.$t('angebot.oeffnen'), clickFunc: vm.openFunction },
+          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('angebot.bearbeiten'), clickFunc: vm.editFunction },
           { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.erledigenFunction },
-          { clazz: 'email', disabled: vm.canSendEmail, title: 'Angebot per E-Mail an den Kunden versenden', clickFunc: vm.sendMailFunction },
-          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Angebot löschen', clickFunc: vm.deleteFunction }
+          { clazz: 'email', disabled: vm.canSendEmail, title: this.$t('angebot.email'), clickFunc: vm.sendMailFunction },
+          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('angebot.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'nummer', title: 'Angebot-Nr.', width: 80 },
-        { name: 'kunde.nummer', sortable: false, title: 'Kd.-Nr.', width: 80 },
-        { name: 'kunde.nameKomplett', sortable: false, title: 'Kunde', width: 200 },
-        { name: 'gesamtbetragNetto', title: 'Gesamtbetrag (Nto)', width: 120, formatter: ['money'] },
-        { name: 'gesamtbetrag', title: 'Gesamtbetrag (Bto)', width: 120, formatter: ['money'] },
-        { name: 'erstelltAm', sortable: false, title: 'Erstellt am', width: 100 },
-        { name: 'ersteller', title: 'Ersteller', width: 200 }
+        { name: 'nummer', title: this.$t('angebot.angebotNr'), width: 80 },
+        { name: 'kunde.nummer', sortable: false, title: this.$t('kunde.kdNr'), width: 80 },
+        { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200 },
+        { name: 'gesamtbetragNetto', title: this.$t('general.gesamtNto'), width: 120, formatter: ['money'] },
+        { name: 'gesamtbetrag', title: this.$t('general.gesamtBto'), width: 120, formatter: ['money'] },
+        { name: 'erstelltAm', sortable: false, title: this.$t('general.erstelltAm'), width: 100 },
+        { name: 'ersteller', title: this.$t('general.ersteller'), width: 200 }
       ];
     },
     
@@ -172,7 +173,7 @@ var vm = new Vue({
     },
     
     getTitleErledigt: function(row) {
-      return row.erledigt ? 'Das Angebot wurde erledigt. Angebot wiedereröffnen?' : 'Das Angebot wurde noch nicht erledigt. Jetzt erledigen?';
+      return row.erledigt ? this.$t('angebot.wiedereroeffnen') : this.$t('angebot.erledigt');
     },
     
     getRecht: function(role) {

@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#rechnungErstellen',
   created() {
     window.addEventListener('keydown', e => {
@@ -218,18 +219,18 @@ var vm = new Vue({
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
-          title: 'Funktionen',
+          title: this.$t('general.funktionen'),
           sortable: false,
           width: 50,
           formatter: [
-          { clazz: 'ok2', title: 'Dieses Produkt wählen', clickFunc: vm.chooseFunction },
-          { clazz: 'ok', title: 'Seriennummer und Hinweise ergänzen und wählen', clickFunc: vm.editFunction },
+          { clazz: 'ok2', title: this.$t('rechnung.produktWaehlen'), clickFunc: vm.chooseFunction },
+          { clazz: 'ok', title: this.$t('rechnung.hinweisErgaenzen'), clickFunc: vm.editFunction },
         ] },
-        { name: 'hersteller', title: 'Hersteller', width: 150 },
-        { name: 'bezeichnung', title: 'Bezeichnung', width: 500 },
-        { name: 'ean', title: 'EAN', width: 120 },
-        { name: 'bestand', title: 'Bestand', width: 100 },
-        { name: 'preise', title: 'Preise', width: 100 }
+        { name: 'hersteller', title: this.$t('inventar.produkt.hersteller'), width: 150 },
+        { name: 'bezeichnung', title: this.$t('general.bezeichnung'), width: 500 },
+        { name: 'ean', title: this.$t('inventar.produkt.ean'), width: 120 },
+        { name: 'bestand', title: this.$t('inventar.produkt.bestand'), width: 100 },
+        { name: 'preise', title: this.$t('inventar.produkt.preise'), width: 100 }
       ];
     },
     setGridSearch: function() {
@@ -268,7 +269,7 @@ var vm = new Vue({
       return axios.get('/rechnung/zahlarten');
     },
     setZahlarten: function(response) {
-      response.data.unshift({key: -1, value: 'Bitte auswählen'});
+      response.data.unshift({key: -1, value: this.$t('general.auswaehlen')});
       vm.zahlarten = response.data;
     }
   }

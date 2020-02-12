@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#rechnungen',
   created() {
     window.addEventListener('keydown', e => {
@@ -22,12 +23,12 @@ var vm = new Vue({
     deleteRow: {
       id: null,
       restUrl: '/rechnung',
-      title: 'Rechnung löschen',
+      title: '',
     },
     editRow: {
       restUrlGet: '/rechnung/',
       restUrlSave: '/rechnung/',
-      title: 'Rechnung bearbeiten',
+      title: '',
     },
     versendenDialog: {},
     grid: {
@@ -45,7 +46,7 @@ var vm = new Vue({
     
     editFunction: function(row) {
       vm.editRow.restUrlGet = '/rechnung/' + row.id;
-      vm.editRow.title = 'Rechnung ' + row.nummer + ' bearbeiten';
+      vm.editRow.title = this.$t('general.rechnung') + ' ' + row.nummer + ' ' + this.$t('general.bearbeiten');
       vm.showEditDialog = true;
     },
     
@@ -79,7 +80,7 @@ var vm = new Vue({
     
     deleteFunction: function(row) {
       vm.deleteRow.id = row.id;
-      vm.deleteRow.title = 'Rechnung ' + row.nummer + ' löschen';
+      vm.deleteRow.title = this.$t('general.rechnung') + ' ' + row.nummer + ' ' + this.$t('general.loeschen');
       vm.showDeleteDialog = true;
     },
     
@@ -97,9 +98,9 @@ var vm = new Vue({
     },
     
     bezahltFunction: function(row) {
-      var art = row.bezahlt ? ' noch nicht bezahlt' : ' wurde bezahlt';
-      vm.confirmDialog.text = 'Wollen Sie diese Rechnung als' + art + ' markieren?';
-      vm.confirmDialog.title = 'Rechnungsnummer ' + row.nummer + art;
+      var art = row.bezahlt ? this.$t('rechnung.nichtBezahlt') : this.$t('rechnung.wurdeBezahlt');
+      vm.confirmDialog.text = this.$t('rechnung.bezahlen') + art + ' ' + this.$t('rechnung.markieren');
+      vm.confirmDialog.title = this.$t('einstellung.filiale.rechnungsnummer') + ' ' + row.nummer + art;
       vm.confirmDialog.func = vm.bezahlt;
       vm.confirmDialog.params = row;
       vm.showConfirmDialog = true;
@@ -153,25 +154,25 @@ var vm = new Vue({
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
-          title: 'Funktionen',
+          title: this.$t('general.funktionen'),
           sortable: false,
           width: 200,
           formatter: [
-          { clazz: 'open-new-tab', disabled: vm.hasNotRoleRechnungAnzeigen, title: 'Rechnung öffnen', clickFunc: vm.openFunction },
-          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Rechnung bearbeiten', clickFunc: vm.editFunction },
+          { clazz: 'open-new-tab', disabled: vm.hasNotRoleRechnungAnzeigen, title: this.$t('rechnung.oeffnen'), clickFunc: vm.openFunction },
+          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('rechnung.bearbeiten'), clickFunc: vm.editFunction },
           { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.bezahltFunction },
-          { clazz: 'email', disabled: vm.canSendEmail, title: 'Rechnung per E-Mail an den Kunden versenden', clickFunc: vm.sendMailFunction },
-          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Rechnung löschen', clickFunc: vm.deleteFunction }
+          { clazz: 'email', disabled: vm.canSendEmail, title: this.$t('rechnung.email'), clickFunc: vm.sendMailFunction },
+          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('rechnung.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'nummer', title: 'Rechn.-Nr.', width: 80 },
-        { name: 'reparatur.nummer', title: 'Rep.-Nr.', width: 80 },
-        { name: 'bestellung.nummer', title: 'Best.-Nr.', width: 80 },
-        { name: 'kunde.nummer', title: 'Kd.-Nr.', width: 80 },
-        { name: 'kunde.nameKomplett', title: 'Kunde', width: 200 },
-        { name: 'rechnungsbetrag', title: 'Betrag', width: 100, formatter: ['money'] },
-        { name: 'datum', title: 'Datum', width: 120, formatter: ['date'] },
-        { name: 'ersteller', title: 'Ersteller', width: 150 },
-        { name: 'erstelltAm', title: 'Erstellt am', width: 150 },
+        { name: 'nummer', title: this.$t('rechnung.rechnNr'), width: 80 },
+        { name: 'reparatur.nummer', title: this.$t('reparatur.repNr'), width: 80 },
+        { name: 'bestellung.nummer', title: this.$t('bestellung.nummerKurz'), width: 80 },
+        { name: 'kunde.nummer', title: this.$t('kunde.kdNr'), width: 80 },
+        { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), width: 200 },
+        { name: 'rechnungsbetrag', title: this.$t('kassenbuch.betrag'), width: 100, formatter: ['money'] },
+        { name: 'datum', title: this.$t('general.datum'), width: 120, formatter: ['date'] },
+        { name: 'ersteller', title: this.$t('general.ersteller'), width: 150 },
+        { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 150 },
       ];
     },
     
@@ -180,7 +181,7 @@ var vm = new Vue({
     },
     
     getTitleErledigt: function(row) {
-      return row.bezahlt ? 'Die Rechnung wurde bezahlt. Rechnung als nicht bezahlt markieren?' : 'Die Rechnung wurde noch nicht bezahlt. Jetzt als bezahlt markieren?';
+      return row.bezahlt ? this.$t('rechnung.bezahlt') : this.$t('rechnung.wiedereroeffnen');
     },
     
     getRecht: function(role) {

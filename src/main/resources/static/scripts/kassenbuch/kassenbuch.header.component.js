@@ -1,4 +1,5 @@
 Vue.component('page-header-kassenbuch', {
+  i18n,
   data: {},
   props: ['marker'],
   template: 
@@ -14,10 +15,10 @@ Vue.component('page-header-kassenbuch', {
     <input id="tab4" type="radio" name="tabs" v-if="marker !== 'Statistiken'" />
     
     <nav>
-      <a class="tab1" href="kassenbuch.html">Erstellen</a>
-      <a class="tab2" href="kassenbuch-uebersicht.html">Kassenbücher</a>
-      <a class="tab3" href="kassenstand.html">Kassenstand</a>
-      <a class="tab4" href="statistiken.html">Statistiken</a>
+      <a class="tab1" href="kassenbuch.html">{{ $t("general.erstellen") }}</a>
+      <a class="tab2" href="kassenbuch-uebersicht.html">{{ $t("general.kassenbuecher") }}</a>
+      <a class="tab3" href="kassenstand.html">{{ $t("kassenbuch.kassenstand.titel") }}</a>
+      <a class="tab4" href="statistiken.html">{{ $t("statistik.titel") }}</a>
     </nav>
     <figure></figure>
   </div>

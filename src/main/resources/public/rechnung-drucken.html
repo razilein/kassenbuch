@@ -5,6 +5,7 @@
     <link rel="icon" href="/themes/icons/rechnung.png">
     <link rel="stylesheet" href="/themes/css/rechnung.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/de.js"></script>
@@ -17,25 +18,23 @@
           <img src="/themes/icons/logo.png" width="250" height="90">
         </div>
         <div class="center">
-          Computer-Insel GbR
+          {{ $t("general.ci") }}
           <br>
-          Gesellschafter: Stefan Weiske, Peer Dernoscheck
+          {{ $t("general.gesellschafter") }}
         </div>
         <br>
         <div class="mFull">
           <span class="left">{{entity.rechnung.filiale.strasse}}, {{entity.rechnung.filiale.plz}} {{entity.rechnung.filiale.ort}}</span>
           <br>
-          <span class="left">Tel: {{entity.rechnung.filiale.telefon}}</span>
-          <span class="right">Internet: www.computer-insel.net</span>
+          <span class="left">{{ $t("general.tel") }}: {{entity.rechnung.filiale.telefon}}</span>
+          <span class="right">{{ $t("general.internet") }}</span>
           <br>
-          <span class="left">Steuernr.: 232/167/37105</span>
-          <span class="right">Email: {{entity.rechnung.filiale.email}}</span>
+          <span class="left">{{ $t("general.steuernr") }}</span>
+          <span class="right">{{ $t("general.email") }}: {{entity.rechnung.filiale.email}}</span>
         </div>
         <br>
         <br>
-        <div class="center">
-          Verkauf von Neu- und Gebrauchtware. Hardware, Software, Zubehör, Reparatur, Beratung, Service
-        </div>
+        <div class="center">{{ $t("general.verkaufinfo") }}</div>
         <hr class="header">
       </header>
       <header>
@@ -52,14 +51,14 @@
         <br>
         <br>
         <div class="rechnungHeader">
-          Rechnung {{entity.rechnung.filiale.kuerzel}}{{entity.rechnung.nummerAnzeige}}
+          {{ $t("general.rechnung") }} {{entity.rechnung.filiale.kuerzel}}{{entity.rechnung.nummerAnzeige}}
         </div>
         <br>
         <div class="rechnungNummer">
-          <span class="right">Rechnungsdatum: {{entity.rechnung.datum}}</span>
-          <span class="left" v-if="entity.rechnung.reparatur && !entity.rechnung.bestellung">Auftragsnummer: {{entity.rechnung.reparatur.filiale.kuerzel}}{{entity.rechnung.reparatur.nummer}}</span>
-          <span class="left" v-if="!entity.rechnung.reparatur && entity.rechnung.bestellung">Bestellnummer: {{entity.rechnung.bestellung.filiale.kuerzel}}{{entity.rechnung.bestellung.nummerAnzeige}}</span>
-          <span class="left" v-if="entity.rechnung.reparatur && entity.rechnung.bestellung">Auftrags-/Bestellnummer: {{entity.rechnung.reparatur.filiale.kuerzel}}{{entity.rechnung.reparatur.nummer}} / {{entity.rechnung.bestellung.filiale.kuerzel}}{{entity.rechnung.bestellung.nummerAnzeige}}</span>
+          <span class="right">{{ $t("rechnung.rechnungsdatum") }}: {{entity.rechnung.datum}}</span>
+          <span class="left" v-if="entity.rechnung.reparatur && !entity.rechnung.bestellung">{{ $t("rechnung.auftragsnummer") }}: {{entity.rechnung.reparatur.filiale.kuerzel}}{{entity.rechnung.reparatur.nummer}}</span>
+          <span class="left" v-if="!entity.rechnung.reparatur && entity.rechnung.bestellung">{{ $t("rechnung.bestellnummer") }}: {{entity.rechnung.bestellung.filiale.kuerzel}}{{entity.rechnung.bestellung.nummerAnzeige}}</span>
+          <span class="left" v-if="entity.rechnung.reparatur && entity.rechnung.bestellung">{{ $t("rechnung.auftragsBestellnummer") }}: {{entity.rechnung.reparatur.filiale.kuerzel}}{{entity.rechnung.reparatur.nummer}} / {{entity.rechnung.bestellung.filiale.kuerzel}}{{entity.rechnung.bestellung.nummerAnzeige}}</span>
         </div>
         <br>
         <br>
@@ -67,19 +66,19 @@
       <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" bordercolor="#111111" width="685" height="77">
         <tr>
           <td width="75" align="center" style="border-bottom-style: solid; border-bottom-width: 1" height="19">
-            <p align="center"><font face="Arial" style="font-size: 11pt"><i><b>Menge</b></i></font>
+            <p align="center"><font face="Arial" style="font-size: 11pt"><i><b>{{ $t("general.menge") }}</b></i></font>
           </td>
           <td width="587" style="border-bottom-style: solid; border-bottom-width: 1" align="center" height="19">
-            <p align="center"><font face="Arial" style="font-size: 11pt"><i><b>Produkt</b></i></font>
+            <p align="center"><font face="Arial" style="font-size: 11pt"><i><b>{{ $t("general.produkt") }}</b></i></font>
           </td>
           <td width="100" style="border-bottom-style: solid; border-bottom-width: 1" align="right" height="19">
-            <p align="right"><font face="Arial" style="font-size: 11pt"><i><b>Preis</b></i></font>
+            <p align="right"><font face="Arial" style="font-size: 11pt"><i><b>{{ $t("general.preis") }}</b></i></font>
           </td>
           <td width="116" style="border-bottom-style: solid; border-bottom-width: 1" align="right" height="19">
-            <b><i><font face="Arial" style="font-size: 11pt" v-if="gesamtrabatt !== 0.00">Rabatt</font></i></b>
+            <b><i><font face="Arial" style="font-size: 11pt" v-if="gesamtrabatt !== 0.00">{{ $t("general.rabatt") }}</font></i></b>
           </td>
           <td width="116" style="border-bottom-style: solid; border-bottom-width: 1" align="right" height="19">
-            <font face="Arial" style="font-size: 11pt"><i><b>Gesamt</b></i></font>
+            <font face="Arial" style="font-size: 11pt"><i><b>{{ $t("general.gesamt") }}</b></i></font>
           </td>
         </tr>
         <tr>
@@ -110,7 +109,7 @@
             &nbsp;
           </td>
           <td width="116" align="right" valign="top" height="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: solid; border-bottom-width: 1">
-            <span style="font-weight: 700"><font face="Arial" size="2">Rechnungsbetrag</font>
+            <span style="font-weight: 700"><font face="Arial" size="2">{{ $t("rechnung.rechnungsbetrag") }}</font>
           </td>
           <td width="116" align="right" valign="top" height="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: solid; border-bottom-width: 1">
             <span style="font-weight: 700">
@@ -121,7 +120,7 @@
         <td width="75" align="center" valign="top" height="19">&nbsp;</td>
         <td width="587" align="center" valign="top" height="19" style="border-right-style: none; border-right-width: medium">&nbsp;</td>
         <td width="216" align="right" valign="top" height="20" style="border-style:none; border-width:medium; " colspan="2">
-        <font face="Arial" style="font-size: 9pt">Nettosumme</font></td>
+        <font face="Arial" style="font-size: 9pt">{{ $t("rechnung.nettosumme") }}</font></td>
         <td width="116" align="right" valign="top" height="20" style="border-style:none; border-width:medium; ">
         <font face="Arial" style="font-size: 9pt">{{ formatMoney(gesamtnetto) }} &euro;</font></td>
         </tr>
@@ -129,37 +128,38 @@
         <td width="75" align="center" valign="top" height="19">&nbsp;</td>
         <td width="587" align="center" valign="top" height="19" style="border-right-style: none; border-right-width: medium">&nbsp;</td>
         <td width="216" align="right" valign="top" height="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: solid; border-bottom-width: 1" colspan="2">
-        <font face="Arial" style="font-size: 9pt">enth. MwSt. (19%):</font></span></td>
+        <font face="Arial" style="font-size: 9pt">{{ $t("rechnung.mwst") }}:</font></span></td>
         <td width="116" align="right" valign="top" height="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: solid; border-bottom-width: 1">
         <font face="Arial" style="font-size: 9pt">{{ formatMoney(gesamtmwst) }} &euro;</font></td>
         </tr>
       </table>
       <br>
       <div class="left" style="width: 100%">
-        Zahlungsart: {{art}}
-        <span v-if="art === 'ÜBERWEISUNG'"><br>Zahlbar ohne Abzüge innerhalb von 7 Tagen auf das unten angegebene Konto mit dem Verwendungszweck {{entity.rechnung.filiale.kuerzel}}{{entity.rechnung.nummerAnzeige}}.</span>
-        <span v-if="art === 'BAR'"> (Betrag in Bar erhalten)</span>
+        {{ $t("rechnung.zahlungsart") }}: {{art}}
+        <span v-if="art === 'ÜBERWEISUNG'"><br>{{ $t("rechnung.zahlungsartUeZusatz") }} {{entity.rechnung.filiale.kuerzel}}{{entity.rechnung.nummerAnzeige}}.</span>
+        <span v-if="art === 'BAR'"> {{ $t("rechnung.zahlungsartBarZusatz") }}</span>
         <br>
         <br>
-        <span v-if="entity.rechnung.lieferdatum">Lieferdatum: {{entity.rechnung.lieferdatum}}</span>
-        <span v-if="!entity.rechnung.lieferdatum">Rechnungsdatum entspricht Lieferdatum!</span>
+        <span v-if="entity.rechnung.lieferdatum">{{ $t("general.lieferdatum") }}: {{entity.rechnung.lieferdatum}}</span>
+        <span v-if="!entity.rechnung.lieferdatum">{{ $t("rechnung.rechnungsdatumZusatz") }}</span>
       </div>
       <footer style="background-color: white; z-index: 999;">
         <div class="center">
           <br>
-          Besuchen Sie uns auch in unserer Filiale in {{entity.rechnung.filiale.rechnungTextAndereFiliale}}.
+          {{ $t("general.besuch") }} {{entity.rechnung.filiale.rechnungTextAndereFiliale}}.
           <br>
           <br>
           <br>
-          Firmensitz: Marktstraße 10, 04177 Leipzig
+          {{ $t("general.firmensitz") }}
           <br>
-          Bankverbindung: Computer-Insel GbR . Commerzbank Leipzig . IBAN: DE50 8604 0000 0521 6668 00
+          {{ $t("general.bankverbindung") }}
         </div>
       </footer>
     </div>
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/rechnung/rechnung-drucken.js"></script>
 </html>

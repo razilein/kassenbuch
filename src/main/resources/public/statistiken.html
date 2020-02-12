@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/themes/css/style.css">
     <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
   </head>
   <body>
@@ -19,22 +20,22 @@
       <page-header-kassenbuch v-bind:marker="'Statistiken'"></page-header-kassenbuch>
       <div id="content">
         <div class="form">
-          <h1>Statistiken</h1>
+          <h1>{{ $t("statistik.titel") }}</h1>
           <div class="m2m">
-            <label>Rechnungsdatum von</label>
+            <label>{{ $t("statistik.rechnungsdatumVon") }}</label>
             <input class="m2" required type="date" v-model="model.zeitraumVon" />
           </div>
           <div class="m2">
-            <label>Rechnungsdatum bis</label>
+            <label>{{ $t("statistik.rechnungsdatumBis") }}</label>
             <input class="m2" required type="date" v-model="model.zeitraumBis" />
           </div>
           <div class="m1">
-            <label>Bezeichnung Rechnungsposten (Optional)</label>
+            <label>{{ $t("statistik.bezeichnung") }}</label>
             <input class="m1" type="text" v-model="model.posten" />
           </div>
           <div class="m1">
-            <button class="right" title="Erstellen" v-on:click="erstelleStatistikZahlungsarten">Erstellen</button>
-            <button class="right" title="Überweisungen" v-on:click="erstelleStatistikUeberweisungen">Überweisungen</button>
+            <button class="right" :title="$t('general.erstellen')" v-on:click="erstelleStatistikZahlungsarten">{{ $t("general.erstellen") }}</button>
+            <button class="right" :title="$t('general.ueberweisungen')" v-on:click="erstelleStatistikUeberweisungen">{{ $t("statistik.ueberweisungen") }}</button>
           </div>
         </div>
         <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
@@ -42,6 +43,7 @@
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/kassenbuch/kassenbuch.header.component.js"></script>

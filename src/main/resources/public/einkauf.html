@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/themes/css/raster.css">
     <link rel="stylesheet" href="/themes/css/style.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
@@ -20,12 +21,12 @@
       <div id="content">
         <div class="m1">
           <div class="m1">
-            <label for="einkaufForm_einkauf">Vorschlag aus kürzlich verkauften Produkten</label>
+            <label for="einkaufForm_einkauf">{{ $t("einkauf.vorschlag") }}</label>
             <textarea class="m1" id="einkaufForm_einkauf" readonly style="height: 200px;" v-model="einkauf"></textarea>
           </div>
           <div class="m1">
-            <button class="right" title="Vorschlagsliste leeren" v-on:click="clearEinkauf">Vorschlagsliste leeren</button>
-            <button class="right" title="Einkauf auf den FTP-Server hochladen" v-on:click="save">Einkauf hochladen</button>
+            <button class="right" :title="$t('einkauf.vorschlagLeeren')" v-on:click="clearEinkauf">{{ $t("einkauf.vorschlagLeeren") }}</button>
+            <button class="right" :title="$t('einkauf.hochladenInfo')" v-on:click="save">{{ $t("einkauf.hochladen") }}</button>
           </div>
           <div class="m1">
             <textarea class="m1" id="einkaufForm_uploadEinkauf" style="height: 800px; max-height: none;" v-model="downloadEinkauf"></textarea>
@@ -36,6 +37,7 @@
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/grid.component.js"></script>

@@ -1,42 +1,43 @@
 Vue.component('edit-dialog', {
+  i18n,
   template: createEditDialogTemplate(`
   <div class="m1" v-if="entity.angebot">
-    <label for="bestellungEditForm_angebot">Angebot</label>
-    <button class="angebot btnSmall" title="Angebot suchen" @click="showAngebotDialog = true"></button>
-    <button class="delete btnSmall" title="Angebot deselektieren" @click="entity.angebot = {};"></button>
+    <label for="bestellungEditForm_angebot">{{ $t("general.angebot") }}</label>
+    <button class="angebot btnSmall" :title="$t('angebot.suchen')" @click="showAngebotDialog = true"></button>
+    <button class="delete btnSmall" :title="$t('angebot.deselektieren')" @click="entity.angebot = {};"></button>
     <textarea class="m1" id="bestellungEditForm_angebot" readonly v-if="entity.angebot.text" v-model="entity.angebot.text"></textarea>
     <input class="m1" id="bestellungEditForm_angebot" readonly v-if="!entity.angebot.text" v-model="entity.angebot.nummer"></textarea>
   </div>
   <div class="m1" v-if="entity.kunde">
-    <label class="required" for="bestellungEditForm_kunde">Kunde</label>
-    <button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
+    <label class="required" for="bestellungEditForm_kunde">{{ $t("general.kunde") }}</label>
+    <button class="kunde btnSmall" :title="$t('kunde.suchen')" @click="showKundeDialog = true"></button>
     <textarea class="m1" id="bestellungEditForm_kunde" readonly v-model="entity.kunde.completeWithAdress"></textarea>
   </div>
   <div class="m1">
     <div class="m4m">
-      <label class="required" for="bestellungEditForm_datum">Lieferdatum</label>
+      <label class="required" for="bestellungEditForm_datum">{{ $t("general.lieferdatum") }}</label>
       <input class="m4" id="bestellungEditForm_datum" type="date" v-model="entity.datum" v-on:change="wochentagdatum = formatDayOfWeek(entity.datum);"/>
     </div>
     <div class="m4m">
-      <label for="bestellungEditForm_wochentag_datum">Wochentag</label>
+      <label for="bestellungEditForm_wochentag_datum">{{ $t("general.wochentag") }}</label>
       <input class="m4" id="bestellungEditForm_wochentag_datum" readonly type="text" v-model="wochentagdatum" />
     </div>
   </div>
   <div class="m1">
-    <zeichenzaehler-label :elem="entity.beschreibung" :forid="'bestellungEditForm_beschreibung'" :label="'Bestellung'" :maxlength="'2000'" :required="true"></zeichenzaehler-label>
+    <zeichenzaehler-label :elem="entity.beschreibung" :forid="'bestellungEditForm_beschreibung'" :label="$t('bestellung.titelK')" :maxlength="'2000'" :required="true"></zeichenzaehler-label>
     <textarea class="m1 big" id="bestellungEditForm_beschreibung" maxlength="2000" v-model="entity.beschreibung"></textarea>
   </div>
   <div class="m1">
-    <zeichenzaehler-label :elem="entity.kosten" :forid="'bestellungEditForm_kosten'" :label="'Kosten'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
+    <zeichenzaehler-label :elem="entity.kosten" :forid="'bestellungEditForm_kosten'" :label="$t('bestellung.kosten')" :maxlength="'300'" :required="true"></zeichenzaehler-label>
     <input class="m1" id="bestellungEditForm_kosten" maxlength="300" type="text" v-model="entity.kosten"></input>
   </div>
   <div class="m1">
-    <zeichenzaehler-label :elem="entity.anzahlung" :forid="'bestellungEditForm_anzahlung'" :label="'Anzahlung'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
+    <zeichenzaehler-label :elem="entity.anzahlung" :forid="'bestellungEditForm_anzahlung'" :label="$t('bestellung.anzahlung')" :maxlength="'300'" :required="true"></zeichenzaehler-label>
     <input class="m1" id="bestellungEditForm_anzahlung" maxlength="300" type="text" v-model="entity.anzahlung"></input>
   </div>
   <div class="m1">
     <div class="m2" style="float: right;">
-      <label for="bestellungEditForm_ersteller">Mitarbeiter</label>
+      <label for="bestellungEditForm_ersteller">{{ $t("general.ersteller") }}</label>
       <input class="m2" id="bestellungEditForm_ersteller" readonly type="text" :value="entity.ersteller" />
     </div>
   </div>

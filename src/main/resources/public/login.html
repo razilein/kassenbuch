@@ -11,29 +11,31 @@
     <link rel="stylesheet" href="/themes/css/raster.css">
     <link rel="stylesheet" href="/themes/css/style.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
   </head>
   <body>
     <div id="login">
       <div id="content">
-        <h3>Willkommen! Bitte melden Sie sich an:</h3>
+        <h3>{{ $t("einstellung.bitteAnmelden") }}:</h3>
           <div class="form">
             <form autocomplete="on">
               <div class="m1">
-                <label for="loginForm_benutzername">Benutzername</label>
+                <label for="loginForm_benutzername">{{ $t("einstellung.benutzer") }}</label>
                 <input autofocus class="m1" id="loginForm_benutzername" name="username" maxlength="50" type="text" v-model="model.username" />
               </div>
               <div class="m1">
-                <label for="loginForm_passwort">Passwort</label>
+                <label for="loginForm_passwort">{{ $t("einstellung.pw") }}</label>
                 <input class="m1" id="loginForm_passwort" maxlength="500" name="password" type="password" v-model="model.password" />
               </div>
             </form>
-            <button class="m2 right" v-on:click="login" @keyup.enter.native="login">Anmelden</button>
+            <button class="m2 right" v-on:click="login" @keyup.enter.native="login">{{ $t("einstellung.anmelden") }}</button>
           </div>
       </div>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
     </div>
   </body>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/login.js"></script>
 </html>

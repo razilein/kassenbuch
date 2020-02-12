@@ -1,7 +1,8 @@
 Vue.component('edit-dialog', {
+  i18n,
   template: createEditDialogTemplate(`
   <div class="m1">
-    <zeichenzaehler-label :elem="entity.bezeichnung" :forid="'kategorieEditForm_bezeichnung'" :label="'Bezeichnung'" :maxlength="'100'" :required="true"></zeichenzaehler-label>
+    <zeichenzaehler-label :elem="entity.bezeichnung" :forid="'kategorieEditForm_bezeichnung'" :label="$t('general.bezeichnung')" :maxlength="'100'" :required="true"></zeichenzaehler-label>
     <input class="m1" focus id="kategorieEditForm_bezeichnung" maxlength="100" type="text" v-model="entity.bezeichnung"></input>
   </div>
       `),

@@ -1,7 +1,8 @@
 var vm = new Vue({
+  i18n,
   el: '#rechnung-drucken',
   data: {
-    art: 'UNDEFINIERT',
+    art: '',
     currentDate: null,
     currentDay: null,
     entity: {
@@ -24,6 +25,7 @@ var vm = new Vue({
   methods: {
     
     init: function() {
+      vm.art = this.$t('rechnung.zahlungsarten.undefiniert');
       moment.locale('de');
       vm.currentDate = moment().format('DD.MM.YYYY');
       vm.currentDay = moment().format('dddd');
@@ -45,19 +47,19 @@ var vm = new Vue({
     setZahlart: function() {
       switch(vm.entity.rechnung.art) {
         case 0:
-          vm.art = 'BAR';
+          vm.art = this.$t('rechnung.zahlungsarten.bar');
           break;
         case 1:
-          vm.art = 'EC';
+          vm.art = this.$t('rechnung.zahlungsarten.ec');
           break;
         case 2:
-          vm.art = 'ÜBERWEISUNG';
+          vm.art = this.$t('rechnung.zahlungsarten.ueberweisung');
           break;
         case 3:
-          vm.art = 'PAYPAL';
+          vm.art = this.$t('rechnung.zahlungsarten.paypal');
           break;
         default:
-          vm.art = 'UNDEFINIERT';
+          vm.art = this.$t('rechnung.zahlungsarten.undefiniert');
       }
       vm.entity.posten.forEach(function(element) {
         vm.gesamtsumme = vm.gesamtsumme + element.gesamt;

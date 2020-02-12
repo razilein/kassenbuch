@@ -1,27 +1,28 @@
 Vue.component('kunde-suchen-dialog', {
+  i18n,
   template: createEditDialogTemplateWithoutSaveButton(`
   <div class="m2m">
     <div class="m1">
-      <label for="searchForm_firmenname">Firmenname</label>
+      <label for="searchForm_firmenname">{{ $t("kunde.firmenname") }}</label>
       <input class="m1" id="searchForm_firmenname" type="text" v-model="grid.searchQuery.firmenname"></input>
     </div>
     <div class="m1">
       <div class="m2m">
-        <label for="searchForm_nachname">Nachname</label>
+        <label for="searchForm_nachname">{{ $t("kunde.nachname") }}</label>
         <input class="m2" id="searchForm_nachname" type="text" v-model="grid.searchQuery.nachname"></input>
       </div>
       <div class="m2">
-        <label for="searchForm_vorname">Vorname</label>
+        <label for="searchForm_vorname">{{ $t("kunde.vorname") }}</label>
         <input class="m2" id="searchForm_vorname" type="text" v-model="grid.searchQuery.vorname"></input>
       </div>
     </div>
     <div class="m2">
-      <button class="delete right" title="Suchfelder leeren" v-on:click="grid.searchQuery = {}; grid.reload = true;"></button>
-      <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
+      <button class="delete right" :title="$t('general.suchfelderLeeren')" v-on:click="grid.searchQuery = {}; grid.reload = true;"></button>
+      <button class="right" :title="$t('general.suchen')" v-on:click="grid.reload = true;">{{ $t("general.suchen") }}</button>
     </div>
   </div>
   <h5 class="m2 right">
-    Gewählter Kunde *:
+    {{ $t("kunde.gewaehlt") }}:
     <span v-if="entity.firmenname">
       <br>
       {{entity.firmenname}}
@@ -74,7 +75,7 @@ Vue.component('kunde-suchen-dialog', {
     });
   },
   data: function() {
-    var dialogTitle = this.dialogTitel || 'Kunde suchen';
+    var dialogTitle = this.dialogTitel || this.$t('kunde.suchen');
     return {
       rechte: this.rechte || {},
       entity: this.kunde || {},
@@ -83,28 +84,28 @@ Vue.component('kunde-suchen-dialog', {
       editRow: {
         restUrlGet: '/kunde/',
         restUrlSave: '/kunde',
-        title: 'Kunde bearbeiten',
+        title: '',
       },
       grid: {
         actions: [
-          { clazz: 'add', disabled: this.hasNotRoleVerwalten, title: 'Kunde hinzufügen', clickFunc: this.addFunction }
+          { clazz: 'add', disabled: this.hasNotRoleVerwalten, title: this.$t('kunde.hinzufuegen'), clickFunc: this.addFunction }
         ],
         gridColumns:  [
           { name: 'functions',
-            title: 'Funktionen',
+            title: this.$t('general.funktionen'),
             sortable: false,
             width: 80,
             formatter: [
-            { clazz: 'ok', title: 'Diesen Kunden wählen', clickFunc: this.chooseFunction },
-            { clazz: 'edit', disabled: this.hasNotRoleVerwalten, title: 'Kunde bearbeiten', clickFunc: this.editFunction },
+            { clazz: 'ok', title: this.$t('kunde.waehlen'), clickFunc: this.chooseFunction },
+            { clazz: 'edit', disabled: this.hasNotRoleVerwalten, title: this.$t('kunde.bearbeiten'), clickFunc: this.editFunction },
           ] },
-          { name: 'suchfeldTelefon', title: 'Telefon / Mobil', width: 100 },
-          { name: 'firmenname', title: 'Firma', width: 150 },
-          { name: 'nachname', title: 'Nachname', width: 150 },
-          { name: 'vorname', title: 'Vorname', width: 100 },
-          { name: 'strasse', title: 'Straße', width: 100 },
-          { name: 'ort', title: 'Ort', width: 100 },
-          { name: 'nummer', title: 'Nr.', width: 50 },
+          { name: 'suchfeldTelefon', title: this.$t('kunde.suchfeldTelefon'), width: 100 },
+          { name: 'firmenname', title: this.$t('kunde.firma'), width: 150 },
+          { name: 'nachname', title: this.$t('kunde.nachname'), width: 150 },
+          { name: 'vorname', title: this.$t('kunde.vorname'), width: 100 },
+          { name: 'strasse', title: this.$t('general.strasse'), width: 100 },
+          { name: 'ort', title: this.$t('general.ort'), width: 100 },
+          { name: 'nummer', title: this.$t('general.nr'), width: 50 },
         ],
         reload: false,
         restUrl: 'kunde',
@@ -124,7 +125,7 @@ Vue.component('kunde-suchen-dialog', {
     },
     addFunction: function() {
       this.editRow.restUrlGet = '/kunde/' + -1;
-      this.editRow.title = 'Kunde hinzufügen';
+      this.editRow.title = this.$t('kunde.hinzufuegen');
       this.showEditDialog = true;
     },
     chooseFunction: function(row) {
@@ -133,7 +134,7 @@ Vue.component('kunde-suchen-dialog', {
     },
     editFunction: function(row) {
       this.editRow.restUrlGet = '/kunde/' + row.id;
-      this.editRow.title = 'Kunde ' + row.nummer + ' bearbeiten';
+      this.editRow.title = this.$t('general.kunde') + ' ' + row.nummer + ' ' + this.$t('general.bearbeiten');
       this.showEditDialog = true;
     },
     handleEditResponse: function(data) {

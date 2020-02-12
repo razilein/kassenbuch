@@ -1,4 +1,5 @@
 Vue.component('page-header-rechnung', {
+  i18n,
   props: ['marker'],
   template: 
   `
@@ -11,9 +12,9 @@ Vue.component('page-header-rechnung', {
     <input id="tab3" type="radio" name="tabs" v-if="marker !== 'Rechnungen-Export'" />
     
     <nav>
-      <a class="tab1" href="rechnung.html">Erstellen</a>
-      <a class="tab2" href="rechnung-uebersicht.html">Rechnungen</a>
-      <a class="tab3" href="rechnung-export.html">Export</a>
+      <a class="tab1" href="rechnung.html">{{ $t("general.erstellen") }}</a>
+      <a class="tab2" href="rechnung-uebersicht.html">{{ $t("general.rechnungen") }}</a>
+      <a class="tab3" href="rechnung-export.html">{{ $t("export.titel") }}</a>
     </nav>
     <figure></figure>
   </div>

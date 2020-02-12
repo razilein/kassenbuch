@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/themes/css/style.css">
     <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
   </head>
   <body>
@@ -25,27 +26,27 @@
           </div>
           <div class="m1">
             <div class="m3m right">
-              <button class="right" title="Produkte importieren" v-if="produkte.length > 0 && !vm.hasNotRoleImport()" v-on:click="vm.importProdukte()">Importieren</button>
-              <button class="right disabled" title="Keine Produkte zum Import verfügbar" v-if="produkte.length === 0 || vm.hasNotRoleImport()">Importieren</button>
+              <button class="right" :title="$t('import.produktImport')" v-if="produkte.length > 0 && !vm.hasNotRoleImport()" v-on:click="vm.importProdukte()">{{ $t("import.importieren") }}</button>
+              <button class="right disabled" :title="$t('import.keineProdukte')" v-if="produkte.length === 0 || vm.hasNotRoleImport()">{{ $t("import.importieren") }}</button>
             </div>
           </div>
         </div>
         <div style="height: 150px;"></div>
         <table>
           <thead>
-            <th style="width: 100px;">Funktionen</th>
-            <th style="width: 550px;">Bezeichnung</th>
-            <th style="width: 120px;">EAN</th>
-            <th style="width: 120px;">Bestand unendlich</th>
-            <th style="width: 100px;">EK Preis brutto</th>
-            <th style="width: 100px;">EK Preis netto</th>
-            <th style="width: 100px;">VK Preis brutto</th>
-            <th style="width: 100px;">VK Preis netto</th>
+            <th style="width: 100px;">{{ $t("general.funktionen") }}</th>
+            <th style="width: 550px;">{{ $t("general.bezeichnung") }}</th>
+            <th style="width: 120px;">{{ $t("inventar.produkt.ean") }}</th>
+            <th style="width: 120px;">{{ $t("inventar.produkt.bestandUnendlich") }}</th>
+            <th style="width: 100px;">{{ $t("inventar.produkt.ekPreisB") }}</th>
+            <th style="width: 100px;">{{ $t("inventar.produkt.ekPreisN") }}</th>
+            <th style="width: 100px;">{{ $t("inventar.produkt.vkPreisB") }}</th>
+            <th style="width: 100px;">{{ $t("inventar.produkt.vkPreisN") }}</th>
           </thead>
           <tbody>
             <tr v-for="(produkt, index) in produkte">
               <td>
-                <button class="minus" title="Produkt nicht importieren" v-on:click="removeItem(index)"></button>
+                <button class="minus" :title="$t('import.keinImport')" v-on:click="removeItem(index)"></button>
               </td>
               <td>{{produkt.bezeichnung}}</td>
               <td>{{produkt.ean}}</td>
@@ -62,6 +63,7 @@
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/inventar/inventar.header.component.js"></script>

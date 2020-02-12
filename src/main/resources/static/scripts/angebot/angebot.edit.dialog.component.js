@@ -1,26 +1,27 @@
 Vue.component('edit-dialog', {
+  i18n,
   template: createEditDialogTemplate(`
   <div class="m1">
     <div class="m6m">
-      <label for="angebotEditForm_nummer">Nummer</label>
+      <label for="angebotEditForm_nummer">{{ $t("general.nummer") }}</label>
       <input class="m6" readonly type="text" v-model="entity.angebot.nummer" />
     </div>
     <div class="m3m">
-      <label class="required" for="angebotEditForm_datum">Erstellt am</label>
+      <label class="required" for="angebotEditForm_datum">{{ $t("general.erstelltAm") }}</label>
       <input class="m3" type="text" readonly v-model="entity.angebot.erstelltAm" />
     </div>
     <div class="m2">
-      <label for="angebotEditForm_ersteller">Ersteller</label>
+      <label for="angebotEditForm_ersteller">{{ $t("general.ersteller") }}</label>
       <input class="m2" readonly type="text" v-model="entity.angebot.ersteller" />
     </div>
   </div>
   <div class="m1">
     <div class="m6m">
-      <label for="angebotEditForm_endpreis">Endpreis (Nto)</label>
+      <label for="angebotEditForm_endpreis">{{ $t("general.endpreisNto") }}</label>
       <input class="m6" readonly type="text" v-model="endpreisNto" />
     </div>
     <div class="m6">
-      <label for="angebotEditForm_endpreis">Endpreis (Bto)</label>
+      <label for="angebotEditForm_endpreis">{{ $t("general.endpreisBto") }}</label>
       <input class="m6" readonly type="text" v-model="endpreis" />
     </div>
   </div>
@@ -31,28 +32,28 @@ Vue.component('edit-dialog', {
           <th class="tableNavi">
             <button
               class="add"
-              title="Posten hinzufügen"
+              :title="$t('angebot.postenHinzufuegen')"
               v-on:click="addNewItem()"
             ></button>
           </th>
         </tr>
       </thead>
       <thead>
-        <th style="width: 100px;" v-if="!entity.angebot.erledigt">Funktionen</th>
-        <th style="width: 30px;">Pos.</th>
-        <th style="width: 200px;">Bezeichnung</th>
-        <th style="width: 50px;">Menge</th>
-        <th style="width: 100px;">Preis (Nto)</th>
-        <th style="width: 100px;">Gesamt (Nto)</th>
-        <th style="width: 100px;">Preis (Bto)</th>
-        <th style="width: 100px;">Gesamt (Bto)</th>
+        <th style="width: 100px;" v-if="!entity.angebot.erledigt">{{ $t("general.funktionen") }}</th>
+        <th style="width: 30px;">{{ $t("general.pos") }}</th>
+        <th style="width: 200px;">{{ $t("general.bezeichnung") }}</th>
+        <th style="width: 50px;">{{ $t("general.menge") }}</th>
+        <th style="width: 100px;">{{ $t("angebot.preisNto") }}</th>
+        <th style="width: 100px;">{{ $t("angebot.gesamtNto") }}</th>
+        <th style="width: 100px;">{{ $t("angebot.preisBto") }}</th>
+        <th style="width: 100px;">{{ $t("angebot.gesamtBto") }}</th>
       </thead>
       <tbody>
         <tr v-for="(posten, index) in entity.angebotsposten">
           <td v-if="!entity.angebot.erledigt">
-            <button class="add" title="Menge um 1 erhöhen" v-on:click="addItem(index)"></button>
-            <button class="minus" title="Menge um 1 verringern" v-on:click="removeItem(index)"></button>
-            <button class="edit" title="Posten bearbeiten" v-on:click="editPosten(index)"></button>
+            <button class="add" :title="$t('general.mengeErhoehen')" v-on:click="addItem(index)"></button>
+            <button class="minus" :title="$t('general.mengeVerringern')" v-on:click="removeItem(index)"></button>
+            <button class="edit" :title="$t('angebot.postenBearbeiten')" v-on:click="editPosten(index)"></button>
           </td>
           <td>{{posten.position}}</td>
           <td>{{posten.bezeichnung}}</td>
@@ -67,8 +68,8 @@ Vue.component('edit-dialog', {
   </div>
   <br>
   <div class="m1" v-if="entity.angebot.kunde">
-    <label class="required" for="angebotEditForm_angebot_kunde">Kunde</label>
-    <button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
+    <label class="required" for="angebotEditForm_angebot_kunde">{{ $t("general.kunde") }}</label>
+    <button class="kunde btnSmall" :title="$t('kunde.suchen')" @click="showKundeDialog = true"></button>
     <textarea class="m1" id="angebotEditForm_angebot_kunde" readonly v-model="entity.angebot.kunde.completeWithAdress"></textarea>
   </div>
   <kunde-suchen-dialog
@@ -79,6 +80,7 @@ Vue.component('edit-dialog', {
   ></kunde-suchen-dialog>
   <posten-edit-dialog
     :entity="editEntity"
+    :title="$t('angebot.postenBearbeiten')"
     v-if="showEditDialog"
     @close="showEditDialog = false"
     @saved="handleEditResponse"

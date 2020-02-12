@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#kassenbuecher',
   created() {
     window.addEventListener('keydown', e => {
@@ -17,7 +18,7 @@ var vm = new Vue({
     deleteRow: {
       id: null,
       restUrl: '/kassenbuch',
-      title: 'Kassenbuch löschen',
+      title: '',
     },
     grid: {
       actions: [],
@@ -31,7 +32,7 @@ var vm = new Vue({
     
     deleteFunction: function(row) {
       vm.deleteRow.id = row.id;
-      vm.deleteRow.title = 'Kassenbuch vom ' + row.datum + ' löschen';
+      vm.deleteRow.title = this.$t('kassenbuch.vom') + ' ' + row.datum + ' ' + this.$t('general.loeschen');
       vm.showDeleteDialog = true;
     },
     
@@ -66,16 +67,16 @@ var vm = new Vue({
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
-          title: 'Funktionen',
+          title: this.$t('general.funktionen'),
           sortable: false,
           width: 120,
           formatter: [
-          { clazz: 'open-new-tab', disabled: vm.hasNotRoleRechnungAnzeigen, title: 'Kassenbuch öffnen', clickFunc: vm.openFunction },
-          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Kassenbuch löschen', clickFunc: vm.deleteFunction }
+          { clazz: 'open-new-tab', disabled: vm.hasNotRoleRechnungAnzeigen, title: this.$t('kassenbuch.oeffnen'), clickFunc: vm.openFunction },
+          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('kassenbuch.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'datum', title: 'Datum', width: 120, formatter: ['date'] },
-        { name: 'ersteller', title: 'Ersteller', width: 150 },
-        { name: 'ausgangsbetrag', title: 'Ausgangsbetrag', width: 150, formatter: ['money'] }
+        { name: 'datum', title: this.$t('general.datum'), width: 120, formatter: ['date'] },
+        { name: 'ersteller', title: this.$t('general.ersteller'), width: 150 },
+        { name: 'ausgangsbetrag', title: this.$t('kassenbuch.ausgangsbetrag'), width: 150, formatter: ['money'] }
       ];
     },
     

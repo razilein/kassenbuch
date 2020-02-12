@@ -1,4 +1,5 @@
 Vue.component('page-header-reparatur', {
+  i18n,
   props: ['marker'],
   template: 
     `
@@ -9,8 +10,8 @@ Vue.component('page-header-reparatur', {
       <input id="tab2" type="radio" name="tabs" v-if="marker !== 'Reparaturen'" />
       
       <nav>
-        <a class="tab1" href="reparatur.html">Erstellen</a>
-        <a class="tab2" href="reparatur-uebersicht.html">Reparaturen</a>
+        <a class="tab1" href="reparatur.html">{{ $t("general.erstellen") }}</a>
+        <a class="tab2" href="reparatur-uebersicht.html">{{ $t("general.reparaturen") }}</a>
       </nav>
       <figure></figure>
     </div>

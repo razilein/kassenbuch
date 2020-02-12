@@ -14,6 +14,10 @@ module.exports = function(grunt) {
             dest: 'src/main/resources/static/scripts/vendor/vue.min.js'
           },
           {
+            src: 'node_modules/vue-i18n/dist/vue-i18n.min.js',
+            dest: 'src/main/resources/static/scripts/vendor/vue-i18n.min.js'
+          },
+          {
             src: 'node_modules/moment/min/moment.min.js',
             dest: 'src/main/resources/static/scripts/vendor/moment.min.js'
           },
@@ -32,6 +36,10 @@ module.exports = function(grunt) {
           {
             src: 'node_modules/vue/dist/vue.js',
             dest: 'src/main/resources/static/scripts/vendor/vue.min.js'
+          },
+          {
+            src: 'node_modules/vue-i18n/dist/vue-i18n.js',
+            dest: 'src/main/resources/static/scripts/vendor/vue-i18n.min.js'
           },
           {
             src: 'node_modules/moment/moment.js',

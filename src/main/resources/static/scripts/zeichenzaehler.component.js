@@ -1,4 +1,5 @@
 Vue.component('zeichenzaehler-label', {
+  i18n,
   template: `
     <label :class="required ? 'required' : ''" :for="forid">{{label}} ({{elem ? elem.length : 0}}/{{maxlength}})</label>
   `,

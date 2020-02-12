@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#bestellungen',
   created() {
     window.addEventListener('keydown', e => {
@@ -22,12 +23,12 @@ var vm = new Vue({
     deleteRow: {
       id: null,
       restUrl: '/bestellung',
-      title: 'Bestellung löschen',
+      title: '',
     },
     editRow: {
       restUrlGet: '/bestellung/',
       restUrlSave: '/bestellung/',
-      title: 'Bestellung bearbeiten',
+      title: '',
     },
     grid: {
       actions: [],
@@ -43,7 +44,7 @@ var vm = new Vue({
     
     editFunction: function(row) {
       vm.editRow.restUrlGet = '/bestellung/' + row.id;
-      vm.editRow.title = 'Bestellung ' + row.nummer + ' bearbeiten';
+      vm.editRow.title = this.$t('bestellung.titelK') + ' ' + row.nummer + ' ' + this.$t('general.bearbeiten');
       vm.showEditDialog = true;
     },
     
@@ -58,7 +59,7 @@ var vm = new Vue({
     
     deleteFunction: function(row) {
       vm.deleteRow.id = row.id;
-      vm.deleteRow.title = 'Bestellung ' + row.nummer + ' löschen';
+      vm.deleteRow.title = this.$t('bestellung.titelK') + ' ' + row.nummer + ' ' + this.$t('general.loeschen');
       vm.showDeleteDialog = true;
     },
     
@@ -76,9 +77,9 @@ var vm = new Vue({
     },
     
     erledigenFunction: function(row) {
-      var art = row.erledigt ? ' wiedereröffnen' : ' erledigen';
-      vm.confirmDialog.text = 'Wollen Sie diese Bestellung' + art + '?';
-      vm.confirmDialog.title = 'Bestellung ' + row.nummer + art;
+      var art = row.erledigt ? this.$t('general.wiedereroeffnen') : this.$t('general.erledigen');
+      vm.confirmDialog.text = this.$t('bestellung.erledigen') + art + '?';
+      vm.confirmDialog.title = this.$t('bestellung.titelK') + ' ' + row.nummer + art;
       vm.confirmDialog.func = vm.erledigen;
       vm.confirmDialog.params = row;
       vm.showConfirmDialog = true;
@@ -127,21 +128,21 @@ var vm = new Vue({
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
-          title: 'Funktionen',
+          title: this.$t('general.funktionen'),
           sortable: false,
           width: 170,
           formatter: [
-          { clazz: 'open-new-tab', disabled: vm.hasNotRoleBestellungAnzeigen, title: 'Bestellung öffnen', clickFunc: vm.openFunction },
-          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Bestellung bearbeiten', clickFunc: vm.editFunction },
+          { clazz: 'open-new-tab', disabled: vm.hasNotRoleBestellungAnzeigen, title: this.$t('bestellung.oeffnen'), clickFunc: vm.openFunction },
+          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('bestellung.bearbeiten'), clickFunc: vm.editFunction },
           { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.erledigenFunction },
-          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Bestellung löschen', clickFunc: vm.deleteFunction }
+          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('bestellung.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'nummer', title: 'Nummer', width: 80 },
-        { name: 'kunde.nummer', title: 'Kd.-Nr.', width: 80 },
-        { name: 'kunde.nameKomplett', sortable: false, title: 'Kunde', width: 200 },
-        { name: 'datum', title: 'Datum', width: 120, formatter: ['date'] },
-        { name: 'erstelltAm', title: 'Erstellt am', width: 100 },
-        { name: 'ersteller', title: 'Ersteller', width: 200 }
+        { name: 'nummer', title: this.$t('general.nummer'), width: 80 },
+        { name: 'kunde.nummer', title: this.$t('kunde.kdNr'), width: 80 },
+        { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200 },
+        { name: 'datum', title: this.$t('general.datum'), width: 120, formatter: ['date'] },
+        { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 100 },
+        { name: 'ersteller', title: this.$t('general.ersteller'), width: 200 }
       ];
     },
     
@@ -150,7 +151,7 @@ var vm = new Vue({
     },
     
     getTitleErledigt: function(row) {
-      return row.erledigt ? 'Die Bestellung wurde erledigt. Bestellung wiedereröffnen?' : 'Die Bestellung wurde noch nicht erledigt. Jetzt erledigen?';
+      return row.erledigt ? this.$t('bestellung.wiedereroeffnen') : this.$t('bestellung.erledigt');
     },
     
     getRecht: function(role) {

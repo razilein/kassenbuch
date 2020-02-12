@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/themes/css/raster.css">
     <link rel="stylesheet" href="/themes/css/style.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
   </head>
   <body>
@@ -17,15 +18,13 @@
       <page-header></page-header>
       <div id="content">
         <div class="m1 error">
-          <h3>
-            Sie haben nicht die notwendigen Berechtigungen um diese Funktion auszuführen.
-            Bitte wählen Sie eine andere Seite aus um fortzufahren.
-          </h3>
+          <h3>{{ $t("general.keinRecht")}}</h3>
         </div>
       </div>
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/no-permission.js"></script>
 </html>

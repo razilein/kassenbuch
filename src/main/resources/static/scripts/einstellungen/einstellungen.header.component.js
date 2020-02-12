@@ -1,4 +1,5 @@
 Vue.component('page-header-einstellungen', {
+  i18n,
   props: ['marker'],
   template: 
   `
@@ -11,9 +12,9 @@ Vue.component('page-header-einstellungen', {
     <input id="tab3" type="radio" name="tabs" v-if="marker !== 'Mitarbeiter'" />
     
     <nav>
-      <a class="tab1" href="einstellungen.html">Allgemein</a>
-      <a class="tab2" href="filiale.html">Filiale</a>
-      <a class="tab3" href="mitarbeiter.html">Mitarbeiter</a>
+      <a class="tab1" href="einstellungen.html">{{ $t("einstellung.profil.allgemein") }}</a>
+      <a class="tab2" href="filiale.html">{{ $t("general.filiale") }}</a>
+      <a class="tab3" href="mitarbeiter.html">{{ $t("einstellung.mitarbeiter") }}</a>
     </nav>
     <figure></figure>
   </div>

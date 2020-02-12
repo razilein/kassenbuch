@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/themes/css/style.css">
     <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
   </head>
   <body>
@@ -21,18 +22,18 @@
       <div id="content">
         <div class="form m1">
           <div class="m1">
-            <label for="searchForm_kategorie">Kategorie</label>
+            <label for="searchForm_kategorie">{{ $t("inventar.produkt.kategorie") }}</label>
             <select class="m1" id="searchForm_kategorie" v-model="grid.searchQuery.kategorie">
               <option value=""></option>
               <option :value="k.key" v-for="k in kategorien">{{k.value}}</option>
             </select>
           </div>
           <div class="m1">
-            <label for="searchForm_bezeichnung">Bezeichnung</label>
+            <label for="searchForm_bezeichnung">{{ $t("general.bezeichnung") }}</label>
             <input class="m1" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung"></input>
           </div>
           <div class="m1">
-            <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
+            <button class="right" :title="$t('general.suchen')" v-on:click="grid.reload = true;">{{ $t("general.suchen") }}</button>
           </div>
         </div>
         <div style="height: 200px;"></div>
@@ -71,6 +72,7 @@
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/delete.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>

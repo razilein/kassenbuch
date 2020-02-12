@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/themes/css/style.css">
     <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
@@ -23,14 +24,14 @@
         <div class="form m1">
           <div class="m1">
             <div class="m2m">
-              <label for="searchForm_kategorie">Kategorie</label>
+              <label for="searchForm_kategorie">{{ $t("inventar.produkt.kategorie") }}</label>
               <select class="m2" id="searchForm_kategorie" v-model="grid.searchQuery.kategorie" v-on:change="updateGruppen()" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false">
                 <option value=""></option>
                 <option :value="k.key" v-for="k in kategorien">{{k.value}}</option>
               </select>
             </div>
             <div class="m2">
-              <label for="searchForm_gruppe">Gruppe</label>
+              <label for="searchForm_gruppe">{{ $t("inventar.produkt.gruppe") }}</label>
               <select class="m2" id="searchForm_gruppe" v-model="grid.searchQuery.gruppe" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false">
                 <option value=""></option>
                 <option :value="g.key" v-for="g in gruppen">{{g.value}}</option>
@@ -38,30 +39,30 @@
             </div>
           </div>
           <div class="m2m">
-            <label for="searchForm_bezeichnung">Bezeichnung</label>
+            <label for="searchForm_bezeichnung">{{ $t("general.bezeichnung") }}</label>
             <input class="m2" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false" />
           </div>
           <div class="m2">
-            <label for="searchForm_hersteller">Hersteller</label>
+            <label for="searchForm_hersteller">{{ $t("inventar.produkt.hersteller") }}</label>
             <input class="m2" id="searchForm_hersteller" type="text" v-model="grid.searchQuery.hersteller" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false" ></input>
           </div>
           <hr>
           <div class="m1">
             <div class="m2m">
-              <label for="searchForm_ean">EAN</label>
+              <label for="searchForm_ean">{{ $t("inventar.produkt.ean") }}</label>
               <input class="m2" id="searchForm_ean" type="text" v-model="grid.searchQuery.ean" onclick="this.select()" />
             </div>
           </div>
           <div class="m1">
             <div class="m2m">
-              <label class="container checkbox">Sortierung: Anzahl verkaufte Produkte
+              <label class="container checkbox">{{ $t("inventar.produkt.sortierung") }}
                 <input id="searchForm_sortierung" type="checkbox" v-model="grid.searchQuery.sortierung" v-on:change="saveSearchQuerySortierung" />
                 <span class="checkmark"></span>
               </label>
             </div>
             <div class="m2 right">
-              <button class="delete" title="Suchfelder leeren" v-on:click="grid.searchQuery = {}; setGridSearch(); grid.reload = true;"></button>
-              <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
+              <button class="delete" :title="$t('general.suchfelderLeeren')"  v-on:click="grid.searchQuery = {}; setGridSearch(); grid.reload = true;"></button>
+              <button class="right" :title="$t('general.suchen')" v-on:click="grid.reload = true;">{{ $t("general.suchen") }}</button>
             </div>
           </div>
         </div>
@@ -80,29 +81,29 @@
           ></grid>
         </div>
         <div class="form" style="width: 1000px;">
-          <h3>Gewählte Posten:</h3>
+          <h3>{{ $t("angebot.gewaehltePosten") }}:</h3>
           <div class="error" v-if="entity.posten.length > 15">
-            <h3>Achtung! Es sind zu viele Posten auf der Rechnung. Bitte auf zwei Rechnungen aufteilen!</h3>
+            <h3>{{ $t("rechnung.zuvielePosten") }}</h3>
           </div>
           <table>
             <thead>
-              <th style="width: 100px;">Funktionen</th>
-              <th style="width: 30px;">Pos.</th>
-              <th style="width: 550px;">Bezeichnung</th>
-              <th style="width: 120px;">S/N</th>
-              <th style="width: 120px;">Hinweis</th>
-              <th style="width: 50px;">Menge</th>
-              <th style="width: 100px;">Preis</th>
-              <th style="width: 100px;">Rabatt</th>
-              <th style="width: 100px;">Gesamt</th>
+              <th style="width: 100px;">{{ $t("general.funktionen") }}</th>
+              <th style="width: 30px;">{{ $t("general.pos") }}</th>
+              <th style="width: 550px;">{{ $t("general.bezeichnung") }}</th>
+              <th style="width: 120px;">{{ $t("rechnung.sn") }}</th>
+              <th style="width: 120px;">{{ $t("rechnung.hinweis") }}</th>
+              <th style="width: 50px;">{{ $t("general.menge") }}</th>
+              <th style="width: 100px;">{{ $t("general.preis") }}</th>
+              <th style="width: 100px;">{{ $t("general.rabatt") }}</th>
+              <th style="width: 100px;">{{ $t("general.gesamt") }}</th>
             </thead>
             <tbody>
               <tr v-for="(posten, index) in entity.posten">
                 <td>
-                  <button class="add" title="Menge um 1 erhöhen" v-on:click="addItem(index)"></button>
-                  <button class="minus" title="Menge um 1 verringern" v-on:click="removeItem(index)"></button>
-                  <button class="edit" title="Posten bearbeiten" v-on:click="editPosten(index)"></button>
-                  <button class="euro" title="Rabatt geben" v-on:click="openRabattDialog(index)"></button>
+                  <button class="add" :title="$t('general.mengeErhoehen')" v-on:click="addItem(index)"></button>
+                  <button class="minus" :title="$t('general.mengeVerringern')" v-on:click="removeItem(index)"></button>
+                  <button class="edit" :title="$t('angebot.postenBearbeiten')" v-on:click="editPosten(index)"></button>
+                  <button class="euro" :title="$t('rechnung.rabattGeben')" v-on:click="openRabattDialog(index)"></button>
                 </td>
                 <td>{{posten.position}}</td>
                 <td>{{posten.bezeichnung}}</td>
@@ -116,7 +117,7 @@
             </tbody>
           </table>
           <div class="m6 right">
-            <label for="rechnungEditForm_endpreis">Endpreis</label>
+            <label for="rechnungEditForm_endpreis">{{ $t("general.endpreis") }}</label>
             <input class="m6" readonly type="text" v-model="endpreis" />
           </div>
         </div>
@@ -135,42 +136,42 @@
           </div>
           <div class="m1">
             <div class="m4m">
-              <label for="rechnungEditForm_lieferdatum">Lieferdatum</label>
-              <input class="m4" id="rechnungEditForm_lieferdatum" title="Wird das Feld leer gelassen, entspricht das Lieferdatum dem Rechnungsdatum" type="date" v-model="entity.rechnung.lieferdatum" />
+              <label for="rechnungEditForm_lieferdatum">{{ $t("general.lieferdatum") }}</label>
+              <input class="m4" id="rechnungEditForm_lieferdatum" :title="$t('rechnung.lieferdatumInfo')" type="date" v-model="entity.rechnung.lieferdatum" />
             </div>
           </div>
           <div class="m1" v-if="entity.rechnung.bestellung">
-            <label for="rechnungEditForm_bestellung">Bestellung</label>
-            <button class="bestellung btnSmall" title="Bestellung suchen" @click="showBestellungDialog = true"></button>
-            <button class="delete btnSmall" title="Bestellung deselektieren" @click="entity.rechnung.bestellung = {}"></button>
+            <label for="rechnungEditForm_bestellung">{{ $t("bestellung.titelK") }}</label>
+            <button class="bestellung btnSmall" :title="$t('bestellung.suchen')" @click="showBestellungDialog = true"></button>
+            <button class="delete btnSmall" :title="$t('bestellung.deselektieren')" @click="entity.rechnung.bestellung = {}"></button>
             <textarea class="m1" id="rechnungEditForm_bestellung" readonly v-model="entity.rechnung.bestellung.beschreibung"></textarea>
           </div>
           <div class="m1" v-if="entity.rechnung.reparatur">
-            <label for="rechnungEditForm_reparatur">Reparaturauftrag</label>
-            <button class="zahnrad btnSmall" title="Reparaturauftrag suchen" @click="showReparaturDialog = true"></button>
-            <button class="delete btnSmall" title="Reparaturauftrag deselektieren" @click="entity.rechnung.reparatur = {}"></button>
+            <label for="rechnungEditForm_reparatur">{{ $t("reparatur.reparaturauftrag") }}</label>
+            <button class="zahnrad btnSmall" :title="$t('reparatur.suchen')" @click="showReparaturDialog = true"></button>
+            <button class="delete btnSmall" :title="$t('reparatur.deselektieren')" @click="entity.rechnung.reparatur = {}"></button>
             <input class="m1" id="rechnungEditForm_reparatur" readonly type="text" v-model="entity.rechnung.reparatur.nummer" />
           </div>
           <div class="m1">
-            <label class="container checkbox">Soll der Name auf die Rechnung gedruckt werden?
+            <label class="container checkbox">{{ $t("rechnung.nameDrucken") }}
               <input id="rechnungEditForm_name_drucken" type="checkbox" v-model="entity.rechnung.nameDrucken" />
               <span class="checkmark"></span>
             </label>
           </div>
           <div class="m1" v-if="entity.rechnung.kunde && entity.rechnung.kunde.firmenname && entity.rechnung.kunde.nachname">
-            <label class="container checkbox">Sollen zusätzlich zum Firmannamen der Nachname/Vorname auf die Rechnung gedruckt werden?
+            <label class="container checkbox">{{ $t("rechnung.nameDruckenFirma") }}
               <input id="rechnungEditForm_name_drucken_bei_firma" type="checkbox" v-model="entity.rechnung.nameDruckenBeiFirma" />
               <span class="checkmark"></span>
             </label>
           </div>
           <div class="m1" v-if="entity.rechnung.kunde">
-            <label for="rechnungEditForm_kunde">Kunde</label>
-            <button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
-            <button class="delete btnSmall" title="Kunde deselektieren" @click="entity.rechnung.kunde = {}; entity.rechnung.nameDrucken = false;"></button>
+            <label for="rechnungEditForm_kunde">{{ $t("general.kunde") }}</label>
+            <button class="kunde btnSmall" :title="$t('kunde.suchen')" @click="showKundeDialog = true"></button>
+            <button class="delete btnSmall" :title="$t('kunde.deselektieren')" @click="entity.rechnung.kunde = {}; entity.rechnung.nameDrucken = false;"></button>
             <textarea class="m1" id="rechnungEditForm_kunde" readonly v-model="entity.rechnung.kunde.completeWithAdress"></textarea>
           </div>
-          <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">Speichern</button>
-          <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmpty()">Speichern</button>
+          <button class="right" :title="$t('general.speichern')" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">{{ $t("general.speichern") }}</button>
+          <button class="right disabled" :title="$t('general.pflichtfelder')" v-if="!areRequiredFieldsNotEmpty()">{{ $t("general.speichern") }}</button>
         </div>
         <div style="height: 280px;"></div>
       </div>
@@ -201,6 +202,7 @@
       ></rabatt-dialog>
       <posten-edit-dialog
         :entity="editEntity"
+        :title="$t('angebot.postenBearbeiten')"
         v-if="showEditDialog"
         @close="showEditDialog = false"
         @saved="handleEditResponse"
@@ -208,6 +210,7 @@
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/localstorage.service.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>

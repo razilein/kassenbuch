@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#import',
   created() {
     window.addEventListener('keydown', e => {

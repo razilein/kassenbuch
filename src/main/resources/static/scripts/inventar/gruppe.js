@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#gruppe',
   created() {
     window.addEventListener('keydown', e => {
@@ -18,12 +19,12 @@ var vm = new Vue({
     deleteRow: {
       id: null,
       restUrl: '/inventar/gruppe',
-      title: 'Gruppe löschen',
+      title: '',
     },
     editRow: {
       restUrlGet: '/inventar/gruppe/',
       restUrlSave: '/inventar/gruppe',
-      title: 'Gruppe bearbeiten',
+      title: '',
     },
     grid: {
       actions: [],
@@ -38,13 +39,13 @@ var vm = new Vue({
     
     addFunction: function() {
       vm.editRow.restUrlGet = '/inventar/gruppe/' + -1;
-      vm.editRow.title = 'Gruppe hinzufügen';
+      vm.editRow.title = this.$t('inventar.gruppe.hinzufuegen');
       vm.showEditDialog = true;
     },
     
     editFunction: function(row) {
       vm.editRow.restUrlGet = '/inventar/gruppe/' + row.id;
-      vm.editRow.title = 'Gruppe ' + row.bezeichnung + ' bearbeiten';
+      vm.editRow.title = this.$t('inventar.produkt.gruppe') + ' ' + row.bezeichnung + ' ' + this.$t('general.bearbeiten');
       vm.showEditDialog = true;
     },
     
@@ -59,7 +60,7 @@ var vm = new Vue({
     
     deleteFunction: function(row) {
       vm.deleteRow.id = row.id;
-      vm.deleteRow.title = 'Gruppe ' + row.bezeichnung + ' löschen';
+      vm.deleteRow.title = this.$t('inventar.produkt.gruppe') + ' ' + row.bezeichnung + ' ' + this.$t('general.loeschen');
       vm.showDeleteDialog = true;
     },
     
@@ -84,21 +85,21 @@ var vm = new Vue({
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
-          title: 'Funktionen',
+          title: this.$t('general.funktionen'),
           sortable: false,
           width: 50,
           formatter: [
-          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Gruppe bearbeiten', clickFunc: vm.editFunction },
-          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Gruppe löschen', clickFunc: vm.deleteFunction }
+          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('inventar.gruppe.bearbeiten'), clickFunc: vm.editFunction },
+          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('inventar.gruppe.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'kategorie.bezeichnung', title: 'Kategorie', width: 200 },
-        { name: 'bezeichnung', title: 'Bezeichnung', width: 200 },
+        { name: 'kategorie.bezeichnung', title: this.$t('inventar.produkt.kategorie'), width: 200 },
+        { name: 'bezeichnung', title: this.$t('general.bezeichnung'), width: 200 },
       ];
     },
     
     setGridActions: function() {
       vm.grid.actions = [
-        { clazz: 'add', disabled: vm.hasNotRoleVerwalten, title: 'Gruppe hinzufügen', clickFunc: vm.addFunction }
+        { clazz: 'add', disabled: vm.hasNotRoleVerwalten, title: this.$t('inventar.gruppe.hinzufuegen'), clickFunc: vm.addFunction }
       ]
     },
     

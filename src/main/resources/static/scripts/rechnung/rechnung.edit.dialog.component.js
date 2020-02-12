@@ -1,46 +1,47 @@
 Vue.component('edit-dialog', {
+  i18n,
   template: createEditDialogTemplate(`
   <div class="m1">
     <div class="m6m">
-      <label for="rechnungEditForm_nummer">Nummer</label>
+      <label for="rechnungEditForm_nummer">{{ $t("general.nummer") }}</label>
       <input class="m6" readonly type="text" v-model="entity.rechnung.nummer" />
     </div>
     <div class="m4m">
-      <label class="required" for="rechnungEditForm_datum">Datum</label>
+      <label class="required" for="rechnungEditForm_datum">{{ $t("general.datum") }}</label>
       <input class="m4" type="date" v-model="entity.rechnung.datum" />
     </div>
     <div class="m4m">
-      <label for="rechnungEditForm_lieferdatum">Lieferdatum</label>
+      <label for="rechnungEditForm_lieferdatum">{{ $t("general.lieferdatum") }}</label>
       <input class="m4" id="rechnungEditForm_lieferdatum" title="Wird das Feld leer gelassen, entspricht das Lieferdatum dem Rechnungsdatum" type="date" v-model="entity.rechnung.lieferdatum" />
     </div>
   </div>
   <div class="m1">
     <div class="m2m">
-      <label for="rechnungEditForm_ersteller">Ersteller</label>
+      <label for="rechnungEditForm_ersteller">{{ $t("general.ersteller") }}</label>
       <input class="m2" readonly type="text" v-model="entity.rechnung.ersteller" />
     </div>
     <div class="m6m">
-      <label for="rechnungEditForm_endpreis">Endpreis</label>
+      <label for="rechnungEditForm_endpreis">{{ $t("general.endpreis") }}</label>
       <input class="m6" readonly type="text" v-model="endpreis" />
     </div>
   </div>
   <div style="width: 1000px;">
     <table>
       <thead>
-        <th style="width: 100px;">Funktionen</th>
-        <th style="width: 30px;">Pos.</th>
-        <th style="width: 550px;">Bezeichnung</th>
-        <th style="width: 120px;">S/N</th>
-        <th style="width: 120px;">Hinweis</th>
-        <th style="width: 50px;">Menge</th>
-        <th style="width: 100px;">Preis</th>
-        <th style="width: 100px;">Rabatt</th>
-        <th style="width: 100px;">Gesamt</th>
+        <th style="width: 100px;">{{ $t("general.funktionen") }}</th>
+        <th style="width: 30px;">{{ $t("general.pos") }}</th>
+        <th style="width: 550px;">{{ $t("general.bezeichnung") }}</th>
+        <th style="width: 120px;">{{ $t("rechnung.sn") }}</th>
+        <th style="width: 120px;">{{ $t("rechnung.hinweis") }}</th>
+        <th style="width: 50px;">{{ $t("general.menge") }}</th>
+        <th style="width: 100px;">{{ $t("general.preis") }}</th>
+        <th style="width: 100px;">{{ $t("general.rabatt") }}</th>
+        <th style="width: 100px;">{{ $t("general.gesamt") }}</th>
       </thead>
       <tbody>
         <tr v-for="(posten, index) in entity.posten">
           <td>
-            <button class="edit" title="Posten bearbeiten" v-on:click="editPosten(index)"></button>
+            <button class="edit" :title="$t('angebot.postenBearbeiten')" v-on:click="editPosten(index)"></button>
           </td>
           <td>{{posten.position}}</td>
           <td>{{posten.bezeichnung}}</td>
@@ -69,33 +70,33 @@ Vue.component('edit-dialog', {
       </label>
     </div>
     <div class="m1" v-if="entity.rechnung.bestellung">
-      <label for="rechnungEditForm_bestellung">Bestellung</label>
-      <button class="bestellung btnSmall" title="Bestellung suchen" @click="showBestellungDialog = true"></button>
-      <button class="delete btnSmall" title="Bestellung deselektieren" @click="entity.rechnung.bestellung = {}"></button>
+      <label for="rechnungEditForm_bestellung">{{ $t("bestellung.titelK") }}</label>
+      <button class="bestellung btnSmall" :title="$t('bestellung.suchen')" @click="showBestellungDialog = true"></button>
+      <button class="delete btnSmall" :title="$t('bestellung.deselektieren')" @click="entity.rechnung.bestellung = {}"></button>
       <textarea class="m1" id="rechnungEditForm_bestellung" readonly v-model="entity.rechnung.bestellung.beschreibung"></textarea>
     </div>
     <div class="m1" v-if="entity.rechnung.reparatur">
-      <label for="rechnungEditForm_reparatur">Reparaturauftrag</label>
-      <button class="zahnrad btnSmall" title="Reparaturauftrag suchen" @click="showReparaturDialog = true"></button>
-      <button class="delete btnSmall" title="Reparaturauftrag deselektieren" @click="entity.rechnung.reparatur = {}"></button>
+      <label for="rechnungEditForm_reparatur">{{ $t("reparatur.reparaturauftrag") }}</label>
+      <button class="zahnrad btnSmall" :title="$t('reparatur.suchen')" @click="showReparaturDialog = true"></button>
+      <button class="delete btnSmall" :title="$t('reparatur.deselektieren')" @click="entity.rechnung.reparatur = {}"></button>
       <input class="m1" id="rechnungEditForm_reparatur" readonly type="text" v-model="entity.rechnung.reparatur.nummer" />
     </div>
     <div class="m1">
-      <label class="container checkbox">Soll der Name auf die Rechnung gedruckt werden?
+      <label class="container checkbox">{{ $t("rechnung.nameDrucken") }}
         <input id="rechnungEditForm_name_drucken" type="checkbox" v-model="entity.rechnung.nameDrucken" />
         <span class="checkmark"></span>
       </label>
     </div>
     <div class="m1" v-if="entity.rechnung.kunde && entity.rechnung.kunde.firmenname && entity.rechnung.kunde.nachname">
-      <label class="container checkbox">Sollen zusätzlich zum Firmannamen der Nachname/Vorname auf die Rechnung gedruckt werden?
+      <label class="container checkbox">{{ $t("rechnung.nameDruckenFirma") }}
         <input id="rechnungEditForm_name_drucken_bei_firma" type="checkbox" v-model="entity.rechnung.nameDruckenBeiFirma" />
         <span class="checkmark"></span>
       </label>
     </div>
     <div class="m1" v-if="entity.rechnung.kunde">
-      <label for="rechnungEditForm_kunde">Kunde</label>
-      <button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
-      <button class="delete btnSmall" title="Kunde deselektieren" @click="entity.rechnung.kunde = {}"></button>
+      <label for="rechnungEditForm_kunde">{{ $t("general.kunde") }}</label>
+      <button class="kunde btnSmall" :title="$t('kunde.suchen')" @click="showKundeDialog = true"></button>
+      <button class="delete btnSmall" :title="$t('kunde.deselektieren')" @click="entity.rechnung.kunde = {}"></button>
       <textarea class="m1" id="rechnungEditForm_kunde" readonly v-model="entity.rechnung.kunde.completeWithAdress"></textarea>
     </div>
   </div>
@@ -120,6 +121,7 @@ Vue.component('edit-dialog', {
 ></reparatur-suchen-dialog>
 <posten-edit-dialog
   :entity="editEntity"
+  :title="$t('angebot.postenBearbeiten')"
   v-if="showEditDialog"
   @close="showEditDialog = false"
   @saved="handleEditResponse"

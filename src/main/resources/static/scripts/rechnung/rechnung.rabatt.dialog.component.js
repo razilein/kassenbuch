@@ -1,46 +1,47 @@
 Vue.component('rabatt-dialog', {
+  i18n,
   template: createEditDialogTemplate(`
   <div class="m6">
-    <label for="rabattForm_menge">Menge</label>
+    <label for="rabattForm_menge">{{ $t("general.menge") }}</label>
     <input class="m6" id="rabattForm_menge" readonly type="number" v-model="entity.menge">
   </div>
   <div class="m1">
     <div class="m4m">
-      <label for="rabattForm_preisEk">Preis EK Brutto</label>
+      <label for="rabattForm_preisEk">{{ $t("inventar.produkt.ekPreisB") }}</label>
       <input class="m4" id="rabattForm_preisEkBrutto" readonly step="0.01" type="number" v-model="entity.produkt.preisEkBrutto"></input>
     </div>
     <div class="m4">
-      <label for="rabattForm_preisVk">Preis VK Brutto</label>
+      <label for="rabattForm_preisVk">{{ $t("inventar.produkt.vkPreisB") }}</label>
       <input class="m4" id="rabattForm_preisVkBrutto" readonly step="0.01" type="number" v-model="entity.produkt.preisVkBrutto"></input>
     </div>
   </div>
   <div class="m1" v-if="entity.menge > 1">
     <div class="m4m">
-      <label for="rabattForm_gesamt_preisEk">Gesamtpreis EK Brutto</label>
+      <label for="rabattForm_gesamt_preisEk">{{ $t("inventar.produkt.ekPreisBGesamt") }}</label>
       <input class="m4" id="rabattForm_gesamt_preisEk" readonly step="0.01" type="number" v-model="calculatedEntity.preisEk"></input>
     </div>
     <div class="m4">
-      <label for="rabattForm_gesamt_preisVk">Gesamtpreis VK Brutto</label>
+      <label for="rabattForm_gesamt_preisVk">{{ $t("inventar.produkt.vkPreisBGesamt") }}</label>
       <input class="m4" id="rabattForm_gesamt_preisVk" readonly step="0.01" type="number" v-model="calculatedEntity.preisVk"></input>
     </div>
   </div>
   <div class="m1">
     <div class="m4m">
-      <label for="rabattForm_rabatt_prozent">Rabatt in %</label>
+      <label for="rabattForm_rabatt_prozent">{{ $t("inventar.produkt.rabattProzent") }}</label>
       <input class="m4" id="rabattForm_rabatt_prozent" min="0" max="100" step="0.01" type="number" v-model="calculatedEntity.rabattProzent" v-on:change="berechneRabatt()"></input>
     </div>
     <div class="m4">
-      <label class="required" for="rabattForm_rabatt">Rabatt</label>
+      <label class="required" for="rabattForm_rabatt">{{ $t("general.rabatt") }}</label>
       <input class="m4" id="rabattForm_rabatt" step="0.01" type="number" v-model="calculatedEntity.rabatt" v-on:change="berechneRabattProzent()"></input>
     </div>
   </div>
   <div class="m1">
     <div class="m4m">
-      <label for="rabattForm_gewinn">Gewinn</label>
+      <label for="rabattForm_gewinn">{{ $t("inventar.produkt.gewinn") }}</label>
       <input class="m4" id="rabattForm_gewinn" readonly step="0.01" type="number" v-model="calculatedEntity.gewinn"></input>
     </div>
     <div class="m4">
-      <label for="rabattForm_gesamtpreis">Gesamtpreis</label>
+      <label for="rabattForm_gesamtpreis">{{ $t("general.gesamtpreis") }}</label>
       <input class="m4" id="rabattForm_gesamtpreis" readonly step="0.01" type="number" v-model="calculatedEntity.gesamt"></input>
     </div>
   </div>
@@ -63,7 +64,7 @@ Vue.component('rabatt-dialog', {
         rabatt: rabatt,
         rabattProzent: rabatt * 100 / preisVk
       },
-      title: 'Rabattrechner'
+      title: this.$t('rechnung.rabattrechner')
     };
   },
   methods: {

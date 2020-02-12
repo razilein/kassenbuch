@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/themes/css/style.css">
     <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
   </head>
   <body>
@@ -22,14 +23,14 @@
         <div class="form m1">
           <div class="m1">
             <div class="m2m">
-              <label for="searchForm_kategorie">Kategorie</label>
+              <label for="searchForm_kategorie">{{ $t("inventar.produkt.kategorie") }}</label>
               <select class="m2" id="searchForm_kategorie" v-model="grid.searchQuery.kategorie" v-on:change="updateGruppen()" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false">
                 <option value=""></option>
                 <option :value="k.key" v-for="k in kategorien">{{k.value}}</option>
               </select>
             </div>
             <div class="m2">
-              <label for="searchForm_gruppe">Gruppe</label>
+              <label for="searchForm_gruppe">{{ $t("inventar.produkt.gruppe") }}</label>
               <select class="m2" id="searchForm_gruppe" v-model="grid.searchQuery.gruppe" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false">
                 <option value=""></option>
                 <option :value="g.key" v-for="g in gruppen">{{g.value}}</option>
@@ -38,37 +39,37 @@
           </div>
           <div class="m1">
             <div class="m2m">
-              <label for="searchForm_bezeichnung">Bezeichnung</label>
+              <label for="searchForm_bezeichnung">{{ $t("general.bezeichnung") }}</label>
               <input class="m2" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false" ></input>
             </div>
             <div class="m2">
-              <label for="searchForm_hersteller">Hersteller</label>
+              <label for="searchForm_hersteller">{{ $t("inventar.produkt.hersteller") }}</label>
               <input class="m2" id="searchForm_hersteller" type="text" v-model="grid.searchQuery.hersteller" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false" ></input>
             </div>
           </div>
           <hr>
           <div class="m1">
             <div class="m2m">
-              <label for="searchForm_ean">EAN</label>
+              <label for="searchForm_ean">{{ $t("inventar.produkt.ean") }}</label>
               <input class="m2" id="searchForm_ean" type="text" v-model="grid.searchQuery.ean" onclick="this.select()" />
             </div>
           </div>
           <div class="m1">
-            <label class="container checkbox">Schnellerfassung (Anzahl + 1 bei Suche mit EAN bei 1 Treffer)
+            <label class="container checkbox">{{ $t("inventar.produkt.schnellerfassung") }}
               <input id="searchForm_schnellerfassung" type="checkbox" v-model="grid.searchQuery.schnellerfassung" />
               <span class="checkmark"></span>
             </label>
           </div>
           <div class="m1">
             <div class="m2m">
-              <label class="container checkbox">Sortierung: Anzahl verkaufte Produkte
+              <label class="container checkbox">{{ $t("inventar.produkt.sortierung") }}
                 <input id="searchForm_sortierung" type="checkbox" v-model="grid.searchQuery.sortierung" v-on:change="saveSearchQuerySortierung" />
                 <span class="checkmark"></span>
               </label>
             </div>
             <div class="m2 right">
-              <button class="delete" title="Suchfelder leeren" v-on:click="grid.searchQuery = {}; grid.reload = true;"></button>
-              <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
+              <button class="delete" :title="$t('general.suchfelderLeeren')" v-on:click="grid.searchQuery = {}; grid.reload = true;"></button>
+              <button class="right" :title="$t('general.suchen')" v-on:click="grid.reload = true;">{{ $t("general.suchen") }}</button>
             </div>
           </div>
         </div>
@@ -108,6 +109,7 @@
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/localstorage.service.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/delete.dialog.component.js"></script>

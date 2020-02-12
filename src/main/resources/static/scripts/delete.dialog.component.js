@@ -1,13 +1,14 @@
 Vue.component('delete-dialog', {
+  i18n,
   template: `
     <div class="dialog-mask">
       <div class="dialog-wrapper">
         <div class="dialog-container error">
           <h3 class="dialog-header">{{title}}</h3>
-          <div class="dialog-body">Wollen Sie diesen Datensatz wirklich löschen?</div>
+          <div class="dialog-body">{{ $t("general.loeschenFrage") }}</div>
           <div class="dialog-footer">
-            <button class="dialog-default-button error" @click="deleteFunc()">OK</button>
-            <button class="dialog-default-button error" @click="$emit('close')">Abbrechen</button>
+            <button class="dialog-default-button error" @click="deleteFunc()">{{ $t("general.ok") }}</button>
+            <button class="dialog-default-button error" @click="$emit('close')">{{ $t("general.abbrechen") }}</button>
           </div>
         </div>
       </div>
