@@ -96,6 +96,54 @@
           </tr>
         </tbody>
       </table>
+      <hr />
+      Notizen (vom Personal auszufüllen):
+      <br>
+      <table class="font16">
+        <tbody>
+          <tr>
+            <td style="padding-top: 8px;">&#9744;</td>
+            <td class="s4">Ware bestellt am:</td>
+            <td style="padding-top: 8px;">&#9744;</td>
+            <td class="s4">Ware erhalten am:</td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <table style="width: 650px;">
+        <tbody>
+          <tr>
+            <td style="border: 1px solid black;">
+              <strong>Anrufprotokoll</strong>
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NR: {{entity.filiale.kuerzel}}{{entity.nummerAnzeige}}</span>
+              <span v-if="entity.kunde.telefonAnzeige">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9990; {{entity.kunde.telefonAnzeige}}</span>
+              <span v-if="entity.kunde.email">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9993; {{entity.kunde.email}}</span>
+            </td>
+          </tr>
+         </tbody>
+       </table>
+       <table>
+         <thead>
+          <tr>
+            <td style="width: 150px;">Datum/Uhrzeit</td>
+            <td style="width: 300px;">Anrufgrund</td>
+            <td style="font-size: 8px; width: 40px;">Kunde<br>inform.</td>
+            <td style="font-size: 8px; width: 40px;">Anruf-<br>beantw.</td>
+            <td style="font-size: 8px; width: 40px;">nicht<br>erreicht</td>
+            <td style="font-size: 8px; width: 40px;">Angehör.<br>inform.</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr height="35" v-for="index in 3">
+            <td style="border-bottom: 1px solid black; width: 150px;">&nbsp;</td>
+            <td style="border-bottom: 1px solid black; width: 300px;">&nbsp;</td>
+            <td style="width: 40px;">&#9744;</td>
+            <td style="width: 40px;">&#9744;</td>
+            <td style="width: 40px;">&#9744;</td>
+            <td style="width: 40px;">&#9744;</td>
+          </tr>
+        </tbody>
+      </table>
       <footer>
         <div class="center">
           <br>
