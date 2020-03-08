@@ -21,65 +21,11 @@
       <page-header :marker="'Rechnungen'"></page-header>
       <page-header-rechnung v-bind:marker="'Erstellen'"></page-header-rechnung>
       <div id="content">
-        <div class="form m1">
-          <div class="m1">
-            <div class="m2m">
-              <label for="searchForm_kategorie">{{ $t("inventar.produkt.kategorie") }}</label>
-              <select class="m2" id="searchForm_kategorie" v-model="grid.searchQuery.kategorie" v-on:change="updateGruppen()" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false">
-                <option value=""></option>
-                <option :value="k.key" v-for="k in kategorien">{{k.value}}</option>
-              </select>
-            </div>
-            <div class="m2">
-              <label for="searchForm_gruppe">{{ $t("inventar.produkt.gruppe") }}</label>
-              <select class="m2" id="searchForm_gruppe" v-model="grid.searchQuery.gruppe" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false">
-                <option value=""></option>
-                <option :value="g.key" v-for="g in gruppen">{{g.value}}</option>
-              </select>
-            </div>
-          </div>
-          <div class="m2m">
-            <label for="searchForm_bezeichnung">{{ $t("general.bezeichnung") }}</label>
-            <input class="m2" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false" />
-          </div>
-          <div class="m2">
-            <label for="searchForm_hersteller">{{ $t("inventar.produkt.hersteller") }}</label>
-            <input class="m2" id="searchForm_hersteller" type="text" v-model="grid.searchQuery.hersteller" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false" ></input>
-          </div>
-          <hr>
-          <div class="m1">
-            <div class="m2m">
-              <label for="searchForm_ean">{{ $t("inventar.produkt.ean") }}</label>
-              <input class="m2" id="searchForm_ean" type="text" v-model="grid.searchQuery.ean" onclick="this.select()" />
-            </div>
-          </div>
-          <div class="m1">
-            <div class="m2m">
-              <label class="container checkbox">{{ $t("inventar.produkt.sortierung") }}
-                <input id="searchForm_sortierung" type="checkbox" v-model="grid.searchQuery.sortierung" v-on:change="saveSearchQuerySortierung" />
-                <span class="checkmark"></span>
-              </label>
-            </div>
-            <div class="m2 right">
-              <button class="delete" :title="$t('general.suchfelderLeeren')"  v-on:click="grid.searchQuery = {}; setGridSearch(); grid.reload = true;"></button>
-              <button class="right" :title="$t('general.suchen')" v-on:click="grid.reload = true;">{{ $t("general.suchen") }}</button>
-            </div>
-          </div>
-        </div>
-        <div style="height: 250px;"></div>
-        <div id="gridDiv" v-if="grid.gridColumns.length > 0">
-          <grid
-            :actions="grid.actions"
-            :columns="grid.gridColumns"
-            :filter-key="grid.searchQuery"
-            :rest-url="grid.restUrl"
-            :reload="grid.reload"
-            :search-query="grid.searchQuery"
-            :size="10"
-            :sort="grid.sort"
-            @reloaded="grid.reload = false"
-          ></grid>
-        </div>
+        <produkt-suchen
+          :show-dialog="showDialog"
+          @return="chooseFunction"
+          @edit="editFunction"
+        ></produkt-suchen>
         <div class="form" style="width: 1000px;">
           <h3>{{ $t("angebot.gewaehltePosten") }}:</h3>
           <div class="error" v-if="entity.posten.length > 15">
@@ -220,6 +166,7 @@
   <script src="/scripts/reparatur/reparatur.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>
+  <script src="/scripts/inventar/produkt.suchen.component.js"></script>
   <script src="/scripts/rechnung/rechnungsposten.edit.dialog.component.js"></script>
   <script src="/scripts/rechnung/rechnung.rabatt.dialog.component.js"></script>
   <script src="/scripts/rechnung/rechnung.header.component.js"></script>

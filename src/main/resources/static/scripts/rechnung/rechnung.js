@@ -22,16 +22,6 @@ var vm = new Vue({
       posten: []
     },
     einstellungDruckansichtNeuesFenster: true,
-    grid: {
-      actions: [],
-      gridColumns: [],
-      reload: false,
-      restUrl: 'rechnung/produkt',
-      searchQuery: {},
-      sort: 'gruppe.kategorie.bezeichnung,gruppe.bezeichnung,bezeichnung'
-    },
-    gruppen: [],
-    kategorien: [],
     rabattEntity: {},
     result: {},
     showDialog: false,
@@ -127,23 +117,13 @@ var vm = new Vue({
     init: function() {
       showLoader();
       vm.endpreis = 0.00;
-      vm.setGridColumns();
       vm.getEntity()
         .then(vm.setEntity)
         .then(vm.getEinstellungDruckansichtNeuesFenster)
         .then(vm.setEinstellungDruckansichtNeuesFenster)
         .then(vm.getZahlarten)
         .then(vm.setZahlarten)
-        .then(vm.getKategorien)
-        .then(vm.setKategorien)
-        .then(vm.gridReload)
         .then(hideLoader);
-    },
-    updateGruppen: function() {
-      vm.getGruppen().then(vm.setGruppen);
-    },
-    saveSearchQuerySortierung: function() {
-      saveInLocalstorage(SUCHE.PRODUKT.SORT_VERKAEUFE, vm.grid.searchQuery.sortierung);
     },
     saveFunc: function() {
       showLoader();
@@ -181,11 +161,6 @@ var vm = new Vue({
         vm.entity.rechnung.nameDruckenBeiFirma = vm.entity.rechnung.kunde.nameDruckenBeiFirma;
       }
     },
-    gridReload: function() {
-      vm.grid.searchQuery = {};
-      vm.setGridSearch();
-      vm.grid.reload = true;
-    },
     openRechnung: function(response) {
       var data = response.data;
       if (data.success || data.info) {
@@ -216,26 +191,6 @@ var vm = new Vue({
       }
       vm.berechneEndpreis();
     },
-    setGridColumns: function() {
-      vm.grid.gridColumns = [
-        { name: 'functions',
-          title: this.$t('general.funktionen'),
-          sortable: false,
-          width: 50,
-          formatter: [
-          { clazz: 'ok2', title: this.$t('rechnung.produktWaehlen'), clickFunc: vm.chooseFunction },
-          { clazz: 'ok', title: this.$t('rechnung.hinweisErgaenzen'), clickFunc: vm.editFunction },
-        ] },
-        { name: 'hersteller', title: this.$t('inventar.produkt.hersteller'), width: 150 },
-        { name: 'bezeichnung', title: this.$t('general.bezeichnung'), width: 500 },
-        { name: 'ean', title: this.$t('inventar.produkt.ean'), width: 120 },
-        { name: 'bestand', title: this.$t('inventar.produkt.bestand'), width: 100 },
-        { name: 'preise', title: this.$t('inventar.produkt.preise'), width: 100 }
-      ];
-    },
-    setGridSearch: function() {
-      vm.grid.searchQuery.sortierung = getFromLocalstorage(SUCHE.PRODUKT.SORT_VERKAEUFE) === 'true';
-    },
     getEntity: function() {
       return axios.get('/rechnung/' + -1);
     },
@@ -247,23 +202,6 @@ var vm = new Vue({
     },
     setEinstellungDruckansichtNeuesFenster: function(response) {
       vm.einstellungDruckansichtNeuesFenster = response.data.druckansichtNeuesFenster;
-    },
-    getKategorien: function() {
-      return axios.get('/rechnung/kategorie');
-    },
-    setKategorien: function(response) {
-      vm.kategorien = response.data;
-    },
-    getGruppen: function() {
-      var kategorieId = this.grid.searchQuery.kategorie;
-      if (kategorieId !== undefined) {
-        return axios.get('/rechnung/gruppe/' + kategorieId);
-      } else {
-        return { data: [] };
-      }
-    },
-    setGruppen: function(response) {
-      vm.gruppen = response.data;
     },
     getZahlarten: function() {
       return axios.get('/rechnung/zahlarten');
