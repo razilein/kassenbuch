@@ -195,6 +195,15 @@ var vm = new Vue({
       }
     },
     
+    isReadonlySuche1: function() {
+      if (this.grid && this.grid.searchQuery) {
+        var query = this.grid.searchQuery;
+        return query.bezeichnung ? query.bezeichnung.length > 0 : false;
+      } else {
+        return false;
+      }
+    },
+    
     getEinstellungDruckansichtNeuesFenster: function() {
       return axios.get('/mitarbeiter-profil');
     },

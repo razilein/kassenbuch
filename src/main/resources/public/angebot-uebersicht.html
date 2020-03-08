@@ -25,21 +25,21 @@
           <div class="m1">
             <div class="m6m">
               <label for="searchForm_nummer">{{ $t("angebot.angebotNr") }}</label>
-              <input class="m6" id="searchForm_nummer" type="text" v-model="grid.searchQuery.nummer"></input>
+              <input class="m6" id="searchForm_nummer" type="text" v-model="grid.searchQuery.nummer" :readonly="isReadonlySuche1()"></input>
             </div>
             <div class="m6m">
               <label for="searchForm_kundennummer">{{ $t("kunde.kdNr") }}</label>
-              <input class="m6" id="searchForm_kundennummer" type="text" v-model="grid.searchQuery.kundennummer"></input>
+              <input class="m6" id="searchForm_kundennummer" type="text" v-model="grid.searchQuery.kundennummer" :readonly="isReadonlySuche1()"></input>
             </div>
             <div class="m2">
               <label for="searchForm_suchfeld_name">{{ $t("general.kunde") }}</label>
               <input class="m2" id="searchForm_suchfeld_name" title="Ermöglicht die Suche nach Firmenname, Vorname oder Nachname"
-                type="text" v-model="grid.searchQuery.suchfeld_name"></input>
+                type="text" v-model="grid.searchQuery.suchfeld_name" :readonly="isReadonlySuche1()"></input>
             </div>
           </div>
           <div class="m1">
              <label class="container checkbox">{{ $t("angebot.nichtErledigt") }}
-              <input id="searchForm_erledigt" type="checkbox" v-model="grid.searchQuery.erledigt" />
+              <input id="searchForm_erledigt" type="checkbox" v-model="grid.searchQuery.erledigt" :disabled="isReadonlySuche1()" />
               <span class="checkmark"></span>
             </label>
           </div>
