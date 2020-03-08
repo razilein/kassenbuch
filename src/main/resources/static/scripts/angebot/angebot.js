@@ -49,6 +49,29 @@ var vm = new Vue({
       vm.endpreis = formatMoney(endpreis);
       vm.endpreisNto = formatMoney(endpreis / 1.19);
     },
+    chooseFunction: function(row) {
+      var bezeichnung = row.hersteller ? row.hersteller + '-' + row.bezeichnung : row.bezeichnung;
+      var produkt = {
+        position: vm.entity.angebotsposten.length + 1,
+        produkt: row,
+        menge: 1,
+        bezeichnung: bezeichnung,
+        preis: row.preisVkBrutto,
+      };
+      vm.entity.angebotsposten.push(produkt);
+      vm.berechneEndpreis();
+    },
+    editFunction: function(row) {
+      var bezeichnung = row.hersteller ? row.hersteller + '-' + row.bezeichnung : row.bezeichnung;
+      vm.editEntity = {
+        position: vm.entity.posten.length + 1,
+        produkt: row,
+        menge: 1,
+        bezeichnung: bezeichnung,
+        preis: row.preisVkBrutto,
+      };
+      vm.showEditDialog = true;
+    },
     editPosten: function(index) {
       var posten = vm.entity.angebotsposten[index];
       vm.editEntity = {
@@ -56,7 +79,8 @@ var vm = new Vue({
         menge: posten.menge,
         bezeichnung: posten.bezeichnung,
         position: posten.position,
-        preis: posten.preis
+        preis: posten.preis,
+        produkt: posten.produkt
       };
       vm.showEditDialog = true;
     },

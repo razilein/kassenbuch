@@ -11,6 +11,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
+import de.sg.computerinsel.tools.inventar.model.Produkt;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,10 @@ public class Angebotsposten extends IntegerBaseObject {
     @Column(name = "position")
     @Min(value = 1, message = "rechnung.posten.position.error")
     private int position = 1;
+
+    @ManyToOne
+    @JoinColumn(name = "produkt_id", referencedColumnName = "id")
+    private Produkt produkt;
 
     @Column(name = "menge")
     @Min(value = 1, message = "rechnung.posten.menge.error.min")
