@@ -25,34 +25,55 @@
           <div class="m1">
             <div class="m6m">
               <label for="searchForm_nummer">{{ $t("rechnung.rechnNr") }}</label>
-              <input class="m6" id="searchForm_nummer" type="text" v-model="grid.searchQuery.nummer"></input>
+              <input class="m6" id="searchForm_nummer" type="text" v-model="grid.searchQuery.nummer" :readonly="isReadonlySuche1()"></input>
             </div>
             <div class="m6m">
               <label for="searchForm_reparatur_nummer">{{ $t("reparatur.repNr") }}</label>
-              <input class="m6" id="searchForm_reparatur_nummer" type="text" v-model="grid.searchQuery.reparaturnummer"></input>
+              <input class="m6" id="searchForm_reparatur_nummer" type="text" v-model="grid.searchQuery.reparaturnummer" :readonly="isReadonlySuche1()"></input>
             </div>
             <div class="m6m">
               <label for="searchForm_kunde_nummer">{{ $t("kunde.kdNr") }}</label>
-              <input class="m6" id="searchForm_kunde_nummer" type="text" v-model="grid.searchQuery.kundenummer"></input>
+              <input class="m6" id="searchForm_kunde_nummer" type="text" v-model="grid.searchQuery.kundenummer" :readonly="isReadonlySuche1()"></input>
             </div>
             <div class="m2">
               <label for="searchForm_ersteller">{{ $t("general.ersteller") }}</label>
-              <input class="m2" id="searchForm_ersteller" type="text" v-model="grid.searchQuery.ersteller"></input>
+              <input class="m2" id="searchForm_ersteller" type="text" v-model="grid.searchQuery.ersteller" :readonly="isReadonlySuche1()"></input>
             </div>
           </div>
           <div class="m1">
             <div class="m2m">
               <label class="container checkbox">{{ $t("rechnung.nichtBezahlte") }}
-                <input id="searchForm_bezahlt" type="checkbox" v-model="grid.searchQuery.bezahlt" />
+                <input id="searchForm_bezahlt" type="checkbox" v-model="grid.searchQuery.bezahlt" :disabled="isReadonlySuche1()" />
                 <span class="checkmark"></span>
               </label>
             </div>
             <div class="m2">
               <label for="searchForm_art">{{ $t("rechnung.zahlungsart") }}</label>
-              <select class="m2" v-model="grid.searchQuery.art">
+              <select class="m2" v-model="grid.searchQuery.art" :readonly="isReadonlySuche1()">
                 <option></option>
                 <option :value="a.key" v-for="a in zahlarten">{{a.value}}</option>
               </select>
+            </div>
+          </div>
+          <hr>
+          <div class="m1">
+            <div class="m4m">
+              <label class="container checkbox">{{ $t("rechnung.mit.angebot") }}
+                <input id="searchForm_mitangebot" type="checkbox" v-model="grid.searchQuery.mitangebot" :disabled="isReadonlySuche2()" />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <div class="m3" style="width: 155px;">
+              <label class="container checkbox">{{ $t("rechnung.mit.bestellung") }}
+                <input id="searchForm_mitbestellung" type="checkbox" v-model="grid.searchQuery.mitbestellung" :disabled="isReadonlySuche2()" />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <div class="m2">
+              <label class="container checkbox">{{ $t("rechnung.mit.reparatur") }}
+                <input id="searchForm_mitreparatur" type="checkbox" v-model="grid.searchQuery.mitreparatur" :disabled="isReadonlySuche2()" />
+                <span class="checkmark"></span>
+              </label>
             </div>
           </div>
           <hr>
@@ -67,7 +88,7 @@
             </div>
           </div>
         </div>
-        <div style="height: 250px;" v-if="kundeId === null"></div>
+        <div style="height: 300px;" v-if="kundeId === null"></div>
         <h3 v-if="kundeId !== null">{{ $t("general.rechnungen") }} {{ $t("general.zumGewaehltenKunden") }}:</h3>
         <div id="gridDiv" v-if="grid.gridColumns.length > 0">
           <grid

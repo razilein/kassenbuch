@@ -168,6 +168,21 @@ public interface RechnungViewRepository extends CrudRepository<RechnungView, Int
 
     Page<RechnungView> findByBezahltAndArt(Boolean bezahlt, Integer art, Pageable pagination);
 
+    Page<RechnungView> findByMitAngebotAndMitReparatur(Boolean mitAngebot, Boolean mitReparatur, Pageable pagination);
+
+    Page<RechnungView> findByMitReparatur(Boolean mitReparatur, Pageable pagination);
+
+    Page<RechnungView> findByMitBestellungAndMitReparatur(Boolean mitBestellung, Boolean mitReparatur, Pageable pagination);
+
+    Page<RechnungView> findByMitAngebotAndMitBestellungAndMitReparatur(Boolean mitAngebot, Boolean mitBestellung, Boolean mitReparatur,
+            Pageable pagination);
+
+    Page<RechnungView> findByMitBestellung(Boolean mitBestellung, Pageable pagination);
+
+    Page<RechnungView> findByMitAngebotAndMitBestellung(Boolean mitAngebot, Boolean mitBestellung, Pageable pagination);
+
+    Page<RechnungView> findByMitAngebot(Boolean mitAngebot, Pageable pagination);
+
     @Query(value = "SELECT * FROM vrechnung WHERE EXISTS ( SELECT 1 FROM rechnungsposten WHERE rechnungsposten.rechnung_id = vrechnung.id AND (bezeichnung LIKE :bezeichnung OR seriennummer LIKE :seriennummer OR hinweis LIKE :hinweis))", countQuery = "SELECT COUNT(*) FROM vrechnung WHERE EXISTS ( SELECT 1 FROM rechnungsposten WHERE rechnungsposten.rechnung_id = vrechnung.id AND (bezeichnung LIKE :bezeichnung OR seriennummer LIKE :seriennummer OR hinweis LIKE :hinweis))", nativeQuery = true)
     Page<RechnungView> findByPostenBezeichnungLikeOrPostenSeriennummerLikeOrPostenHinweisLike(@Param("bezeichnung") String bezeichnung,
             @Param("seriennummer") String seriennummer, @Param("hinweis") String hinweis, Pageable pagination);

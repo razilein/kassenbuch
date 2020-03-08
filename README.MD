@@ -113,6 +113,8 @@ Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_RECHNUNG_UEBERSICHT* 
 Das Recht *RECHNUNG_VERWALTEN* wird benötigt um Rechnungen zu bearbeiten oder zu löschen.
 
 Auf dieser Seite befindet sich eine Auflistung aller Rechnungen. Mit Hilfe der Suchfilter kann die Anzeige weiter eingeschränkt werden.
+Sind die Suchfilter nach den Kontrollkästchen *Mit Angeboten*, *Mit Bestellungen* und *Mit Reparaturaufträgen* aktiv, werden die darüberliegenden Suchfilter ignoriert.
+Ist das Suchfeld *Rechnungsposten durchsuchen nach Bezeichnung / Seriennummer / Hinweis* gefüllt, werden die darüberliegenden Suchfilter ignoriert.
 
 Durch Klick auf das *Öffnen-Icon* kann die Rechnung in der Druckansicht angezeigt werden. Dazu wird das Recht *RECHNUNG* benötigt.
 

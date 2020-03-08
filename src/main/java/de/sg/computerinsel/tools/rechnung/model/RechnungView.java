@@ -21,4 +21,13 @@ public class RechnungView extends BaseRechnung {
     @Column(name = "rechnungsbetrag")
     private BigDecimal rechnungsbetrag;
 
+    @Column(name = "mit_angebot")
+    private boolean mitAngebot;
+
+    @Column(name = "mit_bestellung")
+    private boolean mitBestellung;
+
+    @Column(name = "mit_reparatur")
+    private boolean mitReparatur;
+
 }

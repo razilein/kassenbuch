@@ -5,14 +5,14 @@ Vue.component('produkt-suchen', {
     <div class="m1">
       <div class="m2m">
         <label for="searchForm_kategorie">{{ $t("inventar.produkt.kategorie") }}</label>
-        <select class="m2" id="searchForm_kategorie" v-model="grid.searchQuery.kategorie" v-on:change="updateGruppen()" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false">
+        <select class="m2" id="searchForm_kategorie" v-model="grid.searchQuery.kategorie" v-on:change="updateGruppen()" :readonly="isReadonlySuche1()">
           <option value=""></option>
           <option :value="k.key" v-for="k in kategorien">{{k.value}}</option>
         </select>
       </div>
       <div class="m2">
         <label for="searchForm_gruppe">{{ $t("inventar.produkt.gruppe") }}</label>
-        <select class="m2" id="searchForm_gruppe" v-model="grid.searchQuery.gruppe" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false">
+        <select class="m2" id="searchForm_gruppe" v-model="grid.searchQuery.gruppe" :readonly="isReadonlySuche1()">
           <option value=""></option>
           <option :value="g.key" v-for="g in gruppen">{{g.value}}</option>
         </select>
@@ -20,11 +20,11 @@ Vue.component('produkt-suchen', {
     </div>
     <div class="m2m">
       <label for="searchForm_bezeichnung">{{ $t("general.bezeichnung") }}</label>
-      <input class="m2" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false" />
+      <input class="m2" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung" :readonly="isReadonlySuche1()" />
     </div>
     <div class="m2">
       <label for="searchForm_hersteller">{{ $t("inventar.produkt.hersteller") }}</label>
-      <input class="m2" id="searchForm_hersteller" type="text" v-model="grid.searchQuery.hersteller" :readonly="grid.searchQuery.ean ? grid.searchQuery.ean.length > 0 : false" ></input>
+      <input class="m2" id="searchForm_hersteller" type="text" v-model="grid.searchQuery.hersteller" :readonly="isReadonlySuche1()" ></input>
     </div>
     <hr>
     <div class="m1">
@@ -166,6 +166,14 @@ Vue.component('produkt-suchen', {
     },
     setProdukt: function(response) {
       this.entity = response.data;
+    },
+    isReadonlySuche1: function() {
+      if (this.grid && this.grid.searchQuery) {
+        var query = this.grid.searchQuery;
+        return query.ean ? query.ean.length > 0 : false;
+      } else {
+        return false;
+      }
     },
     hideLoader: function() {
       this.loaded = true;

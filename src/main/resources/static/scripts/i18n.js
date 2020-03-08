@@ -360,6 +360,11 @@ const messages = {
       lieferdatumInfo: 'Wird das Feld leer gelassen, entspricht das Lieferdatum dem Rechnungsdatum',
       loeschen: 'Rechnung löschen',
       markieren: 'markieren?',
+      mit: {
+        angebot: 'Mit Angeboten',
+        bestellung: 'Mit Bestellungen',
+        reparatur: 'Mit Reparaturaufträgen',
+      },
       mwst: 'enth. MwSt. (19%)',
       nameDrucken: 'Soll der Name auf die Rechnung gedruckt werden?',
       nameDruckenFirma: 'Sollen zusätzlich zum Firmennamen der Nachname/Vorname auf die Rechnung gedruckt werden?',

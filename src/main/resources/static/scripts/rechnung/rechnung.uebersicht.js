@@ -202,6 +202,25 @@ var vm = new Vue({
       vm.einstellungDruckansichtNeuesFenster = response.data.druckansichtNeuesFenster;
     },
     
+    isReadonlySuche1: function() {
+      if (this.grid && this.grid.searchQuery) {
+        var query = this.grid.searchQuery;
+        var readonly = query.posten ? query.posten.length > 0 : false;
+        return readonly || query.mitangebot || query.mitbestellung || query.mitreparatur;
+      } else {
+        return false;
+      }
+    },
+    
+    isReadonlySuche2: function() {
+      if (this.grid && this.grid.searchQuery) {
+        var query = this.grid.searchQuery;
+        return query.posten ? query.posten.length > 0 : false;
+      } else {
+        return false;
+      }
+    },
+    
     getZahlarten: function() {
       return axios.get('/rechnung/zahlarten');
     },
