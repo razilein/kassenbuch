@@ -46,6 +46,14 @@ var vm = new Vue({
     editFunction: function(row) {
       vm.editRow.restUrlGet = '/angebot/' + row.id;
       vm.editRow.title = this.$t('general.angebot') + ' ' + row.nummer + ' ' + this.$t('general.bearbeiten');
+      vm.editRow.duplicate = false;
+      vm.showEditDialog = true;
+    },
+    
+    duplicateFunction: function(row) {
+      vm.editRow.restUrlGet = '/angebot/' + row.id;
+      vm.editRow.title = this.$t('general.angebot') + ' ' + row.nummer + ' ' + this.$t('general.duplizieren');
+      vm.editRow.duplicate = true;
       vm.showEditDialog = true;
     },
     
@@ -155,6 +163,7 @@ var vm = new Vue({
           { clazz: 'open-new-tab', disabled: vm.hasNotRoleAngebotAnzeigen, title: this.$t('angebot.oeffnen'), clickFunc: vm.openFunction },
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('angebot.bearbeiten'), clickFunc: vm.editFunction },
           { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.erledigenFunction },
+          { clazz: 'duplicate', disabled: vm.hasNotRoleVerwalten, title: this.$t('angebot.duplizieren'), clickFunc: vm.duplicateFunction },
           { clazz: 'email', disabled: vm.canSendEmail, title: this.$t('angebot.email'), clickFunc: vm.sendMailFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('angebot.loeschen'), clickFunc: vm.deleteFunction }
         ] },

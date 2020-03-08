@@ -87,6 +87,7 @@ Vue.component('edit-dialog', {
   ></posten-edit-dialog>
       `, true),
   props: {
+    duplicate: Boolean,
     restUrlGet: String,
     restUrlSave: String,
     title: String,
@@ -195,6 +196,17 @@ Vue.component('edit-dialog', {
       return axios.get(this.restUrlGet);
     },
     setEntity: function(response) {
+      if (this.duplicate) {
+        response.data.angebot.id = null;
+        
+        var posten = []
+        response.data.angebotsposten.forEach(function(value) {
+          var p = value;
+          p.id = null;
+          posten.push(p);
+        });
+        response.data.angebotsposten = posten;
+      }
       this.wochentagdatum = formatDayOfWeek(response.data.datum);
       this.entity = response.data;
     },

@@ -5,6 +5,7 @@ const messages = {
       angebotsnummer: 'Angebotsnummer',
       bearbeiten: 'Angebot bearbeiten',
       deselektieren: 'Angebot deselektieren',
+      duplizieren: 'Angebot duplizieren',
       email: 'Angebot per E-Mail an den Kunden versenden',
       emailSenden: 'Wollen Sie dieses Angebot als E-Mail an',
       erledigen: 'Wollen Sie dieses Angebot',

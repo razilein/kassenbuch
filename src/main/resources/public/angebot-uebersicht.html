@@ -81,6 +81,7 @@
         @confirmed="handleConfirmResponse"
       ></confirm-dialog>
       <edit-dialog
+        :duplicate="editRow.duplicate"
         :rest-url-get="editRow.restUrlGet"
         :rest-url-save="editRow.restUrlSave"
         :title="editRow.title"

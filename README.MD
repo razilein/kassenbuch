@@ -171,6 +171,8 @@ Durch Klick auf das *Öffnen-Icon* kann das Angebot in der Druckansicht angezeig
 
 Durch Klick auf das *Bearbeiten-Icon* kann das Angebot bearbeitet werden.
 
+Durch Klick auf das *Duplizieren-Icon* kann das Angebot dupliziert werden.
+
 Durch Klick auf das *E-Mail-Icon* kann dem Kunden das Angebot zugesendet werden. Dazu muss das Angebot zuerst als PDF gedruckt und im
 sich öffnenden Dialog gewählt werden.
 Dieses Icon ist nur sichtbar, wenn zum Kunden eine E-Mail-Adresse hinterlegt ist.
