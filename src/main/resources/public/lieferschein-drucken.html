@@ -1,0 +1,95 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Lieferschein drucken - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/lieferschein.png">
+    <link rel="stylesheet" href="/themes/css/rechnung.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/de.js"></script>
+  </head>
+  <body>
+    <div id="lieferschein-drucken">
+      <header style="page-break-before: always;">
+        <div class="center" style="width: 250px; height: 90px;">
+          <img src="/themes/icons/logo.png" width="250" height="90">
+        </div>
+        <div class="center">
+          {{ $t("general.ci") }}
+          <br>
+          {{ $t("general.gesellschafter") }}
+        </div>
+        <br>
+        <div class="mFull">
+          <span class="left">{{entity.rechnung.filiale.strasse}}, {{entity.rechnung.filiale.plz}} {{entity.rechnung.filiale.ort}}</span>
+          <br>
+          <span class="left">{{ $t("general.tel") }}: {{entity.rechnung.filiale.telefon}}</span>
+          <span class="right">{{ $t("general.internet") }}</span>
+          <br>
+          <span class="left">{{ $t("general.steuernr") }}</span>
+          <span class="right">{{ $t("general.email") }}: {{entity.rechnung.filiale.email}}</span>
+        </div>
+        <br>
+        <br>
+        <div class="center">{{ $t("general.verkaufinfo") }}</div>
+        <hr class="header">
+      </header>
+      <header>
+        <div class="font15" v-if="entity.rechnung.kunde && entity.rechnung.nameDrucken" style="width: 350px;">
+          <span v-if="entity.rechnung.kunde.firmenname">{{entity.rechnung.kunde.firmenname}}<br></span>
+          <span v-if="entity.rechnung.kunde.nachname && entity.rechnung.nameDruckenBeiFirma"><span v-if="entity.rechnung.kunde.akademischerTitel">{{entity.rechnung.kunde.akademischerTitel}} </span>{{entity.rechnung.kunde.vorname}} {{entity.rechnung.kunde.nachname}}<br></span>
+          {{entity.rechnung.kunde.strasse}}
+          <br>
+          {{entity.rechnung.kunde.plz}} {{entity.rechnung.kunde.ort}}
+        </div>
+        <div v-if="!entity.rechnung.kunde || !entity.rechnung.nameDrucken" style="height: 70px;">&nbsp;</div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="rechnungHeader">
+          {{ $t("rechnung.lieferschein.titel") }} {{entity.rechnung.filiale.kuerzel}}{{entity.rechnung.nummerAnzeigeLieferschein}}
+        </div>
+        <br>
+        <div class="rechnungNummer">
+          <span class="right">{{currentDate}}</span>
+        </div>
+        <br>
+        <br>
+      </header>
+      <table style="border: none;">
+        <thead>
+          <tr>
+            <th>{{ $t("general.pos") }}</th>
+            <th>{{ $t("general.menge") }}</th>
+            <th>{{ $t("general.bezeichnung") }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="posten in entity.posten">
+            <td>{{posten.position}}</td>
+            <td>{{posten.menge}}</td>
+            <td>
+              {{posten.bezeichnung}}
+              <span v-if="posten.produkt && posten.produkt.ean"><br>{{ $t("inventar.produkt.ean") }}: {{posten.produkt.ean}}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <footer style="background-color: white; z-index: 999;">
+        <div class="center">
+          {{ $t("general.firmensitz") }}
+          <br>
+          {{ $t("general.bankverbindung") }}
+        </div>
+      </footer>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/rechnung/lieferschein-drucken.js"></script>
+</html>

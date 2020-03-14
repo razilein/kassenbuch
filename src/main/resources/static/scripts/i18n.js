@@ -358,6 +358,10 @@ const messages = {
       hinweis: 'Hinweis',
       hinweisErgaenzen: 'Seriennummer und Hinweise ergänzen und wählen',
       lieferdatumInfo: 'Wird das Feld leer gelassen, entspricht das Lieferdatum dem Rechnungsdatum',
+      lieferschein: {
+        drucken: 'Lieferschein drucken',
+        titel: 'Lieferschein',
+      },
       loeschen: 'Rechnung löschen',
       markieren: 'markieren?',
       mit: {

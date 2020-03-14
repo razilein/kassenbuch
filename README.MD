@@ -123,6 +123,8 @@ Dabei ist es nur möglich das Rechnungsdatum, die Zahlart, den Kunden und Repara
 Zudem darf die Menge, Bezeichnung, der Hinweis, die Seriennummer und der Rabatt von bestehenden Posten geändert werden. Es dürfen jedoch keine neuen Posten hinzugefügt oder bestehende entfernt werden.
 Das Bearbeiten der Menge nimmt keinen Einfluss auf den Bestand im Inventar. Dies wird lediglich beim Erstellen beeinflusst.
 
+Durch Klick auf das *Lieferschein-Icon* kann zur Rechnung ein Lieferschein in der Druckansicht angezeigt werden. Dazu wird das Recht *RECHNUNG* benötigt.
+
 Durch Klick auf das *E-Mail-Icon* kann dem Kunden die Rechnung zugesendet werden. Dazu muss die Rechnung zuerst als PDF gedruckt und im
 sich öffnenden Dialog gewählt werden.
 Dieses Icon ist nur sichtbar, wenn zum Kunden eine E-Mail-Adresse hinterlegt ist.

@@ -151,6 +151,14 @@ var vm = new Vue({
       }
     },
     
+    openLieferscheinFunction: function(row, anzahl) {
+      if (vm.einstellungDruckansichtNeuesFenster) {
+        window.open('/lieferschein-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
+      } else {
+        window.open('/lieferschein-drucken.html?id=' + row.id);
+      }
+    },
+    
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
@@ -162,6 +170,7 @@ var vm = new Vue({
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('rechnung.bearbeiten'), clickFunc: vm.editFunction },
           { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.bezahltFunction },
           { clazz: 'email', disabled: vm.canSendEmail, title: this.$t('rechnung.email'), clickFunc: vm.sendMailFunction },
+          { clazz: 'lieferschein', disabled: vm.hasNotRoleRechnungAnzeigen, title: this.$t('rechnung.lieferschein.drucken'), clickFunc: vm.openLieferscheinFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('rechnung.loeschen'), clickFunc: vm.deleteFunction }
         ] },
         { name: 'nummer', title: this.$t('rechnung.rechnNr'), width: 80 },

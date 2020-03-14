@@ -81,4 +81,9 @@ public class BaseRechnung extends IntegerBaseObject {
         return StringUtils.left(nummerAnzeige, 2) + "-" + StringUtils.substring(nummerAnzeige, 2);
     }
 
+    public String getNummerAnzeigeLieferschein() {
+        final String nummerAnzeige = String.valueOf(this.nummer);
+        return StringUtils.left(nummerAnzeige, 2) + "-L" + StringUtils.substring(nummerAnzeige, 2);
+    }
+
 }
