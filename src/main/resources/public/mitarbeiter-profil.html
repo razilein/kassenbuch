@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/themes/css/style.css">
     <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
   </head>
   <body>
@@ -24,35 +25,35 @@
           <input id="tab3" type="radio" name="tabs" />
         
           <nav>
-            <label for="tab1">Allgemein</label>
-            <label for="tab2">Anmeldedaten</label>
+            <label for="tab1">{{ $t("einstellung.profil.allgemein") }}</label>
+            <label for="tab2">{{ $t("einstellung.profil.anmeldedaten") }}</label>
           </nav>
            
           <figure>
             <div class="tab1">
               <div class="m1">
                 <div class="m2m">
-                  <zeichenzaehler-label :elem="model.profildaten.nachname" :forid="'profildatenForm_name'" :label="'Nachname'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
+                  <zeichenzaehler-label :elem="model.profildaten.nachname" :forid="'profildatenForm_name'" :label="$t('kunde.nachname')" :maxlength="'50'" :required="true"></zeichenzaehler-label>
                   <input class="m2" id="profildatenForm_name" maxlength="50" type="text" v-model="model.profildaten.nachname"></input>
                 </div>
                 <div class="m2">
-                  <zeichenzaehler-label :elem="model.profildaten.vorname" :forid="'profildatenForm_vorname'" :label="'Vorname'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
+                  <zeichenzaehler-label :elem="model.profildaten.vorname" :forid="'profildatenForm_vorname'" :label="$t('kunde.vorname')" :maxlength="'50'" :required="true"></zeichenzaehler-label>
                   <input class="m2" id="profildatenForm_vorname" maxlength="50" type="text" v-model="model.profildaten.vorname"></input>
                 </div>
               </div>
               <div class="m1">
                 <div class="m2m">
-                  <zeichenzaehler-label :elem="model.profildaten.email" :forid="'profildatenForm_email'" :label="'E-Mail (geschäftlich)'" :maxlength="'50'"></zeichenzaehler-label>
+                  <zeichenzaehler-label :elem="model.profildaten.email" :forid="'profildatenForm_email'" :label="$t('einstellung.profil.emailGeschaeft')" :maxlength="'50'"></zeichenzaehler-label>
                   <input class="m2" id="profildatenForm_email" maxlength="50" type="text" v-model="model.profildaten.email"></input>
                 </div>
                 <div class="m2">
-                  <zeichenzaehler-label :elem="model.profildaten.emailPrivat" :forid="'profildatenForm_email_privat'" :label="'E-Mail (privat)'" :maxlength="'50'"></zeichenzaehler-label>
+                  <zeichenzaehler-label :elem="model.profildaten.emailPrivat" :forid="'profildatenForm_email_privat'" :label="$t('einstellung.profil.emailPrivat')" :maxlength="'50'"></zeichenzaehler-label>
                   <input class="m2" id="profildatenForm_email_privat" maxlength="50" type="text" v-model="model.profildaten.emailPrivat"></input>
                 </div>
               </div>
               <div class="m1">
                 <div class="m2m">
-                  <zeichenzaehler-label :elem="model.profildaten.telefon" :forid="'profildatenForm_telefon'" :label="'Telefon (privat)'" :maxlength="'50'"></zeichenzaehler-label>
+                  <zeichenzaehler-label :elem="model.profildaten.telefon" :forid="'profildatenForm_telefon'" :label="$t('einstellung.profil.telefonPrivat')" :maxlength="'50'"></zeichenzaehler-label>
                   <input class="m2" id="profildatenForm_telefon" maxlength="50" type="text" v-model="model.profildaten.telefon"></input>
                 </div>
               </div>
@@ -66,49 +67,49 @@
               </div>
               <hr>
               <div class="m1">
-                <label class="container checkbox">Druckansicht in neuem Fenster öffnen
+                <label class="container checkbox">{{ $t("einstellung.profil.druckAnsichtNeuesFenster") }}
                   <input id="profildatenForm_druckansichtNeuesFenster" type="checkbox" v-model="model.profildaten.druckansichtNeuesFenster" />
                   <span class="checkmark"></span>
                 </label>
               </div>
               <div class="m1">
-                <label class="container checkbox">Druckdialog beim Öffnen der Druckansicht anzeigen
+                <label class="container checkbox">{{ $t("einstellung.profil.druckDialog") }}
                   <input id="profildatenForm_druckansichtDruckdialog" type="checkbox" v-model="model.profildaten.druckansichtDruckdialog" />
                   <span class="checkmark"></span>
                 </label>
               </div>
               <div class="m1">
-                <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmptyProfildaten()" v-on:click="saveProfildatenFunc();">Speichern</button>
-                <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmptyProfildaten()">Speichern</button>
+                <button class="right" :title="$t('general.speichern')" v-if="areRequiredFieldsNotEmptyProfildaten()" v-on:click="saveProfildatenFunc();">{{ $t("general.speichern") }}</button>
+                <button class="right disabled" :title="$t('general.pflichtfelder')" v-if="!areRequiredFieldsNotEmptyProfildaten()">{{ $t("general.speichern") }}</button>
               </div>
             </div>
 
             <div class="tab2">
               <div class="m1">
                 <div class="m2">
-                  <zeichenzaehler-label :elem="model.anmeldedaten.username" :forid="'anmeldedatenForm_benutzername'" :label="'Benutzername'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
+                  <zeichenzaehler-label :elem="model.anmeldedaten.username" :forid="'anmeldedatenForm_benutzername'" :label="$t('einstellung.benutzer')" :maxlength="'50'" :required="true"></zeichenzaehler-label>
                   <input class="m2" id="anmeldedatenForm_benutzername" maxlength="50" type="text" v-model="model.anmeldedaten.username" />
                 </div>
               </div>
               <div class="m1">
                 <div class="m2">
-                  <label for="anmeldedatenForm_passwordBefore" class="required">Passwort</label>
+                  <label for="anmeldedatenForm_passwordBefore" class="required">{{ $t('einstellung.pw') }}</label>
                   <input class="m2" id="anmeldedatenForm_passwordBefore" type="password" v-model="model.anmeldedaten.passwordBefore" />
                 </div>
               </div>
               <div class="m1">
                 <div class="m2m">
-                  <label for="anmeldedatenForm_password">Neues Passwort</label>
+                  <label for="anmeldedatenForm_password">{{ $t('einstellung.profil.neuesPw') }}</label>
                   <input class="m2" id="anmeldedatenForm_password" type="password" v-model="model.anmeldedaten.password" />
                 </div>
                 <div class="m2">
-                  <label for="anmeldedatenForm_passwordRepeat">Neues Passwort wiederholen</label>
+                  <label for="anmeldedatenForm_passwordRepeat">{{ $t('einstellung.profil.neuesPwWiederholen') }}</label>
                   <input class="m2" id="anmeldedatenForm_passwordRepeat" type="password" v-model="model.anmeldedaten.passwordRepeat" />
                 </div>
               </div>
               <div class="m1">
-                <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmptyAnmeldedaten()" v-on:click="saveAnmeldedatenFunc();">Speichern</button>
-                <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmptyAnmeldedaten()">Speichern</button>
+                <button class="right" :title="$t('general.speichern')" v-if="areRequiredFieldsNotEmptyAnmeldedaten()" v-on:click="saveAnmeldedatenFunc();">{{ $t("general.speichern") }}</button>
+                <button class="right disabled" :title="$t('general.pflichtfelder')" v-if="!areRequiredFieldsNotEmptyAnmeldedaten()">{{ $t("general.speichern") }}</button>
               </div>
             </div>
           </figure>
@@ -118,6 +119,7 @@
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/zeichenzaehler.component.js"></script>

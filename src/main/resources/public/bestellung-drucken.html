@@ -5,6 +5,7 @@
     <link rel="icon" href="/themes/icons/bestellung.png">
     <link rel="stylesheet" href="/themes/css/bestellung.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/de.js"></script>
@@ -16,52 +17,50 @@
           <img src="/themes/icons/logo.png" width="250" height="90">
         </div>
         <div class="center">
-          Computer-Insel GbR
+          {{ $t("general.ci") }}
           <br>
-          Gesellschafter: Stefan Weiske, Peer Dernoscheck
+          {{ $t("general.gesellschafter") }}
         </div>
         <br>
         <div class="mFull">
           <span class="left">{{entity.filiale.strasse}}, {{entity.filiale.plz}} {{entity.filiale.ort}}</span>
           <br>
-          <span class="left">Tel: {{entity.filiale.telefon}}</span>
-          <span class="right">Internet: www.computer-insel.net</span>
+          <span class="left">{{ $t("general.tel") }}: {{entity.filiale.telefon}}</span>
+          <span class="right">{{ $t("general.internet") }}</span>
           <br>
-          <span class="left">Steuernr.: 232/167/37105</span>
-          <span class="right">Email: {{entity.filiale.email}}</span>
+          <span class="left">{{ $t("general.steuernr") }}</span>
+          <span class="right">{{ $t("general.email") }}: {{entity.filiale.email}}</span>
         </div>
         <br>
         <br>
-        <div class="center">
-          Verkauf von Neu- und Gebrauchtware. Hardware, Software, Zubehör, Reparatur, Beratung, Service
-        </div>
+        <div class="center">{{ $t("general.verkaufinfo") }}</div>
         <hr class="header">
       </header>
       <br>
       <br>
-      <div class="center font30">Verbindliche Bestellung</div>
-      <div class="font15">Bestellnummer: {{entity.filiale.kuerzel}}{{entity.nummerAnzeige}}</div>
-      <div class="font15">Verkäufer: {{entity.ersteller}}</div>
+      <div class="center font30">{{ $t("bestellung.titel") }}</div>
+      <div class="font15">{{ $t("bestellung.nummer") }}: {{entity.filiale.kuerzel}}{{entity.nummerAnzeige}}</div>
+      <div class="font15">{{ $t("bestellung.verkaeufer") }}: {{entity.ersteller}}</div>
       <br>
       <table class="font16">
         <tbody>
           <tr>
-            <td class="s1" valign="middle">Bestellung:</td>
+            <td class="s1" valign="middle">{{ $t("bestellung.titelK") }}:</td>
             <td class="s2" style="white-space: pre-wrap;">{{entity.beschreibung}}</td>
             <td>&nbsp;</td>
           </tr>
           <tr>
-            <td class="s1" valign="middle">Preis:</td>
+            <td class="s1" valign="middle">{{ $t("general.preis") }}:</td>
             <td class="s2">{{entity.kosten}}</td>
             <td>&euro;</td>
           </tr>
           <tr>
-            <td class="s1" valign="middle">Anzahlung:</td>
+            <td class="s1" valign="middle">{{ $t("bestellung.anzahlung") }}:</td>
             <td class="s2">{{entity.anzahlung}}</td>
             <td>&euro;</td>
           </tr>
           <tr>
-            <td class="s1" valign="middle">Name:</td>
+            <td class="s1" valign="middle">{{ $t("general.name") }}:</td>
             <td class="s2">
               {{entity.kunde.firmenname}}
               <br>
@@ -70,17 +69,17 @@
             <td>&nbsp;</td>
           </tr>
           <tr>
-            <td class="s1" valign="middle">Anschrift:</td>
+            <td class="s1" valign="middle">{{ $t("general.anschrift") }}:</td>
             <td class="s2">{{entity.kunde.strasse}} in {{entity.kunde.plz}} {{entity.kunde.ort}}</td>
             <td>&nbsp;</td>
           </tr>
           <tr>
-            <td class="s1" valign="middle">Telefon:</td>
+            <td class="s1" valign="middle">{{ $t("general.telefon") }}:</td>
             <td class="s2">{{entity.kunde.telefonAnzeige}} <span v-if="entity.kunde.telefonBemerkung">({{entity.kunde.telefonBemerkung}})</span></td>
             <td>&nbsp;</td>
           </tr>
           <tr>
-            <td class="s1" valign="middle">Lieferdatum:</td>
+            <td class="s1" valign="middle">{{ $t("general.lieferdatum") }}:</td>
             <td class="s2">{{formatDate(entity.datum)}}</td>
             <td>&nbsp;</td>
           </tr>
@@ -89,28 +88,77 @@
       <table class="font16">
         <tbody>
           <tr>
-            <td class="s5">Datum:</td>
+            <td class="s5">{{ $t("general.datum") }}:</td>
             <td class="s3">{{currentDate}}</td>
-            <td>Unterschrift Kunde:</td>
+            <td>{{ $t("general.unterschriftK") }}:</td>
             <td class="s4">&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+      <hr />
+      {{ $t("general.notizen") }}:
+      <br>
+      <table class="font16">
+        <tbody>
+          <tr>
+            <td style="padding-top: 8px;">&#9744;</td>
+            <td class="s4">{{ $t("bestellung.wareBestellt") }}:</td>
+            <td style="padding-top: 8px;">&#9744;</td>
+            <td class="s4">{{ $t("bestellung.wareErhalten") }}:</td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <table style="width: 650px;">
+        <tbody>
+          <tr>
+            <td style="border: 1px solid black;">
+              <strong>{{ $t("general.anrufprotokoll") }}</strong>
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $t("general.nr") }}: {{entity.filiale.kuerzel}}{{entity.nummerAnzeige}}</span>
+              <span v-if="entity.kunde.telefonAnzeige">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9990; {{entity.kunde.telefonAnzeige}}</span>
+              <span v-if="entity.kunde.email">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9993; {{entity.kunde.email}}</span>
+            </td>
+          </tr>
+         </tbody>
+       </table>
+       <table>
+         <thead>
+          <tr>
+            <td style="width: 150px;">{{ $t("general.datumZeit") }}</td>
+            <td style="width: 300px;">{{ $t("general.anrufgrund") }}</td>
+            <td style="font-size: 8px; width: 40px;">{{ $t("general.kundeInform") }}</td>
+            <td style="font-size: 8px; width: 40px;">{{ $t("general.anrufbeantworter") }}</td>
+            <td style="font-size: 8px; width: 40px;">{{ $t("general.nichtErreicht") }}</td>
+            <td style="font-size: 8px; width: 40px;">{{ $t("general.angehoerInform") }}</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr height="35" v-for="index in 3">
+            <td style="border-bottom: 1px solid black; width: 150px;">&nbsp;</td>
+            <td style="border-bottom: 1px solid black; width: 300px;">&nbsp;</td>
+            <td style="width: 40px;">&#9744;</td>
+            <td style="width: 40px;">&#9744;</td>
+            <td style="width: 40px;">&#9744;</td>
+            <td style="width: 40px;">&#9744;</td>
           </tr>
         </tbody>
       </table>
       <footer>
         <div class="center">
           <br>
-          Besuchen Sie uns auch in unserer Filiale in {{entity.filiale.rechnungTextAndereFiliale}}.
+          {{ $t("general.besuch") }} {{entity.filiale.rechnungTextAndereFiliale}}.
           <br>
           <br>
           <br>
-          Firmensitz: Marktstraße 10, 04177 Leipzig
+          {{ $t("general.firmensitz") }}
           <br>
-          Bankverbindung: Computer-Insel GbR . Commerzbank Leipzig . IBAN: DE50 8604 0000 0521 6668 00
+          {{ $t("general.bankverbindung") }}
         </div>
       </footer>
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/bestellung/bestellung-drucken.js"></script>
 </html>

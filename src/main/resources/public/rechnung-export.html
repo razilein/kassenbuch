@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/themes/css/style.css">
     <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/de.js"></script>
@@ -24,20 +25,20 @@
         <div class="form m1">
           <div class="m1">
             <div class="m2m">
-              <label class="required" for="searchForm_monat">Monat</label>
+              <label class="required" for="searchForm_monat">{{ $t("general.monat") }}</label>
               <select class="m2" id="searchForm_monat" v-model="searchQuery.monat">
                 <option :value="m.key" v-for="m in monate">{{m.value}}</option>
               </select>
             </div>
             <div class="m2">
-              <label class="required" for="searchForm_jahr">Jahr</label>
+              <label class="required" for="searchForm_jahr">{{ $t("general.jahr") }}</label>
               <input class="m2" id="searchForm_jahr" min="1990" max="2100" steps="1" type="number" v-model="searchQuery.jahr" />
             </div>
           </div>
           <div class="m1">
             <div class="m2 right">
-              <button class="right" title="Exportieren" v-if="areRequiredFieldsNotEmpty() && hasNotRoleExport() == false" v-on:click="exportRechnungen">Exportieren</button>
-              <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmpty() || hasNotRoleExport()">Exportieren</button>
+              <button class="right" :title="$t('export.exportieren')" v-if="areRequiredFieldsNotEmpty() && hasNotRoleExport() == false" v-on:click="exportRechnungen">{{ $t("export.exportieren") }}</button>
+              <button class="right disabled" :title="$t('general.pflichtfelder')" v-if="!areRequiredFieldsNotEmpty() || hasNotRoleExport()">{{ $t("export.exportieren") }}</button>
             </div>
           </div>
         </div>
@@ -46,6 +47,7 @@
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/rechnung/rechnung-export.js"></script>

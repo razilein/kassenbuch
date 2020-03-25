@@ -1,5 +1,6 @@
 package de.sg.computerinsel.tools.kunde.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -24,5 +25,8 @@ public class VKunde extends BaseKunde {
     private int anzahlReparaturen;
 
     private String suchfeldTelefon;
+
+    @Column(name = "suchfeld2_telefon")
+    private String suchfeld2Telefon;
 
 }

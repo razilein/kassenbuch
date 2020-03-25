@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#angebot-drucken',
   data: {
     currentDate: null,

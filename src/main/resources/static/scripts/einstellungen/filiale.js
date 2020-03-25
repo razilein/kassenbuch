@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#filiale',
   data: {
     rechte: {},
@@ -8,7 +9,7 @@ var vm = new Vue({
     editRow: {
       restUrlGet: '/einstellungen/filiale/',
       restUrlSave: '/einstellungen/filiale',
-      title: 'Filiale bearbeiten',
+      title: '',
     },
     grid: {
       actions: [],
@@ -23,13 +24,13 @@ var vm = new Vue({
     
     addFunction: function() {
       vm.editRow.restUrlGet = '/einstellungen/filiale/' + -1;
-      vm.editRow.title = 'Filiale hinzufügen';
+      vm.editRow.title = this.$t('einstellung.filiale.hinzufuegen');
       vm.showEditDialog = true;
     },
     
     editFunction: function(row) {
       vm.editRow.restUrlGet = '/einstellungen/filiale/' + row.id;
-      vm.editRow.title = 'Filiale ' + row.name + ' bearbeiten';
+      vm.editRow.title = this.$t('general.filiale') + ' ' + row.name + ' ' + this.$t('general.bearbeiten');
       vm.showEditDialog = true;
     },
     
@@ -45,7 +46,7 @@ var vm = new Vue({
     deleteFunction: function(row) {
       //TODO Remove Delete for Filiale
       vm.deleteRow.id = row.id;
-      vm.deleteRow.title = 'Filiale ' + row.name + ' löschen';
+      vm.deleteRow.title = this.$t('general.filiale') + ' ' + row.name + ' ' + this.$t('general.loeschen');
       vm.showDeleteDialog = true;
     },
     
@@ -72,23 +73,23 @@ var vm = new Vue({
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
-          title: 'Funktionen',
+          title: this.$t('general.funktionen'),
           sortable: false,
           width: 120,
           formatter: [
-          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Filiale bearbeiten', clickFunc: vm.editFunction },
+          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('einstellung.filiale.bearbeiten'), clickFunc: vm.editFunction },
         ] },
-        { name: 'kuerzel', title: 'Kürzel', width: 80 },
-        { name: 'name', title: 'Name', width: 100 },
-        { name: 'strasse', title: 'Straße', width: 60 },
-        { name: 'plz', title: 'PLZ', width: 50 },
-        { name: 'ort', title: 'Ort', width: 100 },
+        { name: 'kuerzel', title: this.$t('general.kuerzel'), width: 80 },
+        { name: 'name', title: this.$t('general.name'), width: 100 },
+        { name: 'strasse', title: this.$t('general.strasse'), width: 60 },
+        { name: 'plz', title: this.$t('general.plz'), width: 50 },
+        { name: 'ort', title: this.$t('general.ort'), width: 100 },
       ];
     },
     
     setGridActions: function() {
       vm.grid.actions = [
-        { clazz: 'add', disabled: vm.hasNotRoleVerwalten, title: 'Filiale hinzufügen', clickFunc: vm.addFunction }
+        { clazz: 'add', disabled: vm.hasNotRoleVerwalten, title: this.$t('einstellung.filiale.hinzufuegen'), clickFunc: vm.addFunction }
       ]
     },
     

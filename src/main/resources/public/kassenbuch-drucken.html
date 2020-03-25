@@ -5,25 +5,26 @@
     <link rel="icon" href="/themes/icons/kasse.png">
     <link rel="stylesheet" href="/themes/css/kassenbuch.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/de.js"></script>
   </head>
   <body>
     <div id="kassenbuch-drucken">
-      <h3>Kassenbericht vom {{ formatDate(entity.kassenbuch.datum) }}</h3>
+      <h3>{{ $t("kassenbuch.kassenberichtVom") }} {{ formatDate(entity.kassenbuch.datum) }}</h3>
       <table>
         <thead>
-          <th style="width: 100px;">Datum</th>
-          <th style="width: 200px;">Verwendungszweck</th>
-          <th class="right" style="width: 100px;">Einnahmen</th>
-          <th class="right" style="width: 100px;">Ausgaben</th>
-          <th class="right" style="width: 100px;">Kassenbestand</th>
+          <th style="width: 100px;">{{ $t("general.datum") }}</th>
+          <th style="width: 200px;">{{ $t("kassenbuch.verwendungszweck") }}</th>
+          <th class="right" style="width: 100px;">{{ $t("kassenbuch.einnahmen") }}</th>
+          <th class="right" style="width: 100px;">{{ $t("kassenbuch.ausgaben") }}</th>
+          <th class="right" style="width: 100px;">{{ $t("kassenbuch.kassenbestand") }}</th>
         </thead>
         <tbody>
           <tr>
             <td>{{ formatDate(entity.kassenbuch.datum) }}</td>
-            <td>Ausgangsbetrag</td>
+            <td>{{ $t("kassenbuch.ausgangsbetrag") }}</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td class="right">{{ formatMoney(entity.kassenbuch.ausgangsbetrag) }} &euro;</td>
@@ -40,7 +41,7 @@
         <tfoot>
           <tr>
             <td>&nbsp;</td>
-            <td>Gesamtbetrag</td>
+            <td>{{ $t("general.gesamtbetrag") }}</td>
             <td class="right">{{ formatMoney(gesamtEinnahmen) }} &euro;</td>
             <td class="right">{{ formatMoney(gesamtAusgaben) }} &euro;</td>
             <td class="right">{{ formatMoney(entity.kassenbuch.ausgangsbetrag + gesamtEinnahmen + gesamtAusgaben) }} &euro;</td>
@@ -50,5 +51,6 @@
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/kassenbuch/kassenbuch-drucken.js"></script>
 </html>

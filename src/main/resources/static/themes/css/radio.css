@@ -54,6 +54,10 @@
   background-color: #2196F3;
 }
 
+.container input[disabled] ~ .checkMark  {
+  background-color: #ededed;
+}
+
 .checkMark:after {
   content: "";
   position: absolute;

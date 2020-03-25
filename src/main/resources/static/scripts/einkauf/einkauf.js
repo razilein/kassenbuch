@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#einkauf',
   data: {
     einkauf: '',

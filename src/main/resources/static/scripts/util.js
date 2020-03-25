@@ -117,13 +117,13 @@ function createEditDialogTemplate(body, big) {
     body +
     `</div>
       <div class="dialog-footer">
-        <button class="dialog-default-button info" @click="saveFunc()" v-if="areRequiredFieldsNotEmpty()">Speichern</button>
+        <button class="dialog-default-button info" @click="saveFunc()" v-if="areRequiredFieldsNotEmpty()">{{ $t("general.speichern") }}</button>
         <button
           class="dialog-default-button info disabled"
-          title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus."
+          :title="$t('general.pflichtfelder')"
           v-if="!areRequiredFieldsNotEmpty()"
-        >Speichern</button>
-        <button class="dialog-default-button info" @click="$emit('close')">Abbrechen</button>
+        >{{ $t("general.speichern") }}</button>
+        <button class="dialog-default-button info" @click="$emit('close')">{{ $t("general.abbrechen") }}</button>
       </div>
     </div>
   </div>
@@ -144,7 +144,7 @@ function createEditDialogTemplateWithoutSaveButton(body, big) {
     body +
     `</div>
       <div class="dialog-footer">
-        <button class="dialog-default-button info" @click="$emit('close')">Abbrechen</button>
+        <button class="dialog-default-button info" @click="$emit('close')">{{ $t("general.abbrechen") }}</button>
       </div>
     </div>
   </div>

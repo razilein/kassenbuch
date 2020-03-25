@@ -1,7 +1,8 @@
 Vue.component('posten-edit-dialog', {
+  i18n,
   template: createEditDialogTemplate(`
   <div class="m1">
-    <zeichenzaehler-label :elem="entity.verwendungszweck" :forid="'kassenbuchEditForm_verwendungszweck'" :label="'Bezeichnung'" :maxlength="'200'" :required="true"></zeichenzaehler-label>
+    <zeichenzaehler-label :elem="entity.verwendungszweck" :forid="'kassenbuchEditForm_verwendungszweck'" :label="$t('general.bezeichnung')" :maxlength="'200'" :required="true"></zeichenzaehler-label>
     <input class="m1" id="kassenbuchEditForm_verwendungszweck" maxlength="200" type="text" v-model="entity.verwendungszweck" />
   </div>
   <div class="m6">
@@ -18,7 +19,7 @@ Vue.component('posten-edit-dialog', {
     </label>
   </div>
   <div class="m4">
-    <label class="required" for="kassenbuchEditForm_betrag">Betrag</label>
+    <label class="required" for="kassenbuchEditForm_betrag">{{ $t("kassenbuch.betrag") }}</label>
     <input class="m4" id="kassenbuchEditForm_betrag" type="number" step=".01" v-model="entity.betrag" />
   </div>
       `),

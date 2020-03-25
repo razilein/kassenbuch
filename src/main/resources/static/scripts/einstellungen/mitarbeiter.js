@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#mitarbeiter',
   data: {
     rechte: {},
@@ -9,12 +10,12 @@ var vm = new Vue({
     showEditDialog: false,
     showEditRechteDialog: false,
     confirmDialog: {
-      text: 'Wollen Sie das Passwort des Benutzers zurücksetzen?',
+      text: '',
     },
     deleteRow: {
       id: null,
       restUrl: '/einstellungen/mitarbeiter',
-      title: 'Mitarbeiter löschen',
+      title: '',
     },
     editRechtDialog: {
       restUrlGet: '/einstellungen/mitarbeiter/rechte/',
@@ -24,7 +25,7 @@ var vm = new Vue({
     editRow: {
       restUrlGet: '/einstellungen/mitarbeiter/',
       restUrlSave: '/einstellungen/mitarbeiter',
-      title: 'Mitarbeiter bearbeiten',
+      title: '',
     },
     grid: {
       actions: [],
@@ -39,13 +40,13 @@ var vm = new Vue({
     
     addFunction: function() {
       vm.editRow.restUrlGet = '/einstellungen/mitarbeiter/' + -1;
-      vm.editRow.title = 'Mitarbeiter hinzufügen';
+      vm.editRow.title = this.$t('einstellung.profil.hinzufuegen');
       vm.showEditDialog = true;
     },
     
     editFunction: function(row) {
       vm.editRow.restUrlGet = '/einstellungen/mitarbeiter/' + row.id;
-      vm.editRow.title = 'Mitarbeiter ' + row.completeName + ' bearbeiten';
+      vm.editRow.title = this.$t('einstellung.mitarbeiter') + ' ' + row.completeName + ' ' + this.$t('general.bearbeiten');
       vm.showEditDialog = true;
     },
     
@@ -60,7 +61,7 @@ var vm = new Vue({
     
     editRechteFunction: function(row) {
       vm.editRechtDialog.restUrlGet = '/einstellungen/mitarbeiter/rechte/' + row.id;
-      vm.editRechtDialog.title = 'Berechtigungen für ' + row.completeName + ' bearbeiten';
+      vm.editRechtDialog.title = this.$t('einstellung.profil.berechtigungFuer') + ' ' + row.completeName + ' ' + this.$t('general.bearbeiten');
       vm.showEditRechteDialog = true;
     },
     
@@ -73,7 +74,8 @@ var vm = new Vue({
     },
     
     resetPasswordFunction: function(row) {
-      vm.confirmDialog.title = 'Passwort für ' + row.completeName + ' zurücksetzen';
+      vm.confirmDialog.title = this.$t('einstellung.profil.pwFuer') + ' ' + row.completeName + ' ' + this.$t('general.zuruecksetzen');
+      vm.confirmDialog.text = this.$t('einstellung.profil.resetPwFrage');
       vm.confirmDialog.func = vm.resetPassword;
       vm.confirmDialog.params = row;
       vm.showConfirmDialog = true;
@@ -93,7 +95,7 @@ var vm = new Vue({
     
     deleteFunction: function(row) {
       vm.deleteRow.id = row.id;
-      vm.deleteRow.title = 'Mitarbeiter ' + row.completeName + ' löschen';
+      vm.deleteRow.title = this.$t('einstellung.mitarbeiter') + ' ' + row.completeName + ' ' + this.$t('general.loeschen');
       vm.showDeleteDialog = true;
     },
     
@@ -135,19 +137,19 @@ var vm = new Vue({
           sortable: false,
           width: 150,
           formatter: [
-          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Mitarbeiter bearbeiten', clickFunc: vm.editFunction },
-          { clazz: 'key', disabled: vm.hasNotRoleResetPassword, title: 'Passwort zurücksetzen', clickFunc: vm.resetPasswordFunction },
-          { clazz: 'recht', disabled: vm.hasNotRoleEditRecht, title: 'Berechtigungen bearbeiten', clickFunc: vm.editRechteFunction },
-          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Mitarbeiter löschen', clickFunc: vm.deleteFunction }
+          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('einstellung.profil.bearbeiten'), clickFunc: vm.editFunction },
+          { clazz: 'key', disabled: vm.hasNotRoleResetPassword, title: this.$t('einstellung.profil.resetPw'), clickFunc: vm.resetPasswordFunction },
+          { clazz: 'recht', disabled: vm.hasNotRoleEditRecht, title: this.$t('einstellung.profil.berechtigungBearbeiten'), clickFunc: vm.editRechteFunction },
+          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('einstellung.profil.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'nachname', title: 'Nachname', width: 200 },
-        { name: 'vorname', title: 'Vorname', width: 150 },
+        { name: 'nachname', title: this.$t('general.nachname'), width: 200 },
+        { name: 'vorname', title: this.$t('general.vorname'), width: 150 },
       ];
     },
     
     setGridActions: function() {
       vm.grid.actions = [
-        { clazz: 'add', disabled: vm.hasNotRoleVerwalten, title: 'Mitarbeiter hinzufügen', clickFunc: vm.addFunction }
+        { clazz: 'add', disabled: vm.hasNotRoleVerwalten, title: this.$t('einstellung.profil.hinzufuegen'), clickFunc: vm.addFunction }
       ]
     },
     

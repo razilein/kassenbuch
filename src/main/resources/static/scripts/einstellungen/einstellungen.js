@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#einstellungen',
   data: {
     einstellungen: {
@@ -7,6 +8,7 @@ var vm = new Vue({
       ftpPort: {},
       ftpUser: {},
       ftpPassword: {},
+      mailBodyAngebot: {},
       mailBodyRechnung: {},
       mailBodyReparatur: {},
       mailSignatur: {},

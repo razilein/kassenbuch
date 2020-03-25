@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import de.sg.computerinsel.tools.angebot.dto.AngebotDto;
+import de.sg.computerinsel.tools.angebot.service.AngebotService;
 import de.sg.computerinsel.tools.kunde.model.Anrede;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.service.EmailService;
@@ -26,6 +28,9 @@ import de.sg.computerinsel.tools.service.MessageService;
 @RestController
 @RequestMapping("/email")
 public class KundeEmailRestController {
+
+    @Autowired
+    private AngebotService angebotService;
 
     @Autowired
     private EmailService service;
@@ -51,6 +56,18 @@ public class KundeEmailRestController {
         service.sendeEmail(file, rechnung, anrede);
         result.put(Message.SUCCESS.getCode(), messageService.get("email.success"));
         updateKundeAnrede(rechnung.getKunde(), anrede);
+        return result;
+    }
+
+    @PostMapping("/angebot")
+    public Map<String, Object> sendeMailAngebot(@RequestParam("file") final MultipartFile file, @RequestParam("id") final Integer id,
+            @RequestParam("anrede") final String anrede) {
+        final Map<String, Object> result = new HashMap<>();
+
+        final AngebotDto dto = angebotService.getAngebot(id);
+        service.sendeEmail(file, dto, anrede);
+        result.put(Message.SUCCESS.getCode(), messageService.get("email.success"));
+        updateKundeAnrede(dto.getAngebot().getKunde(), anrede);
         return result;
     }
 

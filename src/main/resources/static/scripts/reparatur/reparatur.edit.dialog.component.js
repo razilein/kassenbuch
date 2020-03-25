@@ -1,4 +1,5 @@
 Vue.component('edit-dialog', {
+  i18n,
   template: createEditDialogTemplate(`
   <div class="m1">
     <label class="container radio" v-for="art in reparaturarten">
@@ -12,21 +13,21 @@ Vue.component('edit-dialog', {
     </label>
   </div>
   <div class="m1">
-    <zeichenzaehler-label :elem="entity.geraet" :forid="'reparaturEditForm_geraet'" :label="'Gerät / Zubehör'" :maxlength="'500'" :required="true"></zeichenzaehler-label>
+    <zeichenzaehler-label :elem="entity.geraet" :forid="'reparaturEditForm_geraet'" :label="$t('reparatur.geraet')" :maxlength="'500'" :required="true"></zeichenzaehler-label>
     <input class="m1" id="reparaturEditForm_geraet" maxlength="500" type="text" v-model="entity.geraet"></input>
   </div>
   <div class="m1">
     <div class="m2m">
-      <zeichenzaehler-label :elem="entity.seriennummer" :forid="'reparaturEditForm_seriennummer'" :label="'Seriennummer'" :maxlength="'500'"></zeichenzaehler-label>
+      <zeichenzaehler-label :elem="entity.seriennummer" :forid="'reparaturEditForm_seriennummer'" :label="$t('reparatur.seriennummer')" :maxlength="'500'"></zeichenzaehler-label>
       <input class="m2" id="reparaturEditForm_seriennummer" maxlength="500" type="text" v-model="entity.seriennummer"></input>
     </div>
   </div>
   <div class="m1">
-    <zeichenzaehler-label :elem="entity.symptome" :forid="'reparaturEditForm_symptome'" :label="'Symptome / Fehler'" :maxlength="'1000'"></zeichenzaehler-label>
+    <zeichenzaehler-label :elem="entity.symptome" :forid="'reparaturEditForm_symptome'" :label="$t('reparatur.symptomeFehler')" :maxlength="'1000'"></zeichenzaehler-label>
     <textarea class="m1" id="reparaturEditForm_symptome" maxlength="1000" v-model="entity.symptome"></textarea>
   </div>
   <div class="m1">
-    <zeichenzaehler-label :elem="entity.aufgaben" :forid="'reparaturEditForm_aufgaben'" :label="'Geplante Aufgaben'" :maxlength="'1000'"></zeichenzaehler-label>
+    <zeichenzaehler-label :elem="entity.aufgaben" :forid="'reparaturEditForm_aufgaben'" :label="$t('reparatur.aufgaben')" :maxlength="'1000'"></zeichenzaehler-label>
     <textarea class="m1" id="reparaturEditForm_aufgaben" maxlength="1000" v-model="entity.aufgaben"></textarea>
   </div>
   <div class="m1">
@@ -43,38 +44,38 @@ Vue.component('edit-dialog', {
   </div>
   <div class="m1">
     <div class="m2">
-      <zeichenzaehler-label :elem="entity.geraetepasswort" :forid="'reparaturEditForm_geraetepasswort'" :label="'Gerätepasswort'" :maxlength="'50'" :required="true"></zeichenzaehler-label>
+      <zeichenzaehler-label :elem="entity.geraetepasswort" :forid="'reparaturEditForm_geraetepasswort'" :label="$t('reparatur.pw')" :maxlength="'50'" :required="true"></zeichenzaehler-label>
       <input class="m2" id="reparaturEditForm_geraetepasswort" maxlength="50" type="text" v-model="entity.geraetepasswort" :readonly="entity.geraetepasswortArt !== 0"></input>
     </div>
   </div>
   <div class="m1" v-if="entity.bestellung">
-    <label for="reparaturEditForm_bestellung">Bestellung</label>
-    <button class="bestellung btnSmall" title="Bestellung suchen" @click="showBestellungDialog = true"></button>
-    <button class="delete btnSmall" title="Bestellung deselektieren" @click="entity.bestellung = {}"></button>
+    <label for="reparaturEditForm_bestellung">{{ $t("bestellung.titelK") }}</label>
+    <button class="bestellung btnSmall" :title="$t('bestellung.suchen')" @click="showBestellungDialog = true"></button>
+    <button class="delete btnSmall" :title="$t('bestellung.deselektieren')" @click="entity.bestellung = {}"></button>
     <textarea class="m1" id="reparaturEditForm_bestellung" readonly v-model="entity.bestellung.beschreibung"></textarea>
   </div>
   <div class="m1" v-if="entity.kunde">
-    <label for="reparaturEditForm_kunde">Kunde</label><button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
+    <label for="reparaturEditForm_kunde">{{ $t("general.kunde") }}</label><button class="kunde btnSmall" :title="$t('kunde.suchen')" @click="showKundeDialog = true"></button>
     <textarea class="m1" id="reparaturEditForm_kunde" readonly v-model="entity.kunde.completeWithAdressAndPhone"></textarea>
   </div>
   <div class="m1">
-    <label class="container checkbox">Expressbearbeitung
+    <label class="container checkbox">{{ $t("reparatur.express") }}
       <input id="reparaturEditForm_expressbearbeitung" type="checkbox" v-model="entity.expressbearbeitung" v-on:change="editKostenvoranschlag(); changeAbholdatumZeit();" />
       <span class="checkmark"></span>
     </label>
   </div>
   <div class="m1">
     <div class="m2m">
-      <label for="reparaturEditForm_abholdatum">Abholdatum</label>
+      <label for="reparaturEditForm_abholdatum">{{ $t("reparatur.abholdatum") }}</label>
       <input class="m2" id="reparaturEditForm_abholdatum" type="date" v-model="entity.abholdatum" />
     </div>
     <div class="m2">
-      <label for="reparaturEditForm_abholzeit">Abholzeit</label>
+      <label for="reparaturEditForm_abholzeit">{{ $t("reparatur.abholzeit") }}</label>
       <input class="m2" id="reparaturEditForm_abholzeit" max="19:00" min="9:00" type="time" v-model="entity.abholzeit" />
     </div>
   </div>
   <div class="m1">
-    <zeichenzaehler-label :elem="entity.kostenvoranschlag" :forid="'reparaturEditForm_kostenvoranschlag'" :label="'Kostenvoranschlag'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
+    <zeichenzaehler-label :elem="entity.kostenvoranschlag" :forid="'reparaturEditForm_kostenvoranschlag'" :label="$t('reparatur.kostenvoranschlag')" :maxlength="'300'" :required="true"></zeichenzaehler-label>
     <input class="m1" id="reparaturEditForm_kostenvoranschlag" maxlength="300" type="text" v-model="entity.kostenvoranschlag"></input>
   </div>
   <div class="m1">
@@ -89,12 +90,12 @@ Vue.component('edit-dialog', {
     </label>
   </div>
   <div class="m1">
-    <zeichenzaehler-label :elem="entity.bemerkung" :forid="'reparaturEditForm_bemerkung'" :label="'Bemerkungen'" :maxlength="'4000'"></zeichenzaehler-label>
+    <zeichenzaehler-label :elem="entity.bemerkung" :forid="'reparaturEditForm_bemerkung'" :label="$t('general.bemerkung')" :maxlength="'4000'"></zeichenzaehler-label>
     <textarea class="m1" id="reparaturEditForm_bemerkung" maxlength="4000" v-model="entity.bemerkung"></textarea>
   </div>
   <div class="m1">
     <div class="m2" style="float: right;">
-      <label for="reparaturEditForm_mitarbeiter">Mitarbeiter</label>
+      <label for="reparaturEditForm_mitarbeiter">{{ $t("general.ersteller") }}</label>
       <input class="m2" id="reparaturEditForm_mitarbeiter" readonly type="text" :value="entity.mitarbeiter" />
     </div>
   </div>
@@ -142,10 +143,10 @@ Vue.component('edit-dialog', {
     editKostenvoranschlag: function() {
       var kosten = this.entity.kostenvoranschlag || '';
       var isExpress = this.entity.expressbearbeitung;
-      if (isExpress && !kosten.includes('+ 25,- Expresspauschale')) {
-        kosten += ' + 25,- Expresspauschale';
+      if (isExpress && !kosten.includes(this.$t('reparatur.expresspauschale'))) {
+        kosten += ' ' + this.$t('reparatur.expresspauschale');
       } else if (!isExpress) {
-        kosten = kosten.replace('+ 25,- Expresspauschale', '');
+        kosten = kosten.replace(this.$t('reparatur.expresspauschale'), '');
       }
       this.entity.kostenvoranschlag = kosten.trim() || null;
     },

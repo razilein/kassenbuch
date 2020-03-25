@@ -83,6 +83,11 @@ button.kunden {
   -webkit-mask: url("../icons/kunden.svg") no-repeat center;
 }
 
+button.lieferschein {
+  mask: url("../icons/lieferschein.svg") no-repeat center;
+  -webkit-mask: url("../icons/lieferschein.svg") no-repeat center;
+}
+
 button.minus {
   mask: url("../icons/minus.svg") no-repeat center;
   -webkit-mask: url("../icons/minus.svg") no-repeat center;
@@ -124,7 +129,7 @@ button.zahnrad {
 }
 
 button.add, button.angebot, button.bestellung, button.bad, button.delete, button.duplicate, button.edit, button.email,
-button.euro, button.good, button.key, button.kunde, button.kunden, button.minus,
+button.euro, button.good, button.key, button.kunde, button.kunden, button.lieferschein, button.minus,
 button.ok, button.ok2, button.open-new-tab, button.recht, button.zahnrad {
   background-color: #1a8cff;
   float: none;

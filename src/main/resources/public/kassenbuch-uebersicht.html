@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/themes/css/style.css">
     <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
@@ -22,11 +23,11 @@
       <div id="content">
         <div class="form m1">
           <div class="m4">
-            <label class="required" for="searchForm_datum">Datum</label>
+            <label class="required" for="searchForm_datum">{{ $t("general.datum") }}</label>
             <input class="m4" id="searchForm_datum" type="date" v-model="grid.searchQuery.datum" />
           </div>
           <div class="m1">
-            <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
+            <button class="right" :title="$t('general.suchen')"  v-on:click="grid.reload = true;">{{ $t("general.suchen") }}</button>
           </div>
         </div>
         <div style="height: 200px;"></div>
@@ -54,6 +55,7 @@
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/grid.component.js"></script>

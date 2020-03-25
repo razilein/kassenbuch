@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#reparaturErstellen',
   data: {
     entity: {
@@ -52,10 +53,10 @@ var vm = new Vue({
     editKostenvoranschlag: function() {
       var kosten = this.entity.kostenvoranschlag || '';
       var isExpress = this.entity.expressbearbeitung;
-      if (isExpress && !kosten.includes('+ 25,- Expresspauschale')) {
-        kosten += ' + 25,- Expresspauschale';
+      if (isExpress && !kosten.includes(this.$t('reparatur.expresspauschale'))) {
+        kosten += ' ' + this.$t('reparatur.expresspauschale');
       } else if (!isExpress) {
-        kosten = kosten.replace('+ 25,- Expresspauschale', '');
+        kosten = kosten.replace(this.$t('reparatur.expresspauschale'), '');
       }
       vm.entity.kostenvoranschlag = kosten.trim() || null;
     },

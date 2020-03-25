@@ -5,6 +5,7 @@
     <link rel="icon" href="/themes/icons/zahnrad.png">
     <link rel="stylesheet" href="/themes/css/reparaturauftrag.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/de.js"></script>
@@ -15,7 +16,7 @@
         <table class="head">
           <tr>
             <td class="left verdana size7" width="45%" style="border-style: solid; border-width: 1;" height="59">
-              NR: {{entity.filiale.kuerzel}}{{entity.nummer}}
+              {{ $t("reparatur.nr") }}: {{entity.filiale.kuerzel}}{{entity.nummer}}
             </td>
             <td width="45%" style="border-style: none; border-width: medium;" rowspan="3" height="152">
               <span style="position: absolute; left: 400; top: -16; z-index: -1">
@@ -28,13 +29,13 @@
           </tr>
           <tr>
             <td class="size6 u" width="45%" style="border-left-style:none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-bottom-style: none; border-bottom-width: medium" align="left" height="60" valign="bottom">
-              Auftrag
+              {{ $t("general.auftrag") }}
             </td>
             <td width="10%" style="border-right:medium none #111111; border-left-style:none; border-left-width:medium; border-bottom-style:none; border-bottom-width:medium" align="center" height="60">&nbsp;</td>
           </tr>
           <tr>
             <td class="left verdana u" width="45%" style="border-style: none; border-width: medium;" height="31">
-              Erstellt durch: {{entity.mitarbeiter}}
+              {{ $t("reparatur.erstellt") }}: {{entity.mitarbeiter}}
             </td>
           </tr>
         </table>
@@ -42,16 +43,16 @@
         <table class="reparaturart">
           <tr>
             <td class="center arial" width=30%>
-              <span v-if="entity.art !== 1">Garantieprüfung</span>
-              <span  v-if="entity.art === 1">&#9658;Garantieprüfung</span>
+              <span v-if="entity.art !== 1">{{ $t("reparatur.garantiepruefung") }}</span>
+              <span  v-if="entity.art === 1">&#9658;{{ $t("reparatur.garantiepruefung") }}</span>
             </td>
             <td class="center arial" width=35% style="border: 1px solid">
-              <span v-if="entity.art !== 2">Garantiefall</span>
-              <span v-if="entity.art === 2">&#9658;Garantiefall</span>
+              <span v-if="entity.art !== 2">{{ $t("reparatur.garantiefall") }}</span>
+              <span v-if="entity.art === 2">&#9658;{{ $t("reparatur.garantiefall") }}</span>
             </td>
             <td class="center arial" width=35% style="border: 1px solid">
-              <span v-if="entity.art !== 0">Reparatur</span>
-              <span v-if="entity.art === 0">&#9658;Reparatur</span>
+              <span v-if="entity.art !== 0">{{ $t("general.reparatur") }}</span>
+              <span v-if="entity.art === 0">&#9658;{{ $t("general.reparatur") }}</span>
             </td>
           </tr>
         </table>
@@ -63,39 +64,39 @@
           <col width=19>
           <tr valign=top>
             <td width=227 height=24 style="border: none; padding: 0cm" valign="middle" align="left">
-              Gerät / Zubehör:
+              {{ $t("reparatur.geraet") }}:
             </td>
-            <td colspan=3 width=929 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" height="24" valign="bottom">
+            <td colspan=3 width=929 style="font-size: 15px; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" height="24" valign="bottom">
               <span lang="de">{{entity.geraet}}</span>
             </td>
           </tr>
           <tr>
             <td class="s1">
-              SN:
+              {{ $t("reparatur.sn") }}:
             </td>
-            <td colspan=3 width=929 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+            <td colspan=3 width=929 style="font-size: 15px; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
               {{entity.seriennummer}}
             </td>
           </tr>
           <tr valign=top>
             <td class="s1" valign="middle">
-              Symptome:
+              {{ $t("reparatur.symptome") }}:
             </td>
-            <td colspan=3 width=929 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
+            <td colspan=3 width=929 style="font-size: 15px; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
               {{entity.symptome}}
             </td>
           </tr>
           <tr>
             <td class="s1">
-              Geplante Aufgaben:
+              {{ $t("reparatur.aufgaben") }}:
             </td>
-            <td colspan=3 class="s3">
+            <td colspan=3 class="s3" style="font-size: 15px;">
               {{entity.aufgaben}}
             </td>
           </tr>
           <tr valign=top>
             <td class="s1" valign="middle">
-              Gerätepasswort:
+              {{ $t("reparatur.pw") }}:
             </td>
             <td class="s3" colspan="3">
               {{entity.geraetepasswort}}
@@ -104,7 +105,7 @@
           </tr>
           <tr valign=top>
             <td class="s1" valign="middle">
-              Name:
+              {{ $t("general.name") }}:
             </td>
             <td class="s2" colspan="2">
               {{entity.kunde.firmenname}}
@@ -114,10 +115,10 @@
           </tr>
           <tr>
             <td class="s1">
-              Anschrift:
+              {{ $t("general.anschrift") }}:
             </td>
             <td width=904 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" colspan="2" valign="bottom" height="35">
-              {{entity.kunde.strasse}} in {{entity.kunde.plz}} {{entity.kunde.ort}}
+              {{entity.kunde.strasse}} {{ $t("general.ortIn") }} {{entity.kunde.plz}} {{entity.kunde.ort}}
             </td>
             <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
               <p align=left style="widows: 0; orphans: 0">&nbsp;</p>
@@ -125,7 +126,7 @@
           </tr>
           <tr valign=top>
             <td class="s1" valign="middle">
-              Telefon:
+              {{ $t("general.telefon") }}:
             </td>
             <td class="s2" colspan="2">
               {{entity.kunde.telefonAnzeige}} <span v-if="entity.kunde.telefonBemerkung">({{entity.kunde.telefonBemerkung}})</span>
@@ -136,13 +137,13 @@
           </tr>
           <tr>
             <td class="s1">
-              Annahmezeitpunkt:
+              {{ $t("reparatur.annahmezeitpunkt") }}:
             </td>
             <td class="s2" colspan="2">
-              {{entity.wochentagErstelltAm}}, {{entity.erstelltAm}} Uhr,
-              <span v-if="entity.funktionsfaehig === 0">Gerät <span class="u">NICHT</span> funktionsfähig ({{entity.bemerkung}})</span>
-              <span v-if="entity.funktionsfaehig === 1">Gerät funktionsfähig</span>
-              <span v-if="entity.funktionsfaehig === 2">Gerät <span class="u">NICHT</span> prüfbar ({{entity.bemerkung}})</span>
+              {{entity.wochentagErstelltAm}}, {{entity.erstelltAm}} {{ $t("general.uhr") }},
+              <span v-if="entity.funktionsfaehig === 0">{{ $t("general.geraet") }} <span class="u">{{ $t("reparatur.nicht") }}</span> {{ $t("reparatur.funktionsfaehig") }} ({{entity.bemerkung}})</span>
+              <span v-if="entity.funktionsfaehig === 1">{{ $t("general.geraet") }} {{ $t("reparatur.funktionsfaehig") }}</span>
+              <span v-if="entity.funktionsfaehig === 2">{{ $t("general.geraet") }} <span class="u">{{ $t("reparatur.nicht") }}</span> {{ $t("reparatur.pruefbar") }} ({{entity.bemerkung}})</span>
             </td>
             <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
               <p align=left style="widows: 0; orphans: 0">&nbsp;</p>
@@ -150,11 +151,11 @@
           </tr>
           <tr>
             <td class="s1">
-              Expressbearbeitung:
+              {{ $t("reparatur.express") }}:
             </td>
             <td class="s2" colspan="2">
-              <span lang="de" v-if="!entity.expressbearbeitung">NEIN</span>
-              <span lang="de" v-if="entity.expressbearbeitung">JA</span>
+              <span lang="de" v-if="!entity.expressbearbeitung">{{ $t("reparatur.nein") }}</span>
+              <span lang="de" v-if="entity.expressbearbeitung">{{ $t("reparatur.ja") }}</span>
             </td>
             <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
               <p align=left style="widows: 0; orphans: 0">&nbsp;</p>
@@ -162,10 +163,10 @@
           </tr>
           <tr valign=top>
             <td class="s1" valign="middle">
-              Vorraussichtl. abholbereit:
+              {{ $t("reparatur.abholbereit") }}:
             </td>
             <td class="s2" colspan="2">
-              {{entity.wochentagAbholdatum}}, {{formatDate(entity.abholdatum)}} {{entity.abholzeit}} Uhr
+              {{entity.wochentagAbholdatum}}, {{formatDate(entity.abholdatum)}} {{entity.abholzeit}} {{ $t("general.uhr") }}
             </td>
             <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
               <p align=left style="widows: 0; orphans: 0">&nbsp;</p>
@@ -175,7 +176,7 @@
             <td class="s1">
               <p align=left style="widows: 0; orphans: 0">
                 <font size=4 face="arial, sans-serif" color="#000000">
-                  Kostenvoranschlag:
+                  {{ $t("reparatur.kostenvoranschlag") }}:
                 </font>
               </p>
             </td>
@@ -207,7 +208,7 @@
             <td width=227 style="; border-left:1px solid; border-right:medium none; border-top:1px solid; border-bottom:medium none; padding:0cm; " valign="bottom" height="30">&nbsp;</td>
             <td width=904 style="; border-top: 1px solid; border-bottom: 1px solid #000000; border-left: medium none; border-right: medium none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="middle" height="30" colspan="2">
               <font face="arial">
-                Ich akzeptiere die Reparaturbedingungen und erteile den oben beschriebenen Auftrag.
+                {{ $t("reparatur.reparaturbedingungen") }}
               </font>
             </td>
             <td width=25 style="; border-top: 1px solid; border-bottom: medium none #000000; border-left: medium none; border-right: 1px solid; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="30">&nbsp;</td>
@@ -215,7 +216,7 @@
           <tr valign=top>
             <td width=227 style="; border-left:1px solid; border-right:medium none; border-top:medium none; border-bottom:medium none; padding:0cm; " valign="bottom" height="62">
               <p align=left style="widows: 0; orphans: 0">
-                <font size=4 face="arial, sans-serif" color="#000000">Datum / Unterschrift Kunde:</font>
+                <font size=4 face="arial, sans-serif" color="#000000">{{ $t("general.datum") }} / {{ $t("general.unterschriftK") }}:</font>
               </p>
             </td>
             <td width=193 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="62">
@@ -247,24 +248,24 @@
           <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-left-width:0; border-top-width:0; border-bottom-width:0" bordercolor="#111111" width="100%" height="0">
             <tr>
               <td width="45%" rowspan="6" style="border-left-style: none; border-left-width: medium; border-right-style: solid; border-right-width: 1; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" align="left" valign="top">
-                <font face="Arial" size="2"><span lang="de">Notizen (vom Personal auszufüllen):</span></font>
+                <font face="Arial" size="2"><span lang="de">{{ $t("general.notizen") }}:</span></font>
               </td>
               <td width="100%" colspan="7" style="border-top-color: #111111; border-top-width: 1">
-                <strong>Anrufprotokoll</strong>
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NR: {{entity.filiale.kuerzel}}{{entity.nummer}}</span>
+                <strong>{{ $t("general.anrufprotokoll") }}</strong>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $t("reparatur.nr") }}: {{entity.filiale.kuerzel}}{{entity.nummer}}</span>
                 <span v-if="entity.kunde.telefonAnzeige">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9990; {{entity.kunde.telefonAnzeige}}</span>
                 <span v-if="entity.kunde.email">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9993; {{entity.kunde.email}}</span>
                 </font>
               </td>
             </tr>
             <tr>
-              <td width="17%">Datum</td>
-              <td width="11%">Uhrzeit</td>
-              <td width="34%">Anrufgrund</td>
-              <td width="20%"><font size="2">Kunde<br>inform.</font></td>
-              <td width="20%"><font size="2">Anruf-<br>beantw.</font></td>
-              <td width="20%"><font size="2">nicht<br>erreicht</font></td>
-              <td width="20%"><font size="2">Angehör.<br>inform.</font></td>
+              <td width="17%">{{ $t("general.datum") }}</td>
+              <td width="11%">{{ $t("general.uhrzeit") }}</td>
+              <td width="34%">{{ $t("general.anrufgrund") }}</td>
+              <td width="20%"><font size="2">{{ $t("general.kundeInform") }}</font></td>
+              <td width="20%"><font size="2">{{ $t("general.anrufbeantworter") }}</font></td>
+              <td width="20%"><font size="2">{{ $t("general.nichtErreicht") }}</font></td>
+              <td width="20%"><font size="2">{{ $t("general.angehoerInform") }}</font></td>
             </tr>
             <tr v-for="index in 3">
               <td width="62%" height="45" colspan="3">&nbsp;</td>
@@ -288,10 +289,10 @@
             <td>
               <p align=left>
                 <font face="arial">
-                  Hiermit bestätige ich (Kunde), das oben genannte Gerät inkl. Zubehör vollständig<br>
-                  <span class="auto-style1">&#9675; repariert zurück erhalten zu haben.</span>
-                  <span class="auto-style1">&#9675; nicht repariert zurück erhalten zu haben.</span>
-                  <span class="auto-style1">&#9675; zur Entsorgung überlassen zu haben.</span>
+                  {{ $t("reparatur.bestaetigung.info") }}<br>
+                  <span class="auto-style1">&#9675; {{ $t("reparatur.bestaetigung.repariert") }}</span>
+                  <span class="auto-style1">&#9675; {{ $t("reparatur.bestaetigung.nichtRepariert") }}</span>
+                  <span class="auto-style1">&#9675; {{ $t("reparatur.bestaetigung.entsorgung") }}</span>
                 </font>
                 <br>
               </p>
@@ -301,7 +302,7 @@
             <td>
               <hr style="border-color: black;">
               <p align=left style="widows: 0; orphans: 0">
-                <font size=4 face="arial, sans-serif" color="#000000">Gerät ausgehändigt am, Unterschrift Kunde:</font>
+                <font size=4 face="arial, sans-serif" color="#000000">{{ $t("reparatur.ausgehaendigt") }}, {{ $t("general.unterschriftK") }}:</font>
                 <span style="margin-left: 150px;">
                   <font size=5 face="arial, sans-serif">
                     <b>&#9658;</b>
@@ -315,11 +316,11 @@
         <table border="1" cellpadding="0" cellspacing="0" style="page-break-after: always; border-collapse: collapse; border-top-width: 0; border-bottom-width: 0" bordercolor="#111111" width="100%">
           <tr>
             <td width="40%" style="border-style: solid; border-width: 1" align="left">
-              <font face="verdana" size="7">Rg.Nr.:</font>
+              <font face="verdana" size="7">{{ $t("reparatur.rgNr") }}:</font>
             </td>
             <td width="10%" style="border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>
             <td width="50%" style="border-style: solid; border-width: 1" align="right">
-              <font face="Verdana" size="7">NR: {{entity.filiale.kuerzel}}{{entity.nummer}}</font>
+              <font face="Verdana" size="7">{{ $t("reparatur.nr") }}: {{entity.filiale.kuerzel}}{{entity.nummer}}</font>
             </td>
           </tr>
         </table>
@@ -327,7 +328,7 @@
         <table border="1" cellpadding="0" cellspacing="0" style="border-width:0; border-collapse: collapse; " bordercolor="#111111" width="100%" height="64">
           <tr>
             <td width="45%" style="border-style: solid; border-width: 1; " align="left" height="1">
-              <font face="Verdana" size="7">NR: {{entity.filiale.kuerzel}}{{entity.nummer}}</font>
+              <font face="Verdana" size="7">{{ $t("reparatur.nr") }}: {{entity.filiale.kuerzel}}{{entity.nummer}}</font>
             </td>
             <td width="45%" style="border-style:none; border-width:medium; " rowspan="3" height="62"></td>
             <td width="10%" style="border-right:1px solid #111111; border-left-style:solid; border-left-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" align="center" height="1">
@@ -345,14 +346,14 @@
           <tr>
             <td width="100%" colspan="2" align="center" height="16">
               <p class="western" align="center" style="margin-bottom: 0cm; font-style: normal; font-weight: normal; widows: 0; orphans: 0">
-                <font face="arial">Computer-Insel GbR</font>
+                <font face="arial">{{ $t("general.ci") }}</font>
               </p>
             </td>
           </tr>
           <tr>
             <td width="100%" colspan="2" align="center" height="22">
               <p class="western" align="center" style="margin-bottom: 0cm; font-style: normal; font-weight: normal; widows: 0; orphans: 0">
-                <font face="arial">Inh.: Stefan Weiske, Peer Dernoscheck</font>
+                <font face="arial">{{ $t("general.gesellschafter") }}</font>
               </p>
             </td>
           </tr>
@@ -367,7 +368,7 @@
             <td width="50%" align="right" height="16">
               <p class="western" style="margin-bottom: 0cm; widows: 0; orphans: 0">
                 <font face="arial" color="#000000">
-                  <span style="text-decoration: none">Internet: www.computer-insel.net</span>
+                  <span style="text-decoration: none">{{ $t("general.internet") }}</span>
                 </font>
             </td>
           </tr>
@@ -375,14 +376,14 @@
             <td width="50%" height="22">
               <p class="western" style="margin-bottom: 0cm; widows: 0; orphans: 0">
                 <font face="arial" color="#000000">
-                  <span style="text-decoration: none">Tel: {{entity.filiale.telefon}}</span>
+                  <span style="text-decoration: none">{{ $t("general.tel") }}: {{entity.filiale.telefon}}</span>
                 </font>
               </p>
             </td>
             <td width="50%" align="right" height="22">
               <p CLASS="western" STYLE="margin-bottom: 0cm; widows: 0; orphans: 0">
                 <font FACE="Arial" COLOR="#000000">
-                  <span STYLE="text-decoration: none">Email: {{entity.filiale.email}}</span>
+                  <span STYLE="text-decoration: none">{{ $t("general.email") }}: {{entity.filiale.email}}</span>
                 </font>
               </p>
             </td>
@@ -391,11 +392,11 @@
             <td width="50%" height="22">
               <p class="western" style="margin-bottom: 0cm; widows: 0; orphans: 0">
                 <font face="arial" color="#000000">
-                  <span style="text-decoration: none" lang="de-de">Steuernr.: 232/167/37105</span>
+                  <span style="text-decoration: none" lang="de-de">{{ $t("general.steuernr") }}</span>
                 </font>
             </td>
             <td width="50%" align="right" height="22">
-              <font face="Arial">Mo-Fr: 9:00-19:00&nbsp;/&nbsp; Sa: 10:00-14:00</font>
+              <font face="Arial">{{ $t("general.oeffnungszeiten") }}</font>
             </td>
           </tr>
           <tr>
@@ -407,8 +408,8 @@
             <td width="100%" colspan="2" align="center" height="16">
               <p class="western" align="center" style="margin-bottom: 0cm; widows: 0; orphans: 0">
                 <font color="#000000" face="arial">
-                  <span style="text-decoration: none; font-style: normal">Verkauf von Neu- und
-                Gebrauchtware. Hardware, Software, Zubeh&ouml;r, Reparatur, Beratung, Service
+                  <span style="text-decoration: none; font-style: normal">
+                  {{ $t("general.verkaufinfo") }}
                   </span>
                 </font>
               </p>
@@ -418,19 +419,17 @@
         <p CLASS="western" ALIGN="left" STYLE="widows: 0; orphans: 0; margin-bottom: 0cm">&nbsp;</p>
         <p CLASS="western" ALIGN="left" STYLE="widows: 0; orphans: 0; margin-bottom: 0cm">&nbsp;</p>
         <p CLASS="western" ALIGN="left" STYLE="widows: 0; orphans: 0; margin-bottom: 0cm">
-          <u><font face="Verdana" size="6">Abholbeleg</font></u>
+          <u><font face="Verdana" size="6">{{ $t("reparatur.abholbeleg") }}</font></u>
         </p>
         <p CLASS="western" ALIGN="left" STYLE="widows: 0; orphans: 0; margin-bottom: 0cm">
-          <u><i><font size="4" face="Verdana">WICHTIG: Dieser Beleg ist
-          bei Abholung vorzulegen. Bitte verlieren Sie ihn nicht. <br>
-          Personen, welche den Beleg nicht vorlegen k&ouml;nnen, m&uuml;ssen sich ausweisen.</font></i></u>
+          <u><i><font size="4" face="Verdana">{{ $t("reparatur.abholbelegInfo1") }}<br>{{ $t("reparatur.abholbelegInfo2") }}</font></i></u>
         </p>
         <p class="western" align="left" style="widows: 0; orphans: 0; margin-bottom: 0cm">&nbsp;</p>
         <table width="100%" cellpadding=4 cellspacing=0 frame=void rules=none style="border-collapse: collapse" bordercolor="#111111" height="488">
           <tr valign=top>
             <td width=227 height=24 style="border: none; padding: 0cm" valign="bottom" align="left">
               <p align=left style="widows: 0; orphans: 0">
-                <font size=4 face="arial, sans-serif" color="#000000">Gerät / Zubehör:</font>
+                <font size=4 face="arial, sans-serif" color="#000000">{{ $t("reparatur.geraet") }}:</font>
               </P>
             </td>
             <td colspan=2 width=929 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" height="24" valign="bottom">
@@ -441,7 +440,7 @@
           <tr>
             <td width=227 height=35 style="border: none; padding: 0cm" valign="bottom" align="left">
               <p align=left style="widows: 0; orphans: 0">
-                <font face="arial, sans-serif" size="4">SN:</font>
+                <font face="arial, sans-serif" size="4">{{ $t("reparatur.sn") }}:</font>
               </p>
             </td>
             <td colspan=2 width=929 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
@@ -453,7 +452,7 @@
           <tr>
             <td width=227 height=35 style="border: none; padding: 0cm" valign="bottom" align="left">
               <p align=left style="widows: 0; orphans: 0">
-                <font size=4 face="arial, sans-serif" color="#000000">entgegengenommen von:</font>
+                <font size=4 face="arial, sans-serif" color="#000000">{{ $t("reparatur.entgegengenommen") }}:</font>
               </p>
             </td>
             <td colspan=2 width=929 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
@@ -465,7 +464,7 @@
           <tr valign=top>
             <td width=227 height=35 style="border: none; padding: 0cm" valign="bottom" align="left">
               <p align=left style="widows: 0; orphans: 0">
-                <font face="arial, sans-serif" size="4">Symptome:</font>
+                <font face="arial, sans-serif" size="4">{{ $t("reparatur.symptome") }}:</font>
               </p>
             </td>
             <td colspan=2 width=929 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
@@ -477,7 +476,7 @@
           <tr>
             <td width=227 style="; border: none; padding: 0cm" valign="bottom" height="35" align="left">
               <p align=left style="widows: 0; orphans: 0">
-                <font size=4 face="arial, sans-serif" color="#000000">Annahmezeitpunkt:</font>
+                <font size=4 face="arial, sans-serif" color="#000000">{{ $t("reparatur.annahmezeitpunkt") }}:</font>
               </p>
             </td>
             <td width=904 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
@@ -492,13 +491,13 @@
           <tr>
             <td width=227 style="; border: none; padding: 0cm" valign="bottom" height="35" align="left">
               <p align=left style="widows: 0; orphans: 0"><font size=4 face="arial, sans-serif" color="#000000">
-                <span lang="de">Expressbearbeitung</span>:</FONT>
+                <span lang="de">{{ $t("reparatur.express") }}</span>:</FONT>
               </p>
             </td>
             <td width=904 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
               <font face="arial" size="4">
-                <span lang="de" v-if="!entity.expressbearbeitung">NEIN</span>
-                <span lang="de" v-if="entity.expressbearbeitung">JA</span>
+                <span lang="de" v-if="!entity.expressbearbeitung">{{ $t("reparatur.nein") }}</span>
+                <span lang="de" v-if="entity.expressbearbeitung">{{ $t("reparatur.ja") }}</span>
               </font>
             </td>
             <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
@@ -508,11 +507,11 @@
           <tr valign=top>
             <td width=227 style="; border: none; padding: 0cm" valign="bottom" height="35" align="left">
               <p align=left style="widows: 0; orphans: 0">
-                <font face="arial, sans-serif" size="4">Vorraussichtl. abholbereit:</font>
+                <font face="arial, sans-serif" size="4">{{ $t("reparatur.abholbereit") }}:</font>
               </p>
             </td>
             <td width=904 style="; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
-              <p align=left><font face="arial" size="4"><span lang="de">{{entity.wochentagAbholdatum}}, {{formatDate(entity.abholdatum)}} {{entity.abholzeit}} Uhr, <strong>aber erst nach Anruf durch uns!</strong></span></font>
+              <p align=left><font face="arial" size="4"><span lang="de">{{entity.wochentagAbholdatum}}, {{formatDate(entity.abholdatum)}} {{entity.abholzeit}} {{ $t("general.uhr") }}, <strong>{{ $t("reparatur.abholbereitHinweis") }}</strong></span></font>
               </p>
             </td>
             <td width=25 style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0cm" align="left" valign="bottom" height="35">
@@ -525,6 +524,7 @@
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/reparatur/reparatur-drucken.js"></script>
 </html>

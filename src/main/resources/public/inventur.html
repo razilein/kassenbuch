@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/themes/css/style.css">
     <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
   </head>
   <body>
@@ -21,12 +22,13 @@
       <div id="content">
         <div class="form m1">
           <div class="m1" style="height: 20px;"></div>
-          <button class="m1 right" title="Inventur durchführen" v-on:click="executeInventur();">Inventur durchführen</button>
+          <button class="m1 right" :title="$t('inventar.inventur.durchfuehren')" v-on:click="executeInventur();">{{ $t("inventar.inventur.durchfuehren") }}</button>
         </div>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/inventar/inventar.header.component.js"></script>

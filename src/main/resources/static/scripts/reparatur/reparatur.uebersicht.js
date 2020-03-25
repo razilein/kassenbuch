@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#reparaturen',
   created() {
     window.addEventListener('keydown', e => {
@@ -22,12 +23,12 @@ var vm = new Vue({
     deleteRow: {
       id: null,
       restUrl: '/reparatur',
-      title: 'Reparaturauftrag löschen',
+      title: '',
     },
     editRow: {
       restUrlGet: '/reparatur/',
       restUrlSave: '/reparatur/',
-      title: 'Reparaturauftrag bearbeiten',
+      title: '',
     },
     versendenDialog: {},
     grid: {
@@ -44,7 +45,7 @@ var vm = new Vue({
     
     editFunction: function(row) {
       vm.editRow.restUrlGet = '/reparatur/' + row.id;
-      vm.editRow.title = 'Reparaturauftrag ' + row.nummer + ' bearbeiten';
+      vm.editRow.title = this.$t('reparatur.reparaturauftrag') + ' ' + row.nummer + ' ' + this.$t('general.bearbeiten');
       vm.showEditDialog = true;
     },
     
@@ -77,7 +78,7 @@ var vm = new Vue({
     
     deleteFunction: function(row) {
       vm.deleteRow.id = row.id;
-      vm.deleteRow.title = 'Reparaturauftrag ' + row.nummer + ' löschen';
+      vm.deleteRow.title = this.$t('reparatur.reparaturauftrag') + ' ' + row.nummer + ' ' + this.$t('general.loeschen');
       vm.showDeleteDialog = true;
     },
     
@@ -95,9 +96,9 @@ var vm = new Vue({
     },
     
     erledigenFunction: function(row) {
-      var art = row.erledigt ? ' wiedereröffnen' : ' erledigen';
-      vm.confirmDialog.text = 'Wollen Sie diesen Auftrag' + art + '?';
-      vm.confirmDialog.title = 'Reparaturauftrag ' + row.nummer + art;
+      var art = row.erledigt ? this.$t('general.wiedereroeffnen') : this.$t('general.erledigen');
+      vm.confirmDialog.text = this.$t('reparatur.erledigen') + art + '?';
+      vm.confirmDialog.title = this.$t('reparatur.reparaturauftrag') + ' ' + row.nummer + art;
       vm.confirmDialog.func = vm.erledigen;
       vm.confirmDialog.params = row;
       vm.showConfirmDialog = true;
@@ -146,23 +147,23 @@ var vm = new Vue({
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
-          title: 'Funktionen',
+          title: this.$t('general.funktionen'),
           sortable: false,
           width: 170,
           formatter: [
-          { clazz: 'open-new-tab', disabled: vm.hasNotRoleReparaturAnzeigen, title: 'Reparaturauftrag öffnen', clickFunc: vm.openFunction },
-          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Reparaturauftrag bearbeiten', clickFunc: vm.editFunction },
+          { clazz: 'open-new-tab', disabled: vm.hasNotRoleReparaturAnzeigen, title: this.$t('reparatur.oeffnen'), clickFunc: vm.openFunction },
+          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('reparatur.bearbeiten'), clickFunc: vm.editFunction },
           { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.erledigenFunction },
-          { clazz: 'email', disabled: vm.canSendEmail, title: 'Kunde per E-Mail über Abschluss des Auftrags informieren', clickFunc: vm.sendMailFunction },
-          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Reparaturauftrag löschen', clickFunc: vm.deleteFunction }
+          { clazz: 'email', disabled: vm.canSendEmail, title: this.$t('reparatur.email'), clickFunc: vm.sendMailFunction },
+          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('reparatur.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'nummer', title: 'Rep.-Nr.', width: 80 },
-        { name: 'kunde.nummer', title: 'Kd.-Nr.', width: 80 },
-        { name: 'kunde.nameKomplett', sortable: false, title: 'Kunde', width: 200 },
-        { name: 'geraet', title: 'Gerät', width: 350 },
-        { name: 'expressbearbeitung', title: 'Express', width: 90, formatter: ['boolean'] },
-        { name: 'abholdatum', title: 'Abholdatum', width: 120, formatter: ['date'] },
-        { name: 'erstelltAm', title: 'Erstellt am', width: 100 }
+        { name: 'nummer', title: this.$t('reparatur.repNr'), width: 80 },
+        { name: 'kunde.nummer', title: this.$t('kunde.kdNr'), width: 80 },
+        { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200 },
+        { name: 'geraet', title: this.$t('general.geraet'), width: 350 },
+        { name: 'expressbearbeitung', title: this.$t('reparatur.express'), width: 90, formatter: ['boolean'] },
+        { name: 'abholdatum', title: this.$t('reparatur.abholdatum'), width: 120, formatter: ['date'] },
+        { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 100 }
       ];
     },
     
@@ -171,7 +172,7 @@ var vm = new Vue({
     },
     
     getTitleErledigt: function(row) {
-      return row.erledigt ? 'Der Auftrag wurde erledigt. Auftrag wiedereröffnen?' : 'Der Auftrag wurde noch nicht erledigt. Jetzt erledigen?';
+      return row.erledigt ? this.$t('reparatur.wiedereroeffnen') : this.$t('reparatur.erledigt');
     },
     
     getRecht: function(role) {

@@ -92,6 +92,10 @@ hr.header {
   widht: 100%;
 }
 
+.row-border td {
+  border-bottom: 1px solid black;
+}
+
 footer {
   background-color: white;
   position: fixed;

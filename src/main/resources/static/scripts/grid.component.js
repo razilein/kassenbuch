@@ -1,9 +1,10 @@
 Vue.component('grid', {
+  i18n,
   template: `
     <table :class="clazz">
       <thead>
         <th class="tableNavi" :colspan="columns.length" style="line-height: 5px; font-size: 11px;">
-          Anzahl Datensätze Seite: {{pageElements}}, Gesamt: {{totalElements}}
+          {{ $t("general.anzahlDatensaetze") }}: {{pageElements}}, {{ $t("general.gesamt") }}: {{totalElements}}
         </th>
       </thead>
       <thead>
@@ -25,11 +26,11 @@ Vue.component('grid', {
             >
               <option v-for="val in pageSizes" :value="val">{{val}}</option>
             </select>
-            <button class="pageLeft disabled" title="Eine Seite zurück" v-if="page === 0"></button>
-            <button class="pageLeft" @click="previousPage()" title="Eine Seite zurück" v-if="page !== 0"></button>
-            Seite {{ page + 1 }} von {{ totalPages }}
-            <button class="pageRight disabled" title="Zur nächsten Seite" v-if="page + 1 === totalPages"></button>
-            <button class="pageRight" @click="nextPage()" title="Zur nächsten Seite" v-if="page + 1 !== totalPages"></button>
+            <button class="pageLeft disabled" :title="$t('general.seiteZurueck')" v-if="page === 0"></button>
+            <button class="pageLeft" @click="previousPage()" :title="$t('general.seiteZurueck')" v-if="page !== 0"></button>
+            {{ $t("general.seite") }} {{ page + 1 }} {{ $t("general.von") }} {{ totalPages }}
+            <button class="pageRight disabled" :title="$t('general.seiteVor')" v-if="page + 1 === totalPages"></button>
+            <button class="pageRight" @click="nextPage()" :title="$t('general.seiteVor')" v-if="page + 1 !== totalPages"></button>
           </th>
         </tr>
       </thead>

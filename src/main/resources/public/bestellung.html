@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/themes/css/style.css">
     <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
@@ -27,40 +28,40 @@
             @resetted="resetErsteller = false;"
           ></ersteller-select>
           <div class="m1" v-if="entity.angebot">
-            <label for="bestellungEditForm_angebot">Angebot</label>
-            <button class="angebot btnSmall" title="Angebot suchen" @click="showAngebotDialog = true"></button>
-            <button class="delete btnSmall" title="Angebot deselektieren" @click="entity.angebot = {};"></button>
+            <label for="bestellungEditForm_angebot">{{ $t("general.angebot") }}</label>
+            <button class="angebot btnSmall" :title="$t('angebot.suchen')" @click="showAngebotDialog = true"></button>
+            <button class="delete btnSmall" :title="$t('angebot.deselektieren')" @click="entity.angebot = {};"></button>
             <textarea class="m1 big" id="bestellungEditForm_angebot" readonly v-model="entity.angebot.text"></textarea>
           </div>
           <div class="m1" v-if="entity.kunde">
-            <label class="required" for="bestellungEditForm_kunde">Kunde</label>
-            <button class="kunde btnSmall" title="Kunde suchen" @click="showKundeDialog = true"></button>
+            <label class="required" for="bestellungEditForm_kunde">{{ $t("general.kunde") }}</label>
+            <button class="kunde btnSmall" :title="$t('kunde.suchen')" @click="showKundeDialog = true"></button>
             <textarea class="m1" id="bestellungEditForm_kunde" readonly v-model="entity.kunde.completeWithAdress"></textarea>
           </div>
           <div class="m1">
             <div class="m4m">
-              <label class="required" for="bestellungEditForm_datum">Lieferdatum</label>
+              <label class="required" for="bestellungEditForm_datum">{{ $t("general.lieferdatum") }}</label>
               <input class="m4" id="bestellungEditForm_datum" type="date" v-model="entity.datum" v-on:change="wochentagdatum = formatDayOfWeek(entity.datum);"/>
             </div>
             <div class="m4m">
-              <label for="bestellungEditForm_wochentag_datum">Wochentag</label>
+              <label for="bestellungEditForm_wochentag_datum">{{ $t("general.wochentag") }}</label>
               <input class="m4" id="bestellungEditForm_wochentag_datum" readonly type="text" v-model="wochentagdatum" />
             </div>
           </div>
           <div class="m1">
-            <zeichenzaehler-label :elem="entity.beschreibung" :forid="'bestellungEditForm_beschreibung'" :label="'Bestellung'" :maxlength="'2000'" :required="true"></zeichenzaehler-label>
+            <zeichenzaehler-label :elem="entity.beschreibung" :forid="'bestellungEditForm_beschreibung'" :label="$t('bestellung.titelK')" :maxlength="'2000'" :required="true"></zeichenzaehler-label>
             <textarea class="m1 big" id="bestellungEditForm_beschreibung" maxlength="2000" v-model="entity.beschreibung"></textarea>
           </div>
           <div class="m1">
-            <zeichenzaehler-label :elem="entity.kosten" :forid="'bestellungEditForm_kosten'" :label="'Kosten'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
+            <zeichenzaehler-label :elem="entity.kosten" :forid="'bestellungEditForm_kosten'" :label="$t('bestellung.kosten')" :maxlength="'300'" :required="true"></zeichenzaehler-label>
             <input class="m1" id="bestellungEditForm_kosten" maxlength="300" type="text" v-model="entity.kosten"></input>
           </div>
           <div class="m1">
-            <zeichenzaehler-label :elem="entity.anzahlung" :forid="'bestellungEditForm_anzahlung'" :label="'Anzahlung'" :maxlength="'300'" :required="true"></zeichenzaehler-label>
+            <zeichenzaehler-label :elem="entity.anzahlung" :forid="'bestellungEditForm_anzahlung'" :label="$t('bestellung.anzahlung')" :maxlength="'300'" :required="true"></zeichenzaehler-label>
             <input class="m1" id="bestellungEditForm_anzahlung" maxlength="300" type="text" v-model="entity.anzahlung"></input>
           </div>
-          <button class="right" title="Speichern" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">Speichern</button>
-          <button class="right disabled" title="Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus." v-if="!areRequiredFieldsNotEmpty()">Speichern</button>
+          <button class="right" :title="$t('general.speichern')" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">{{ $t("general.speichern") }}</button>
+          <button class="right disabled" :title="$t('general.pflichtfelder')" v-if="!areRequiredFieldsNotEmpty()">{{ $t("general.speichern") }}</button>
         </div>
         <div style="height: 280px;"></div>
       </div>
@@ -81,6 +82,7 @@
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/localstorage.service.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>

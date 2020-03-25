@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/themes/css/style.css">
     <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
@@ -23,39 +24,39 @@
         <div class="form m1" v-if="kundeId === null">
           <div class="m1">
             <div class="m6m">
-              <label for="searchForm_nummer">Angebot-Nr.</label>
-              <input class="m6" id="searchForm_nummer" type="text" v-model="grid.searchQuery.nummer"></input>
+              <label for="searchForm_nummer">{{ $t("angebot.angebotNr") }}</label>
+              <input class="m6" id="searchForm_nummer" type="text" v-model="grid.searchQuery.nummer" :readonly="isReadonlySuche1()"></input>
             </div>
             <div class="m6m">
-              <label for="searchForm_kundennummer">Kd.-Nr.</label>
-              <input class="m6" id="searchForm_kundennummer" type="text" v-model="grid.searchQuery.kundennummer"></input>
+              <label for="searchForm_kundennummer">{{ $t("kunde.kdNr") }}</label>
+              <input class="m6" id="searchForm_kundennummer" type="text" v-model="grid.searchQuery.kundennummer" :readonly="isReadonlySuche1()"></input>
             </div>
             <div class="m2">
-              <label for="searchForm_suchfeld_name">Kunde</label>
+              <label for="searchForm_suchfeld_name">{{ $t("general.kunde") }}</label>
               <input class="m2" id="searchForm_suchfeld_name" title="Ermöglicht die Suche nach Firmenname, Vorname oder Nachname"
-                type="text" v-model="grid.searchQuery.suchfeld_name"></input>
+                type="text" v-model="grid.searchQuery.suchfeld_name" :readonly="isReadonlySuche1()"></input>
             </div>
           </div>
           <div class="m1">
-             <label class="container checkbox">Nur nicht erledigte Angebote anzeigen
-              <input id="searchForm_erledigt" type="checkbox" v-model="grid.searchQuery.erledigt" />
+             <label class="container checkbox">{{ $t("angebot.nichtErledigt") }}
+              <input id="searchForm_erledigt" type="checkbox" v-model="grid.searchQuery.erledigt" :disabled="isReadonlySuche1()" />
               <span class="checkmark"></span>
             </label>
           </div>
           <hr />
           <div class="m1">
-            <label for="searchForm_bezeichnung">Angebotsposten-Bezeichnung</label>
+            <label for="searchForm_bezeichnung">{{ $t("angebot.postenBezeichnung") }}</label>
             <input class="m1" id="searchForm_bezeichnung" type="text" v-model="grid.searchQuery.bezeichnung"></input>
           </div>
           <div class="m1">
             <div class="m2 right">
-              <button class="delete" title="Suchfelder leeren" v-on:click="grid.searchQuery = {}; grid.reload = true;"></button>
-              <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
+              <button class="delete" :title="$t('general.suchfelderLeeren')" v-on:click="grid.searchQuery = {}; grid.reload = true;"></button>
+              <button class="right" :title="$t('general.suchen')" v-on:click="grid.reload = true;">{{ $t("general.suchen") }}</button>
             </div>
           </div>
         </div>
         <div style="height: 250px;" v-if="kundeId === null"></div>
-        <h3 v-if="kundeId !== null">Angebote zum gewählten Kunden:</h3>
+        <h3 v-if="kundeId !== null">{{ $t("general.angebote") }} {{ $t("general.zumGewaehltenKunden") }}:</h3>
         <div id="gridDiv" v-if="grid.gridColumns.length > 0">
           <grid
             :columns="grid.gridColumns"
@@ -80,6 +81,7 @@
         @confirmed="handleConfirmResponse"
       ></confirm-dialog>
       <edit-dialog
+        :duplicate="editRow.duplicate"
         :rest-url-get="editRow.restUrlGet"
         :rest-url-save="editRow.restUrlSave"
         :title="editRow.title"
@@ -95,10 +97,17 @@
         @close="showDeleteDialog = false"
         @deleted="handleDeleteResponse"
       ></delete-dialog>
+      <angebot-versenden-dialog
+        :row="versendenDialog.row"
+        v-if="showVersendenDialog"
+        @close="showVersendenDialog = false"
+        @sended="handleSendResponse"
+      ></angebot-versenden-dialog>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/confirm.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
@@ -109,6 +118,7 @@
   <script src="/scripts/kunde/kunde.edit.dialog.component.js"></script>
   <script src="/scripts/angebot/angebot.edit.dialog.component.js"></script>
   <script src="/scripts/angebot/angebotsposten.edit.dialog.component.js"></script>
+  <script src="/scripts/angebot/angebot.versenden.dialog.component.js"></script>
   <script src="/scripts/angebot/angebot.header.component.js"></script>
   <script src="/scripts/angebot/angebot.uebersicht.js"></script>
 </html>

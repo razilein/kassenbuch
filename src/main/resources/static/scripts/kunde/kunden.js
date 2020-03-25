@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#kunden',
   created() {
     window.addEventListener('keydown', e => {
@@ -18,16 +19,16 @@ var vm = new Vue({
     deleteRow: {
       id: null,
       restUrl: '/kunde',
-      title: 'Kunde löschen',
+      title: '',
     },
     duplicateRow: {
       kunde: {},
-      title: 'Duplizierende Kunden mit gewählten Kundendatensatz zusammenführen'
+      title: ''
     },
     editRow: {
       restUrlGet: '/kunde/',
       restUrlSave: '/kunde',
-      title: 'Kunde bearbeiten',
+      title: '',
     },
     grid: {
       actions: [],
@@ -42,13 +43,13 @@ var vm = new Vue({
     
     addFunction: function() {
       vm.editRow.restUrlGet = '/kunde/' + -1;
-      vm.editRow.title = 'Kunde hinzufügen';
+      vm.editRow.title = this.$t('kunde.hinzufuegen');
       vm.showEditDialog = true;
     },
     
     editFunction: function(row) {
       vm.editRow.restUrlGet = '/kunde/' + row.id;
-      vm.editRow.title = 'Kunde ' + row.nummer + ' bearbeiten';
+      vm.editRow.title = this.$t('general.kunde') + ' ' + row.nummer + ' ' + this.$t('general.bearbeiten');
       vm.showEditDialog = true;
     },
     
@@ -66,7 +67,7 @@ var vm = new Vue({
 
     deleteFunction: function(row) {
       vm.deleteRow.id = row.id;
-      vm.deleteRow.title = 'Kunde ' + row.nummer + ' löschen';
+      vm.deleteRow.title = this.$t('general.kunde') + ' ' + row.nummer + ' ' + this.$t('general.loeschen');
       vm.showDeleteDialog = true;
     },
     
@@ -81,7 +82,7 @@ var vm = new Vue({
     
     duplicateFunction: function(row) {
       vm.duplicateRow.kunde = row;
-      vm.duplicateRow.title = 'Duplizierende Kunden suchen und mit gewählten Kundendatensatz (' + row.nummer + ') zusammenführen';
+      vm.duplicateRow.title = this.$t('kunde.duplikat1') + ' (' + row.nummer + ') ' + this.$t('kunde.duplikat2');
       vm.showDuplicateDialog = true;
     },
     
@@ -184,34 +185,34 @@ var vm = new Vue({
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
-          title: 'Funktionen',
+          title: this.$t('general.funktionen'),
           sortable: false,
           width: 170,
           formatter: [
-          { clazz: vm.getReparaturClass, disabled: vm.hasNotRoleReparaturAnzeigen, title: 'Reparaturaufträge anzeigen', clickFunc: vm.openReparaturFunction },
-          { clazz: vm.getRechnungClass, disabled: vm.hasNotRoleRechnungAnzeigen, title: 'Rechnungen anzeigen', clickFunc: vm.openRechnungFunction },
-          { clazz: vm.getAngebotClass, disabled: vm.hasNotRoleAngeboteAnzeigen, title: 'Angebote anzeigen', clickFunc: vm.openAngebotFunction },
-          { clazz: vm.getBestellungClass, disabled: vm.hasNotRoleBestellungenAnzeigen, title: 'Bestellungen anzeigen', clickFunc: vm.openBestellungFunction },
-          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Kunde bearbeiten', clickFunc: vm.editFunction },
-          { clazz: 'kunden', disabled: vm.hasNotRoleVerwalten, title: 'Duplizierende Kunden suchen und mit diesen Kundenatensatz zusammenführen', clickFunc: vm.duplicateFunction },
-          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Kunde löschen', clickFunc: vm.deleteFunction }
+          { clazz: vm.getReparaturClass, disabled: vm.hasNotRoleReparaturAnzeigen, title: this.$t('kunde.anzeigen.reparatur'), clickFunc: vm.openReparaturFunction },
+          { clazz: vm.getRechnungClass, disabled: vm.hasNotRoleRechnungAnzeigen, title: this.$t('kunde.anzeigen.rechnung'), clickFunc: vm.openRechnungFunction },
+          { clazz: vm.getAngebotClass, disabled: vm.hasNotRoleAngeboteAnzeigen, title: this.$t('kunde.anzeigen.angebot'), clickFunc: vm.openAngebotFunction },
+          { clazz: vm.getBestellungClass, disabled: vm.hasNotRoleBestellungenAnzeigen, title: this.$t('kunde.anzeigen.bestellung'), clickFunc: vm.openBestellungFunction },
+          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('kunde.bearbeiten'), clickFunc: vm.editFunction },
+          { clazz: 'kunden', disabled: vm.hasNotRoleVerwalten, title: this.$t('kunde.duplikat'), clickFunc: vm.duplicateFunction },
+          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('kunde.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'nummer', title: 'Kd.-Nr.', width: 70 },
-        { name: 'firmenname', title: 'Firma', width: 150 },
-        { name: 'nachname', title: 'Nachname', width: 150 },
-        { name: 'vorname', title: 'Vorname', width: 100 },
-        { name: 'strasse', title: 'Straße', width: 100 },
-        { name: 'plz', title: 'PLZ', width: 50 },
-        { name: 'ort', title: 'Ort', width: 100 },
-        { name: 'suchfeldTelefon', title: 'Telefon / Mobil', width: 140 },
-        { name: 'bemerkung', title: 'Bemerkungen', width: 200 },
-        { name: 'erstelltAm', title: 'Erstellt am', width: 100, formatter: ['datetime'] }
+        { name: 'nummer', title: this.$t('kunde.kdNr'), width: 70 },
+        { name: 'firmenname', title: this.$t('kunde.firmenname'), width: 150 },
+        { name: 'nachname', title: this.$t('kunde.nachname'), width: 150 },
+        { name: 'vorname', title: this.$t('kunde.vorname'), width: 100 },
+        { name: 'strasse', title: this.$t('general.strasse'), width: 100 },
+        { name: 'plz', title: this.$t('general.plz'), width: 50 },
+        { name: 'ort', title: this.$t('general.ort'), width: 100 },
+        { name: 'suchfeldTelefon', title: this.$t('kunde.suchfeldTelefon'), width: 140 },
+        { name: 'bemerkung', title: this.$t('general.bemerkung'), width: 200 },
+        { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 100, formatter: ['datetime'] }
       ];
     },
     
     setGridActions: function() {
       vm.grid.actions = [
-        { clazz: 'add', disabled: vm.hasNotRoleVerwalten, title: 'Kunde hinzufügen', clickFunc: vm.addFunction }
+        { clazz: 'add', disabled: vm.hasNotRoleVerwalten, title: this.$t('kunde.hinzufuegen'), clickFunc: vm.addFunction }
       ]
     },
     

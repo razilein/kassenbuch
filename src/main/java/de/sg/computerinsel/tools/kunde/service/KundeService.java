@@ -58,7 +58,7 @@ public class KundeService {
         final String nachname = StringUtils.trimToNull(SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "nachname"));
         final String firmenname = StringUtils.trimToNull(SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "firmenname"));
         final String plz = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "plz");
-        final String telefon = createSuchfeldTelefon(conditions.get("telefon"));
+        final String telefon = createSuchfeldTelefon(SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "telefon"));
 
         if (StringUtils.isBlank(vorname) && StringUtils.isBlank(nachname) && StringUtils.isBlank(firmenname) && StringUtils.isBlank(plz)
                 && StringUtils.isBlank(telefon)) {
@@ -74,11 +74,11 @@ public class KundeService {
         String tel = StringUtils.trimToNull(telefon);
         if (StringUtils.isNotBlank(tel)) {
             tel = RegExUtils.replaceAll(tel, StringUtils.SPACE, StringUtils.EMPTY);
-            tel = RegExUtils.replaceAll(tel, "\\*", StringUtils.EMPTY);
             tel = RegExUtils.replaceAll(tel, "/", StringUtils.EMPTY);
             tel = RegExUtils.replaceAll(tel, "\\\\", StringUtils.EMPTY);
             tel = RegExUtils.replaceAll(tel, "-", StringUtils.EMPTY);
-            tel = RegExUtils.replaceAll(tel, StringUtils.EMPTY, "%");
+            tel = RegExUtils.replaceAll(tel, "\\(", StringUtils.EMPTY);
+            tel = RegExUtils.replaceAll(tel, "\\)", StringUtils.EMPTY);
         }
         return tel;
     }
@@ -99,7 +99,7 @@ public class KundeService {
             methodName += "PlzLikeAnd";
         }
         if (StringUtils.isNotBlank(telefon)) {
-            methodName += "SuchfeldTelefonLikeAnd";
+            methodName += "Suchfeld2TelefonLikeAnd";
         }
         return StringUtils.removeEnd(methodName, "And");
     }

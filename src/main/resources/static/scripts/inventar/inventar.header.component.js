@@ -1,4 +1,5 @@
 Vue.component('page-header-inventar', {
+  i18n,
   props: ['marker'],
   template: 
   `
@@ -17,12 +18,12 @@ Vue.component('page-header-inventar', {
     <input id="tab6" type="radio" name="tabs" v-if="marker !== 'Import'" />
     
     <nav>
-      <a class="tab1" href="produkt.html">Produkte</a>
-      <a class="tab2" href="gruppe.html">Gruppen</a>
-      <a class="tab3" href="kategorie.html">Kategorien</a>
-      <a class="tab4" href="inventur.html">Inventur</a>
-      <a class="tab5" href="export.html">Export</a>
-      <a class="tab6" href="import.html">Import</a>
+      <a class="tab1" href="produkt.html">{{ $t("inventar.produkte") }}</a>
+      <a class="tab2" href="gruppe.html">{{ $t("inventar.gruppen") }}</a>
+      <a class="tab3" href="kategorie.html">{{ $t("inventar.produkt.kategorien") }}</a>
+      <a class="tab4" href="inventur.html">{{ $t("inventar.inventur.titel") }}</a>
+      <a class="tab5" href="export.html">{{ $t("export.titel") }}</a>
+      <a class="tab6" href="import.html">{{ $t("import.titel") }}</a>
     </nav>
     <figure></figure>
   </div>

@@ -1,4 +1,5 @@
 Vue.component('rechte-edit-dialog', {
+  i18n,
   template: createEditDialogTemplate(`
   <div class="m1" v-for="e in entity.rollen">
     <label class="container checkbox">{{e.beschreibung}}

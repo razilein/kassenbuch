@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#produkt',
   created() {
     window.addEventListener('keydown', e => {
@@ -22,12 +23,12 @@ var vm = new Vue({
     deleteRow: {
       id: null,
       restUrl: '/inventar/produkt',
-      title: 'Produkt löschen',
+      title: '',
     },
     editRow: {
       restUrlGet: '/inventar/produkt/',
       restUrlSave: '/inventar/produkt',
-      title: 'Produkt bearbeiten',
+      title: '',
     },
     grid: {
       actions: [],
@@ -42,20 +43,20 @@ var vm = new Vue({
     
     addFunction: function() {
       vm.editRow.restUrlGet = '/inventar/produkt/' + -1;
-      vm.editRow.title = 'Produkt hinzufügen';
+      vm.editRow.title = this.$t('inventar.produkt.hinzufuegen');
       vm.showEditDialog = true;
     },
     
     editFunction: function(row) {
       vm.editRow.restUrlGet = '/inventar/produkt/' + row.id;
-      vm.editRow.title = 'Produkt ' + row.bezeichnung + ' bearbeiten';
+      vm.editRow.title = this.$t('general.produkt') + ' ' + row.bezeichnung + ' ' + this.$t('general.bearbeiten');
       vm.editRow.duplicate = false;
       vm.showEditDialog = true;
     },
     
     duplicateFunction: function(row) {
       vm.editRow.restUrlGet = '/inventar/produkt/' + row.id;
-      vm.editRow.title = 'Produkt ' + row.bezeichnung + ' bearbeiten';
+      vm.editRow.title = this.$t('general.produkt') + ' ' + row.bezeichnung + ' ' + this.$t('general.duplizieren');
       vm.editRow.duplicate = true;
       vm.showEditDialog = true;
     },
@@ -71,7 +72,7 @@ var vm = new Vue({
     
     deleteFunction: function(row) {
       vm.deleteRow.id = row.id;
-      vm.deleteRow.title = 'Produkt ' + row.bezeichnung + ' löschen';
+      vm.deleteRow.title = this.$t('general.produkt') + ' ' + row.bezeichnung + ' ' + this.$t('general.loeschen');
       vm.showDeleteDialog = true;
     },
     
@@ -109,27 +110,27 @@ var vm = new Vue({
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
-          title: 'Funktionen',
+          title: this.$t('general.funktionen'),
           sortable: false,
           width: 130,
           formatter: [
-          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: 'Produkt bearbeiten', clickFunc: vm.editFunction },
-          { clazz: 'duplicate', disabled: vm.hasNotRoleVerwalten, title: 'Produkt duplizieren', clickFunc: vm.duplicateFunction },
-          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: 'Produkt löschen', clickFunc: vm.deleteFunction }
+          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('inventar.produkt.bearbeiten'), clickFunc: vm.editFunction },
+          { clazz: 'duplicate', disabled: vm.hasNotRoleVerwalten, title: this.$t('inventar.produkt.duplizieren'), clickFunc: vm.duplicateFunction },
+          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('inventar.produkt.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'gruppe.kategorie.bezeichnung', title: 'Kategorie', width: 120 },
-        { name: 'gruppe.bezeichnung', title: 'Gruppe', width: 150 },
-        { name: 'hersteller', title: 'Hersteller', width: 150 },
-        { name: 'bezeichnung', title: 'Bezeichnung', width: 500 },
-        { name: 'ean', title: 'EAN', width: 120 },
-        { name: 'bestand', title: 'Bestand', width: 100 },
-        { name: 'preise', sortable: false, title: 'Preise', width: 110 },
+        { name: 'gruppe.kategorie.bezeichnung', title: this.$t('inventar.produkt.kategorie'), width: 120 },
+        { name: 'gruppe.bezeichnung', title: this.$t('inventar.produkt.gruppe'), width: 150 },
+        { name: 'hersteller', title: this.$t('inventar.produkt.hersteller'), width: 150 },
+        { name: 'bezeichnung', title: this.$t('general.bezeichnung'), width: 500 },
+        { name: 'ean', title: this.$t('inventar.produkt.ean'), width: 120 },
+        { name: 'bestand', title: this.$t('inventar.produkt.bestand'), width: 100 },
+        { name: 'preise', sortable: false, title: this.$t('inventar.produkt.preise'), width: 110 },
       ];
     },
     
     setGridActions: function() {
       vm.grid.actions = [
-        { clazz: 'add', disabled: vm.hasNotRoleVerwalten, title: 'Produkt hinzufügen', clickFunc: vm.addFunction }
+        { clazz: 'add', disabled: vm.hasNotRoleVerwalten, title: this.$t('inventar.produkt.hinzufuegen'), clickFunc: vm.addFunction }
       ]
     },
     

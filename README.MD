@@ -113,6 +113,8 @@ Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_RECHNUNG_UEBERSICHT* 
 Das Recht *RECHNUNG_VERWALTEN* wird benötigt um Rechnungen zu bearbeiten oder zu löschen.
 
 Auf dieser Seite befindet sich eine Auflistung aller Rechnungen. Mit Hilfe der Suchfilter kann die Anzeige weiter eingeschränkt werden.
+Sind die Suchfilter nach den Kontrollkästchen *Mit Angeboten*, *Mit Bestellungen* und *Mit Reparaturaufträgen* aktiv, werden die darüberliegenden Suchfilter ignoriert.
+Ist das Suchfeld *Rechnungsposten durchsuchen nach Bezeichnung / Seriennummer / Hinweis* gefüllt, werden die darüberliegenden Suchfilter ignoriert.
 
 Durch Klick auf das *Öffnen-Icon* kann die Rechnung in der Druckansicht angezeigt werden. Dazu wird das Recht *RECHNUNG* benötigt.
 
@@ -120,6 +122,8 @@ Durch Klick auf das *Bearbeiten-Icon* kann die Rechnung bearbeitet werden.
 Dabei ist es nur möglich das Rechnungsdatum, die Zahlart, den Kunden und Reparaturauftrag zu ändern.
 Zudem darf die Menge, Bezeichnung, der Hinweis, die Seriennummer und der Rabatt von bestehenden Posten geändert werden. Es dürfen jedoch keine neuen Posten hinzugefügt oder bestehende entfernt werden.
 Das Bearbeiten der Menge nimmt keinen Einfluss auf den Bestand im Inventar. Dies wird lediglich beim Erstellen beeinflusst.
+
+Durch Klick auf das *Lieferschein-Icon* kann zur Rechnung ein Lieferschein in der Druckansicht angezeigt werden. Dazu wird das Recht *RECHNUNG* benötigt.
 
 Durch Klick auf das *E-Mail-Icon* kann dem Kunden die Rechnung zugesendet werden. Dazu muss die Rechnung zuerst als PDF gedruckt und im
 sich öffnenden Dialog gewählt werden.
@@ -170,6 +174,12 @@ Ist das Suchfeld *Angebotsposten-Bezeichnung* gefüllt, werden alle anderen Such
 Durch Klick auf das *Öffnen-Icon* kann das Angebot in der Druckansicht angezeigt werden. Dazu wird das Recht *ANGEBOT* benötigt.
 
 Durch Klick auf das *Bearbeiten-Icon* kann das Angebot bearbeitet werden.
+
+Durch Klick auf das *Duplizieren-Icon* kann das Angebot dupliziert werden.
+
+Durch Klick auf das *E-Mail-Icon* kann dem Kunden das Angebot zugesendet werden. Dazu muss das Angebot zuerst als PDF gedruckt und im
+sich öffnenden Dialog gewählt werden.
+Dieses Icon ist nur sichtbar, wenn zum Kunden eine E-Mail-Adresse hinterlegt ist.
 
 Durch Klick auf das *Löschen-Icon* kann ein Angebot nach nochmaliger Bestätigung gelöscht werden.
 
@@ -389,9 +399,9 @@ Diese Daten dienen dazu, um die Bestellliste lesen/schreiben zu können.
 #### SMTP-Server
 Hier sind die Verbindungsdaten zum SMTP-Server anzugeben.
 Dabei sind beim Benutzernamen/Passwort die Daten der Filialenadresse anzugeben.
-Die Daten werden benötigt, um den Kunden per E-Mail über einen abgeschlossenen Reparaturauftrag zu informieren oder eine Rechnung zu senden.
+Die Daten werden benötigt, um den Kunden per E-Mail über einen abgeschlossenen Reparaturauftrag zu informieren oder eine Rechnung oder ein Angebot zu senden.
 Mit Hilfe der E-Mail-Inhalt-Felder kann allgemein gültig der Inhalt der E-Mail bestimmt werden. Als Platzhalter kann #NUMMER# verwendet werden,
-um die Rechnungs- oder Reparaturnummer in den Text einzufügen.
+um die Rechnungs-, Reparatur oder Angebotsnummer in den Text einzufügen.
 Die Signatur wird immer im Fuß der E-Mail hinzugefügt.
 
 ## Filialen

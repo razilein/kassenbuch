@@ -1,4 +1,5 @@
 var vm = new Vue({
+  i18n,
   el: '#bestellung-drucken',
   data: {
     currentDate: null,
@@ -34,6 +35,9 @@ var vm = new Vue({
     },
     
     setEntity: function(response) {
+      if (!response.data.kunde) {
+        response.data.kunde = {};
+      }
       this.entity = response.data;
     },
     

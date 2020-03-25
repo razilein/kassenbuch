@@ -73,6 +73,7 @@ public class EinstellungenRestController {
         data.setSmtpUser(einstellungenService.getSmtpUser());
         data.setSmtpPassword(einstellungenService.getSmtpPassword());
         data.setMailSignatur(einstellungenService.getMailSignatur());
+        data.setMailBodyAngebot(einstellungenService.getMailBodyAngebot());
         data.setMailBodyRechnung(einstellungenService.getMailBodyRechnung());
         data.setMailBodyReparatur(einstellungenService.getMailBodyReparaturauftrag());
         return data;
@@ -99,6 +100,7 @@ public class EinstellungenRestController {
             einstellungenService.save(data.getSmtpUser());
             einstellungenService.save(data.getSmtpPassword());
             einstellungenService.save(data.getMailSignatur());
+            einstellungenService.save(data.getMailBodyAngebot());
             einstellungenService.save(data.getMailBodyRechnung());
             einstellungenService.save(data.getMailBodyReparatur());
             result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.save.success"));

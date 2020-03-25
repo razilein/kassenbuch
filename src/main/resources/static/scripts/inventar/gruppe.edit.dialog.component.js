@@ -1,13 +1,14 @@
 Vue.component('edit-dialog', {
+  i18n,
   template: createEditDialogTemplate(`
   <div class="m1">
-    <label class="required" for="gruppeEditForm_kategorie">Kategorie</label>
+    <label class="required" for="gruppeEditForm_kategorie">{{ $t('inventar.produkt.kategorie') }}</label>
     <select class="m1" v-model="entity.kategorie.id">
       <option :value="k.key" v-for="k in kategorien">{{k.value}}</option>
     </select>
   </div>
   <div class="m1">
-    <zeichenzaehler-label :elem="entity.bezeichnung" :forid="'gruppeEditForm_bezeichnung'" :label="'Bezeichnung'" :maxlength="'100'" :required="true"></zeichenzaehler-label>
+    <zeichenzaehler-label :elem="entity.bezeichnung" :forid="'gruppeEditForm_bezeichnung'" :label="$t('general.bezeichnung')" :maxlength="'100'" :required="true"></zeichenzaehler-label>
     <input class="m1" focus id="gruppeEditForm_bezeichnung" maxlength="100" type="text" v-model="entity.bezeichnung"></input>
   </div>
       `),

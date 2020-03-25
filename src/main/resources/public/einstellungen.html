@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/themes/css/style.css">
     <link rel="stylesheet" href="/themes/css/tabs.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
   </head>
   <body>
@@ -20,66 +21,70 @@
       <div id="content">
         <div class="form">
           <div class="m1">
-            <label for="einstellungenForm_ablageverzeichnis">Ablageverzeichnis</label>
+            <label for="einstellungenForm_ablageverzeichnis">{{ $t("einstellung.ablageverzeichnis") }}</label>
             <input class="m1" id="einstellungenForm_ablageverzeichnis" type="text" v-model="einstellungen.ablageverzeichnis.wert" />
           </div>
           <hr>
-          <h1>FTP-Server</h1>
+          <h1>{{ $t("einstellung.ftp") }}</h1>
           <div class="m1">
             <div class="m2m">
-              <label for="einstellungenForm_ftp_host">Host</label>
+              <label for="einstellungenForm_ftp_host">{{ $t("einstellung.host") }}</label>
               <input class="m2" id="einstellungenForm_ftp_host" type="text" v-model="einstellungen.ftpHost.wert" />
             </div>
             <div class="m5">
-              <label for="einstellungenForm_ftp_port">Port</label>
+              <label for="einstellungenForm_ftp_port">{{ $t("einstellung.port") }}</label>
               <input class="m5" id="einstellungenForm_ftp_port" type="number" v-model="einstellungen.ftpPort.wert" />
             </div>
           </div>
           <div class="m1">
             <div class="m2m">
-              <label for="einstellungenForm_ftp_user">Benutzername</label>
+              <label for="einstellungenForm_ftp_user">{{ $t("einstellung.benutzer") }}</label>
               <input class="m2" id="einstellungenForm_ftp_user" type="text" v-model="einstellungen.ftpUser.wert" />
             </div>
             <div class="m2">
-              <label for="einstellungenForm_ftp_password">Passwort</label>
+              <label for="einstellungenForm_ftp_password">{{ $t("einstellung.pw") }}</label>
               <input class="m2" id="einstellungenForm_ftp_password" type="password" v-model="einstellungen.ftpPassword.wert" />
             </div>
           <hr>
-          <h1>SMTP-Server</h1>
+          <h1>{{ $t("einstellung.smtp") }}</h1>
           <div class="m1">
             <div class="m2m">
-              <label for="einstellungenForm_smtp_host">Host</label>
+              <label for="einstellungenForm_smtp_host">{{ $t("einstellung.host") }}</label>
               <input class="m2" id="einstellungenForm_smtp_host" type="text" v-model="einstellungen.smtpHost.wert" />
             </div>
             <div class="m5">
-              <label for="einstellungenForm_smtp_port">Port</label>
+              <label for="einstellungenForm_smtp_port">{{ $t("einstellung.port") }}</label>
               <input class="m5" id="einstellungenForm_smtp_port" type="number" v-model="einstellungen.smtpPort.wert" />
             </div>
           </div>
           <div class="m1">
             <div class="m2m">
-              <label for="einstellungenForm_smtp_user">Benutzername</label>
+              <label for="einstellungenForm_smtp_user">{{ $t("einstellung.benutzer") }}</label>
               <input class="m2" id="einstellungenForm_smtp_user" type="text" v-model="einstellungen.smtpUser.wert" />
             </div>
             <div class="m2">
-              <label for="einstellungenForm_smtp_password">Passwort</label>
+              <label for="einstellungenForm_smtp_password">{{ $t("einstellung.pw") }}</label>
               <input class="m2" id="einstellungenForm_smtp_password" type="password" v-model="einstellungen.smtpPassword.wert" />
             </div>
           </div>
           <div class="m1">
-            <label for="einstellungenForm_mail_body_rechnung">E-Mail Inhalt Rechnung versenden</label>
+            <label for="einstellungenForm_mail_body_rechnung">{{ $t("einstellung.email.rechnung") }}</label>
             <textarea class="m1" id="einstellungenForm_mail_body_rechnung" v-model="einstellungen.mailBodyRechnung.wert"></textarea>
           </div>
           <div class="m1">
-            <label for="einstellungenForm_mail_body_reparatur">E-Mail Inhalt Reparaturauftrag erledigt</label>
+            <label for="einstellungenForm_mail_body_reparatur">{{ $t("einstellung.email.reparatur") }}</label>
             <textarea class="m1" id="einstellungenForm_mail_body_reparatur" v-model="einstellungen.mailBodyReparatur.wert"></textarea>
           </div>
           <div class="m1">
-            <label for="einstellungenForm_mail_signatur">E-Mail Signatur</label>
+            <label for="einstellungenForm_mail_body_angebot">{{ $t("einstellung.email.angebot") }}</label>
+            <textarea class="m1" id="einstellungenForm_mail_body_angebot" v-model="einstellungen.mailBodyAngebot.wert"></textarea>
+          </div>
+          <div class="m1">
+            <label for="einstellungenForm_mail_signatur">{{ $t("einstellung.email.signatur") }}</label>
             <textarea class="m1" id="einstellungenForm_mail_signatur" v-model="einstellungen.mailSignatur.wert"></textarea>
           </div>
           <div class="m1">
-            <button class="right" v-on:click="speichernEinstellungen">Speichern</button>
+            <button class="right" v-on:click="speichernEinstellungen">{{ $t("general.speichern") }}</button>
           </div>
         </div>
       </div>
@@ -87,6 +92,7 @@
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/einstellungen/einstellungen.header.component.js"></script>

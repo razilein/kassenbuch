@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/themes/css/raster.css">
     <link rel="stylesheet" href="/themes/css/style.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
@@ -20,33 +21,33 @@
       <div id="content">
         <div class="form m1">
           <div class="m1">
-            <label for="searchForm_firmenname">Firmenname</label>
+            <label for="searchForm_firmenname">{{ $t("kunde.firmenname") }}</label>
             <input class="m1" id="searchForm_firmenname" type="text" v-model="grid.searchQuery.firmenname"></input>
           </div>
           <div class="m1">
             <div class="m2m">
-              <label for="searchForm_nachname">Nachname</label>
+              <label for="searchForm_nachname">{{ $t("kunde.nachname") }}</label>
               <input class="m2" id="searchForm_nachname" type="text" v-model="grid.searchQuery.nachname"></input>
             </div>
             <div class="m2">
-              <label for="searchForm_vorname">Vorname</label>
+              <label for="searchForm_vorname">{{ $t("kunde.vorname") }}</label>
               <input class="m2" id="searchForm_vorname" type="text" v-model="grid.searchQuery.vorname"></input>
             </div>
           </div>
           <div class="m1">
             <div class="m6m">
-              <label for="searchForm_plz">PLZ</label>
+              <label for="searchForm_plz">{{ $t("general.plz") }}</label>
               <input class="m6" id="searchForm_plz" type="text" v-model="grid.searchQuery.plz"></input>
             </div>
             <div class="m3">
-              <label for="searchForm_telefon">Telefon</label>
+              <label for="searchForm_telefon">{{ $t("general.telefon") }}</label>
               <input class="m3" id="searchForm_telefon" type="text" v-model="grid.searchQuery.telefon"></input>
             </div>
           </div>
           <div class="m1">
             <div class="m2 right">
-              <button class="delete" title="Suchfelder leeren" v-on:click="grid.searchQuery = {}; grid.reload = true;"></button>
-              <button class="right" title="Suchen" v-on:click="grid.reload = true;">Suchen</button>
+              <button class="delete" :title="$t('general.suchfelderLeeren')" v-on:click="grid.searchQuery = {}; grid.reload = true;"></button>
+              <button class="right" :title="$t('general.suchen')" v-on:click="grid.reload = true;">{{ $t("general.suchen") }}</button>
             </div>
           </div>
         </div>
@@ -93,6 +94,7 @@
     </div>
   </body>
   <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
   <script src="/scripts/messages.dialog.component.js"></script>
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/grid.component.js"></script>
