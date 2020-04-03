@@ -228,6 +228,7 @@ const messages = {
       tel: 'Tel',
       telefon: 'Telefon',
       uhr: 'Uhr',
+      uhrzeit: 'Uhrzeit',
       unterschriftK: 'Unterschrift Kunde',
       verkaufinfo: 'Verkauf von Neu- und Gebrauchtware. Hardware, Software, Zubehör, Reparatur, Beratung, Service',
       versenden: 'versenden?',
