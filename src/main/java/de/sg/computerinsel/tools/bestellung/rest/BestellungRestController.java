@@ -32,6 +32,7 @@ import de.sg.computerinsel.tools.angebot.dto.AngebotDto;
 import de.sg.computerinsel.tools.angebot.model.Angebot;
 import de.sg.computerinsel.tools.angebot.service.AngebotService;
 import de.sg.computerinsel.tools.bestellung.model.Bestellung;
+import de.sg.computerinsel.tools.bestellung.model.VBestellung;
 import de.sg.computerinsel.tools.bestellung.service.BestellungService;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.service.KundeService;
@@ -66,7 +67,7 @@ public class BestellungRestController {
     private ValidationService validationService;
 
     @PostMapping
-    public Page<Bestellung> list(@RequestBody final SearchData data) {
+    public Page<VBestellung> list(@RequestBody final SearchData data) {
         return service.listBestellungen(data.getData().getPagination(), data.getConditions());
     }
 

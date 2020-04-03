@@ -65,7 +65,7 @@ Vue.component('bestellung-suchen-dialog', {
             formatter: [
             { clazz: 'ok', title: this.$t('bestellung.waehlen'), clickFunc: this.chooseFunction },
           ] },
-          { name: 'nummer', title: this.$t('general.nummer'), width: 80 },
+          { name: 'bestellungNr', title: this.$t('general.nummer'), width: 100 },
           { name: 'beschreibung', title: this.$t('bestellung.titelK'), width: 400 },
           { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), width: 200 },
         ],
@@ -74,7 +74,7 @@ Vue.component('bestellung-suchen-dialog', {
         searchQuery: {
           nachname: this.kunde ? (this.kunde.nachname || this.kunde.firmenname) : null,
         },
-        sort: 'erstelltAm',
+        sort: 'bestellungNr',
         sortorder: 'desc'
       },
       result: {},
