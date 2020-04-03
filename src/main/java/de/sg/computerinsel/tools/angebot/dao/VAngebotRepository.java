@@ -14,37 +14,37 @@ public interface VAngebotRepository extends CrudRepository<VAngebot, Integer> {
 
     Page<VAngebot> findByKundeId(Integer kundeId, Pageable pagination);
 
-    Page<VAngebot> findByKundeSuchfeldNameLikeAndNummerAndKundeNummer(String suchfeldName, Integer nummer, Integer kundeNummer,
+    Page<VAngebot> findByKundeSuchfeldNameLikeAndAngebotNrLikeAndKundeNrLike(String suchfeldName, String angebotNr, String kundeNr,
             Pageable pagination);
 
-    Page<VAngebot> findByNummerAndKundeNummer(Integer nummer, Integer kundeNummer, Pageable pagination);
+    Page<VAngebot> findByAngebotNrLikeAndKundeNrLike(String angebotNr, String kundeNr, Pageable pagination);
 
-    Page<VAngebot> findByKundeSuchfeldNameLikeAndKundeNummer(String suchfeldName, Integer kundeNummer, Pageable pagination);
+    Page<VAngebot> findByKundeSuchfeldNameLikeAndKundeNrLike(String suchfeldName, String kundeNr, Pageable pagination);
 
-    Page<VAngebot> findByKundeNummer(Integer kundeNummer, Pageable pagination);
+    Page<VAngebot> findByKundeNrLike(String kundeNr, Pageable pagination);
 
-    Page<VAngebot> findByKundeSuchfeldNameLikeAndNummerAndKundeNummerAndErledigt(String suchfeldName, Integer nummer, Integer kundeNummer,
-            Boolean erledigt, Pageable pagination);
+    Page<VAngebot> findByKundeSuchfeldNameLikeAndAngebotNrLikeAndKundeNrLikeAndErledigt(String suchfeldName, String angebotNr,
+            String kundeNr, Boolean erledigt, Pageable pagination);
 
-    Page<VAngebot> findByNummerAndKundeNummerAndErledigt(Integer nummer, Integer kundeNummer, Boolean erledigt, Pageable pagination);
+    Page<VAngebot> findByAngebotNrLikeAndKundeNrLikeAndErledigt(String angebotNr, String kundeNr, Boolean erledigt, Pageable pagination);
 
-    Page<VAngebot> findByKundeSuchfeldNameLikeAndKundeNummerAndErledigt(String suchfeldName, Integer kundeNummer, Boolean erledigt,
+    Page<VAngebot> findByKundeSuchfeldNameLikeAndKundeNrLikeAndErledigt(String suchfeldName, String kundeNr, Boolean erledigt,
             Pageable pagination);
 
-    Page<VAngebot> findByKundeNummerAndErledigt(Integer kundeNummer, Boolean erledigt, Pageable pagination);
+    Page<VAngebot> findByKundeNrLikeAndErledigt(String kundeNr, Boolean erledigt, Pageable pagination);
 
-    Page<VAngebot> findByKundeSuchfeldNameLikeAndNummerAndErledigt(String suchfeldName, Integer nummer, Boolean erledigt,
+    Page<VAngebot> findByKundeSuchfeldNameLikeAndAngebotNrLikeAndErledigt(String suchfeldName, String angebotNr, Boolean erledigt,
             Pageable pagination);
 
-    Page<VAngebot> findByNummerAndErledigt(Integer nummer, Boolean erledigt, Pageable pagination);
+    Page<VAngebot> findByAngebotNrLikeAndErledigt(String angebotNr, Boolean erledigt, Pageable pagination);
 
     Page<VAngebot> findByKundeSuchfeldNameLikeAndErledigt(String suchfeldName, Boolean erledigt, Pageable pagination);
 
     Page<VAngebot> findByErledigt(Boolean erledigt, Pageable pagination);
 
-    Page<VAngebot> findByKundeSuchfeldNameLikeAndNummer(String suchfeldName, Integer nummer, Pageable pagination);
+    Page<VAngebot> findByKundeSuchfeldNameLikeAndAngebotNrLike(String suchfeldName, String angebotNr, Pageable pagination);
 
-    Page<VAngebot> findByNummer(Integer nummer, Pageable pagination);
+    Page<VAngebot> findByAngebotNrLike(String angebotNr, Pageable pagination);
 
     Page<VAngebot> findByKundeSuchfeldNameLike(String suchfeldName, Pageable pagination);
 

@@ -24,4 +24,10 @@ public class VAngebot extends BaseAngebot {
     @Column(name = "gesamtbetrag_netto")
     private BigDecimal gesamtbetragNetto;
 
+    @Column(name = "angebot_nr")
+    private String angebotNr;
+
+    @Column(name = "kunde_nr")
+    private String kundeNr;
+
 }

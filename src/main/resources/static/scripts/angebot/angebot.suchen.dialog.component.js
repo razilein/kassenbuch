@@ -67,8 +67,8 @@ Vue.component('angebot-suchen-dialog', {
             formatter: [
             { clazz: 'ok', title: this.$t('angebot.waehlen'), clickFunc: this.chooseFunction },
           ] },
-          { name: 'nummer', title: this.$t('angebot.angebotNr'), width: 80 },
-          { name: 'kunde.nummer', sortable: false, title: this.$t('kunde.kdNr'), width: 80 },
+          { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100 },
+          { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80 },
           { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200 },
           { name: 'gesamtbetragNetto', title: this.$t('general.gesamtNto'), width: 120, formatter: ['money'] },
           { name: 'gesamtbetrag', title: this.$t('general.gesamtBto'), width: 120, formatter: ['money'] },
@@ -80,7 +80,7 @@ Vue.component('angebot-suchen-dialog', {
           nummer: this.angebot && this.angebot.nummer ? this.angebot.nummer : null,
           kundennummer: this.kunde ? this.kunde.nummer : null,
         },
-        sort: 'nummer',
+        sort: 'angebotNr',
         sortorder: 'desc'
       },
       result: {},
