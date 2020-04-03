@@ -65,7 +65,7 @@ Vue.component('reparatur-suchen-dialog', {
             formatter: [
             { clazz: 'ok', title: this.$t('reparatur.waehlen'), clickFunc: this.chooseFunction },
           ] },
-          { name: 'nummer', title: this.$t('reparatur.repNr'), width: 80 },
+          { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80 },
           { name: 'geraet', title: this.$t('general.geraet'), width: 400 },
           { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), width: 200 },
         ],
@@ -74,7 +74,7 @@ Vue.component('reparatur-suchen-dialog', {
         searchQuery: {
           nachname: this.kunde ? (this.kunde.nachname || this.kunde.firmenname) : null,
         },
-        sort: 'nummer',
+        sort: 'reparaturNr',
         sortorder: 'desc'
       },
       result: {},
