@@ -64,7 +64,7 @@ var vm = new Vue({
     editFunction: function(row) {
       var bezeichnung = row.hersteller ? row.hersteller + '-' + row.bezeichnung : row.bezeichnung;
       vm.editEntity = {
-        position: vm.entity.posten.length + 1,
+        position: vm.entity.angebotsposten.length + 1,
         produkt: row,
         menge: 1,
         bezeichnung: bezeichnung,
