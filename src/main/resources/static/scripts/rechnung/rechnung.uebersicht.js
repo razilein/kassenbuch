@@ -37,7 +37,7 @@ var vm = new Vue({
       reload: false,
       restUrl: 'rechnung',
       searchQuery: {},
-      sort: 'nummer',
+      sort: 'rechnungNr',
       sortorder: 'desc'
     },
     zahlarten: [],
@@ -173,10 +173,10 @@ var vm = new Vue({
           { clazz: 'lieferschein', disabled: vm.hasNotRoleRechnungAnzeigen, title: this.$t('rechnung.lieferschein.drucken'), clickFunc: vm.openLieferscheinFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('rechnung.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'nummer', title: this.$t('rechnung.rechnNr'), width: 80 },
-        { name: 'reparatur.nummer', title: this.$t('reparatur.repNr'), width: 80 },
-        { name: 'bestellung.nummer', title: this.$t('bestellung.nummerKurz'), width: 80 },
-        { name: 'kunde.nummer', title: this.$t('kunde.kdNr'), width: 80 },
+        { name: 'rechnungNr', title: this.$t('rechnung.rechnNr'), width: 80 },
+        { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80 },
+        { name: 'bestellungNr', title: this.$t('bestellung.nummerKurz'), width: 80 },
+        { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80 },
         { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), width: 200 },
         { name: 'rechnungsbetrag', title: this.$t('kassenbuch.betrag'), width: 100, formatter: ['money'] },
         { name: 'datum', title: this.$t('general.datum'), width: 120, formatter: ['date'] },

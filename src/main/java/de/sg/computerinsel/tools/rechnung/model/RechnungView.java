@@ -30,4 +30,16 @@ public class RechnungView extends BaseRechnung {
     @Column(name = "mit_reparatur")
     private boolean mitReparatur;
 
+    @Column(name = "bestellung_nr")
+    private String bestellungNr;
+
+    @Column(name = "kunde_nr")
+    private String kundeNr;
+
+    @Column(name = "rechnung_nr")
+    private String rechnungNr;
+
+    @Column(name = "reparatur_nr")
+    private String reparaturNr;
+
 }
