@@ -1,6 +1,7 @@
 package de.sg.computerinsel.tools.kunde.rest;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -60,12 +61,12 @@ public class KundeEmailRestController {
     }
 
     @PostMapping("/angebot")
-    public Map<String, Object> sendeMailAngebot(@RequestParam("file") final MultipartFile file, @RequestParam("id") final Integer id,
-            @RequestParam("anrede") final String anrede) {
+    public Map<String, Object> sendeMailAngebot(@RequestParam("files") final List<MultipartFile> files,
+            @RequestParam("id") final Integer id, @RequestParam("anrede") final String anrede) {
         final Map<String, Object> result = new HashMap<>();
 
         final AngebotDto dto = angebotService.getAngebot(id);
-        service.sendeEmail(file, dto, anrede);
+        service.sendeEmail(files, dto, anrede);
         result.put(Message.SUCCESS.getCode(), messageService.get("email.success"));
         updateKundeAnrede(dto.getAngebot().getKunde(), anrede);
         return result;

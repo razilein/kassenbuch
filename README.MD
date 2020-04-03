@@ -177,8 +177,11 @@ Durch Klick auf das *Bearbeiten-Icon* kann das Angebot bearbeitet werden.
 
 Durch Klick auf das *Duplizieren-Icon* kann das Angebot dupliziert werden.
 
-Durch Klick auf das *E-Mail-Icon* kann dem Kunden das Angebot zugesendet werden. Dazu muss das Angebot zuerst als PDF gedruckt und im
-sich öffnenden Dialog gewählt werden.
+Durch Klick auf das *E-Mail-Icon* kann dem Kunden das Angebot und weitere PDF-Dokumente zugesendet werden. Dazu muss das Angebot zuerst als PDF gedruckt und im
+sich öffnenden Dialog gewählt werden. Alle weiteren Dokumente müssen sich ebenfalls in diesem Ordner befinden und können dort gewählt werden.
+Der Dateiname der Angebotsdatei und der Anhänge ist hier relevant, da diese 1:1 an den Kunden so übermittelt werden.
+Die Sortierung der Dateien in der Liste der Anhänge ist abhängig davon, wie die Dateien im Auswahlexplorer sortiert sind.
+Die Reihenfolge in der Dokumente angeklickt werden ist nicht relevant.
 Dieses Icon ist nur sichtbar, wenn zum Kunden eine E-Mail-Adresse hinterlegt ist.
 
 Durch Klick auf das *Löschen-Icon* kann ein Angebot nach nochmaliger Bestätigung gelöscht werden.

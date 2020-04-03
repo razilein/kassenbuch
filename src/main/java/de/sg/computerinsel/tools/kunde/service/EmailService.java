@@ -3,6 +3,8 @@ package de.sg.computerinsel.tools.kunde.service;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -21,6 +23,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -72,9 +75,11 @@ public class EmailService {
 
             final MimeBodyPart attachmentBodyPart = new MimeBodyPart();
 
+            final String dateiname = "Rechnung_" + rechnung.getNummer() + "_.pdf";
             rechnungFile = File.createTempFile("Rechnung_" + rechnung.getNummer() + "_", ".pdf");
             FileUtils.writeByteArrayToFile(rechnungFile, file.getBytes());
             attachmentBodyPart.attachFile(rechnungFile);
+            attachmentBodyPart.setFileName(dateiname);
 
             final Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(mimeBodyPart);
@@ -124,10 +129,10 @@ public class EmailService {
 
     }
 
-    public void sendeEmail(final MultipartFile file, final AngebotDto dto, final String anrede) {
+    public void sendeEmail(final List<MultipartFile> files, final AngebotDto dto, final String anrede) {
         final Angebot angebot = dto.getAngebot();
         final String nummer = angebot.getFiliale().getKuerzel() + angebot.getNummer();
-        File angebotFile = null;
+        final List<File> angebotFiles = new ArrayList<>();
         try {
             final Kunde kunde = angebot.getKunde();
 
@@ -145,15 +150,25 @@ public class EmailService {
             final MimeBodyPart mimeBodyPart = new MimeBodyPart();
             mimeBodyPart.setText(builder.toString(), StandardCharsets.UTF_8.name());
 
-            final MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+            final List<MimeBodyPart> attachmentBodyPartList = new ArrayList<>();
 
-            angebotFile = File.createTempFile("Angebot_" + angebot.getNummer() + "_", ".pdf");
-            FileUtils.writeByteArrayToFile(angebotFile, file.getBytes());
-            attachmentBodyPart.attachFile(angebotFile);
+            for (final MultipartFile file : files) {
+                final File angebotFile = File.createTempFile(FilenameUtils.removeExtension(file.getOriginalFilename()), ".pdf");
+                FileUtils.writeByteArrayToFile(angebotFile, file.getBytes());
+                angebotFiles.add(angebotFile);
+
+                final MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+                attachmentBodyPart.attachFile(angebotFile);
+                attachmentBodyPart.setFileName(file.getOriginalFilename());
+                attachmentBodyPartList.add(attachmentBodyPart);
+            }
 
             final Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(mimeBodyPart);
-            multipart.addBodyPart(attachmentBodyPart);
+
+            for (final MimeBodyPart attachmentBodyPart : attachmentBodyPartList) {
+                multipart.addBodyPart(attachmentBodyPart);
+            }
 
             message.setContent(multipart);
 
@@ -162,7 +177,9 @@ public class EmailService {
         } catch (final MessagingException | IOException e) {
             throw new IllegalArgumentException(e);
         } finally {
-            FileUtils.deleteQuietly(angebotFile);
+            for (final File file : angebotFiles) {
+                FileUtils.deleteQuietly(file);
+            }
         }
 
     }
