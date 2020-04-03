@@ -28,6 +28,10 @@ var vm = new Vue({
       });
       vm.editPosten(vm.entity.angebotsposten.length - 1);
     },
+    cancelAddNewItem: function() {
+      vm.entity.angebotsposten.pop();
+      vm.showEditDialog = false;
+    },
     addItem: function(index) {
       var posten = vm.entity.angebotsposten[index];
       posten.menge = posten.menge + 1;
