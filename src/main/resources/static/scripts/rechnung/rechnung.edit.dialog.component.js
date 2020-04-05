@@ -69,6 +69,12 @@ Vue.component('edit-dialog', {
         <span class="checkmark"></span>
       </label>
     </div>
+    <div class="m1" v-if="entity.rechnung.angebot">
+      <label for="rechnungEditForm_angebot">{{ $t("general.angebot") }}</label>
+      <button class="angebot btnSmall" :title="$t('angebot.suchen')" @click="showAngebotDialog = true"></button>
+      <button class="delete btnSmall" :title="$t('angebot.deselektieren')" @click="entity.rechnung.angebot = {};"></button>
+      <textarea class="m1 big" id="rechnungEditForm_angebot" readonly v-model="entity.rechnung.angebot.text"></textarea>
+    </div>
     <div class="m1" v-if="entity.rechnung.bestellung">
       <label for="rechnungEditForm_bestellung">{{ $t("bestellung.titelK") }}</label>
       <button class="bestellung btnSmall" :title="$t('bestellung.suchen')" @click="showBestellungDialog = true"></button>
@@ -107,6 +113,13 @@ Vue.component('edit-dialog', {
   @close="showKundeDialog = false"
   @saved="handleKundeResponse"
 ></kunde-suchen-dialog>
+<angebot-suchen-dialog
+  :angebot="entity.rechnung.angebot"
+  :kunde="entity.rechnung.kunde"
+  v-if="showAngebotDialog"
+  @close="showAngebotDialog = false"
+  @saved="handleAngebotResponse"
+></angebot-suchen-dialog>
 <bestellung-suchen-dialog
   :kunde="entity.rechnung.kunde"
   v-if="showBestellungDialog"
@@ -146,6 +159,7 @@ Vue.component('edit-dialog', {
       },
       rabattEntity: {},
       showDialog: false,
+      showAngebotDialog: false,
       showBestellungDialog: false,
       showEditDialog: false,
       showKundeDialog: false,
@@ -204,6 +218,12 @@ Vue.component('edit-dialog', {
         this.entity.rechnung.bestellung = reparatur.bestellung;
       }
     },
+    handleAngebotResponse: function(angebot) {
+      this.showAngebotDialog = false;
+      this.entity.rechnung.angebot = angebot.angebot;
+      this.entity.rechnung.angebot.text = angebot.text;
+      this.entity.rechnung.kunde = angebot.angebot.kunde;
+    },
     handleBestellungResponse: function(bestellung) {
       this.showBestellungDialog = false;
       this.entity.rechnung.bestellung = bestellung;
@@ -234,6 +254,11 @@ Vue.component('edit-dialog', {
     },
     setEntity: function(response) {
       var data = response.data;
+      if (data.rechnung.angebot) {
+        data.rechnung.angebot.text = data.rechnung.angebot.filiale.kuerzel + data.rechnung.angebot.nummerAnzeige;
+      } else {
+        data.rechnung.angebot = {};
+      }
       if (!data.rechnung.bestellung) {
         data.rechnung.bestellung = {};
       }

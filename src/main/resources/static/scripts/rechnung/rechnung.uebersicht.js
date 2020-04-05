@@ -175,6 +175,7 @@ var vm = new Vue({
         ] },
         { name: 'rechnungNr', title: this.$t('rechnung.rechnNr'), width: 80 },
         { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80 },
+        { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100 },
         { name: 'bestellungNr', title: this.$t('bestellung.nummerKurz'), width: 80 },
         { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80 },
         { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), width: 200 },

@@ -42,4 +42,7 @@ public class RechnungView extends BaseRechnung {
     @Column(name = "reparatur_nr")
     private String reparaturNr;
 
+    @Column(name = "angebot_nr")
+    private String angebotNr;
+
 }

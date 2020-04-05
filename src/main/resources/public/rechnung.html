@@ -86,6 +86,12 @@
               <input class="m4" id="rechnungEditForm_lieferdatum" :title="$t('rechnung.lieferdatumInfo')" type="date" v-model="entity.rechnung.lieferdatum" />
             </div>
           </div>
+          <div class="m1" v-if="entity.rechnung.angebot">
+            <label for="rechnungEditForm_angebot">{{ $t("general.angebot") }}</label>
+            <button class="angebot btnSmall" :title="$t('angebot.suchen')" @click="showAngebotDialog = true"></button>
+            <button class="delete btnSmall" :title="$t('angebot.deselektieren')" @click="entity.rechnung.angebot = {};"></button>
+            <textarea class="m1 big" id="rechnungEditForm_angebot" readonly v-model="entity.rechnung.angebot.text"></textarea>
+          </div>
           <div class="m1" v-if="entity.rechnung.bestellung">
             <label for="rechnungEditForm_bestellung">{{ $t("bestellung.titelK") }}</label>
             <button class="bestellung btnSmall" :title="$t('bestellung.suchen')" @click="showBestellungDialog = true"></button>
@@ -128,6 +134,13 @@
         @close="showKundeDialog = false"
         @saved="handleKundeResponse"
       ></kunde-suchen-dialog>
+      <angebot-suchen-dialog
+        :angebot="entity.rechnung.angebot"
+        :kunde="entity.rechnung.kunde"
+        v-if="showAngebotDialog"
+        @close="showAngebotDialog = false"
+        @saved="handleAngebotResponse"
+      ></angebot-suchen-dialog>
       <bestellung-suchen-dialog
         :kunde="entity.rechnung.kunde"
         v-if="showBestellungDialog"
@@ -162,6 +175,7 @@
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/grid.component.js"></script>
   <script src="/scripts/zeichenzaehler.component.js"></script>
+  <script src="/scripts/angebot/angebot.suchen.dialog.component.js"></script>
   <script src="/scripts/bestellung/bestellung.suchen.dialog.component.js"></script>
   <script src="/scripts/reparatur/reparatur.suchen.dialog.component.js"></script>
   <script src="/scripts/kunde/kunde.suchen.dialog.component.js"></script>
