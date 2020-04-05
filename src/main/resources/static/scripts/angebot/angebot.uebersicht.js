@@ -37,7 +37,7 @@ var vm = new Vue({
       reload: false,
       restUrl: 'angebot',
       searchQuery: {},
-      sort: 'nummer',
+      sort: 'angebotNr',
       sortorder: 'desc'
     },
   },
@@ -167,8 +167,8 @@ var vm = new Vue({
           { clazz: 'email', disabled: vm.canSendEmail, title: this.$t('angebot.email'), clickFunc: vm.sendMailFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('angebot.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'nummer', title: this.$t('angebot.angebotNr'), width: 80 },
-        { name: 'kunde.nummer', sortable: false, title: this.$t('kunde.kdNr'), width: 80 },
+        { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100 },
+        { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80 },
         { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200 },
         { name: 'gesamtbetragNetto', title: this.$t('general.gesamtNto'), width: 120, formatter: ['money'] },
         { name: 'gesamtbetrag', title: this.$t('general.gesamtBto'), width: 120, formatter: ['money'] },

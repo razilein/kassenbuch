@@ -48,9 +48,9 @@ public class RechnungService {
     private final RechnungspostenRepository rechnungspostenRepository;
 
     public Page<RechnungView> listRechnungen(final PageRequest pagination, final Map<String, String> conditions) {
-        final String nummer = SearchQueryUtils.getAndRemoveJoker(conditions, "nummer");
-        final String reparaturnummer = SearchQueryUtils.getAndRemoveJoker(conditions, "reparaturnummer");
-        final String kundennummer = SearchQueryUtils.getAndRemoveJoker(conditions, "kundenummer");
+        final String nummer = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "nummer");
+        final String reparaturnummer = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "reparaturnummer");
+        final String kundennummer = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "kundenummer");
         final String ersteller = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "ersteller");
         final String kundeId = SearchQueryUtils.getAndRemoveJoker(conditions, "kunde.id");
         final boolean istNichtBezahlt = BooleanUtils.toBoolean(conditions.get("bezahlt"));
@@ -63,8 +63,8 @@ public class RechnungService {
 
         if (StringUtils.isNumeric(kundeId)) {
             return rechnungViewRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
-        } else if (!StringUtils.isNumeric(nummer) && StringUtils.isBlank(reparaturnummer) && StringUtils.isBlank(ersteller)
-                && !StringUtils.isNumeric(kundennummer) && !istNichtBezahlt && StringUtils.isBlank(posten) && !StringUtils.isNumeric(art)
+        } else if (StringUtils.isBlank(nummer) && StringUtils.isBlank(reparaturnummer) && StringUtils.isBlank(ersteller)
+                && StringUtils.isBlank(kundennummer) && !istNichtBezahlt && StringUtils.isBlank(posten) && !StringUtils.isNumeric(art)
                 && !mitAngebot && !mitBestellung && !mitReparatur) {
             return rechnungViewRepository.findAll(pagination);
         } else if (StringUtils.isNotBlank(posten)) {
@@ -79,24 +79,22 @@ public class RechnungService {
             final FindAllByConditionsExecuter<RechnungView> executer = new FindAllByConditionsExecuter<>();
             final Integer zahlart = StringUtils.isNumeric(art) ? Ints.tryParse(art) : null;
             return executer.findByParams(rechnungViewRepository, pagination,
-                    buildMethodnameForQueryRechnungen(nummer, reparaturnummer, kundennummer, ersteller, istNichtBezahlt, art),
-                    StringUtils.isNumeric(nummer) ? Ints.tryParse(nummer) : null, reparaturnummer,
-                    StringUtils.isNumeric(kundennummer) ? Ints.tryParse(kundennummer) : null, ersteller, istNichtBezahlt ? false : null,
-                    zahlart);
+                    buildMethodnameForQueryRechnungen(nummer, reparaturnummer, kundennummer, ersteller, istNichtBezahlt, art), nummer,
+                    reparaturnummer, kundennummer, ersteller, istNichtBezahlt ? Boolean.FALSE : null, zahlart);
         }
     }
 
-    private String buildMethodnameForQueryRechnungen(final String nummer, final String reparaturnummer, final String kundennummer,
+    private String buildMethodnameForQueryRechnungen(final String rechnungNr, final String reparaturNr, final String kundeNr,
             final String ersteller, final boolean istNichtBezahlt, final String art) {
         String methodName = "findBy";
-        if (StringUtils.isNumeric(nummer)) {
-            methodName += "NummerAnd";
+        if (StringUtils.isNotBlank(rechnungNr)) {
+            methodName += "RechnungNrLikeAnd";
         }
-        if (StringUtils.isNotBlank(reparaturnummer)) {
-            methodName += "ReparaturNummerAnd";
+        if (StringUtils.isNotBlank(reparaturNr)) {
+            methodName += "ReparaturNrLikeAnd";
         }
-        if (StringUtils.isNumeric(kundennummer)) {
-            methodName += "KundeNummerAnd";
+        if (StringUtils.isNotBlank(kundeNr)) {
+            methodName += "KundeNrLikeAnd";
         }
         if (StringUtils.isNotBlank(ersteller)) {
             methodName += "ErstellerLikeAnd";

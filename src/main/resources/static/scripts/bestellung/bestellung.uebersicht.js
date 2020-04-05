@@ -36,7 +36,7 @@ var vm = new Vue({
       reload: false,
       restUrl: 'bestellung',
       searchQuery: {},
-      sort: 'datum',
+      sort: 'bestellungNr',
       sortorder: 'desc'
     },
   },
@@ -137,8 +137,9 @@ var vm = new Vue({
           { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.erledigenFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('bestellung.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'nummer', title: this.$t('general.nummer'), width: 80 },
-        { name: 'kunde.nummer', title: this.$t('kunde.kdNr'), width: 80 },
+        { name: 'bestellungNr', title: this.$t('general.nummer'), width: 100 },
+        { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100 },
+        { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80 },
         { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200 },
         { name: 'datum', title: this.$t('general.datum'), width: 120, formatter: ['date'] },
         { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 100 },

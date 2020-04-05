@@ -37,7 +37,7 @@ var vm = new Vue({
       reload: false,
       restUrl: 'reparatur',
       searchQuery: {},
-      sort: 'nummer',
+      sort: 'reparaturNr',
       sortorder: 'desc'
     },
   },
@@ -157,8 +157,9 @@ var vm = new Vue({
           { clazz: 'email', disabled: vm.canSendEmail, title: this.$t('reparatur.email'), clickFunc: vm.sendMailFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('reparatur.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'nummer', title: this.$t('reparatur.repNr'), width: 80 },
-        { name: 'kunde.nummer', title: this.$t('kunde.kdNr'), width: 80 },
+        { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80 },
+        { name: 'bestellungNr', title: this.$t('bestellung.nummerKurz'), width: 100 },
+        { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80 },
         { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200 },
         { name: 'geraet', title: this.$t('general.geraet'), width: 350 },
         { name: 'expressbearbeitung', title: this.$t('reparatur.express'), width: 90, formatter: ['boolean'] },

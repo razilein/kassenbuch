@@ -38,6 +38,7 @@ Vue.component('bestellung-suchen-dialog', {
   <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
       `, true),
   props: {
+    bestellung: Object,
     kunde: Object,
   },
   created: function() {
@@ -52,6 +53,7 @@ Vue.component('bestellung-suchen-dialog', {
     return {
       rechte: this.rechte || {},
       entity: {
+        bestellung: this.bestellung || {},
         kunde: this.kunde || {}
       },
       showDialog: false,
@@ -65,16 +67,17 @@ Vue.component('bestellung-suchen-dialog', {
             formatter: [
             { clazz: 'ok', title: this.$t('bestellung.waehlen'), clickFunc: this.chooseFunction },
           ] },
-          { name: 'nummer', title: this.$t('general.nummer'), width: 80 },
+          { name: 'bestellungNr', title: this.$t('general.nummer'), width: 100 },
           { name: 'beschreibung', title: this.$t('bestellung.titelK'), width: 400 },
           { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), width: 200 },
         ],
         reload: false,
         restUrl: 'bestellung',
         searchQuery: {
-          nachname: this.kunde ? (this.kunde.nachname || this.kunde.firmenname) : null,
+          nummer: this.bestellung && this.bestellung.nummer ? (this.bestellung.filiale.kuerzel + this.bestellung.nummerAnzeige) : null,
+          kundennummer: this.kunde ? (this.kunde.nummer) : null,
         },
-        sort: 'erstelltAm',
+        sort: 'bestellungNr',
         sortorder: 'desc'
       },
       result: {},

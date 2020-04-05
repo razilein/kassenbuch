@@ -16,73 +16,74 @@ public interface RechnungViewRepository extends CrudRepository<RechnungView, Int
 
     Page<RechnungView> findByArt(Integer art, Pageable pagination);
 
-    Page<RechnungView> findByNummer(Integer nummer, Pageable pagination);
+    Page<RechnungView> findByRechnungNrLike(String rechnungNr, Pageable pagination);
 
-    Page<RechnungView> findByNummerAndReparaturNummerAndBezahlt(Integer nummer, String reparaturnummer, final Boolean bezahlt,
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLikeAndBezahlt(String rechnungNr, String reparaturNr, final Boolean bezahlt,
             Pageable pagination);
 
-    Page<RechnungView> findByNummerAndReparaturNummer(Integer nummer, String reparaturnummer, Pageable pagination);
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLike(String rechnungNr, String reparaturNr, Pageable pagination);
 
-    Page<RechnungView> findByNummerAndReparaturNummerAndErstellerLikeAndBezahlt(Integer nummer, String reparaturnummer, String ersteller,
-            final Boolean bezahlt, Pageable pagination);
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLikeAndErstellerLikeAndBezahlt(String rechnungNr, String reparaturNr,
+            String ersteller, final Boolean bezahlt, Pageable pagination);
 
-    Page<RechnungView> findByNummerAndReparaturNummerAndErstellerLike(Integer nummer, String reparaturnummer, String ersteller,
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLikeAndErstellerLike(String rechnungNr, String reparaturNr, String ersteller,
             Pageable pagination);
 
-    Page<RechnungView> findByNummerAndKundeNummerAndBezahlt(Integer nummer, Integer kundenummer, Boolean bezahlt, Pageable pagination);
+    Page<RechnungView> findByRechnungNrLikeAndKundeNrLikeAndBezahlt(String rechnungNr, String kundeNr, Boolean bezahlt,
+            Pageable pagination);
 
-    Page<RechnungView> findByNummerAndKundeNummer(Integer nummer, Integer kundenummer, Pageable pagination);
+    Page<RechnungView> findByRechnungNrLikeAndKundeNrLike(String rechnungNr, String kundeNr, Pageable pagination);
 
-    Page<RechnungView> findByNummerAndKundeNummerAndErstellerLikeAndBezahlt(Integer nummer, Integer kundenummer, String ersteller,
+    Page<RechnungView> findByRechnungNrLikeAndKundeNrLikeAndErstellerLikeAndBezahlt(String rechnungNr, String kundeNr, String ersteller,
             Boolean bezahlt, Pageable pagination);
 
-    Page<RechnungView> findByNummerAndKundeNummerAndErstellerLike(Integer nummer, Integer kundenummer, String ersteller,
+    Page<RechnungView> findByRechnungNrLikeAndKundeNrLikeAndErstellerLike(String rechnungNr, String kundeNr, String ersteller,
             Pageable pagination);
 
-    Page<RechnungView> findByNummerAndErstellerLikeAndBezahlt(Integer nummer, String ersteller, Boolean bezahlt, Pageable pagination);
+    Page<RechnungView> findByRechnungNrLikeAndErstellerLikeAndBezahlt(String rechnungNr, String ersteller, Boolean bezahlt,
+            Pageable pagination);
 
-    Page<RechnungView> findByNummerAndErstellerLike(Integer nummer, String ersteller, Pageable pagination);
+    Page<RechnungView> findByRechnungNrLikeAndErstellerLike(String rechnungNr, String ersteller, Pageable pagination);
 
-    Page<RechnungView> findByNummerAndReparaturNummerAndKundeNummerAndBezahlt(Integer nummer, String reparaturnummer, Integer kundenummer,
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLikeAndKundeNrLikeAndBezahlt(String rechnungNr, String reparaturNr, String kundeNr,
             final Boolean bezahlt, Pageable pagination);
 
-    Page<RechnungView> findByNummerAndReparaturNummerAndKundeNummer(Integer nummer, String reparaturnummer, Integer kundenummer,
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLikeAndKundeNrLike(String rechnungNr, String reparaturNr, String kundeNr,
             Pageable pagination);
 
-    Page<RechnungView> findByNummerAndReparaturNummerAndKundeNummerAndErstellerLikeAndBezahlt(Integer nummer, String reparaturnummer,
-            Integer kundenummer, String ersteller, Boolean bezahlt, Pageable pagination);
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLikeAndKundeNrLikeAndErstellerLikeAndBezahlt(String rechnungNr, String reparaturNr,
+            String kundeNr, String ersteller, Boolean bezahlt, Pageable pagination);
 
-    Page<RechnungView> findByNummerAndReparaturNummerAndKundeNummerAndErstellerLike(Integer nummer, String reparaturnummer,
-            Integer kundenummer, String ersteller, Pageable pagination);
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLikeAndKundeNrLikeAndErstellerLike(String rechnungNr, String reparaturNr,
+            String kundeNr, String ersteller, Pageable pagination);
 
-    Page<RechnungView> findByReparaturNummerAndBezahlt(String reparaturnummer, Boolean bezahlt, Pageable pagination);
+    Page<RechnungView> findByReparaturNrLikeAndBezahlt(String reparaturNr, Boolean bezahlt, Pageable pagination);
 
-    Page<RechnungView> findByReparaturNummer(String reparaturnummer, Pageable pagination);
+    Page<RechnungView> findByReparaturNrLike(String reparaturNr, Pageable pagination);
 
-    Page<RechnungView> findByReparaturNummerAndKundeNummerAndBezahlt(String reparaturnummer, Integer kundenummer, Boolean bezahlt,
+    Page<RechnungView> findByReparaturNrLikeAndKundeNrLikeAndBezahlt(String reparaturNr, String kundeNr, Boolean bezahlt,
             Pageable pagination);
 
-    Page<RechnungView> findByReparaturNummerAndKundeNummer(String reparaturnummer, Integer kundenummer, Pageable pagination);
+    Page<RechnungView> findByReparaturNrLikeAndKundeNrLike(String reparaturNr, String kundeNr, Pageable pagination);
 
-    Page<RechnungView> findByReparaturNummerAndErstellerLikeAndBezahlt(String reparaturnummer, String ersteller, Boolean bezahlt,
+    Page<RechnungView> findByReparaturNrLikeAndErstellerLikeAndBezahlt(String reparaturNr, String ersteller, Boolean bezahlt,
             Pageable pagination);
 
-    Page<RechnungView> findByReparaturNummerAndErstellerLike(String reparaturnummer, String ersteller, Pageable pagination);
+    Page<RechnungView> findByReparaturNrLikeAndErstellerLike(String reparaturNr, String ersteller, Pageable pagination);
 
-    Page<RechnungView> findByReparaturNummerAndKundeNummerAndErstellerLikeAndBezahlt(String reparaturnummer, Integer kundenummer,
-            String ersteller, Boolean bezahlt, Pageable pagination);
+    Page<RechnungView> findByReparaturNrLikeAndKundeNrLikeAndErstellerLikeAndBezahlt(String reparaturNr, String kundeNr, String ersteller,
+            Boolean bezahlt, Pageable pagination);
 
-    Page<RechnungView> findByReparaturNummerAndKundeNummerAndErstellerLike(String reparaturnummer, Integer kundenummer, String ersteller,
+    Page<RechnungView> findByReparaturNrLikeAndKundeNrLikeAndErstellerLike(String reparaturNr, String kundeNr, String ersteller,
             Pageable pagination);
 
-    Page<RechnungView> findByKundeNummerAndBezahlt(Integer kundenummer, Boolean bezahlt, Pageable pagination);
+    Page<RechnungView> findByKundeNrLikeAndBezahlt(String kundeNr, Boolean bezahlt, Pageable pagination);
 
-    Page<RechnungView> findByKundeNummer(Integer kundenummer, Pageable pagination);
+    Page<RechnungView> findByKundeNrLike(String kundeNr, Pageable pagination);
 
-    Page<RechnungView> findByKundeNummerAndErstellerLikeAndBezahlt(Integer kundenummer, String ersteller, Boolean bezahlt,
-            Pageable pagination);
+    Page<RechnungView> findByKundeNrLikeAndErstellerLikeAndBezahlt(String kundeNr, String ersteller, Boolean bezahlt, Pageable pagination);
 
-    Page<RechnungView> findByKundeNummerAndErstellerLike(Integer kundenummer, String ersteller, Pageable pagination);
+    Page<RechnungView> findByKundeNrLikeAndErstellerLike(String kundeNr, String ersteller, Pageable pagination);
 
     Page<RechnungView> findByErstellerLikeAndBezahlt(String ersteller, Boolean bezahlt, Pageable pagination);
 
@@ -90,77 +91,76 @@ public interface RechnungViewRepository extends CrudRepository<RechnungView, Int
 
     Page<RechnungView> findByBezahlt(Boolean bezahlt, Pageable pagination);
 
-    Page<RechnungView> findByNummerAndArt(Integer nummer, Integer art, Pageable pagination);
+    Page<RechnungView> findByRechnungNrLikeAndArt(String rechnungNr, Integer art, Pageable pagination);
 
-    Page<RechnungView> findByNummerAndReparaturNummerAndBezahltAndArt(Integer nummer, String reparaturnummer, final Boolean bezahlt,
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLikeAndBezahltAndArt(String rechnungNr, String reparaturNr, final Boolean bezahlt,
             Integer art, Pageable pagination);
 
-    Page<RechnungView> findByNummerAndReparaturNummerAndArt(Integer nummer, String reparaturnummer, Integer art, Pageable pagination);
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLikeAndArt(String rechnungNr, String reparaturNr, Integer art,
+            Pageable pagination);
 
-    Page<RechnungView> findByNummerAndReparaturNummerAndErstellerLikeAndBezahltAndArt(Integer nummer, String reparaturnummer,
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLikeAndErstellerLikeAndBezahltAndArt(String rechnungNr, String reparaturNr,
             String ersteller, final Boolean bezahlt, Integer art, Pageable pagination);
 
-    Page<RechnungView> findByNummerAndReparaturNummerAndErstellerLikeAndArt(Integer nummer, String reparaturnummer, String ersteller,
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLikeAndErstellerLikeAndArt(String rechnungNr, String reparaturNr, String ersteller,
             Integer art, Pageable pagination);
 
-    Page<RechnungView> findByNummerAndKundeNummerAndBezahltAndArt(Integer nummer, Integer kundenummer, Boolean bezahlt, Integer art,
+    Page<RechnungView> findByRechnungNrLikeAndKundeNrLikeAndBezahltAndArt(String rechnungNr, String kundeNr, Boolean bezahlt, Integer art,
             Pageable pagination);
 
-    Page<RechnungView> findByNummerAndKundeNummerAndArt(Integer nummer, Integer kundenummer, Integer art, Pageable pagination);
+    Page<RechnungView> findByRechnungNrLikeAndKundeNrLikeAndArt(String rechnungNr, String kundeNr, Integer art, Pageable pagination);
 
-    Page<RechnungView> findByNummerAndKundeNummerAndErstellerLikeAndBezahltAndArt(Integer nummer, Integer kundenummer, String ersteller,
-            Boolean bezahlt, Integer art, Pageable pagination);
-
-    Page<RechnungView> findByNummerAndKundeNummerAndErstellerLikeAndArt(Integer nummer, Integer kundenummer, String ersteller, Integer art,
-            Pageable pagination);
-
-    Page<RechnungView> findByNummerAndErstellerLikeAndBezahltAndArt(Integer nummer, String ersteller, Boolean bezahlt, Integer art,
-            Pageable pagination);
-
-    Page<RechnungView> findByNummerAndErstellerLikeAndArt(Integer nummer, String ersteller, Integer art, Pageable pagination);
-
-    Page<RechnungView> findByNummerAndReparaturNummerAndKundeNummerAndBezahltAndArt(Integer nummer, String reparaturnummer,
-            Integer kundenummer, final Boolean bezahlt, Integer art, Pageable pagination);
-
-    Page<RechnungView> findByNummerAndReparaturNummerAndKundeNummerAndArt(Integer nummer, String reparaturnummer, Integer kundenummer,
-            Integer art, Pageable pagination);
-
-    Page<RechnungView> findByNummerAndReparaturNummerAndKundeNummerAndErstellerLikeAndBezahltAndArt(Integer nummer, String reparaturnummer,
-            Integer kundenummer, String ersteller, Boolean bezahlt, Integer art, Pageable pagination);
-
-    Page<RechnungView> findByNummerAndReparaturNummerAndKundeNummerAndErstellerLikeAndArt(Integer nummer, String reparaturnummer,
-            Integer kundenummer, String ersteller, Integer art, Pageable pagination);
-
-    Page<RechnungView> findByReparaturNummerAndBezahltAndArt(String reparaturnummer, Boolean bezahlt, Integer art, Pageable pagination);
-
-    Page<RechnungView> findByReparaturNummerAndArt(String reparaturnummer, Integer art, Pageable pagination);
-
-    Page<RechnungView> findByReparaturNummerAndKundeNummerAndBezahltAndArt(String reparaturnummer, Integer kundenummer, Boolean bezahlt,
-            Integer art, Pageable pagination);
-
-    Page<RechnungView> findByReparaturNummerAndKundeNummerAndArt(String reparaturnummer, Integer kundenummer, Integer art,
-            Pageable pagination);
-
-    Page<RechnungView> findByReparaturNummerAndErstellerLikeAndBezahltAndArt(String reparaturnummer, String ersteller, Boolean bezahlt,
-            Integer art, Pageable pagination);
-
-    Page<RechnungView> findByReparaturNummerAndErstellerLikeAndArt(String reparaturnummer, String ersteller, Integer art,
-            Pageable pagination);
-
-    Page<RechnungView> findByReparaturNummerAndKundeNummerAndErstellerLikeAndBezahltAndArt(String reparaturnummer, Integer kundenummer,
+    Page<RechnungView> findByRechnungNrLikeAndKundeNrLikeAndErstellerLikeAndBezahltAndArt(String rechnungNr, String kundeNr,
             String ersteller, Boolean bezahlt, Integer art, Pageable pagination);
 
-    Page<RechnungView> findByReparaturNummerAndKundeNummerAndErstellerLikeAndArt(String reparaturnummer, Integer kundenummer,
-            String ersteller, Integer art, Pageable pagination);
-
-    Page<RechnungView> findByKundeNummerAndBezahltAndArt(Integer kundenummer, Boolean bezahlt, Integer art, Pageable pagination);
-
-    Page<RechnungView> findByKundeNummerAndArt(Integer kundenummer, Integer art, Pageable pagination);
-
-    Page<RechnungView> findByKundeNummerAndErstellerLikeAndBezahltAndArt(Integer kundenummer, String ersteller, Boolean bezahlt,
+    Page<RechnungView> findByRechnungNrLikeAndKundeNrLikeAndErstellerLikeAndArt(String rechnungNr, String kundeNr, String ersteller,
             Integer art, Pageable pagination);
 
-    Page<RechnungView> findByKundeNummerAndErstellerLikeAndArt(Integer kundenummer, String ersteller, Integer art, Pageable pagination);
+    Page<RechnungView> findByRechnungNrLikeAndErstellerLikeAndBezahltAndArt(String rechnungNr, String ersteller, Boolean bezahlt,
+            Integer art, Pageable pagination);
+
+    Page<RechnungView> findByRechnungNrLikeAndErstellerLikeAndArt(String rechnungNr, String ersteller, Integer art, Pageable pagination);
+
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLikeAndKundeNrLikeAndBezahltAndArt(String rechnungNr, String reparaturNr,
+            String kundeNr, final Boolean bezahlt, Integer art, Pageable pagination);
+
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLikeAndKundeNrLikeAndArt(String rechnungNr, String reparaturNr, String kundeNr,
+            Integer art, Pageable pagination);
+
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLikeAndKundeNrLikeAndErstellerLikeAndBezahltAndArt(String rechnungNr,
+            String reparaturNr, String kundeNr, String ersteller, Boolean bezahlt, Integer art, Pageable pagination);
+
+    Page<RechnungView> findByRechnungNrLikeAndReparaturNrLikeAndKundeNrLikeAndErstellerLikeAndArt(String rechnungNr, String reparaturNr,
+            String kundeNr, String ersteller, Integer art, Pageable pagination);
+
+    Page<RechnungView> findByReparaturNrLikeAndBezahltAndArt(String reparaturNr, Boolean bezahlt, Integer art, Pageable pagination);
+
+    Page<RechnungView> findByReparaturNrLikeAndArt(String reparaturNr, Integer art, Pageable pagination);
+
+    Page<RechnungView> findByReparaturNrLikeAndKundeNrLikeAndBezahltAndArt(String reparaturNr, String kundeNr, Boolean bezahlt, Integer art,
+            Pageable pagination);
+
+    Page<RechnungView> findByReparaturNrLikeAndKundeNrLikeAndArt(String reparaturNr, String kundeNr, Integer art, Pageable pagination);
+
+    Page<RechnungView> findByReparaturNrLikeAndErstellerLikeAndBezahltAndArt(String reparaturNr, String ersteller, Boolean bezahlt,
+            Integer art, Pageable pagination);
+
+    Page<RechnungView> findByReparaturNrLikeAndErstellerLikeAndArt(String reparaturNr, String ersteller, Integer art, Pageable pagination);
+
+    Page<RechnungView> findByReparaturNrLikeAndKundeNrLikeAndErstellerLikeAndBezahltAndArt(String reparaturNr, String kundeNr,
+            String ersteller, Boolean bezahlt, Integer art, Pageable pagination);
+
+    Page<RechnungView> findByReparaturNrLikeAndKundeNrLikeAndErstellerLikeAndArt(String reparaturNr, String kundeNr, String ersteller,
+            Integer art, Pageable pagination);
+
+    Page<RechnungView> findByKundeNrLikeAndBezahltAndArt(String kundeNr, Boolean bezahlt, Integer art, Pageable pagination);
+
+    Page<RechnungView> findByKundeNrLikeAndArt(String kundeNr, Integer art, Pageable pagination);
+
+    Page<RechnungView> findByKundeNrLikeAndErstellerLikeAndBezahltAndArt(String kundeNr, String ersteller, Boolean bezahlt, Integer art,
+            Pageable pagination);
+
+    Page<RechnungView> findByKundeNrLikeAndErstellerLikeAndArt(String kundeNr, String ersteller, Integer art, Pageable pagination);
 
     Page<RechnungView> findByErstellerLikeAndBezahltAndArt(String ersteller, Boolean bezahlt, Integer art, Pageable pagination);
 

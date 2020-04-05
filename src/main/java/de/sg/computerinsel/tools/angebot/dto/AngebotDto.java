@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 import de.sg.computerinsel.tools.CurrencyUtils;
 import de.sg.computerinsel.tools.angebot.model.Angebot;
 import de.sg.computerinsel.tools.angebot.model.Angebotsposten;
@@ -50,8 +48,7 @@ public class AngebotDto {
     }
 
     public String getNummerAnzeige() {
-        final String nummerAnzeige = String.valueOf(angebot.getNummer());
-        return StringUtils.left(nummerAnzeige, 2) + "-A" + StringUtils.substring(nummerAnzeige, 2);
+        return angebot.getNummerAnzeige();
     }
 
 }

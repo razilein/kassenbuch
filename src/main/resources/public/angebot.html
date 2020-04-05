@@ -34,7 +34,7 @@
                 <th class="tableNavi">
                   <button
                     class="add"
-                    title="Posten hinzufügen"
+                    :title="$t('angebot.postenHinzufuegen')"
                     v-on:click="addNewItem()"
                   ></button>
                 </th>
@@ -106,7 +106,7 @@
         :entity="editEntity"
         :title="$t('angebot.postenBearbeiten')"
         v-if="showEditDialog"
-        @close="showEditDialog = false"
+        @close="cancelAddNewItem"
         @saved="handleEditResponse"
       ></posten-edit-dialog>
     </div>

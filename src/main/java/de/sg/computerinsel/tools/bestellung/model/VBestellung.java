@@ -1,6 +1,4 @@
-package de.sg.computerinsel.tools.angebot.model;
-
-import java.math.BigDecimal;
+package de.sg.computerinsel.tools.bestellung.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,19 +11,16 @@ import lombok.Setter;
 
 @Entity
 @Immutable
-@Table(name = "VANGEBOT")
+@Table(name = "VBESTELLUNG")
 @Getter
 @Setter
-public class VAngebot extends BaseAngebot {
-
-    @Column(name = "gesamtbetrag")
-    private BigDecimal gesamtbetrag;
-
-    @Column(name = "gesamtbetrag_netto")
-    private BigDecimal gesamtbetragNetto;
+public class VBestellung extends BaseBestellung {
 
     @Column(name = "angebot_nr")
     private String angebotNr;
+
+    @Column(name = "bestellung_nr")
+    private String bestellungNr;
 
     @Column(name = "kunde_nr")
     private String kundeNr;

@@ -43,32 +43,28 @@ public class AngebotService {
 
     public Page<VAngebot> listAngebote(final PageRequest pagination, final Map<String, String> conditions) {
         final String name = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "suchfeld_name");
-        final String nummer = SearchQueryUtils.getAndRemoveJoker(conditions, "nummer");
-        String kundennummer = SearchQueryUtils.getAndRemoveJoker(conditions, "kundennummer");
-        kundennummer = StringUtils.isNumeric(kundennummer) ? kundennummer : null;
+        final String nummer = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "nummer");
+        final String kundennummer = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "kundennummer");
         final String kundeId = SearchQueryUtils.getAndRemoveJoker(conditions, "kunde.id");
         final boolean istNichtErledigt = BooleanUtils.toBoolean(conditions.get("erledigt"));
         final String bezeichnung = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "bezeichnung");
 
         if (StringUtils.isNumeric(kundeId)) {
             return vAngebotRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
-        } else if (StringUtils.isBlank(name) && !StringUtils.isNumeric(nummer) && StringUtils.isBlank(bezeichnung) && !istNichtErledigt
-                && kundennummer == null) {
+        } else if (StringUtils.isBlank(name) && StringUtils.isBlank(nummer) && StringUtils.isBlank(bezeichnung) && !istNichtErledigt
+                && StringUtils.isBlank(kundennummer)) {
             return vAngebotRepository.findAll(pagination);
         } else if (StringUtils.isNotBlank(bezeichnung)) {
             return vAngebotRepository.findByPostenBezeichnungLike(bezeichnung, pagination);
         } else if (istNichtErledigt) {
             final FindAllByConditionsExecuter<VAngebot> executer = new FindAllByConditionsExecuter<>();
-            final Integer kdNr = kundennummer == null ? null : Ints.tryParse(kundennummer);
-            final Integer nr = StringUtils.isNumeric(nummer) ? Ints.tryParse(nummer) : null;
             return executer.findByParams(vAngebotRepository, pagination,
-                    buildMethodnameForQueryAngebot(name, nummer, kundennummer, istNichtErledigt), name, nr, kdNr, !istNichtErledigt);
+                    buildMethodnameForQueryAngebot(name, nummer, kundennummer, istNichtErledigt), name, nummer, kundennummer,
+                    !istNichtErledigt);
         } else {
             final FindAllByConditionsExecuter<VAngebot> executer = new FindAllByConditionsExecuter<>();
-            final Integer kdNr = kundennummer == null ? null : Ints.tryParse(kundennummer);
-            final Integer nr = StringUtils.isNumeric(nummer) ? Ints.tryParse(nummer) : null;
             return executer.findByParams(vAngebotRepository, pagination, buildMethodnameForQueryAngebot(name, nummer, kundennummer, false),
-                    name, nr, kdNr);
+                    name, nummer, kundennummer);
         }
     }
 
@@ -78,11 +74,11 @@ public class AngebotService {
         if (StringUtils.isNotBlank(name)) {
             methodName += "KundeSuchfeldNameLikeAnd";
         }
-        if (StringUtils.isNumeric(nummer)) {
-            methodName += "NummerAnd";
+        if (StringUtils.isNotBlank(nummer)) {
+            methodName += "AngebotNrLikeAnd";
         }
         if (StringUtils.isNotBlank(kundennummer)) {
-            methodName += "KundeNummerAnd";
+            methodName += "KundeNrLikeAnd";
         }
         if (istNichtErledigt) {
             methodName += "ErledigtAnd";

@@ -25,6 +25,7 @@ var vm = new Vue({
     rabattEntity: {},
     result: {},
     showDialog: false,
+    showAngebotDialog: false,
     showBestellungDialog: false,
     showEditDialog: false,
     showKundeDialog: false,
@@ -160,6 +161,28 @@ var vm = new Vue({
         vm.entity.rechnung.nameDrucken = true;
         vm.entity.rechnung.nameDruckenBeiFirma = vm.entity.rechnung.kunde.nameDruckenBeiFirma;
       }
+    },
+    handleAngebotResponse: function(angebot) {
+      vm.showAngebotDialog = false;
+      vm.entity.rechnung.angebot = angebot.angebot;
+      vm.entity.rechnung.angebot.text = angebot.text;
+      vm.entity.rechnung.kunde = angebot.angebot.kunde;
+
+      angebot.angebotsposten.forEach(function(p) {
+        var produkt = {
+          position: vm.entity.posten.length + 1,
+          produkt: p.produkt,
+          menge: p.menge,
+          bezeichnung: p.bezeichnung,
+          seriennummer: null,
+          hinweis: null,
+          preis: p.preis,
+          rabatt: 0
+        };
+        vm.entity.posten.push(produkt);
+      });
+
+      vm.berechneEndpreis();
     },
     openRechnung: function(response) {
       var data = response.data;

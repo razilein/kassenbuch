@@ -13,7 +13,7 @@ Vue.component('angebot-versenden-dialog', {
               <textarea class="m1" id="angebotversenden_anrede" maxlength="1000" type="text" v-model="anrede"></textarea>
             </div>
             <div class="m1">
-              <input accept="application/pdf" class="m1" name="file" ref="angebotFile" type="file" @change="loadFile">
+              <input accept="application/pdf" class="m1" name="file" multiple ref="angebotFile" type="file" @change="loadFile">
             </div>
           </div>
           <div class="dialog-footer">
@@ -34,7 +34,7 @@ Vue.component('angebot-versenden-dialog', {
   },
   methods: {
     loadFile: function() {
-      this.file = this.$refs.angebotFile.files[0];
+      this.files = this.$refs.angebotFile.files;
     },
     sendFunc: function() {
       showLoader();
@@ -43,7 +43,10 @@ Vue.component('angebot-versenden-dialog', {
     executeSend: function() {
       const config = { headers: { 'Content-Type': 'multipart/form-data' } };
       let fd = new FormData();
-      fd.append('file', this.file);
+      for (var i = 0; i < this.files.length; i++) {
+        var file = this.files[i];
+        fd.append('files', file);
+      }
       fd.append('id', this.row.id);
       fd.append('anrede', this.anrede);
       return axios.post('email/angebot', fd, config);

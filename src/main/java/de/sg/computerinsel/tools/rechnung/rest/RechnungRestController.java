@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -35,6 +36,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.sg.computerinsel.tools.angebot.dto.AngebotDto;
+import de.sg.computerinsel.tools.angebot.service.AngebotService;
 import de.sg.computerinsel.tools.bestellung.model.Bestellung;
 import de.sg.computerinsel.tools.bestellung.service.BestellungService;
 import de.sg.computerinsel.tools.einkauf.service.EinkaufService;
@@ -64,6 +67,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/rechnung")
 @Slf4j
 public class RechnungRestController {
+
+    @Autowired
+    private AngebotService angebotService;
 
     @Autowired
     private BestellungService bestellungService;
@@ -150,6 +156,9 @@ public class RechnungRestController {
         if (rechnung.getReparatur() != null && rechnung.getReparatur().getId() == null) {
             rechnung.setReparatur(null);
         }
+        if (rechnung.getAngebot() != null && rechnung.getAngebot().getId() == null) {
+            rechnung.setAngebot(null);
+        }
         if (rechnung.getKunde() != null && rechnung.getKunde().getId() == null) {
             rechnung.setKunde(null);
         }
@@ -167,10 +176,13 @@ public class RechnungRestController {
             final Rechnung saved = service.saveRechnung(rechnung);
             savePosten(dto.getPosten(), saved);
             reparaturErledigen(saved);
+            angebotErledigen(saved);
             bestellungErledigen(saved);
             if (isErstellt) {
-                inventarAnpassen(dto);
-                einkaufService.saveEinkaufsliste(dto.getPosten());
+                final List<Rechnungsposten> posten = dto.getPosten().stream()
+                        .filter(p -> p.getProdukt() != null && p.getProdukt().getId() != null).collect(Collectors.toList());
+                inventarAnpassen(posten);
+                einkaufService.saveEinkaufsliste(posten);
             }
             if (isErstellt && rechnung.getKunde() != null && !rechnung.getKunde().isDsgvo()) {
                 kundeService.saveDsgvo(rechnung.getKunde().getId());
@@ -211,14 +223,23 @@ public class RechnungRestController {
         return result;
     }
 
-    private void inventarAnpassen(final RechnungDTO dto) {
-        inventarService.bestandReduzieren(dto.getPosten());
+    private void inventarAnpassen(final List<Rechnungsposten> posten) {
+        inventarService.bestandReduzieren(posten);
     }
 
     private void savePosten(final List<Rechnungsposten> list, final Rechnung rechnung) {
         for (final Rechnungsposten posten : list) {
             posten.setRechnung(rechnung);
             service.savePosten(posten);
+        }
+    }
+
+    private void angebotErledigen(final Rechnung saved) {
+        if (saved.getAngebot() != null && saved.getAngebot().getId() != null) {
+            final AngebotDto dto = angebotService.getAngebot(saved.getAngebot().getId());
+            if (dto.getAngebot().getId() != null) {
+                angebotService.angebotErledigen(dto.getAngebot(), true);
+            }
         }
     }
 

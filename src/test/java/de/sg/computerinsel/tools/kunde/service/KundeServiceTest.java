@@ -38,7 +38,7 @@ class KundeServiceTest {
         method.setAccessible(true);
         assertEquals(null, method.invoke(service, (String) null));
         assertEquals(null, method.invoke(service, StringUtils.EMPTY));
-        assertEquals("%0%1%2%3%4%5%6%7%8%9%0%", method.invoke(service, "01-2  345/ 67*89\\0"));
+        assertEquals("01234567*890", method.invoke(service, "01-2  345/ 67*89\\0"));
     }
 
     @ParameterizedTest

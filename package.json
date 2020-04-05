@@ -1,6 +1,6 @@
 {
   "name": "kassenbuch",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "Kassenbuchprogramm für die Computer-Insel",
   "main": "index.js",
   "scripts": {
@@ -30,6 +30,6 @@
     "axios": "0.19.2",
     "moment": "2.24.0",
     "vue": "2.6.11",
-    "vue-i18n": "^8.15.3"
+    "vue-i18n": "8.16.0"
   }
 }

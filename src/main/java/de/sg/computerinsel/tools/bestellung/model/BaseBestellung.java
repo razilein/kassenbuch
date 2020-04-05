@@ -1,4 +1,4 @@
-package de.sg.computerinsel.tools.rechnung.model;
+package de.sg.computerinsel.tools.bestellung.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,41 +15,44 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import de.sg.computerinsel.tools.angebot.model.Angebot;
-import de.sg.computerinsel.tools.bestellung.model.Bestellung;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
-import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import lombok.Getter;
 import lombok.Setter;
 
 @MappedSuperclass
 @Getter
 @Setter
-public class BaseRechnung extends IntegerBaseObject {
-
-    public static final int MAX_LENGTH_MITARBEITER = 200;
+public class BaseBestellung extends IntegerBaseObject {
 
     @ManyToOne
     @JoinColumn(name = "angebot_id", referencedColumnName = "id")
     private Angebot angebot;
 
-    @ManyToOne
-    @JoinColumn(name = "bestellung_id", referencedColumnName = "id")
-    private Bestellung bestellung;
+    @NotEmpty(message = "bestellung.anzahlung.error.empty")
+    @Size(max = 300, message = "bestellung.anzahlung.error.size")
+    @Column(name = "anzahlung")
+    private String anzahlung;
 
-    @Column(name = "art")
-    private int art = 0;
-
-    @Column(name = "bezahlt")
-    private boolean bezahlt = false;
+    @Size(max = 2000, message = "bestellung.beschreibung.error.size")
+    @Column(name = "beschreibung")
+    private String beschreibung;
 
     @Column(name = "datum")
-    private LocalDate datum = LocalDate.now();
+    private LocalDate datum;
+
+    @Column(name = "erledigt")
+    private boolean erledigt = false;
+
+    @Column(name = "erledigungsdatum")
+    private LocalDateTime erledigungsdatum;
 
     @Column(name = "ersteller")
-    @Size(max = MAX_LENGTH_MITARBEITER, message = "rechnung.ersteller.error")
     private String ersteller;
+
+    @Column(name = "erstellt_am")
+    private LocalDateTime erstelltAm;
 
     @ManyToOne
     @JoinColumn(name = "filiale_id", referencedColumnName = "id")
@@ -58,18 +62,13 @@ public class BaseRechnung extends IntegerBaseObject {
     @JoinColumn(name = "kunde_id", referencedColumnName = "id")
     private Kunde kunde;
 
-    @Column(name = "name_drucken")
-    private boolean nameDrucken = false;
+    @NotEmpty(message = "bestellung.kosten.error.empty")
+    @Size(max = 300, message = "bestellung.kosten.error.size")
+    @Column(name = "kosten")
+    private String kosten;
 
     @Column(name = "nummer")
     private int nummer;
-
-    @ManyToOne
-    @JoinColumn(name = "reparatur_id", referencedColumnName = "id")
-    private Reparatur reparatur;
-
-    @Column(name = "erstellt_am")
-    private LocalDateTime erstelltAm;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate getDatum() {
@@ -82,13 +81,8 @@ public class BaseRechnung extends IntegerBaseObject {
     }
 
     public String getNummerAnzeige() {
-        final String nummerAnzeige = String.valueOf(this.nummer);
-        return StringUtils.left(nummerAnzeige, 2) + "-" + StringUtils.substring(nummerAnzeige, 2);
-    }
-
-    public String getNummerAnzeigeLieferschein() {
-        final String nummerAnzeige = String.valueOf(this.nummer);
-        return StringUtils.left(nummerAnzeige, 2) + "-L" + StringUtils.substring(nummerAnzeige, 2);
+        final String nummerAnzeige = String.valueOf(this.getNummer());
+        return StringUtils.left(nummerAnzeige, 2) + "-B" + StringUtils.substring(nummerAnzeige, 2);
     }
 
 }

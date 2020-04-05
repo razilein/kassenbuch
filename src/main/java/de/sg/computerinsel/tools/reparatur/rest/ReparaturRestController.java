@@ -44,6 +44,7 @@ import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.reparatur.model.PruefstatusGeraet;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
+import de.sg.computerinsel.tools.reparatur.model.VReparatur;
 import de.sg.computerinsel.tools.reparatur.service.FeiertagUtils;
 import de.sg.computerinsel.tools.reparatur.service.ReparaturService;
 import de.sg.computerinsel.tools.rest.Message;
@@ -83,7 +84,7 @@ public class ReparaturRestController {
     private ValidationService validationService;
 
     @PostMapping
-    public Page<Reparatur> getReparaturen(@RequestBody final SearchData data) {
+    public Page<VReparatur> getReparaturen(@RequestBody final SearchData data) {
         if (StringUtils.isBlank(data.getData().getSort())) {
             data.getData().setSort("abholdatum");
             data.getData().setSortorder(Sort.Direction.DESC.name());

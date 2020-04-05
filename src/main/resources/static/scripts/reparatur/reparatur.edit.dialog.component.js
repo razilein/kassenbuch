@@ -100,6 +100,7 @@ Vue.component('edit-dialog', {
     </div>
   </div>
   <bestellung-suchen-dialog
+    :bestellung="entity.bestellung"
     :kunde="entity.kunde"
     v-if="showBestellungDialog"
     @close="showBestellungDialog = false"
