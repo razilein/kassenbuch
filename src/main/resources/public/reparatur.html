@@ -127,6 +127,7 @@
       </div>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
       <bestellung-suchen-dialog
+        :bestellung="entity.bestellung"
         :kunde="entity.kunde"
         v-if="showBestellungDialog"
         @close="showBestellungDialog = false"

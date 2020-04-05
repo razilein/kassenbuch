@@ -121,12 +121,14 @@ Vue.component('edit-dialog', {
   @saved="handleAngebotResponse"
 ></angebot-suchen-dialog>
 <bestellung-suchen-dialog
+  :bestellung="entity.rechnung.bestellung"
   :kunde="entity.rechnung.kunde"
   v-if="showBestellungDialog"
   @close="showBestellungDialog = false"
   @saved="handleBestellungResponse"
 ></bestellung-suchen-dialog>
 <reparatur-suchen-dialog
+  :reparatur="entity.rechnung.reparatur"
   :kunde="entity.rechnung.kunde"
   v-if="showReparaturDialog"
   @close="showReparaturDialog = false"

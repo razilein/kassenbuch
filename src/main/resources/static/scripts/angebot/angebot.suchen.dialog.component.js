@@ -77,7 +77,7 @@ Vue.component('angebot-suchen-dialog', {
         reload: false,
         restUrl: 'angebot',
         searchQuery: {
-          nummer: this.angebot && this.angebot.nummer ? this.angebot.nummer : null,
+          nummer: this.angebot && this.angebot.nummer ? (this.angebot.filiale.kuerzel + this.angebot.nummerAnzeige) : null,
           kundennummer: this.kunde ? this.kunde.nummer : null,
         },
         sort: 'angebotNr',

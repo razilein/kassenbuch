@@ -38,6 +38,7 @@ Vue.component('bestellung-suchen-dialog', {
   <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
       `, true),
   props: {
+    bestellung: Object,
     kunde: Object,
   },
   created: function() {
@@ -52,6 +53,7 @@ Vue.component('bestellung-suchen-dialog', {
     return {
       rechte: this.rechte || {},
       entity: {
+        bestellung: this.bestellung || {},
         kunde: this.kunde || {}
       },
       showDialog: false,
@@ -72,7 +74,8 @@ Vue.component('bestellung-suchen-dialog', {
         reload: false,
         restUrl: 'bestellung',
         searchQuery: {
-          nachname: this.kunde ? (this.kunde.nachname || this.kunde.firmenname) : null,
+          nummer: this.bestellung && this.bestellung.nummer ? (this.bestellung.filiale.kuerzel + this.bestellung.nummerAnzeige) : null,
+          kundennummer: this.kunde ? (this.kunde.nummer) : null,
         },
         sort: 'bestellungNr',
         sortorder: 'desc'
