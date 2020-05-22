@@ -183,8 +183,8 @@
                             <goal>install-node-and-npm</goal>
                         </goals>
                         <configuration>
-                            <nodeVersion>v12.14.0</nodeVersion>
-                            <npmVersion>6.13.4</npmVersion>
+                            <nodeVersion>v12.16.3</nodeVersion>
+                            <npmVersion>6.14.5</npmVersion>
                         </configuration>
                     </execution>
 
