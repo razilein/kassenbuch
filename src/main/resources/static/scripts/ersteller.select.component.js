@@ -10,13 +10,13 @@ Vue.component('ersteller-select', {
   </div>
   `,
   props: {
-    reset: Boolean,
+    reset: Boolean
   },
   data: function() {
     this.loadEntity();
     return {
       mitarbeiter: [],
-      selection: '',
+      selection: ''
     };
   },
   mounted() {
@@ -48,7 +48,6 @@ Vue.component('ersteller-select', {
     },
     changeMitarbeiter: function() {
       this.$emit('changed', this.selection);
-    },
+    }
   }
 });
-
