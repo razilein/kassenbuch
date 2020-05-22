@@ -62,6 +62,7 @@ public class ExportImportService {
                         dto.getEan());
             } else {
                 final Produkt produkt = produkteByEan.get(0);
+                produkt.setBezeichnung(dto.getBezeichnung());
                 produkt.setBestandUnendlich(dto.isBestandUnendlich());
                 produkt.setPreisEkBrutto(dto.getPreisEkBrutto());
                 produkt.setPreisEkNetto(dto.getPreisEkNetto());
