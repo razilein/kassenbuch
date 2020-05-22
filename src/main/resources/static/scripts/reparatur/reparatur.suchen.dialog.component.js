@@ -68,7 +68,7 @@ Vue.component('reparatur-suchen-dialog', {
             { clazz: 'ok', title: this.$t('reparatur.waehlen'), clickFunc: this.chooseFunction },
           ] },
           { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80 },
-          { name: 'geraet', title: this.$t('general.geraet'), width: 400 },
+          { name: 'geraet', title: this.$t('general.geraet'), width: 400, formatter: [ 'overflow' ] },
           { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), width: 200 },
         ],
         reload: false,

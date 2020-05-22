@@ -68,7 +68,7 @@ Vue.component('bestellung-suchen-dialog', {
             { clazz: 'ok', title: this.$t('bestellung.waehlen'), clickFunc: this.chooseFunction },
           ] },
           { name: 'bestellungNr', title: this.$t('general.nummer'), width: 100 },
-          { name: 'beschreibung', title: this.$t('bestellung.titelK'), width: 400 },
+          { name: 'beschreibung', title: this.$t('bestellung.titelK'), width: 400, formatter: [ 'overflow' ] },
           { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), width: 200 },
         ],
         reload: false,
