@@ -46,14 +46,15 @@ var vm = new Vue({
     },
     
     init: function() {
-      vm.prepareRoles();
-      vm.setGridColumns();
-      vm.getEinstellungDruckansichtNeuesFenster().then(vm.setEinstellungDruckansichtNeuesFenster);
+      vm.prepareRoles()
+        .then(vm.setGridColumns)
+        .then(vm.getEinstellungDruckansichtNeuesFenster)
+        .then(vm.setEinstellungDruckansichtNeuesFenster);
     },
     
     prepareRoles: function() {
       vm.getRecht('ROLE_KASSENBUCH');
-      vm.getRecht('ROLE_KASSENBUCH_VERWALTEN');
+      return vm.getRecht('ROLE_KASSENBUCH_VERWALTEN');
     },
     
     openFunction: function(row) {

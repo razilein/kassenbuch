@@ -118,21 +118,21 @@ var vm = new Vue({
     },
     
     init: function() {
-      vm.prepareRoles();
       if (vm.kundeId) {
         vm.grid.searchQuery['kunde.id'] = vm.kundeId;
         vm.grid.reload = true;
       }
-      vm.getZahlarten()
+      vm.prepareRoles()
+        .then(vm.getZahlarten)
         .then(vm.setZahlarten)
         .then(vm.getEinstellungDruckansichtNeuesFenster)
-        .then(vm.setEinstellungDruckansichtNeuesFenster);
-      vm.setGridColumns();
+        .then(vm.setEinstellungDruckansichtNeuesFenster)
+        .then(vm.setGridColumns);
     },
     
     prepareRoles: function() {
       vm.getRecht('ROLE_RECHNUNG');
-      vm.getRecht('ROLE_RECHNUNG_VERWALTEN');
+      return vm.getRecht('ROLE_RECHNUNG_VERWALTEN');
     },
     
     hasNotRoleRechnungAnzeigen: function() {

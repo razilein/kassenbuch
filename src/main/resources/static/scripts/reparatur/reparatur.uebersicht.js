@@ -114,18 +114,19 @@ var vm = new Vue({
     },
 
     init: function() {
-      vm.prepareRoles();
       if (vm.kundeId) {
         vm.grid.searchQuery['kunde.id'] = vm.kundeId;
         vm.grid.reload = true;
       }
-      vm.getEinstellungDruckansichtNeuesFenster().then(vm.setEinstellungDruckansichtNeuesFenster);
-      vm.setGridColumns();
+      vm.prepareRoles()
+        .then(vm.getEinstellungDruckansichtNeuesFenster)
+        .then(vm.setEinstellungDruckansichtNeuesFenster)
+        .then(vm.setGridColumns);
     },
     
     prepareRoles: function() {
       vm.getRecht('ROLE_REPARATUR');
-      vm.getRecht('ROLE_REPARATUR_VERWALTEN');
+      return vm.getRecht('ROLE_REPARATUR_VERWALTEN');
     },
     
     hasNotRoleReparaturAnzeigen: function() {
