@@ -2,9 +2,7 @@ package de.sg.computerinsel.tools.rechnung.dao;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 import de.sg.computerinsel.tools.rechnung.model.RechnungView;
 
@@ -183,8 +181,7 @@ public interface RechnungViewRepository extends CrudRepository<RechnungView, Int
 
     Page<RechnungView> findByMitAngebot(Boolean mitAngebot, Pageable pagination);
 
-    @Query(value = "SELECT * FROM vrechnung WHERE EXISTS ( SELECT 1 FROM rechnungsposten WHERE rechnungsposten.rechnung_id = vrechnung.id AND (bezeichnung LIKE :bezeichnung OR seriennummer LIKE :seriennummer OR hinweis LIKE :hinweis))", countQuery = "SELECT COUNT(*) FROM vrechnung WHERE EXISTS ( SELECT 1 FROM rechnungsposten WHERE rechnungsposten.rechnung_id = vrechnung.id AND (bezeichnung LIKE :bezeichnung OR seriennummer LIKE :seriennummer OR hinweis LIKE :hinweis))", nativeQuery = true)
-    Page<RechnungView> findByPostenBezeichnungLikeOrPostenSeriennummerLikeOrPostenHinweisLike(@Param("bezeichnung") String bezeichnung,
-            @Param("seriennummer") String seriennummer, @Param("hinweis") String hinweis, Pageable pagination);
+    Page<RechnungView> findByPostenBezeichnungLikeOrPostenSeriennummerLikeOrPostenHinweisLike(String bezeichnung, String seriennummer,
+            String hinweis, Pageable pagination);
 
 }

@@ -178,7 +178,7 @@ var vm = new Vue({
         { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100 },
         { name: 'bestellungNr', title: this.$t('bestellung.nummerKurz'), width: 80 },
         { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80 },
-        { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), width: 200 },
+        { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), sortable: false, width: 200 },
         { name: 'rechnungsbetrag', title: this.$t('kassenbuch.betrag'), width: 100, formatter: ['money'] },
         { name: 'datum', title: this.$t('general.datum'), width: 120, formatter: ['date'] },
         { name: 'ersteller', title: this.$t('general.ersteller'), width: 150 },
