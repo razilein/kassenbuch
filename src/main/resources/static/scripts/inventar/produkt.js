@@ -84,11 +84,12 @@ var vm = new Vue({
     },
     
     init: function() {
-      vm.prepareRoles();
-      vm.setGridSearch();
-      vm.setGridActions();
-      vm.setGridColumns();
-      this.getKategorien().then(this.setKategorien);
+      this.getKategorien()
+        .then(this.setKategorien)
+        .then(vm.prepareRoles)
+        .then(vm.setGridSearch)
+        .then(vm.setGridActions)
+        .then(vm.setGridColumns);
     },
     
     prepareRoles: function() {

@@ -26,7 +26,7 @@ const messages = {
       produktDl: 'Produkt/Dienstleistung',
       suchen: 'Angebot suchen',
       waehlen: 'Dieses Angebot wählen',
-      wiedereroeffnen: 'Das Angebot wurde erledigt. Angebot wiedereröffnen?',
+      wiedereroeffnen: 'Das Angebot wurde erledigt. Angebot wiedereröffnen?'
     },
     bestellung: {
       anzahlung: 'Anzahlung',
@@ -47,13 +47,13 @@ const messages = {
       waehlen: 'Diese Bestellung wählen',
       wareBestellt: 'Ware bestellt am',
       wareErhalten: 'Ware erhalten am',
-      wiedereroeffnen: 'Die Bestellung wurde erledigt. Bestellung wiedereröffnen?',
+      wiedereroeffnen: 'Die Bestellung wurde erledigt. Bestellung wiedereröffnen?'
     },
     einkauf: {
       hochladen: 'Einkauf hochladen',
       hochladenInfo: 'Einkauf auf den FTP-Server hochladen',
       vorschlag: 'Vorschlag aus kürzlich verkauften Produkten',
-      vorschlagLeeren: 'Vorschlagsliste leeren',
+      vorschlagLeeren: 'Vorschlagsliste leeren'
     },
     einstellung: {
       ablageverzeichnis: 'Ablageverzeichnis',
@@ -64,7 +64,7 @@ const messages = {
         angebot: 'E-Mail Inhalt Angebot versenden',
         rechnung: 'E-Mail Inhalt Rechnung versenden',
         reparatur: 'E-Mail Inhalt Reparaturauftrag erledigt',
-        signatur: 'E-Mail Signatur',
+        signatur: 'E-Mail Signatur'
       },
       filiale: {
         bearbeiten: 'Filiale bearbeiten',
@@ -72,7 +72,7 @@ const messages = {
           bar: 'Haben Bar',
           ec: 'Haben EC',
           paypal: 'Haben PayPal',
-          ueberweisung: 'Haben Überweisung',
+          ueberweisung: 'Haben Überweisung'
         },
         hinzufuegen: 'Filiale hinzufügen',
         kuerzel: 'Kürzel für Aufträge',
@@ -83,8 +83,8 @@ const messages = {
           bar: 'Soll Bar',
           ec: 'Soll EC',
           paypal: 'Soll PayPal',
-          ueberweisung: 'Soll Überweisung',
-        },
+          ueberweisung: 'Soll Überweisung'
+        }
       },
       ftp: 'FTP-Server',
       host: 'Host',
@@ -106,11 +106,11 @@ const messages = {
         pwFuer: 'Passwort für',
         resetPw: 'Passwort zurücksetzen',
         resetPwFrage: 'Wollen Sie das Passwort des Benutzers zurücksetzen?',
-        telefonPrivat: 'Telefon (privat)',
+        telefonPrivat: 'Telefon (privat)'
       },
       pw: 'Passwort',
       port: 'Port',
-      smtp: 'SMTP-Server',
+      smtp: 'SMTP-Server'
     },
     'export': {
       datumBis: 'Änderungsdatum bis',
@@ -119,7 +119,7 @@ const messages = {
       keinExport: 'Produkt nicht exportieren',
       keineProdukte: 'Keine Produkte zum Export verfügbar',
       produktExport: 'Produkte exportieren',
-      titel: 'Export',
+      titel: 'Export'
     },
     general: {
       abbrechen: 'Abbrechen',
@@ -188,7 +188,7 @@ const messages = {
         erfolg: 'Erfolg',
         fehler: 'Fehler',
         information: 'Information',
-        warnung: 'Warnung',
+        warnung: 'Warnung'
       },
       menge: 'Menge',
       mengeErhoehen: 'Menge um 1 erhöhen',
@@ -213,8 +213,8 @@ const messages = {
       rabatt: 'Rabatt',
       rechnung: 'Rechnung',
       rechnungen: 'Rechnungen',
-      reparatur: 'Reparatur', 
-      reparaturen: 'Reparaturen', 
+      reparatur: 'Reparatur',
+      reparaturen: 'Reparaturen',
       senden: 'Senden',
       seite: 'Seite',
       seiteVor: 'Zur nächsten Seite',
@@ -237,20 +237,20 @@ const messages = {
       willkommen: 'Willkommen!',
       wochentag: 'Wochentag',
       zumGewaehltenKunden: 'zum gewählten Kunden',
-      zuruecksetzen: 'zurücksetzen',
+      zuruecksetzen: 'zurücksetzen'
     },
     'import': {
       importieren: 'Importieren',
       keinImport: 'Produkt nicht importieren',
       keineProdukte: 'Keine Produkte zum Import verfügbar',
       produktImport: 'Produkte importieren',
-      titel: 'Import',
+      titel: 'Import'
     },
     inventar: {
       inventur: {
         durchfuehren: 'Inventur durchführen',
         erstellen: 'Inventur erstellen',
-        titel: 'Inventur',
+        titel: 'Inventur'
       },
       produkt: {
         aufgerundet: 'Aufgerundet',
@@ -278,20 +278,20 @@ const messages = {
         vkPreisB: 'VK Preis brutto',
         vkPreisBGesamt: 'Gesamtpreis VK Brutto',
         vkPreisN: 'VK Preis netto',
-        vorschlagVk: 'Vorschlag VK-Preis',
+        vorschlagVk: 'Vorschlag VK-Preis'
       },
       produkte: 'Produkte',
       gruppe: {
         bearbeiten: 'Gruppe bearbeiten',
         hinzufuegen: 'Gruppe hinzufügen',
-        loeschen: 'Gruppe löschen',
+        loeschen: 'Gruppe löschen'
       },
       gruppen: 'Gruppen',
       kategorie: {
         bearbeiten: 'Kategorie bearbeiten',
         hinzufuegen: 'Kategorie hinzufügen',
-        loeschen: 'Kategorie löschen',
-      },
+        loeschen: 'Kategorie löschen'
+      }
     },
     kassenbuch: {
       ausgabe: 'Ausgabe',
@@ -310,12 +310,12 @@ const messages = {
         differenz: 'Differenz',
         gesamtKasse: 'Gesamt Kasse',
         gesamtKassenbuch: 'Gesamt Kassenbuch',
-        titel: 'Kassenstand',
+        titel: 'Kassenstand'
       },
       loeschen: 'Kassenbuch löschen',
       oeffnen: 'Kassenbuch öffnen',
       verwendungszweck: 'Verwendungszweck',
-      vom: 'Kassenbuch vom',
+      vom: 'Kassenbuch vom'
     },
     kunde: {
       akademischerTitel: 'Akademischer Titel',
@@ -324,7 +324,7 @@ const messages = {
         angebot: 'Angebote anzeigen',
         bestellung: 'Bestellungen anzeigen',
         rechnung: 'Rechnungen anzeigen',
-        reparatur: 'Reparaturaufträge anzeigen',
+        reparatur: 'Reparaturaufträge anzeigen'
       },
       bearbeiten: 'Kunde bearbeiten',
       deselektieren: 'Kunde deselektieren',
@@ -342,10 +342,10 @@ const messages = {
       suchen: 'Kunde suchen',
       suchfeldTelefon: 'Telefon / Mobil',
       vorname: 'Vorname',
-      waehlen: 'Diesen Kunden wählen',
+      waehlen: 'Diesen Kunden wählen'
     },
     profil: {
-      meinProfil: 'Mein Profil',
+      meinProfil: 'Mein Profil'
     },
     rechnung: {
       auftragsnummer: 'Auftragsnummer',
@@ -361,14 +361,14 @@ const messages = {
       lieferdatumInfo: 'Wird das Feld leer gelassen, entspricht das Lieferdatum dem Rechnungsdatum',
       lieferschein: {
         drucken: 'Lieferschein drucken',
-        titel: 'Lieferschein',
+        titel: 'Lieferschein'
       },
       loeschen: 'Rechnung löschen',
       markieren: 'markieren?',
       mit: {
         angebot: 'Mit Angeboten',
         bestellung: 'Mit Bestellungen',
-        reparatur: 'Mit Reparaturaufträgen',
+        reparatur: 'Mit Reparaturaufträgen'
       },
       mwst: 'enth. MwSt. (19%)',
       nameDrucken: 'Soll der Name auf die Rechnung gedruckt werden?',
@@ -398,7 +398,7 @@ const messages = {
       },
       zahlungsartBarZusatz: '(Betrag in Bar erhalten)',
       zahlungsartUeZusatz: 'Zahlbar ohne Abzüge innerhalb von 7 Tagen auf das unten angegebene Konto mit dem Verwendungszweck',
-      zuvielePosten: 'Achtung! Es sind zu viele Posten auf der Rechnung. Bitte auf zwei Rechnungen aufteilen!',
+      zuvielePosten: 'Achtung! Es sind zu viele Posten auf der Rechnung. Bitte auf zwei Rechnungen aufteilen!'
     },
     reparatur: {
       abholbeleg: 'Abholbeleg',
@@ -416,7 +416,7 @@ const messages = {
         entsorgung: 'zur Entsorgung überlassen zu haben.',
         info: 'Hiermit bestätige ich (Kunde), das oben genannte Gerät inkl. Zubehör vollständig',
         nichtRepariert: 'nicht repariert zurück erhalten zu haben.',
-        repariert: 'repariert zurück erhalten zu haben.',
+        repariert: 'repariert zurück erhalten zu haben.'
       },
       deselektieren: 'Reparaturauftrag deselektieren',
       email: 'Kunde per E-Mail über Abschluss des Auftrags informieren',
@@ -454,15 +454,15 @@ const messages = {
       symptome: 'Symptome',
       symptomeFehler: 'Symptome / Fehler',
       waehlen: 'Diesen Reparaturauftrag wählen',
-      wiedereroeffnen: 'Der Auftrag wurde erledigt. Auftrag wiedereröffnen?',
+      wiedereroeffnen: 'Der Auftrag wurde erledigt. Auftrag wiedereröffnen?'
     },
     statistik: {
       bezeichnung: 'Bezeichnung Rechnungsposten (Optional)',
       rechnungsdatumBis: 'Rechnungsdatum bis',
       rechnungsdatumVon: 'Rechnungsdatum von',
       titel: 'Statistiken',
-      ueberweisungen: 'Überweisungen',
-    },
+      ueberweisungen: 'Überweisungen'
+    }
   },
   en: {
     general: {
@@ -470,7 +470,7 @@ const messages = {
       gesellschafter: 'Associate: Stefan Weiske, Peer Dernoscheck',
       internet: 'Internet',
       steuernr: 'Tax ID: 232/167/37105',
-      tel: 'Phone',
+      tel: 'Phone'
     }
   },
   ru: {
@@ -479,17 +479,17 @@ const messages = {
       gesellschafter: 'акционер: Stefan Weiske, Peer Dernoscheck',
       internet: 'интернетный',
       steuernr: 'идентификационный номер налогоплательщика: 232/167/37105',
-      tel: 'телефон',
+      tel: 'телефон'
     }
   }
-}
+};
 
 var i18n;
 
 function changeLanguage(l) {
   i18n = new VueI18n({
     locale: l,
-    messages,
+    messages
   });
 }
 changeLanguage('de');

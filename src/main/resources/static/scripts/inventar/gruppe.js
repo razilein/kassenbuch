@@ -72,14 +72,15 @@ var vm = new Vue({
     },
     
     init: function() {
-      vm.prepareRoles();
-      vm.setGridActions();
-      vm.setGridColumns();
-      this.getKategorien().then(this.setKategorien);
+      this.getKategorien()
+        .then(this.setKategorien)
+        .then(vm.prepareRoles)
+        .then(vm.setGridActions)
+        .then(vm.setGridColumns);
     },
     
     prepareRoles: function() {
-      vm.getRecht('ROLE_INVENTAR_GRUPPE_VERWALTEN');
+      return vm.getRecht('ROLE_INVENTAR_GRUPPE_VERWALTEN');
     },
     
     setGridColumns: function() {

@@ -107,15 +107,15 @@ var vm = new Vue({
     },
     
     init: function() {
-      vm.prepareRoles();
-      vm.setGridActions();
-      vm.setGridColumns();
+      vm.prepareRoles()
+        .then(vm.setGridActions)
+        .then(vm.setGridColumns);
     },
     
     prepareRoles: function() {
       vm.getRecht('ROLE_MITARBEITER_RECHTE');
       vm.getRecht('ROLE_MITARBEITER_RESET');
-      vm.getRecht('ROLE_MITARBEITER_VERWALTEN');
+      return vm.getRecht('ROLE_MITARBEITER_VERWALTEN');
     },
     
     hasNotRoleEditRecht: function() {

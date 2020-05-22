@@ -57,13 +57,13 @@ var vm = new Vue({
     },
 
     init: function() {
-      vm.prepareRoles();
-      vm.setGridActions();
-      vm.setGridColumns();
+      vm.prepareRoles()
+        .then(vm.setGridActions)
+        .then(vm.setGridColumns);
     },
     
     prepareRoles: function() {
-      vm.getRecht('ROLE_FILIALEN_VERWALTEN');
+      return vm.getRecht('ROLE_FILIALEN_VERWALTEN');
     },
     
     hasNotRoleVerwalten: function() {

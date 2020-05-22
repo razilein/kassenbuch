@@ -66,7 +66,9 @@ var vm = new Vue({
     sendMailFunction: function(row) {
       vm.versendenDialog.row = row;
       vm.showVersendenDialog = true;
-      vm.openFunction(row, 1);
+      if (row.art !== 2) {
+        vm.openFunction(row, 1);
+      }
     },
     
     handleSendResponse: function(data) {
@@ -116,21 +118,21 @@ var vm = new Vue({
     },
     
     init: function() {
-      vm.prepareRoles();
       if (vm.kundeId) {
         vm.grid.searchQuery['kunde.id'] = vm.kundeId;
         vm.grid.reload = true;
       }
-      vm.getZahlarten()
+      vm.prepareRoles()
+        .then(vm.getZahlarten)
         .then(vm.setZahlarten)
         .then(vm.getEinstellungDruckansichtNeuesFenster)
-        .then(vm.setEinstellungDruckansichtNeuesFenster);
-      vm.setGridColumns();
+        .then(vm.setEinstellungDruckansichtNeuesFenster)
+        .then(vm.setGridColumns);
     },
     
     prepareRoles: function() {
       vm.getRecht('ROLE_RECHNUNG');
-      vm.getRecht('ROLE_RECHNUNG_VERWALTEN');
+      return vm.getRecht('ROLE_RECHNUNG_VERWALTEN');
     },
     
     hasNotRoleRechnungAnzeigen: function() {
@@ -178,7 +180,7 @@ var vm = new Vue({
         { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100 },
         { name: 'bestellungNr', title: this.$t('bestellung.nummerKurz'), width: 80 },
         { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80 },
-        { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), width: 200 },
+        { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), sortable: false, width: 200 },
         { name: 'rechnungsbetrag', title: this.$t('kassenbuch.betrag'), width: 100, formatter: ['money'] },
         { name: 'datum', title: this.$t('general.datum'), width: 120, formatter: ['date'] },
         { name: 'ersteller', title: this.$t('general.ersteller'), width: 150 },

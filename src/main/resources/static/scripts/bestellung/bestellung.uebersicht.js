@@ -95,18 +95,19 @@ var vm = new Vue({
     },
 
     init: function() {
-      vm.prepareRoles();
       if (vm.kundeId) {
         vm.grid.searchQuery['kunde.id'] = vm.kundeId;
         vm.grid.reload = true;
       }
-      vm.getEinstellungDruckansichtNeuesFenster().then(vm.setEinstellungDruckansichtNeuesFenster);
-      vm.setGridColumns();
+      vm.prepareRoles()
+        .then(vm.getEinstellungDruckansichtNeuesFenster)
+        .then(vm.setEinstellungDruckansichtNeuesFenster)
+        .then(vm.setGridColumns);
     },
     
     prepareRoles: function() {
       vm.getRecht('ROLE_BESTELLUNG');
-      vm.getRecht('ROLE_BESTELLUNG_VERWALTEN');
+      return vm.getRecht('ROLE_BESTELLUNG_VERWALTEN');
     },
     
     hasNotRoleBestellungAnzeigen: function() {
@@ -139,8 +140,8 @@ var vm = new Vue({
         ] },
         { name: 'bestellungNr', title: this.$t('general.nummer'), width: 100 },
         { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100 },
-        { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80 },
         { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200 },
+        { name: 'beschreibung', title: this.$t('general.beschreibung'), width: 350, formatter: [ 'overflow' ] },
         { name: 'datum', title: this.$t('general.datum'), width: 120, formatter: ['date'] },
         { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 100 },
         { name: 'ersteller', title: this.$t('general.ersteller'), width: 200 }

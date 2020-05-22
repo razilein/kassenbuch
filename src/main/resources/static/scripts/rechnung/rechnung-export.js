@@ -31,13 +31,13 @@ var vm = new Vue({
     },
 
     init: function() {
-      vm.prepareRoles();
-      vm.getMonate()
+      vm.prepareRoles()
+        .then(vm.getMonate)
         .then(vm.setMonate);
     },
 
     prepareRoles: function() {
-      vm.getRecht('ROLE_RECHNUNG_EXPORT');
+      return vm.getRecht('ROLE_RECHNUNG_EXPORT');
     },
 
     hasNotRoleExport: function() {

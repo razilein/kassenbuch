@@ -42,7 +42,7 @@
       <div class="font15">{{ $t("bestellung.nummer") }}: {{entity.filiale.kuerzel}}{{entity.nummerAnzeige}}</div>
       <div class="font15">{{ $t("bestellung.verkaeufer") }}: {{entity.ersteller}}</div>
       <br>
-      <table class="font16">
+      <table class="font12">
         <tbody>
           <tr>
             <td class="s1" valign="middle">{{ $t("bestellung.titelK") }}:</td>
@@ -85,7 +85,7 @@
           </tr>
         </tbody>
       </table>
-      <table class="font16">
+      <table class="font12">
         <tbody>
           <tr>
             <td class="s5">{{ $t("general.datum") }}:</td>
@@ -98,7 +98,7 @@
       <hr />
       {{ $t("general.notizen") }}:
       <br>
-      <table class="font16">
+      <table class="font12">
         <tbody>
           <tr>
             <td style="padding-top: 8px;">&#9744;</td>
@@ -109,7 +109,7 @@
         </tbody>
       </table>
       <br>
-      <table style="width: 650px;">
+      <table style="width: 650px;" class="font12">
         <tbody>
           <tr>
             <td style="border: 1px solid black;">
@@ -121,7 +121,7 @@
           </tr>
          </tbody>
        </table>
-       <table>
+       <table class="font12">
          <thead>
           <tr>
             <td style="width: 150px;">{{ $t("general.datumZeit") }}</td>
@@ -133,7 +133,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr height="35" v-for="index in 3">
+          <tr height="25" v-for="index in 3">
             <td style="border-bottom: 1px solid black; width: 150px;">&nbsp;</td>
             <td style="border-bottom: 1px solid black; width: 300px;">&nbsp;</td>
             <td style="width: 40px;">&#9744;</td>

@@ -109,9 +109,9 @@ var vm = new Vue({
     },
     
     init: function() {
-      vm.prepareRoles();
-      vm.setGridActions();
-      vm.setGridColumns();
+      vm.prepareRoles()
+        .then(vm.setGridActions)
+        .then(vm.setGridColumns);
     },
     
     prepareRoles: function() {
@@ -119,7 +119,7 @@ var vm = new Vue({
       vm.getRecht('ROLE_KUNDEN_BESTELLUNGEN');
       vm.getRecht('ROLE_KUNDEN_REPARATUR');
       vm.getRecht('ROLE_KUNDEN_RECHNUNG');
-      vm.getRecht('ROLE_KUNDEN_VERWALTEN');
+      return vm.getRecht('ROLE_KUNDEN_VERWALTEN');
     },
     
     hasNotRoleAngeboteAnzeigen: function(row) {

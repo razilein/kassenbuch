@@ -8,6 +8,10 @@
   font-size: 12px;
 }
 
+.font12 {
+  font-size: 13px;
+}
+
 .font15 {
   font-size: 15px;
 }
@@ -23,7 +27,7 @@
 td.s1 {
   align: left;
   border: none;
-  height: 35px;
+  height: 20px;
   padding: 0;
   width: 120px;
 }
@@ -31,7 +35,7 @@ td.s1 {
 td.s5 {
   align: left;
   border: none;
-  height: 35px;
+  height: 20px;
   padding: 0;
   width: 105px;
 }
@@ -42,7 +46,7 @@ td.s2, td.s3, td.s4 {
   border-left: none;
   border-right: none;
   border-top: none;
-  height: 35px;
+  height: 20px;
   padding-bottom: 0.1cm;
   padding-left: 0cm;
   padding-right: 0cm;

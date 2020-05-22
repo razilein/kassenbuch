@@ -34,8 +34,7 @@ var vm = new Vue({
     },
 
     init: function() {
-      vm.prepareRoles();
-      vm.search();
+      vm.prepareRoles().then(vm.search);
     },
 
     removeItem: function(index) {
@@ -47,7 +46,7 @@ var vm = new Vue({
     },
 
     prepareRoles: function() {
-      vm.getRecht('ROLE_INVENTAR_EXPORT');
+      return vm.getRecht('ROLE_INVENTAR_EXPORT');
     },
 
     hasNotRoleExport: function() {

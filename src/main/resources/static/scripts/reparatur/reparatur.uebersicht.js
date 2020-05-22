@@ -114,18 +114,19 @@ var vm = new Vue({
     },
 
     init: function() {
-      vm.prepareRoles();
       if (vm.kundeId) {
         vm.grid.searchQuery['kunde.id'] = vm.kundeId;
         vm.grid.reload = true;
       }
-      vm.getEinstellungDruckansichtNeuesFenster().then(vm.setEinstellungDruckansichtNeuesFenster);
-      vm.setGridColumns();
+      vm.prepareRoles()
+        .then(vm.getEinstellungDruckansichtNeuesFenster)
+        .then(vm.setEinstellungDruckansichtNeuesFenster)
+        .then(vm.setGridColumns);
     },
     
     prepareRoles: function() {
       vm.getRecht('ROLE_REPARATUR');
-      vm.getRecht('ROLE_REPARATUR_VERWALTEN');
+      return vm.getRecht('ROLE_REPARATUR_VERWALTEN');
     },
     
     hasNotRoleReparaturAnzeigen: function() {
@@ -161,7 +162,7 @@ var vm = new Vue({
         { name: 'bestellungNr', title: this.$t('bestellung.nummerKurz'), width: 100 },
         { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80 },
         { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200 },
-        { name: 'geraet', title: this.$t('general.geraet'), width: 350 },
+        { name: 'geraet', title: this.$t('general.geraet'), width: 350, formatter: [ 'overflow' ] },
         { name: 'expressbearbeitung', title: this.$t('reparatur.express'), width: 90, formatter: ['boolean'] },
         { name: 'abholdatum', title: this.$t('reparatur.abholdatum'), width: 120, formatter: ['date'] },
         { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 100 }
