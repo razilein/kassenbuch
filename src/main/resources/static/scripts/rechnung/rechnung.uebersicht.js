@@ -66,7 +66,9 @@ var vm = new Vue({
     sendMailFunction: function(row) {
       vm.versendenDialog.row = row;
       vm.showVersendenDialog = true;
-      vm.openFunction(row, 1);
+      if (row.art !== 2) {
+        vm.openFunction(row, 1);
+      }
     },
     
     handleSendResponse: function(data) {
