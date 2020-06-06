@@ -21,12 +21,12 @@
           <div class="form">
             <form autocomplete="on">
               <div class="m1">
-                <label for="loginForm_benutzername">{{ $t("einstellung.benutzer") }}</label>
-                <input autofocus class="m1" id="loginForm_benutzername" name="username" maxlength="50" type="text" v-model="model.username" />
+                <label for="username">{{ $t("einstellung.benutzer") }}</label>
+                <input autofocus class="m1" id="username" name="username" maxlength="50" type="text" v-model="model.username" />
               </div>
               <div class="m1">
-                <label for="loginForm_passwort">{{ $t("einstellung.pw") }}</label>
-                <input class="m1" id="loginForm_passwort" maxlength="500" name="password" type="password" v-model="model.password" />
+                <label for="password">{{ $t("einstellung.pw") }}</label>
+                <input class="m1" id="password" maxlength="500" name="password" type="password" v-model="model.password" />
               </div>
             </form>
             <button class="m2 right" v-on:click="login" @keyup.enter.native="login">{{ $t("einstellung.anmelden") }}</button>

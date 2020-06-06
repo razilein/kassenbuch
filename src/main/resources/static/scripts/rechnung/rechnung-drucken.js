@@ -65,7 +65,7 @@ var vm = new Vue({
         vm.gesamtsumme = vm.gesamtsumme + element.gesamt;
         vm.gesamtrabatt = vm.gesamtrabatt + element.rabatt;
       });
-      vm.gesamtnetto = vm.gesamtsumme / 1.19;
+      vm.gesamtnetto = vm.gesamtsumme * 100 / (vm.entity.rechnung.mwst + 100.0);
       vm.gesamtmwst = vm.gesamtsumme - vm.gesamtnetto;
       vm.entity.rechnung.datum = formatDate(vm.entity.rechnung.datum);
       vm.entity.rechnung.lieferdatum = formatDate(vm.entity.rechnung.lieferdatum);

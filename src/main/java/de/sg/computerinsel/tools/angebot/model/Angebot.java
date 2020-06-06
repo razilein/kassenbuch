@@ -1,5 +1,8 @@
 package de.sg.computerinsel.tools.angebot.model;
 
+import java.math.BigDecimal;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -11,5 +14,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Angebot extends BaseAngebot {
+
+    @Column(name = "mwst")
+    private BigDecimal mwst;
 
 }

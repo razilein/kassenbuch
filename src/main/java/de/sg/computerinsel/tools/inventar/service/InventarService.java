@@ -1,5 +1,7 @@
 package de.sg.computerinsel.tools.inventar.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
@@ -171,6 +173,16 @@ public class InventarService {
 
     private static boolean isBegrenzterBestand(final Rechnungsposten p) {
         return p.getProdukt() != null && p.getProdukt().getId() != null && !p.getProdukt().isBestandUnendlich();
+    }
+
+    public int mwstAnpassungVkNetto(final BigDecimal mwst) {
+        final List<Produkt> produkte = produktRepository.findByPreisVkBruttoIsNotNull();
+        produkte.stream().map(p -> {
+            p.setPreisVkNetto(
+                    p.getPreisVkBrutto().multiply(new BigDecimal("100")).divide(mwst.add(new BigDecimal("100")), RoundingMode.HALF_UP));
+            return p;
+        }).forEach(produktRepository::save);
+        return produkte.size();
     }
 
 }

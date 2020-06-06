@@ -1,5 +1,6 @@
 package de.sg.computerinsel.tools.rechnung.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -22,6 +23,9 @@ public class Rechnung extends BaseRechnung {
 
     @Column(name = "lieferdatum")
     private LocalDate lieferdatum;
+
+    @Column(name = "mwst")
+    private BigDecimal mwst;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate getLieferdatum() {

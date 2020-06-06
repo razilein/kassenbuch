@@ -57,4 +57,6 @@ public interface ProduktRepository extends CrudRepository<Produkt, Integer> {
     List<Produkt> findByAenderungsdatumAfterAndAenderungsdatumBeforeAndEanIsNotNull(LocalDateTime aendarungsdatumVon,
             LocalDateTime aenderungsdatumBis);
 
+    List<Produkt> findByPreisVkBruttoIsNotNull();
+
 }

@@ -86,7 +86,8 @@ Vue.component('edit-dialog', {
         }
       },
       gruppen: [],
-      kategorien: []
+      kategorien: [],
+      mwst: 0
     };
   },
   methods: {
@@ -95,18 +96,18 @@ Vue.component('edit-dialog', {
     },
     berechnePreisByVkNetto: function() {
       var preisVkNetto = this.entity.preisVkNetto;
-      this.entity.preisVkBrutto = Number((preisVkNetto * 1.19).toFixed(2));
+      this.entity.preisVkBrutto = Number((preisVkNetto * (this.mwst + 100.00) / 100).toFixed(2));
     },
     berechnePreisByVkBrutto: function() {
       var preisVkbrutto = this.entity.preisVkBrutto;
-      this.entity.preisVkNetto = Number((preisVkbrutto / 1.19).toFixed(2));
+      this.entity.preisVkNetto = Number((preisVkbrutto * 100 / (this.mwst + 100.00)).toFixed(2));
     },
     berechnePreisByEkNetto: function() {
-      this.entity.preisEkBrutto = Number((this.entity.preisEkNetto * 1.19).toFixed(2));
+      this.entity.preisEkBrutto = Number((this.entity.preisEkNetto * (this.mwst + 100.00) / 100).toFixed(2));
     },
     berechnePreisByEkBrutto: function() {
       var preisEkBrutto = this.entity.preisEkBrutto;
-      this.entity.preisEkNetto = Number((preisEkBrutto / 1.19).toFixed(2));
+      this.entity.preisEkNetto = Number((preisEkBrutto * 100 / (this.mwst + 100.00)).toFixed(2));
     },
     loadEntity: function() {
       showLoader();
@@ -116,6 +117,8 @@ Vue.component('edit-dialog', {
         .then(this.setKategorien)
         .then(this.getGruppen)
         .then(this.setGruppen)
+        .then(this.getMwst)
+        .then(this.setMwst)
         .then(hideLoader);
     },
     saveFunc: function() {
@@ -158,6 +161,12 @@ Vue.component('edit-dialog', {
     },
     setKategorien: function(response) {
       this.kategorien = response.data;
+    },
+    getMwst: function() {
+      return axios.get('/einstellungen/mwst');
+    },
+    setMwst: function(response) {
+      this.mwst = response.data;
     }
   }
 });

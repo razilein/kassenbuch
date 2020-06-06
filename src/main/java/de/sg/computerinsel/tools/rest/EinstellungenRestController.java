@@ -8,6 +8,7 @@ import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ERSTELLT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GEAENDERT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GELOESCHT;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -76,6 +77,7 @@ public class EinstellungenRestController {
         data.setMailBodyAngebot(einstellungenService.getMailBodyAngebot());
         data.setMailBodyRechnung(einstellungenService.getMailBodyRechnung());
         data.setMailBodyReparatur(einstellungenService.getMailBodyReparaturauftrag());
+        data.setMwst(einstellungenService.getMwst());
         return data;
     }
 
@@ -103,6 +105,7 @@ public class EinstellungenRestController {
             einstellungenService.save(data.getMailBodyAngebot());
             einstellungenService.save(data.getMailBodyRechnung());
             einstellungenService.save(data.getMailBodyReparatur());
+            einstellungenService.save(data.getMwst());
             result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.save.success"));
             protokollService.write(messageService.get("protokoll.einstellungen.save"));
         }
@@ -216,6 +219,11 @@ public class EinstellungenRestController {
         protokollService.write(dto.getMitarbeiterId(), RECHTE, GEAENDERT);
         result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.mitarbeiter.rechte.save.success"));
         return result;
+    }
+
+    @GetMapping("/mwst")
+    public BigDecimal getMwst() {
+        return einstellungenService.getMwstProzent();
     }
 
 }

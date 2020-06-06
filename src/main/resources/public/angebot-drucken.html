@@ -61,8 +61,8 @@
           <tr v-for="posten in entity.angebotsposten" style="border-bottom: 1px solid black;">
             <td style="padding: 5px; text-align: center; width: 50px;">{{posten.menge}}</td>
             <td style="padding: 5px; width: 500px;">{{posten.bezeichnung}}</td>
-            <td style="padding: 5px; text-align: right; width: 100px;">{{ formatMoney(posten.preis / 1.19) }} &euro;</td>
-            <td style="padding: 5px; text-align: right; width: 100px;">{{ formatMoney(posten.preis * posten.menge / 1.19) }} &euro;</td>
+            <td style="padding: 5px; text-align: right; width: 100px;">{{ formatMoney(posten.preis * 100 / (entity.angebot.mwst + 100)) }} &euro;</td>
+            <td style="padding: 5px; text-align: right; width: 100px;">{{ formatMoney(posten.preis * posten.menge * 100 / (entity.angebot.mwst + 100)) }} &euro;</td>
           </tr>
         </tbody>
         <tfoot>
@@ -80,7 +80,7 @@
           </tr>
           <tr>
             <td style="padding: 3px; width: 50px;">&nbsp;</td>
-            <td style="text-align: right; width: 500px;">{{ $t("angebot.gesamtMwst") }}:</td>
+            <td style="text-align: right; width: 500px;">{{ $t("angebot.zzgl") }} {{entity.angebot.mwst}}% {{ $t("angebot.mwst") }}:</td>
             <td style="text-align: right; width: 100px;">&nbsp;</td>
             <td style="text-align: right; width: 100px;">{{ formatMoney(gesamtBrutto) }} &euro;</td>
           </tr>
