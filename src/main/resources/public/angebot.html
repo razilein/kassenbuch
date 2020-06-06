@@ -60,8 +60,8 @@
                 <td>{{posten.position}}</td>
                 <td>{{posten.bezeichnung}}</td>
                 <td>{{posten.menge}}</td>
-                <td>{{ formatMoney(posten.preis / 1.19) }}</td>
-                <td>{{ formatMoney(posten.menge * posten.preis / 1.19) }}</td>
+                <td>{{ formatMoney(posten.preis * 100 / (entity.angebot.mwst + 100)) }}</td>
+                <td>{{ formatMoney(posten.menge * posten.preis * 100 / (entity.angebot.mwst + 100)) }}</td>
                 <td>{{ formatMoney(posten.preis) }}</td>
                 <td>{{ formatMoney(posten.menge * posten.preis) }}</td>
               </tr>

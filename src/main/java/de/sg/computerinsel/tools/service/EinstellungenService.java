@@ -1,6 +1,7 @@
 package de.sg.computerinsel.tools.service;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,12 +30,14 @@ import de.sg.computerinsel.tools.reparatur.model.Rolle;
 import de.sg.computerinsel.tools.rest.model.FilialeDto;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterDTO;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Sita Geßner
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class EinstellungenService {
 
     private static final String DSGVO_FILENAME = "Einwilligung_DSGVO.pdf";
@@ -86,6 +89,10 @@ public class EinstellungenService {
 
     public Einstellungen getMailBodyReparaturauftrag() {
         return getEinstellung("mail.body.reparatur");
+    }
+
+    public Einstellungen getMwst() {
+        return getEinstellung("mwst");
     }
 
     public Einstellungen getFtpHost() {
@@ -220,6 +227,18 @@ public class EinstellungenService {
 
     public List<Rolle> listRollen() {
         return Lists.newArrayList(rolleRepository.findAll());
+    }
+
+    public BigDecimal getMwstProzent() {
+        BigDecimal mwst;
+        try {
+            final String wert = getMwst().getWert();
+            mwst = new BigDecimal(wert == null ? "0" : wert);
+        } catch (final NumberFormatException e) {
+            log.debug(e.getMessage(), e);
+            mwst = BigDecimal.ZERO;
+        }
+        return mwst;
     }
 
 }

@@ -12,6 +12,7 @@ var vm = new Vue({
       mailBodyRechnung: {},
       mailBodyReparatur: {},
       mailSignatur: {},
+      mwst: {},
       smtpHost: {},
       smtpPort: {},
       smtpUser: {},
@@ -35,13 +36,24 @@ var vm = new Vue({
         .then(vm.setMessages)
         .then(hideLoader);
     },
-
+    
     executeSpeichernEinstellungen: function() {
       return axios.put('einstellungen', vm.einstellungen);
     },
 
     getEinstellungen: function() {
       return axios.get('einstellungen');
+    },
+    
+    produkteAnpassen: function() {
+      showLoader();
+      vm.executeProdukteAnpassen()
+        .then(vm.setMessages)
+        .then(hideLoader);
+    },
+
+    executeProdukteAnpassen: function() {
+      return axios.put('inventar/produkt/mwst',{ mwst: vm.einstellungen.mwst.wert });
     },
 
     setEinstellungen: function(response) {

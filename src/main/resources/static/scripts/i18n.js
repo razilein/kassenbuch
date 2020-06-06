@@ -15,7 +15,7 @@ const messages = {
       gesamtNto: 'Gesamt Preis (Nto)',
       gewaehltePosten: 'Gewählte Posten',
       loeschen: 'Angebot löschen',
-      mwst: 'zzgl. 19% MwSt.',
+      mwst: 'MwSt.',
       nichtErledigt: 'Nur nicht erledigte Angebote anzeigen',
       oeffnen: 'Angebot öffnen',
       postenBearbeiten: 'Posten bearbeiten',
@@ -26,7 +26,8 @@ const messages = {
       produktDl: 'Produkt/Dienstleistung',
       suchen: 'Angebot suchen',
       waehlen: 'Dieses Angebot wählen',
-      wiedereroeffnen: 'Das Angebot wurde erledigt. Angebot wiedereröffnen?'
+      wiedereroeffnen: 'Das Angebot wurde erledigt. Angebot wiedereröffnen?',
+      zzgl: 'zzgl.'
     },
     bestellung: {
       anzahlung: 'Anzahlung',
@@ -110,7 +111,8 @@ const messages = {
       },
       pw: 'Passwort',
       port: 'Port',
-      smtp: 'SMTP-Server'
+      smtp: 'SMTP-Server',
+      mwst: 'MwSt in %'
     },
     'export': {
       datumBis: 'Änderungsdatum bis',
@@ -270,6 +272,10 @@ const messages = {
         kategorie: 'Kategorie',
         kategorien: 'Kategorien',
         loeschen: 'Produkt löschen',
+        mwst: {
+          info: 'Anhand des Brutto VK Preis des Produktes wird der VK Preis netto mit der hier eingetragenen MwSt neu berechnet',
+          title: 'Produkte VK Preis Netto anpassen'
+        },
         preise: 'Preise',
         rabattProzent: 'Rabatt in %',
         schnellerfassung: 'Schnellerfassung (Anzahl + 1 bei Suche mit EAN bei 1 Treffer)',
@@ -370,7 +376,7 @@ const messages = {
         bestellung: 'Mit Bestellungen',
         reparatur: 'Mit Reparaturaufträgen'
       },
-      mwst: 'enth. MwSt. (19%)',
+      mwst: 'enth. MwSt.',
       nameDrucken: 'Soll der Name auf die Rechnung gedruckt werden?',
       nameDruckenFirma: 'Sollen zusätzlich zum Firmennamen der Nachname/Vorname auf die Rechnung gedruckt werden?',
       nettosumme: 'Nettosumme',

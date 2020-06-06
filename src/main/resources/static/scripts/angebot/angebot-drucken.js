@@ -5,8 +5,9 @@ var vm = new Vue({
     currentDate: null,
     entity: {
       angebot: {
+        erstelltAm: '',
         filiale: {},
-        kunde: {},
+        kunde: {}
       },
       angebotsposten: []
     },
@@ -40,7 +41,7 @@ var vm = new Vue({
       this.entity.angebotsposten.forEach(function(element) {
         vm.gesamtBrutto = vm.gesamtBrutto + (element.preis * element.menge);
       });
-      vm.gesamtNetto = vm.gesamtBrutto / 1.19;
+      vm.gesamtNetto = vm.gesamtBrutto * 100 / (vm.entity.angebot.mwst + 100.00);
     },
     
     getEinstellungDruckansichtDruckdialog: function() {

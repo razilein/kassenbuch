@@ -29,6 +29,8 @@ public class EinstellungenData {
 
     Einstellungen mailBodyReparatur;
 
+    Einstellungen mwst;
+
     Einstellungen smtpHost;
 
     Einstellungen smtpPort;

@@ -58,8 +58,8 @@ Vue.component('edit-dialog', {
           <td>{{posten.position}}</td>
           <td>{{posten.bezeichnung}}</td>
           <td>{{posten.menge}}</td>
-          <td>{{ formatMoney(posten.preis / 1.19) }}</td>
-          <td>{{ formatMoney(posten.menge * posten.preis / 1.19) }}</td>
+          <td>{{ formatMoney(posten.preis * 100 / (entity.angebot.mwst + 100)) }}</td>
+          <td>{{ formatMoney(posten.menge * posten.preis * 100 / (entity.angebot.mwst + 100)) }}</td>
           <td>{{ formatMoney(posten.preis) }}</td>
           <td>{{ formatMoney(posten.menge * posten.preis) }}</td>
         </tr>
@@ -137,7 +137,7 @@ Vue.component('edit-dialog', {
       endpreis = endpreis || 0;
       endpreis = endpreis < 0 ? 0 : endpreis;
       this.endpreis = formatMoney(endpreis);
-      this.endpreisNto = formatMoney(endpreis / 1.19);
+      this.endpreisNto = formatMoney(endpreis * 100 / (this.entity.angebot.mwst + 100));
     },
     editPosten: function(index) {
       var posten = this.entity.angebotsposten[index];

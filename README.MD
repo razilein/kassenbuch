@@ -402,6 +402,14 @@ Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_EINSTELLUNGEN_ALLGEME
 #### Ablageverzeichnis
 Das hier definierte Verzeichnis wird verwendet, um die Statistiken und Kassenstände abzulegen.
 
+#### Mehrwertsteuer in Prozent
+Hier kann die Mehrwertsteuer verändert werden.
+Nach dem Speichern dieser Einstellung wird bei allen neu erstellten Rechnungen und Angeboten mit der neuen Mehrwertsteuer gerechnet.
+Zudem wird beim Bearbeiten von Produkten die neue Mehrwertsteuer berücksichtigt.
+Zusätzlich steht eine Schaltfläche zur Verfügung um den Netto-Verkaufspreis aller Produkte anzupassen.
+Dabei wird der Brutto-Verkaufspreis als Basis verwendet und nicht verändert.
+Die Einkaufspreise werden ebenfalls nicht automatisch verändert.
+
 #### FTP-Server
 Hier sind die Verbindungsdaten zum FTP-Server anzugeben.
 Diese Daten dienen dazu, um die Bestellliste lesen/schreiben zu können.

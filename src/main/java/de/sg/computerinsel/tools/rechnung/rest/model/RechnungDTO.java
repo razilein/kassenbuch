@@ -29,8 +29,9 @@ public class RechnungDTO {
 
     private List<Rechnungsposten> posten = new ArrayList<>();
 
-    public RechnungDTO() {
+    public RechnungDTO(final BigDecimal mwst) {
         rechnung = new Rechnung();
+        rechnung.setMwst(mwst);
         rechnung.setArt(-1);
         rechnung.setNameDrucken(false);
         rechnung.setDatum(LocalDate.now());
@@ -58,7 +59,8 @@ public class RechnungDTO {
 
     @JsonIgnore
     public BigDecimal getNettobetrag() {
-        return getRechnungsbetrag().divide(new BigDecimal("1.19"), 2, RoundingMode.HALF_UP);
+        final BigDecimal mwst = new BigDecimal("100").add(rechnung.getMwst());
+        return getRechnungsbetrag().multiply(new BigDecimal("100")).divide(mwst, 2, RoundingMode.HALF_UP);
     }
 
     @JsonIgnore

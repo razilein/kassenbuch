@@ -19,8 +19,9 @@ public class AngebotDto {
 
     private List<Angebotsposten> angebotsposten;
 
-    public AngebotDto() {
+    public AngebotDto(final BigDecimal mwst) {
         angebot = new Angebot();
+        angebot.setMwst(mwst);
         angebot.setKunde(new Kunde());
 
         angebotsposten = new ArrayList<>();

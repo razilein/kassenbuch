@@ -22,6 +22,7 @@ import de.sg.computerinsel.tools.angebot.model.Angebotsposten;
 import de.sg.computerinsel.tools.angebot.model.VAngebot;
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
+import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.SearchQueryUtils;
@@ -38,6 +39,8 @@ public class AngebotService {
     private final AngebotspostenRepository angebotspostenRepository;
 
     private final VAngebotRepository vAngebotRepository;
+
+    private final EinstellungenService einstellungenService;
 
     private final MitarbeiterService mitarbeiterService;
 
@@ -93,7 +96,7 @@ public class AngebotService {
             final Angebot angebot = optional.get();
             dto = new AngebotDto(angebot, getAngebotsposten(angebot.getId()));
         } else {
-            dto = new AngebotDto();
+            dto = new AngebotDto(einstellungenService.getMwstProzent());
         }
         return dto;
     }

@@ -24,6 +24,15 @@
             <label for="einstellungenForm_ablageverzeichnis">{{ $t("einstellung.ablageverzeichnis") }}</label>
             <input class="m1" id="einstellungenForm_ablageverzeichnis" type="text" v-model="einstellungen.ablageverzeichnis.wert" />
           </div>
+          <div class="m1">
+            <div class="m4m">
+              <label for="einstellungenForm_ablageverzeichnis">{{ $t("einstellung.mwst") }}</label>
+              <input class="m4" id="einstellungenForm_mwst" type="number" v-model="einstellungen.mwst.wert" />
+            </div>
+            <div class="m5">
+              <button :title="$t('inventar.produkt.mwst.info')" v-on:click="produkteAnpassen">{{ $t("inventar.produkt.mwst.title") }}</button>
+            </div>
+          </div>
           <hr>
           <h1>{{ $t("einstellung.ftp") }}</h1>
           <div class="m1">

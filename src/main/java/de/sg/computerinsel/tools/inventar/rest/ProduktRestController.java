@@ -6,6 +6,7 @@ import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ERSTELLT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GEAENDERT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GELOESCHT;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
@@ -128,6 +129,14 @@ public class ProduktRestController {
             protokollService.write(optional.get().getId(), PRODUKT, optional.get().getBezeichnung(), GELOESCHT);
         }
         return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("inventar.delete.save.success"));
+    }
+
+    @PutMapping("mwst")
+    public Map<String, Object> mwstAnpassen(@RequestBody final Map<String, Object> data) {
+        final String mwst = StringUtils.replace((String) data.get("mwst"), ",", ".");
+        protokollService.write("VK Preis Netto aller Produkte angepasst mit MwSt " + mwst);
+        final int anzahl = service.mwstAnpassungVkNetto(new BigDecimal(mwst));
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("inventar.produkt.mwst.save.success", anzahl));
     }
 
 }

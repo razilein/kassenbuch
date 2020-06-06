@@ -1,5 +1,7 @@
 package de.sg.computerinsel.tools.inventar.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
@@ -119,7 +121,7 @@ public class InventarService {
     }
 
     public List<Produkt> listProdukteInAenderungszeitraum(final Map<String, LocalDate> conditions) {
-        final LocalDate datumVon = conditions.get(CONDITION_DATUM_VON) == null ? LocalDate.of(2019, Month.JANUARY, 1)
+        final LocalDate datumVon = conditions.get(CONDITION_DATUM_VON) == null ? LocalDate.of(LocalDate.now().getYear(), Month.JANUARY, 1)
                 : conditions.get(CONDITION_DATUM_VON);
         final LocalDate datumBis = conditions.get(CONDITION_DATUM_BIS) == null ? LocalDate.now().plusDays(1)
                 : conditions.get(CONDITION_DATUM_BIS);
@@ -171,6 +173,16 @@ public class InventarService {
 
     private static boolean isBegrenzterBestand(final Rechnungsposten p) {
         return p.getProdukt() != null && p.getProdukt().getId() != null && !p.getProdukt().isBestandUnendlich();
+    }
+
+    public int mwstAnpassungVkNetto(final BigDecimal mwst) {
+        final List<Produkt> produkte = produktRepository.findByPreisVkBruttoIsNotNull();
+        produkte.stream().map(p -> {
+            p.setPreisVkNetto(
+                    p.getPreisVkBrutto().multiply(new BigDecimal("100")).divide(mwst.add(new BigDecimal("100")), RoundingMode.HALF_UP));
+            return p;
+        }).forEach(produktRepository::save);
+        return produkte.size();
     }
 
 }
