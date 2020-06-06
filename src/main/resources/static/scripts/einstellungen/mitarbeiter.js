@@ -142,8 +142,8 @@ var vm = new Vue({
           { clazz: 'recht', disabled: vm.hasNotRoleEditRecht, title: this.$t('einstellung.profil.berechtigungBearbeiten'), clickFunc: vm.editRechteFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('einstellung.profil.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'nachname', title: this.$t('general.nachname'), width: 200 },
-        { name: 'vorname', title: this.$t('general.vorname'), width: 150 },
+        { name: 'nachname', title: this.$t('kunde.nachname'), width: 200 },
+        { name: 'vorname', title: this.$t('kunde.vorname'), width: 150 },
       ];
     },
     
