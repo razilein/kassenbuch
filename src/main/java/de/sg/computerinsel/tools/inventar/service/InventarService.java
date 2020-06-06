@@ -119,7 +119,7 @@ public class InventarService {
     }
 
     public List<Produkt> listProdukteInAenderungszeitraum(final Map<String, LocalDate> conditions) {
-        final LocalDate datumVon = conditions.get(CONDITION_DATUM_VON) == null ? LocalDate.of(2019, Month.JANUARY, 1)
+        final LocalDate datumVon = conditions.get(CONDITION_DATUM_VON) == null ? LocalDate.of(LocalDate.now().getYear(), Month.JANUARY, 1)
                 : conditions.get(CONDITION_DATUM_VON);
         final LocalDate datumBis = conditions.get(CONDITION_DATUM_BIS) == null ? LocalDate.now().plusDays(1)
                 : conditions.get(CONDITION_DATUM_BIS);
