@@ -25,6 +25,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>de.sg.computerinsel.tools</groupId>
+            <artifactId>computerinsel-parent</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>

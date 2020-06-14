@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
-import de.sg.computerinsel.tools.CurrencyUtils;
-import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.kassenbuch.model.Kassenbuchposten;
 import de.sg.computerinsel.tools.rechnung.rest.model.RechnungDTO;
+import de.sg.computerinsel.tools.util.CurrencyUtils;
+import de.sg.computerinsel.tools.util.DateUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

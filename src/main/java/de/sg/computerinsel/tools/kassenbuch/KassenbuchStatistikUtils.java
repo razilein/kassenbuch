@@ -20,11 +20,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.Joiner;
 
-import de.sg.computerinsel.tools.CurrencyUtils;
-import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.rechnung.model.Zahlart;
 import de.sg.computerinsel.tools.rechnung.rest.model.RechnungDTO;
+import de.sg.computerinsel.tools.util.CurrencyUtils;
+import de.sg.computerinsel.tools.util.DateUtils;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 

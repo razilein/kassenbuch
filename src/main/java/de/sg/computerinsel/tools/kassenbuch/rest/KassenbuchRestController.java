@@ -29,7 +29,7 @@ import de.sg.computerinsel.tools.kassenbuch.rest.model.KassenbuchDTO;
 import de.sg.computerinsel.tools.kassenbuch.service.KassenbuchService;
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.rest.Message;
-import de.sg.computerinsel.tools.rest.SearchData;
+import de.sg.computerinsel.tools.rest.model.SearchData;
 import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.ProtokollService;

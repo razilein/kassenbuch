@@ -34,6 +34,7 @@ import de.sg.computerinsel.tools.rest.model.EinstellungenData;
 import de.sg.computerinsel.tools.rest.model.FilialeDto;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterDTO;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterRollenDTO;
+import de.sg.computerinsel.tools.rest.model.SearchData;
 import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.MitarbeiterService;

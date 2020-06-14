@@ -24,8 +24,8 @@ import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
 import de.sg.computerinsel.tools.kunde.model.VKunde;
 import de.sg.computerinsel.tools.rechnung.service.RechnungService;
 import de.sg.computerinsel.tools.reparatur.service.ReparaturService;
-import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
-import de.sg.computerinsel.tools.service.SearchQueryUtils;
+import de.sg.computerinsel.tools.util.FindAllByConditionsExecuter;
+import de.sg.computerinsel.tools.util.SearchQueryUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Service

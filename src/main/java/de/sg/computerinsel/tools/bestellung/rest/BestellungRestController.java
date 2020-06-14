@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.angebot.dto.AngebotDto;
 import de.sg.computerinsel.tools.angebot.model.Angebot;
 import de.sg.computerinsel.tools.angebot.service.AngebotService;
@@ -39,10 +38,11 @@ import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.service.FeiertagUtils;
 import de.sg.computerinsel.tools.rest.Message;
-import de.sg.computerinsel.tools.rest.SearchData;
+import de.sg.computerinsel.tools.rest.model.SearchData;
 import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.ProtokollService;
 import de.sg.computerinsel.tools.service.ValidationService;
+import de.sg.computerinsel.tools.util.DateUtils;
 
 @RestController
 @RequestMapping("/bestellung")

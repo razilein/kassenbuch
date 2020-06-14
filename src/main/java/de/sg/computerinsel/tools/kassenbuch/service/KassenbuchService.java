@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.kassenbuch.dao.KassenbuchRepository;
 import de.sg.computerinsel.tools.kassenbuch.dao.KassenbuchpostenRepository;
 import de.sg.computerinsel.tools.kassenbuch.model.Kassenbuch;
@@ -23,7 +22,8 @@ import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.rechnung.service.RechnungService;
 import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
-import de.sg.computerinsel.tools.service.SearchQueryUtils;
+import de.sg.computerinsel.tools.util.DateUtils;
+import de.sg.computerinsel.tools.util.SearchQueryUtils;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

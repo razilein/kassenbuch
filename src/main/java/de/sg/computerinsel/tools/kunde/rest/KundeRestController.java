@@ -34,7 +34,7 @@ import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
 import de.sg.computerinsel.tools.kunde.model.VKunde;
 import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.rest.Message;
-import de.sg.computerinsel.tools.rest.SearchData;
+import de.sg.computerinsel.tools.rest.model.SearchData;
 import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.ProtokollService;
 import de.sg.computerinsel.tools.service.ValidationService;

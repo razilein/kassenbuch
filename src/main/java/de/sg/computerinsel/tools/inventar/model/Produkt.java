@@ -13,8 +13,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Formula;
 
-import de.sg.computerinsel.tools.CurrencyUtils;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
+import de.sg.computerinsel.tools.util.CurrencyUtils;
 import lombok.Getter;
 import lombok.Setter;
 

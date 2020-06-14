@@ -34,7 +34,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.bestellung.model.Bestellung;
 import de.sg.computerinsel.tools.bestellung.service.BestellungService;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
@@ -48,12 +47,13 @@ import de.sg.computerinsel.tools.reparatur.model.VReparatur;
 import de.sg.computerinsel.tools.reparatur.service.FeiertagUtils;
 import de.sg.computerinsel.tools.reparatur.service.ReparaturService;
 import de.sg.computerinsel.tools.rest.Message;
-import de.sg.computerinsel.tools.rest.SearchData;
+import de.sg.computerinsel.tools.rest.model.SearchData;
 import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.ProtokollService;
 import de.sg.computerinsel.tools.service.ValidationService;
+import de.sg.computerinsel.tools.util.DateUtils;
 
 @RestController
 @RequestMapping("/reparatur")

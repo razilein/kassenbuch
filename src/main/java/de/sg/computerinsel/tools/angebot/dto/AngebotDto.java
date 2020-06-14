@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.sg.computerinsel.tools.CurrencyUtils;
 import de.sg.computerinsel.tools.angebot.model.Angebot;
 import de.sg.computerinsel.tools.angebot.model.Angebotsposten;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
+import de.sg.computerinsel.tools.util.CurrencyUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

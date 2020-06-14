@@ -9,11 +9,11 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import de.sg.computerinsel.tools.CurrencyUtils;
-import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.inventar.dao.ProduktRepository;
 import de.sg.computerinsel.tools.inventar.model.Produkt;
 import de.sg.computerinsel.tools.service.EinstellungenService;
+import de.sg.computerinsel.tools.util.CurrencyUtils;
+import de.sg.computerinsel.tools.util.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

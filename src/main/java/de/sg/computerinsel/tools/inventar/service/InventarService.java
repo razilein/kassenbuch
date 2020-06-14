@@ -24,8 +24,8 @@ import de.sg.computerinsel.tools.inventar.model.Gruppe;
 import de.sg.computerinsel.tools.inventar.model.Kategorie;
 import de.sg.computerinsel.tools.inventar.model.Produkt;
 import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
-import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
-import de.sg.computerinsel.tools.service.SearchQueryUtils;
+import de.sg.computerinsel.tools.util.FindAllByConditionsExecuter;
+import de.sg.computerinsel.tools.util.SearchQueryUtils;
 import lombok.AllArgsConstructor;
 
 @Service

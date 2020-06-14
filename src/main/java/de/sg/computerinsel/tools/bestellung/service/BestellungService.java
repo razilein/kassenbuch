@@ -23,9 +23,9 @@ import de.sg.computerinsel.tools.bestellung.model.VAuftraegeJeTag;
 import de.sg.computerinsel.tools.bestellung.model.VBestellung;
 import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
-import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
-import de.sg.computerinsel.tools.service.SearchQueryUtils;
+import de.sg.computerinsel.tools.util.FindAllByConditionsExecuter;
+import de.sg.computerinsel.tools.util.SearchQueryUtils;
 import lombok.AllArgsConstructor;
 
 @Service

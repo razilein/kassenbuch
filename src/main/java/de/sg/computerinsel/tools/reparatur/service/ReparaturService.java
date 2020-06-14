@@ -26,9 +26,9 @@ import de.sg.computerinsel.tools.reparatur.model.PruefstatusGeraet;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
 import de.sg.computerinsel.tools.reparatur.model.VReparatur;
-import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
-import de.sg.computerinsel.tools.service.SearchQueryUtils;
+import de.sg.computerinsel.tools.util.FindAllByConditionsExecuter;
+import de.sg.computerinsel.tools.util.SearchQueryUtils;
 import lombok.AllArgsConstructor;
 
 @Service

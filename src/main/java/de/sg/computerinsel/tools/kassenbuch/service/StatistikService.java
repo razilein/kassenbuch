@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.kassenbuch.KassenbuchStatistikUtils;
 import de.sg.computerinsel.tools.kassenbuch.rest.model.KassenbuchStatistik;
 import de.sg.computerinsel.tools.rechnung.dao.RechnungRepository;
@@ -19,6 +18,7 @@ import de.sg.computerinsel.tools.rechnung.rest.model.RechnungDTO;
 import de.sg.computerinsel.tools.rechnung.service.RechnungService;
 import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.MessageService;
+import de.sg.computerinsel.tools.util.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

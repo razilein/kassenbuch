@@ -29,9 +29,9 @@ import de.sg.computerinsel.tools.rechnung.model.Zahlart;
 import de.sg.computerinsel.tools.rechnung.rest.model.RechnungDTO;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.service.EinstellungenService;
-import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
-import de.sg.computerinsel.tools.service.SearchQueryUtils;
+import de.sg.computerinsel.tools.util.FindAllByConditionsExecuter;
+import de.sg.computerinsel.tools.util.SearchQueryUtils;
 import lombok.AllArgsConstructor;
 
 @Service
