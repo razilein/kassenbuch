@@ -72,15 +72,24 @@
             <td style="text-align: right; width: 100px;">&nbsp;</td>
             <td style="text-align: right; width: 100px;">{{ formatMoney(gesamtNetto) }} &euro;</td>
           </tr>
-          <tr>
+          <tr v-if="entity.angebot.rabatt > 0.00 || entity.angebot.rabattP > 0.00">
             <td style="padding: 3px; width: 50px;">&nbsp;</td>
-            <td style="text-align: right; width: 500px;">{{ $t("angebot.mwst") }}:</td>
+            <td style="text-align: right; width: 500px;">{{ $t("angebot.abzglNachlass") }} {{ entity.angebot.rabattP }}%:</td>
             <td style="text-align: right; width: 100px;">&nbsp;</td>
-            <td style="text-align: right; width: 100px;">{{ formatMoney(gesamtBrutto - gesamtNetto) }} &euro;</td>
+            <td style="text-align: right; width: 100px;">
+              <span v-if="entity.angebot.rabatt > 0.00">{{ formatMoney(entity.angebot.rabatt * -1) }} &euro;</span>
+              <span v-if="entity.angebot.rabattP > 0.00">{{ formatMoney(gesamtrabattP * -1) }} &euro;</span>
+            </td>
           </tr>
           <tr>
             <td style="padding: 3px; width: 50px;">&nbsp;</td>
-            <td style="text-align: right; width: 500px;">{{ $t("angebot.zzgl") }} {{entity.angebot.mwst}}% {{ $t("angebot.mwst") }}:</td>
+            <td style="text-align: right; width: 500px;">{{ $t("angebot.zzgl") }} {{ entity.angebot.mwst }}% {{  $t("angebot.mwst") }}:</td>
+            <td style="text-align: right; width: 100px;">&nbsp;</td>
+            <td style="text-align: right; width: 100px;">{{ formatMoney(mwst) }} &euro;</td>
+          </tr>
+          <tr>
+            <td style="padding: 3px; width: 50px;">&nbsp;</td>
+            <td style="text-align: right; width: 500px;">{{ $t("angebot.gesamtMwst") }}:</td>
             <td style="text-align: right; width: 100px;">&nbsp;</td>
             <td style="text-align: right; width: 100px;">{{ formatMoney(gesamtBrutto) }} &euro;</td>
           </tr>

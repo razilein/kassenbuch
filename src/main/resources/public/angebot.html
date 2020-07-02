@@ -67,6 +67,26 @@
               </tr>
             </tbody>
           </table>
+          <div class="m2">
+            <div class="m5m">
+              <label for="angebotEditForm_ekBrutto">{{ $t("inventar.produkt.ekPreisB") }}</label>
+              <input class="m5" readonly type="text" v-model="ekBrutto"  />
+            </div>
+            <div class="m6m">
+              <label for="angebotEditForm_gewinn">{{ $t("inventar.produkt.gewinn") }}</label>
+              <input class="m6" readonly type="text" v-model="endgewinnAnzeige" :class="endgewinn < 0 ? 'error' : (endgewinn < 1 ? 'warning' : '')" />
+            </div>
+          </div>
+          <div class="m2">
+            <div class="m6 right">
+              <label for="angebotEditForm_gesamtrabatt">{{ $t("general.rabattE") }}</label>
+              <input class="m6" min="0.00" step="0.01" type="number" v-model="entity.angebot.rabatt" v-on:change="berechneEndpreis" :readonly="entity.angebot.rabattP > 0.00" />
+            </div>
+            <div class="m6m right">
+              <label for="angebotEditForm_gesamtrabattP">{{ $t("general.rabattP") }}</label>
+              <input class="m6" min="0.00" step="0.01" type="number" v-model="entity.angebot.rabattP" v-on:change="berechneEndpreis" :readonly="entity.angebot.rabatt > 0.00" />
+            </div>
+          </div>
           <div class="m2 right">
             <div class="m6m">
               <label for="angebotEditForm_endpreis">{{ $t("general.endpreisNto") }}</label>

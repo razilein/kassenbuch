@@ -205,6 +205,13 @@
     </p>
     <p>Durch Klick auf das <em>Bearbeiten-Icon</em> besteht nochmals die Möglichkeit die Menge, den Rabatt, die Bezeichnung, die Seriennummer und den Hinweis zu bearbeiten.</p>
     <p>Durch Klick auf das <em>Euro-Icon</em> öffnet sich der Rabattrechner,  mit dessen Hilfe ein Rabatt festgelegt werden kann. Dabei wird der Einkaufspreis des Produktes berücksichtigt, insofern dieser hinterlegt ist und der Gewinn angezeigt.</p>
+    <p>
+      Unterhalb der Tabelle der gewählten Posten kann ein prozentualer oder fester Gesamtrabatt gegeben werden.
+      Zusätzlich wird der summierte Einkaufsbruttopreis aller gewählten Posten angezeigt (insofern hinterlegt).
+      Aus dem Gesamtbetrag, Rabatt und dem Einkaufspreis wird die Differenz als Gewinn angezeigt.
+      Dabei wird ein Verlust durch Rotfärbung des Gewinnfeldes angezeigt.
+      Ist der Gewinn kleiner als 1 EUR wird das Gewinnfeld gelb eingefärbt.
+    </p>
     <p>Zuletzt muss noch die Zahlart gewählt werden. Dabei ist zu beachten, dass bei der Zahlart <em>ÜBERWEISUNG</em> der <em>Kunde</em> ausgewählt werden muss.</p>
     <p>Mit des Kontrollkästchens kann gewählt werden, ob der Kundenname auf die Rechnung gedruckt werden soll. Ist kein Kunde ausgewählt, ist dieses Feld obsolet.</p>
     <p>Nach dem Speichern wird im Inventar der Bestand des Produktes um die entsprechende Menge reduziert.</p>
@@ -213,6 +220,12 @@
       Durch Klick auf das <em>OK-Icon</em> wird das Angebot gewählt und der Dialog schließt sich.
     </p>
     <p>Durch Wahl des Angebots wird automatisch der Kunde gewählt und die Rechnungsposten mit den Angebotsposten aufgefüllt.</p>
+    <p>
+      Zudem wird der Rabatt übertragen.
+      Da dieser jedoch bei dem Angebot vom Netto-Betrag abgezogen wird und bei der Rechnung vom Brutto-Betrag,
+      wird der Rabatt umgerechnet, sodass der Gesamtbetrag der Rechnung und des Angebots übereinstimmen.
+      Kleine Abweichungen im Centbereich können dabei entstehen und müssen manuell korrigiert werden.
+    </p>
     <p>Wird das Angebot wieder abgewählt, bleiben die aus dem Angebot übernommenen Posten bestehen!</p>
     <h4 id="kundewhlen-1">Kunde wählen</h4>
     <p>Um den Kunden zu wählen muss neben dem Label <em>Kunde</em> das <em>Kunde-Icon</em> geklickt werden. Anschließend öffnet sich ein Dialog in dem der entsprechende Kunde gesucht werden kann.
@@ -263,6 +276,16 @@
     Um das Angebot nach der Erstellung ansehen und drucken zu können, wird das Recht <em>ANGEBOT</em> benötigt.</p>
     <p>Auf dieser Seite befinden sich eine Tabelle in welcher die einzelnen Posten des Angebots anzugeben sind.
     Die Preise sind dabei in Netto anzugeben.
+    </p>
+    <p>
+      Unterhalb der Tabelle der gewählten Posten kann ein prozentualer oder fester Gesamtrabatt gegeben werden.
+      Um die MwSt korrekt auszuweisen, wird dieser vom Netto-Betrag abgezogen.
+      Zusätzlich wird der summierte Einkaufsbruttopreis aller gewählten Posten angezeigt (insofern hinterlegt).
+      Aus dem Gesamtbetrag, Rabatt und dem Einkaufspreis wird die Differenz als Gewinn angezeigt.
+      Dabei wird ein Verlust durch Rotfärbung des Gewinnfeldes angezeigt.
+      Ist der Gewinn kleiner als 1 EUR wird das Gewinnfeld gelb eingefärbt.
+    </p>
+    <p>
     Nach dem Speichern öffnet sich eine neue Seite für den Druck des Angebots.
     Ebenfalls wird ein Hinweis geöffnet, dass das DSGVO-Informationsblatt vom Kunden zu Unterzeichnen ist, wenn er dies noch nicht getan hat.</p>
     <h4 id="angebote-kundewhlen">Kunde wählen</h4>

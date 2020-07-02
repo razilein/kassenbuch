@@ -62,9 +62,27 @@
               </tr>
             </tbody>
           </table>
-          <div class="m6 right">
-            <label for="rechnungEditForm_endpreis">{{ $t("general.endpreis") }}</label>
-            <input class="m6" readonly type="text" v-model="endpreis" />
+          <div class="m1 right">
+            <div class="m6m">
+              <label for="rechnungEditForm_gesamtrabattP">{{ $t("general.rabattP") }}</label>
+              <input class="m6" min="0.00" step="0.01" type="number" v-model="entity.rechnung.rabattP" v-on:change="berechneEndpreis" :readonly="entity.rechnung.rabatt > 0.00" />
+            </div>
+            <div class="m6m">
+              <label for="rechnungEditForm_gesamtrabatt">{{ $t("general.rabattE") }}</label>
+              <input class="m6" min="0.00" step="0.01" type="number" v-model="entity.rechnung.rabatt" v-on:change="berechneEndpreis" :readonly="entity.rechnung.rabattP > 0.00" />
+            </div>
+            <div class="m5m">
+              <label for="rechnungEditForm_ekBrutto">{{ $t("inventar.produkt.ekPreisB") }}</label>
+              <input class="m5" readonly type="text" v-model="ekBrutto"  />
+            </div>
+            <div class="m6m">
+              <label for="rechnungEditForm_gewinn">{{ $t("inventar.produkt.gewinn") }}</label>
+              <input class="m6" readonly type="text" v-model="endgewinnAnzeige" :class="endgewinn < 0 ? 'error' : (endgewinn < 1 ? 'warning' : '')" />
+            </div>
+            <div class="m6 right">
+              <label for="rechnungEditForm_endpreis">{{ $t("general.endpreis") }}</label>
+              <input class="m6" readonly type="text" v-model="endpreis" />
+            </div>
           </div>
         </div>
         <div class="form m1">

@@ -182,3 +182,69 @@ function getParamFromUrl(url, param) {
 function hasRole(role) {
   return axios.get('/mitarbeiter-profil/hasRole/' + role);
 }
+
+function berechneEndpreisRechnung(entity) {
+  return berechneEndpreis(entity.posten || [],
+      entity.rechnung.mwst,
+      Number(entity.rechnung.rabatt || 0).toFixed(2),
+      Number(entity.rechnung.rabattP || 0).toFixed(2))
+}
+
+function berechneEndpreisAngebot(entity) {
+  var ekBto = 0;
+  var endpreisNto = 0;
+  
+  var mwst = entity.angebot.mwst + 100;
+  entity.angebotsposten.forEach(function(element) {
+    var postenPreis = ((element.menge || 1) * (element.preis || 0) - (element.rabatt || 0)) * 100 / mwst;
+    endpreisNto = endpreisNto + Number((postenPreis).toFixed(2));
+
+    var produkt = element.produkt || {};
+    var postenEkPreis = (element.menge || 1) * (produkt.preisEkBrutto || 0);
+    ekBto = ekBto + Number((postenEkPreis).toFixed(2));
+  });
+  ekBto = ekBto || 0;
+  endpreisNto = endpreisNto || 0;
+  var rabatt = Number(entity.angebot.rabatt || 0).toFixed(2);
+  endpreisNto = endpreisNto - rabatt;
+  if (entity.angebot.rabattP > 0) {
+    var rabattP = 100.00 - Number(entity.angebot.rabattP).toFixed(2);
+    endpreisNto = Number(endpreisNto * rabattP / 100.00).toFixed(2);
+  }
+  endpreisNto = endpreisNto < 0 ? 0 : endpreisNto;
+  
+  var endpreis = (endpreisNto - rabatt) * mwst / 100;
+  return {
+    endpreis: endpreis,
+    endpreisNto: endpreisNto,
+    ekBrutto: ekBto,
+    endgewinn: endpreis - ekBto
+  };
+}
+
+function berechneEndpreis(posten, mwst, rabatt, rabattP) {
+  var ekBto = 0;
+  var endpreis = 0;
+  posten.forEach(function(element) {
+    var produkt = element.produkt || {};
+    var postenEkPreis = (element.menge || 1) * (produkt.preisEkBrutto || 0);
+    ekBto = ekBto + postenEkPreis;
+
+    var postenPreis = (element.menge || 1) * (element.preis || 0) - (element.rabatt || 0);
+    endpreis = endpreis + Number((postenPreis).toFixed(2));
+  });
+  ekBto = ekBto || 0;
+  endpreis = endpreis || 0;
+  endpreis = endpreis - rabatt;
+  if (rabattP > 0) {
+    endpreis = Number((endpreis * (100.00 - rabattP) / 100.00).toFixed(2));
+  }
+  endpreis = endpreis < 0 ? 0 : endpreis;
+
+  return {
+    endpreis: endpreis,
+    endpreisNto: endpreis * 100 / (mwst + 100),
+    ekBrutto: ekBto,
+    endgewinn: endpreis - ekBto
+  };
+}

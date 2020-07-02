@@ -1,6 +1,7 @@
 const messages = {
   de: {
     angebot: {
+      abzglNachlass: 'abzgl. Preisnachlass',
       angebotNr: 'Angebot-Nr.',
       angebotsnummer: 'Angebotsnummer',
       bearbeiten: 'Angebot bearbeiten',
@@ -211,8 +212,11 @@ const messages = {
       plz: 'PLZ',
       pos: 'Pos.',
       preis: 'Preis',
+      preisnachlass: 'Preisnachlass',
       produkt: 'Produkt',
       rabatt: 'Rabatt',
+      rabattE: 'Rabatt in €',
+      rabattP: 'Rabatt in %',
       rechnung: 'Rechnung',
       rechnungen: 'Rechnungen',
       reparatur: 'Reparatur',

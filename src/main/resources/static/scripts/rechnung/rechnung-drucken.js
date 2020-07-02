@@ -20,6 +20,7 @@ var vm = new Vue({
     gesamtnetto: 0.00,
     gesamtmwst: 0.00,
     gesamtrabatt: 0.00,
+    gesamtrabattP: 0.00,
     gesamtsumme: 0.00,
   },
   methods: {
@@ -65,6 +66,11 @@ var vm = new Vue({
         vm.gesamtsumme = vm.gesamtsumme + element.gesamt;
         vm.gesamtrabatt = vm.gesamtrabatt + element.rabatt;
       });
+      vm.gesamtsumme = vm.gesamtsumme - vm.entity.rechnung.rabatt;
+      if (vm.entity.rechnung.rabattP) {
+        vm.gesamtrabattP = vm.gesamtsumme * vm.entity.rechnung.rabattP / 100;
+        vm.gesamtsumme = vm.gesamtsumme - vm.gesamtrabattP;
+      }
       vm.gesamtnetto = vm.gesamtsumme * 100 / (vm.entity.rechnung.mwst + 100.0);
       vm.gesamtmwst = vm.gesamtsumme - vm.gesamtnetto;
       vm.entity.rechnung.datum = formatDate(vm.entity.rechnung.datum);

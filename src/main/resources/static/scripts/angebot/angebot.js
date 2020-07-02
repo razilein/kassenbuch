@@ -9,8 +9,11 @@ var vm = new Vue({
       },
       angebotsposten: [],
     },
+    ekBrutto: 0.00,
     endpreisNto: 0.00,
     endpreis: 0.00,
+    endgewinn: 0.00,
+    endgewinnAnzeige: 0,
     einstellungDruckansichtNeuesFenster: true,
     editEntity: {},
     resetErsteller: false,
@@ -43,15 +46,13 @@ var vm = new Vue({
          this.entity.angebotsposten.length > 0 && this.entity.angebot.ersteller;
     },
     berechneEndpreis: function() {
-      var endpreis = 0;
-      vm.entity.angebotsposten.forEach(function(element) {
-        var postenPreis = (element.menge || 1) * (element.preis || 0) - (element.rabatt || 0);  
-        endpreis = endpreis + postenPreis;
-      });
-      endpreis = endpreis || 0;
-      endpreis = endpreis < 0 ? 0 : endpreis;
-      vm.endpreis = formatMoney(endpreis);
-      vm.endpreisNto = formatMoney(endpreis * 100 / (this.entity.angebot.mwst + 100));
+      vm.entity.angebot.rabatt = vm.entity.angebot.rabatt < 0 ? 0 : vm.entity.angebot.rabatt;
+      var result = berechneEndpreisAngebot(vm.entity);
+      vm.endpreis = formatMoney(result.endpreis);
+      vm.endpreisNto = formatMoney(result.endpreisNto);
+      vm.ekBrutto = formatMoney(result.ekBrutto);
+      vm.endgewinn = result.endgewinn;
+      vm.endgewinnAnzeige = formatMoney(vm.endgewinn);
     },
     chooseFunction: function(row) {
       var bezeichnung = row.hersteller ? row.hersteller + '-' + row.bezeichnung : row.bezeichnung;
