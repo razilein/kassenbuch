@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "KATEGORIE")
+@Table(name = "KATEGORIE", schema = "inventar")
 @Getter
 @Setter
 public class Kategorie extends IntegerBaseObject {

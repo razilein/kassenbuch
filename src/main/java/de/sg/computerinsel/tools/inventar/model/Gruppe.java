@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "GRUPPE")
+@Table(name = "GRUPPE", schema = "inventar")
 @Getter
 @Setter
 public class Gruppe extends IntegerBaseObject {

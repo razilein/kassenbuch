@@ -19,7 +19,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "PRODUKT")
+@Table(name = "PRODUKT", schema = "inventar")
 @Getter
 @Setter
 public class Produkt extends IntegerBaseObject {
