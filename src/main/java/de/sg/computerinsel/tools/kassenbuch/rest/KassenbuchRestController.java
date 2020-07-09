@@ -116,4 +116,14 @@ public class KassenbuchRestController {
         return result;
     }
 
+    @PutMapping("/leer")
+    public Map<String, Object> erstelleLeeresKassenbuch(@RequestBody final KassenbuchDTO dto) {
+        final Map<String, Object> result = new HashMap<>();
+        result.put("kassenbuch", kassenbuchService.saveKassenbuch(dto));
+        result.put(Message.SUCCESS.getCode(), messageService.get("kassenbuch.save.success"));
+        protokollService
+                .write(messageService.get("protokoll.kassenbuch", dto.getKassenbuch().getDatum(), dto.getKassenbuch().getAusgangsbetrag()));
+        return result;
+    }
+
 }

@@ -372,6 +372,8 @@ Diese Eintragungen werden immer am Ende des Kassenbuchs in der Reihenfolge, in w
 
 Unter der Tabelle befindet sich ein Feld, in welchem der Gesamtbetrag des Kassenbuchs (inkl. des Ausgangsbetrags) vorgeblendet wird.
 Durch Klick auf die Schaltfläche *Speichern* wird das Kassenbuch gespeichert und für den Druck geöffnet.
+Gibt es an diesem Tag keine BAR-Einnahmen-/Ausgaben, kann die Schaltfläche *Keine BAR Einnahmen/Ausgaben* geklickt werden.
+Anschließend wird ein leerer Kassenbericht erstellt.
 
 ### Kassenbücher
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_KASSENBUCH_UEBERSICHT* benötigt.

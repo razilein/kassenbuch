@@ -322,6 +322,7 @@ const messages = {
         gesamtKassenbuch: 'Gesamt Kassenbuch',
         titel: 'Kassenstand'
       },
+      leer: 'Keine BAR-Einnahmen/Ausgaben',
       loeschen: 'Kassenbuch löschen',
       oeffnen: 'Kassenbuch öffnen',
       verwendungszweck: 'Verwendungszweck',

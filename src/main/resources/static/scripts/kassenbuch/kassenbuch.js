@@ -36,6 +36,10 @@ var vm = new Vue({
       return this.model && this.model.posten.length > 0 && hasAllPropertiesAndNotEmpty(this.model, ['kassenbuch.ausgangsbetrag', 'kassenbuch.datum']);
     },
     
+    hasPosten: function() {
+      return this.model && this.model.posten.length > 0;
+    },
+    
     berechneGesamt: function() {
       var gesamt = 0;
       vm.model.posten.forEach(function(element) {
@@ -48,6 +52,10 @@ var vm = new Vue({
     
     executeSave: function() {
       return axios.put('/kassenbuch', vm.model);
+    },
+    
+    executeSaveLeer: function() {
+      return axios.put('/kassenbuch/leer', vm.model);
     },
     
     handleEditResponse: function(response) {
@@ -76,6 +84,13 @@ var vm = new Vue({
     saveFunc: function() {
       showLoader();
       vm.executeSave()
+        .then(vm.openKassenbuch)
+        .then(hideLoader);
+    },
+    
+    saveLeerFunc: function() {
+      showLoader();
+      vm.executeSaveLeer()
         .then(vm.openKassenbuch)
         .then(hideLoader);
     },
