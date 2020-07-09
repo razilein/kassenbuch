@@ -12,6 +12,8 @@ public interface KassenbuchRepository extends CrudRepository<Kassenbuch, Integer
 
     Page<Kassenbuch> findAll(Pageable pagination);
 
-    Page<Kassenbuch> findByDatum(LocalDate datum, Pageable pagination);
+    Page<Kassenbuch> findByDatumAndGeloescht(LocalDate datum, boolean geloescht, Pageable pagination);
+
+    Page<Kassenbuch> findByGeloescht(boolean geloescht, Pageable pagination);
 
 }

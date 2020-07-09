@@ -11,6 +11,7 @@ public interface KassenbuchpostenRepository extends CrudRepository<Kassenbuchpos
 
     List<Kassenbuchposten> findAllByKassenbuchId(Integer kassenbuchId);
 
-    List<Kassenbuchposten> findAllByKassenbuchDatumGreaterThanEqualAndKassenbuchDatumLessThanEqual(LocalDate datumVon, LocalDate datumBis);
+    List<Kassenbuchposten> findAllByKassenbuchDatumGreaterThanEqualAndKassenbuchDatumLessThanEqualAndKassenbuchGeloescht(LocalDate datumVon,
+            LocalDate datumBis, boolean geloescht);
 
 }

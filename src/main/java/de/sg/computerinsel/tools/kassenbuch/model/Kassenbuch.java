@@ -2,6 +2,7 @@ package de.sg.computerinsel.tools.kassenbuch.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,5 +33,20 @@ public class Kassenbuch extends IntegerBaseObject {
 
     @Column(name = "ersteller")
     private String ersteller;
+
+    @Column(name = "geloescht")
+    private boolean geloescht;
+
+    @Column(name = "datum_geloescht")
+    private LocalDateTime datumGeloescht;
+
+    @Column(name = "loescher")
+    private String loescher;
+
+    public Kassenbuch(final BigDecimal ausgangsbetrag, final LocalDate datum, final String ersteller) {
+        this.ausgangsbetrag = ausgangsbetrag;
+        this.datum = datum;
+        this.ersteller = ersteller;
+    }
 
 }

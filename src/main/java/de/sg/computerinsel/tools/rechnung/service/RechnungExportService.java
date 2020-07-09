@@ -115,7 +115,8 @@ public class RechnungExportService {
     public List<Kassenbuchposten> listKassenbuchInZeitraum(final RechnungExportDto dto) {
         final LocalDate datumVon = LocalDate.of(dto.getJahr(), dto.getMonat(), 1);
         final LocalDate datumBis = LocalDate.of(dto.getJahr(), dto.getMonat(), 1).plusMonths(1).minusDays(1);
-        return kassenbuchpostenRepository.findAllByKassenbuchDatumGreaterThanEqualAndKassenbuchDatumLessThanEqual(datumVon, datumBis);
+        return kassenbuchpostenRepository.findAllByKassenbuchDatumGreaterThanEqualAndKassenbuchDatumLessThanEqualAndKassenbuchGeloescht(datumVon,
+                datumBis, false);
     }
 
 }

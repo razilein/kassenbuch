@@ -384,6 +384,7 @@ Auf dieser Seite befindet sich eine Übersicht aller erstellten Kassenbücher. M
 
 Durch Klick auf das *Öffnen-Icon* kann die Druckansicht des Kassenbuchs geöffnet werden.
 Durch Klick auf das *Löschen-Icon* kann nach erneuter Bestätigung das Kassenbuch gelöscht werden.
+Im Hintergrund wird das Kassenbuch weiterhin mit allen Informationen sowie, wann und von wem gelöscht wurde aufbewahrt.
 
 Das Bearbeiten ist nicht möglich, um eine Manipulation zu verhindern.
 
