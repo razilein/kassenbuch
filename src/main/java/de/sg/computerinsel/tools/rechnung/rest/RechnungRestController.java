@@ -2,6 +2,7 @@ package de.sg.computerinsel.tools.rechnung.rest;
 
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltabelle.RECHNUNG;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltabelle.REPARATUR;
+import static de.sg.computerinsel.tools.model.Protokoll.Protokolltabelle.STORNO;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ANGESEHEN;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.ERSTELLT;
 import static de.sg.computerinsel.tools.model.Protokoll.Protokolltyp.GEAENDERT;
@@ -51,6 +52,7 @@ import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.rechnung.model.Zahlart;
 import de.sg.computerinsel.tools.rechnung.rest.model.RechnungDTO;
 import de.sg.computerinsel.tools.rechnung.rest.model.RechnungExportDto;
+import de.sg.computerinsel.tools.rechnung.rest.model.StornoDto;
 import de.sg.computerinsel.tools.rechnung.service.RechnungExportService;
 import de.sg.computerinsel.tools.rechnung.service.RechnungService;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
@@ -61,6 +63,8 @@ import de.sg.computerinsel.tools.rest.SearchData;
 import de.sg.computerinsel.tools.service.MessageService;
 import de.sg.computerinsel.tools.service.ProtokollService;
 import de.sg.computerinsel.tools.service.ValidationService;
+import de.sg.computerinsel.tools.stornierung.model.Stornierung;
+import de.sg.computerinsel.tools.stornierung.service.StornierungService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -97,6 +101,9 @@ public class RechnungRestController {
 
     @Autowired
     private ProtokollService protokollService;
+
+    @Autowired
+    private StornierungService stornierungService;
 
     @Autowired
     private ValidationService validationService;
@@ -141,6 +148,16 @@ public class RechnungRestController {
             protokollService.write(dto.getRechnung().getId(), RECHNUNG, String.valueOf(dto.getRechnung().getNummer()), ANGESEHEN);
         }
         return dto;
+    }
+
+    @GetMapping("/{id}/storno")
+    public RechnungDTO getOhneStorno(@PathVariable final Integer id) {
+        return service.getRechnung(id, true);
+    }
+
+    @GetMapping("/{id}/stornobeleg")
+    public StornoDto getStornoBeleg(@PathVariable final Integer id) {
+        return stornierungService.getStornobeleg(id);
     }
 
     @Transactional
@@ -302,6 +319,60 @@ public class RechnungRestController {
         return service.hatKundeOffeneRechnungen(kundeId).stream()
                 .map(r -> new DefaultKeyValue<>(r.getId(), r.getFiliale().getKuerzel() + r.getNummerAnzeige()))
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping("/storno")
+    public Page<Stornierung> listStorno(@RequestBody final SearchData data) {
+        return stornierungService.listStornierungen(data.getData().getPagination(), data.getConditions());
+    }
+
+    @GetMapping("/storno/{id}")
+    public StornoDto getStorno(@PathVariable final Integer id) {
+        final StornoDto dto = stornierungService.getStorno(id);
+        if (dto.getStorno().getId() != null) {
+            protokollService.write(dto.getRechnung().getId(), STORNO, String.valueOf(dto.getRechnung().getNummer()), ANGESEHEN);
+        }
+        return dto;
+    }
+
+    @Transactional
+    @PutMapping("/storno")
+    public Map<String, Object> saveStorno(@RequestBody final StornoDto dto) {
+        final Stornierung storno = dto.getStorno();
+        final Map<String, Object> result = new HashMap<>(validationService.validate(storno));
+
+        final boolean isErstellt = storno.getId() == null;
+        if (storno.getKunde() != null && storno.getKunde().getId() == null) {
+            storno.setKunde(null);
+        }
+        if (result.isEmpty()) {
+            if (storno.isVollstorno()) {
+                dto.setPosten(dto.getPosten().stream().map(p -> {
+                    p.setStorno(true);
+                    return p;
+                }).collect(Collectors.toList()));
+            } else {
+                storno.setVollstorno(dto.getPosten().stream().allMatch(Rechnungsposten::isStorno));
+            }
+            final Stornierung saved = stornierungService.save(storno);
+            stornierungService.savePosten(dto.getPosten(), saved);
+            result.put(Message.SUCCESS.getCode(), messageService.get("rechnung.storno.save.success", saved.getNummer()));
+            result.put("storno", saved);
+            protokollService.write(saved.getId(), STORNO, String.valueOf(saved.getNummer()), isErstellt ? ERSTELLT : GEAENDERT);
+        }
+        return result;
+    }
+
+    @DeleteMapping("/storno")
+    public Map<String, Object> deleteStorno(@RequestBody final Map<String, Object> data) {
+        final int id = (int) data.get("id");
+        final StornoDto dto = stornierungService.getStorno(id);
+        stornierungService.deleteStorno(id);
+        if (dto.getStorno().getId() != null) {
+            protokollService.write(dto.getRechnung().getId(), STORNO, String.valueOf(dto.getRechnung().getNummer()), GELOESCHT);
+        }
+        return Collections.singletonMap(Message.SUCCESS.getCode(),
+                messageService.get("rechnung.storno.delete.success", dto.getRechnung().getNummer()));
     }
 
 }

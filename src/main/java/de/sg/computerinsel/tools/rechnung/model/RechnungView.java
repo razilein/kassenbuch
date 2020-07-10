@@ -51,4 +51,7 @@ public class RechnungView extends BaseRechnung {
     @OneToMany(mappedBy = "rechnung")
     private List<Rechnungsposten> posten = new ArrayList<>();
 
+    @Column(name = "gesamtrabatt")
+    private boolean gesamtrabatt;
+
 }

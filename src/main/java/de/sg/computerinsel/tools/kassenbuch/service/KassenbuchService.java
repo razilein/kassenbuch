@@ -20,10 +20,12 @@ import de.sg.computerinsel.tools.kassenbuch.model.Kassenbuch;
 import de.sg.computerinsel.tools.kassenbuch.model.Kassenbuchposten;
 import de.sg.computerinsel.tools.kassenbuch.rest.model.KassenbuchDTO;
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
+import de.sg.computerinsel.tools.rechnung.rest.model.StornoDto;
 import de.sg.computerinsel.tools.rechnung.service.RechnungService;
 import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.SearchQueryUtils;
+import de.sg.computerinsel.tools.stornierung.service.StornierungService;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -37,6 +39,8 @@ public class KassenbuchService {
     private final KassenbuchpostenRepository kassenbuchpostenRepository;
 
     private final RechnungService rechnungService;
+
+    private final StornierungService stornierungService;
 
     private final MitarbeiterService mitarbeiterService;
 
@@ -59,11 +63,17 @@ public class KassenbuchService {
     public KassenbuchDTO createKassenbuch(final LocalDate datum, final BigDecimal ausgangsbetrag) {
         final Kassenbuch kassenbuch = create(datum, ausgangsbetrag);
         final List<Kassenbuchposten> posten = createPostenByBarRechnungen(datum, kassenbuch);
+        posten.addAll(createPostenByStornierung(datum, kassenbuch));
         return new KassenbuchDTO(kassenbuch, posten);
     }
 
     private List<Kassenbuchposten> createPostenByBarRechnungen(final LocalDate datum, final Kassenbuch kassenbuch) {
         return rechnungService.listBarRechnungenByDatum(datum).stream().map(r -> createPosten(kassenbuch, r)).collect(Collectors.toList());
+    }
+
+    private List<Kassenbuchposten> createPostenByStornierung(final LocalDate datum, final Kassenbuch kassenbuch) {
+        return stornierungService.listStornierungenByDatum(datum).stream().map(r -> createPosten(kassenbuch, r))
+                .collect(Collectors.toList());
     }
 
     private Kassenbuch create(final LocalDate datum, final BigDecimal ausgangsbetrag) {
@@ -73,6 +83,12 @@ public class KassenbuchService {
     private Kassenbuchposten createPosten(final Kassenbuch kassenbuch, final Rechnung rechnung) {
         final String nummer = rechnung.getFiliale().getKuerzel() + rechnung.getNummerAnzeige();
         return new Kassenbuchposten(kassenbuch, nummer, rechnungService.getRechnung(rechnung.getId()).getRechnungsbetrag());
+    }
+
+    private Kassenbuchposten createPosten(final Kassenbuch kassenbuch, final StornoDto storno) {
+        String zweck = storno.getStorno().isVollstorno() ? "Stornierung" : "Teilstornierung";
+        zweck += " zu Rechnung " + storno.getRechnung().getFiliale().getKuerzel() + storno.getRechnung().getNummerAnzeige();
+        return new Kassenbuchposten(kassenbuch, zweck, storno.getRechnungsbetrag().multiply(BigDecimal.ONE.negate()));
     }
 
     public List<Kassenbuchposten> listKassenbuchposten(final LocalDate datum) {

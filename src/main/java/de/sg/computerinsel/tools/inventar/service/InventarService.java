@@ -160,11 +160,19 @@ public class InventarService {
     }
 
     public void bestandReduzieren(final List<Rechnungsposten> postenList) {
+        bestandAnpassen(postenList, true);
+    }
+
+    public void bestandErhoehen(final List<Rechnungsposten> postenList) {
+        bestandAnpassen(postenList, false);
+    }
+
+    private void bestandAnpassen(final List<Rechnungsposten> postenList, final boolean reduzieren) {
         for (final Rechnungsposten posten : postenList.stream().filter(InventarService::isBegrenzterBestand).collect(Collectors.toList())) {
             final Optional<Produkt> optional = getProdukt(posten.getProdukt().getId());
             if (optional.isPresent()) {
                 final Produkt produkt = optional.get();
-                final int bestand = produkt.getBestand() - posten.getMenge();
+                final int bestand = reduzieren ? produkt.getBestand() - posten.getMenge() : produkt.getBestand() + posten.getMenge();
                 produkt.setBestand(bestand < 0 ? 0 : bestand);
                 saveProdukt(produkt);
             }

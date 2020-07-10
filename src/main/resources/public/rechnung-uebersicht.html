@@ -135,6 +135,21 @@
         @close="showVersendenDialog = false"
         @sended="handleSendResponse"
       ></rechnung-versenden-dialog>
+      <storno-dialog
+        :rest-url-get="stornoRow.restUrlGet"
+        :rest-url-save="stornoRow.restUrlSave"
+        :title="stornoRow.title"
+        v-if="showStornoDialog"
+        @close="showStornoDialog = false"
+        @saved="handleStornoResponse"
+      ></storno-dialog>
+      <storno-uebersicht-dialog
+        :title="stornoUebersichtRow.title"
+        :rechnung-id="stornoUebersichtRow.id"
+        :rechte="rechte"
+        v-if="showStornoUebersichtDialog"
+        @close="showStornoUebersichtDialog = false"
+      ></storno-uebersicht-dialog>
       <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
     </div>
   </body>
@@ -145,6 +160,7 @@
   <script src="/scripts/header.component.js"></script>
   <script src="/scripts/grid.component.js"></script>
   <script src="/scripts/zeichenzaehler.component.js"></script>
+  <script src="/scripts/ersteller.select.component.js"></script>
   <script src="/scripts/delete.dialog.component.js"></script>
   <script src="/scripts/angebot/angebot.suchen.dialog.component.js"></script>
   <script src="/scripts/bestellung/bestellung.suchen.dialog.component.js"></script>
@@ -154,6 +170,8 @@
   <script src="/scripts/rechnung/rechnungsposten.edit.dialog.component.js"></script>
   <script src="/scripts/rechnung/rechnung.versenden.dialog.component.js"></script>
   <script src="/scripts/rechnung/rechnung.edit.dialog.component.js"></script>
+  <script src="/scripts/rechnung/rechnung.storno.dialog.component.js"></script>
+  <script src="/scripts/rechnung/rechnung.storno.uebersicht.dialog.component.js"></script>
   <script src="/scripts/rechnung/rechnung.header.component.js"></script>
   <script src="/scripts/rechnung/rechnung.uebersicht.js"></script>
 </html>

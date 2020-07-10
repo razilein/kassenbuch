@@ -29,6 +29,8 @@ public class RechnungDTO {
 
     private List<Rechnungsposten> posten = new ArrayList<>();
 
+    private boolean stornoBeachten;
+
     public RechnungDTO(final BigDecimal mwst) {
         rechnung = new Rechnung();
         rechnung.setMwst(mwst);

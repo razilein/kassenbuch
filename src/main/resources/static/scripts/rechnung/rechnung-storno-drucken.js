@@ -1,11 +1,15 @@
 var vm = new Vue({
   i18n,
-  el: '#rechnung-drucken',
+  el: '#rechnung-storno-drucken',
   data: {
     art: '',
     currentDate: null,
     currentDay: null,
     entity: {
+      storno: {
+        filiale: {},
+        kunde: {}
+      },
       rechnung: {
         filiale: {},
         kunde: {},
@@ -16,12 +20,9 @@ var vm = new Vue({
       posten: []
     },
     einstellungDruckansichtDruckdialog: true,
-    exemplare: parseInt(getParamFromCurrentUrl('exemplare') || 2),
-    stornoAusblenden: getParamFromCurrentUrl('storno') === 'true' || false,
     gesamtnetto: 0.00,
     gesamtmwst: 0.00,
     gesamtrabatt: 0.00,
-    gesamtrabattP: 0.00,
     gesamtsumme: 0.00,
   },
   methods: {
@@ -36,7 +37,7 @@ var vm = new Vue({
         .then(vm.setEntity)
         .then(vm.getEinstellungDruckansichtDruckdialog)
         .then(vm.setEinstellungDruckansichtDruckdialog)
-        .then(vm.setZahlart)
+        .then(vm.initPosten)
         .then(vm.openPrint);
     },
     
@@ -46,45 +47,20 @@ var vm = new Vue({
       }
     },
     
-    setZahlart: function() {
-      switch(vm.entity.rechnung.art) {
-        case 0:
-          vm.art = this.$t('rechnung.zahlungsarten.bar');
-          break;
-        case 1:
-          vm.art = this.$t('rechnung.zahlungsarten.ec');
-          break;
-        case 2:
-          vm.art = this.$t('rechnung.zahlungsarten.ueberweisung');
-          break;
-        case 3:
-          vm.art = this.$t('rechnung.zahlungsarten.paypal');
-          break;
-        default:
-          vm.art = this.$t('rechnung.zahlungsarten.undefiniert');
-      }
+    initPosten: function() {
       vm.entity.posten.forEach(function(element) {
         vm.gesamtsumme = vm.gesamtsumme + element.gesamt;
         vm.gesamtrabatt = vm.gesamtrabatt + element.rabatt;
       });
       vm.gesamtsumme = vm.gesamtsumme - vm.entity.rechnung.rabatt;
-      if (vm.entity.rechnung.rabattP) {
-        vm.gesamtrabattP = vm.gesamtsumme * vm.entity.rechnung.rabattP / 100;
-        vm.gesamtsumme = vm.gesamtsumme - vm.gesamtrabattP;
-      }
       vm.gesamtnetto = vm.gesamtsumme * 100 / (vm.entity.rechnung.mwst + 100.0);
       vm.gesamtmwst = vm.gesamtsumme - vm.gesamtnetto;
-      vm.entity.rechnung.datum = formatDate(vm.entity.rechnung.datum);
-      vm.entity.rechnung.lieferdatum = formatDate(vm.entity.rechnung.lieferdatum);
+      vm.entity.storno.datum = formatDate(vm.entity.storno.datum);
     },
     
     getEntity: function() {
       var id = getParamFromCurrentUrl('id');
-      if (vm.stornoAusblenden) {
-        return axios.get('/rechnung/' + id + '/storno');
-      } else {
-        return axios.get('/rechnung/' + id);
-      }
+      return axios.get('/rechnung/' + id + '/stornobeleg');
     },
     
     setEntity: function(response) {

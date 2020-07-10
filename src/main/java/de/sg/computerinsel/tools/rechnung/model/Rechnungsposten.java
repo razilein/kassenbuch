@@ -57,6 +57,9 @@ public class Rechnungsposten extends IntegerBaseObject {
     @Column(name = "rabatt")
     private BigDecimal rabatt = BigDecimal.ZERO;
 
+    @Column(name = "storno")
+    private boolean storno;
+
     public BigDecimal getGesamt() {
         return preis.multiply(new BigDecimal(menge)).subtract(rabatt);
     }

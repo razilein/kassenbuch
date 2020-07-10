@@ -64,7 +64,7 @@
           <div class="m1" style="height: 10px;"></div>
           <div class="m1">
             <label for="kassenbuchForm_gesamt">{{ $t("kassenbuch.gesamtInklAusgangsbetrag") }}</label>
-            <input class="m5 right" readonly type="number" v-model="gesamt" />
+            <input class="m5 right" readonly type="text" v-model="gesamt" />
           </div>
           <div class="m1" v-if="hasPosten()">
             <button class="right" :title="$t('general.speichern')" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">{{ $t("general.speichern") }}</button>

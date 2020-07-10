@@ -148,6 +148,15 @@ Durch Klick auf das *E-Mail-Icon* kann dem Kunden die Rechnung zugesendet werden
 sich öffnenden Dialog gewählt werden.
 Dieses Icon ist nur sichtbar, wenn zum Kunden eine E-Mail-Adresse hinterlegt ist.
 
+Durch Klick auf das *Storno-Icon* kann die Rechnung komplett oder teilweise storniert werden.
+Rechnungen mit einem festen oder prozentualen Gesamtrabatt können nicht storniert werden.
+Nach Bestätigen der Stornierung wird der Stornierungsbeleg angezeigt und die originale Rechnung ohne die stornierten Positionen.
+Bei einer Komplettstornierung wird die Rechnung nicht geöffnet.
+
+Durch Klick auf das *Storno-Übersicht-Icon* können alle Stornierungen zu dieser Rechnung angezeigt werden.
+In dieser Ansicht können Stornierungen gelöscht werden und der Beleg, sowie die Rechnung ohne die stornierten Posten
+angezeigt werden.
+
 Durch Klick auf das *Löschen-Icon* kann eine Rechnung nach nochmaliger Bestätigung gelöscht werden.
 
 ### Export
