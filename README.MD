@@ -88,7 +88,13 @@ Mit dem *Minus-Icon* kann die Menge des Produktes um 1 verringert werden. Wird d
 
 Durch Klick auf das *Bearbeiten-Icon* besteht nochmals die Möglichkeit die Menge, den Rabatt, die Bezeichnung, die Seriennummer und den Hinweis zu bearbeiten.
 
-Durch Klick auf das *Euro-Icon* öffnet sich der Rabattrechner,  mit dessen Hilfe ein Rabatt festgelegt werden kann. Dabei wird der Einkaufspreis des Produktes berücksichtigt, insofern dieser hinterlegt ist und der Gewinn angezeigt.
+Durch Klick auf das *Euro-Icon* öffnet sich der Rabattrechner, mit dessen Hilfe ein Rabatt festgelegt werden kann. Dabei wird der Einkaufspreis des Produktes berücksichtigt, insofern dieser hinterlegt ist und der Gewinn angezeigt.
+
+Unterhalb der Tabelle der gewählten Posten kann ein prozentualer oder fester Gesamtrabatt gegeben werden.
+Zusätzlich wird der summierte Einkaufsbruttopreis aller gewählten Posten angezeigt (insofern hinterlegt).
+Aus dem Gesamtbetrag, Rabatt und dem Einkaufspreis wird die Differenz als Gewinn angezeigt.
+Dabei wird ein Verlust durch Rotfärbung des Gewinnfeldes angezeigt.
+Ist der Gewinn kleiner als 1 EUR wird das Gewinnfeld gelb eingefärbt.
 
 Zuletzt muss noch die Zahlart gewählt werden. Dabei ist zu beachten, dass bei der Zahlart *ÜBERWEISUNG* der *Kunde* ausgewählt werden muss.
 
@@ -101,6 +107,12 @@ Um ein Angebot zu wählen muss neben dem Label *Angebot* das *Angebot-Icon* gekl
 Anschließend öffnet sich ein Dialog in dem das entsprechende Angebot gesucht werden kann.
 Durch Klick auf das *OK-Icon* wird das Angebot gewählt und der Dialog schließt sich.
 Durch Wahl des Angebots wird automatisch der Kunde gewählt und die Rechnungsposten mit den Angebotsposten aufgefüllt.
+
+Zudem wird der Rabatt übertragen.
+Da dieser jedoch bei dem Angebot vom Netto-Betrag abgezogen wird und bei der Rechnung vom Brutto-Betrag,
+wird der Rabatt umgerechnet, sodass der Gesamtbetrag der Rechnung und des Angebots übereinstimmen.
+Kleine Abweichungen im Centbereich können dabei entstehen und müssen manuell korrigiert werden.
+
 Wird das Angebot wieder abgewählt, bleiben die aus dem Angebot übernommenen Posten bestehen!
 
 #### Kunde wählen
@@ -162,6 +174,14 @@ Um das Angebot nach der Erstellung ansehen und drucken zu können, wird das Rech
 
 Auf dieser Seite befinden sich eine Tabelle in welcher die einzelnen Posten des Angebots anzugeben sind.
 Die Preise sind dabei in Netto anzugeben.
+
+Unterhalb der Tabelle der gewählten Posten kann ein prozentualer oder fester Gesamtrabatt gegeben werden.
+Um die MwSt korrekt auszuweisen, wird dieser vom Netto-Betrag abgezogen.
+Zusätzlich wird der summierte Einkaufsbruttopreis aller gewählten Posten angezeigt (insofern hinterlegt).
+Aus dem Gesamtbetrag, Rabatt und dem Einkaufspreis wird die Differenz als Gewinn angezeigt.
+Dabei wird ein Verlust durch Rotfärbung des Gewinnfeldes angezeigt.
+Ist der Gewinn kleiner als 1 EUR wird das Gewinnfeld gelb eingefärbt.
+
 Nach dem Speichern öffnet sich eine neue Seite für den Druck des Angebots.
 Ebenfalls wird ein Hinweis geöffnet, dass das DSGVO-Informationsblatt vom Kunden zu Unterzeichnen ist, wenn er dies noch nicht getan hat.
 
@@ -352,6 +372,8 @@ Diese Eintragungen werden immer am Ende des Kassenbuchs in der Reihenfolge, in w
 
 Unter der Tabelle befindet sich ein Feld, in welchem der Gesamtbetrag des Kassenbuchs (inkl. des Ausgangsbetrags) vorgeblendet wird.
 Durch Klick auf die Schaltfläche *Speichern* wird das Kassenbuch gespeichert und für den Druck geöffnet.
+Gibt es an diesem Tag keine BAR-Einnahmen-/Ausgaben, kann die Schaltfläche *Keine BAR Einnahmen/Ausgaben* geklickt werden.
+Anschließend wird ein leerer Kassenbericht erstellt.
 
 ### Kassenbücher
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_KASSENBUCH_UEBERSICHT* benötigt.
@@ -362,6 +384,7 @@ Auf dieser Seite befindet sich eine Übersicht aller erstellten Kassenbücher. M
 
 Durch Klick auf das *Öffnen-Icon* kann die Druckansicht des Kassenbuchs geöffnet werden.
 Durch Klick auf das *Löschen-Icon* kann nach erneuter Bestätigung das Kassenbuch gelöscht werden.
+Im Hintergrund wird das Kassenbuch weiterhin mit allen Informationen sowie, wann und von wem gelöscht wurde aufbewahrt.
 
 Das Bearbeiten ist nicht möglich, um eine Manipulation zu verhindern.
 

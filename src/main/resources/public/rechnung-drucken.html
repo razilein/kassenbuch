@@ -102,6 +102,21 @@
           <td width="116" align="right" valign="top" height="1"></td>
           <td width="116" align="right" valign="top" height="1"></td>
         </tr>
+        <tr v-if="entity.rechnung.rabatt > 0.00 || entity.rechnung.rabattP > 0.00">
+          <td width="75" align="center" valign="top" height="19">&nbsp;</td>
+          <td width="587" align="center" valign="top" height="19" style="border-right-style: none; border-right-width: medium">&nbsp;</td>
+          <td width="216" align="right" valign="top" height="20" colspan="2" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: solid; border-bottom-width: 1">
+            <font face="Arial" style="font-size: 9pt">
+              {{ $t("general.preisnachlass") }} <span v-if="entity.rechnung.rabattP > 0.00">{{ entity.rechnung.rabattP }}%</span>
+            </font>
+          </td>
+          <td width="116" align="right" valign="top" height="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: solid; border-bottom-width: 1">
+            <font face="Arial" style="font-size: 9pt">
+              <span v-if="entity.rechnung.rabatt > 0.00">{{ formatMoney(entity.rechnung.rabatt * -1) }} &euro;</span>
+              <span v-if="entity.rechnung.rabattP > 0.00">{{ formatMoney(gesamtrabattP * -1) }} &euro;</span>
+            </font>
+          </td>
+        </tr>
         <tr>
           <td width="75" align="center" valign="top" height="19">&nbsp;</td>
           <td width="587" align="center" valign="top" height="19" style="border-right-style: none; border-right-width: medium">&nbsp;</td>
@@ -128,7 +143,7 @@
         <td width="75" align="center" valign="top" height="19">&nbsp;</td>
         <td width="587" align="center" valign="top" height="19" style="border-right-style: none; border-right-width: medium">&nbsp;</td>
         <td width="216" align="right" valign="top" height="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: solid; border-bottom-width: 1" colspan="2">
-        <font face="Arial" style="font-size: 9pt">{{ $t("rechnung.mwst") }} ({{ entity.rechnung.mwst }}%):</font></span></td>
+        <font face="Arial" style="font-size: 9pt">{{ $t("rechnung.mwst") }} ({{ entity.rechnung.mwst }}%):</font></td>
         <td width="116" align="right" valign="top" height="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: solid; border-bottom-width: 1">
         <font face="Arial" style="font-size: 9pt">{{ formatMoney(gesamtmwst) }} &euro;</font></td>
         </tr>

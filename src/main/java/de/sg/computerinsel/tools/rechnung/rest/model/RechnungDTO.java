@@ -39,6 +39,8 @@ public class RechnungDTO {
         rechnung.setBestellung(new Bestellung());
         rechnung.setKunde(new Kunde());
         rechnung.setReparatur(new Reparatur());
+        rechnung.setRabatt(BigDecimal.ZERO);
+        rechnung.setRabattP(BigDecimal.ZERO);
     }
 
     public Zahlart getArt() {
@@ -54,7 +56,11 @@ public class RechnungDTO {
     }
 
     public BigDecimal getRechnungsbetrag() {
-        return posten.stream().map(Rechnungsposten::getGesamt).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal betrag = posten.stream().map(Rechnungsposten::getGesamt).reduce(BigDecimal.ZERO, BigDecimal::add);
+        if (rechnung.getRabatt() != null) {
+            betrag = betrag.subtract(rechnung.getRabatt());
+        }
+        return betrag;
     }
 
     @JsonIgnore

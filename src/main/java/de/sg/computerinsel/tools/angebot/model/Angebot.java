@@ -18,4 +18,10 @@ public class Angebot extends BaseAngebot {
     @Column(name = "mwst")
     private BigDecimal mwst;
 
+    @Column(name = "rabatt")
+    private BigDecimal rabatt;
+
+    @Column(name = "rabatt_p")
+    private BigDecimal rabattP;
+
 }

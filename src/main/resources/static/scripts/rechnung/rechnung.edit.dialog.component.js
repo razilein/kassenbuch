@@ -20,7 +20,25 @@ Vue.component('edit-dialog', {
       <label for="rechnungEditForm_ersteller">{{ $t("general.ersteller") }}</label>
       <input class="m2" readonly type="text" v-model="entity.rechnung.ersteller" />
     </div>
+  </div>
+  <div class="m1">
+    <div class="m5m">
+      <label for="rechnungEditForm_ekBrutto">{{ $t("inventar.produkt.ekPreisB") }}</label>
+      <input class="m5" readonly type="text" v-model="ekBrutto"  />
+    </div>
     <div class="m6m">
+      <label for="rechnungEditForm_gewinn">{{ $t("inventar.produkt.gewinn") }}</label>
+      <input class="m6" readonly type="text" v-model="endgewinnAnzeige" :class="endgewinn < 0 ? 'error' : (endgewinn < 1 ? 'warning' : '')" />
+    </div>
+    <div class="m6m">
+      <label for="rechnungEditForm_gesamtrabatt">{{ $t("general.rabattP") }}</label>
+      <input class="m6" min="0.00" step="0.01" type="number" v-model="entity.rechnung.rabattP" v-on:change="berechneEndpreis" :readonly="entity.rechnung.rabatt > 0.00" />
+    </div>
+    <div class="m6m">
+      <label for="rechnungEditForm_gesamtrabatt">{{ $t("general.rabattE") }}</label>
+      <input class="m6" min="0.00" step="0.01" type="number" v-model="entity.rechnung.rabatt" v-on:change="berechneEndpreis" :readonly="entity.rechnung.rabattP > 0.00" />
+    </div>
+    <div class="m6">
       <label for="rechnungEditForm_endpreis">{{ $t("general.endpreis") }}</label>
       <input class="m6" readonly type="text" v-model="endpreis" />
     </div>
@@ -151,7 +169,10 @@ Vue.component('edit-dialog', {
     this.loadEntity();
     return {
       editEntity: {},
+      ekBrutto: 0.00,
       endpreis: 0.00,
+      endgewinn: 0.00,
+      endgewinnAnzeige: 0,
       entity: {
         rechnung: {
           kunde: {},
@@ -176,14 +197,12 @@ Vue.component('edit-dialog', {
       return this.entity && this.entity.rechnung && hasAllPropertiesAndNotEmpty(this.entity, ['rechnung.datum']) && (!kundeRequired || this.entity.rechnung.kunde.nummer);
     },
     berechneEndpreis: function() {
-      var endpreis = 0;
-      this.entity.posten.forEach(function(element) {
-        var postenPreis = (element.menge || 1) * (element.preis || 0) - (element.rabatt || 0);  
-        endpreis = endpreis + Number((postenPreis).toFixed(2));
-      });
-      endpreis = endpreis || 0;
-      endpreis = endpreis < 0 ? 0 : endpreis;
-      this.endpreis = formatMoney(endpreis);
+      this.entity.rechnung.rabatt = this.entity.rechnung.rabatt < 0 ? 0 : this.entity.rechnung.rabatt;
+      var result = berechneEndpreisRechnung(this.entity);
+      this.endpreis = formatMoney(result.endpreis);
+      this.ekBrutto = formatMoney(result.ekBrutto);
+      this.endgewinn = result.endpreis - result.ekBrutto;
+      this.endgewinnAnzeige = formatMoney(this.endgewinn);
     },
     editPosten: function(index) {
       var posten = this.entity.posten[index];
@@ -225,6 +244,7 @@ Vue.component('edit-dialog', {
       this.entity.rechnung.angebot = angebot.angebot;
       this.entity.rechnung.angebot.text = angebot.text;
       this.entity.rechnung.kunde = angebot.angebot.kunde;
+      this.entity.rechnung.rabatt = angebot.rabattBrutto;
     },
     handleBestellungResponse: function(bestellung) {
       this.showBestellungDialog = false;

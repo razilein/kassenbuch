@@ -14,6 +14,7 @@ var vm = new Vue({
     einstellungDruckansichtDruckdialog: true,
     gesamtNetto: 0.00,
     gesamtBrutto: 0.00,
+    gesamtrabattP: 0.00
   },
   methods: {
     
@@ -38,10 +39,15 @@ var vm = new Vue({
     
     setEntity: function(response) {
       this.entity = response.data;
+      
+      var mwst = (vm.entity.angebot.mwst + 100.00);
       this.entity.angebotsposten.forEach(function(element) {
-        vm.gesamtBrutto = vm.gesamtBrutto + (element.preis * element.menge);
+        vm.gesamtNetto = vm.gesamtNetto + (element.preis * element.menge * 100 / mwst);
       });
-      vm.gesamtNetto = vm.gesamtBrutto * 100 / (vm.entity.angebot.mwst + 100.00);
+      var rabatt = vm.entity.angebot.rabatt || 0;
+      vm.gesamtrabattP = Number(vm.gesamtNetto * vm.entity.angebot.rabattP / 100).toFixed(2);
+      vm.mwst = (vm.gesamtNetto - rabatt - vm.gesamtrabattP) * vm.entity.angebot.mwst / 100;
+      vm.gesamtBrutto = vm.gesamtNetto - rabatt - vm.gesamtrabattP + vm.mwst;
     },
     
     getEinstellungDruckansichtDruckdialog: function() {

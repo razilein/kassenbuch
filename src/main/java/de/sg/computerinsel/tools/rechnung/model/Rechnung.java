@@ -27,6 +27,12 @@ public class Rechnung extends BaseRechnung {
     @Column(name = "mwst")
     private BigDecimal mwst;
 
+    @Column(name = "rabatt")
+    private BigDecimal rabatt;
+
+    @Column(name = "rabatt_p")
+    private BigDecimal rabattP;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate getLieferdatum() {
         return lieferdatum;

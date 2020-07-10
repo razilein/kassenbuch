@@ -2,6 +2,7 @@ package de.sg.computerinsel.tools.kassenbuch.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -43,9 +44,9 @@ public class KassenbuchService {
     public Page<Kassenbuch> listKassenbuch(final PageRequest pagination, final Map<String, String> conditions) {
         final String datum = SearchQueryUtils.getAndRemoveJoker(conditions, "datum");
         if (StringUtils.isBlank(datum)) {
-            return kassenbuchRepository.findAll(pagination);
+            return kassenbuchRepository.findByGeloescht(false, pagination);
         } else {
-            return kassenbuchRepository.findByDatum(DateUtils.parse(datum, "yyyy-MM-dd"), pagination);
+            return kassenbuchRepository.findByDatumAndGeloescht(DateUtils.parse(datum, "yyyy-MM-dd"), false, pagination);
         }
     }
 
@@ -100,7 +101,12 @@ public class KassenbuchService {
     }
 
     public void delete(final Integer id) {
-        kassenbuchRepository.deleteById(id);
+        kassenbuchRepository.findById(id).ifPresent(kassenbuch -> {
+            kassenbuch.setGeloescht(true);
+            kassenbuch.setLoescher(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname());
+            kassenbuch.setDatumGeloescht(LocalDateTime.now());
+            kassenbuchRepository.save(kassenbuch);
+        });
     }
 
 }

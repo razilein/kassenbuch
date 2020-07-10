@@ -66,9 +66,12 @@
             <label for="kassenbuchForm_gesamt">{{ $t("kassenbuch.gesamtInklAusgangsbetrag") }}</label>
             <input class="m5 right" readonly type="number" v-model="gesamt" />
           </div>
-          <div class="m1">
+          <div class="m1" v-if="hasPosten()">
             <button class="right" :title="$t('general.speichern')" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">{{ $t("general.speichern") }}</button>
             <button class="right disabled" :title="$t('general.pflichtfelder')" v-if="!areRequiredFieldsNotEmpty()">{{ $t("general.speichern") }}</button>
+          </div>
+          <div class="m1" v-if="!hasPosten()">
+            <button class="right" :title="$t('kassenbuch.leer')" v-on:click="saveLeerFunc();">{{ $t("kassenbuch.leer") }}</button>
           </div>
         </div>
         <posten-edit-dialog

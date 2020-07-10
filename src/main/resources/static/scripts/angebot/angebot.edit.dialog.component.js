@@ -16,6 +16,24 @@ Vue.component('edit-dialog', {
     </div>
   </div>
   <div class="m1">
+    <div class="m5m">
+      <label for="angebotEditForm_ekBrutto">{{ $t("inventar.produkt.ekPreisB") }}</label>
+      <input class="m5" readonly type="text" v-model="ekBrutto"  />
+    </div>
+    <div class="m6m">
+      <label for="angebotEditForm_gewinn">{{ $t("inventar.produkt.gewinn") }}</label>
+      <input class="m6" readonly type="text" v-model="endgewinnAnzeige" :class="endgewinn < 0 ? 'error' : (endgewinn < 1 ? 'warning' : '')" />
+    </div>
+  </div>
+  <div class="m1">
+    <div class="m6m">
+      <label for="angebotEditForm_gesamtrabattP">{{ $t("general.rabattP") }}</label>
+      <input class="m6" min="0.00" step="0.01" type="number" v-model="entity.angebot.rabattP" v-on:change="berechneEndpreis" :readonly="entity.angebot.rabatt > 0.00" />
+    </div>
+    <div class="m6m">
+      <label for="angebotEditForm_gesamtrabatt">{{ $t("general.rabattE") }}</label>
+      <input class="m6" min="0.00" step="0.01" type="number" v-model="entity.angebot.rabatt" v-on:change="berechneEndpreis" :readonly="entity.angebot.rabattP > 0.00" />
+    </div>
     <div class="m6m">
       <label for="angebotEditForm_endpreis">{{ $t("general.endpreisNto") }}</label>
       <input class="m6" readonly type="text" v-model="endpreisNto" />
@@ -103,8 +121,11 @@ Vue.component('edit-dialog', {
         angebotsposten: [],
       },
       editEntity: {},
+      ekBrutto: 0.00,
       endpreisNto: 0.00,
       endpreis: 0.00,
+      endgewinn: 0.00,
+      endgewinnAnzeige: 0,
       showEditDialog: false,
       showKundeDialog: false,
     };
@@ -129,15 +150,13 @@ Vue.component('edit-dialog', {
         this.entity.angebotsposten.length > 0 && !this.entity.angebot.erledigt;
     },
     berechneEndpreis: function() {
-      var endpreis = 0;
-      this.entity.angebotsposten.forEach(function(element) {
-        var postenPreis = (element.menge || 1) * (element.preis || 0) - (element.rabatt || 0);  
-        endpreis = endpreis + postenPreis;
-      });
-      endpreis = endpreis || 0;
-      endpreis = endpreis < 0 ? 0 : endpreis;
-      this.endpreis = formatMoney(endpreis);
-      this.endpreisNto = formatMoney(endpreis * 100 / (this.entity.angebot.mwst + 100));
+      this.entity.angebot.rabatt = this.entity.angebot.rabatt < 0 ? 0 : this.entity.angebot.rabatt;
+      var result = berechneEndpreisAngebot(this.entity);
+      this.endpreis = formatMoney(result.endpreis);
+      this.endpreisNto = formatMoney(result.endpreisNto);
+      this.ekBrutto = formatMoney(result.ekBrutto);
+      this.endgewinn = result.endgewinn;
+      this.endgewinnAnzeige = formatMoney(this.endgewinn);
     },
     editPosten: function(index) {
       var posten = this.entity.angebotsposten[index];
