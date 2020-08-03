@@ -361,6 +361,7 @@ const messages = {
     rechnung: {
       auftragsnummer: 'Auftragsnummer',
       auftragsBestellnummer: 'Auftrags-/Bestellnummer',
+      alle: 'Alle Rechnungen zu diesem Kunden anzeigen',
       bearbeiten: 'Rechnung bearbeiten',
       bestellnummer: 'Bestellnummer',
       bezahlen: 'Wollen Sie diese Rechnung als',
@@ -388,6 +389,8 @@ const messages = {
       nichtBezahlt: ' noch nicht bezahlt',
       nichtBezahlte: 'Nur nicht bezahlte Rechnungen anzeigen',
       oeffnen: 'Rechnung öffnen',
+      offen: 'Offene Rechnungen zum Kunden',
+      offenInfo: 'Zum gewählten Kunden sind noch folgende Rechnungen offen: ',
       produktWaehlen: 'Dieses Produkt wählen',
       rabattGeben: 'Rabatt geben',
       rabattrechner: 'Rabattrechner',

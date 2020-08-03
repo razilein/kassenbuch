@@ -8,11 +8,13 @@ var vm = new Vue({
       filiale: {}
     },
     einstellungDruckansichtNeuesFenster: true,
+    nichtBezahlteRechnungen: {},
     result: {},
     resetErsteller: false,
     showDialog: false,
     showAngebotDialog: false,
     showKundeDialog: false,
+    showNichtBezahlteRechnungDialog: false,
     wochentagdatum: ''
   },
   methods: {
@@ -50,6 +52,8 @@ var vm = new Vue({
     handleKundeResponse: function(kunde) {
       vm.showKundeDialog = false;
       vm.entity.kunde = kunde;
+      vm.getNichtBezahlteRechnungen(kunde.id)
+        .then(vm.setNichtBezahlteRechnungen);
     },
     openBestellung: function(response) {
       var data = response.data;
@@ -87,6 +91,16 @@ var vm = new Vue({
     },
     setMitarbeiter: function(mitarbeiter) {
       vm.entity.ersteller = mitarbeiter;
+    },
+    getNichtBezahlteRechnungen: function(kundeId) {
+      return axios.get('/rechnung/offen/' + kundeId);
+    },
+    setNichtBezahlteRechnungen: function(response) {
+      var data = response.data;
+      if (data && data.length > 0) {
+        vm.nichtBezahlteRechnungen = data;
+        vm.showNichtBezahlteRechnungDialog = true;
+      }
     },
   }
 });

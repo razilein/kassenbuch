@@ -20,4 +20,6 @@ public interface RechnungRepository extends CrudRepository<Rechnung, Integer> {
 
     List<Rechnung> findByKundeId(Integer id);
 
+    List<Rechnung> findByKundeIdAndDatumLessThanAndBezahlt(Integer kundeId, LocalDate datum, boolean bezahlt);
+
 }
