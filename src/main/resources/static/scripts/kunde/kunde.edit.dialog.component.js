@@ -67,6 +67,13 @@ Vue.component('kunde-edit-dialog', {
     <zeichenzaehler-label :elem="entity.email" :forid="'kundeEditForm_email'" :label="$t('general.email')" :maxlength="'100'"></zeichenzaehler-label>
     <input class="m1" id="kundeEditForm_email" maxlength="100" type="text" v-model="entity.email"></input>
   </div>
+  <div class="m1"><hr /></div>
+  <div class="m1">
+    <label class="container checkbox" :title="$t('kunde.problemInfo')">{{ $t("kunde.problem") }}
+      <input id="kundeEditForm_problem" type="checkbox" v-model="entity.problem" />
+      <span class="checkmark"></span>
+    </label>
+  </div>
   <div class="m1">
     <zeichenzaehler-label :elem="entity.bemerkung" :forid="'kundeEditForm_bemerkung'" :label="$t('general.bemerkung')" :maxlength="'4000'"></zeichenzaehler-label>
     <textarea class="m1" v-model="entity.bemerkung"></textarea>

@@ -81,6 +81,8 @@ public class BaseKunde extends IntegerBaseObject {
     @Column(name = "suchfeld_name")
     private String suchfeldName;
 
+    private boolean problem;
+
     public String getNameKomplett() {
         final StringBuilder builder = new StringBuilder();
         if (StringUtils.isNotBlank(firmenname)) {

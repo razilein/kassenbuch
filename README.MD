@@ -265,6 +265,10 @@ Kundendatensatz übernommen. Der Kundendatensatz wird anschließend gelöscht.
 
 Durch Klick auf das *Löschen-Icon* kann nach erneuter Bestätigung der Kunde gelöscht werden. Dabei werden keine Reparaturaufträge oder Rechnungen gelöscht. Jedoch wird die Verknüpfung zum Kunden entfernt, sodass diese Daten beim Ansehen der Aufträge/Rechnungen nicht mehr ersichtlich sind.
 
+Problematische Kunden können mit Hilfe des Kontrollkästchens *Problematischer Kunde* markiert werden.
+Bei Auswahl dieses Kunden beim Erstellen von Angeboten, Bestellungen oder Rechnungen erscheint eine Warnmeldung.
+Wurde beim Kunden zusätzlich ein Text im Bemerkungsfeld hinterlegt, wird dieser in der Warnmeldung zusätzlich angezeigt.
+
 ## Inventar
 Die Seite Inventar unterteilt sich in die sechs Unterseiten **Produkte**, **Gruppen**, **Kategorien**, **Inventur**, **Export** und **Import**.
 

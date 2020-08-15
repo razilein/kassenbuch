@@ -143,6 +143,14 @@ var vm = new Vue({
       vm.entity.rechnung.kunde = kunde;
       vm.entity.rechnung.nameDrucken = true;
       vm.entity.rechnung.nameDruckenBeiFirma = vm.entity.rechnung.kunde.nameDruckenBeiFirma;
+      if (kunde.problem) {
+        var problemText = this.$t('kunde.problemStandard');
+        if (kunde.bemerkung) {
+          problemText = problemText + ':<br><br>' + kunde.bemerkung;
+        }
+        vm.result = { warning: problemText };
+        vm.showDialog = true;
+      }
       vm.getNichtBezahlteRechnungen(kunde.id)
         .then(vm.setNichtBezahlteRechnungen);
     },

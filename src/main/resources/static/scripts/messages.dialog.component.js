@@ -20,7 +20,7 @@ Vue.component('messages-box', {
         </div>
         <div class="dialog-container warning" v-if="text.warning">
             <h3 class="dialog-header">{{ $t("general.meldung.warnung") }}</h3>
-            <div class="dialog-body">{{text.warning}}</div>
+            <div class="dialog-body" v-html="text.warning"></div>
             <div class="dialog-footer">
               <button class="dialog-default-button warning" @click="$emit('close')">{{ $t("general.ok") }}</button>
             </div>
