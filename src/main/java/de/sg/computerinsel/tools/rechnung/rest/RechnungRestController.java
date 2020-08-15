@@ -297,4 +297,11 @@ public class RechnungRestController {
         return result;
     }
 
+    @GetMapping("/offen/{kundeId}")
+    public List<DefaultKeyValue<Integer, String>> hatKundeOffeneRechnungen(@PathVariable final Integer kundeId) {
+        return service.hatKundeOffeneRechnungen(kundeId).stream()
+                .map(r -> new DefaultKeyValue<>(r.getId(), r.getFiliale().getKuerzel() + r.getNummerAnzeige()))
+                .collect(Collectors.toList());
+    }
+
 }

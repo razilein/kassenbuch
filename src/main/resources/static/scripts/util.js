@@ -193,32 +193,38 @@ function berechneEndpreisRechnung(entity) {
 function berechneEndpreisAngebot(entity) {
   var ekBto = 0;
   var endpreisNto = 0;
+  var endpreisNtoGerundet = 0;
   
   var mwst = entity.angebot.mwst + 100;
   entity.angebotsposten.forEach(function(element) {
     var postenPreis = ((element.menge || 1) * (element.preis || 0) - (element.rabatt || 0)) * 100 / mwst;
-    endpreisNto = endpreisNto + Number((postenPreis).toFixed(2));
+    endpreisNto = endpreisNto + Number(postenPreis);
+    endpreisNtoGerundet = endpreisNtoGerundet + Number((postenPreis).toFixed(2));
 
     var produkt = element.produkt || {};
     var postenEkPreis = (element.menge || 1) * (produkt.preisEkBrutto || 0);
-    ekBto = ekBto + Number((postenEkPreis).toFixed(2));
+    ekBto = ekBto + Number(postenEkPreis);
   });
   ekBto = ekBto || 0;
   endpreisNto = endpreisNto || 0;
-  var rabatt = Number(entity.angebot.rabatt || 0).toFixed(2);
+  endpreisNtoGerundet = endpreisNtoGerundet || 0;
+  var rabatt = Number(entity.angebot.rabatt || 0);
   endpreisNto = endpreisNto - rabatt;
+  endpreisNtoGerundet = endpreisNtoGerundet - rabatt.toFixed(2);
   if (entity.angebot.rabattP > 0) {
-    var rabattP = 100.00 - Number(entity.angebot.rabattP).toFixed(2);
-    endpreisNto = Number(endpreisNto * rabattP / 100.00).toFixed(2);
+    var rabattP = 100.00 - Number(entity.angebot.rabattP);
+    endpreisNto = Number(endpreisNto * rabattP / 100.00);
+    endpreisNtoGerundet = Number(endpreisNtoGerundet * rabattP / 100.00).toFixed(2);
   }
   endpreisNto = endpreisNto < 0 ? 0 : endpreisNto;
+  endpreisNtoGerundet = endpreisNtoGerundet < 0 ? 0 : endpreisNtoGerundet;
   
   var endpreis = (endpreisNto - rabatt) * mwst / 100;
   return {
-    endpreis: endpreis,
-    endpreisNto: endpreisNto,
-    ekBrutto: ekBto,
-    endgewinn: endpreis - ekBto
+    endpreis: Number(endpreis).toFixed(2),
+    endpreisNto: Number(endpreisNtoGerundet).toFixed(2),
+    ekBrutto: Number(ekBto).toFixed(2),
+    endgewinn: Number(endpreis - ekBto).toFixed(2)
   };
 }
 

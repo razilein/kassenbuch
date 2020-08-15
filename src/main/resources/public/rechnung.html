@@ -173,6 +173,13 @@
         @close="showReparaturDialog = false"
         @saved="handleReparaturResponse"
       ></reparatur-suchen-dialog>
+      <rechnung-offen-dialog
+        :einstellung-druckansicht-neues-fenster="einstellungDruckansichtNeuesFenster"
+        :kunde-id="entity.rechnung.kunde.id"
+        :rechnungen="nichtBezahlteRechnungen"
+        v-if="showNichtBezahlteRechnungDialog"
+        @close="showNichtBezahlteRechnungDialog = false"
+      ></rechnung-offen-dialog>
       <rabatt-dialog
         :entity="rabattEntity"
         v-if="showRabattDialog"
@@ -203,6 +210,7 @@
   <script src="/scripts/inventar/produkt.suchen.component.js"></script>
   <script src="/scripts/rechnung/rechnungsposten.edit.dialog.component.js"></script>
   <script src="/scripts/rechnung/rechnung.rabatt.dialog.component.js"></script>
+  <script src="/scripts/rechnung/rechnung.offen.dialog.component.js"></script>
   <script src="/scripts/rechnung/rechnung.header.component.js"></script>
   <script src="/scripts/rechnung/rechnung.js"></script>
 </html>

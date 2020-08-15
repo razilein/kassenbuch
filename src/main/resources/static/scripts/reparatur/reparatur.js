@@ -8,6 +8,7 @@ var vm = new Vue({
     },
     einstellungDruckansichtNeuesFenster: true,
     geraetepasswortarten: [],
+    nichtBezahlteRechnungen: {},
     pruefstatus: [],
     reparaturarten: [],
     result: {},
@@ -15,6 +16,7 @@ var vm = new Vue({
     showDialog: false,
     showBestellungDialog: false,
     showKundeDialog: false,
+    showNichtBezahlteRechnungDialog: false,
     wochentagabholdatum: ''
   },
   methods: {
@@ -63,6 +65,8 @@ var vm = new Vue({
     handleKundeResponse: function(kunde) {
       vm.showKundeDialog = false;
       vm.entity.kunde = kunde;
+      vm.getNichtBezahlteRechnungen(kunde.id)
+        .then(vm.setNichtBezahlteRechnungen);
     },
     handleBestellungResponse: function(bestellung) {
       vm.showBestellungDialog = false;
@@ -112,6 +116,15 @@ var vm = new Vue({
     },
     setEinstellungDruckansichtNeuesFenster: function(response) {
       vm.einstellungDruckansichtNeuesFenster = response.data.druckansichtNeuesFenster;
+    },
+    getNichtBezahlteRechnungen: function(kundeId) {
+      return axios.get('/rechnung/offen/' + kundeId);
+    },
+    setNichtBezahlteRechnungen: function(response) {
+      if (response.data) {
+        vm.nichtBezahlteRechnungen = response.data;
+        vm.showNichtBezahlteRechnungDialog = true;
+      }
     },
     getReparaturarten: function() {
       return axios.get('/reparatur/reparaturarten');

@@ -197,4 +197,8 @@ public class RechnungService {
         });
     }
 
+    public List<Rechnung> hatKundeOffeneRechnungen(final Integer kundeId) {
+        return rechnungRepository.findByKundeIdAndDatumLessThanAndBezahlt(kundeId, LocalDate.now(), false);
+    }
+
 }

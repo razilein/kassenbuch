@@ -135,12 +135,16 @@ public class KundeService {
     private String formatTelefonnummer(final String telefon) {
         String result = StringUtils.trim(telefon);
         try {
-            if (StringUtils.isNotBlank(telefon) && !StringUtils.startsWithAny(result, "0", "+")) {
+            if (StringUtils.isNotBlank(telefon) && !StringUtils.startsWithAny(result, "0", "+") && StringUtils.length(result) < 9) {
                 result = DEFAULT_VORWAHL + result;
             }
             final PhoneNumber number = phoneNumberUtil.parseAndKeepRawInput(result, Locale.GERMANY.getLanguage().toUpperCase());
             if (phoneNumberUtil.isValidNumber(number)) {
-                result = phoneNumberUtil.format(number, PhoneNumberFormat.NATIONAL);
+                if (StringUtils.startsWithAny(result, "+", "00")) {
+                    result = StringUtils.replace(phoneNumberUtil.format(number, PhoneNumberFormat.INTERNATIONAL), "+49 ", "0");
+                } else {
+                    result = phoneNumberUtil.format(number, PhoneNumberFormat.NATIONAL);
+                }
                 final String[] splittedPhone = StringUtils.split(result, StringUtils.SPACE);
                 if (splittedPhone.length == 2 && StringUtils.isNumeric(splittedPhone[1])) {
                     final StringBuilder builder = new StringBuilder(splittedPhone[0]);

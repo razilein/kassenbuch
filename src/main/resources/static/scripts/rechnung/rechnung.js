@@ -25,6 +25,7 @@ var vm = new Vue({
       posten: []
     },
     einstellungDruckansichtNeuesFenster: true,
+    nichtBezahlteRechnungen: {},
     rabattEntity: {},
     result: {},
     showDialog: false,
@@ -34,6 +35,7 @@ var vm = new Vue({
     showKundeDialog: false,
     showRabattDialog: false,
     showRechnungspositionDialog: false,
+    showNichtBezahlteRechnungDialog: false,
     showReparaturDialog: false,
     zahlarten: []
   },
@@ -141,6 +143,16 @@ var vm = new Vue({
       vm.entity.rechnung.kunde = kunde;
       vm.entity.rechnung.nameDrucken = true;
       vm.entity.rechnung.nameDruckenBeiFirma = vm.entity.rechnung.kunde.nameDruckenBeiFirma;
+      if (kunde.problem) {
+        var problemText = this.$t('kunde.problemStandard');
+        if (kunde.bemerkung) {
+          problemText = problemText + ':<br><br>' + kunde.bemerkung;
+        }
+        vm.result = { warning: problemText };
+        vm.showDialog = true;
+      }
+      vm.getNichtBezahlteRechnungen(kunde.id)
+        .then(vm.setNichtBezahlteRechnungen);
     },
     handleReparaturResponse: function(reparatur) {
       vm.showReparaturDialog = false;
@@ -227,6 +239,16 @@ var vm = new Vue({
     },
     setEinstellungDruckansichtNeuesFenster: function(response) {
       vm.einstellungDruckansichtNeuesFenster = response.data.druckansichtNeuesFenster;
+    },
+    getNichtBezahlteRechnungen: function(kundeId) {
+      return axios.get('/rechnung/offen/' + kundeId);
+    },
+    setNichtBezahlteRechnungen: function(response) {
+      var data = response.data;
+      if (data && data.length > 0) {
+        vm.nichtBezahlteRechnungen = data;
+        vm.showNichtBezahlteRechnungDialog = true;
+      }
     },
     getZahlarten: function() {
       return axios.get('/rechnung/zahlarten');
