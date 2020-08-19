@@ -121,8 +121,9 @@ var vm = new Vue({
       return axios.get('/rechnung/offen/' + kundeId);
     },
     setNichtBezahlteRechnungen: function(response) {
-      if (response.data) {
-        vm.nichtBezahlteRechnungen = response.data;
+      var data = response.data;
+      if (data && data.length > 0) {
+        vm.nichtBezahlteRechnungen = data;
         vm.showNichtBezahlteRechnungDialog = true;
       }
     },
