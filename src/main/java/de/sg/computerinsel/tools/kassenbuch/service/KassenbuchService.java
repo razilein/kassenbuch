@@ -20,7 +20,6 @@ import de.sg.computerinsel.tools.kassenbuch.model.Kassenbuch;
 import de.sg.computerinsel.tools.kassenbuch.model.Kassenbuchposten;
 import de.sg.computerinsel.tools.kassenbuch.rest.model.KassenbuchDTO;
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
-import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.rechnung.service.RechnungService;
 import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
@@ -72,10 +71,8 @@ public class KassenbuchService {
     }
 
     private Kassenbuchposten createPosten(final Kassenbuch kassenbuch, final Rechnung rechnung) {
-        final BigDecimal betrag = rechnungService.listRechnungspostenByRechnungId(rechnung.getId()).stream().map(Rechnungsposten::getGesamt)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
         final String nummer = rechnung.getFiliale().getKuerzel() + rechnung.getNummerAnzeige();
-        return new Kassenbuchposten(kassenbuch, nummer, betrag);
+        return new Kassenbuchposten(kassenbuch, nummer, rechnungService.getRechnung(rechnung.getId()).getRechnungsbetrag());
     }
 
     public List<Kassenbuchposten> listKassenbuchposten(final LocalDate datum) {
