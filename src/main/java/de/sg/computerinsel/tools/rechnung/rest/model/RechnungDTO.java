@@ -60,6 +60,10 @@ public class RechnungDTO {
         if (rechnung.getRabatt() != null) {
             betrag = betrag.subtract(rechnung.getRabatt());
         }
+        if (rechnung.getRabattP() != null) {
+            final BigDecimal rabatt = betrag.multiply(rechnung.getRabattP()).divide(new BigDecimal("100"));
+            betrag = betrag.subtract(rabatt);
+        }
         return betrag;
     }
 
