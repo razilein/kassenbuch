@@ -3,6 +3,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Rechnung drucken - Computer-Insel Tools by Sita Geßner</title>
     <link rel="icon" href="/themes/icons/rechnung.png">
+    <link rel="stylesheet" href="/themes/css/general.css">
     <link rel="stylesheet" href="/themes/css/rechnung.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
@@ -11,7 +12,7 @@
     <script type="text/javascript" src="/scripts/vendor/de.js"></script>
   </head>
   <body>
-    <div id="rechnung-drucken">
+    <div id="rechnung-drucken" v-cloak>
     <div v-for="item in exemplare">
       <header style="page-break-before: always;">
         <div class="center" style="width: 250px; height: 90px;">

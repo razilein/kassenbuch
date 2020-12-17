@@ -3,6 +3,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Kassenbuch drucken - Computer-Insel Tools by Sita Geßner</title>
     <link rel="icon" href="/themes/icons/kasse.png">
+    <link rel="stylesheet" href="/themes/css/general.css">
     <link rel="stylesheet" href="/themes/css/kassenbuch.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
@@ -11,7 +12,7 @@
     <script type="text/javascript" src="/scripts/vendor/de.js"></script>
   </head>
   <body>
-    <div id="kassenbuch-drucken">
+    <div id="kassenbuch-drucken" v-cloak>
       <h3>{{ $t("kassenbuch.kassenberichtVom") }} {{ formatDate(entity.kassenbuch.datum) }}</h3>
       <table>
         <thead>

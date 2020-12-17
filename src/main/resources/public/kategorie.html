@@ -5,6 +5,7 @@
     <link rel="icon" href="/themes/icons/inventar.png">
     <link rel="stylesheet" href="/themes/css/button.css">
     <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/general.css">
     <link rel="stylesheet" href="/themes/css/grid.css">
     <link rel="stylesheet" href="/themes/css/loading.css">
     <link rel="stylesheet" href="/themes/css/radio.css">
@@ -16,7 +17,7 @@
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
   </head>
   <body>
-    <div id="kategorie">
+    <div id="kategorie" v-cloak>
       <page-header :marker="'Inventar'"></page-header>
       <page-header-inventar v-bind:marker="'Kategorien'"></page-header-inventar>
       <div id="content">

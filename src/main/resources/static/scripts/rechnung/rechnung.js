@@ -25,6 +25,7 @@ var vm = new Vue({
       posten: []
     },
     einstellungDruckansichtNeuesFenster: true,
+    initComplete: false,
     nichtBezahlteRechnungen: {},
     rabattEntity: {},
     result: {},

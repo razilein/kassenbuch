@@ -5,6 +5,7 @@
     <link rel="icon" href="/themes/icons/zahnrad.png">
     <link rel="stylesheet" href="/themes/css/button.css">
     <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/general.css">
     <link rel="stylesheet" href="/themes/css/grid.css">
     <link rel="stylesheet" href="/themes/css/loading.css">
     <link rel="stylesheet" href="/themes/css/radio.css">
@@ -17,7 +18,7 @@
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
   <body>
-    <div id="reparaturen">
+    <div id="reparaturen" v-cloak>
       <page-header :marker="'Reparaturen'"></page-header>
       <page-header-reparatur v-bind:marker="'Reparaturen'"></page-header-reparatur>
       <div id="content">
