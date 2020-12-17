@@ -187,9 +187,7 @@ public class RechnungRestController {
             result.putAll(validationService.validate(posten));
         }
         if (result.isEmpty()) {
-            if (isErstellt && (zahlart != Zahlart.UEBERWEISUNG)) {
-                rechnung.setBezahlt(true);
-            }
+            changeBezahltStatus(rechnung, isErstellt, zahlart);
             final Rechnung saved = service.saveRechnung(rechnung);
             savePosten(dto.getPosten(), saved);
             reparaturErledigen(saved);
@@ -211,6 +209,18 @@ public class RechnungRestController {
             protokollService.write(saved.getId(), RECHNUNG, String.valueOf(rechnung.getNummer()), isErstellt ? ERSTELLT : GEAENDERT);
         }
         return result;
+    }
+
+    private void changeBezahltStatus(final Rechnung rechnung, final boolean isErstellt, final Zahlart zahlart) {
+        if (isErstellt) {
+            rechnung.setBezahlt(zahlart != Zahlart.UEBERWEISUNG);
+        } else {
+            final Rechnung existing = service.getRechnung(rechnung.getId()).getRechnung();
+            final Zahlart zahlartBefore = Zahlart.getByCode(existing.getArt());
+            if (zahlartBefore != zahlart) {
+                rechnung.setBezahlt(zahlart != Zahlart.UEBERWEISUNG);
+            }
+        }
     }
 
     private boolean relevanteFelderNichtGefuellt(final Kunde kunde) {
