@@ -2,7 +2,6 @@ var vm = new Vue({
   i18n,
   el: '#bestellung-drucken',
   data: {
-    currentDate: null,
     entity: {
       filiale: {},
       kunde: {},
@@ -13,9 +12,6 @@ var vm = new Vue({
   methods: {
     
     init: function() {
-      moment.locale('de');
-      vm.currentDate = moment().format('DD.MM.YYYY');
-
       this.getEntity()
         .then(this.setEntity)
         .then(this.getEinstellungDruckansichtDruckdialog)
@@ -38,6 +34,7 @@ var vm = new Vue({
       if (!response.data.kunde) {
         response.data.kunde = {};
       }
+      response.data.erstelltAm = response.data.erstelltAm.substr(0, response.data.erstelltAm.indexOf(' '));
       this.entity = response.data;
     },
     
