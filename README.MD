@@ -275,6 +275,7 @@ Kundendatensatz übernommen. Der Kundendatensatz wird anschließend gelöscht.
 Durch Klick auf das *Löschen-Icon* kann nach erneuter Bestätigung der Kunde gelöscht werden. Dabei werden keine Reparaturaufträge oder Rechnungen gelöscht. Jedoch wird die Verknüpfung zum Kunden entfernt, sodass diese Daten beim Ansehen der Aufträge/Rechnungen nicht mehr ersichtlich sind.
 
 Problematische Kunden können mit Hilfe des Kontrollkästchens *Problematischer Kunde* markiert werden.
+Zur Hervorhebung wird in der zweiten Spalte der Tabelle dieser Ansicht ein rotes *Info-Icon* dargestellt.
 Bei Auswahl dieses Kunden beim Erstellen von Angeboten, Bestellungen oder Rechnungen erscheint eine Warnmeldung.
 Wurde beim Kunden zusätzlich ein Text im Bemerkungsfeld hinterlegt, wird dieser in der Warnmeldung zusätzlich angezeigt.
 
