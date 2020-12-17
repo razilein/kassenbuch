@@ -125,7 +125,7 @@ var vm = new Vue({
         { name: 'bezeichnung', title: this.$t('general.bezeichnung'), width: 500 },
         { name: 'ean', title: this.$t('inventar.produkt.ean'), width: 120 },
         { name: 'bestand', title: this.$t('inventar.produkt.bestand'), width: 100 },
-        { name: 'preise', sortable: false, title: this.$t('inventar.produkt.preise'), width: 110 },
+        { name: 'preise', title: this.$t('inventar.produkt.preise'), width: 110 },
       ];
     },
     

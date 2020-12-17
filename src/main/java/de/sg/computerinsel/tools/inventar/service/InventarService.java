@@ -13,6 +13,7 @@ import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.google.common.primitives.Ints;
@@ -25,6 +26,7 @@ import de.sg.computerinsel.tools.inventar.model.Kategorie;
 import de.sg.computerinsel.tools.inventar.model.Produkt;
 import de.sg.computerinsel.tools.inventar.model.ProduktDTO;
 import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
+import de.sg.computerinsel.tools.rest.SearchData;
 import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
 import de.sg.computerinsel.tools.service.SearchQueryUtils;
 import lombok.AllArgsConstructor;
@@ -224,6 +226,15 @@ public class InventarService {
         final Kategorie kategorie = new Kategorie();
         kategorie.setBezeichnung(bezeichnung);
         return saveKategorie(kategorie);
+    }
+
+    public void checkAndSetSortierungAnzahlVerkaeufe(final SearchData data) {
+        if (StringUtils.equals("true", data.getConditions().get("sortierung"))) {
+            data.getData().setSort("anzahlVerkaeufe");
+            data.getData().setSortorder(Sort.Direction.DESC.toString());
+        } else if (StringUtils.equals(data.getData().getSort(), "preise")) {
+            data.getData().setSort("preisVkBrutto");
+        }
     }
 
 }
