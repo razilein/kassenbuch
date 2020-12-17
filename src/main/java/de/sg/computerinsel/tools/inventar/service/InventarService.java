@@ -23,6 +23,7 @@ import de.sg.computerinsel.tools.inventar.dao.ProduktRepository;
 import de.sg.computerinsel.tools.inventar.model.Gruppe;
 import de.sg.computerinsel.tools.inventar.model.Kategorie;
 import de.sg.computerinsel.tools.inventar.model.Produkt;
+import de.sg.computerinsel.tools.inventar.model.ProduktDTO;
 import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
 import de.sg.computerinsel.tools.service.SearchQueryUtils;
@@ -191,6 +192,38 @@ public class InventarService {
             return p;
         }).forEach(produktRepository::save);
         return produkte.size();
+    }
+
+    public void produktAnlegen(final ProduktDTO dto) {
+        final Gruppe gruppe = gruppeRepository
+                .findAllByKategorieBezeichnungAndBezeichnung(dto.getKategorieBezeichnung(), dto.getGruppeBezeichnung()).stream().findFirst()
+                .orElseGet(() -> createGruppe(dto.getKategorieBezeichnung(), dto.getGruppeBezeichnung()));
+        final Produkt produkt = new Produkt();
+        produkt.setBestandUnendlich(dto.isBestandUnendlich());
+        produkt.setBezeichnung(dto.getBezeichnung());
+        produkt.setEan(dto.getEan());
+        produkt.setGruppe(gruppe);
+        produkt.setHersteller(dto.getHersteller());
+        produkt.setPreisEkBrutto(dto.getPreisEkBrutto());
+        produkt.setPreisEkNetto(dto.getPreisEkNetto());
+        produkt.setPreisVkBrutto(dto.getPreisVkBrutto());
+        produkt.setPreisVkNetto(dto.getPreisVkNetto());
+        saveProdukt(produkt);
+    }
+
+    private Gruppe createGruppe(final String kategorieBezeichnung, final String gruppeBezeichnung) {
+        final Kategorie kategorie = kategorieRepository.findAllByBezeichnung(kategorieBezeichnung).stream().findFirst()
+                .orElseGet(() -> createKategorie(kategorieBezeichnung));
+        final Gruppe gruppe = new Gruppe();
+        gruppe.setBezeichnung(gruppeBezeichnung);
+        gruppe.setKategorie(kategorie);
+        return saveGruppe(gruppe);
+    }
+
+    private Kategorie createKategorie(final String bezeichnung) {
+        final Kategorie kategorie = new Kategorie();
+        kategorie.setBezeichnung(bezeichnung);
+        return saveKategorie(kategorie);
     }
 
 }

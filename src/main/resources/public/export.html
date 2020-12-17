@@ -45,7 +45,10 @@
         <table>
           <thead>
             <th style="width: 100px;">{{ $t("general.funktionen") }}</th>
+            <th style="width: 550px;">{{ $t("inventar.produkt.kategorie") }}</th>
+            <th style="width: 550px;">{{ $t("inventar.produkt.gruppe") }}</th>
             <th style="width: 550px;">{{ $t("general.bezeichnung") }}</th>
+            <th style="width: 550px;">{{ $t("inventar.produkt.hersteller") }}</th>
             <th style="width: 120px;">{{ $t("inventar.produkt.ean") }}</th>
             <th style="width: 120px;">{{ $t("inventar.produkt.bestandUnendlich") }}</th>
             <th style="width: 100px;">{{ $t("inventar.produkt.ekPreisB") }}</th>
@@ -58,7 +61,10 @@
               <td>
                 <button class="minus" :title="$t('export.keinExport')" v-on:click="removeItem(index)"></button>
               </td>
+              <td>{{produkt.gruppe.kategorie.bezeichnung}}</td>
+              <td>{{produkt.gruppe.bezeichnung}}</td>
               <td>{{produkt.bezeichnung}}</td>
+              <td>{{produkt.hersteller}}</td>
               <td>{{produkt.ean}}</td>
               <td>{{produkt.bestandUnendlich ? 'X' : ''}}</td>
               <td>{{ formatMoney(produkt.preisEkBrutto) }}</td>

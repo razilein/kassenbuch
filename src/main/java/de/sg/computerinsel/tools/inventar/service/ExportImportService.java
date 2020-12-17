@@ -32,6 +32,8 @@ public class ExportImportService {
 
     private final EinstellungenService einstellungenService;
 
+    private final InventarService inventarService;
+
     private final ProduktRepository produktRepository;
 
     private final ProtokollService protokollService;
@@ -57,6 +59,7 @@ public class ExportImportService {
             final List<Produkt> produkteByEan = produktRepository.findByEan(dto.getEan());
             if (produkteByEan.isEmpty()) {
                 log.debug("Keine Produkte mit EAN '{}' gefunden.", dto.getEan());
+                inventarService.produktAnlegen(dto);
             } else if (produkteByEan.size() > 1) {
                 log.debug("Es wurden {} Produkte mit der EAN '{}' gefunden. Eine Übernahme ist nicht möglich", produkteByEan.size(),
                         dto.getEan());

@@ -364,7 +364,9 @@ Um die angezeigten Produkte importieren zu können, wird das Recht *INVENTAR_IMP
 Durch Klick auf das *Minus-Icon* können Produkte für den Import abgewählt werden.
 
 Es werden nur Produkte importiert, wenn die EAN einmalig vorhanden ist.
-Werden keine oder mehrere Produkte gefunden, findet keine Anpassung statt.
+Werden mehrere Produkte gefunden, findet keine Anpassung statt.
+Kann kein Produkt gefunden werden, wird dieses anhand der übermittelten Daten neu angelegt.
+Produktkategorien und -gruppen werden ebenfalls angelegt, wenn diese nicht vorhanden sind.
 Angepasst werden die Brutto/Netto-Einkaufs/-Verkaufspreise, sowie, ob der Bestand unbegrenzt ist.
 Die Bezeichnung des Produktes wird nicht angepasst.
 

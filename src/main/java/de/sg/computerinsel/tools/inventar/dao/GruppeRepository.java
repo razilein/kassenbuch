@@ -20,4 +20,6 @@ public interface GruppeRepository extends CrudRepository<Gruppe, Integer> {
 
     Page<Gruppe> findAllByBezeichnungLikeAndKategorieId(String bezeichnung, Integer kategorieId, Pageable pageRequest);
 
+    List<Gruppe> findAllByKategorieBezeichnungAndBezeichnung(String kategorie, String gruppe);
+
 }
