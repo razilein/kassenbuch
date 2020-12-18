@@ -29,4 +29,6 @@ public class VKunde extends BaseKunde {
     @Column(name = "suchfeld2_telefon")
     private String suchfeld2Telefon;
 
+    private String suchfeldStrasse;
+
 }

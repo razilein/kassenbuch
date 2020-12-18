@@ -36,6 +36,10 @@
             </div>
           </div>
           <div class="m1">
+            <div class="m2m">
+              <label for="searchForm_strasse">{{ $t("general.strasse") }}</label>
+              <input class="m2" id="searchForm_strasse" type="text" v-model="grid.searchQuery.strasse"></input>
+            </div>
             <div class="m6m">
               <label for="searchForm_plz">{{ $t("general.plz") }}</label>
               <input class="m6" id="searchForm_plz" type="text" v-model="grid.searchQuery.plz"></input>
