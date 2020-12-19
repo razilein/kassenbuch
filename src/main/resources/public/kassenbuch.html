@@ -5,6 +5,7 @@
     <link rel="icon" href="/themes/icons/kasse.png">
     <link rel="stylesheet" href="/themes/css/button.css">
     <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/general.css">
     <link rel="stylesheet" href="/themes/css/grid.css">
     <link rel="stylesheet" href="/themes/css/loading.css">
     <link rel="stylesheet" href="/themes/css/radio.css">
@@ -17,7 +18,7 @@
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
   <body>
-    <div id="kassenbuch">
+    <div id="kassenbuch" v-cloak>
       <page-header :marker="'Kassenbuch'"></page-header>
       <page-header-kassenbuch v-bind:marker="'Kassenbuch'"></page-header-kassenbuch>
       <div id="content">
@@ -64,7 +65,7 @@
           <div class="m1" style="height: 10px;"></div>
           <div class="m1">
             <label for="kassenbuchForm_gesamt">{{ $t("kassenbuch.gesamtInklAusgangsbetrag") }}</label>
-            <input class="m5 right" readonly type="number" v-model="gesamt" />
+            <input class="m5 right" readonly type="text" v-model="gesamt" />
           </div>
           <div class="m1" v-if="hasPosten()">
             <button class="right" :title="$t('general.speichern')" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">{{ $t("general.speichern") }}</button>

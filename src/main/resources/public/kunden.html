@@ -5,6 +5,7 @@
     <link rel="icon" href="/themes/icons/kunde.png">
     <link rel="stylesheet" href="/themes/css/button.css">
     <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/general.css">
     <link rel="stylesheet" href="/themes/css/grid.css">
     <link rel="stylesheet" href="/themes/css/loading.css">
     <link rel="stylesheet" href="/themes/css/radio.css">
@@ -16,7 +17,7 @@
     <script type="text/javascript" src="/scripts/vendor/moment.min.js"></script>
   </head>
   <body>
-    <div id="kunden">
+    <div id="kunden" v-cloak>
       <page-header :marker="'Kunden'"></page-header>
       <div id="content">
         <div class="form m1">
@@ -35,6 +36,10 @@
             </div>
           </div>
           <div class="m1">
+            <div class="m2m">
+              <label for="searchForm_strasse">{{ $t("general.strasse") }}</label>
+              <input class="m2" id="searchForm_strasse" type="text" v-model="grid.searchQuery.strasse"></input>
+            </div>
             <div class="m6m">
               <label for="searchForm_plz">{{ $t("general.plz") }}</label>
               <input class="m6" id="searchForm_plz" type="text" v-model="grid.searchQuery.plz"></input>

@@ -68,6 +68,12 @@ button.good {
   -webkit-mask: url("../icons/good.svg") no-repeat center;
 }
 
+button.i {
+  background-color: #D8000C !important;
+  mask: url("../icons/info.svg") no-repeat center;
+  -webkit-mask: url("../icons/info.svg") no-repeat center;
+}
+
 button.key {
   mask: url("../icons/key.svg") no-repeat center;
   -webkit-mask: url("../icons/key.svg") no-repeat center;
@@ -108,6 +114,11 @@ button.open-new-tab {
   -webkit-mask: url("../icons/open-new-tab.svg") no-repeat center;
 }
 
+button.open-storno {
+  mask: url("../icons/open-storno.svg") no-repeat center;
+  -webkit-mask: url("../icons/open-storno.svg") no-repeat center;
+}
+
 button.pageLeft {
   mask: url("../icons/left.svg") no-repeat center;
   -webkit-mask: url("../icons/left.svg") no-repeat center;
@@ -116,6 +127,16 @@ button.pageLeft {
 button.pageRight {
   mask: url("../icons/right.svg") no-repeat center;
   -webkit-mask: url("../icons/right.svg") no-repeat center;
+}
+
+button.showStorno {
+  mask: url("../icons/show-storno.svg") no-repeat center;
+  -webkit-mask: url("../icons/show-storno.svg") no-repeat center;
+}
+
+button.storno {
+  mask: url("../icons/storno.svg") no-repeat center;
+  -webkit-mask: url("../icons/storno.svg") no-repeat center;
 }
 
 button.recht {
@@ -129,8 +150,8 @@ button.zahnrad {
 }
 
 button.add, button.angebot, button.bestellung, button.bad, button.delete, button.duplicate, button.edit, button.email,
-button.euro, button.good, button.key, button.kunde, button.kunden, button.lieferschein, button.minus,
-button.ok, button.ok2, button.open-new-tab, button.recht, button.zahnrad {
+button.euro, button.good, button.i, button.key, button.kunde, button.kunden, button.lieferschein, button.minus,
+button.ok, button.ok2, button.open-new-tab, button.open-storno, button.recht, button.showStorno, button.storno, button.zahnrad {
   background-color: #1a8cff;
   float: none;
   height: 30px;

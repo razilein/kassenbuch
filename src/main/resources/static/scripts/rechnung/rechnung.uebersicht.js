@@ -18,6 +18,8 @@ var vm = new Vue({
     showConfirmDialog: false,
     showDeleteDialog: false,
     showEditDialog: false,
+    showStornoDialog: false,
+    showStornoUebersichtDialog: false,
     showVersendenDialog: false,
     confirmDialog: {},
     deleteRow: {
@@ -28,6 +30,15 @@ var vm = new Vue({
     editRow: {
       restUrlGet: '/rechnung/',
       restUrlSave: '/rechnung/',
+      title: '',
+    },
+    stornoRow: {
+      restUrlGet: '/rechnung/storno/',
+      restUrlSave: '/rechnung/storno/',
+      title: '',
+    },
+    stornoUebersichtRow: {
+      id: '',
       title: '',
     },
     versendenDialog: {},
@@ -112,6 +123,28 @@ var vm = new Vue({
       if (data.success) {
         vm.showConfirmDialog = false;
         vm.grid.reload = true;
+      }
+      vm.result = data;
+      vm.showDialog = true;
+    },
+    
+    stornoFunction: function(row) {
+      if (!vm.isStornoErlaubt(row)) {
+        return;
+      }
+      vm.stornoRow.restUrlGet = '/rechnung/storno/' + row.id;
+      vm.stornoRow.title = 'Rechnung stornieren';
+      vm.showStornoDialog = true;
+    },
+    
+    handleStornoResponse: function(data) {
+      if (data.success) {
+        vm.showStornoDialog = false;
+        vm.grid.reload = true;
+        if (!data.storno.vollstorno) {
+          vm.openFunction(data.storno.rechnung, 1, true);
+        }
+        vm.openStornoFunction(data.storno);
       } 
       vm.result = data;
       vm.showDialog = true;
@@ -132,6 +165,8 @@ var vm = new Vue({
     
     prepareRoles: function() {
       vm.getRecht('ROLE_RECHNUNG');
+      vm.getRecht('ROLE_RECHNUNG_STORNO');
+      vm.getRecht('ROLE_RECHNUNG_STORNO_VERWALTEN');
       return vm.getRecht('ROLE_RECHNUNG_VERWALTEN');
     },
     
@@ -143,13 +178,25 @@ var vm = new Vue({
       return !vm.rechte['ROLE_RECHNUNG_VERWALTEN'];
     },
     
-    openFunction: function(row, anzahl) {
+    openFunction: function(row, anzahl, storno) {
       var exemplare = anzahl ? anzahl : (row.art === 2 ? 1 : 2);
       var params = '?id=' + row.id + '&exemplare=' + exemplare;
+      if (storno) {
+        params += '&storno=true';
+      }
       if (vm.einstellungDruckansichtNeuesFenster) {
         window.open('/rechnung-drucken.html' + params, '_blank', 'resizable=yes');
       } else {
         window.open('/rechnung-drucken.html' + params);
+      }
+    },
+    
+    openStornoFunction: function(row) {
+      var params = '?id=' + row.id;
+      if (vm.einstellungDruckansichtNeuesFenster) {
+        window.open('/rechnung-storno-drucken.html' + params, '_blank', 'resizable=yes');
+      } else {
+        window.open('/rechnung-storno-drucken.html' + params);
       }
     },
     
@@ -173,6 +220,8 @@ var vm = new Vue({
           { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.bezahltFunction },
           { clazz: 'email', disabled: vm.canSendEmail, title: this.$t('rechnung.email'), clickFunc: vm.sendMailFunction },
           { clazz: 'lieferschein', disabled: vm.hasNotRoleRechnungAnzeigen, title: this.$t('rechnung.lieferschein.drucken'), clickFunc: vm.openLieferscheinFunction },
+          { clazz: vm.getStornoClass, disabled: vm.hasNotRoleVerwalten, title: vm.getStornoTitle, clickFunc: vm.stornoFunction },
+          { clazz: 'open-storno', disabled: vm.hasNoStorno, title: this.$t('rechnung.stornoUebersicht'), clickFunc: vm.stornoUebersichtFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('rechnung.loeschen'), clickFunc: vm.deleteFunction }
         ] },
         { name: 'rechnungNr', title: this.$t('rechnung.rechnNr'), width: 80 },
@@ -186,6 +235,42 @@ var vm = new Vue({
         { name: 'ersteller', title: this.$t('general.ersteller'), width: 150 },
         { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 150 },
       ];
+    },
+    
+    hasNoStorno: function(row) {
+      var storniertePosten = row.posten.find(function(p) { return p.storno === true; });
+      return !storniertePosten || storniertePosten.length === 0;
+    },
+    
+    stornoUebersichtFunction: function(row) {
+      vm.stornoUebersichtRow.id = row.id;
+      vm.stornoUebersichtRow.title = this.$t('rechnung.stornoUebersichtTitle') + ' ' + row.filiale.kuerzel + row.nummerAnzeige;
+      vm.showStornoUebersichtDialog = true;
+    },
+    
+    getStornoClass: function(row) {
+      return vm.isStornoErlaubt(row) ? 'storno' : 'storno disabled';
+    },
+    
+    getStornoTitle: function(row) {
+      var title;
+      if (row.gesamtrabatt) {
+        title = this.$t('rechnung.stornierenGesamtrabatt');
+      } else if (!vm.isStornoErlaubt(row)) {
+        title = this.$t('rechnung.stornierenAllesStorniert');
+      } else {
+        title = this.$t('rechnung.stornieren');
+      }
+      return title;
+    },
+    
+    isStornoErlaubt: function(row) {
+      var result = !row.gesamtrabatt;
+      if (result) {
+        var nichtStorniertePosten = row.posten.find(function(p) { return !p.storno; });
+        result = nichtStorniertePosten;
+      }
+      return result;
     },
     
     getClazzErledigt: function(row) {

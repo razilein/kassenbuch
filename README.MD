@@ -148,6 +148,15 @@ Durch Klick auf das *E-Mail-Icon* kann dem Kunden die Rechnung zugesendet werden
 sich öffnenden Dialog gewählt werden.
 Dieses Icon ist nur sichtbar, wenn zum Kunden eine E-Mail-Adresse hinterlegt ist.
 
+Durch Klick auf das *Storno-Icon* kann die Rechnung komplett oder teilweise storniert werden.
+Rechnungen mit einem festen oder prozentualen Gesamtrabatt können nicht storniert werden.
+Nach Bestätigen der Stornierung wird der Stornierungsbeleg angezeigt und die originale Rechnung ohne die stornierten Positionen.
+Bei einer Komplettstornierung wird die Rechnung nicht geöffnet.
+
+Durch Klick auf das *Storno-Übersicht-Icon* können alle Stornierungen zu dieser Rechnung angezeigt werden.
+In dieser Ansicht können Stornierungen gelöscht werden und der Beleg, sowie die Rechnung ohne die stornierten Posten
+angezeigt werden.
+
 Durch Klick auf das *Löschen-Icon* kann eine Rechnung nach nochmaliger Bestätigung gelöscht werden.
 
 ### Export
@@ -266,6 +275,7 @@ Kundendatensatz übernommen. Der Kundendatensatz wird anschließend gelöscht.
 Durch Klick auf das *Löschen-Icon* kann nach erneuter Bestätigung der Kunde gelöscht werden. Dabei werden keine Reparaturaufträge oder Rechnungen gelöscht. Jedoch wird die Verknüpfung zum Kunden entfernt, sodass diese Daten beim Ansehen der Aufträge/Rechnungen nicht mehr ersichtlich sind.
 
 Problematische Kunden können mit Hilfe des Kontrollkästchens *Problematischer Kunde* markiert werden.
+Zur Hervorhebung wird in der zweiten Spalte der Tabelle dieser Ansicht ein rotes *Info-Icon* dargestellt.
 Bei Auswahl dieses Kunden beim Erstellen von Angeboten, Bestellungen oder Rechnungen erscheint eine Warnmeldung.
 Wurde beim Kunden zusätzlich ein Text im Bemerkungsfeld hinterlegt, wird dieser in der Warnmeldung zusätzlich angezeigt.
 
@@ -354,7 +364,9 @@ Um die angezeigten Produkte importieren zu können, wird das Recht *INVENTAR_IMP
 Durch Klick auf das *Minus-Icon* können Produkte für den Import abgewählt werden.
 
 Es werden nur Produkte importiert, wenn die EAN einmalig vorhanden ist.
-Werden keine oder mehrere Produkte gefunden, findet keine Anpassung statt.
+Werden mehrere Produkte gefunden, findet keine Anpassung statt.
+Kann kein Produkt gefunden werden, wird dieses anhand der übermittelten Daten neu angelegt.
+Produktkategorien und -gruppen werden ebenfalls angelegt, wenn diese nicht vorhanden sind.
 Angepasst werden die Brutto/Netto-Einkaufs/-Verkaufspreise, sowie, ob der Bestand unbegrenzt ist.
 Die Bezeichnung des Produktes wird nicht angepasst.
 

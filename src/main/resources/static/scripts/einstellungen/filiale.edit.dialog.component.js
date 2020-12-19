@@ -56,6 +56,10 @@ Vue.component('edit-dialog', {
       <label for="filialeEditForm_zaehlerAngebot">{{ $t("angebot.angebotsnummer") }}</label>
       <input class="m4" id="filialeEditForm_zaehlerAngebot" type="number" v-model="entity.filiale.zaehlerAngebot" />
     </div>
+      <div class="m4m">
+      <label for="filialeEditForm_zaehlerStorno">{{ $t("rechnung.stornonummer") }}</label>
+      <input class="m4" id="filialeEditForm_zaehlerStorno" type="number" v-model="entity.filiale.zaehlerStornierung" />
+      </div>
   </div>
   <div class="m1">
     <hr>

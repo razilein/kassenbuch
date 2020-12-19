@@ -105,6 +105,17 @@ public class MitarbeiterService {
         return "0";
     }
 
+    public String getAndSaveNextStornierungnummer() {
+        final Optional<Filiale> optional = getAngemeldeterMitarbeiterFiliale();
+        if (optional.isPresent()) {
+            final Filiale filiale = optional.get();
+            filiale.setZaehlerStornierung(filiale.getZaehlerStornierung() + 1);
+            einstellungenService.save(filiale);
+            return StringUtils.leftPad(String.valueOf(filiale.getZaehlerStornierung()), 4, "0");
+        }
+        return "0";
+    }
+
     public String getAngemeldeterMitarbeiterVornameNachname() {
         final Optional<Mitarbeiter> optional = getAngemeldeterMitarbeiter();
         return optional.isPresent() ? optional.get().getCompleteNameReverse() : null;

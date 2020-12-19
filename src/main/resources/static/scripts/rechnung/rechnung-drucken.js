@@ -17,6 +17,7 @@ var vm = new Vue({
     },
     einstellungDruckansichtDruckdialog: true,
     exemplare: parseInt(getParamFromCurrentUrl('exemplare') || 2),
+    stornoAusblenden: getParamFromCurrentUrl('storno') === 'true' || false,
     gesamtnetto: 0.00,
     gesamtmwst: 0.00,
     gesamtrabatt: 0.00,
@@ -79,7 +80,11 @@ var vm = new Vue({
     
     getEntity: function() {
       var id = getParamFromCurrentUrl('id');
-      return axios.get('/rechnung/' + id);
+      if (vm.stornoAusblenden) {
+        return axios.get('/rechnung/' + id + '/storno');
+      } else {
+        return axios.get('/rechnung/' + id);
+      }
     },
     
     setEntity: function(response) {

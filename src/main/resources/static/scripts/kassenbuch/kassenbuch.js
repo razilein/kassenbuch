@@ -47,7 +47,7 @@ var vm = new Vue({
       });
       var ausgangsbetrag = vm.model.kassenbuch.ausgangsbetrag || 0;
       gesamt = gesamt || 0;
-      vm.gesamt = parseFloat(ausgangsbetrag) + gesamt;
+      vm.gesamt = formatMoney(parseFloat(ausgangsbetrag) + gesamt);
     },
     
     executeSave: function() {

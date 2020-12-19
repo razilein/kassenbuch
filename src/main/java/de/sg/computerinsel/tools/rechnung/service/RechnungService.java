@@ -129,13 +129,23 @@ public class RechnungService {
         return rechnungspostenRepository.findAllByRechnungIdOrderByPositionAsc(rechnungId, pagination);
     }
 
-    public RechnungDTO getRechnung(final Integer id) {
+    public RechnungDTO getRechnung(final Integer id, final boolean stornoBeachten) {
         final Optional<Rechnung> rechnung = rechnungRepository.findById(id);
         if (rechnung.isPresent()) {
-            return new RechnungDTO(rechnung.get(), listRechnungspostenByRechnungId(id));
+            final List<Rechnungsposten> posten = stornoBeachten ? listRechnungspostenByRechnungIdOhneStorno(id)
+                    : listRechnungspostenByRechnungId(id);
+            return new RechnungDTO(rechnung.get(), posten, stornoBeachten);
         } else {
             return new RechnungDTO(einstellungenService.getMwstProzent());
         }
+    }
+
+    public RechnungDTO getRechnung(final Integer id) {
+        return getRechnung(id, false);
+    }
+
+    public List<Rechnungsposten> listRechnungspostenByRechnungIdOhneStorno(final Integer id) {
+        return rechnungspostenRepository.findAllByRechnungIdAndStornoOrderByPositionAsc(id, false);
     }
 
     public List<Rechnungsposten> listRechnungspostenByRechnungId(final Integer id) {

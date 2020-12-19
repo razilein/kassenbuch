@@ -12,6 +12,8 @@ public interface RechnungspostenRepository extends CrudRepository<Rechnungsposte
 
     List<Rechnungsposten> findAllByRechnungIdOrderByPositionAsc(Integer rechnungId);
 
+    List<Rechnungsposten> findAllByRechnungIdAndStornoOrderByPositionAsc(Integer id, boolean storno);
+
     Page<Rechnungsposten> findAllByRechnungIdOrderByPositionAsc(Integer rechnungId, Pageable pagination);
 
 }

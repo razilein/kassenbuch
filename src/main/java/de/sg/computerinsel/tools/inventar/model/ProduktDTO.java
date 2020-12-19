@@ -23,6 +23,12 @@ public class ProduktDTO {
 
     private BigDecimal preisVkNetto = BigDecimal.ZERO;
 
+    private String kategorieBezeichnung;
+
+    private String gruppeBezeichnung;
+
+    private String hersteller;
+
     public ProduktDTO(final Produkt produkt) {
         this.bestandUnendlich = produkt.isBestandUnendlich();
         this.bezeichnung = produkt.getBezeichnung();
@@ -31,6 +37,9 @@ public class ProduktDTO {
         this.preisVkBrutto = produkt.getPreisVkBrutto();
         this.preisEkNetto = produkt.getPreisEkNetto();
         this.preisVkNetto = produkt.getPreisVkNetto();
+        this.gruppeBezeichnung = produkt.getGruppe().getBezeichnung();
+        this.kategorieBezeichnung = produkt.getGruppe().getKategorie().getBezeichnung();
+        this.hersteller = produkt.getHersteller();
     }
 
 }

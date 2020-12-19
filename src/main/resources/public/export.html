@@ -5,6 +5,7 @@
     <link rel="icon" href="/themes/icons/inventar.png">
     <link rel="stylesheet" href="/themes/css/button.css">
     <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/general.css">
     <link rel="stylesheet" href="/themes/css/grid.css">
     <link rel="stylesheet" href="/themes/css/loading.css">
     <link rel="stylesheet" href="/themes/css/radio.css">
@@ -16,7 +17,7 @@
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
   </head>
   <body>
-    <div id="export">
+    <div id="export" v-cloak>
       <page-header :marker="'Inventar'"></page-header>
       <page-header-inventar v-bind:marker="'Export'"></page-header-inventar>
       <div id="content">
@@ -45,7 +46,10 @@
         <table>
           <thead>
             <th style="width: 100px;">{{ $t("general.funktionen") }}</th>
+            <th style="width: 550px;">{{ $t("inventar.produkt.kategorie") }}</th>
+            <th style="width: 550px;">{{ $t("inventar.produkt.gruppe") }}</th>
             <th style="width: 550px;">{{ $t("general.bezeichnung") }}</th>
+            <th style="width: 550px;">{{ $t("inventar.produkt.hersteller") }}</th>
             <th style="width: 120px;">{{ $t("inventar.produkt.ean") }}</th>
             <th style="width: 120px;">{{ $t("inventar.produkt.bestandUnendlich") }}</th>
             <th style="width: 100px;">{{ $t("inventar.produkt.ekPreisB") }}</th>
@@ -58,7 +62,10 @@
               <td>
                 <button class="minus" :title="$t('export.keinExport')" v-on:click="removeItem(index)"></button>
               </td>
+              <td>{{produkt.gruppe.kategorie.bezeichnung}}</td>
+              <td>{{produkt.gruppe.bezeichnung}}</td>
               <td>{{produkt.bezeichnung}}</td>
+              <td>{{produkt.hersteller}}</td>
               <td>{{produkt.ean}}</td>
               <td>{{produkt.bestandUnendlich ? 'X' : ''}}</td>
               <td>{{ formatMoney(produkt.preisEkBrutto) }}</td>

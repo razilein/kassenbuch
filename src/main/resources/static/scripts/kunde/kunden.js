@@ -182,6 +182,14 @@ var vm = new Vue({
       return row.anzahlRechnungen === 0 ? 'euro disabled' : 'euro';
     },
     
+    hasNoStatus: function(row) {
+      return !row.problem;
+    },
+    
+    statusTitle: function(row) {
+      return row.bemerkung ? row.bemerkung : this.$t('kunde.problem');
+    },
+    
     setGridColumns: function() {
       vm.grid.gridColumns = [
         { name: 'functions',
@@ -197,6 +205,9 @@ var vm = new Vue({
           { clazz: 'kunden', disabled: vm.hasNotRoleVerwalten, title: this.$t('kunde.duplikat'), clickFunc: vm.duplicateFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('kunde.loeschen'), clickFunc: vm.deleteFunction }
         ] },
+        { name: 'status', sortable: false, width: 10, formatter: [
+          { clazz: 'i', disabled: vm.hasNoStatus, title: vm.statusTitle, clickFunc: function() {} },
+        ]},
         { name: 'nummer', title: this.$t('kunde.kdNr'), width: 70 },
         { name: 'firmenname', title: this.$t('kunde.firmenname'), width: 150 },
         { name: 'nachname', title: this.$t('kunde.nachname'), width: 150 },

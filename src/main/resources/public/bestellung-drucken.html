@@ -4,6 +4,7 @@
     <title>Bestellung drucken - Computer-Insel Tools by Sita Geßner</title>
     <link rel="icon" href="/themes/icons/bestellung.png">
     <link rel="stylesheet" href="/themes/css/bestellung.css">
+    <link rel="stylesheet" href="/themes/css/general.css">
     <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
@@ -11,7 +12,7 @@
     <script type="text/javascript" src="/scripts/vendor/de.js"></script>
   </head>
   <body>
-    <div id="bestellung-drucken">
+    <div id="bestellung-drucken" v-cloak>
       <header>
         <div class="center" style="width: 250px; height: 90px;">
           <img src="/themes/icons/logo.png" width="250" height="90">
@@ -89,7 +90,7 @@
         <tbody>
           <tr>
             <td class="s5">{{ $t("general.datum") }}:</td>
-            <td class="s3">{{currentDate}}</td>
+            <td class="s3">{{ entity.erstelltAm }}</td>
             <td>{{ $t("general.unterschriftK") }}:</td>
             <td class="s4">&nbsp;</td>
           </tr>

@@ -16,4 +16,6 @@ public interface KategorieRepository extends CrudRepository<Kategorie, Integer> 
 
     Page<Kategorie> findAllByBezeichnungLike(Pageable pageRequest, String bezeichnung);
 
+    List<Kategorie> findAllByBezeichnung(String bezeichnung);
+
 }

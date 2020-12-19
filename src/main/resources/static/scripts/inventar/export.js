@@ -21,7 +21,15 @@ var vm = new Vue({
   methods: {
 
     exportProdukte: function() {
+      vm.polishProdukt();
       vm.executeExport().then(vm.handleExportResponse);
+    },
+    
+    polishProdukt: function() {
+      vm.produkte.forEach(function (item) {
+        item.gruppeBezeichnung = item.gruppe.bezeichnung;
+        item.kategorieBezeichnung = item.gruppe.kategorie.bezeichnung;
+      });
     },
 
     executeExport: function() {

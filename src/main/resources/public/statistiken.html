@@ -5,6 +5,7 @@
     <link rel="icon" href="/themes/icons/kasse.png">
     <link rel="stylesheet" href="/themes/css/button.css">
     <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/general.css">
     <link rel="stylesheet" href="/themes/css/kassenstand.css">
     <link rel="stylesheet" href="/themes/css/loading.css">
     <link rel="stylesheet" href="/themes/css/raster.css">
@@ -15,7 +16,7 @@
     <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
   </head>
   <body>
-    <div id="statistiken">
+    <div id="statistiken" v-cloak>
       <page-header :marker="'Kassenbuch'"></page-header>
       <page-header-kassenbuch v-bind:marker="'Statistiken'"></page-header-kassenbuch>
       <div id="content">

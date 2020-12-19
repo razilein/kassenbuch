@@ -55,7 +55,8 @@ public class RechnungExportService {
 
     private void exportRechnungen(final List<Rechnung> rechnungenInZeitraum) throws IOException {
         final List<RechnungDTO> rechnungen = rechnungenInZeitraum.stream()
-                .map(r -> new RechnungDTO(r, rechnungService.listRechnungspostenByRechnungId(r.getId()))).collect(Collectors.toList());
+                .map(r -> new RechnungDTO(r, rechnungService.listRechnungspostenByRechnungId(r.getId()), false))
+                .collect(Collectors.toList());
         exportToFile(rechnungen, kontoService.getKontenJeFiliale());
     }
 
@@ -115,8 +116,8 @@ public class RechnungExportService {
     public List<Kassenbuchposten> listKassenbuchInZeitraum(final RechnungExportDto dto) {
         final LocalDate datumVon = LocalDate.of(dto.getJahr(), dto.getMonat(), 1);
         final LocalDate datumBis = LocalDate.of(dto.getJahr(), dto.getMonat(), 1).plusMonths(1).minusDays(1);
-        return kassenbuchpostenRepository.findAllByKassenbuchDatumGreaterThanEqualAndKassenbuchDatumLessThanEqualAndKassenbuchGeloescht(datumVon,
-                datumBis, false);
+        return kassenbuchpostenRepository
+                .findAllByKassenbuchDatumGreaterThanEqualAndKassenbuchDatumLessThanEqualAndKassenbuchGeloescht(datumVon, datumBis, false);
     }
 
 }

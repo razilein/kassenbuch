@@ -59,15 +59,29 @@ public class KundeService {
         final String firmenname = StringUtils.trimToNull(SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "firmenname"));
         final String plz = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "plz");
         final String telefon = createSuchfeldTelefon(SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "telefon"));
+        final String strasse = createSuchfeldStrasse(SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "strasse"));
 
         if (StringUtils.isBlank(vorname) && StringUtils.isBlank(nachname) && StringUtils.isBlank(firmenname) && StringUtils.isBlank(plz)
-                && StringUtils.isBlank(telefon)) {
+                && StringUtils.isBlank(telefon) && StringUtils.isBlank(strasse)) {
             return vKundeRepository.findAll(pagination);
         } else {
             final FindAllByConditionsExecuter<VKunde> executer = new FindAllByConditionsExecuter<>();
             return executer.findByParams(vKundeRepository, pagination,
-                    buildMethodnameForQueryKunde(vorname, nachname, firmenname, plz, telefon), vorname, nachname, firmenname, plz, telefon);
+                    buildMethodnameForQueryKunde(vorname, nachname, firmenname, plz, telefon, strasse), vorname, nachname, firmenname, plz,
+                    telefon, strasse);
         }
+    }
+
+    private String createSuchfeldStrasse(final String strasse) {
+        String result = StringUtils.lowerCase(StringUtils.trimToNull(strasse));
+        if (StringUtils.isNotBlank(result)) {
+            result = createSuchfeldTelefon(result);
+            result = RegExUtils.replaceAll(result, "str\\.", "str%");
+            result = RegExUtils.replaceAll(result, "strasse", "str%");
+            result = RegExUtils.replaceAll(result, "straße", "str%");
+            result = RegExUtils.replaceAll(result, "\\.", "%");
+        }
+        return result;
     }
 
     private static String createSuchfeldTelefon(final String telefon) {
@@ -84,7 +98,7 @@ public class KundeService {
     }
 
     private String buildMethodnameForQueryKunde(final String vorname, final String nachname, final String firmenname, final String plz,
-            final String telefon) {
+            final String telefon, final String strasse) {
         String methodName = "findBy";
         if (StringUtils.isNotBlank(vorname)) {
             methodName += "VornameLikeAnd";
@@ -100,6 +114,9 @@ public class KundeService {
         }
         if (StringUtils.isNotBlank(telefon)) {
             methodName += "Suchfeld2TelefonLikeAnd";
+        }
+        if (StringUtils.isNotBlank(strasse)) {
+            methodName += "SuchfeldStrasseLikeAnd";
         }
         return StringUtils.removeEnd(methodName, "And");
     }
