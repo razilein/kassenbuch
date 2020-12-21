@@ -65,6 +65,14 @@ var vm = new Vue({
     handleKundeResponse: function(kunde) {
       vm.showKundeDialog = false;
       vm.entity.kunde = kunde;
+      if (kunde.problem) {
+        var problemText = this.$t('kunde.problemStandard');
+        if (kunde.bemerkung) {
+          problemText = problemText + ':<br><br>' + kunde.bemerkung;
+        }
+        vm.result = { warning: problemText };
+        vm.showDialog = true;
+      }
       vm.getNichtBezahlteRechnungen(kunde.id)
         .then(vm.setNichtBezahlteRechnungen);
     },
