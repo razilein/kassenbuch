@@ -141,8 +141,16 @@
             <button class="delete btnSmall" :title="$t('kunde.deselektieren')" @click="entity.rechnung.kunde = {}; entity.rechnung.nameDrucken = false;"></button>
             <textarea class="m1" id="rechnungEditForm_kunde" readonly v-model="entity.rechnung.kunde.completeWithAdress"></textarea>
           </div>
+          <div class="m1" v-if="entity.rechnung.vorlage">
+            <label class="container checkbox">{{ $t("rechnung.vorlageBehalten") }}
+              <input id="rechnungEditForm_vorlage_behalten" type="checkbox" v-model="entity.vorlageBehalten" />
+              <span class="checkmark"></span>
+            </label>
+          </div>
           <button class="right" :title="$t('general.speichern')" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">{{ $t("general.speichern") }}</button>
+          <button class="right" :title="$t('rechnung.vorlageSpeichernInfo')" v-if="areRequiredFieldsNotEmpty() && entity.rechnung.kunde.id" v-on:click="saveVorlageFunc();">{{ $t("rechnung.vorlageSpeichern") }}</button>
           <button class="right disabled" :title="$t('general.pflichtfelder')" v-if="!areRequiredFieldsNotEmpty()">{{ $t("general.speichern") }}</button>
+          <button class="right disabled" :title="$t('rechnung.vorlageSpeichernInfo')" v-if="!areRequiredFieldsNotEmpty() || !entity.rechnung.kunde.id">{{ $t("rechnung.vorlageSpeichern") }}</button>
         </div>
         <div style="height: 280px;"></div>
       </div>

@@ -60,9 +60,9 @@ public class StatistikService {
 
     public void erstellenUeberweisungen(final KassenbuchStatistik statistik) {
         final List<RechnungDTO> ueberweisungen = rechnungRepository
-                .findAllByDatumGreaterThanEqualAndDatumLessThanEqualAndArtOrderByDatumAscNummerAsc(
+                .findAllByDatumGreaterThanEqualAndDatumLessThanEqualAndArtAndVorlageOrderByDatumAscNummerAsc(
                         DateUtils.convert(statistik.getZeitraumVon()), DateUtils.convert(statistik.getZeitraumBis()),
-                        Zahlart.UEBERWEISUNG.getCode())
+                        Zahlart.UEBERWEISUNG.getCode(), false)
                 .stream().map(r -> rechnungService.getRechnung(r.getId())).collect(Collectors.toList());
         log.debug("{} Rechnungen ausgelesen", ueberweisungen.size());
         final File ablageverzeichnis = new File(einstellungenService.getAblageverzeichnis().getWert());

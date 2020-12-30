@@ -10,7 +10,7 @@ public interface RechnungViewRepository extends CrudRepository<RechnungView, Int
 
     Page<RechnungView> findAll(Pageable pagination);
 
-    Page<RechnungView> findByKundeId(Integer id, Pageable pagination);
+    Page<RechnungView> findByKundeIdAndVorlage(Integer id, Boolean vorlage, Pageable pagination);
 
     Page<RechnungView> findByArt(Integer art, Pageable pagination);
 

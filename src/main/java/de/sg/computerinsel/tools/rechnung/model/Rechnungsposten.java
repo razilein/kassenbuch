@@ -14,12 +14,14 @@ import javax.validation.constraints.Size;
 import de.sg.computerinsel.tools.inventar.model.Produkt;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "RECHNUNGSPOSTEN")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Rechnungsposten extends IntegerBaseObject {
 
     @ManyToOne
@@ -59,6 +61,17 @@ public class Rechnungsposten extends IntegerBaseObject {
 
     @Column(name = "storno")
     private boolean storno;
+
+    public Rechnungsposten(final Rechnungsposten posten) {
+        this.setBezeichnung(posten.getBezeichnung());
+        this.setHinweis(posten.getHinweis());
+        this.setMenge(posten.getMenge());
+        this.setPosition(posten.getPosition());
+        this.setPreis(posten.getPreis());
+        this.setProdukt(posten.getProdukt());
+        this.setRabatt(posten.getRabatt());
+        this.setSeriennummer(posten.getSeriennummer());
+    }
 
     public BigDecimal getGesamt() {
         return preis.multiply(new BigDecimal(menge)).subtract(rabatt);

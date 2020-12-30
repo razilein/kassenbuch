@@ -11,6 +11,7 @@ var vm = new Vue({
   },
   data: {
     kundeId: getParamFromCurrentUrl('id') || null,
+    vorlage: getParamFromCurrentUrl('vorlage') || null,
     rechte: {},
     result: {},
     einstellungDruckansichtNeuesFenster: true,
@@ -59,6 +60,10 @@ var vm = new Vue({
       vm.editRow.restUrlGet = '/rechnung/' + row.id;
       vm.editRow.title = this.$t('general.rechnung') + ' ' + row.nummer + ' ' + this.$t('general.bearbeiten');
       vm.showEditDialog = true;
+    },
+    
+    editVorlageFunction: function(row) {
+      window.open('/rechnung.html?id=' + row.id);
     },
     
     handleEditResponse: function(data) {
@@ -153,6 +158,7 @@ var vm = new Vue({
     init: function() {
       if (vm.kundeId) {
         vm.grid.searchQuery['kunde.id'] = vm.kundeId;
+        vm.grid.searchQuery['vorlage'] = vm.vorlage;
         vm.grid.reload = true;
       }
       vm.prepareRoles()
@@ -210,20 +216,7 @@ var vm = new Vue({
     
     setGridColumns: function() {
       vm.grid.gridColumns = [
-        { name: 'functions',
-          title: this.$t('general.funktionen'),
-          sortable: false,
-          width: 200,
-          formatter: [
-          { clazz: 'open-new-tab', disabled: vm.hasNotRoleRechnungAnzeigen, title: this.$t('rechnung.oeffnen'), clickFunc: vm.openFunction },
-          { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('rechnung.bearbeiten'), clickFunc: vm.editFunction },
-          { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.bezahltFunction },
-          { clazz: 'email', disabled: vm.canSendEmail, title: this.$t('rechnung.email'), clickFunc: vm.sendMailFunction },
-          { clazz: 'lieferschein', disabled: vm.hasNotRoleRechnungAnzeigen, title: this.$t('rechnung.lieferschein.drucken'), clickFunc: vm.openLieferscheinFunction },
-          { clazz: vm.getStornoClass, disabled: vm.hasNotRoleVerwalten, title: vm.getStornoTitle, clickFunc: vm.stornoFunction },
-          { clazz: 'open-storno', disabled: vm.hasNoStorno, title: this.$t('rechnung.stornoUebersicht'), clickFunc: vm.stornoUebersichtFunction },
-          { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('rechnung.loeschen'), clickFunc: vm.deleteFunction }
-        ] },
+        (vm.vorlage === 'true' ? vm.getTableFunctionsVorlage() : vm.getTableFunctions()),
         { name: 'rechnungNr', title: this.$t('rechnung.rechnNr'), width: 80 },
         { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80 },
         { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100 },
@@ -235,6 +228,37 @@ var vm = new Vue({
         { name: 'ersteller', title: this.$t('general.ersteller'), width: 150 },
         { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 150 },
       ];
+    },
+    
+    getTableFunctions: function() {
+      return {
+        name: 'functions',
+        title: this.$t('general.funktionen'),
+        sortable: false,
+        width: 200,
+        formatter: [
+        { clazz: 'open-new-tab', disabled: vm.hasNotRoleRechnungAnzeigen, title: this.$t('rechnung.oeffnen'), clickFunc: vm.openFunction },
+        { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('rechnung.bearbeiten'), clickFunc: vm.editFunction },
+        { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.bezahltFunction },
+        { clazz: 'email', disabled: vm.canSendEmail, title: this.$t('rechnung.email'), clickFunc: vm.sendMailFunction },
+        { clazz: 'lieferschein', disabled: vm.hasNotRoleRechnungAnzeigen, title: this.$t('rechnung.lieferschein.drucken'), clickFunc: vm.openLieferscheinFunction },
+        { clazz: vm.getStornoClass, disabled: vm.hasNotRoleVerwalten, title: vm.getStornoTitle, clickFunc: vm.stornoFunction },
+        { clazz: 'open-storno', disabled: vm.hasNoStorno, title: this.$t('rechnung.stornoUebersicht'), clickFunc: vm.stornoUebersichtFunction },
+        { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('rechnung.loeschen'), clickFunc: vm.deleteFunction }
+      ] };
+    },
+    
+    getTableFunctionsVorlage: function() {
+      return {
+        name: 'functions',
+        title: this.$t('general.funktionen'),
+        sortable: false,
+        width: 200,
+        formatter: [
+        { clazz: 'open-new-tab', disabled: vm.hasNotRoleRechnungAnzeigen, title: this.$t('rechnung.oeffnen'), clickFunc: vm.openFunction },
+        { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('rechnung.bearbeiten'), clickFunc: vm.editVorlageFunction },
+        { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('rechnung.loeschen'), clickFunc: vm.deleteFunction }
+      ] };
     },
     
     hasNoStorno: function(row) {

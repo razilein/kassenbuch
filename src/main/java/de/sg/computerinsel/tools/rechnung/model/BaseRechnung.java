@@ -71,6 +71,9 @@ public class BaseRechnung extends IntegerBaseObject {
     @Column(name = "erstellt_am")
     private LocalDateTime erstelltAm;
 
+    @Column(name = "vorlage")
+    private boolean vorlage;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate getDatum() {
         return datum;

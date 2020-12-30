@@ -2,6 +2,7 @@ package de.sg.computerinsel.tools.rechnung.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +66,8 @@ public class RechnungService {
         final boolean mitReparatur = BooleanUtils.toBoolean(conditions.get("mitreparatur"));
 
         if (StringUtils.isNumeric(kundeId)) {
-            return rechnungViewRepository.findByKundeId(Ints.tryParse(kundeId), pagination);
+            return rechnungViewRepository.findByKundeIdAndVorlage(Ints.tryParse(kundeId),
+                    BooleanUtils.toBooleanObject(conditions.get("vorlage")), pagination);
         } else if (StringUtils.isBlank(nummer) && StringUtils.isBlank(reparaturnummer) && StringUtils.isBlank(ersteller)
                 && StringUtils.isBlank(kundennummer) && !istNichtBezahlt && StringUtils.isBlank(posten) && !StringUtils.isNumeric(art)
                 && !mitAngebot && !mitBestellung && !mitReparatur) {
@@ -134,7 +136,7 @@ public class RechnungService {
         if (rechnung.isPresent()) {
             final List<Rechnungsposten> posten = stornoBeachten ? listRechnungspostenByRechnungIdOhneStorno(id)
                     : listRechnungspostenByRechnungId(id);
-            return new RechnungDTO(rechnung.get(), posten, stornoBeachten);
+            return new RechnungDTO(rechnung.get(), posten, stornoBeachten, rechnung.get().isVorlage());
         } else {
             return new RechnungDTO(einstellungenService.getMwstProzent());
         }
@@ -155,14 +157,7 @@ public class RechnungService {
     @Transactional
     public Rechnung saveRechnung(final Rechnung rechnung) {
         if (rechnung.getId() == null) {
-            rechnung.setErsteller(StringUtils.abbreviate(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname(),
-                    Rechnung.MAX_LENGTH_MITARBEITER));
-            final Optional<Mitarbeiter> optional = mitarbeiterService.getAngemeldeterMitarbeiter();
-            if (optional.isPresent()) {
-                rechnung.setFiliale(optional.get().getFiliale());
-            }
-            rechnung.setDatum(LocalDate.now());
-            rechnung.setErstelltAm(LocalDateTime.now());
+            rechnungsdatenHinterlegen(rechnung, LocalDate.now());
             final String nummer = getRechnungsdatumJahrZweistellig(rechnung.getDatum())
                     + mitarbeiterService.getAndSaveNextRechnungsnummer();
             rechnung.setNummer(Ints.tryParse(nummer));
@@ -172,6 +167,28 @@ public class RechnungService {
             rechnung.setNameDrucken(true);
         }
         return rechnungRepository.save(rechnung);
+    }
+
+    @Transactional
+    public Rechnung saveRechnungsvorlage(final Rechnung rechnung) {
+        rechnung.setVorlage(true);
+        rechnungsdatenHinterlegen(rechnung, LocalDate.of(1990, Month.NOVEMBER, 19));
+        // Bei Überweisungen oder Paypal muss der Name auf der Rechnung stehen
+        if (rechnung.getArt() == Zahlart.UEBERWEISUNG.getCode() || rechnung.getArt() == Zahlart.PAYPAL.getCode()) {
+            rechnung.setNameDrucken(true);
+        }
+        return rechnungRepository.save(rechnung);
+    }
+
+    private void rechnungsdatenHinterlegen(final Rechnung rechnung, final LocalDate datum) {
+        rechnung.setErsteller(
+                StringUtils.abbreviate(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname(), Rechnung.MAX_LENGTH_MITARBEITER));
+        final Optional<Mitarbeiter> optional = mitarbeiterService.getAngemeldeterMitarbeiter();
+        if (optional.isPresent()) {
+            rechnung.setFiliale(optional.get().getFiliale());
+        }
+        rechnung.setDatum(datum);
+        rechnung.setErstelltAm(LocalDateTime.now());
     }
 
     private String getRechnungsdatumJahrZweistellig(final LocalDate rechnungsdatum) {
@@ -209,6 +226,10 @@ public class RechnungService {
 
     public List<Rechnung> hatKundeOffeneRechnungen(final Integer kundeId) {
         return rechnungRepository.findByKundeIdAndDatumLessThanAndBezahlt(kundeId, LocalDate.now(), false);
+    }
+
+    public void deletePosten(final Rechnung rechnung) {
+        rechnungspostenRepository.deleteByRechnungId(rechnung.getId());
     }
 
 }
