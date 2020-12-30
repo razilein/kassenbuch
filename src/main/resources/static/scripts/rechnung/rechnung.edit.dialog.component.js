@@ -10,9 +10,9 @@ Vue.component('edit-dialog', {
       <label class="required" for="rechnungEditForm_datum">{{ $t("general.datum") }}</label>
       <input class="m4" type="date" v-model="entity.rechnung.datum" />
     </div>
-    <div class="m4m">
-      <label for="rechnungEditForm_lieferdatum">{{ $t("general.lieferdatum") }}</label>
-      <input class="m4" id="rechnungEditForm_lieferdatum" title="Wird das Feld leer gelassen, entspricht das Lieferdatum dem Rechnungsdatum" type="date" v-model="entity.rechnung.lieferdatum" />
+    <div class="m3m">
+      <label for="rechnungEditForm_lieferdatum">{{ $t("rechnung.lieferdatum") }}</label>
+      <input class="m3" id="rechnungEditForm_lieferdatum" title="Wird das Feld leer gelassen, entspricht das Lieferdatum dem Rechnungsdatum" type="date" v-model="entity.rechnung.lieferdatum" />
     </div>
   </div>
   <div class="m1">

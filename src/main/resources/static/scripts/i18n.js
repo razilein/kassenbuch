@@ -375,6 +375,7 @@ const messages = {
       emailSenden: 'Wollen Sie diese Rechnung als E-Mail an',
       hinweis: 'Hinweis',
       hinweisErgaenzen: 'Seriennummer und Hinweise ergänzen und wählen',
+      lieferdatum: 'Liefer- / Leistungsdatum',
       lieferdatumInfo: 'Wird das Feld leer gelassen, entspricht das Lieferdatum dem Rechnungsdatum',
       lieferschein: {
         drucken: 'Lieferschein drucken',
