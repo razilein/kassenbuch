@@ -90,7 +90,8 @@
           </div>
         </div>
         <div style="height: 300px;" v-if="kundeId === null"></div>
-        <h3 v-if="kundeId !== null">{{ $t("general.rechnungen") }} {{ $t("general.zumGewaehltenKunden") }}:</h3>
+        <h3 v-if="kundeId !== null && !vorlage">{{ $t("general.rechnungen") }} {{ $t("general.zumGewaehltenKunden") }}:</h3>
+        <h3 v-if="kundeId !== null && vorlage">{{ $t("general.vorlagen") }} {{ $t("general.zumGewaehltenKunden") }}:</h3>
         <div id="gridDiv" v-if="grid.gridColumns.length > 0">
           <grid
             :columns="grid.gridColumns"

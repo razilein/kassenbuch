@@ -144,6 +144,11 @@ button.recht {
   -webkit-mask: url("../icons/recht.svg") no-repeat center;
 }
 
+button.vorlage {
+  mask: url("../icons/vorlage.svg") no-repeat center;
+  -webkit-mask: url("../icons/vorlage.svg") no-repeat center;
+}
+
 button.zahnrad {
   mask: url("../icons/zahnrad.svg") no-repeat center;
   -webkit-mask: url("../icons/zahnrad.svg") no-repeat center;
@@ -151,7 +156,8 @@ button.zahnrad {
 
 button.add, button.angebot, button.bestellung, button.bad, button.delete, button.duplicate, button.edit, button.email,
 button.euro, button.good, button.i, button.key, button.kunde, button.kunden, button.lieferschein, button.minus,
-button.ok, button.ok2, button.open-new-tab, button.open-storno, button.recht, button.showStorno, button.storno, button.zahnrad {
+button.ok, button.ok2, button.open-new-tab, button.open-storno, button.recht, button.showStorno, button.storno,
+button.vorlage, button.zahnrad {
   background-color: #1a8cff;
   float: none;
   height: 30px;
@@ -162,7 +168,7 @@ button.ok, button.ok2, button.open-new-tab, button.open-storno, button.recht, bu
   width: 40px;
 }
 
-button.angebot.disabled, button.bestellung.disabled, button.euro.disabled, button.zahnrad.disabled {
+button.angebot.disabled, button.bestellung.disabled, button.euro.disabled, button.vorlage.disabled, button.zahnrad.disabled {
   background-color: #a9a9a9;
   cursor: default;
 }

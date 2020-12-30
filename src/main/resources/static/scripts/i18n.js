@@ -241,6 +241,7 @@ const messages = {
       verkaufinfo: 'Verkauf von Neu- und Gebrauchtware. Hardware, Software, Zubehör, Reparatur, Beratung, Service',
       versenden: 'versenden?',
       von: 'von',
+      vorlagen: 'Vorlagen',
       wiedereroeffnen: ' wiedereröffnen',
       willkommen: 'Willkommen!',
       wochentag: 'Wochentag',
@@ -337,7 +338,8 @@ const messages = {
         angebot: 'Angebote anzeigen',
         bestellung: 'Bestellungen anzeigen',
         rechnung: 'Rechnungen anzeigen',
-        reparatur: 'Reparaturaufträge anzeigen'
+        reparatur: 'Reparaturaufträge anzeigen',
+        vorlage: 'Rechnungsvorlagen anzeigen'
       },
       bearbeiten: 'Kunde bearbeiten',
       deselektieren: 'Kunde deselektieren',
@@ -375,6 +377,7 @@ const messages = {
       emailSenden: 'Wollen Sie diese Rechnung als E-Mail an',
       hinweis: 'Hinweis',
       hinweisErgaenzen: 'Seriennummer und Hinweise ergänzen und wählen',
+      lieferdatum: 'Liefer- / Leistungsdatum',
       lieferdatumInfo: 'Wird das Feld leer gelassen, entspricht das Lieferdatum dem Rechnungsdatum',
       lieferschein: {
         drucken: 'Lieferschein drucken',
@@ -419,6 +422,9 @@ const messages = {
       stornoUebersichtTitle: 'Stornierungen zu Rechnung',
       vollstorno: "Rechnung komplett stornieren",
       vollstornoArt: "Komplettstorno",
+      vorlageBehalten: "Vorlage nach dem Erstellen der Rechnung behalten",
+      vorlageSpeichern: "Als Vorlage speichern",
+      vorlageSpeichernInfo: "Diese Rechnung wird zum gewählten Kunden als Vorlage gespeichert. Sie kann in der Kundenansicht später zur Weiterbearbeitung aufgerufen werden.",
       wiedereroeffnen: 'Die Rechnung wurde noch nicht bezahlt. Jetzt als bezahlt markieren?',
       wurdeBezahlt: ' wurde bezahlt',
       zahlungsart: 'Zahlungsart',

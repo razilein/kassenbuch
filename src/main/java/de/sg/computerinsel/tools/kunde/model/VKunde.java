@@ -24,6 +24,8 @@ public class VKunde extends BaseKunde {
 
     private int anzahlReparaturen;
 
+    private int anzahlVorlagen;
+
     private String suchfeldTelefon;
 
     @Column(name = "suchfeld2_telefon")

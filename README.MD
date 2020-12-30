@@ -127,6 +127,16 @@ Durch Klick auf das *OK-Icon* wird der Auftrag ausgewählt und der Dialog schlie
 
 Durch Wahl des Auftrages wird automatisch der Kunde gewählt.
 
+#### Als Vorlage speichern
+Um eine Rechnung als Vorlage zu speichern muss ein Kunde gewählt werden.
+Für allgemeine Vorlagen kann beispielsweise ein Kunde mit dem Namen *Vorlagen* erstellt werden.
+
+Durch Bestätigen der Schaltfläche *Als Vorlage speichern* wird die Rechnung zum gewählten Kunden zwischengespeichert.
+In der Kundenansicht kann dieser Kunde gewählt und alle Rechnungsvorlagen über das *Vorlagen-Icon* angezeigt, weiterbearbeitet oder gelöscht werden.
+
+Beim Weiterbearbeiten der Vorlage kann dieser jederzeit als Rechnung gespeichert werden.
+Dabei ist das Kontrollkästchen *Vorlage nach dem Erstellen der Rechnung behalten*
+
 ### Rechnungen
 Um diese Seite öffnen zu können, wird das Recht *ZUGRIFF_RECHNUNG_UEBERSICHT* benötigt.
 Das Recht *RECHNUNG_VERWALTEN* wird benötigt um Rechnungen zu bearbeiten oder zu löschen.
@@ -266,6 +276,7 @@ Auf dieser Seite werden alle Kunden aufgelistet. Mit Hilfe der Suchfilter kann d
 Durch Klick auf das *Plus-Icon* kann ein neuer Kunde angelegt werden.
 Durch Klick auf das *Reparatur-Icon* können alle Reparaturaufträge des Kunden angezeigt werden.
 Durch Klick auf das *Euro-Icon* können alle Rechnungen des Kunden angezeigt werden.
+Durch Klick auf das *Vorlagen-Icon* können zum Kunden gespeicherten Rechnungsvorlagen angezeigt werden.
 Durch Klick auf das *Bearbeiten-Icon* können die Kundendaten bearbeitet werden.
 
 Durch Klick auf das *Duplikat-Icon* werden alle Kundendatensätze mit demselben Namen vorgefiltert.

@@ -142,6 +142,18 @@ public class RechnungRestController {
         return dto;
     }
 
+    @GetMapping("/vorlage/{id}")
+    public RechnungDTO getVorlage(@PathVariable final Integer id) {
+        RechnungDTO dto = service.getRechnung(id);
+        if (!dto.getRechnung().isVorlage()) {
+            dto = service.getRechnung(-1);
+        }
+        if (dto.getRechnung().getId() != null) {
+            protokollService.write(dto.getRechnung().getId(), RECHNUNG, String.valueOf(dto.getRechnung().getNummer()), ANGESEHEN);
+        }
+        return dto;
+    }
+
     @GetMapping("/{id}/storno")
     public RechnungDTO getOhneStorno(@PathVariable final Integer id) {
         return service.getRechnung(id, true);
@@ -155,26 +167,13 @@ public class RechnungRestController {
     @Transactional
     @PutMapping
     public Map<String, Object> save(@RequestBody final RechnungDTO dto) {
+        final Map<String, Object> result = new HashMap<>(validationService.validate(dto.getRechnung()));
+        handleVorlage(dto);
         final Rechnung rechnung = dto.getRechnung();
-        final Map<String, Object> result = new HashMap<>(validationService.validate(rechnung));
-
         final boolean isErstellt = dto.getRechnung().getId() == null;
-        if (rechnung.getBestellung() != null && rechnung.getBestellung().getId() == null) {
-            rechnung.setBestellung(null);
-        }
-        if (rechnung.getReparatur() != null && rechnung.getReparatur().getId() == null) {
-            rechnung.setReparatur(null);
-        }
-        if (rechnung.getAngebot() != null && rechnung.getAngebot().getId() == null) {
-            rechnung.setAngebot(null);
-        }
-        if (rechnung.getKunde() != null && rechnung.getKunde().getId() == null) {
-            rechnung.setKunde(null);
-        }
+        polishRechnung(rechnung);
         final Zahlart zahlart = Zahlart.getByCode(rechnung.getArt());
-        if (zahlart == Zahlart.UEBERWEISUNG && relevanteFelderNichtGefuellt(rechnung.getKunde())) {
-            result.put(Message.ERROR.getCode(), messageService.get("rechnung.kunde.error"));
-        }
+        validateZahlart(rechnung, result, zahlart);
         for (final Rechnungsposten posten : dto.getPosten()) {
             result.putAll(validationService.validate(posten));
         }
@@ -201,6 +200,67 @@ public class RechnungRestController {
             protokollService.write(saved.getId(), RECHNUNG, String.valueOf(rechnung.getNummer()), isErstellt ? ERSTELLT : GEAENDERT);
         }
         return result;
+    }
+
+    private void handleVorlage(final RechnungDTO dto) {
+        if (dto.getRechnung().isVorlage()) {
+            if (dto.isVorlageBehalten()) {
+                saveVorlage(dto);
+            } else {
+                service.deleteRechnung(dto.getRechnung().getId());
+            }
+            dto.setRechnung(new Rechnung(dto.getRechnung()));
+            final List<Rechnungsposten> posten = dto.getPosten().stream().map(Rechnungsposten::new).collect(Collectors.toList());
+            dto.getPosten().clear();
+            dto.setPosten(posten);
+        }
+    }
+
+    @Transactional
+    @PutMapping("/vorlage")
+    public Map<String, Object> saveVorlage(@RequestBody final RechnungDTO dto) {
+        final Rechnung rechnung = dto.getRechnung();
+        final Map<String, Object> result = new HashMap<>(validationService.validate(rechnung));
+
+        final boolean isErstellt = dto.getRechnung().getId() == null;
+        polishRechnung(rechnung);
+        final Zahlart zahlart = Zahlart.getByCode(rechnung.getArt());
+        validateZahlart(rechnung, result, zahlart);
+        for (final Rechnungsposten posten : dto.getPosten()) {
+            result.putAll(validationService.validate(posten));
+        }
+        if (result.isEmpty()) {
+            changeBezahltStatus(rechnung, isErstellt, zahlart);
+            final Rechnung saved = service.saveRechnungsvorlage(rechnung);
+            service.deletePosten(saved);
+            dto.getPosten().forEach(p -> p.setId(null));
+            savePosten(dto.getPosten(), saved);
+            result.put(Message.SUCCESS.getCode(), messageService.get("rechnung.save.vorlage.success"));
+            result.put("rechnung", saved);
+            protokollService.write(saved.getId(), RECHNUNG, String.valueOf(rechnung.getNummer()), isErstellt ? ERSTELLT : GEAENDERT);
+        }
+        return result;
+    }
+
+    private void validateZahlart(final Rechnung rechnung, final Map<String, Object> result, final Zahlart zahlart) {
+        if (zahlart == Zahlart.UEBERWEISUNG && relevanteFelderNichtGefuellt(rechnung.getKunde())) {
+            result.put(Message.ERROR.getCode(), messageService.get("rechnung.kunde.error"));
+        }
+    }
+
+    private void polishRechnung(final Rechnung rechnung) {
+        if (rechnung.getBestellung() != null && rechnung.getBestellung().getId() == null) {
+            rechnung.setBestellung(null);
+        }
+        if (rechnung.getReparatur() != null && rechnung.getReparatur().getId() == null) {
+            rechnung.setReparatur(null);
+        }
+        if (rechnung.getAngebot() != null && rechnung.getAngebot().getId() == null) {
+            rechnung.setAngebot(null);
+        }
+        if (rechnung.getKunde() != null && rechnung.getKunde().getId() == null) {
+            rechnung.setKunde(null);
+        }
     }
 
     private void changeBezahltStatus(final Rechnung rechnung, final boolean isErstellt, final Zahlart zahlart) {

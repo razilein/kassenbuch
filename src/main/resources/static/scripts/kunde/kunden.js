@@ -166,6 +166,12 @@ var vm = new Vue({
       }
     },
     
+    openVorlagenFunction: function(row) {
+      if (row.anzahlVorlagen > 0) {
+        window.open('/rechnung-uebersicht.html?id=' + row.id + '&vorlage=true');
+      }
+    },
+    
     getAngebotClass: function(row) {
       return row.anzahlAngebote === 0 ? 'angebot disabled' : 'angebot';
     },
@@ -180,6 +186,10 @@ var vm = new Vue({
     
     getRechnungClass: function(row) {
       return row.anzahlRechnungen === 0 ? 'euro disabled' : 'euro';
+    },
+    
+    getVorlageClass: function(row) {
+      return row.anzahlVorlagen === 0 ? 'vorlage disabled' : 'vorlage';
     },
     
     hasNoStatus: function(row) {
@@ -201,6 +211,7 @@ var vm = new Vue({
           { clazz: vm.getRechnungClass, disabled: vm.hasNotRoleRechnungAnzeigen, title: this.$t('kunde.anzeigen.rechnung'), clickFunc: vm.openRechnungFunction },
           { clazz: vm.getAngebotClass, disabled: vm.hasNotRoleAngeboteAnzeigen, title: this.$t('kunde.anzeigen.angebot'), clickFunc: vm.openAngebotFunction },
           { clazz: vm.getBestellungClass, disabled: vm.hasNotRoleBestellungenAnzeigen, title: this.$t('kunde.anzeigen.bestellung'), clickFunc: vm.openBestellungFunction },
+          { clazz: vm.getVorlageClass, title: this.$t('kunde.anzeigen.vorlage'), clickFunc: vm.openVorlagenFunction },
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('kunde.bearbeiten'), clickFunc: vm.editFunction },
           { clazz: 'kunden', disabled: vm.hasNotRoleVerwalten, title: this.$t('kunde.duplikat'), clickFunc: vm.duplicateFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('kunde.loeschen'), clickFunc: vm.deleteFunction }

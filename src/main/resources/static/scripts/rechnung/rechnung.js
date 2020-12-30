@@ -11,6 +11,7 @@ var vm = new Vue({
     });
   },
   data: {
+    id: getParamFromCurrentUrl('id') || -1,
     editEntity: {},
     ekBrutto: 0.00,
     endpreis: 0.00,
@@ -122,12 +123,17 @@ var vm = new Vue({
     init: function() {
       showLoader();
       vm.endpreis = 0.00;
+      vm.ekBrutto = 0.00;
+      vm.endgewinn = 0.00;
+      vm.endgewinnAnzeige = 0;
+      
       vm.getEntity()
         .then(vm.setEntity)
         .then(vm.getEinstellungDruckansichtNeuesFenster)
         .then(vm.setEinstellungDruckansichtNeuesFenster)
         .then(vm.getZahlarten)
         .then(vm.setZahlarten)
+        .then(vm.berechneEndpreis)
         .then(hideLoader);
     },
     saveFunc: function() {
@@ -138,6 +144,23 @@ var vm = new Vue({
     },
     executeSave: function() {
       return axios.put('/rechnung/', vm.entity);
+    },
+    saveVorlageFunc: function() {
+      vm.entity.rechnung.vorlage = true;
+      vm.executeSaveVorlage()
+      .then(vm.saveVorlageSuccess)
+      .then(hideLoader);
+    },
+    executeSaveVorlage: function() {
+      return axios.put('/rechnung/vorlage', vm.entity);
+    },
+    saveVorlageSuccess: function(response) {
+      var data = response.data;
+      if (data.success || data.info) {
+        vm.init();
+      }
+      vm.result = data;
+      vm.showDialog = true;
     },
     handleKundeResponse: function(kunde) {
       vm.showKundeDialog = false;
@@ -209,6 +232,10 @@ var vm = new Vue({
         } else {
           window.open('/rechnung-drucken.html' + params);
         }
+        if (vm.id !== -1) {
+          vm.id = -1;
+          vm.entity.posten = [];
+        }
         vm.init();
       }
       vm.result = data;
@@ -230,9 +257,18 @@ var vm = new Vue({
       vm.berechneEndpreis();
     },
     getEntity: function() {
-      return axios.get('/rechnung/' + -1);
+      return axios.get((vm.id === -1 ? '/rechnung/' : '/rechnung/vorlage/') + vm.id);
     },
     setEntity: function(response) {
+      if (!response.data.rechnung.angebot) {
+        response.data.rechnung.angebot = {};
+      }
+      if (!response.data.rechnung.bestellung) {
+        response.data.rechnung.bestellung = {};
+      }
+      if (!response.data.rechnung.reparatur) {
+        response.data.rechnung.reparatur = {};
+      }
       vm.entity = response.data;
     },
     getEinstellungDruckansichtNeuesFenster: function() {

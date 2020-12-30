@@ -31,6 +31,8 @@ public class RechnungDTO {
 
     private boolean stornoBeachten;
 
+    private boolean vorlageBehalten;
+
     public RechnungDTO(final BigDecimal mwst) {
         rechnung = new Rechnung();
         rechnung.setMwst(mwst);

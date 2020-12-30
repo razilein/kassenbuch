@@ -13,10 +13,11 @@ public interface RechnungRepository extends CrudRepository<Rechnung, Integer> {
 
     List<Rechnung> findAllByDatumGreaterThanEqualAndDatumLessThanEqual(LocalDate datumVon, LocalDate datumBis);
 
-    List<Rechnung> findAllByDatumGreaterThanEqualAndDatumLessThanEqualOrderByNummerAsc(LocalDate datumVon, LocalDate datumBis);
+    List<Rechnung> findAllByDatumGreaterThanEqualAndDatumLessThanEqualAndVorlageOrderByNummerAsc(LocalDate datumVon, LocalDate datumBis,
+            Boolean vorlage);
 
-    List<Rechnung> findAllByDatumGreaterThanEqualAndDatumLessThanEqualAndArtOrderByDatumAscNummerAsc(LocalDate datumVon, LocalDate datumBis,
-            Integer art);
+    List<Rechnung> findAllByDatumGreaterThanEqualAndDatumLessThanEqualAndArtAndVorlageOrderByDatumAscNummerAsc(LocalDate datumVon,
+            LocalDate datumBis, Integer art, Boolean vorlage);
 
     List<Rechnung> findByKundeId(Integer id);
 
