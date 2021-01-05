@@ -66,8 +66,8 @@ public class RechnungService {
         final boolean mitReparatur = BooleanUtils.toBoolean(conditions.get("mitreparatur"));
 
         if (StringUtils.isNumeric(kundeId)) {
-            return rechnungViewRepository.findByKundeIdAndVorlage(Ints.tryParse(kundeId),
-                    BooleanUtils.toBooleanObject(conditions.get("vorlage")), pagination);
+            return rechnungViewRepository.findByKundeIdAndVorlage(Ints.tryParse(kundeId), BooleanUtils.toBoolean(conditions.get("vorlage")),
+                    pagination);
         } else if (StringUtils.isBlank(nummer) && StringUtils.isBlank(reparaturnummer) && StringUtils.isBlank(ersteller)
                 && StringUtils.isBlank(kundennummer) && !istNichtBezahlt && StringUtils.isBlank(posten) && !StringUtils.isNumeric(art)
                 && !mitAngebot && !mitBestellung && !mitReparatur) {
