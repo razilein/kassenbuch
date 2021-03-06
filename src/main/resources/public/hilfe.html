@@ -116,6 +116,14 @@
               <li><a href="#rechte">Rechte</a></li>
             </ul>
           </li>
+          <li>
+            <a href="#roboter">Roboter</a>
+            <ul>
+              <li><a href="#roboterfiliale">Filiale</a></li>
+              <li><a href="#robotercron">Abfrage Cron-Timer</a></li>
+              <li><a href="#robotermail">E-Mail Inhalt</a></li>
+            </ul>
+          </li>
         </ul>
       </li>
       <li><a href="#meinprofil">Mein Profil</a></li>
@@ -620,6 +628,36 @@
       <li><strong>ANGEBOT</strong> - Ermöglicht das Anzeigen der Druckansicht eines Angebots</li>
       <li><strong>ANGEBOT_VERWALTEN</strong> - Angebote dürfen angelegt, bearbeitet oder gelöscht werden</li>
     </ul>
+    <h2 id="roboter">Roboter</h2>
+    <p>
+      In dieser Ansicht können die Daten zum automatischen Einlesen von Reparaturaufträgen festgelegt werden.
+      Es werden alle CSV-Dateien aus dem FTP-Server-Verzeichnis <em>reparaturen</em> kopiert und lokal
+      im Ablageverzeichnis im Ordner <em>reparaturen</em> abgelegt.
+      Die Datei auf dem FTP-Server wird sofort dabei gelöscht.
+    </p>
+    <p>
+      Kann die Datei nicht eingelesen werden, wird eine E-Mail-Benachrichtigung an die Filiale gesendet mit einem
+      Fehlertext.
+      Die CSV-Datei muss dann entweder manuell korrigiert oder der Auftrag manuell angelegt werden.
+      Bei Korrektur der CSV-Datei ist diese in das Ablageverzeichnis <em>reparaturen</em> abzulegen.
+    </p>
+    <p>
+      Achtung! Die in diesem Verzeichnis abgelegten Dateien werden unverzüglich verarbeitet.
+    </p>
+    <h4 id="roboterfiliale">Filiale</h4>
+    <p>
+      Alle automatisch eingelesenen Reparaturaufträge werden zu dieser Filiale eingelesen.
+    </p>
+    <h4 id="robotercron">Abfrage Cron-Timer</h4>
+    <p>
+      Mit Hilfe des hier festgelegten Cron-Timers kann festgelegt werden in welchen zeitlichen Abständen der FTP-Server auf neue CSV-Dateien untersucht werden soll.
+    </p>
+    <h4 id="robotermail">E-Mail Inhalt Reparaturauftrag erhalten</h4>
+    <p>
+      Nachdem der Auftrag im System erfolgreich eingelesen wurde und der Kunde eine E-Mail-Adresse angegeben hat, wird eine E-Mail mit dem hier
+      angegebenen Text, sowie dem Text aus den allgemeinen Einstellungen <em>E-Mail Signatur</em> versendet.
+      Eine Grußformel <em>Mit freundlichen Grüßen</em> muss selbst eingebaut werden, da kein aktiver Mitarbeiter hinter diesem Automatismus steht.
+    </p>
     <h2 id="meinprofil">Mein Profil</h2>
     <p>Jeder Mitarbeiter kann diese Seite rechts oben auf jeder Seite aufrufen.</p>
     <p>Im Reiter Allgemein kann der Name, sowie weitere persönliche Daten angepasst werden.

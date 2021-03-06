@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Roboter - Computer-Insel Tools by Sita Geßner</title>
+    <link rel="icon" href="/themes/icons/einstellungen.png">
+    <link rel="stylesheet" href="/themes/css/button.css">
+    <link rel="stylesheet" href="/themes/css/dialog.css">
+    <link rel="stylesheet" href="/themes/css/general.css">
+    <link rel="stylesheet" href="/themes/css/loading.css">
+    <link rel="stylesheet" href="/themes/css/radio.css">
+    <link rel="stylesheet" href="/themes/css/raster.css">
+    <link rel="stylesheet" href="/themes/css/style.css">
+    <link rel="stylesheet" href="/themes/css/tabs.css">
+    <script type="text/javascript" src="/scripts/vendor/vue.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/vue-i18n.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/axios.min.js"></script>
+  </head>
+  <body>
+    <div id="roboter" v-cloak>
+      <page-header :marker="'Einstellungen'"></page-header>
+      <page-header-einstellungen v-bind:marker="'Roboter'"></page-header-einstellungen>
+      <div id="content">
+        <div class="form">
+          <h1>{{ $t("einstellung.reparatur") }}</h1>
+          <div class="m1">
+            <div class="m2m">
+              <label class="required" for="roboterForm_filiale">{{ $t("general.filiale") }}</label>
+              <select class="m2" id="roboterForm_filiale" v-model="einstellungen.roboterFiliale.wert">
+                <option :value="f.key" v-for="f in filialen">{{f.value}}</option>
+              </select>
+            </div>
+            <div class="m2">
+              <label class="required" for="roboterForm_cron">{{ $t("general.cron") }}</label>
+              <input class="m2" id="roboterForm_cron" type="text" v-model="einstellungen.roboterCron.wert" />
+            </div>
+          </div>
+          <div class="m1">
+              <label class="required" for="roboter_mail">{{ $t("einstellung.email.roboter") }}</label>
+              <textarea class="m1" id="roboterForm_roboterMailBodyReparaturauftrag" v-model="einstellungen.roboterMailBodyReparaturauftrag.wert"></textarea>
+          </div>
+          <div class="m1">
+            <button class="right" v-on:click="speichernEinstellungen">{{ $t("general.speichern") }}</button>
+          </div>
+        </div>
+      </div>
+      <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
+    </div>
+  </body>
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/i18n.js"></script>
+  <script src="/scripts/messages.dialog.component.js"></script>
+  <script src="/scripts/header.component.js"></script>
+  <script src="/scripts/einstellungen/einstellungen.header.component.js"></script>
+  <script src="/scripts/einstellungen/roboter.js"></script>
+</html>

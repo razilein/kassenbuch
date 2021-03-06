@@ -138,6 +138,19 @@ public class EmailService {
         return builder.toString();
     }
 
+    public String getEingangMailText(final Reparatur reparatur) {
+        final StringBuilder builder = new StringBuilder();
+
+        final Kunde kunde = reparatur.getKunde();
+        setMailHeader(kunde, kunde.getBriefanrede(), builder);
+
+        final String nummer = reparatur.getFiliale().getKuerzel() + reparatur.getNummer();
+        builder.append(
+                RegExUtils.replaceAll(einstellungService.getRoboterMailBodyReparaturauftrag().getWert(), PLACEHOLDER_NUMMER, nummer));
+        setMailFooterKurz(builder);
+        return builder.toString();
+    }
+
     public void sendeEmail(final List<MultipartFile> files, final AngebotDto dto, final String text) {
         final Angebot angebot = dto.getAngebot();
         final List<File> angebotFiles = new ArrayList<>();
@@ -216,6 +229,10 @@ public class EmailService {
         builder.append(messageService.get("email.signature"));
         builder.append(System.lineSeparator());
         builder.append(mitarbeiterService.getAngemeldeterMitarbeiterVornameNachname());
+        setMailFooterKurz(builder);
+    }
+
+    private void setMailFooterKurz(final StringBuilder builder) {
         builder.append(System.lineSeparator());
         builder.append(System.lineSeparator());
         builder.append(einstellungService.getMailSignatur().getWert());
@@ -242,6 +259,30 @@ public class EmailService {
                         einstellungService.getSmtpPassword().getWert());
             }
         });
+    }
+
+    public void sendeInformationsmail(final String titel, final String text, final String absender, final String empfaenger) {
+        try {
+            final Session session = initSmtpSession();
+            final Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(absender));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(empfaenger));
+            message.setSubject(titel);
+
+            final MimeBodyPart mimeBodyPart = new MimeBodyPart();
+            mimeBodyPart.setText(text, StandardCharsets.UTF_8.name());
+
+            final Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(mimeBodyPart);
+
+            message.setContent(multipart);
+
+            Transport.send(message);
+            addToSentFolder(message, session);
+        } catch (final MessagingException e) {
+            throw new IllegalArgumentException(e);
+        }
+
     }
 
 }

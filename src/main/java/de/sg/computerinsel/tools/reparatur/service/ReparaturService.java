@@ -1,11 +1,14 @@
 package de.sg.computerinsel.tools.reparatur.service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
@@ -17,7 +20,10 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.primitives.Ints;
 
+import de.sg.computerinsel.tools.DateUtils;
+import de.sg.computerinsel.tools.bestellung.model.Bestellung;
 import de.sg.computerinsel.tools.bestellung.service.BestellungService;
+import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
 import de.sg.computerinsel.tools.reparatur.dao.ReparaturRepository;
 import de.sg.computerinsel.tools.reparatur.dao.VReparaturRepository;
@@ -109,7 +115,7 @@ public class ReparaturService {
         return reparaturRepository.save(reparatur);
     }
 
-    private String getReparaturJahrZweistellig() {
+    String getReparaturJahrZweistellig() {
         return StringUtils.right(String.valueOf(LocalDate.now().getYear()), LAENGE_REPARATURNUMMER_JAHR);
     }
 
@@ -136,6 +142,48 @@ public class ReparaturService {
     public List<DefaultKeyValue<Integer, String>> getPruefstatus() {
         return Arrays.asList(PruefstatusGeraet.values()).stream().map(r -> new DefaultKeyValue<>(r.getCode(), r.getDescription()))
                 .collect(Collectors.toList());
+    }
+
+    public Reparatur createReparatur() {
+        final Reparatur reparatur = new Reparatur();
+        reparatur.setBestellung(new Bestellung());
+        reparatur.setKunde(new Kunde());
+        reparatur.setAbholdatum(berechneAbholdatum(false));
+        reparatur.setAbholzeit(berechneAbholzeit(false));
+        reparatur.setArt(ReparaturArt.REPARATUR.getCode());
+        reparatur.setFunktionsfaehig(PruefstatusGeraet.NICHT_DEFINIERT.getCode());
+        return reparatur;
+    }
+
+    public LocalDate berechneAbholdatum(final boolean express) {
+        LocalDate date = LocalDate.now();
+        if (express && LocalTime.now().isAfter(LocalTime.of(13, 30))) {
+            date = DateUtils.plusWorkdays(date, 1);
+        } else if (!express) {
+            date = DateUtils.plusWorkdays(date, 3);
+        }
+        final List<LocalDate> notAllowedDays = listDaysWithMin5AbholungenAndAuftragNotErledigt();
+        while (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY || FeiertagUtils.isFeiertag(date)
+                || notAllowedDays.stream().anyMatch(dateIsEqual(date))) {
+            date = date.plusDays(1);
+        }
+        return date;
+    }
+
+    private Predicate<? super LocalDate> dateIsEqual(final LocalDate date) {
+        return d -> d.equals(date);
+    }
+
+    public LocalTime berechneAbholzeit(final boolean express) {
+        LocalTime time = LocalTime.of(16, 30);
+        if (express) {
+            if (LocalTime.now().isBefore(LocalTime.of(13, 30))) {
+                time = LocalTime.of(18, 30);
+            } else {
+                time = LocalTime.of(13, 30);
+            }
+        }
+        return time;
     }
 
 }

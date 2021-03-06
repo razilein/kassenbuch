@@ -18,6 +18,7 @@ import java.util.Optional;
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.scheduling.support.CronExpression;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
 import de.sg.computerinsel.tools.rest.model.EinstellungenData;
+import de.sg.computerinsel.tools.rest.model.EinstellungenRoboterData;
 import de.sg.computerinsel.tools.rest.model.FilialeDto;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterDTO;
 import de.sg.computerinsel.tools.rest.model.MitarbeiterRollenDTO;
@@ -81,6 +83,15 @@ public class EinstellungenRestController {
         return data;
     }
 
+    @GetMapping("/roboter")
+    public EinstellungenRoboterData getEinstellungenRoboter() {
+        final EinstellungenRoboterData data = new EinstellungenRoboterData();
+        data.setRoboterCron(einstellungenService.getRoboterCron());
+        data.setRoboterFiliale(einstellungenService.getRoboterFiliale());
+        data.setRoboterMailBodyReparaturauftrag(einstellungenService.getRoboterMailBodyReparaturauftrag());
+        return data;
+    }
+
     @GetMapping("/standardfiliale-mitarbeiter")
     public Filiale getStandardFilialeMitarbeiter() {
         return mitarbeiterService.getAngemeldeterMitarbeiterFiliale().orElseGet(Filiale::new);
@@ -110,6 +121,24 @@ public class EinstellungenRestController {
             protokollService.write(messageService.get("protokoll.einstellungen.save"));
         }
 
+        return result;
+    }
+
+    @PutMapping("/roboter")
+    public Map<String, Object> saveEinstellungenRoboter(@RequestBody final EinstellungenRoboterData data) {
+        final Map<String, Object> result = new HashMap<>();
+        try {
+            CronExpression.parse(data.getRoboterCron().getWert());
+        } catch (final IllegalArgumentException e) {
+            result.put(Message.ERROR.getCode(), "Der Cronausdruck ist nicht valide: " + e.getMessage());
+        }
+        if (result.isEmpty()) {
+            einstellungenService.save(data.getRoboterCron());
+            einstellungenService.save(data.getRoboterFiliale());
+            einstellungenService.save(data.getRoboterMailBodyReparaturauftrag());
+            result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.save.success"));
+            protokollService.write(messageService.get("protokoll.einstellungen.save"));
+        }
         return result;
     }
 

@@ -66,6 +66,7 @@ const messages = {
         angebot: 'E-Mail Inhalt Angebot versenden',
         rechnung: 'E-Mail Inhalt Rechnung versenden',
         reparatur: 'E-Mail Inhalt Reparaturauftrag erledigt',
+        roboter: 'E-Mail Inhalt Reparaturauftrag erhalten',
         signatur: 'E-Mail Signatur'
       },
       filiale: {
@@ -112,6 +113,8 @@ const messages = {
       },
       pw: 'Passwort',
       port: 'Port',
+      reparatur: 'Reparaturen automatisch erfassen',
+      roboter: 'Roboter',
       smtp: 'SMTP-Server',
       mwst: 'MwSt in %'
     },
@@ -147,6 +150,7 @@ const messages = {
       briefanrede: 'Briefanrede',
       ci: 'Computer-Insel GbR',
       ciShort: 'Computer-Insel',
+      cron: 'Abfrage Cron-Timer',
       datum: 'Datum',
       datumDen: 'den',
       datumZeit: 'Datum/Uhrzeit',
