@@ -156,9 +156,11 @@ var vm = new Vue({
     },
     
     init: function() {
+      vm.grid.searchQuery['vorlage'] = vm.vorlage;
       if (vm.kundeId) {
         vm.grid.searchQuery['kunde.id'] = vm.kundeId;
-        vm.grid.searchQuery['vorlage'] = vm.vorlage;
+      }
+      if (vm.kundeId || vm.vorlage) {
         vm.grid.reload = true;
       }
       vm.prepareRoles()
@@ -215,19 +217,33 @@ var vm = new Vue({
     },
     
     setGridColumns: function() {
-      vm.grid.gridColumns = [
-        (vm.vorlage === 'true' ? vm.getTableFunctionsVorlage() : vm.getTableFunctions()),
-        { name: 'rechnungNr', title: this.$t('rechnung.rechnNr'), width: 80, link: [ vm.openFunction ] },
-        { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80, link: [ vm.getLinkReparatur ] },
-        { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100, link: [ vm.getLinkAngebot ] },
-        { name: 'bestellungNr', title: this.$t('bestellung.nummerKurz'), width: 80, link: [ vm.getLinkBestellung ] },
-        { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80, link: [ vm.getLinkKunde ] },
-        { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), sortable: false, width: 200, link: [ vm.getLinkKunde ] },
-        { name: 'rechnungsbetrag', title: this.$t('kassenbuch.betrag'), width: 100, formatter: ['money'] },
-        { name: 'datum', title: this.$t('general.datum'), width: 120, formatter: ['date'] },
-        { name: 'ersteller', title: this.$t('general.ersteller'), width: 150 },
-        { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 150 },
-      ];
+      if (vm.vorlage === 'true') {
+        vm.grid.gridColumns = [
+          vm.getTableFunctionsVorlage(),
+          { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80, link: [ vm.getLinkKunde ] },
+          { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), sortable: false, width: 200, link: [ vm.getLinkKunde ] },
+          { name: 'kunde.telefonAnzeige', title: this.$t('kunde.suchfeldTelefon'), sortable: false, width: 200 },
+          { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 150 },
+          { name: 'rechnungsbetrag', title: this.$t('kassenbuch.betrag'), width: 100, formatter: ['money'] },
+          { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80, link: [ vm.getLinkReparatur ] },
+          { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100, link: [ vm.getLinkAngebot ] },
+          { name: 'bestellungNr', title: this.$t('bestellung.nummerKurz'), width: 80, link: [ vm.getLinkBestellung ] },
+        ];
+      } else {
+        vm.grid.gridColumns = [
+          vm.getTableFunctions(),
+          { name: 'rechnungNr', title: this.$t('rechnung.rechnNr'), width: 80, link: [ vm.openFunction ] },
+          { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80, link: [ vm.getLinkReparatur ] },
+          { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100, link: [ vm.getLinkAngebot ] },
+          { name: 'bestellungNr', title: this.$t('bestellung.nummerKurz'), width: 80, link: [ vm.getLinkBestellung ] },
+          { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80, link: [ vm.getLinkKunde ] },
+          { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), sortable: false, width: 200, link: [ vm.getLinkKunde ] },
+          { name: 'rechnungsbetrag', title: this.$t('kassenbuch.betrag'), width: 100, formatter: ['money'] },
+          { name: 'datum', title: this.$t('general.datum'), width: 120, formatter: ['date'] },
+          { name: 'ersteller', title: this.$t('general.ersteller'), width: 150 },
+          { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 150 },
+        ];
+      }
     },
     
     getLinkAngebot: function(row) {

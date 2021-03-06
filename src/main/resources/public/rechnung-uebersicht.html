@@ -20,7 +20,8 @@
   <body>
     <div id="rechnungen" v-cloak>
       <page-header :marker="'Rechnungen'"></page-header>
-      <page-header-rechnung v-bind:marker="'Rechnungen'"></page-header-rechnung>
+      <page-header-rechnung v-bind:marker="'Rechnungen'"  v-if="!vorlage"></page-header-rechnung>
+      <page-header-rechnung v-bind:marker="'Vorlagen'"  v-if="vorlage"></page-header-rechnung>
       <div id="content">
         <div class="form m1" v-if="kundeId === null">
           <div class="m1">
