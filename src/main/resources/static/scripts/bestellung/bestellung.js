@@ -48,10 +48,14 @@ var vm = new Vue({
       vm.entity.angebot = angebot.angebot;
       vm.entity.angebot.text = angebot.text;
       vm.entity.kunde = angebot.angebot.kunde;
+      vm.checkProblemkunde(angebot.angebot.kunde);
     },
     handleKundeResponse: function(kunde) {
       vm.showKundeDialog = false;
       vm.entity.kunde = kunde;
+      vm.checkProblemkunde(kunde);
+    },
+    checkProblemkunde: function(kunde) {
       if (kunde.problem) {
         var problemText = this.$t('kunde.problemStandard');
         if (kunde.bemerkung) {
@@ -61,7 +65,7 @@ var vm = new Vue({
         vm.showDialog = true;
       }
       vm.getNichtBezahlteRechnungen(kunde.id)
-        .then(vm.setNichtBezahlteRechnungen);
+      .then(vm.setNichtBezahlteRechnungen);
     },
     openBestellung: function(response) {
       var data = response.data;
