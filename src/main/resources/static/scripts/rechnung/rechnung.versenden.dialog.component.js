@@ -6,11 +6,11 @@ Vue.component('rechnung-versenden-dialog', {
         <div class="dialog-container info">
           <h3 class="dialog-header">{{ $t("general.rechnung") }} {{row.nummer}} {{ $t("general.emailSenden") }}</h3>
           <div class="dialog-body">
-            {{ $t("rechnung.emailSenden") }} {{row.kunde.nameKomplett}} {{ $t("general.versenden") }}?
+            {{ $t("rechnung.emailSenden") }} {{row.kunde.nameKomplett}} {{ $t("general.versenden") }}
             <br>
             <div class="m1">
-              <zeichenzaehler-label :elem="anrede" :forid="'rechnungversenden_anrede'" :label="$t('general.briefanrede')" :maxlength="'1000'"></zeichenzaehler-label>
-              <textarea class="m1" id="rechnungversenden_anrede" maxlength="1000" type="text" v-model="anrede"></textarea>
+              <zeichenzaehler-label :elem="text" :forid="'rechnungversenden_text'" :label="$t('general.mailtext')" :maxlength="'5000'"></zeichenzaehler-label>
+              <textarea class="m1" id="rechnungversenden_text" maxlength="5000" style="height: 500px" type="text" v-model="text"></textarea>
             </div>
             <div class="m1">
               <input accept="application/pdf" class="m1" name="file" ref="rechnungFile" type="file" @change="loadFile">
@@ -28,13 +28,17 @@ Vue.component('rechnung-versenden-dialog', {
     row: Object,
   },
   data: function() {
+    this.loadText();
     return {
-      anrede: this.row.kunde.briefanrede
+      text: ''
     };
   },
   methods: {
     loadFile: function() {
       this.file = this.$refs.rechnungFile.files[0];
+    },
+    loadText: function() {
+      this.getText().then(this.setText);
     },
     sendFunc: function() {
       showLoader();
@@ -45,11 +49,17 @@ Vue.component('rechnung-versenden-dialog', {
       let fd = new FormData();
       fd.append('file', this.file);
       fd.append('id', this.row.id);
-      fd.append('anrede', this.anrede);
+      fd.append('text', this.text);
       return axios.post('email/rechnung', fd, config);
     },
     closeAndReturnResponse(response) {
       this.$emit('sended', response.data);
+    },
+    getText: function() {
+      return axios.get('email/rechnung/' + this.row.id);
+    },
+    setText: function(response) {
+      this.text = response.data.success;
     }
   }
 });

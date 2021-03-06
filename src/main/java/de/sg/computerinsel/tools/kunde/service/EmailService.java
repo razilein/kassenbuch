@@ -53,25 +53,17 @@ public class EmailService {
 
     private final MitarbeiterService mitarbeiterService;
 
-    public void sendeEmail(final MultipartFile file, final Rechnung rechnung, final String anrede) {
-        final String nummer = rechnung.getFiliale().getKuerzel() + rechnung.getNummerAnzeige();
+    public void sendeEmail(final MultipartFile file, final Rechnung rechnung, final String text) {
         File rechnungFile = null;
         try {
-            final Kunde kunde = rechnung.getKunde();
-
             final Session session = initSmtpSession();
             final Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(rechnung.getFiliale().getEmail()));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(kunde.getEmail()));
-            message.setSubject("Rechnung " + nummer);
-
-            final StringBuilder builder = new StringBuilder();
-            setMailHeader(kunde, anrede, builder);
-            builder.append(RegExUtils.replaceAll(einstellungService.getMailBodyRechnung().getWert(), PLACEHOLDER_NUMMER, nummer));
-            setMailFooter(builder);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(rechnung.getKunde().getEmail()));
+            message.setSubject("Rechnung " + rechnung.getFiliale().getKuerzel() + rechnung.getNummerAnzeige());
 
             final MimeBodyPart mimeBodyPart = new MimeBodyPart();
-            mimeBodyPart.setText(builder.toString(), StandardCharsets.UTF_8.name());
+            mimeBodyPart.setText(text, StandardCharsets.UTF_8.name());
 
             final MimeBodyPart attachmentBodyPart = new MimeBodyPart();
 
@@ -97,24 +89,29 @@ public class EmailService {
 
     }
 
-    public void sendeEmail(final Reparatur reparatur, final String anrede) {
-        final String nummer = reparatur.getFiliale().getKuerzel() + reparatur.getNummer();
-        try {
-            final Kunde kunde = reparatur.getKunde();
+    public String getMailText(final Rechnung rechnung, final String anrede) {
+        final StringBuilder builder = new StringBuilder();
 
+        final Kunde kunde = rechnung.getKunde();
+        setMailHeader(kunde, anrede, builder);
+
+        final String nummer = rechnung.getFiliale().getKuerzel() + rechnung.getNummerAnzeige();
+        builder.append(RegExUtils.replaceAll(einstellungService.getMailBodyRechnung().getWert(), PLACEHOLDER_NUMMER, nummer));
+        setMailFooter(builder);
+
+        return builder.toString();
+    }
+
+    public void sendeEmail(final Reparatur reparatur, final String text) {
+        try {
             final Session session = initSmtpSession();
             final Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(reparatur.getFiliale().getEmail()));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(kunde.getEmail()));
-            message.setSubject("Reparaturauftrag " + nummer);
-
-            final StringBuilder builder = new StringBuilder();
-            setMailHeader(kunde, anrede, builder);
-            builder.append(RegExUtils.replaceAll(einstellungService.getMailBodyReparaturauftrag().getWert(), PLACEHOLDER_NUMMER, nummer));
-            setMailFooter(builder);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(reparatur.getKunde().getEmail()));
+            message.setSubject("Reparaturauftrag " + reparatur.getFiliale().getKuerzel() + reparatur.getNummer());
 
             final MimeBodyPart mimeBodyPart = new MimeBodyPart();
-            mimeBodyPart.setText(builder.toString(), StandardCharsets.UTF_8.name());
+            mimeBodyPart.setText(text, StandardCharsets.UTF_8.name());
 
             final Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(mimeBodyPart);
@@ -126,29 +123,33 @@ public class EmailService {
         } catch (final MessagingException e) {
             throw new IllegalArgumentException(e);
         }
-
     }
 
-    public void sendeEmail(final List<MultipartFile> files, final AngebotDto dto, final String anrede) {
+    public String getMailText(final Reparatur reparatur, final String anrede) {
+        final StringBuilder builder = new StringBuilder();
+
+        final Kunde kunde = reparatur.getKunde();
+        setMailHeader(kunde, anrede, builder);
+
+        final String nummer = reparatur.getFiliale().getKuerzel() + reparatur.getNummer();
+        builder.append(RegExUtils.replaceAll(einstellungService.getMailBodyReparaturauftrag().getWert(), PLACEHOLDER_NUMMER, nummer));
+        setMailFooter(builder);
+
+        return builder.toString();
+    }
+
+    public void sendeEmail(final List<MultipartFile> files, final AngebotDto dto, final String text) {
         final Angebot angebot = dto.getAngebot();
-        final String nummer = angebot.getFiliale().getKuerzel() + angebot.getNummer();
         final List<File> angebotFiles = new ArrayList<>();
         try {
-            final Kunde kunde = angebot.getKunde();
-
             final Session session = initSmtpSession();
             final Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(angebot.getFiliale().getEmail()));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(kunde.getEmail()));
-            message.setSubject("Angebot " + nummer);
-
-            final StringBuilder builder = new StringBuilder();
-            setMailHeader(kunde, anrede, builder);
-            builder.append(RegExUtils.replaceAll(einstellungService.getMailBodyAngebot().getWert(), PLACEHOLDER_NUMMER, nummer));
-            setMailFooter(builder);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(angebot.getKunde().getEmail()));
+            message.setSubject("Angebot " + angebot.getFiliale().getKuerzel() + angebot.getNummer());
 
             final MimeBodyPart mimeBodyPart = new MimeBodyPart();
-            mimeBodyPart.setText(builder.toString(), StandardCharsets.UTF_8.name());
+            mimeBodyPart.setText(text, StandardCharsets.UTF_8.name());
 
             final List<MimeBodyPart> attachmentBodyPartList = new ArrayList<>();
 
@@ -181,7 +182,19 @@ public class EmailService {
                 FileUtils.deleteQuietly(file);
             }
         }
+    }
 
+    public String getMailText(final Angebot angebot, final String anrede) {
+        final StringBuilder builder = new StringBuilder();
+
+        final Kunde kunde = angebot.getKunde();
+        setMailHeader(kunde, anrede, builder);
+
+        final String nummer = angebot.getFiliale().getKuerzel() + angebot.getNummer();
+        builder.append(RegExUtils.replaceAll(einstellungService.getMailBodyAngebot().getWert(), PLACEHOLDER_NUMMER, nummer));
+        setMailFooter(builder);
+
+        return builder.toString();
     }
 
     private void addToSentFolder(final Message message, final Session session) {

@@ -187,6 +187,7 @@ const messages = {
       lieferdatum: 'Lieferdatum',
       loeschen: 'löschen',
       loeschenFrage: 'Wollen Sie diesen Datensatz wirklich löschen?',
+      mailtext: 'Inhalt der E-Mail',
       meldung: {
         erfolg: 'Erfolg',
         fehler: 'Fehler',

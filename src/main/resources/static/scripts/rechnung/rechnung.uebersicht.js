@@ -3,7 +3,7 @@ var vm = new Vue({
   el: '#rechnungen',
   created() {
     window.addEventListener('keydown', e => {
-      var isDialogOpened = vm.showDialog || vm.showEditDialog || vm.showDeleteDialog;
+      var isDialogOpened = vm.showDialog || vm.showEditDialog || vm.showDeleteDialog || vm.showVersendenDialog;
       if (e.key == 'Enter' && !isDialogOpened) {
         vm.grid.reload = true;
       }

@@ -3,7 +3,7 @@ var vm = new Vue({
   el: '#angebote',
   created() {
     window.addEventListener('keydown', e => {
-      var isDialogOpened = vm.showDialog || vm.showConfirmDialog || vm.showDeleteDialog || vm.showEditDialog;
+      var isDialogOpened = vm.showDialog || vm.showConfirmDialog || vm.showDeleteDialog || vm.showEditDialog || vm.showVersendenDialog;
       if (e.key == 'Enter' && !isDialogOpened) {
         vm.grid.reload = true;
       }
