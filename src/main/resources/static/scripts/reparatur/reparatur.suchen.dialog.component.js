@@ -40,6 +40,7 @@ Vue.component('reparatur-suchen-dialog', {
   props: {
     reparatur: Object,
     kunde: Object,
+    einstellungDruckansichtNeuesFenster: Boolean
   },
   created: function() {
     window.addEventListener('keydown', e => {
@@ -67,9 +68,9 @@ Vue.component('reparatur-suchen-dialog', {
             formatter: [
             { clazz: 'ok', title: this.$t('reparatur.waehlen'), clickFunc: this.chooseFunction },
           ] },
-          { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80 },
+          { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80, link: [ this.openFunction ] },
           { name: 'geraet', title: this.$t('general.geraet'), width: 400, formatter: [ 'overflow' ] },
-          { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), width: 200 },
+          { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), width: 200, link: [ this.getLinkKunde ] },
         ],
         reload: false,
         restUrl: 'reparatur',
@@ -97,6 +98,23 @@ Vue.component('reparatur-suchen-dialog', {
     },
     closeAndReturnResponse: function() {
       this.$emit('saved', this.entity);
+    },
+    getLinkKunde: function(row) {
+      if (row.kunde) {
+        var params = '?id=' + row.kunde.id;
+        if (this.einstellungDruckansichtNeuesFenster) {
+          window.open('/kunden.html' + params, '_blank', 'resizable=yes');
+        } else {
+          window.open('/kunden.html' + params);
+        }
+      }
+    },
+    openFunction: function(row) {
+      if (this.einstellungDruckansichtNeuesFenster) {
+        window.open('/reparatur-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
+      } else {
+        window.open('/reparatur-drucken.html?id=' + row.id);
+      }
     },
   }
 });

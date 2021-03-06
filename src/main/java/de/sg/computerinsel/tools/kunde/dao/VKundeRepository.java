@@ -10,6 +10,8 @@ public interface VKundeRepository extends CrudRepository<VKunde, Integer> {
 
     Page<VKunde> findAll(Pageable pagination);
 
+    Page<VKunde> findById(Integer id, Pageable pagination);
+
     Page<VKunde> findByNachnameLikeAndPlzLikeAndSuchfeld2TelefonLike(String nachname, String plz, String telefon, Pageable pagination);
 
     Page<VKunde> findByNachnameLikeAndPlzLikeAndSuchfeld2TelefonLikeAndSuchfeldStrasseLike(String nachname, String plz, String telefon,

@@ -217,17 +217,61 @@ var vm = new Vue({
     setGridColumns: function() {
       vm.grid.gridColumns = [
         (vm.vorlage === 'true' ? vm.getTableFunctionsVorlage() : vm.getTableFunctions()),
-        { name: 'rechnungNr', title: this.$t('rechnung.rechnNr'), width: 80 },
-        { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80 },
-        { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100 },
-        { name: 'bestellungNr', title: this.$t('bestellung.nummerKurz'), width: 80 },
-        { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80 },
-        { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), sortable: false, width: 200 },
+        { name: 'rechnungNr', title: this.$t('rechnung.rechnNr'), width: 80, link: [ vm.openFunction ] },
+        { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80, link: [ vm.getLinkReparatur ] },
+        { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100, link: [ vm.getLinkAngebot ] },
+        { name: 'bestellungNr', title: this.$t('bestellung.nummerKurz'), width: 80, link: [ vm.getLinkBestellung ] },
+        { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80, link: [ vm.getLinkKunde ] },
+        { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), sortable: false, width: 200, link: [ vm.getLinkKunde ] },
         { name: 'rechnungsbetrag', title: this.$t('kassenbuch.betrag'), width: 100, formatter: ['money'] },
         { name: 'datum', title: this.$t('general.datum'), width: 120, formatter: ['date'] },
         { name: 'ersteller', title: this.$t('general.ersteller'), width: 150 },
         { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 150 },
       ];
+    },
+    
+    getLinkAngebot: function(row) {
+      if (row.angebot) {
+        var params = '?id=' + row.angebot.id;
+        if (vm.einstellungDruckansichtNeuesFenster) {
+          window.open('/angebot-drucken.html' + params, '_blank', 'resizable=yes');
+        } else {
+          window.open('/angebot-drucken.html' + params);
+        }
+      }
+    },
+    
+    getLinkBestellung: function(row) {
+      if (row.bestellung) {
+        var params = '?id=' + row.bestellung.id;
+        if (vm.einstellungDruckansichtNeuesFenster) {
+          window.open('/bestellung-drucken.html' + params, '_blank', 'resizable=yes');
+        } else {
+          window.open('/bestellung-drucken.html' + params);
+        }
+      }
+    },
+    
+    getLinkReparatur: function(row) {
+      if (row.reparatur) {
+        var params = '?id=' + row.reparatur.id;
+        if (vm.einstellungDruckansichtNeuesFenster) {
+          window.open('/reparatur-drucken.html' + params, '_blank', 'resizable=yes');
+        } else {
+          window.open('/reparatur-drucken.html' + params);
+        }
+      }
+    },
+    
+    getLinkKunde: function(row) {
+      if (row.kunde) {
+        var params = '?id=' + row.kunde.id;
+        if (vm.einstellungDruckansichtNeuesFenster) {
+          window.open('/kunden.html' + params, '_blank', 'resizable=yes');
+        } else {
+          window.open('/kunden.html' + params);
+        }
+      }
     },
     
     getTableFunctions: function() {

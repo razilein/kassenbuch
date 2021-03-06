@@ -42,6 +42,7 @@ Vue.component('edit-dialog', {
     </div>
   </div>
   <angebot-suchen-dialog
+    :einstellung-druckansicht-neues-fenster="einstellungDruckansichtNeuesFenster"
     :angebot="entity.angebot"
     :kunde="entity.kunde"
     v-if="showAngebotDialog"
@@ -63,6 +64,7 @@ Vue.component('edit-dialog', {
   data: function() {
     this.loadEntity();
     return {
+      einstellungDruckansichtNeuesFenster: false,
       entity: {
         angebot: {},
         kunde: {},
@@ -93,6 +95,8 @@ Vue.component('edit-dialog', {
         .then(this.setEntity)
         .then(this.getReparaturarten)
         .then(this.setReparaturarten)
+        .then(this.getEinstellungDruckansichtNeuesFenster)
+        .then(this.setEinstellungDruckansichtNeuesFenster)
         .then(hideLoader);
     },
     saveFunc: function() {
@@ -115,6 +119,12 @@ Vue.component('edit-dialog', {
     },
     setAbholdatum: function(response) {
       this.entity.datum = response.data.datum;
+    },
+    getEinstellungDruckansichtNeuesFenster: function() {
+      return axios.get('/mitarbeiter-profil');
+    },
+    setEinstellungDruckansichtNeuesFenster: function(response) {
+      this.einstellungDruckansichtNeuesFenster = response.data.druckansichtNeuesFenster;
     },
     getEntity: function() {
       return axios.get(this.restUrlGet);

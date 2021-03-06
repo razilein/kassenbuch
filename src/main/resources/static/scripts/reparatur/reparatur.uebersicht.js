@@ -158,15 +158,37 @@ var vm = new Vue({
           { clazz: 'email', disabled: vm.canSendEmail, title: this.$t('reparatur.email'), clickFunc: vm.sendMailFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('reparatur.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80 },
-        { name: 'bestellungNr', title: this.$t('bestellung.nummerKurz'), width: 100 },
-        { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80 },
-        { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200 },
+        { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80, link: [ vm.openFunction ] },
+        { name: 'bestellungNr', title: this.$t('bestellung.nummerKurz'), width: 100, link: [ vm.getLinkBestellung ] },
+        { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80, link: [ vm.getLinkKunde ] },
+        { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200, link: [ vm.getLinkKunde ] },
         { name: 'geraet', title: this.$t('general.geraet'), width: 350, formatter: [ 'overflow' ] },
         { name: 'expressbearbeitung', title: this.$t('reparatur.express'), width: 90, formatter: ['boolean'] },
         { name: 'abholdatum', title: this.$t('reparatur.abholdatum'), width: 120, formatter: ['date'] },
         { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 100 }
       ];
+    },
+    
+    getLinkBestellung: function(row) {
+      if (row.bestellung) {
+        var params = '?id=' + row.bestellung.id;
+        if (vm.einstellungDruckansichtNeuesFenster) {
+          window.open('/bestellung-drucken.html' + params, '_blank', 'resizable=yes');
+        } else {
+          window.open('/bestellung-drucken.html' + params);
+        }
+      }
+    },
+    
+    getLinkKunde: function(row) {
+      if (row.kunde) {
+        var params = '?id=' + row.kunde.id;
+        if (vm.einstellungDruckansichtNeuesFenster) {
+          window.open('/kunden.html' + params, '_blank', 'resizable=yes');
+        } else {
+          window.open('/kunden.html' + params);
+        }
+      }
     },
     
     getClazzErledigt: function(row) {

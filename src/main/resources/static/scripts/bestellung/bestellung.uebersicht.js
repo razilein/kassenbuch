@@ -138,14 +138,36 @@ var vm = new Vue({
           { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.erledigenFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('bestellung.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'bestellungNr', title: this.$t('general.nummer'), width: 100 },
-        { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100 },
-        { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200 },
+        { name: 'bestellungNr', title: this.$t('general.nummer'), width: 100, link: [ vm.openFunction ] },
+        { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100, link: [ vm.getLinkAngebot ] },
+        { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200, link: [ vm.getLinkKunde ] },
         { name: 'beschreibung', title: this.$t('general.beschreibung'), width: 350, formatter: [ 'overflow' ] },
         { name: 'datum', title: this.$t('general.datum'), width: 120, formatter: ['date'] },
         { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 100 },
         { name: 'ersteller', title: this.$t('general.ersteller'), width: 200 }
       ];
+    },
+    
+    getLinkAngebot: function(row) {
+      if (row.angebot) {
+        var params = '?id=' + row.angebot.id;
+        if (vm.einstellungDruckansichtNeuesFenster) {
+          window.open('/angebot-drucken.html' + params, '_blank', 'resizable=yes');
+        } else {
+          window.open('/angebot-drucken.html' + params);
+        }
+      }
+    },
+    
+    getLinkKunde: function(row) {
+      if (row.kunde) {
+        var params = '?id=' + row.kunde.id;
+        if (vm.einstellungDruckansichtNeuesFenster) {
+          window.open('/kunden.html' + params, '_blank', 'resizable=yes');
+        } else {
+          window.open('/kunden.html' + params);
+        }
+      }
     },
     
     getClazzErledigt: function(row) {

@@ -60,9 +60,12 @@ public class KundeService {
         final String plz = SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "plz");
         final String telefon = createSuchfeldTelefon(SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "telefon"));
         final String strasse = createSuchfeldStrasse(SearchQueryUtils.getAndReplaceOrAddJoker(conditions, "strasse"));
+        final String kundeId = SearchQueryUtils.getAndRemoveJoker(conditions, "kunde.id");
 
-        if (StringUtils.isBlank(vorname) && StringUtils.isBlank(nachname) && StringUtils.isBlank(firmenname) && StringUtils.isBlank(plz)
-                && StringUtils.isBlank(telefon) && StringUtils.isBlank(strasse)) {
+        if (StringUtils.isNumeric(kundeId)) {
+            return vKundeRepository.findById(Integer.valueOf(kundeId), pagination);
+        } else if (StringUtils.isBlank(vorname) && StringUtils.isBlank(nachname) && StringUtils.isBlank(firmenname)
+                && StringUtils.isBlank(plz) && StringUtils.isBlank(telefon) && StringUtils.isBlank(strasse)) {
             return vKundeRepository.findAll(pagination);
         } else {
             final FindAllByConditionsExecuter<VKunde> executer = new FindAllByConditionsExecuter<>();

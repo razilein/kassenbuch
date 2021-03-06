@@ -162,6 +162,7 @@
         @saved="handleKundeResponse"
       ></kunde-suchen-dialog>
       <angebot-suchen-dialog
+        :einstellung-druckansicht-neues-fenster="einstellungDruckansichtNeuesFenster"
         :angebot="entity.rechnung.angebot"
         :kunde="entity.rechnung.kunde"
         v-if="showAngebotDialog"
@@ -169,6 +170,7 @@
         @saved="handleAngebotResponse"
       ></angebot-suchen-dialog>
       <bestellung-suchen-dialog
+        :einstellung-druckansicht-neues-fenster="einstellungDruckansichtNeuesFenster"
         :bestellung="entity.rechnung.bestellung"
         :kunde="entity.rechnung.kunde"
         v-if="showBestellungDialog"
@@ -176,6 +178,7 @@
         @saved="handleBestellungResponse"
       ></bestellung-suchen-dialog>
       <reparatur-suchen-dialog
+        :einstellung-druckansicht-neues-fenster="einstellungDruckansichtNeuesFenster"
         :reparatur="entity.rechnung.reparatur"
         :kunde="entity.rechnung.kunde"
         v-if="showReparaturDialog"

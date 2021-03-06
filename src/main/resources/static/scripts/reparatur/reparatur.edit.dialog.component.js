@@ -100,6 +100,7 @@ Vue.component('edit-dialog', {
     </div>
   </div>
   <bestellung-suchen-dialog
+    :einstellung-druckansicht-neues-fenster="einstellungDruckansichtNeuesFenster"
     :bestellung="entity.bestellung"
     :kunde="entity.kunde"
     v-if="showBestellungDialog"
@@ -121,6 +122,7 @@ Vue.component('edit-dialog', {
   data: function() {
     this.loadEntity();
     return {
+      einstellungDruckansichtNeuesFenster: false,
       entity: {
         bestellung: {},
         kunde: {},
@@ -168,6 +170,8 @@ Vue.component('edit-dialog', {
         .then(this.setGeraetepasswortarten)
         .then(this.getPruefstatus)
         .then(this.setPruefstatus)
+        .then(this.getEinstellungDruckansichtNeuesFenster)
+        .then(this.setEinstellungDruckansichtNeuesFenster)
         .then(hideLoader);
     },
     saveFunc: function() {
@@ -197,6 +201,12 @@ Vue.component('edit-dialog', {
     setAbholdatumZeit: function(response) {
       this.entity.abholdatum = response.data.abholdatum;
       this.entity.abholzeit = response.data.abholzeit;
+    },
+    getEinstellungDruckansichtNeuesFenster: function() {
+      return axios.get('/mitarbeiter-profil');
+    },
+    setEinstellungDruckansichtNeuesFenster: function(response) {
+      this.einstellungDruckansichtNeuesFenster = response.data.druckansichtNeuesFenster;
     },
     getEntity: function() {
       return axios.get(this.restUrlGet);
