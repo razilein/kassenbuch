@@ -65,27 +65,28 @@ public class RechnungService {
         final boolean mitBestellung = BooleanUtils.toBoolean(conditions.get("mitbestellung"));
         final boolean mitReparatur = BooleanUtils.toBoolean(conditions.get("mitreparatur"));
 
+        final boolean vorlage = BooleanUtils.toBoolean(conditions.get("vorlage"));
+
         if (StringUtils.isNumeric(kundeId)) {
-            return rechnungViewRepository.findByKundeIdAndVorlage(Ints.tryParse(kundeId), BooleanUtils.toBoolean(conditions.get("vorlage")),
-                    pagination);
+            return rechnungViewRepository.findByKundeIdAndVorlage(Ints.tryParse(kundeId), vorlage, pagination);
         } else if (StringUtils.isBlank(nummer) && StringUtils.isBlank(reparaturnummer) && StringUtils.isBlank(ersteller)
                 && StringUtils.isBlank(kundennummer) && !istNichtBezahlt && StringUtils.isBlank(posten) && !StringUtils.isNumeric(art)
                 && !mitAngebot && !mitBestellung && !mitReparatur) {
-            return rechnungViewRepository.findAll(pagination);
+            return rechnungViewRepository.findByVorlage(vorlage, pagination);
         } else if (StringUtils.isNotBlank(posten)) {
-            return rechnungViewRepository.findByPostenBezeichnungLikeOrPostenSeriennummerLikeOrPostenHinweisLike(posten, posten, posten,
-                    pagination);
+            return rechnungViewRepository.findByPostenBezeichnungLikeOrPostenSeriennummerLikeOrPostenHinweisLikeAndVorlage(posten, posten,
+                    posten, vorlage, pagination);
         } else if (mitAngebot || mitBestellung || mitReparatur) {
             final FindAllByConditionsExecuter<RechnungView> executer = new FindAllByConditionsExecuter<>();
             return executer.findByParams(rechnungViewRepository, pagination,
                     buildMethodnameForQueryRechnungen(mitAngebot, mitBestellung, mitReparatur), mitAngebot ? mitAngebot : null,
-                    mitBestellung ? mitBestellung : null, mitReparatur ? mitReparatur : null);
+                    mitBestellung ? mitBestellung : null, mitReparatur ? mitReparatur : null, vorlage);
         } else {
             final FindAllByConditionsExecuter<RechnungView> executer = new FindAllByConditionsExecuter<>();
             final Integer zahlart = StringUtils.isNumeric(art) ? Ints.tryParse(art) : null;
             return executer.findByParams(rechnungViewRepository, pagination,
                     buildMethodnameForQueryRechnungen(nummer, reparaturnummer, kundennummer, ersteller, istNichtBezahlt, art), nummer,
-                    reparaturnummer, kundennummer, ersteller, istNichtBezahlt ? Boolean.FALSE : null, zahlart);
+                    reparaturnummer, kundennummer, ersteller, istNichtBezahlt ? Boolean.FALSE : null, zahlart, vorlage);
         }
     }
 
@@ -110,6 +111,7 @@ public class RechnungService {
         if (StringUtils.isNumeric(art)) {
             methodName += "ArtAnd";
         }
+        methodName += "VorlageAnd";
         return StringUtils.removeEnd(methodName, "And");
     }
 
@@ -124,6 +126,7 @@ public class RechnungService {
         if (mitReparatur) {
             methodName += "MitReparaturAnd";
         }
+        methodName += "VorlageAnd";
         return StringUtils.removeEnd(methodName, "And");
     }
 

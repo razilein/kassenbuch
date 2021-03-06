@@ -54,7 +54,7 @@ public class FindAllByConditionsExecuter<T> {
                     method = repository.getClass().getDeclaredMethod(methodname, param1.getClass(), param2.getClass(), param3.getClass(),
                             param4.getClass(), param5.getClass(), Pageable.class);
                     return (Page<T>) method.invoke(repository, param1, param2, param3, param4, param5, pagination);
-                } else {
+                } else if (params.size() == 6) {
                     final Object param1 = params.get(0);
                     final Object param2 = params.get(1);
                     final Object param3 = params.get(2);
@@ -64,6 +64,18 @@ public class FindAllByConditionsExecuter<T> {
                     method = repository.getClass().getDeclaredMethod(methodname, param1.getClass(), param2.getClass(), param3.getClass(),
                             param4.getClass(), param5.getClass(), param6.getClass(), Pageable.class);
                     return (Page<T>) method.invoke(repository, param1, param2, param3, param4, param5, param6, pagination);
+                } else {
+                    final Object param1 = params.get(0);
+                    final Object param2 = params.get(1);
+                    final Object param3 = params.get(2);
+                    final Object param4 = params.get(3);
+                    final Object param5 = params.get(4);
+                    final Object param6 = params.get(5);
+                    final Object param7 = params.get(6);
+                    method = repository.getClass().getDeclaredMethod(methodname, param1.getClass(), param2.getClass(), param3.getClass(),
+                            param4.getClass(), param5.getClass(), param6.getClass(), Pageable.class);
+                    return (Page<T>) method.invoke(repository, param1, param2, param3, param4, param5, param6, param7, pagination);
+
                 }
             }
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
