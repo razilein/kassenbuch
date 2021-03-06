@@ -54,7 +54,8 @@ public class StornierungService {
 
     @Transactional
     public void savePosten(final List<Rechnungsposten> posten, final Stornierung stornierung) {
-        final List<Stornierungposten> list = posten.stream().map(p -> new Stornierungposten(stornierung, p)).collect(Collectors.toList());
+        final List<Stornierungposten> list = posten.stream().filter(Rechnungsposten::isStorno)
+                .map(p -> new Stornierungposten(stornierung, p)).collect(Collectors.toList());
         stornierungpostenRepository.saveAll(list);
         final List<Rechnungsposten> stornoPosten = posten.stream().filter(Rechnungsposten::isStorno)
                 .map(p -> rechnungspostenRepository.findById(p.getId())).filter(Optional::isPresent).map(Optional::get).map(p -> {
@@ -116,7 +117,7 @@ public class StornierungService {
         });
     }
 
-    private List<Rechnungsposten> getRechnungspostenByStornierung(final Integer stornoId) {
+    public List<Rechnungsposten> getRechnungspostenByStornierung(final Integer stornoId) {
         return stornierungpostenRepository.findAllByStornierungId(stornoId).stream().map(Stornierungposten::getRechnungsposten)
                 .collect(Collectors.toList());
     }
