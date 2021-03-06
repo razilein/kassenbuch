@@ -170,7 +170,7 @@ var vm = new Vue({
     },
     
     getClazzErledigt: function(row) {
-      return row.erledigt ? 'good' : 'bad';
+      return row.erledigt ? 'good_reparatur' : 'bad_reparatur';
     },
     
     getTitleErledigt: function(row) {
