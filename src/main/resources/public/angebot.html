@@ -111,6 +111,10 @@
             <button class="kunde btnSmall" :title="$t('kunde.suchen')" @click="showKundeDialog = true"></button>
             <textarea class="m1" id="angebotEditForm_angebot_kunde" readonly v-model="entity.angebot.kunde.completeWithAdress"></textarea>
           </div>
+          <div class="m1">
+            <zeichenzaehler-label :elem="entity.angebot.zusatztext" :forid="'angebotEditForm_zusatztext'" :label="$t('general.zusatztext')" :maxlength="'500'"></zeichenzaehler-label>
+            <textarea class="m1" id="angebotEditForm_zusatztext" maxlength="500" :placeholder="$t('general.zusatztextInfo')" v-model="entity.angebot.zusatztext"></textarea>
+          </div>
           <button class="right" :title="$t('general.speichern')" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">{{ $t("general.speichern") }}</button>
           <button class="right disabled" :title="$t('general.pflichtfelder')" v-if="!areRequiredFieldsNotEmpty()">{{ $t("general.speichern") }}</button>
         </div>

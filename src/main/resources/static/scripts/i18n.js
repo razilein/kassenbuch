@@ -251,7 +251,9 @@ const messages = {
       willkommen: 'Willkommen!',
       wochentag: 'Wochentag',
       zumGewaehltenKunden: 'zum gewählten Kunden',
-      zuruecksetzen: 'zurücksetzen'
+      zuruecksetzen: 'zurücksetzen',
+      zusatztext: 'Zusatztext',
+      zusatztextInfo: 'Der hier eingegebene Text wird auf dem Ausdruck angezeigt'
     },
     'import': {
       importieren: 'Importieren',

@@ -210,6 +210,7 @@ var vm = new Vue({
       vm.entity.rechnung.angebot.text = angebot.text;
       vm.entity.rechnung.kunde = angebot.angebot.kunde;
       vm.entity.rechnung.rabatt = angebot.rabattBrutto;
+      vm.entity.rechnung.zusatztext = angebot.angebot.zusatztext;
 
       angebot.angebotsposten.forEach(function(p) {
         var produkt = {

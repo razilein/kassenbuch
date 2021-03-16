@@ -90,6 +90,10 @@ Vue.component('edit-dialog', {
     <button class="kunde btnSmall" :title="$t('kunde.suchen')" @click="showKundeDialog = true"></button>
     <textarea class="m1" id="angebotEditForm_angebot_kunde" readonly v-model="entity.angebot.kunde.completeWithAdress"></textarea>
   </div>
+  <div class="m1">
+    <zeichenzaehler-label :elem="entity.angebot.zusatztext" :forid="'angebotEditForm_zusatztext'" :label="$t('general.zusatztext')" :maxlength="'500'"></zeichenzaehler-label>
+    <textarea class="m1" id="angebotEditForm_zusatztext" maxlength="500" :placeholder="$t('general.zusatztextInfo')" v-model="entity.angebot.zusatztext"></textarea>
+  </div>
   <kunde-suchen-dialog
     :kunde="entity.kunde"
     v-if="showKundeDialog"

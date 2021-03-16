@@ -123,6 +123,10 @@ Vue.component('edit-dialog', {
       <button class="delete btnSmall" :title="$t('kunde.deselektieren')" @click="entity.rechnung.kunde = {}"></button>
       <textarea class="m1" id="rechnungEditForm_kunde" readonly v-model="entity.rechnung.kunde.completeWithAdress"></textarea>
     </div>
+    <div class="m1">
+      <zeichenzaehler-label :elem="entity.rechnung.zusatztext" :forid="'rechnungEditForm_zusatztext'" :label="$t('general.zusatztext')" :maxlength="'500'"></zeichenzaehler-label>
+      <textarea class="m1" id="rechnungEditForm_zusatztext" maxlength="500" :placeholder="$t('general.zusatztextInfo')" v-model="entity.rechnung.zusatztext"></textarea>
+    </div>
   </div>
 <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
 <kunde-suchen-dialog
@@ -249,6 +253,7 @@ Vue.component('edit-dialog', {
       this.entity.rechnung.angebot.text = angebot.text;
       this.entity.rechnung.kunde = angebot.angebot.kunde;
       this.entity.rechnung.rabatt = angebot.rabattBrutto;
+      this.entity.rechnung.zusatztext = angebot.angebot.zusatztext;
     },
     handleBestellungResponse: function(bestellung) {
       this.showBestellungDialog = false;

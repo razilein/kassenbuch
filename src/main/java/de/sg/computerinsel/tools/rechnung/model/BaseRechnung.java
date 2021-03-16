@@ -74,6 +74,10 @@ public class BaseRechnung extends IntegerBaseObject {
     @Column(name = "vorlage")
     private boolean vorlage;
 
+    @Column(name = "zusatztext")
+    @Size(max = 500, message = "rechnung.zusatztext.error")
+    private String zusatztext;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate getDatum() {
         return datum;
