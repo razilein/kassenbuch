@@ -40,6 +40,7 @@ Vue.component('angebot-suchen-dialog', {
   props: {
     angebot: Object,
     kunde: Object,
+    einstellungDruckansichtNeuesFenster: Boolean
   },
   created: function() {
     window.addEventListener('keydown', e => {
@@ -67,9 +68,9 @@ Vue.component('angebot-suchen-dialog', {
             formatter: [
             { clazz: 'ok', title: this.$t('angebot.waehlen'), clickFunc: this.chooseFunction },
           ] },
-          { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100 },
-          { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80 },
-          { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200 },
+          { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100, link: [ this.openFunction ] },
+          { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80, link: [ this.getLinkKunde ] },
+          { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200, link: [ this.getLinkKunde ] },
           { name: 'gesamtbetragNetto', title: this.$t('general.gesamtNto'), width: 120, formatter: ['money'] },
           { name: 'gesamtbetrag', title: this.$t('general.gesamtBto'), width: 120, formatter: ['money'] },
           { name: 'erstelltAm', sortable: false, title: this.$t('general.erstelltAm'), width: 100 },
@@ -107,6 +108,23 @@ Vue.component('angebot-suchen-dialog', {
     },
     closeAndReturnResponse: function() {
       this.$emit('saved', this.entity);
+    },
+    openFunction: function(row) {
+      if (this.einstellungDruckansichtNeuesFenster) {
+        window.open('/angebot-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
+      } else {
+        window.open('/angebot-drucken.html?id=' + row.id);
+      }
+    },
+    getLinkKunde: function(row) {
+      if (row.kunde) {
+        var params = '?id=' + row.kunde.id;
+        if (this.einstellungDruckansichtNeuesFenster) {
+          window.open('/kunden.html' + params, '_blank', 'resizable=yes');
+        } else {
+          window.open('/kunden.html' + params);
+        }
+      }
     },
   }
 });

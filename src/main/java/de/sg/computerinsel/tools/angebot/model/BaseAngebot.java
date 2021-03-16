@@ -48,6 +48,10 @@ public class BaseAngebot extends IntegerBaseObject {
     @Column(name = "nummer")
     private int nummer;
 
+    @Column(name = "zusatztext")
+    @Size(max = 500, message = "angebot.zusatztext.error")
+    private String zusatztext;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss")
     public LocalDateTime getErstelltAm() {
         return erstelltAm;

@@ -103,6 +103,7 @@
         {{entity.angebot.ersteller}}
         <br>
         {{ $t("general.ciShort") }} {{entity.angebot.filiale.ort}}
+        <span v-if="entity.angebot.zusatztext"><br><br><strong>{{ entity.angebot.zusatztext }}</strong></span>
       </div>
       <footer>
         <div class="center">

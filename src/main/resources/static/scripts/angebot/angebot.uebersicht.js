@@ -3,7 +3,7 @@ var vm = new Vue({
   el: '#angebote',
   created() {
     window.addEventListener('keydown', e => {
-      var isDialogOpened = vm.showDialog || vm.showConfirmDialog || vm.showDeleteDialog || vm.showEditDialog;
+      var isDialogOpened = vm.showDialog || vm.showConfirmDialog || vm.showDeleteDialog || vm.showEditDialog || vm.showVersendenDialog;
       if (e.key == 'Enter' && !isDialogOpened) {
         vm.grid.reload = true;
       }
@@ -168,14 +168,25 @@ var vm = new Vue({
           { clazz: 'email', disabled: vm.canSendEmail, title: this.$t('angebot.email'), clickFunc: vm.sendMailFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('angebot.loeschen'), clickFunc: vm.deleteFunction }
         ] },
-        { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100 },
-        { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80 },
-        { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200 },
+        { name: 'angebotNr', title: this.$t('angebot.angebotNr'), width: 100, link: [ vm.openFunction ] },
+        { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80, link: [ vm.getLinkKunde ] },
+        { name: 'kunde.nameKomplett', sortable: false, title: this.$t('general.kunde'), width: 200, link: [ vm.getLinkKunde ] },
         { name: 'gesamtbetragNetto', title: this.$t('general.gesamtNto'), width: 120, formatter: ['money'] },
         { name: 'gesamtbetrag', title: this.$t('general.gesamtBto'), width: 120, formatter: ['money'] },
         { name: 'erstelltAm', sortable: false, title: this.$t('general.erstelltAm'), width: 100 },
         { name: 'ersteller', title: this.$t('general.ersteller'), width: 200 }
       ];
+    },
+    
+    getLinkKunde: function(row) {
+      if (row.kunde) {
+        var params = '?id=' + row.kunde.id;
+        if (vm.einstellungDruckansichtNeuesFenster) {
+          window.open('/kunden.html' + params, '_blank', 'resizable=yes');
+        } else {
+          window.open('/kunden.html' + params);
+        }
+      }
     },
     
     getClazzErledigt: function(row) {

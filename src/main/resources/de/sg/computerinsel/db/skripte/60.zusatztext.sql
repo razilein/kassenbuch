@@ -1,0 +1,2 @@
+ALTER TABLE rechnung ADD COLUMN zusatztext VARCHAR(500) NULL;
+ALTER TABLE angebot ADD COLUMN zusatztext VARCHAR(500) NULL;

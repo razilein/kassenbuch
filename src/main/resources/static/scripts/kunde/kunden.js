@@ -10,6 +10,7 @@ var vm = new Vue({
     });
   },
   data: {
+    kundeId: getParamFromCurrentUrl('id') || null,
     rechte: {},
     result: {},
     showDialog: false,
@@ -109,6 +110,9 @@ var vm = new Vue({
     },
     
     init: function() {
+      if (vm.kundeId) {
+        vm.grid.searchQuery['kunde.id'] = vm.kundeId;
+      }
       vm.prepareRoles()
         .then(vm.setGridActions)
         .then(vm.setGridColumns);

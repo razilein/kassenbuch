@@ -96,13 +96,13 @@ public class MitarbeiterService {
 
     public String getAndSaveNextReparaturnummer() {
         final Optional<Filiale> optional = getAngemeldeterMitarbeiterFiliale();
-        if (optional.isPresent()) {
-            final Filiale filiale = optional.get();
-            filiale.setZaehlerReparaturauftrag(filiale.getZaehlerReparaturauftrag() + 1);
-            einstellungenService.save(filiale);
-            return StringUtils.leftPad(String.valueOf(filiale.getZaehlerReparaturauftrag()), 4, "0");
-        }
-        return "0";
+        return optional.isPresent() ? getAndSaveNextReparaturnummer(optional.get()) : "0";
+    }
+
+    public String getAndSaveNextReparaturnummer(final Filiale filiale) {
+        filiale.setZaehlerReparaturauftrag(filiale.getZaehlerReparaturauftrag() + 1);
+        einstellungenService.save(filiale);
+        return StringUtils.leftPad(String.valueOf(filiale.getZaehlerReparaturauftrag()), 4, "0");
     }
 
     public String getAndSaveNextStornierungnummer() {

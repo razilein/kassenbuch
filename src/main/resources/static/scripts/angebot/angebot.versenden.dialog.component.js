@@ -9,8 +9,8 @@ Vue.component('angebot-versenden-dialog', {
             {{ $t("angebot.emailSenden") }} {{row.kunde.nameKomplett}} {{ $t("general.versenden") }}
             <br>
             <div class="m1">
-              <zeichenzaehler-label :elem="anrede" :forid="'angebotversenden_anrede'" :label="$t('general.briefanrede')" :maxlength="'1000'"></zeichenzaehler-label>
-              <textarea class="m1" id="angebotversenden_anrede" maxlength="1000" type="text" v-model="anrede"></textarea>
+              <zeichenzaehler-label :elem="text" :forid="'angebotversenden_text'" :label="$t('general.mailtext')" :maxlength="'5000'"></zeichenzaehler-label>
+              <textarea class="m1" id="angebotversenden_text" maxlength="5000" style="height: 500px" type="text" v-model="text"></textarea>
             </div>
             <div class="m1">
               <input accept="application/pdf" class="m1" name="file" multiple ref="angebotFile" type="file" @change="loadFile">
@@ -28,13 +28,17 @@ Vue.component('angebot-versenden-dialog', {
     row: Object,
   },
   data: function() {
+    this.loadText();
     return {
-      anrede: this.row.kunde.briefanrede
+      text: ''
     };
   },
   methods: {
     loadFile: function() {
       this.files = this.$refs.angebotFile.files;
+    },
+    loadText: function() {
+      this.getText().then(this.setText);
     },
     sendFunc: function() {
       showLoader();
@@ -48,11 +52,17 @@ Vue.component('angebot-versenden-dialog', {
         fd.append('files', file);
       }
       fd.append('id', this.row.id);
-      fd.append('anrede', this.anrede);
+      fd.append('text', this.text);
       return axios.post('email/angebot', fd, config);
     },
     closeAndReturnResponse(response) {
       this.$emit('sended', response.data);
+    },
+    getText: function() {
+      return axios.get('email/angebot/' + this.row.id);
+    },
+    setText: function(response) {
+      this.text = response.data.success;
     }
   }
 });

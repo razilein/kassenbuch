@@ -158,6 +158,7 @@
         <br>
         <span v-if="entity.rechnung.lieferdatum">{{ $t("rechnung.lieferdatum") }}: {{entity.rechnung.lieferdatum}}</span>
         <span v-if="!entity.rechnung.lieferdatum">{{ $t("rechnung.rechnungsdatumZusatz") }}</span>
+        <span v-if="entity.rechnung.zusatztext"><br><br><strong>{{ entity.rechnung.zusatztext }}</strong></span>
       </div>
       <footer style="background-color: white; z-index: 999;">
         <div class="center">

@@ -40,6 +40,7 @@ Vue.component('bestellung-suchen-dialog', {
   props: {
     bestellung: Object,
     kunde: Object,
+    einstellungDruckansichtNeuesFenster: Boolean
   },
   created: function() {
     window.addEventListener('keydown', e => {
@@ -67,9 +68,9 @@ Vue.component('bestellung-suchen-dialog', {
             formatter: [
             { clazz: 'ok', title: this.$t('bestellung.waehlen'), clickFunc: this.chooseFunction },
           ] },
-          { name: 'bestellungNr', title: this.$t('general.nummer'), width: 100 },
+          { name: 'bestellungNr', title: this.$t('general.nummer'), width: 100, link: [ this.openFunction ] },
           { name: 'beschreibung', title: this.$t('bestellung.titelK'), width: 400, formatter: [ 'overflow' ] },
-          { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), width: 200 },
+          { name: 'kunde.nameKomplett', title: this.$t('general.kunde'), width: 200, link: [ this.getLinkKunde ] },
         ],
         reload: false,
         restUrl: 'bestellung',
@@ -97,6 +98,23 @@ Vue.component('bestellung-suchen-dialog', {
     },
     closeAndReturnResponse: function() {
       this.$emit('saved', this.entity);
+    },
+    openFunction: function(row) {
+      if (this.einstellungDruckansichtNeuesFenster) {
+        window.open('/bestellung-drucken.html?id=' + row.id, '_blank', 'resizable=yes');
+      } else {
+        window.open('/bestellung-drucken.html?id=' + row.id);
+      }
+    },
+    getLinkKunde: function(row) {
+      if (row.kunde) {
+        var params = '?id=' + row.kunde.id;
+        if (this.einstellungDruckansichtNeuesFenster) {
+          window.open('/kunden.html' + params, '_blank', 'resizable=yes');
+        } else {
+          window.open('/kunden.html' + params);
+        }
+      }
     },
   }
 });

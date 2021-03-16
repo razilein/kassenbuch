@@ -59,6 +59,11 @@ public class EinstellungenService {
         return getEinstellung("kassenbuch.ablageverzeichnis");
     }
 
+    public String getAblageverzeichnisReparaturen() {
+        final String verzeichnis = getAblageverzeichnis().getWert();
+        return new File(verzeichnis, "reparaturen").getAbsolutePath();
+    }
+
     public Einstellungen getSmtpHost() {
         return getEinstellung("smtp.host");
     }
@@ -114,6 +119,18 @@ public class EinstellungenService {
     public String getDsgvoFilepath() {
         final File ablageverzeichnis = new File(getAblageverzeichnis().getWert());
         return new File(new File(ablageverzeichnis.getParent()), DSGVO_FILENAME).getAbsolutePath();
+    }
+
+    public Einstellungen getRoboterCron() {
+        return getEinstellung("roboter.cron");
+    }
+
+    public Einstellungen getRoboterFiliale() {
+        return getEinstellung("roboter.filiale");
+    }
+
+    public Einstellungen getRoboterMailBodyReparaturauftrag() {
+        return getEinstellung("roboter.mail.body.reparatur");
     }
 
     private Einstellungen getEinstellung(final String name) {

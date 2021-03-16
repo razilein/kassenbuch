@@ -68,7 +68,13 @@ Vue.component('grid', {
                 class="overflow"
                 :style="{ width: key.width }"
               >{{getEntryByKey(entry, key.name)}}</span>
-              <span v-if="!key.formatter">{{getEntryByKey(entry, key.name)}}</span>
+              <span v-for="link in key.link" v-if="key.link">
+                <a
+                  href="#"
+                  @click="clickFunc(entry, link)"
+                >{{getEntryByKey(entry, key.name)}}</a>
+              </span>
+              <span v-if="!key.formatter && !key.link">{{getEntryByKey(entry, key.name)}}</span>
           </td>
         </tr>
       </tbody>

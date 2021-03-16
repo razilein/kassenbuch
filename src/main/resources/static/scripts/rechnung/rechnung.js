@@ -167,6 +167,9 @@ var vm = new Vue({
       vm.entity.rechnung.kunde = kunde;
       vm.entity.rechnung.nameDrucken = true;
       vm.entity.rechnung.nameDruckenBeiFirma = vm.entity.rechnung.kunde.nameDruckenBeiFirma;
+      vm.checkProblemkunde(kunde);
+    },
+    checkProblemkunde: function(kunde) {
       if (kunde.problem) {
         var problemText = this.$t('kunde.problemStandard');
         if (kunde.bemerkung) {
@@ -176,7 +179,7 @@ var vm = new Vue({
         vm.showDialog = true;
       }
       vm.getNichtBezahlteRechnungen(kunde.id)
-        .then(vm.setNichtBezahlteRechnungen);
+      .then(vm.setNichtBezahlteRechnungen);
     },
     handleReparaturResponse: function(reparatur) {
       vm.showReparaturDialog = false;
@@ -189,6 +192,7 @@ var vm = new Vue({
       if (reparatur.bestellung) {
         vm.entity.rechnung.bestellung = reparatur.bestellung;
       }
+      vm.checkProblemkunde(reparatur.kunde);
     },
     handleBestellungResponse: function(bestellung) {
       vm.showBestellungDialog = false;
@@ -197,6 +201,7 @@ var vm = new Vue({
       if (bestellung.kunde) {
         vm.entity.rechnung.nameDrucken = true;
         vm.entity.rechnung.nameDruckenBeiFirma = vm.entity.rechnung.kunde.nameDruckenBeiFirma;
+        vm.checkProblemkunde(bestellung.kunde);
       }
     },
     handleAngebotResponse: function(angebot) {
@@ -205,6 +210,7 @@ var vm = new Vue({
       vm.entity.rechnung.angebot.text = angebot.text;
       vm.entity.rechnung.kunde = angebot.angebot.kunde;
       vm.entity.rechnung.rabatt = angebot.rabattBrutto;
+      vm.entity.rechnung.zusatztext = angebot.angebot.zusatztext;
 
       angebot.angebotsposten.forEach(function(p) {
         var produkt = {
@@ -221,6 +227,7 @@ var vm = new Vue({
       });
 
       vm.berechneEndpreis();
+      vm.checkProblemkunde(angebot.angebot.kunde);
     },
     openRechnung: function(response) {
       var data = response.data;

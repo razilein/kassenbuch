@@ -20,6 +20,7 @@ import de.sg.computerinsel.tools.kassenbuch.model.Kassenbuch;
 import de.sg.computerinsel.tools.kassenbuch.model.Kassenbuchposten;
 import de.sg.computerinsel.tools.kassenbuch.rest.model.KassenbuchDTO;
 import de.sg.computerinsel.tools.rechnung.model.Rechnung;
+import de.sg.computerinsel.tools.rechnung.model.Rechnungsposten;
 import de.sg.computerinsel.tools.rechnung.rest.model.StornoDto;
 import de.sg.computerinsel.tools.rechnung.service.RechnungService;
 import de.sg.computerinsel.tools.service.EinstellungenService;
@@ -88,7 +89,15 @@ public class KassenbuchService {
     private Kassenbuchposten createPosten(final Kassenbuch kassenbuch, final StornoDto storno) {
         String zweck = storno.getStorno().isVollstorno() ? "Stornierung" : "Teilstornierung";
         zweck += " zu Rechnung " + storno.getRechnung().getFiliale().getKuerzel() + storno.getRechnung().getNummerAnzeige();
-        return new Kassenbuchposten(kassenbuch, zweck, storno.getRechnungsbetrag().multiply(BigDecimal.ONE.negate()));
+
+        BigDecimal betrag;
+        if (storno.getStorno().isVollstorno()) {
+            betrag = storno.getRechnungsbetrag();
+        } else {
+            betrag = stornierungService.getRechnungspostenByStornierung(storno.getStorno().getId()).stream().map(Rechnungsposten::getGesamt)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+        }
+        return new Kassenbuchposten(kassenbuch, zweck, betrag.multiply(BigDecimal.ONE.negate()));
     }
 
     public List<Kassenbuchposten> listKassenbuchposten(final LocalDate datum) {

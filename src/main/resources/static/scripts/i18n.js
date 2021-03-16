@@ -66,6 +66,7 @@ const messages = {
         angebot: 'E-Mail Inhalt Angebot versenden',
         rechnung: 'E-Mail Inhalt Rechnung versenden',
         reparatur: 'E-Mail Inhalt Reparaturauftrag erledigt',
+        roboter: 'E-Mail Inhalt Reparaturauftrag erhalten',
         signatur: 'E-Mail Signatur'
       },
       filiale: {
@@ -112,6 +113,8 @@ const messages = {
       },
       pw: 'Passwort',
       port: 'Port',
+      reparatur: 'Reparaturen automatisch erfassen',
+      roboter: 'Roboter',
       smtp: 'SMTP-Server',
       mwst: 'MwSt in %'
     },
@@ -147,6 +150,7 @@ const messages = {
       briefanrede: 'Briefanrede',
       ci: 'Computer-Insel GbR',
       ciShort: 'Computer-Insel',
+      cron: 'Abfrage Cron-Timer',
       datum: 'Datum',
       datumDen: 'den',
       datumZeit: 'Datum/Uhrzeit',
@@ -187,6 +191,7 @@ const messages = {
       lieferdatum: 'Lieferdatum',
       loeschen: 'löschen',
       loeschenFrage: 'Wollen Sie diesen Datensatz wirklich löschen?',
+      mailtext: 'Inhalt der E-Mail',
       meldung: {
         erfolg: 'Erfolg',
         fehler: 'Fehler',
@@ -246,7 +251,9 @@ const messages = {
       willkommen: 'Willkommen!',
       wochentag: 'Wochentag',
       zumGewaehltenKunden: 'zum gewählten Kunden',
-      zuruecksetzen: 'zurücksetzen'
+      zuruecksetzen: 'zurücksetzen',
+      zusatztext: 'Zusatztext',
+      zusatztextInfo: 'Der hier eingegebene Text wird auf dem Ausdruck angezeigt'
     },
     'import': {
       importieren: 'Importieren',

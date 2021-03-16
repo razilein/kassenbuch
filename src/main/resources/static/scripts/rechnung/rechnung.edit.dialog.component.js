@@ -123,6 +123,10 @@ Vue.component('edit-dialog', {
       <button class="delete btnSmall" :title="$t('kunde.deselektieren')" @click="entity.rechnung.kunde = {}"></button>
       <textarea class="m1" id="rechnungEditForm_kunde" readonly v-model="entity.rechnung.kunde.completeWithAdress"></textarea>
     </div>
+    <div class="m1">
+      <zeichenzaehler-label :elem="entity.rechnung.zusatztext" :forid="'rechnungEditForm_zusatztext'" :label="$t('general.zusatztext')" :maxlength="'500'"></zeichenzaehler-label>
+      <textarea class="m1" id="rechnungEditForm_zusatztext" maxlength="500" :placeholder="$t('general.zusatztextInfo')" v-model="entity.rechnung.zusatztext"></textarea>
+    </div>
   </div>
 <messages-box v-bind:text="result" v-if="showDialog" @close="showDialog = false"></messages-box>
 <kunde-suchen-dialog
@@ -132,6 +136,7 @@ Vue.component('edit-dialog', {
   @saved="handleKundeResponse"
 ></kunde-suchen-dialog>
 <angebot-suchen-dialog
+  :einstellung-druckansicht-neues-fenster="einstellungDruckansichtNeuesFenster"
   :angebot="entity.rechnung.angebot"
   :kunde="entity.rechnung.kunde"
   v-if="showAngebotDialog"
@@ -139,6 +144,7 @@ Vue.component('edit-dialog', {
   @saved="handleAngebotResponse"
 ></angebot-suchen-dialog>
 <bestellung-suchen-dialog
+  :einstellung-druckansicht-neues-fenster="einstellungDruckansichtNeuesFenster"
   :bestellung="entity.rechnung.bestellung"
   :kunde="entity.rechnung.kunde"
   v-if="showBestellungDialog"
@@ -146,6 +152,7 @@ Vue.component('edit-dialog', {
   @saved="handleBestellungResponse"
 ></bestellung-suchen-dialog>
 <reparatur-suchen-dialog
+  :einstellung-druckansicht-neues-fenster="einstellungDruckansichtNeuesFenster"
   :reparatur="entity.rechnung.reparatur"
   :kunde="entity.rechnung.kunde"
   v-if="showReparaturDialog"
@@ -169,6 +176,7 @@ Vue.component('edit-dialog', {
     this.loadEntity();
     return {
       editEntity: {},
+      einstellungDruckansichtNeuesFenster: false,
       ekBrutto: 0.00,
       endpreis: 0.00,
       endgewinn: 0.00,
@@ -245,6 +253,7 @@ Vue.component('edit-dialog', {
       this.entity.rechnung.angebot.text = angebot.text;
       this.entity.rechnung.kunde = angebot.angebot.kunde;
       this.entity.rechnung.rabatt = angebot.rabattBrutto;
+      this.entity.rechnung.zusatztext = angebot.angebot.zusatztext;
     },
     handleBestellungResponse: function(bestellung) {
       this.showBestellungDialog = false;
@@ -259,6 +268,8 @@ Vue.component('edit-dialog', {
         .then(this.getZahlarten)
         .then(this.setZahlarten)
         .then(this.berechneEndpreis)
+        .then(this.getEinstellungDruckansichtNeuesFenster)
+        .then(this.setEinstellungDruckansichtNeuesFenster)
         .then(hideLoader);
     },
     saveFunc: function() {
@@ -270,6 +281,12 @@ Vue.component('edit-dialog', {
     },
     closeAndReturnResponse: function(response) {
       this.$emit('saved', response.data);
+    },
+    getEinstellungDruckansichtNeuesFenster: function() {
+      return axios.get('/mitarbeiter-profil');
+    },
+    setEinstellungDruckansichtNeuesFenster: function(response) {
+      this.einstellungDruckansichtNeuesFenster = response.data.druckansichtNeuesFenster;
     },
     getEntity: function() {
       return axios.get(this.restUrlGet);

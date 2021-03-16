@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 import org.apache.commons.lang3.BooleanUtils;
@@ -34,18 +33,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.sg.computerinsel.tools.DateUtils;
 import de.sg.computerinsel.tools.bestellung.model.Bestellung;
 import de.sg.computerinsel.tools.bestellung.service.BestellungService;
-import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.service.KundeService;
 import de.sg.computerinsel.tools.reparatur.model.IntegerBaseObject;
 import de.sg.computerinsel.tools.reparatur.model.Mitarbeiter;
-import de.sg.computerinsel.tools.reparatur.model.PruefstatusGeraet;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
-import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
 import de.sg.computerinsel.tools.reparatur.model.VReparatur;
-import de.sg.computerinsel.tools.reparatur.service.FeiertagUtils;
 import de.sg.computerinsel.tools.reparatur.service.ReparaturService;
 import de.sg.computerinsel.tools.rest.Message;
 import de.sg.computerinsel.tools.rest.SearchData;
@@ -99,60 +93,19 @@ public class ReparaturRestController {
         if (optional.isPresent()) {
             protokollService.write(optional.get().getId(), REPARATUR, optional.get().getNummer(), ANGESEHEN);
         }
-        return optional.orElseGet(this::createReparatur);
-    }
-
-    private Reparatur createReparatur() {
-        final Reparatur reparatur = new Reparatur();
-        reparatur.setBestellung(new Bestellung());
-        reparatur.setKunde(new Kunde());
-        reparatur.setAbholdatum(berechneAbholdatum(false));
-        reparatur.setAbholzeit(berechneAbholzeit(false));
-        reparatur.setArt(ReparaturArt.REPARATUR.getCode());
-        reparatur.setFunktionsfaehig(PruefstatusGeraet.NICHT_DEFINIERT.getCode());
-        return reparatur;
+        return optional.orElseGet(service::createReparatur);
     }
 
     @GetMapping("/abholdatum/{express}")
     public Map<String, Object> getAbholdatumUndZeit(@PathVariable final boolean express) {
         final Map<String, Object> result = new HashMap<>();
-        final LocalDate abholdatum = berechneAbholdatum(express);
+        final LocalDate abholdatum = service.berechneAbholdatum(express);
         result.put("abholdatum", abholdatum);
 
-        final LocalTime abholzeit = abholdatum.getDayOfWeek() == DayOfWeek.SATURDAY ? LocalTime.of(12, 0) : berechneAbholzeit(express);
+        final LocalTime abholzeit = abholdatum.getDayOfWeek() == DayOfWeek.SATURDAY ? LocalTime.of(12, 0)
+                : service.berechneAbholzeit(express);
         result.put("abholzeit", abholzeit.format(DateTimeFormatter.ofPattern("HH:mm")));
         return result;
-    }
-
-    private LocalDate berechneAbholdatum(final boolean express) {
-        LocalDate date = LocalDate.now();
-        if (express && LocalTime.now().isAfter(LocalTime.of(13, 30))) {
-            date = DateUtils.plusWorkdays(date, 1);
-        } else if (!express) {
-            date = DateUtils.plusWorkdays(date, 3);
-        }
-        final List<LocalDate> notAllowedDays = service.listDaysWithMin5AbholungenAndAuftragNotErledigt();
-        while (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY || FeiertagUtils.isFeiertag(date)
-                || notAllowedDays.stream().anyMatch(dateIsEqual(date))) {
-            date = date.plusDays(1);
-        }
-        return date;
-    }
-
-    private Predicate<? super LocalDate> dateIsEqual(final LocalDate date) {
-        return d -> d.equals(date);
-    }
-
-    private LocalTime berechneAbholzeit(final boolean express) {
-        LocalTime time = LocalTime.of(16, 30);
-        if (express) {
-            if (LocalTime.now().isBefore(LocalTime.of(13, 30))) {
-                time = LocalTime.of(18, 30);
-            } else {
-                time = LocalTime.of(13, 30);
-            }
-        }
-        return time;
     }
 
     @PutMapping

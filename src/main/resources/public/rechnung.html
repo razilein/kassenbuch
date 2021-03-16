@@ -141,6 +141,10 @@
             <button class="delete btnSmall" :title="$t('kunde.deselektieren')" @click="entity.rechnung.kunde = {}; entity.rechnung.nameDrucken = false;"></button>
             <textarea class="m1" id="rechnungEditForm_kunde" readonly v-model="entity.rechnung.kunde.completeWithAdress"></textarea>
           </div>
+          <div class="m1">
+            <zeichenzaehler-label :elem="entity.rechnung.zusatztext" :forid="'rechnungEditForm_zusatztext'" :label="$t('general.zusatztext')" :maxlength="'500'"></zeichenzaehler-label>
+            <textarea class="m1" id="rechnungEditForm_zusatztext" maxlength="500" :placeholder="$t('general.zusatztextInfo')" v-model="entity.rechnung.zusatztext"></textarea>
+          </div>
           <div class="m1" v-if="entity.rechnung.vorlage">
             <label class="container checkbox">{{ $t("rechnung.vorlageBehalten") }}
               <input id="rechnungEditForm_vorlage_behalten" type="checkbox" v-model="entity.vorlageBehalten" />
@@ -162,6 +166,7 @@
         @saved="handleKundeResponse"
       ></kunde-suchen-dialog>
       <angebot-suchen-dialog
+        :einstellung-druckansicht-neues-fenster="einstellungDruckansichtNeuesFenster"
         :angebot="entity.rechnung.angebot"
         :kunde="entity.rechnung.kunde"
         v-if="showAngebotDialog"
@@ -169,6 +174,7 @@
         @saved="handleAngebotResponse"
       ></angebot-suchen-dialog>
       <bestellung-suchen-dialog
+        :einstellung-druckansicht-neues-fenster="einstellungDruckansichtNeuesFenster"
         :bestellung="entity.rechnung.bestellung"
         :kunde="entity.rechnung.kunde"
         v-if="showBestellungDialog"
@@ -176,6 +182,7 @@
         @saved="handleBestellungResponse"
       ></bestellung-suchen-dialog>
       <reparatur-suchen-dialog
+        :einstellung-druckansicht-neues-fenster="einstellungDruckansichtNeuesFenster"
         :reparatur="entity.rechnung.reparatur"
         :kunde="entity.rechnung.kunde"
         v-if="showReparaturDialog"

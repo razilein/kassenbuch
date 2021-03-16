@@ -65,6 +65,9 @@ var vm = new Vue({
     handleKundeResponse: function(kunde) {
       vm.showKundeDialog = false;
       vm.entity.kunde = kunde;
+      vm.checkProblemkunde(kunde);
+    },
+    checkProblemkunde: function(kunde) {
       if (kunde.problem) {
         var problemText = this.$t('kunde.problemStandard');
         if (kunde.bemerkung) {
@@ -74,7 +77,7 @@ var vm = new Vue({
         vm.showDialog = true;
       }
       vm.getNichtBezahlteRechnungen(kunde.id)
-        .then(vm.setNichtBezahlteRechnungen);
+      .then(vm.setNichtBezahlteRechnungen);
     },
     handleBestellungResponse: function(bestellung) {
       vm.showBestellungDialog = false;
@@ -82,6 +85,7 @@ var vm = new Vue({
       vm.entity.kunde = bestellung.kunde;
       vm.entity.kostenvoranschlag = bestellung.kosten;
       vm.editKostenvoranschlag();
+      vm.checkProblemkunde(bestellung.kunde);
     },
     openReparatur: function(response) {
       var data = response.data;

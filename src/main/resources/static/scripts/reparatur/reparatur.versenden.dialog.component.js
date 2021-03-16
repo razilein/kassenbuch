@@ -9,8 +9,8 @@ Vue.component('reparatur-versenden-dialog', {
             {{ $t("reparatur.emailSenden1") }} {{row.kunde.nameKomplett}} {{ $t("reparatur.emailSenden2") }}
             <br>
             <div class="m1">
-              <zeichenzaehler-label :elem="anrede" :forid="'rechnungversenden_anrede'" :label="$t('general.briefanrede')" :maxlength="'1000'"></zeichenzaehler-label>
-              <textarea class="m1" id="rechnungversenden_anrede" maxlength="1000" type="text" v-model="anrede"></textarea>
+              <zeichenzaehler-label :elem="text" :forid="'rechnungversenden_text'" :label="$t('general.mailtext')" :maxlength="'5000'"></zeichenzaehler-label>
+              <textarea class="m1" id="rechnungversenden_text" maxlength="5000" style="height: 500px" type="text" v-model="text"></textarea>
             </div>
           </div>
           <div class="dialog-footer">
@@ -25,20 +25,30 @@ Vue.component('reparatur-versenden-dialog', {
     row: Object,
   },
   data: function() {
+    this.loadText();
     return {
-      anrede: this.row.kunde.briefanrede
+      text: ''
     };
   },
   methods: {
+    loadText: function() {
+      this.getText().then(this.setText);
+    },
     sendFunc: function() {
       showLoader();
       this.executeSend().then(this.closeAndReturnResponse);
     },
     executeSend: function() {
-      return axios.post('email/reparatur', {id: this.row.id, anrede: this.anrede});
+      return axios.post('email/reparatur', {id: this.row.id, text: this.text});
     },
     closeAndReturnResponse(response) {
       this.$emit('sended', response.data);
+    },
+    getText: function() {
+      return axios.get('email/reparatur/' + this.row.id);
+    },
+    setText: function(response) {
+      this.text = response.data.success;
     }
   }
 });
