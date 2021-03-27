@@ -3,6 +3,7 @@
 ## Version 2.8.1
 
 * Batch-Datei zum Sichern und Speichern des Programmverzeichnisses erstellt: kassenprogramm-backup.cmd (administrativ auszuführen)
+* Bei Informationsmeldung zu nicht bezahlten Rechnungen keine Rechnungsvorlagen mehr beachten
 
 ## Version 2.8.0
 

@@ -228,7 +228,7 @@ public class RechnungService {
     }
 
     public List<Rechnung> hatKundeOffeneRechnungen(final Integer kundeId) {
-        return rechnungRepository.findByKundeIdAndDatumLessThanAndBezahlt(kundeId, LocalDate.now(), false);
+        return rechnungRepository.findByKundeIdAndDatumLessThanAndBezahltAndVorlage(kundeId, LocalDate.now(), false, false);
     }
 
     public void deletePosten(final Rechnung rechnung) {
