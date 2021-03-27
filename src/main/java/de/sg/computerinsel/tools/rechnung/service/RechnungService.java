@@ -139,7 +139,7 @@ public class RechnungService {
         if (rechnung.isPresent()) {
             final List<Rechnungsposten> posten = stornoBeachten ? listRechnungspostenByRechnungIdOhneStorno(id)
                     : listRechnungspostenByRechnungId(id);
-            return new RechnungDTO(rechnung.get(), posten, stornoBeachten, rechnung.get().isVorlage());
+            return new RechnungDTO(rechnung.get(), posten, stornoBeachten, false);
         } else {
             return new RechnungDTO(einstellungenService.getMwstProzent());
         }

@@ -4,6 +4,7 @@
 
 * Batch-Datei zum Sichern und Speichern des Programmverzeichnisses erstellt: kassenprogramm-backup.cmd (administrativ auszuführen)
 * Bei Informationsmeldung zu nicht bezahlten Rechnungen keine Rechnungsvorlagen mehr beachten
+* Kontrollkästchen "Vorlage nach dem Erstellen der Rechnung behalten" standardmäßg deaktivieren beim Bearbeiten von Rechnungsvorlagen
 
 ## Version 2.8.0
 
