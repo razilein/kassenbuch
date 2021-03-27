@@ -1,5 +1,9 @@
 # Versionsdokumentation
 
+## Version 2.8.1
+
+* Batch-Datei zum Sichern und Speichern des Programmverzeichnisses erstellt: kassenprogramm-backup.cmd (administrativ auszuführen)
+
 ## Version 2.8.0
 
 * Reparatur drucken - Buchstabe P oben rechts anzeigen, wenn der Kunde als problematisch markiert wurde (Kombinierbar mit E für Express)
