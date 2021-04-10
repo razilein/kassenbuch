@@ -484,6 +484,7 @@ const messages = {
       kostenvoranschlag: 'Kostenvoranschlag',
       loeschen: 'Reparaturauftrag löschen',
       nein: 'NEIN',
+      neu: 'Dieser Auftrag ist neu und wurde noch nicht geöffnet.',
       nicht: 'NICHT',
       nichtErledigt: 'Nur nicht erledigte Aufträge anzeigen',
       nr: 'NR',

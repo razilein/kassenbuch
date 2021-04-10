@@ -169,6 +169,17 @@ public class ReparaturRestController {
         return result;
     }
 
+    @PutMapping("/neu")
+    public Map<String, Object> reparaturNeu(@RequestBody final IntegerBaseObject obj) {
+        if (obj.getId() != null) {
+            service.getReparatur(obj.getId()).ifPresent(reparatur -> {
+                reparatur.setNeu(false);
+                service.save(reparatur);
+            });
+        }
+        return Collections.singletonMap(Message.SUCCESS.getCode(), true);
+    }
+
     @DeleteMapping
     public Map<String, Object> deleteReparatur(@RequestBody final Map<String, Object> data) {
         final int id = (int) data.get("id");

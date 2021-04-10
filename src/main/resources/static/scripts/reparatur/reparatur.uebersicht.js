@@ -158,6 +158,9 @@ var vm = new Vue({
           { clazz: 'email', disabled: vm.canSendEmail, title: this.$t('reparatur.email'), clickFunc: vm.sendMailFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('reparatur.loeschen'), clickFunc: vm.deleteFunction }
         ] },
+        { name: 'status', sortable: false, width: 10, formatter: [
+          { clazz: 'neu', disabled: vm.hasNoStatus, title: vm.statusTitle, clickFunc: function() {} },
+        ]},
         { name: 'reparaturNr', title: this.$t('reparatur.repNr'), width: 80, link: [ vm.openFunction ] },
         { name: 'bestellungNr', title: this.$t('bestellung.nummerKurz'), width: 100, link: [ vm.getLinkBestellung ] },
         { name: 'kundeNr', title: this.$t('kunde.kdNr'), width: 80, link: [ vm.getLinkKunde ] },
@@ -167,6 +170,14 @@ var vm = new Vue({
         { name: 'abholdatum', title: this.$t('reparatur.abholdatum'), width: 120, formatter: ['date'] },
         { name: 'erstelltAm', title: this.$t('general.erstelltAm'), width: 100 }
       ];
+    },
+    
+    hasNoStatus: function(row) {
+      return !row.neu;
+    },
+    
+    statusTitle: function(row) {
+      return this.$t('reparatur.neu');
     },
     
     getLinkBestellung: function(row) {

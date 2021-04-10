@@ -23,6 +23,7 @@ var vm = new Vue({
         .then(this.setEntity)
         .then(this.getEinstellungDruckansichtDruckdialog)
         .then(this.setEinstellungDruckansichtDruckdialog)
+        .then(this.updateNeu)
         .then(this.openPrint);
     },
     
@@ -30,6 +31,11 @@ var vm = new Vue({
       if (vm.einstellungDruckansichtDruckdialog) {
         window.print();
       }
+    },
+    
+    updateNeu: function() {
+      var id = getParamFromCurrentUrl('id');
+      return axios.put('/reparatur/neu', { id: id });
     },
     
     getEntity: function() {
