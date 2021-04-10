@@ -19,6 +19,20 @@ import lombok.Setter;
 @Setter
 public class BaseKunde extends IntegerBaseObject {
 
+    protected static final int LENGTH_EMAIL = 100;
+
+    protected static final int LENGTH_TELEFON = 50;
+
+    protected static final int LENGTH_ORT = 50;
+
+    protected static final int LENGTH_PLZ = 8;
+
+    protected static final int LENGTH_STRASSE = 100;
+
+    protected static final int LENGTH_VORNAME = 50;
+
+    protected static final int LENGTH_NACHNAME = 100;
+
     @Column(name = "anrede")
     private Integer anrede;
 
@@ -30,11 +44,11 @@ public class BaseKunde extends IntegerBaseObject {
     private Integer nummer;
 
     @Column(name = "nachname")
-    @Size(max = 100, message = "kunde.nachname.error")
+    @Size(max = LENGTH_NACHNAME, message = "kunde.nachname.error")
     private String nachname;
 
     @Column(name = "vorname")
-    @Size(max = 50, message = "kunde.vorname.error")
+    @Size(max = LENGTH_VORNAME, message = "kunde.vorname.error")
     private String vorname;
 
     @Column(name = "firmenname")
@@ -42,19 +56,19 @@ public class BaseKunde extends IntegerBaseObject {
     private String firmenname;
 
     @Column(name = "strasse")
-    @Size(max = 100, message = "kunde.strasse.error")
+    @Size(max = LENGTH_STRASSE, message = "kunde.strasse.error")
     private String strasse;
 
     @Column(name = "plz")
-    @Size(max = 8, message = "kunde.plz.error")
+    @Size(max = LENGTH_PLZ, message = "kunde.plz.error")
     private String plz;
 
     @Column(name = "ort")
-    @Size(max = 50, message = "kunde.ort.error")
+    @Size(max = LENGTH_ORT, message = "kunde.ort.error")
     private String ort;
 
     @Column(name = "telefon")
-    @Size(max = 50, message = "kunde.telefon.error")
+    @Size(max = LENGTH_TELEFON, message = "kunde.telefon.error")
     private String telefon;
 
     @Column(name = "mobiltelefon")
@@ -62,7 +76,7 @@ public class BaseKunde extends IntegerBaseObject {
     private String mobiltelefon;
 
     @Column(name = "email")
-    @Size(max = 100, message = "kunde.email.error")
+    @Size(max = LENGTH_EMAIL, message = "kunde.email.error")
     private String email;
 
     @Column(name = "bemerkung")

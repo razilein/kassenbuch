@@ -4,6 +4,7 @@ var vm = new Vue({
   data: {
     einstellungen: {
       roboterCron: {},
+      roboterEmail: {},
       roboterFiliale: {},
       roboterMailBodyReparaturauftrag : {},
     },

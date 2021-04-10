@@ -102,11 +102,11 @@ public class EmailService {
         return builder.toString();
     }
 
-    public void sendeEmail(final Reparatur reparatur, final String text) {
+    public void sendeEmail(final Reparatur reparatur, final String absender, final String text) {
         try {
             final Session session = initSmtpSession();
             final Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(reparatur.getFiliale().getEmail()));
+            message.setFrom(new InternetAddress(absender));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(reparatur.getKunde().getEmail()));
             message.setSubject("Reparaturauftrag " + reparatur.getFiliale().getKuerzel() + reparatur.getNummer());
 

@@ -67,7 +67,8 @@ const messages = {
         rechnung: 'E-Mail Inhalt Rechnung versenden',
         reparatur: 'E-Mail Inhalt Reparaturauftrag erledigt',
         roboter: 'E-Mail Inhalt Reparaturauftrag erhalten',
-        signatur: 'E-Mail Signatur'
+        signatur: 'E-Mail Signatur',
+        title: 'Mit dieser E-Mail-Adresse wird der Kunde benachrichtigt. Zudem werden automatische Meldungen zu neuen Reparaturen an diese Adresse gesendet.'
       },
       filiale: {
         bearbeiten: 'Filiale bearbeiten',

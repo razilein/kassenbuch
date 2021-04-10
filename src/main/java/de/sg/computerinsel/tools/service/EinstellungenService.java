@@ -129,6 +129,10 @@ public class EinstellungenService {
         return getEinstellung("roboter.filiale");
     }
 
+    public Einstellungen getRoboterEmail() {
+        return getEinstellung("roboter.email");
+    }
+
     public Einstellungen getRoboterMailBodyReparaturauftrag() {
         return getEinstellung("roboter.mail.body.reparatur");
     }

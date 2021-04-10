@@ -10,10 +10,7 @@ import org.apache.camel.Processor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import com.google.common.primitives.Ints;
-
 import de.sg.computerinsel.tools.kunde.service.EmailService;
-import de.sg.computerinsel.tools.reparatur.model.Filiale;
 import de.sg.computerinsel.tools.service.EinstellungenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,9 +30,7 @@ public class ReparaturRoboterFehler implements Processor {
         log.error(exception.getMessage(), exception);
 
         final String titel = "Computer-Insel Tools - Automatische Benachrichtung - Ein Reparaturauftrag konnte wegen eines Fehlers nicht eingelesen werden";
-        final Filiale filiale = einstellungenService.getFiliale(Ints.tryParse(einstellungenService.getRoboterFiliale().getWert()))
-                .orElseThrow(() -> new IllegalStateException("Filiale für Roboter in Einstellungen nicht gesetzt!"));
-        final String email = filiale.getEmail();
+        final String email = einstellungenService.getRoboterEmail().getWert();
         emailService.sendeInformationsmail(titel, getText(exception), email, email);
     }
 

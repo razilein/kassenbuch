@@ -7,6 +7,9 @@
 * Kontrollkästchen "Vorlage nach dem Erstellen der Rechnung behalten" standardmäßg deaktivieren beim Bearbeiten von Rechnungsvorlagen
 * Reparaturaufträge - Länge des Feldes "Gerätepasswort" auf 200 Zeichen erhöht
 * Reparaturaufträge - Noch nicht geöffnete Aufträge mit Statusicon "Neu" markieren
+* Automatische Reparaturaufträge - CSV-Dateistruktur abgeglichen, Felder kürzen, wenn die Maximalgröße überschritten wurden.
+* Automatische Reparaturaufträge - E-Mail-Benachrichtigungen mit gesonderter Absender-Adresse versenden
+* Automatische Reparaturaufträge - Information per E-Mail, wenn ein neuer Auftrag eingeht
 
 ## Version 2.8.0
 
