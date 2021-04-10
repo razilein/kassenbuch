@@ -10,6 +10,7 @@
 * Automatische Reparaturaufträge - CSV-Dateistruktur abgeglichen, Felder kürzen, wenn die Maximalgröße überschritten wurden.
 * Automatische Reparaturaufträge - E-Mail-Benachrichtigungen mit gesonderter Absender-Adresse versenden
 * Automatische Reparaturaufträge - Information per E-Mail, wenn ein neuer Auftrag eingeht
+* Automatische Reparaturaufträge - Kunden nicht mehrfach anlegen
 
 ## Version 2.8.0
 

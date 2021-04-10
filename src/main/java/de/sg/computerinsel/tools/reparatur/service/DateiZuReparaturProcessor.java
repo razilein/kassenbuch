@@ -46,7 +46,7 @@ public class DateiZuReparaturProcessor implements Processor {
         final File datei = exchange.getIn().getBody(File.class);
         final String inhalt = FileUtils.readFileToString(datei, StandardCharsets.UTF_8);
         final ReparaturCsvDto dto = new ReparaturCsvDto(datei.getName(), inhalt);
-        final Page<VKunde> kunden = kundeService.listKunden(PageRequest.of(1, 2), conditionsKunde(dto));
+        final Page<VKunde> kunden = kundeService.listKunden(PageRequest.of(0, 2), conditionsKunde(dto));
 
         final Filiale filiale = einstellungenService.getFiliale(Ints.tryParse(einstellungenService.getRoboterFiliale().getWert()))
                 .orElseThrow(() -> new IllegalStateException("Filiale für Roboter in Einstellungen nicht gesetzt!"));
