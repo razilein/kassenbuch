@@ -24,9 +24,9 @@ public class ReparaturRoboterRoute extends RouteBuilder {
           .bean(ReparaturRoboterFehler.class);
 
         from("file://" + file.getAbsolutePath() + "?moveFailed=.error&move=.done&include=.*.csv")
-          .transacted()
           .bean(DateiZuReparaturProcessor.class)
           .bean(ReparaturSpeichern.class)
+          .bean(ReparaturBeilageProcessor.class)
           .bean(ReparaturAutomatischeEmail.class);
         /* @formatter:on */
 

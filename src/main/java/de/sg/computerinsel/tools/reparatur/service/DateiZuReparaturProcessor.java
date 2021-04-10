@@ -26,11 +26,9 @@ import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Service
-@Slf4j
 public class DateiZuReparaturProcessor implements Processor {
 
     private final EinstellungenService einstellungenService;

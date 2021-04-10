@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Leaf_Green" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e7eebaa4-068b-407f-bf7a-d4c2e72a1292">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="CI"/>
+	<style name="Title" fontName="DejaVu Sans" fontSize="26" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="DejaVu Sans" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="DejaVu Sans" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="DejaVu Sans" fontSize="12"/>
+	<parameter name="Parameter1" class="java.lang.String"/>
+	<parameter name="imagesDir" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT "REPARATUR"."KOSTENVORANSCHLAG",
+	"REPARATUR"."SYMPTOME",
+	"REPARATUR"."GERAET",
+	"REPARATUR"."NUMMER",
+	"FILIALE"."KUERZEL",
+	"FILIALE"."STRASSE",
+	"FILIALE"."PLZ",
+	"FILIALE"."ORT",
+	"FILIALE"."TELEFON",
+	"REPARATUR"."ID",
+	"KUNDE"."VORNAME",
+	"KUNDE"."NACHNAME",
+	"KUNDE"."TELEFON",
+	"KUNDE"."EMAIL",
+	"KUNDE"."STRASSE",
+	"KUNDE"."PLZ",
+	"KUNDE"."ORT"
+FROM "REPARATUR"
+JOIN "FILIALE" ON "FILIALE"."ID" = "REPARATUR"."FILIALE_ID"
+JOIN "KUNDE" ON "KUNDE"."ID" = "REPARATUR"."KUNDE_ID"
+WHERE 
+	 "REPARATUR"."ID" = $P{Parameter1}]]>
+	</queryString>
+	<field name="KOSTENVORANSCHLAG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="KOSTENVORANSCHLAG"/>
+		<property name="com.jaspersoft.studio.field.label" value="KOSTENVORANSCHLAG"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="REPARATUR"/>
+	</field>
+	<field name="SYMPTOME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SYMPTOME"/>
+		<property name="com.jaspersoft.studio.field.label" value="SYMPTOME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="REPARATUR"/>
+	</field>
+	<field name="GERAET" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="GERAET"/>
+		<property name="com.jaspersoft.studio.field.label" value="GERAET"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="REPARATUR"/>
+	</field>
+	<field name="NUMMER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NUMMER"/>
+		<property name="com.jaspersoft.studio.field.label" value="NUMMER"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="REPARATUR"/>
+	</field>
+	<field name="KUERZEL" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="KUERZEL"/>
+		<property name="com.jaspersoft.studio.field.label" value="KUERZEL"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FILIALE"/>
+	</field>
+	<field name="STRASSE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="STRASSE"/>
+		<property name="com.jaspersoft.studio.field.label" value="STRASSE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FILIALE"/>
+	</field>
+	<field name="PLZ" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="PLZ"/>
+		<property name="com.jaspersoft.studio.field.label" value="PLZ"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FILIALE"/>
+	</field>
+	<field name="ORT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ORT"/>
+		<property name="com.jaspersoft.studio.field.label" value="ORT"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FILIALE"/>
+	</field>
+	<field name="TELEFON" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TELEFON"/>
+		<property name="com.jaspersoft.studio.field.label" value="TELEFON"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="FILIALE"/>
+	</field>
+	<field name="ID" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="ID"/>
+		<property name="com.jaspersoft.studio.field.label" value="ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="REPARATUR"/>
+	</field>
+	<field name="VORNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="VORNAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="VORNAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="KUNDE"/>
+	</field>
+	<field name="NACHNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NACHNAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="NACHNAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="KUNDE"/>
+	</field>
+	<field name="COLUMN_13" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TELEFON"/>
+		<property name="com.jaspersoft.studio.field.label" value="TELEFON"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="KUNDE"/>
+	</field>
+	<field name="EMAIL" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="EMAIL"/>
+		<property name="com.jaspersoft.studio.field.label" value="EMAIL"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="KUNDE"/>
+	</field>
+	<field name="COLUMN_15" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="STRASSE"/>
+		<property name="com.jaspersoft.studio.field.label" value="STRASSE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="KUNDE"/>
+	</field>
+	<field name="COLUMN_16" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="PLZ"/>
+		<property name="com.jaspersoft.studio.field.label" value="PLZ"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="KUNDE"/>
+	</field>
+	<field name="COLUMN_17" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ORT"/>
+		<property name="com.jaspersoft.studio.field.label" value="ORT"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="KUNDE"/>
+	</field>
+	<variable name="Nummer" class="java.lang.String">
+		<variableExpression><![CDATA[$F{KUERZEL} + $F{NUMMER}]]></variableExpression>
+	</variable>
+	<variable name="F_Strasse" class="java.lang.String">
+		<variableExpression><![CDATA[$F{STRASSE} + ", " + $F{PLZ} + " " + $F{ORT}]]></variableExpression>
+	</variable>
+	<variable name="K_Name" class="java.lang.String">
+		<variableExpression><![CDATA[$F{VORNAME} + " " + $F{NACHNAME}]]></variableExpression>
+	</variable>
+	<variable name="K_Anschrift" class="java.lang.String" calculation="First">
+		<variableExpression><![CDATA[$F{STRASSE} + ", " + $F{PLZ} + " " + $F{ORT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="273" splitType="Stretch">
+			<image>
+				<reportElement x="150" y="0" width="265" height="90" uuid="d7cb9de5-f1d6-4e9a-8441-72f5e2127742"/>
+				<imageExpression><![CDATA[$P{imagesDir} + "auftrag_logo.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="0" y="0" width="184" height="30" uuid="48c0ee32-7458-47a2-b2d1-4dbf8321c0f3"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Nummer}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Detail" x="0" y="122" width="554" height="30" uuid="cb100fa9-0b89-4b89-9e40-cdfddcf3ee98"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Computer-Insel GbR
+Gesellschafter: Stefan Weiske, Peer Dernoscheck]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="2" y="166" width="358" height="22" uuid="5997f5a1-42c9-42bf-9fd8-fce5f74108b3"/>
+				<textFieldExpression><![CDATA[$V{F_Strasse}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="181" width="100" height="16" uuid="288e9d11-ba62-429b-9134-57bcc9d67bd8"/>
+				<text><![CDATA[Tel.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="30" y="180" width="330" height="18" uuid="b19e2d17-5522-428d-9096-b45539284061"/>
+				<textFieldExpression><![CDATA[$F{TELEFON}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="383" y="167" width="171" height="14" uuid="523c50a1-6f33-40eb-991a-f22719c9c52b"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Internet: www.computer-insel.de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="181" width="194" height="14" uuid="7e53c3f4-bc9d-4f25-95f4-f6cb0cfd9bee"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[E-Mail: repcenter@computer-insel.de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="240" width="555" height="22" uuid="eadebb17-7390-4a2f-9812-552fdd62faa0"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Verkauf von Neu- und Gebrauchtware. Hardware, Software, Zubehör, Reparatur, Beratung, Service]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="195" width="194" height="19" uuid="32284d72-be13-48c8-a7b1-4af9fcfcb8d9"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Mo-Fr: 9:00-19:00 / Sa: 10:00-14:00]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="266" width="554" height="1" uuid="54dd2350-12cd-4e97-9431-0eb62a6c9c3b"/>
+			</line>
+			<image>
+				<reportElement x="139" y="79" width="270" height="30" uuid="3eaf3ed6-aeb9-4292-84d5-640d45e66817"/>
+				<imageExpression><![CDATA[$P{imagesDir} + "reparatur-center.png"]]></imageExpression>
+			</image>
+		</band>
+		<band height="69">
+			<staticText>
+				<reportElement style="Title" x="1" y="1" width="263" height="33" uuid="3eb8e1ab-7e38-4368-89db-62b6501a8c67"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Reparaturauftrag]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="39" width="546" height="20" forecolor="#FF0000" uuid="b6407c8d-385c-4c81-8ac2-04395404daec"/>
+				<text><![CDATA[Bitte legen Sie dieses Dokument beim Versand Ihres Gerätes in das Paket.]]></text>
+			</staticText>
+		</band>
+		<band height="47">
+			<staticText>
+				<reportElement x="1" y="24" width="100" height="18" uuid="47ee3706-e6dd-4d23-9fc4-b8563d8efa05"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gerät:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="102" y="24" width="452" height="18" uuid="4e1560c1-29ef-4168-a9cd-fb53c2dd985c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="915e1e51-afee-42a8-867d-2daf36ec626d"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{GERAET}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="3" width="100" height="18" uuid="5a4f25da-b311-4636-a3c7-e88c1d7cbdff"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Auftrags-Nr.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="102" y="3" width="453" height="16" uuid="38b71da6-3647-4680-868b-f1f367d02ea9"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Nummer}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="81" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="1" width="100" height="18" uuid="3e4842ff-802e-4730-96b7-499f94cbbd47"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="103" y="1" width="451" height="18" uuid="3db5b7e6-6375-45e6-a982-44cd37fd8327"/>
+				<textFieldExpression><![CDATA[$V{K_Name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="20" width="100" height="18" uuid="1df30cf8-b5ec-441d-99f4-818145ffb450"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Anschrift:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="103" y="20" width="450" height="18" uuid="0f552ada-b64b-486d-b738-e04e9e6472fe"/>
+				<textFieldExpression><![CDATA[$V{K_Anschrift}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="38" width="100" height="18" uuid="a3968800-da2c-480a-b8d8-b129f29a8fcc"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefon:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="103" y="38" width="451" height="18" uuid="03d7a7ab-2268-4223-b86b-a57be0c02567">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="55143d9f-0db1-4694-a3f2-7290038aa459"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_13}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="56" width="100" height="18" uuid="7a168785-f9e6-431f-b5b0-9e6d834ecd90"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[E-Mail:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="103" y="56" width="450" height="18" uuid="1bb1fbe4-4189-4361-8e17-539788983cb2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="919f6208-ced9-4a7e-8ba0-6a8df75d525a"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{EMAIL}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="42">
+			<staticText>
+				<reportElement x="1" y="0" width="100" height="18" uuid="b06ec257-3b9d-4529-ab93-7e173757d3a8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nachricht:]]></text>
+			</staticText>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="1" y="20" width="550" height="20" uuid="1782ec63-188f-4f82-9372-a2f72ad04ebd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="528fbd4a-0f8d-4cc3-8886-4ea9c1994cf5"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SYMPTOME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="32" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

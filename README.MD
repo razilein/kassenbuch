@@ -11,6 +11,7 @@
 * Automatische Reparaturaufträge - E-Mail-Benachrichtigungen mit gesonderter Absender-Adresse versenden
 * Automatische Reparaturaufträge - Information per E-Mail, wenn ein neuer Auftrag eingeht
 * Automatische Reparaturaufträge - Kunden nicht mehrfach anlegen
+* Automatische Reparaturaufträge - Paketbeilage zum ausdrucken in der Bestätigungs-E-Mail an den Kunden anhängen
 
 ## Version 2.8.0
 

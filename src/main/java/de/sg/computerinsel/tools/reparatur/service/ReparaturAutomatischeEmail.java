@@ -1,5 +1,6 @@
 package de.sg.computerinsel.tools.reparatur.service;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -31,7 +32,8 @@ public class ReparaturAutomatischeEmail implements Processor {
         final Reparatur reparatur = exchange.getIn().getBody(Reparatur.class);
 
         if (StringUtils.isNotBlank(reparatur.getKunde().getEmail())) {
-            emailService.sendeEmail(reparatur, einstellungenService.getRoboterEmail().getWert(),
+            final File beilage = (File) exchange.getProperty(ReparaturBeilageProcessor.PROP_BEILAGE);
+            emailService.sendeEmail(reparatur, beilage, einstellungenService.getRoboterEmail().getWert(),
                     emailService.getEingangMailText(reparatur));
         }
         final String titel = "Computer-Insel Tools - Automatische Benachrichtung - Neuer Reparaturauftrag "
