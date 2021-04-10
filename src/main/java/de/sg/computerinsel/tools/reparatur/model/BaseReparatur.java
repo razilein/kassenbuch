@@ -68,7 +68,7 @@ public class BaseReparatur extends IntegerBaseObject {
     @Column(name = "aufgaben")
     private String aufgaben;
 
-    @Size(max = 50, message = "reparatur.geraetepsw.error.size")
+    @Size(max = 200, message = "reparatur.geraetepsw.error.size")
     @Column(name = "geraetepasswort")
     private String geraetepasswort;
 
