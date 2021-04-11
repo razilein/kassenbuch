@@ -19,7 +19,7 @@ public class ReparaturHerunterladenRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         final String cron = RegExUtils.replaceAll(einstellungService.getRoboterCron().getWert(), StringUtils.SPACE, "+");
-        if (StringUtils.isNotBlank(cron)) {
+        if (StringUtils.isNotBlank(cron) && StringUtils.isNotBlank(einstellungService.getFtpHost().getWert())) {
             final String hostname = einstellungService.getFtpHost().getWert();
             final String port = einstellungService.getFtpPort().getWert();
             final String username = einstellungService.getFtpUser().getWert();

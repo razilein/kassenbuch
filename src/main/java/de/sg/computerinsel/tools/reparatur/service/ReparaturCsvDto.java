@@ -17,7 +17,7 @@ public class ReparaturCsvDto {
             throw new IllegalStateException("Die CSV-Datei " + dateiname + " ist leer.");
         }
         final List<String> parts = new ArrayList<>(Splitter.on("|").splitToList(csv));
-        if (parts.size() != 9) {
+        if (parts.size() < 10) {
             throw new IllegalStateException("Die CSV-Datei " + dateiname + " ist unvollständig.");
         }
         this.nachname = getFirstPart(parts);
@@ -25,9 +25,10 @@ public class ReparaturCsvDto {
         this.strasse = getFirstPart(parts);
         this.plz = getFirstPart(parts);
         this.ort = getFirstPart(parts);
-        this.telefon = getFirstPart(parts);
         this.email = getFirstPart(parts);
+        this.telefon = getFirstPart(parts);
         this.geraet = getFirstPart(parts);
+        this.geraetepasswort = getFirstPart(parts);
         this.symptome = getFirstPart(parts);
     }
 
@@ -41,11 +42,13 @@ public class ReparaturCsvDto {
 
     private String ort;
 
-    private String telefon;
-
     private String email;
 
+    private String telefon;
+
     private String geraet;
+
+    private String geraetepasswort;
 
     private String symptome;
 

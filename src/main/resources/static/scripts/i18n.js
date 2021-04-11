@@ -67,7 +67,8 @@ const messages = {
         rechnung: 'E-Mail Inhalt Rechnung versenden',
         reparatur: 'E-Mail Inhalt Reparaturauftrag erledigt',
         roboter: 'E-Mail Inhalt Reparaturauftrag erhalten',
-        signatur: 'E-Mail Signatur'
+        signatur: 'E-Mail Signatur',
+        title: 'Mit dieser E-Mail-Adresse wird der Kunde benachrichtigt. Zudem werden automatische Meldungen zu neuen Reparaturen an diese Adresse gesendet.'
       },
       filiale: {
         bearbeiten: 'Filiale bearbeiten',
@@ -416,6 +417,7 @@ const messages = {
       rechnungsdatum: 'Rechnungsdatum',
       rechnungsdatumZusatz: 'Rechnungsdatum entspricht Lieferdatum!',
       rechnungspostenDurchsuchen: 'Rechnungsposten durchsuchen nach Bezeichnung / Seriennummer / Hinweis',
+      speichern: 'Rechnung speichern',
       sn: 'S/N',
       stornieren: "Rechnung teilweise oder komplett stornieren",
       stornierenGesamtrabatt: "Rechnungen mit Gesamtrabatt können nicht storniert werden.",
@@ -484,6 +486,7 @@ const messages = {
       kostenvoranschlag: 'Kostenvoranschlag',
       loeschen: 'Reparaturauftrag löschen',
       nein: 'NEIN',
+      neu: 'Dieser Auftrag ist neu und wurde noch nicht geöffnet.',
       nicht: 'NICHT',
       nichtErledigt: 'Nur nicht erledigte Aufträge anzeigen',
       nr: 'NR',

@@ -113,9 +113,10 @@ public class KundeEmailRestController {
         final Optional<Reparatur> optional = reparaturService.getReparatur(id);
         if (optional.isPresent()) {
             final String text = (String) params.get("text");
-            service.sendeEmail(optional.get(), text);
+            final Reparatur reparatur = optional.get();
+            service.sendeEmail(reparatur, reparatur.getFiliale().getEmail(), text);
             result.put(Message.SUCCESS.getCode(), messageService.get("email.success"));
-            getAnrede(text).ifPresent(anrede -> updateKundeAnrede(optional.get().getKunde(), anrede));
+            getAnrede(text).ifPresent(anrede -> updateKundeAnrede(reparatur.getKunde(), anrede));
         } else {
             result.put(Message.ERROR.getCode(), messageService.get("email.reparatur.error", id));
         }

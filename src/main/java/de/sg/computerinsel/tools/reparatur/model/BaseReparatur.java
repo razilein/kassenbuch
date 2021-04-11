@@ -25,6 +25,12 @@ import lombok.Setter;
 @Setter
 public class BaseReparatur extends IntegerBaseObject {
 
+    public static final int LENGTH_GERAET = 500;
+
+    public static final int LENGTH_GERAETEPASSWORT = 200;
+
+    public static final int LENGTH_SYMPTOME = 1000;
+
     public static final int MAX_LENGTH_MITARBEITER = 200;
 
     @ManyToOne
@@ -51,7 +57,7 @@ public class BaseReparatur extends IntegerBaseObject {
     @Column(name = "art")
     private Integer art;
 
-    @Size(max = 500, message = "reparatur.geraet.error.size")
+    @Size(max = LENGTH_GERAET, message = "reparatur.geraet.error.size")
     @Column(name = "geraet")
     @NotEmpty(message = "reparatur.geraet.error.empty")
     private String geraet;
@@ -60,7 +66,7 @@ public class BaseReparatur extends IntegerBaseObject {
     @Column(name = "seriennummer")
     private String seriennummer;
 
-    @Size(max = 1000, message = "reparatur.symptome.error.size")
+    @Size(max = LENGTH_SYMPTOME, message = "reparatur.symptome.error.size")
     @Column(name = "symptome")
     private String symptome;
 
@@ -68,7 +74,7 @@ public class BaseReparatur extends IntegerBaseObject {
     @Column(name = "aufgaben")
     private String aufgaben;
 
-    @Size(max = 50, message = "reparatur.geraetepsw.error.size")
+    @Size(max = LENGTH_GERAETEPASSWORT, message = "reparatur.geraetepsw.error.size")
     @Column(name = "geraetepasswort")
     private String geraetepasswort;
 
@@ -105,6 +111,9 @@ public class BaseReparatur extends IntegerBaseObject {
 
     @Column(name = "bemerkung")
     private String bemerkung;
+
+    @Column(name = "neu")
+    private boolean neu;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate getAbholdatum() {

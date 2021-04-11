@@ -1,5 +1,19 @@
 # Versionsdokumentation
 
+## Version 2.8.1
+
+* Batch-Datei zum Sichern und Speichern des Programmverzeichnisses erstellt: kassenprogramm-backup.cmd (administrativ auszuführen)
+* Bei Informationsmeldung zu nicht bezahlten Rechnungen keine Rechnungsvorlagen mehr beachten
+* Kontrollkästchen "Vorlage nach dem Erstellen der Rechnung behalten" standardmäßg deaktivieren beim Bearbeiten von Rechnungsvorlagen
+* Reparaturaufträge - Länge des Feldes "Gerätepasswort" auf 200 Zeichen erhöht
+* Reparaturaufträge - Noch nicht geöffnete Aufträge mit Statusicon "Neu" markieren
+* Automatische Reparaturaufträge - CSV-Dateistruktur abgeglichen, Felder kürzen, wenn die Maximalgröße überschritten wurden.
+* Automatische Reparaturaufträge - E-Mail-Benachrichtigungen mit gesonderter Absender-Adresse versenden
+* Automatische Reparaturaufträge - Information per E-Mail, wenn ein neuer Auftrag eingeht
+* Automatische Reparaturaufträge - Kunden nicht mehrfach anlegen
+* Automatische Reparaturaufträge - Paketbeilage zum ausdrucken in der Bestätigungs-E-Mail an den Kunden anhängen
+* Schaltfläche "Speichern" in Rechnung-Erstellen-Ansicht zu "Rechnung speichern" umbenannt
+
 ## Version 2.8.0
 
 * Reparatur drucken - Buchstabe P oben rechts anzeigen, wenn der Kunde als problematisch markiert wurde (Kombinierbar mit E für Express)

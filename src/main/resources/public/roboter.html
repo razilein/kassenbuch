@@ -35,6 +35,12 @@
             </div>
           </div>
           <div class="m1">
+            <div class="m2m">
+              <label class="required" for="roboterForm_email">{{ $t("general.email") }}</label>
+              <input class="m2" id="roboterForm_email" :title="$t('einstellung.email.title')" type="text" v-model="einstellungen.roboterEmail.wert" />
+            </div>
+          </div>
+          <div class="m1">
               <label class="required" for="roboter_mail">{{ $t("einstellung.email.roboter") }}</label>
               <textarea class="m1" id="roboterForm_roboterMailBodyReparaturauftrag" v-model="einstellungen.roboterMailBodyReparaturauftrag.wert"></textarea>
           </div>

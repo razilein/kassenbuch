@@ -44,8 +44,8 @@ Vue.component('edit-dialog', {
   </div>
   <div class="m1">
     <div class="m2">
-      <zeichenzaehler-label :elem="entity.geraetepasswort" :forid="'reparaturEditForm_geraetepasswort'" :label="$t('reparatur.pw')" :maxlength="'50'" :required="true"></zeichenzaehler-label>
-      <input class="m2" id="reparaturEditForm_geraetepasswort" maxlength="50" type="text" v-model="entity.geraetepasswort" :readonly="entity.geraetepasswortArt !== 0"></input>
+      <zeichenzaehler-label :elem="entity.geraetepasswort" :forid="'reparaturEditForm_geraetepasswort'" :label="$t('reparatur.pw')" :maxlength="'200'" :required="true"></zeichenzaehler-label>
+      <input class="m2" id="reparaturEditForm_geraetepasswort" maxlength="200" type="text" v-model="entity.geraetepasswort" :readonly="entity.geraetepasswortArt !== 0"></input>
     </div>
   </div>
   <div class="m1" v-if="entity.bestellung">

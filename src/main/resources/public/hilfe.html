@@ -4,7 +4,7 @@
     <title>Dokumentation - Computer-Insel Tools by Sita Geßner</title>
   </head>
   <body>
-    <h1 id="toolsfrdiecomputerinsel">Tools für die Computerinsel - Version 2.8.0</h1>
+    <h1 id="toolsfrdiecomputerinsel">Tools für die Computerinsel - Version 2.8.1</h1>
     <h2 id="index">Index</h2>
     <ul>
       <li><a href="#einleitung">Einleitung</a></li>
@@ -121,6 +121,7 @@
             <ul>
               <li><a href="#roboterfiliale">Filiale</a></li>
               <li><a href="#robotercron">Abfrage Cron-Timer</a></li>
+              <li><a href="#roboteremail">E-Mail</a></li>
               <li><a href="#robotermail">E-Mail Inhalt</a></li>
             </ul>
           </li>
@@ -509,7 +510,8 @@
     <p>Bei jeder Rechnung die geschrieben wird, werden die verkauften Produkte aus dem Inventar vorgemerkt und mit Anzahl, EAN und Produktbezeichnung vorgeblendet. Diese Liste kann genutzt werden um die Produkte zur Einkaufsliste hinzuzufügen.</p>
     <p>Die Einkaufsliste wird angezeigt und kann bearbeitet und gespeichert werden. Die zum Mitarbeiter hinterlegte Filiale ist ausschlaggebend, welche Einkaufsliste geladen und bearbeitet wird. Dabei wird der Ortsname der Filiale als Dateiname verwendet.</p>
     <h2 id="einstellungen">Einstellungen</h2>
-    <p>Die Seite Kassenbuch unterteilt sich in die drei Unterseiten <strong>Allgemein</strong>, <strong>Filiale</strong> und <strong>Mitarbeiter</strong>.</p>
+    <p>Die Seite Kassenbuch unterteilt sich in die drei Unterseiten <strong>Allgemein</strong>, <strong>Filiale</strong>, <strong>Mitarbeiter</strong>
+    und <strong>Roboter</strong>.</p>
     <h3 id="allgemein">Allgemein</h3>
     <p>Um diese Seite öffnen zu können, wird das Recht <em>ZUGRIFF_EINSTELLUNGEN_ALLGEMEIN</em> benötigt.</p>
     <h4 id="ablageverzeichnis">Ablageverzeichnis</h4>
@@ -629,6 +631,7 @@
       <li><strong>ANGEBOT_VERWALTEN</strong> - Angebote dürfen angelegt, bearbeitet oder gelöscht werden</li>
     </ul>
     <h2 id="roboter">Roboter</h2>
+    <p>Um diese Seite öffnen zu können, wird das Recht <em>ZUGRIFF_EINSTELLUNGEN_ALLGEMEIN</em> benötigt.</p>
     <p>
       In dieser Ansicht können die Daten zum automatischen Einlesen von Reparaturaufträgen festgelegt werden.
       Es werden alle CSV-Dateien aus dem FTP-Server-Verzeichnis <em>reparaturen</em> kopiert und lokal
@@ -651,6 +654,10 @@
     <h4 id="robotercron">Abfrage Cron-Timer</h4>
     <p>
       Mit Hilfe des hier festgelegten Cron-Timers kann festgelegt werden in welchen zeitlichen Abständen der FTP-Server auf neue CSV-Dateien untersucht werden soll.
+    </p>
+    <h4 id="roboteremail">E-Mail</h4>
+    <p>
+      Alle Benachrichtigungen die automatisch versendet werden, werder mit dieser E-Mail-Adresse versendet.
     </p>
     <h4 id="robotermail">E-Mail Inhalt Reparaturauftrag erhalten</h4>
     <p>

@@ -102,26 +102,44 @@ public class EmailService {
         return builder.toString();
     }
 
-    public void sendeEmail(final Reparatur reparatur, final String text) {
+    public void sendeEmail(final Reparatur reparatur, final String absender, final String text) {
+        sendeEmail(reparatur, null, absender, text);
+    }
+
+    public void sendeEmail(final Reparatur reparatur, final File beilage, final String absender, final String text) {
         try {
             final Session session = initSmtpSession();
             final Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(reparatur.getFiliale().getEmail()));
+            message.setFrom(new InternetAddress(absender));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(reparatur.getKunde().getEmail()));
-            message.setSubject("Reparaturauftrag " + reparatur.getFiliale().getKuerzel() + reparatur.getNummer());
+            final String auftragsNr = reparatur.getFiliale().getKuerzel() + reparatur.getNummer();
+            message.setSubject("Reparaturauftrag " + auftragsNr);
 
             final MimeBodyPart mimeBodyPart = new MimeBodyPart();
             mimeBodyPart.setText(text, StandardCharsets.UTF_8.name());
 
+            final MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+            if (beilage != null) {
+                attachmentBodyPart.attachFile(beilage);
+                attachmentBodyPart.setFileName("Paketbeilage_" + auftragsNr + ".pdf");
+            }
+
             final Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(mimeBodyPart);
+            if (beilage != null) {
+                multipart.addBodyPart(attachmentBodyPart);
+            }
 
             message.setContent(multipart);
 
             Transport.send(message);
             addToSentFolder(message, session);
-        } catch (final MessagingException e) {
+        } catch (final MessagingException | IOException e) {
             throw new IllegalArgumentException(e);
+        } finally {
+            if (beilage != null) {
+                FileUtils.deleteQuietly(beilage);
+            }
         }
     }
 

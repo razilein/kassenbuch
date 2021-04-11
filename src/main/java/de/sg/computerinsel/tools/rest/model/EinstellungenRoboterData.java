@@ -12,4 +12,6 @@ public class EinstellungenRoboterData {
 
     Einstellungen roboterMailBodyReparaturauftrag;
 
+    Einstellungen roboterEmail;
+
 }

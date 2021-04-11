@@ -139,7 +139,7 @@ public class RechnungService {
         if (rechnung.isPresent()) {
             final List<Rechnungsposten> posten = stornoBeachten ? listRechnungspostenByRechnungIdOhneStorno(id)
                     : listRechnungspostenByRechnungId(id);
-            return new RechnungDTO(rechnung.get(), posten, stornoBeachten, rechnung.get().isVorlage());
+            return new RechnungDTO(rechnung.get(), posten, stornoBeachten, false);
         } else {
             return new RechnungDTO(einstellungenService.getMwstProzent());
         }
@@ -228,7 +228,7 @@ public class RechnungService {
     }
 
     public List<Rechnung> hatKundeOffeneRechnungen(final Integer kundeId) {
-        return rechnungRepository.findByKundeIdAndDatumLessThanAndBezahlt(kundeId, LocalDate.now(), false);
+        return rechnungRepository.findByKundeIdAndDatumLessThanAndBezahltAndVorlage(kundeId, LocalDate.now(), false, false);
     }
 
     public void deletePosten(final Rechnung rechnung) {
