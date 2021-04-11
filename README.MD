@@ -12,6 +12,7 @@
 * Automatische Reparaturaufträge - Information per E-Mail, wenn ein neuer Auftrag eingeht
 * Automatische Reparaturaufträge - Kunden nicht mehrfach anlegen
 * Automatische Reparaturaufträge - Paketbeilage zum ausdrucken in der Bestätigungs-E-Mail an den Kunden anhängen
+* Schaltfläche "Speichern" in Rechnung-Erstellen-Ansicht zu "Rechnung speichern" umbenannt
 
 ## Version 2.8.0
 

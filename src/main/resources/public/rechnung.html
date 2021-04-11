@@ -151,7 +151,7 @@
               <span class="checkmark"></span>
             </label>
           </div>
-          <button class="right" :title="$t('general.speichern')" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">{{ $t("general.speichern") }}</button>
+          <button class="right" :title="$t('rechnung.speichern')" v-if="areRequiredFieldsNotEmpty()" v-on:click="saveFunc();">{{ $t("rechnung.speichern") }}</button>
           <button class="right" :title="$t('rechnung.vorlageSpeichernInfo')" v-if="areRequiredFieldsNotEmpty() && entity.rechnung.kunde.id" v-on:click="saveVorlageFunc();">{{ $t("rechnung.vorlageSpeichern") }}</button>
           <button class="right disabled" :title="$t('general.pflichtfelder')" v-if="!areRequiredFieldsNotEmpty()">{{ $t("general.speichern") }}</button>
           <button class="right disabled" :title="$t('rechnung.vorlageSpeichernInfo')" v-if="!areRequiredFieldsNotEmpty() || !entity.rechnung.kunde.id">{{ $t("rechnung.vorlageSpeichern") }}</button>

@@ -417,6 +417,7 @@ const messages = {
       rechnungsdatum: 'Rechnungsdatum',
       rechnungsdatumZusatz: 'Rechnungsdatum entspricht Lieferdatum!',
       rechnungspostenDurchsuchen: 'Rechnungsposten durchsuchen nach Bezeichnung / Seriennummer / Hinweis',
+      speichern: 'Rechnung speichern',
       sn: 'S/N',
       stornieren: "Rechnung teilweise oder komplett stornieren",
       stornierenGesamtrabatt: "Rechnungen mit Gesamtrabatt können nicht storniert werden.",
