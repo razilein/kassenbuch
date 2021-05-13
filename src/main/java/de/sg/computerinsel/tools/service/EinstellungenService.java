@@ -148,7 +148,10 @@ public class EinstellungenService {
     }
 
     public void save(final Einstellungen einstellung) {
-        einstellungen.save(einstellung);
+        einstellungen.save(einstellungen.findByName(einstellung.getName()).map(e -> {
+            e.setWert(einstellung.getWert());
+            return e;
+        }).orElse(einstellung));
     }
 
     public List<Kassenstand> getKassenstand() {

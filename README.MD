@@ -1,5 +1,9 @@
 # Versionsdokumentation
 
+## Version 2.8.2
+
+* Einstellungen wurden bei der Erstinitalisierung mehrfach in der Datenbank angelegt, was zum Fehler beim Start des Programms führte. Dies wurde nun behoben.
+
 ## Version 2.8.1
 
 * Batch-Datei zum Sichern und Speichern des Programmverzeichnisses erstellt: kassenprogramm-backup.cmd (administrativ auszuführen)
