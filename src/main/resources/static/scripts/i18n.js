@@ -419,21 +419,21 @@ const messages = {
       rechnungspostenDurchsuchen: 'Rechnungsposten durchsuchen nach Bezeichnung / Seriennummer / Hinweis',
       speichern: 'Rechnung speichern',
       sn: 'S/N',
-      stornieren: "Rechnung teilweise oder komplett stornieren",
-      stornierenGesamtrabatt: "Rechnungen mit Gesamtrabatt können nicht storniert werden.",
-      stornierenAllesStorniert: "Diese Rechnung wurde bereits vollständig storniert.",
-      storno: "Stornierung",
-      stornoBeleg: "Stornierungsbeleg öffnen",
-      stornoGrund: "Grund der Stornierung",
-      stornoLoeschen: "Stornierung löschen",
-      stornonummer: "Stornierungsnummer",
+      stornieren: 'Rechnung teilweise oder komplett stornieren',
+      stornierenGesamtrabatt: 'Rechnungen mit Gesamtrabatt können nicht storniert werden.',
+      stornierenAllesStorniert: 'Diese Rechnung wurde bereits vollständig storniert.',
+      storno: 'Stornierung',
+      stornoBeleg: 'Stornierungsbeleg öffnen',
+      stornoGrund: 'Grund der Stornierung',
+      stornoLoeschen: 'Stornierung löschen',
+      stornonummer: 'Stornierungsnummer',
       stornoUebersicht: 'Stornierungen zu dieser Rechnung anzeigen',
       stornoUebersichtTitle: 'Stornierungen zu Rechnung',
-      vollstorno: "Rechnung komplett stornieren",
-      vollstornoArt: "Komplettstorno",
-      vorlageBehalten: "Vorlage nach dem Erstellen der Rechnung behalten",
-      vorlageSpeichern: "Als Vorlage speichern",
-      vorlageSpeichernInfo: "Diese Rechnung wird zum gewählten Kunden als Vorlage gespeichert. Sie kann in der Kundenansicht später zur Weiterbearbeitung aufgerufen werden.",
+      vollstorno: 'Rechnung komplett stornieren',
+      vollstornoArt: 'Komplettstorno',
+      vorlageBehalten: 'Vorlage nach dem Erstellen der Rechnung behalten',
+      vorlageSpeichern: 'Als Vorlage speichern',
+      vorlageSpeichernInfo: 'Diese Rechnung wird zum gewählten Kunden als Vorlage gespeichert. Sie kann in der Kundenansicht später zur Weiterbearbeitung aufgerufen werden.',
       wiedereroeffnen: 'Die Rechnung wurde noch nicht bezahlt. Jetzt als bezahlt markieren?',
       wurdeBezahlt: ' wurde bezahlt',
       zahlungsart: 'Zahlungsart',
@@ -534,7 +534,7 @@ const messages = {
   }
 };
 
-var i18n;
+var i18n = null;
 
 function changeLanguage(l) {
   i18n = new VueI18n({

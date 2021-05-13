@@ -92,6 +92,7 @@ Vue.component('grid', {
     restUrl: String,
     searchQuery: Object
   },
+  // eslint-disable-next-line
   data: function() {
     var order = {};
     this.columns.forEach(function(key) {
