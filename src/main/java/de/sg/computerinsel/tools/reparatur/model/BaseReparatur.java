@@ -115,6 +115,9 @@ public class BaseReparatur extends IntegerBaseObject {
     @Column(name = "neu")
     private boolean neu;
 
+    @Column(name = "geraet_erhalten")
+    private boolean geraetErhalten;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate getAbholdatum() {
         return abholdatum;

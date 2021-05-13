@@ -60,6 +60,11 @@ button.email {
   -webkit-mask: url("../icons/email.svg") no-repeat center;
 }
 
+button.email2 {
+  mask: url("../icons/email2.svg") no-repeat center;
+  -webkit-mask: url("../icons/email2.svg") no-repeat center;
+}
+
 button.euro {
   mask: url("../icons/euro.svg") no-repeat center;
   -webkit-mask: url("../icons/euro.svg") no-repeat center;
@@ -171,7 +176,7 @@ button.zahnrad {
 }
 
 button.add, button.angebot, button.bestellung, button.bad, button.bad_reparatur, button.delete, button.duplicate, button.edit, button.email,
-button.euro, button.good, button.good_reparatur, button.i, button.key, button.kunde, button.kunden, button.lieferschein, button.minus,
+button.email2, button.euro, button.good, button.good_reparatur, button.i, button.key, button.kunde, button.kunden, button.lieferschein, button.minus,
 button.neu, button.ok, button.ok2, button.open-new-tab, button.open-storno, button.recht, button.showStorno, button.storno,
 button.vorlage, button.zahnrad {
   background-color: #1a8cff;

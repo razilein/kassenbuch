@@ -156,17 +156,29 @@ public class EmailService {
         return builder.toString();
     }
 
-    public String getEingangMailText(final Reparatur reparatur) {
+    public String getReparaturMailText(final Reparatur reparatur, final String mailBody, final boolean persoenlicheSignatur) {
         final StringBuilder builder = new StringBuilder();
 
         final Kunde kunde = reparatur.getKunde();
         setMailHeader(kunde, kunde.getBriefanrede(), builder);
 
         final String nummer = reparatur.getFiliale().getKuerzel() + reparatur.getNummer();
-        builder.append(
-                RegExUtils.replaceAll(einstellungService.getRoboterMailBodyReparaturauftrag().getWert(), PLACEHOLDER_NUMMER, nummer));
-        setMailFooterKurz(builder);
+        builder.append(RegExUtils.replaceAll(mailBody, PLACEHOLDER_NUMMER, nummer));
+
+        if (persoenlicheSignatur) {
+            setMailFooter(builder);
+        } else {
+            setMailFooterKurz(builder);
+        }
         return builder.toString();
+    }
+
+    public String getEingangMailText(final Reparatur reparatur) {
+        return getReparaturMailText(reparatur, einstellungService.getRoboterMailBodyReparaturauftrag().getWert(), false);
+    }
+
+    public String getGeraetErhaltenMailText(final Reparatur reparatur) {
+        return getReparaturMailText(reparatur, einstellungService.getRoboterMailBodyReparaturauftragGeraetErhalten().getWert(), true);
     }
 
     public void sendeEmail(final List<MultipartFile> files, final AngebotDto dto, final String text) {

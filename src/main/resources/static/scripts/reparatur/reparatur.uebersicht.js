@@ -62,9 +62,31 @@ var vm = new Vue({
       return !row.kunde || !row.kunde.email;
     },
     
+    canSendEmailGeraetErhalten: function(row) {
+      return !row.kunde || !row.kunde.email || row.geraetErhalten === true;
+    },
+    
     sendMailFunction: function(row) {
       vm.versendenDialog.row = row;
       vm.showVersendenDialog = true;
+    },
+    
+    sendMailGeraetErhaltenFunction: function(row) {
+      vm.sendMailGeraetErhalten(row)
+        .then(vm.sendMailGeraetErhaltenResponse);
+    },
+    
+    sendMailGeraetErhalten: function(row) {
+      return axios.put('/reparatur/geraet-erhalten', { id: row.id });
+    },
+    
+    sendMailGeraetErhaltenResponse: function(data) {
+      hideLoader();
+      if (data.success) {
+        vm.grid.reload = true;
+      } 
+      vm.result = data.data;
+      vm.showDialog = true;
     },
     
     handleSendResponse: function(data) {
@@ -156,6 +178,7 @@ var vm = new Vue({
           { clazz: 'edit', disabled: vm.hasNotRoleVerwalten, title: this.$t('reparatur.bearbeiten'), clickFunc: vm.editFunction },
           { clazz: vm.getClazzErledigt, disabled: vm.hasNotRoleVerwalten, title: vm.getTitleErledigt, clickFunc: vm.erledigenFunction },
           { clazz: 'email', disabled: vm.canSendEmail, title: this.$t('reparatur.email'), clickFunc: vm.sendMailFunction },
+          { clazz: 'email2', disabled: vm.canSendEmailGeraetErhalten, title: this.$t('reparatur.emailGeraetErhalten'), clickFunc: vm.sendMailGeraetErhaltenFunction },
           { clazz: 'delete', disabled: vm.hasNotRoleVerwalten, title: this.$t('reparatur.loeschen'), clickFunc: vm.deleteFunction }
         ] },
         { name: 'status', sortable: false, width: 10, formatter: [

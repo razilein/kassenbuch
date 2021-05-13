@@ -1,5 +1,13 @@
 # Versionsdokumentation
 
+## Version 2.8.2
+
+* Einstellungen wurden bei der Erstinitalisierung mehrfach in der Datenbank angelegt, was zum Fehler beim Start des Programms führte. Dies wurde nun behoben.
+* Automatische Reparaturaufträge - Starten des Programms nicht verhindern, wenn die Einstellung Abfrage-Cron-Ausdruck (Reiter Roboter) fehlerhaft ist
+* Automatische Reparaturaufträge - Separate Einstellung für FTP-Benutzer und Passwort
+* Automatische Reparaturaufträge - Neue Funktion bei Reparaturen, um den Kunden über den Erhalt des Gerätes zu informieren
+* Rundungsfehler in der Anzeige beim Gesamt-Netto-Betrag bei der Übernahme von Angeboten in eine Bestellung oder Rechnung behoben
+
 ## Version 2.8.1
 
 * Batch-Datei zum Sichern und Speichern des Programmverzeichnisses erstellt: kassenprogramm-backup.cmd (administrativ auszuführen)

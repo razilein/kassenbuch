@@ -180,6 +180,16 @@ public class ReparaturRestController {
         return Collections.singletonMap(Message.SUCCESS.getCode(), true);
     }
 
+    @PutMapping("/geraet-erhalten")
+    public Map<String, Object> geraetErhalten(@RequestBody final IntegerBaseObject obj) {
+        if (obj.getId() != null) {
+            service.getReparatur(obj.getId()).ifPresent(reparatur -> {
+                service.geraetErhalten(reparatur);
+            });
+        }
+        return Collections.singletonMap(Message.SUCCESS.getCode(), messageService.get("reparatur.geraetErhalten.success"));
+    }
+
     @DeleteMapping
     public Map<String, Object> deleteReparatur(@RequestBody final Map<String, Object> data) {
         final int id = (int) data.get("id");

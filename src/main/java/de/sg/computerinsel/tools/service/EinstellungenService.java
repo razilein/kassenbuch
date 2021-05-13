@@ -137,6 +137,18 @@ public class EinstellungenService {
         return getEinstellung("roboter.mail.body.reparatur");
     }
 
+    public Einstellungen getRoboterMailBodyReparaturauftragGeraetErhalten() {
+        return getEinstellung("roboter.mail.body.reparatur.geraet.erhalten");
+    }
+
+    public Einstellungen getRoboterFtpUser() {
+        return getEinstellung("roboter.ftp.user");
+    }
+
+    public Einstellungen getRoboterFtpPassword() {
+        return getEinstellung("roboter.ftp.password");
+    }
+
     private Einstellungen getEinstellung(final String name) {
         return einstellungen.findByName(name).orElse(createEinstellung(name));
     }
@@ -148,7 +160,10 @@ public class EinstellungenService {
     }
 
     public void save(final Einstellungen einstellung) {
-        einstellungen.save(einstellung);
+        einstellungen.save(einstellungen.findByName(einstellung.getName()).map(e -> {
+            e.setWert(einstellung.getWert());
+            return e;
+        }).orElse(einstellung));
     }
 
     public List<Kassenstand> getKassenstand() {

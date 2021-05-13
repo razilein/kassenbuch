@@ -89,7 +89,10 @@ public class EinstellungenRestController {
         data.setRoboterCron(einstellungenService.getRoboterCron());
         data.setRoboterFiliale(einstellungenService.getRoboterFiliale());
         data.setRoboterMailBodyReparaturauftrag(einstellungenService.getRoboterMailBodyReparaturauftrag());
+        data.setRoboterMailBodyReparaturauftragGeraetErhalten(einstellungenService.getRoboterMailBodyReparaturauftragGeraetErhalten());
         data.setRoboterEmail(einstellungenService.getRoboterEmail());
+        data.setRoboterFtpUser(einstellungenService.getRoboterFtpUser());
+        data.setRoboterFtpPassword(einstellungenService.getRoboterFtpPassword());
         return data;
     }
 
@@ -137,7 +140,10 @@ public class EinstellungenRestController {
             einstellungenService.save(data.getRoboterCron());
             einstellungenService.save(data.getRoboterFiliale());
             einstellungenService.save(data.getRoboterMailBodyReparaturauftrag());
+            einstellungenService.save(data.getRoboterMailBodyReparaturauftragGeraetErhalten());
             einstellungenService.save(data.getRoboterEmail());
+            einstellungenService.save(data.getRoboterFtpUser());
+            einstellungenService.save(data.getRoboterFtpPassword());
             result.put(Message.SUCCESS.getCode(), messageService.get("einstellungen.save.success"));
             protokollService.write(messageService.get("protokoll.einstellungen.save"));
         }

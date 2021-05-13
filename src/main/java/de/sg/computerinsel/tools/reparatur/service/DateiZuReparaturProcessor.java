@@ -69,6 +69,7 @@ public class DateiZuReparaturProcessor implements Processor {
         reparatur.setNummer(reparaturService.getReparaturJahrZweistellig() + mitarbeiterService.getAndSaveNextReparaturnummer(filiale));
         reparatur.setErstelltAm(LocalDateTime.now());
         reparatur.setNeu(true);
+        reparatur.setGeraetErhalten(false);
         exchange.getMessage().setBody(reparatur);
     }
 
