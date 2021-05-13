@@ -6,6 +6,8 @@ var vm = new Vue({
       roboterCron: {},
       roboterEmail: {},
       roboterFiliale: {},
+      roboterFtpUser: {},
+      roboterFtpPassword: {},
       roboterMailBodyReparaturauftrag : {},
     },
     filialen: [],

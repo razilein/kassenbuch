@@ -21,8 +21,10 @@ public class ReparaturHerunterladenRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        final String cron = RegExUtils.replaceAll(einstellungService.getRoboterCron().getWert(), StringUtils.SPACE, "+");
-        if (StringUtils.isNotBlank(cron) && StringUtils.isNotBlank(einstellungService.getFtpHost().getWert())) {
+        String cron = einstellungService.getRoboterCron().getWert();
+
+        final String username = einstellungService.getRoboterFtpUser().getWert();
+        if (StringUtils.isNotBlank(cron) && StringUtils.isNotBlank(username)) {
             try {
                 CronExpression.parse(cron);
             } catch (final IllegalArgumentException e) {
@@ -31,13 +33,13 @@ public class ReparaturHerunterladenRoute extends RouteBuilder {
             }
             final String hostname = einstellungService.getFtpHost().getWert();
             final String port = einstellungService.getFtpPort().getWert();
-            final String username = einstellungService.getFtpUser().getWert();
-            final String password = einstellungService.getFtpPassword().getWert();
+            final String password = einstellungService.getRoboterFtpPassword().getWert();
 
             final File file = new File(einstellungService.getAblageverzeichnis().getWert(), "reparaturen");
 
-            from("ftp://" + username + "@" + hostname + ":" + port + "/reparaturen/?scheduler=quartz&scheduler.cron=" + cron + "&password="
-                    + password + "&passiveMode=true&delete=true&include=.*\\.csv$").to("file://" + file.getAbsolutePath());
+            cron = RegExUtils.replaceAll(einstellungService.getRoboterCron().getWert(), StringUtils.SPACE, "+");
+            from("ftp://" + username + "@" + hostname + ":" + port + "/?scheduler=quartz&scheduler.cron=" + cron + "&password=" + password
+                    + "&passiveMode=true&delete=true&include=.*\\.csv$").to("file://" + file.getAbsolutePath());
         }
 
     }

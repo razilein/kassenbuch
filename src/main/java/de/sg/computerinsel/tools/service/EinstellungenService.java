@@ -137,6 +137,14 @@ public class EinstellungenService {
         return getEinstellung("roboter.mail.body.reparatur");
     }
 
+    public Einstellungen getRoboterFtpUser() {
+        return getEinstellung("roboter.ftp.user");
+    }
+
+    public Einstellungen getRoboterFtpPassword() {
+        return getEinstellung("roboter.ftp.password");
+    }
+
     private Einstellungen getEinstellung(final String name) {
         return einstellungen.findByName(name).orElse(createEinstellung(name));
     }

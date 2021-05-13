@@ -3,7 +3,8 @@
 ## Version 2.8.2
 
 * Einstellungen wurden bei der Erstinitalisierung mehrfach in der Datenbank angelegt, was zum Fehler beim Start des Programms führte. Dies wurde nun behoben.
-* Starten des Programms nicht verhindern, wenn die Einstellung Abfrage-Cron-Ausdruck (Reiter Roboter) fehlerhaft ist
+* Automatische Reparaturaufträge - Starten des Programms nicht verhindern, wenn die Einstellung Abfrage-Cron-Ausdruck (Reiter Roboter) fehlerhaft ist
+* Automatische Reparaturaufträge - Separate Einstellung für FTP-Benutzer und Passwort
 
 ## Version 2.8.1
 

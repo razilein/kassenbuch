@@ -21,6 +21,24 @@
       <page-header-einstellungen v-bind:marker="'Roboter'"></page-header-einstellungen>
       <div id="content">
         <div class="form">
+          <h1>{{ $t("einstellung.ftp") }}</h1>
+          <div class="m1">
+            <div class="m2m">
+              <label class="required" for="roboter_ftp_user">{{ $t("einstellung.benutzer") }}</label>
+              <input class="m2" id="roboter_ftp_user" type="text" v-model="einstellungen.roboterFtpUser.wert" />
+            </div>
+            <div class="m2">
+              <label class="required" for="roboter_ftp_password">{{ $t("einstellung.pw") }}</label>
+              <input class="m2" id="roboter_ftp_password" type="password" v-model="einstellungen.roboterFtpPassword.wert" />
+            </div>
+          </div>
+          <div class="m1">
+            <div class="m2">
+              <label class="required" for="roboterForm_cron">{{ $t("general.cron") }}</label>
+              <input class="m2" id="roboterForm_cron" type="text" v-model="einstellungen.roboterCron.wert" />
+            </div>
+          </div>
+          <div style="height: 80px;">&nbsp;</div>
           <h1>{{ $t("einstellung.reparatur") }}</h1>
           <div class="m1">
             <div class="m2m">
@@ -30,12 +48,6 @@
               </select>
             </div>
             <div class="m2">
-              <label class="required" for="roboterForm_cron">{{ $t("general.cron") }}</label>
-              <input class="m2" id="roboterForm_cron" type="text" v-model="einstellungen.roboterCron.wert" />
-            </div>
-          </div>
-          <div class="m1">
-            <div class="m2m">
               <label class="required" for="roboterForm_email">{{ $t("general.email") }}</label>
               <input class="m2" id="roboterForm_email" :title="$t('einstellung.email.title')" type="text" v-model="einstellungen.roboterEmail.wert" />
             </div>

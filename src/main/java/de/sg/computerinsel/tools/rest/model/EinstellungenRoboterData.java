@@ -14,4 +14,8 @@ public class EinstellungenRoboterData {
 
     Einstellungen roboterEmail;
 
+    Einstellungen roboterFtpUser;
+
+    Einstellungen roboterFtpPassword;
+
 }
