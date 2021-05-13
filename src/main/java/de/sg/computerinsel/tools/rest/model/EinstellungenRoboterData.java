@@ -12,6 +12,8 @@ public class EinstellungenRoboterData {
 
     Einstellungen roboterMailBodyReparaturauftrag;
 
+    Einstellungen roboterMailBodyReparaturauftragGeraetErhalten;
+
     Einstellungen roboterEmail;
 
     Einstellungen roboterFtpUser;

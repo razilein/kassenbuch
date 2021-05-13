@@ -25,6 +25,7 @@ import de.sg.computerinsel.tools.bestellung.model.Bestellung;
 import de.sg.computerinsel.tools.bestellung.service.BestellungService;
 import de.sg.computerinsel.tools.kunde.model.Kunde;
 import de.sg.computerinsel.tools.kunde.model.KundeDuplikatDto;
+import de.sg.computerinsel.tools.kunde.service.EmailService;
 import de.sg.computerinsel.tools.reparatur.dao.ReparaturRepository;
 import de.sg.computerinsel.tools.reparatur.dao.VReparaturRepository;
 import de.sg.computerinsel.tools.reparatur.model.GeraetepasswortArt;
@@ -32,6 +33,7 @@ import de.sg.computerinsel.tools.reparatur.model.PruefstatusGeraet;
 import de.sg.computerinsel.tools.reparatur.model.Reparatur;
 import de.sg.computerinsel.tools.reparatur.model.ReparaturArt;
 import de.sg.computerinsel.tools.reparatur.model.VReparatur;
+import de.sg.computerinsel.tools.service.EinstellungenService;
 import de.sg.computerinsel.tools.service.FindAllByConditionsExecuter;
 import de.sg.computerinsel.tools.service.MitarbeiterService;
 import de.sg.computerinsel.tools.service.SearchQueryUtils;
@@ -44,6 +46,10 @@ public class ReparaturService {
     private static final int LAENGE_REPARATURNUMMER_JAHR = 2;
 
     private final BestellungService bestellungService;
+
+    private final EmailService emailService;
+
+    private final EinstellungenService einstellungenService;
 
     private final MitarbeiterService mitarbeiterService;
 
@@ -152,6 +158,7 @@ public class ReparaturService {
         reparatur.setAbholzeit(berechneAbholzeit(false));
         reparatur.setArt(ReparaturArt.REPARATUR.getCode());
         reparatur.setFunktionsfaehig(PruefstatusGeraet.NICHT_DEFINIERT.getCode());
+        reparatur.setGeraetErhalten(true);
         return reparatur;
     }
 
@@ -184,6 +191,13 @@ public class ReparaturService {
             }
         }
         return time;
+    }
+
+    public void geraetErhalten(final Reparatur reparatur) {
+        reparatur.setGeraetErhalten(true);
+        save(reparatur);
+        emailService.sendeEmail(reparatur, einstellungenService.getRoboterEmail().getWert(),
+                emailService.getGeraetErhaltenMailText(reparatur));
     }
 
 }

@@ -67,6 +67,7 @@ const messages = {
         rechnung: 'E-Mail Inhalt Rechnung versenden',
         reparatur: 'E-Mail Inhalt Reparaturauftrag erledigt',
         roboter: 'E-Mail Inhalt Reparaturauftrag erhalten',
+        roboterGeraetErhalten: 'E-Mail Inhalt Bestätigung Eingang des Gerätes per Post',
         signatur: 'E-Mail Signatur',
         title: 'Mit dieser E-Mail-Adresse wird der Kunde benachrichtigt. Zudem werden automatische Meldungen zu neuen Reparaturen an diese Adresse gesendet.'
       },
@@ -469,6 +470,7 @@ const messages = {
       },
       deselektieren: 'Reparaturauftrag deselektieren',
       email: 'Kunde per E-Mail über Abschluss des Auftrags informieren',
+      emailGeraetErhalten: 'Kunde per E-Mail über den Erhalt des Gerätes informieren',
       emailInformation: 'abgeschlossen - Kunde per E-Mail informieren',
       emailSenden1: 'Wollen Sie',
       emailSenden2: 'per E-Mail informieren, dass der Auftrag abgeschlossen ist?',

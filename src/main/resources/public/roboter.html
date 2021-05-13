@@ -53,8 +53,12 @@
             </div>
           </div>
           <div class="m1">
-              <label class="required" for="roboter_mail">{{ $t("einstellung.email.roboter") }}</label>
-              <textarea class="m1" id="roboterForm_roboterMailBodyReparaturauftrag" v-model="einstellungen.roboterMailBodyReparaturauftrag.wert"></textarea>
+              <label class="required" for="roboterForm_mail_auftrag_erhalten">{{ $t("einstellung.email.roboter") }}</label>
+              <textarea class="m1" id="roboterForm_mail_auftrag_erhalten" v-model="einstellungen.roboterMailBodyReparaturauftrag.wert"></textarea>
+          </div>
+          <div class="m1">
+              <label class="required" for="roboterForm_mail_geraet_erhalten">{{ $t("einstellung.email.roboterGeraetErhalten") }}</label>
+              <textarea class="m1" id="roboterForm_mail_geraet_erhalten" v-model="einstellungen.roboterMailBodyReparaturauftragGeraetErhalten.wert"></textarea>
           </div>
           <div class="m1">
             <button class="right" v-on:click="speichernEinstellungen">{{ $t("general.speichern") }}</button>

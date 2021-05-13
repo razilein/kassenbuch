@@ -137,6 +137,10 @@ public class EinstellungenService {
         return getEinstellung("roboter.mail.body.reparatur");
     }
 
+    public Einstellungen getRoboterMailBodyReparaturauftragGeraetErhalten() {
+        return getEinstellung("roboter.mail.body.reparatur.geraet.erhalten");
+    }
+
     public Einstellungen getRoboterFtpUser() {
         return getEinstellung("roboter.ftp.user");
     }
