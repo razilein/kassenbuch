@@ -5,6 +5,8 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import de.sg.computerinsel.tools.CurrencyUtils;
 import de.sg.computerinsel.tools.angebot.model.Angebot;
 import de.sg.computerinsel.tools.angebot.model.Angebotsposten;
@@ -86,13 +88,17 @@ public class AngebotDto {
         return rabattBetrag;
     }
 
-    private BigDecimal getPreisBrutto(final BigDecimal mwst, final BigDecimal netto, final BigDecimal rabattBetrag) {
+    @VisibleForTesting
+    BigDecimal getPreisBrutto(final BigDecimal mwst, final BigDecimal netto, final BigDecimal rabattBetrag) {
         return netto.subtract(rabattBetrag).multiply(mwst).divide(DIVISOR, RoundingMode.HALF_UP);
     }
 
-    private BigDecimal getPreisNetto(final BigDecimal mwst) {
-        return angebotsposten.stream().map(p -> p.getPreis().multiply(new BigDecimal(p.getMenge())))
-                .map(p -> p.multiply(DIVISOR).divide(mwst, RoundingMode.HALF_UP)).reduce(BigDecimal.ZERO, BigDecimal::add);
+    @VisibleForTesting
+    BigDecimal getPreisNetto(final BigDecimal mwst) {
+        BigDecimal result = angebotsposten.stream().map(p -> p.getPreis().multiply(new BigDecimal(p.getMenge()))).reduce(BigDecimal.ZERO,
+                BigDecimal::add);
+        result = result.multiply(DIVISOR).divide(mwst, RoundingMode.HALF_EVEN);
+        return result;
     }
 
     public String getNummerAnzeige() {
