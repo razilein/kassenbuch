@@ -42,14 +42,6 @@ Vue.component('angebot-suchen-dialog', {
     kunde: Object,
     einstellungDruckansichtNeuesFenster: Boolean
   },
-  created: function() {
-    window.addEventListener('keydown', e => {
-      var isDialogOpened = this.showDialog;
-      if (e.key == 'Enter' && !isDialogOpened) {
-        this.grid.reload = true;
-      }
-    });
-  },
   data: function() {
     return {
       rechte: this.rechte || {},

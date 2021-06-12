@@ -30,6 +30,13 @@ Vue.component('storno-uebersicht-dialog', {
     rechte: Object,
     title: String,
   },
+  created() {
+    window.addEventListener('keydown', e => {
+      if (e.key == 'Escape') {
+        this.$emit('close');
+      }
+    });
+  },
   data: function() {
     return {
       deleteRow: {

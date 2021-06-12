@@ -13,6 +13,13 @@ Vue.component('rechte-edit-dialog', {
     restUrlSave: String,
     title: String,
   },
+  created() {
+    window.addEventListener('keydown', e => {
+      if (e.key == 'Escape') {
+        this.$emit('close');
+      }
+    });
+  },
   data: function() {
     this.load();
     return {

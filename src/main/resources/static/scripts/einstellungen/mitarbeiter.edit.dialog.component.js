@@ -41,6 +41,13 @@ Vue.component('edit-dialog', {
     restUrlSave: String,
     title: String,
   },
+  created() {
+    window.addEventListener('keydown', e => {
+      if (e.key == 'Escape') {
+        this.$emit('close');
+      }
+    });
+  },
   data: function() {
     this.loadEntity();
     return {

@@ -1,5 +1,9 @@
 # Versionsdokumentation
 
+## Version 2.8.3
+
+* Einige Editier-Dialoge können nun mit der ESC-Taste geschlossen werden. Dies ist gleichbedeutend mit "Abbrechen".
+
 ## Version 2.8.2
 
 * Einstellungen wurden bei der Erstinitalisierung mehrfach in der Datenbank angelegt, was zum Fehler beim Start des Programms führte. Dies wurde nun behoben.
